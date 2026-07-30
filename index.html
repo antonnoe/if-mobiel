@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%}
+body{background:#EAE6E4;font-family:Mulish,system-ui,sans-serif;color:#15181A;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+a{color:#800000;text-decoration:none;border-bottom:1px solid rgba(128,0,0,.28)}
+a:hover{color:#800000;border-bottom-color:rgba(128,0,0,.4)}
+input,button{font-family:Mulish,system-ui,sans-serif}
+::-webkit-scrollbar{width:0;height:0}
+</style>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#800000"/><rect x="72" y="46" width="56" height="108" rx="10" fill="#F4F1F0"/><text x="100" y="112" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="600" font-size="30" fill="#800000">IF</text></svg>
+</template>
+</helmet>
+
+<div style="width:100%;max-width:412px;margin:0 auto;min-height:100vh;background:#F4F1F0;position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(21,24,26,.08)">
+
+<!-- ============ INLOG ============ -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;display:flex;flex-direction:column;padding:34px 22px 26px;background:linear-gradient(180deg,rgba(128,0,0,.10) 0%,rgba(128,0,0,.04) 46%,#F4F1F0 100%);color:#2A1618">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="width:30px;height:30px;border-radius:8px;background:#800000;display:grid;place-items:center;font:800 13px Mulish;color:#fff">FR</div>
+    <div style="font:700 14.5px Mulish;letter-spacing:-.01em">Infofrankrijk</div>
+    <div style="margin-left:auto;font:800 9.5px Mulish;letter-spacing:.14em;padding:5px 9px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">PREMIUM</div>
+  </div>
+
+  <div style="margin-top:auto;padding-top:44px">
+    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:38px;line-height:1.03;letter-spacing:-.02em;margin:0">Alles voor uw leven<br>in Frankrijk, <em>op zak</em>.</h1>
+    <p style="font-size:14.5px;line-height:1.75;color:#5A4A4C;margin:14px 0 0;text-wrap:pretty">36 modules — van brandrisico en belasting tot de correspondentie-assistent. U kiest zelf welke u aanzet. Uw dossiers reizen mee en blijven offline leesbaar.</p>
+  </div>
+
+  <div style="margin-top:26px;display:flex;flex-direction:column;gap:10px">
+    <input type="email" placeholder="E-mailadres" aria-label="E-mailadres" style="min-height:52px;border:1px solid rgba(128,0,0,.18);border-radius:13px;padding:0 15px;font:600 16px Mulish;background:#fff;color:#2A1618">
+    <input type="password" placeholder="Wachtwoord" aria-label="Wachtwoord" style="min-height:52px;border:1px solid rgba(128,0,0,.18);border-radius:13px;padding:0 15px;font:600 16px Mulish;background:#fff;color:#2A1618">
+    <button onClick="{{ login }}" style="min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer">Inloggen en synchroniseren</button>
+    <button onClick="{{ login }}" style="min-height:48px;border:1px solid rgba(128,0,0,.22);border-radius:13px;background:transparent;color:#800000;font:700 14px Mulish;cursor:pointer">Verder kijken zonder account</button>
+  </div>
+  <p style="font-size:11.5px;line-height:1.6;color:#7A6A6C;margin:16px 0 0;text-wrap:pretty">Uw modulekeuze, postcodes en bewaarde dossiers synchroniseren tussen telefoon en laptop. Laatst geladen gegevens blijven zichtbaar zonder verbinding.</p>
+</div>
+</sc-if>
+
+<!-- ============ APP ============ -->
+<sc-if value="{{ inApp }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;display:flex;flex-direction:column;padding-bottom:70px">
+
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:none;background:#3D4346;color:#FFFFFF;font:700 11px Mulish;letter-spacing:.03em;padding:8px 16px;display:flex;gap:8px;align-items:center">
+    <span style="width:6px;height:6px;border-radius:50%;background:#E9C13D"></span>Offline — u ziet de laatst geladen gegevens
+  </div>
+  </sc-if>
+
+  <!-- topbar -->
+  <div style="flex:none;padding:14px 16px 12px;border-bottom:1px solid rgba(21,24,26,.06);display:flex;align-items:center;gap:10px;background:#F4F1F0">
+    <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ back }}" aria-label="Terug" style="width:36px;height:36px;flex:none;border-radius:10px;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;font:700 16px Mulish;color:#15181A">←</button>
+    </sc-if>
+    <sc-if value="{{ showMark }}" hint-placeholder-val="{{ true }}">
+    <div style="width:30px;height:30px;flex:none;border-radius:8px;background:#800000;display:grid;place-items:center;font:800 12px Mulish;color:#FFFFFF">FR</div>
+    </sc-if>
+    <div style="min-width:0">
+      <div style="font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div>
+      <div style="font:500 11px Mulish;color:#71787C;margin-top:2px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ subtitle }}</div>
+    </div>
+    <div style="margin-left:auto;font:800 9.5px Mulish;letter-spacing:.12em;padding:5px 8px;border-radius:999px;background:rgba(128,0,0,.08);color:#800000;flex:none">{{ planLabel }}</div>
+  </div>
+
+  <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch">
+
+  <!-- ---------- HUB ---------- -->
+  <sc-if value="{{ isHub }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <div style="padding:18px 16px 4px">
+      <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:13px;padding:0 14px;min-height:48px">
+        <span style="color:#71787C;font-size:15px">⌕</span>
+        <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Zoek in 36 modules en dossiers" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15px Mulish;color:#15181A;min-height:46px">
+      </div>
+      <div style="display:flex;gap:6px;margin:12px 0 0;background:rgba(21,24,26,.05);padding:4px;border-radius:11px">
+        <button onClick="{{ setVA }}" style="{{ tabAStyle }}">Dossiers</button>
+        <button onClick="{{ setVB }}" style="{{ tabBStyle }}">Tegels</button>
+        <button onClick="{{ setVC }}" style="{{ tabCStyle }}">Index</button>
+      </div>
+    </div>
+
+    <!-- vandaag: live strip -->
+    <sc-if value="{{ showToday }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:10px;align-items:stretch;overflow-x:auto;padding:16px 16px 4px;scroll-padding:0 16px;scroll-snap-type:x proximity">
+      <button onClick="{{ openFire }}" style="scroll-snap-align:start;flex:none;width:196px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:0;border-radius:15px;padding:14px;cursor:pointer;color:#fff;background:{{ fireColor }}">
+        <div style="font:700 9.5px/1.3 Mulish;letter-spacing:.07em;opacity:.85;min-height:25px">BRANDGEVAAR · {{ userDept }}</div>
+        <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:4px">{{ fireLevel }}</div>
+        <div style="font:600 11.5px/1.35 Mulish;opacity:.9;margin-top:auto;padding-top:6px">{{ fireMeta }}</div>
+      </button>
+      <button onClick="{{ openCafe }}" style="scroll-snap-align:start;flex:none;width:196px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px;cursor:pointer;background:#fff">
+        <div style="font:700 9.5px/1.3 Mulish;letter-spacing:.07em;color:#71787C;min-height:25px">CAFÉ CLAUDE</div>
+        <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:4px;color:#15181A">3 antwoorden</div>
+        <div style="font:600 11.5px/1.35 Mulish;color:#71787C;margin-top:auto;padding-top:6px">op uw vragen van gisteren</div>
+      </button>
+      <button onClick="{{ openLetter }}" style="scroll-snap-align:start;flex:none;width:196px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px;cursor:pointer;background:#fff">
+        <div style="font:700 9.5px/1.3 Mulish;letter-spacing:.07em;color:#71787C;min-height:25px">CORRESPONDENTIE</div>
+        <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:4px;color:#15181A">1 concept</div>
+        <div style="font:600 11.5px/1.35 Mulish;color:#71787C;margin-top:auto;padding-top:6px">brief aan de mairie</div>
+      </button>
+    </div>
+    </sc-if>
+
+    <!-- A: grouped dossiers -->
+    <sc-if value="{{ vA }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+      <div style="margin:22px 0 0">
+        <div style="display:flex;align-items:baseline;gap:8px;padding:0 16px 8px">
+          <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ g.name }}</div>
+          <div style="font:600 11px Mulish;color:#A2A7A9;margin-left:auto">{{ g.count }}</div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;overflow:hidden">
+          <sc-for list="{{ g.tools }}" as="t" hint-placeholder-count="3">
+          <button onClick="{{ t.open }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:56px">
+            <span style="width:8px;height:8px;border-radius:50%;flex:none;background:{{ t.dot }}"></span>
+            <span style="flex:1;min-width:0">
+              <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
+              <span style="font:600 11.5px Mulish;color:#71787C">{{ t.meta }}</span>
+            </span>
+            <span style="font:700 13px Mulish;color:#A2A7A9">→</span>
+          </button>
+          </sc-for>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <!-- B: tiles + dossier rail -->
+    <sc-if value="{{ vB }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;gap:7px;overflow-x:auto;padding:18px 16px 2px">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+        <button onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.name }}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 14px 0">
+        <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="8">
+        <button onClick="{{ t.open }}" style="text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:14px;padding:13px;cursor:pointer;min-height:104px;display:flex;flex-direction:column;gap:6px">
+          <span style="width:9px;height:9px;border-radius:50%;background:{{ t.dot }}"></span>
+          <b style="font:700 13.5px/1.25 Mulish;color:#15181A">{{ t.name }}</b>
+          <span style="font:600 11px Mulish;color:#71787C;margin-top:auto">{{ t.meta }}</span>
+        </button>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- C: index -->
+    <sc-if value="{{ vC }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="padding:18px 16px 6px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Gepind</div>
+      <div style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 4px">
+        <sc-for list="{{ pinned }}" as="p" hint-placeholder-count="3">
+        <button onClick="{{ p.open }}" style="flex:none;background:#800000;color:#FFFFFF;border:0;border-radius:12px;padding:11px 14px;font:700 12.5px Mulish;cursor:pointer;min-height:44px">{{ p.name }}</button>
+        </sc-for>
+      </div>
+      <div style="padding:20px 18px 6px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Alle modules · A–Z</div>
+      <div style="background:#fff;border-top:1px solid rgba(21,24,26,.10);border-bottom:1px solid rgba(21,24,26,.10)">
+        <sc-for list="{{ indexed }}" as="t" hint-placeholder-count="10">
+        <button onClick="{{ t.open }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:12px 16px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:52px">
+          <span style="font:800 11px Mulish;color:#A2A7A9;width:16px;flex:none">{{ t.letter }}</span>
+          <span style="flex:1;min-width:0">
+            <b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ t.name }}</b>
+            <span style="font:600 11px Mulish;color:#71787C">{{ t.group }} · {{ t.meta }}</span>
+          </span>
+          <span style="font:700 13px Mulish;color:#A2A7A9">→</span>
+        </button>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <div style="margin:20px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">
+      {{ activeNote }}
+    </div>
+    <div style="height:22px"></div>
+  </div>
+  </sc-if>
+
+  <!-- ---------- DOSSIER ---------- -->
+  <sc-if value="{{ isDossier }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:22px 18px 6px">
+      <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Dossier · bijgewerkt 24 juli 2026</div>
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:34px;line-height:1.05;letter-spacing:-.015em;margin:8px 0 0">Dossier Frankrijk</h1>
+      <p style="font-size:14.5px;line-height:1.75;color:#3D4346;margin:10px 0 0;text-wrap:pretty">De stappen die iedere Nederlander in Frankrijk tegenkomt — van inschrijving tot belasting — met per stap de module die het werk doet.</p>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button onClick="{{ toggleSaved }}" style="flex:1;min-height:46px;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:{{ savedBg }};color:{{ savedFg }};font:700 13px Mulish;cursor:pointer">{{ savedLabel }}</button>
+        <button onClick="{{ openFire }}" style="flex:1;min-height:46px;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#fff;font:700 13px Mulish;color:#15181A;cursor:pointer">Veiligheidsmodule</button>
+      </div>
+    </div>
+
+    <div style="position:sticky;top:0;z-index:5;background:rgba(244,241,240,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(21,24,26,.06);display:flex;gap:7px;overflow-x:auto;padding:11px 16px">
+      <sc-for list="{{ chapters }}" as="c" hint-placeholder-count="5">
+      <a href="{{ c.href }}" style="flex:none;border:1px solid rgba(21,24,26,.10);border-bottom:1px solid rgba(21,24,26,.10);background:#fff;border-radius:999px;padding:8px 12px;font:700 12px Mulish;color:#3D4346">{{ c.name }}</a>
+      </sc-for>
+    </div>
+
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="4">
+    <div id="{{ s.id }}" style="padding:24px 18px 0;scroll-margin-top:56px">
+      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ s.kicker }}</div>
+      <h2 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-weight:400;font-size:25px;line-height:1.15;margin:6px 0 0">{{ s.title }}</h2>
+      <sc-for list="{{ s.paras }}" as="p" hint-placeholder-count="2">
+      <p style="font-size:14px;line-height:1.75;color:#3D4346;margin:10px 0 0;text-wrap:pretty">{{ p }}</p>
+      </sc-for>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:14px;margin:14px 0 0;overflow:hidden">
+        <sc-for list="{{ s.links }}" as="l" hint-placeholder-count="2">
+        <button onClick="{{ l.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:52px">
+          <span style="font:800 10px Mulish;letter-spacing:.08em;color:#800000">MODULE</span>
+          <b style="flex:1;font:700 13.5px Mulish;color:#15181A">{{ l.name }}</b>
+          <span style="font:700 13px Mulish;color:#A2A7A9">→</span>
+        </button>
+        </sc-for>
+      </div>
+    </div>
+    </sc-for>
+
+    <div style="margin:24px 0 0">
+      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C;padding:0 16px 8px">Discussie op nederlanders.fr</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;overflow:hidden">
+        <sc-for list="{{ dossierItems }}" as="i" hint-placeholder-count="3">
+        <a href="{{ i.link }}" target="_blank" rel="noopener" style="display:block;padding:13px 15px;border-top:1px solid rgba(21,24,26,.06);border-bottom:0;text-decoration:none;color:#15181A">
+          <div style="font:700 13.5px/1.35 Mulish;text-wrap:pretty">{{ i.title }}</div>
+          <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ i.meta }} →</div>
+        </a>
+        </sc-for>
+        <button onClick="{{ goForum }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13.5px Mulish;color:#800000;min-height:50px">Alles uit de gemeenschap →</button>
+      </div>
+    </div>
+    <div style="margin:26px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000">
+      Dit dossier is algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: raadpleeg notaris, expert-comptable of de betreffende dienst.
+    </div>
+    <div style="height:26px"></div>
+  </div>
+  </sc-if>
+
+  <!-- ---------- TOOL: brandrisico (echte module) ---------- -->
+  <sc-if value="{{ isFire }}" hint-placeholder-val="{{ false }}">
+  <div style="height:100%;min-height:min(78dvh,700px);position:relative">
+    <iframe src="{{ fireSrc }}" title="Brandrisico Frankrijk" style="width:100%;height:100%;min-height:min(78dvh,700px);border:0;display:block"></iframe>
+  </div>
+  </sc-if>
+
+  <!-- ---------- TOOL: generiek ---------- -->
+  <sc-if value="{{ isTool }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:22px 18px 0">
+      <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ toolGroup }}</div>
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:31px;line-height:1.07;margin:8px 0 0">{{ toolName }}</h1>
+      <p style="font-size:14.5px;line-height:1.75;color:#3D4346;margin:10px 0 0;text-wrap:pretty">{{ toolDesc }}</p>
+    </div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:18px 14px 0;padding:16px">
+      <div style="display:flex;justify-content:space-between;padding:11px 0;font-size:13.5px"><span>Status</span><b>{{ toolStatus }}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Laatst bijgewerkt</span><b>{{ toolUpdated }}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Offline beschikbaar</span><b>{{ toolOffline }}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>In uw selectie</span><b>{{ toolEnabled }}</b></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
+      <button onClick="{{ toggleCurrent }}" style="min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14.5px Mulish;cursor:pointer">{{ toolCta }}</button>
+      <button onClick="{{ openDossier }}" style="min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Lees het bijbehorende dossier</button>
+    </div>
+    <sc-if value="{{ hasRelated }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:20px 0 0">
+      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C;padding:0 16px 8px">Uit de gemeenschap</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;overflow:hidden">
+        <sc-for list="{{ relatedItems }}" as="i" hint-placeholder-count="2">
+        <a href="{{ i.link }}" target="_blank" rel="noopener" style="display:block;padding:13px 15px;border-top:1px solid rgba(21,24,26,.06);border-bottom:0;text-decoration:none;color:#15181A">
+          <div style="font:700 13.5px/1.35 Mulish;text-wrap:pretty">{{ i.title }}</div>
+          <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ i.meta }} →</div>
+        </a>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+    <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">Dit is het modulesjabloon van het skelet: kop, status, één primaire handeling en de weg terug naar het dossier. Brandrisico is als eerste volledig uitgewerkt.</div>
+    <div style="height:24px"></div>
+  </div>
+  </sc-if>
+
+  <!-- ---------- ENERGIE-PORTAAL (mobiele schil op de bestaande rekenmotor) ---------- -->
+  <sc-if value="{{ isEnergie }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <sc-if value="{{ enIntake }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="padding:22px 18px 0">
+        <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen &amp; vastgoed</div>
+        <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:31px;line-height:1.07;margin:8px 0 0">Energie-portaal</h1>
+        <p style="font-size:14.5px;line-height:1.75;color:#3D4346;margin:10px 0 0;text-wrap:pretty">Zes vragen over uw woning. Daaruit volgt een indicatief energielabel en een schatting van uw jaarkosten — op dezelfde rekenmotor als de volledige versie.</p>
+      </div>
+      <sc-for list="{{ enGroups }}" as="g" hint-placeholder-count="6">
+      <div style="margin:20px 16px 0">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 11px Mulish">{{ g.n }}</div>
+          <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:16px;line-height:1.3">{{ g.label }}</div>
+        </div>
+        <div style="font:500 12px/1.6 Mulish;color:#71787C;margin:5px 0 0 30px">{{ g.hint }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin:11px 0 0 30px">
+          <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="4">
+          <button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      </sc-for>
+      <div style="margin:20px 16px 0">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 11px Mulish">7</div>
+          <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:16px;line-height:1.3">Woonoppervlak</div>
+        </div>
+        <div style="font:500 12px/1.6 Mulish;color:#71787C;margin:5px 0 0 30px">Surface habitable, zoals op uw acte of taxe foncière.</div>
+        <div style="display:flex;align-items:center;gap:12px;margin:11px 0 0 30px">
+          <button onClick="{{ enM2Min }}" aria-label="Minder" style="width:48px;height:48px;flex:none;border-radius:13px;border:1px solid rgba(128,0,0,.20);background:#fff;color:#800000;font:700 22px Mulish;cursor:pointer">−</button>
+          <div style="flex:1;text-align:center;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px">{{ enM2 }} m²</div>
+          <button onClick="{{ enM2Plus }}" aria-label="Meer" style="width:48px;height:48px;flex:none;border-radius:13px;border:1px solid rgba(128,0,0,.20);background:#fff;color:#800000;font:700 22px Mulish;cursor:pointer">+</button>
+        </div>
+      </div>
+      <div style="margin:22px 16px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">De rekenmotor vult de overige veertig waarden met forfaits per bouwperiode (3CL-DPE 2021). Betrouwbaar als richting, geen vervanging van een officiële DPE door een diagnostiqueur.</div>
+      <div style="margin:12px 16px 0">
+        <button onClick="{{ enCalc }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer">Bereken mijn energieprestatie</button>
+      </div>
+      <div style="height:28px"></div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ enResult }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="padding:20px 16px 0">
+        <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Indicatief resultaat</div>
+        <div style="display:flex;gap:12px;align-items:stretch;margin-top:12px">
+          <div style="{{ enLabelStyle }}">
+            <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:52px;line-height:1">{{ enClass }}</div>
+            <div style="font:800 10px Mulish;letter-spacing:.10em;margin-top:2px">DPE</div>
+          </div>
+          <div style="flex:1;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:14px 15px;display:flex;flex-direction:column;justify-content:center">
+            <div style="font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#71787C">Energiekosten</div>
+            <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:27px;line-height:1.1;margin-top:3px">{{ enCostYear }}</div>
+            <div style="font:600 12px Mulish;color:#71787C;margin-top:3px">{{ enCostMonth }} per maand</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 16px 0;padding:4px 15px">
+        <sc-for list="{{ enRows }}" as="r" hint-placeholder-count="5">
+        <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid rgba(21,24,26,.06);font:500 13.5px/1.5 Mulish;color:#3D4346">
+          <span>{{ r.k }}</span><b style="color:#15181A;white-space:nowrap">{{ r.v }}</b>
+        </div>
+        </sc-for>
+      </div>
+      <div style="margin:14px 16px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000">{{ enWhy }}</div>
+      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C;padding:22px 16px 8px">Uw uitkomst bewaren</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;padding:15px">
+        <div style="font:500 13px/1.7 Mulish;color:#3D4346">Bewaar deze berekening in uw persoonlijke dossier op DossierFrankrijk, zodat u er later — bij de notaris, een verbouwing of een verhuurvraag — bij kunt.</div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-top:13px">
+          <a href="{{ enDossierUrl }}" target="_blank" rel="noopener" onClick="{{ enSave }}" style="min-height:50px;border-radius:13px;background:#800000;color:#FFFFFF;font:800 14.5px Mulish;display:flex;align-items:center;justify-content:center;border-bottom:0">{{ enSaveLabel }}</a>
+          <a href="{{ enFullUrl }}" target="_blank" rel="noopener" style="min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;display:flex;align-items:center;justify-content:center;border-bottom:0">Alle 40 velden aanpassen →</a>
+        </div>
+      </div>
+      <div style="margin:12px 16px 0">
+        <button onClick="{{ enEdit }}" style="width:100%;min-height:48px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#3D4346;font:700 13.5px Mulish;cursor:pointer">Antwoorden aanpassen</button>
+      </div>
+      <div style="margin:16px 16px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">Indicatie op basis van forfaitaire waarden en Météo-France-klimaatnormalen. Een officiële DPE komt van een gecertificeerd diagnostiqueur en kan afwijken.</div>
+      <div style="height:28px"></div>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- ---------- FORUM (RSS, alleen lezen) ---------- -->
+  <sc-if value="{{ isForum }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:22px 18px 0">
+      <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Gemeenschap</div>
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:31px;line-height:1.07;margin:8px 0 0">Uit de gemeenschap</h1>
+      <p style="font-size:14.5px;line-height:1.75;color:#3D4346;margin:10px 0 0;text-wrap:pretty">Blogberichten en forumreacties van Nederlanders.fr, meegelezen via RSS. Reageren doet u op het forum zelf.</p>
+    </div>
+    <div style="display:flex;gap:7px;overflow-x:auto;padding:16px 16px 0">
+      <button onClick="{{ setFeedAll }}" style="{{ chipAllStyle }}">Alles</button>
+      <button onClick="{{ setFeedBlog }}" style="{{ chipBlogStyle }}">Blog</button>
+      <button onClick="{{ setFeedForum }}" style="{{ chipForumStyle }}">Forumreacties</button>
+      <button onClick="{{ refreshFeed }}" style="flex:none;border-radius:999px;padding:9px 13px;min-height:40px;cursor:pointer;font:700 12px Mulish;border:1px solid rgba(21,24,26,.10);background:#fff;color:#3D4346">Vernieuwen</button>
+    </div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;overflow:hidden">
+      <sc-for list="{{ feedItems }}" as="i" hint-placeholder-count="5">
+      <a href="{{ i.link }}" target="_blank" rel="noopener" style="display:block;padding:14px 15px;border-top:1px solid rgba(21,24,26,.06);border-bottom:0;text-decoration:none;color:#15181A">
+        <div style="font:700 10px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000">{{ i.kind }}</div>
+        <div style="font:700 14px/1.35 Mulish;margin-top:4px;text-wrap:pretty">{{ i.title }}</div>
+        <div style="font:600 11.5px Mulish;color:#71787C;margin-top:4px">{{ i.meta }} · lees op nederlanders.fr →</div>
+      </a>
+      </sc-for>
+    </div>
+    <div style="margin:12px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ feedNote }}</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
+      <a href="{{ forumUrl }}" target="_blank" rel="noopener" style="min-height:50px;border-radius:13px;background:#800000;color:#FFFFFF;font:700 14.5px Mulish;display:flex;align-items:center;justify-content:center;border-bottom:0">Stel uw vraag op het forum</a>
+    </div>
+    <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000">Forumberichten zijn ervaringen van bewoners, geen juridisch of fiscaal advies. Let op de datum: regels veranderen.</div>
+    <div style="height:24px"></div>
+  </div>
+  </sc-if>
+
+  <!-- ---------- MODULES ---------- -->
+  <sc-if value="{{ isModules }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:22px 18px 0">
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:31px;line-height:1.07;margin:0">Mijn modules</h1>
+      <p style="font-size:14.5px;line-height:1.75;color:#3D4346;margin:10px 0 0;text-wrap:pretty">Zet aan wat u gebruikt en laat de rest weg. Uw keuze synchroniseert met uw account.</p>
+      <div style="margin-top:14px;padding:13px 15px;border-radius:13px;background:#800000;color:#FFFFFF;font:700 13px Mulish">{{ activeCount }}</div>
+    </div>
+    <sc-for list="{{ moduleGroups }}" as="g" hint-placeholder-count="4">
+    <div style="margin:20px 0 0">
+      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C;padding:0 16px 8px">{{ g.name }}</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;overflow:hidden">
+        <sc-for list="{{ g.tools }}" as="t" hint-placeholder-count="4">
+        <button onClick="{{ t.toggle }}" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:56px">
+          <span style="flex:1;min-width:0">
+            <b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ t.name }}</b>
+            <span style="font:600 11.5px Mulish;color:#71787C">{{ t.meta }}</span>
+          </span>
+          <span style="width:44px;height:26px;border-radius:999px;flex:none;position:relative;background:{{ t.track }}">
+            <i style="position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);left:{{ t.knob }}"></i>
+          </span>
+        </button>
+        </sc-for>
+      </div>
+    </div>
+    </sc-for>
+    <div style="height:24px"></div>
+  </div>
+  </sc-if>
+
+  <!-- ---------- ACCOUNT ---------- -->
+  <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:22px 18px 0">
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:31px;line-height:1.07;margin:0">Account</h1>
+    </div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;padding:16px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:44px;height:44px;border-radius:13px;background:#800000;color:#FFFFFF;display:grid;place-items:center;font:800 15px Mulish">MJ</div>
+        <div>
+          <div style="font:700 15px Mulish">Marijke Jansen</div>
+          <div style="font:600 11.5px Mulish;color:#71787C">Hérault (34) · sinds 2019 in Frankrijk</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:12px 0;margin-top:6px;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Abonnement</span><b>Premium · jaarlijks</b></div>
+      <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Synchronisatie</span><b>{{ syncLabel }}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Offline bewaard</span><b>{{ offlineSize }}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Actieve modules</span><b>{{ activeShort }}</b></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
+      <button onClick="{{ toggleOffline }}" style="min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;font:700 14px Mulish;color:#15181A;cursor:pointer">{{ offlineCta }}</button>
+      <button onClick="{{ goModules }}" style="min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;font:700 14px Mulish;color:#15181A;cursor:pointer">Modules beheren</button>
+      <button onClick="{{ logout }}" style="min-height:50px;border:0;border-radius:13px;background:rgba(128,0,0,.10);color:#5C0000;font:700 14px Mulish;cursor:pointer">Uitloggen</button>
+    </div>
+    <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">Bronnen en verantwoording per module staan in de module zelf. Noodnummers staan in de veiligheidsmodules, waar ze horen.</div>
+    <div style="height:24px"></div>
+  </div>
+  </sc-if>
+
+  </div>
+
+  <!-- tabs -->
+  <div style="position:fixed;bottom:0;left:0;right:0;max-width:412px;margin:0 auto;height:70px;background:rgba(244,241,240,.95);backdrop-filter:blur(12px);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(5,1fr);z-index:20">
+    <button onClick="{{ goHub }}" style="{{ navHubStyle }}"><span style="font-size:17px">⌂</span>Hub</button>
+    <button onClick="{{ openDossier }}" style="{{ navDosStyle }}"><span style="font-size:17px">▤</span>Dossiers</button>
+    <button onClick="{{ goForum }}" style="{{ navForStyle }}"><span style="font-size:17px">◍</span>Forum</button>
+    <button onClick="{{ goModules }}" style="{{ navModStyle }}"><span style="font-size:17px">◧</span>Modules</button>
+    <button onClick="{{ goAccount }}" style="{{ navAccStyle }}"><span style="font-size:17px">◔</span>Account</button>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:412,&quot;height&quot;:880},&quot;navVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;default&quot;:&quot;B&quot;,&quot;tsType&quot;:&quot;'A'|'B'|'C'&quot;,&quot;section&quot;:&quot;Navigatie&quot;},&quot;showTodayStrip&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hub&quot;},&quot;planLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;PREMIUM&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hub&quot;}}">
+const COL = ["#C7CBCC", "#5AA469", "#E9C13D", "#E2812F", "#C6362C"];
+const G = [
+  ["Veiligheid & natuur", [
+    ["Brandrisico Frankrijk", "live · Météo des forêts", "fire", 1],
+    ["Rookverplaatsing", "windbaan vanaf hittebronnen", "fire:rook", 1],
+    ["Weeralarm & vigilance", "per departement", "tool", 1],
+    ["FR-Alert-meldingen", "officiële waarschuwingen", "fire:kaart", 1],
+    ["Overstromingsrisico", "vigicrues", "tool", 0]]],
+  ["Financiën", [
+    ["Belastingaangifte-wijzer", "déclaration stap voor stap", "tool", 1],
+    ["Inkomstenbelasting-schatter", "impôt sur le revenu", "tool", 1],
+    ["Sociale premies (PUMA)", "berekening en drempels", "tool", 0],
+    ["Pensioen NL–FR", "AOW, verdrag, korting", "tool", 1],
+    ["Wisselkoers & overboeken", "dagkoers", "tool", 0],
+    ["Erfbelasting-vergelijker", "NL versus FR", "tool", 0]]],
+  ["Wonen & vastgoed", [
+    ["Woningaankoop-stappenplan", "compromis tot acte", "tool", 1],
+    ["Notariskosten-calculator", "frais de notaire", "tool", 1],
+    ["Taxe foncière & habitation", "aanslagen begrijpen", "tool", 0],
+    ["Energie-portaal", "energieprestatie en DPE", "energie", 1],
+    ["Verhuisplanner NL→FR", "checklist en termijnen", "tool", 1]]],
+  ["Administratie", [
+    ["Correspondentie-assistent", "brieven in correct Frans", "tool", 1],
+    ["Formulierenwijzer", "welk formulier waarvoor", "tool", 1],
+    ["Inschrijving mairie", "wat u meeneemt", "tool", 0],
+    ["Carte Vitale-status", "aanvraag volgen", "tool", 1],
+    ["Titre de séjour-check", "verblijfstitel", "tool", 0],
+    ["Documentenkluis", "offline beschikbaar", "tool", 1]]],
+  ["Gezondheid", [
+    ["Zorgverzekering-vergelijker", "mutuelle", "tool", 1],
+    ["Huisarts & specialist vinden", "médecin traitant", "tool", 0],
+    ["Medicijnnamen NL–FR", "werkzame stof", "tool", 1],
+    ["Spoedzorg-wegwijzer", "SAMU, SOS Médecins", "tool", 1]]],
+  ["Auto & verkeer", [
+    ["Kentekenregistratie", "carte grise", "tool", 0],
+    ["Contrôle technique-planner", "keuringstermijn", "tool", 0],
+    ["Verkeersboetes-check", "amendes", "tool", 0],
+    ["Rijbewijs omwisselen", "ANTS-procedure", "tool", 1]]],
+  ["Taal & gemeenschap", [
+    ["Café Claude", "vragen aan de gemeenschap", "cafe", 1],
+    ["Taalcoach", "dagelijkse oefening", "tool", 1],
+    ["Feestdagen & vakanties", "zones A/B/C", "tool", 1]]],
+  ["Dossiers", [
+    ["Dossier Frankrijk", "naslag · 5 hoofdstukken", "dossier", 1],
+    ["Nieuws & wijzigingen", "per module", "fire:nieuws", 1],
+    ["Verantwoording & bronnen", "hoe wij meten", "fire:info", 1]]]
+];
+const SECTIONS = [
+  { id: "d-aankomst", kicker: "Hoofdstuk 1", title: "Aankomst en inschrijving",
+    paras: ["Wie zich in Frankrijk vestigt, regelt in de eerste maanden een vast rijtje zaken: een adres dat aantoonbaar is, een Frans bankrekeningnummer, inschrijving bij de mairie waar dat lokaal gebruikelijk is, en aanmelding bij de zorg.",
+      "Bewaar van elk stuk een scan. Franse diensten vragen vaak hetzelfde bewijs opnieuw, en een justificatif de domicile mag doorgaans niet ouder zijn dan drie maanden."],
+    links: [["Verhuisplanner NL→FR"], ["Documentenkluis"]] },
+  { id: "d-zorg", kicker: "Hoofdstuk 2", title: "Zorg en verzekering",
+    paras: ["De basisdekking loopt via de Assurance Maladie; de Carte Vitale is het bewijs. Daarbovenop sluit vrijwel iedereen een mutuelle af voor het deel dat de basis niet vergoedt.",
+      "Kies een médecin traitant zodra u een huisarts gevonden heeft: zonder vaste huisarts vergoedt het stelsel minder."],
+    links: [["Carte Vitale-status"], ["Zorgverzekering-vergelijker"], ["Spoedzorg-wegwijzer"]] },
+  { id: "d-belasting", kicker: "Hoofdstuk 3", title: "Belasting en pensioen",
+    paras: ["Bent u fiscaal inwoner van Frankrijk, dan doet u jaarlijks aangifte over uw wereldinkomen; het belastingverdrag met Nederland bepaalt wie wat mag heffen.",
+      "Pensioenen kennen eigen regels per soort — overheidspensioen, bedrijfspensioen en AOW worden niet gelijk behandeld."],
+    links: [["Belastingaangifte-wijzer"], ["Pensioen NL–FR"], ["Inkomstenbelasting-schatter"]] },
+  { id: "d-wonen", kicker: "Hoofdstuk 4", title: "Wonen en vastgoed",
+    paras: ["Een aankoop verloopt via compromis de vente, een bedenktermijn en de acte authentique bij de notaris. De kosten die u aan die notaris betaalt, zijn grotendeels belasting.",
+      "Voor verhuur gelden energie-eisen: woningen met de zwakste DPE-labels mogen niet meer als hoofdverblijf worden verhuurd."],
+    links: [["Woningaankoop-stappenplan"], ["Notariskosten-calculator"], ["Taxe foncière & habitation"]] },
+  { id: "d-veiligheid", kicker: "Hoofdstuk 5", title: "Veiligheid en natuur",
+    paras: ["In het zuiden bepaalt het brandseizoen de zomer. Météo-France publiceert per departement een verwacht gevaarniveau; dat is een voorspelling, geen melding van een brand.",
+      "Satellietwaarnemingen van hittebronnen en officiële FR-Alert-meldingen zijn losse bronnen die u naast elkaar leest — niet bij elkaar optelt."],
+    links: [["Brandrisico Frankrijk"], ["Rookverplaatsing"], ["FR-Alert-meldingen"]] }
+];
+
+const FEEDS = [
+  { url: "https://www.nederlanders.fr/rss", kind: "blog" },
+  { url: "https://www.nederlanders.fr/blogs/feed", kind: "blog" },
+  { url: "https://www.nederlanders.fr/forum/feed", kind: "forum" }
+];
+const FORUM_URL = "https://www.nederlanders.fr/forum";
+const DEMO_FEED = [
+  { kind: "blog", title: "Blogbericht van Nederlanders.fr", meta: "Blog · voorbeelditem", link: "https://www.nederlanders.fr/" },
+  { kind: "forum", title: "Forumreactie over de déclaration", meta: "Forum · voorbeelditem", link: FORUM_URL },
+  { kind: "forum", title: "Forumreactie over brandrisico en verzekering", meta: "Forum · voorbeelditem", link: FORUM_URL },
+  { kind: "blog", title: "Blogbericht over notariskosten", meta: "Blog · voorbeelditem", link: "https://www.nederlanders.fr/" },
+  { kind: "forum", title: "Forumreactie over de Carte Vitale", meta: "Forum · voorbeelditem", link: FORUM_URL }
+];
+
+class Component extends DCLogic {
+  state = {
+    screen: "login", variant: "A", query: "", filter: "Alle",
+    off: {}, offline: false, saved: true, tool: null,
+    enPhase: "intake", enSaved: false,
+    en: { zone: "centre", houseType: "pavillon", period: "y48_74", m2: 120, reno: [], heating: "elec", usage: "permanent" },
+    feed: DEMO_FEED, feedState: "demo", feedTime: "", feedKind: "alles"
+  };
+
+  loadFeed() {
+    try {
+      const c = localStorage.getItem("fw_feed");
+      if (c) { const p = JSON.parse(c); if (p.items && p.items.length) this.setState({ feed: p.items, feedState: "cache", feedTime: p.time }); }
+    } catch (e) {}
+    this.setState({ feedState: this.state.feedState === "demo" ? "laden" : this.state.feedState });
+    let done = false;
+    FEEDS.forEach(f => fetch(f.url).then(r => r.ok ? r.text() : Promise.reject()).then(txt => {
+      const doc = new DOMParser().parseFromString(txt, "application/xml");
+      const items = Array.from(doc.querySelectorAll("item, entry")).slice(0, 12).map(n => {
+        const g = s => { const el = n.querySelector(s); return el ? el.textContent.trim() : ""; };
+        const linkEl = n.querySelector("link");
+        return {
+          kind: f.kind, title: g("title") || "(zonder titel)",
+          meta: (f.kind === "blog" ? "Blog" : "Forum") + " · " + (g("pubDate") || g("updated") || "").slice(0, 16),
+          link: (linkEl && (linkEl.textContent.trim() || linkEl.getAttribute("href"))) || FORUM_URL
+        };
+      });
+      if (!items.length || done) return;
+      done = true;
+      const time = new Date().toLocaleString("nl-NL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+      this.setState({ feed: items, feedState: "live", feedTime: time });
+      try { localStorage.setItem("fw_feed", JSON.stringify({ items, time })); } catch (e) {}
+    }).catch(() => {}));
+    setTimeout(() => { if (this.state.feedState === "laden") this.setState({ feedState: "demo" }); }, 6000);
+  }
+  related(name) {
+    const words = name.toLowerCase().replace(/[^a-zé\s-]/g, " ").split(/[\s-]+/).filter(w => w.length > 4);
+    return this.state.feed
+      .filter(i => words.some(w => i.title.toLowerCase().includes(w)))
+      .slice(0, 3)
+      .map(i => Object.assign({}, i));
+  }
+
+  loadEngine() {
+    if (typeof window.computeDPE === "function") return;
+    const files = ["engine/archetypes.js", "engine/engine.js", "engine/dpe.js"];
+    let i = 0;
+    const next = () => {
+      if (i >= files.length) { this.forceUpdate(); return; }
+      if (document.querySelector('script[data-en="' + files[i] + '"]')) { i++; return next(); }
+      const el = document.createElement("script");
+      el.src = files[i]; el.async = false;
+      el.setAttribute("data-en", files[i]);
+      el.onload = () => { i++; next(); };
+      el.onerror = () => { i++; next(); };
+      document.head.appendChild(el);
+    };
+    next();
+  }
+  componentDidMount() {
+    this.loadEngine();
+    try {
+      const s = localStorage.getItem("fw_state");
+      if (s) {
+        const p = JSON.parse(s);
+        this.setState({ off: p.off || {}, variant: p.variant || this.props.navVariant || "B" });
+      } else if (this.props.navVariant) this.setState({ variant: this.props.navVariant });
+    } catch (e) {}
+    this.loadFeed();
+  }
+  persist(off, variant) {
+    try { localStorage.setItem("fw_state", JSON.stringify({ off, variant })); } catch (e) {}
+  }
+  all() {
+    const out = [];
+    G.forEach(([g, ts]) => ts.forEach(([name, meta, kind, on]) => out.push({ group: g, name, meta, kind, on })));
+    return out;
+  }
+  isOn(t) { const v = this.state.off[t.name]; return v === undefined ? !!t.on : v; }
+  toggle(name) {
+    const off = Object.assign({}, this.state.off);
+    const cur = off[name];
+    const t = this.all().find(x => x.name === name);
+    off[name] = cur === undefined ? !t.on : !cur;
+    this.setState({ off });
+    this.persist(off, this.state.variant);
+  }
+  open(t) {
+    if (t.kind === "fire" || t.kind.indexOf("fire:") === 0)
+      this.setState({ screen: "fire", fireTab: t.kind.split(":")[1] || "kaart", tool: t });
+    else if (t.kind === "energie") this.setState({ screen: "energie", enPhase: "intake", tool: t });
+    else if (t.kind === "dossier") this.setState({ screen: "dossier" });
+    else this.setState({ screen: "tool", tool: t });
+  }
+  find(name) { return this.all().find(t => t.name === name); }
+  openByName(name) { const t = this.find(name); if (t) this.open(t); }
+
+  enPick(key, id) {
+    this.setState(s => {
+      const en = Object.assign({}, s.en);
+      if (key === "reno") {
+        const r = en.reno.slice(), i = r.indexOf(id);
+        i < 0 ? r.push(id) : r.splice(i, 1);
+        en.reno = r;
+      } else en[key] = id;
+      return { en, enSaved: false };
+    });
+  }
+  enBuild() {
+    const en = this.state.en;
+    if (typeof applyArchetype !== "function") return null;
+    const pack = applyArchetype({
+      zone: en.zone, houseType: en.houseType, period: en.period,
+      m2: en.m2, renovations: en.reno, heating: en.heating, usage: en.usage
+    });
+    return Object.assign({
+      userPrices: { elec: 0.25, gas: 1.20, fioul: 1.15, pellet: 0.60, wood: 85, propaan: 1.80, petroleum: 2.00 },
+      appls: [
+        { key: "fridge", kwh: 250, on: true, scales: false },
+        { key: "wash", kwh: 220, on: true, scales: true },
+        { key: "dish", kwh: 160, on: true, scales: true },
+        { key: "it", kwh: 150, on: true, scales: true },
+        { key: "tv", kwh: 120, on: true, scales: true },
+        { key: "small", kwh: 150, on: true, scales: true },
+        { key: "lighting", kwh: 180, on: true, scales: true }
+      ],
+      hrvEta: 0.8, auxSharePreset: "0", auxShareCustom: 0, auxScop: 3, auxEta: 0.9,
+      evKmWeek: 0, evKwh100: 18, evLoss: 10,
+      poolHas: false, acOn: false, seer: 4,
+      pvKwp: 0, pvSelfUse: 60, pvExportMode: "none", pvExportTariff: 0
+    }, pack.fields);
+  }
+  enVals(sc) {
+    const st = this.state, en = st.en;
+    const isEn = sc === "energie";
+    const chip = on => "flex:none;min-height:44px;padding:11px 15px;border-radius:12px;cursor:pointer;font:700 13px Mulish;text-align:left;" +
+      (on ? "border:1px solid #800000;background:rgba(128,0,0,.10);color:#800000"
+          : "border:1px solid rgba(21,24,26,.12);background:#fff;color:#3D4346");
+    const grp = (n, key, label, hint, opts) => ({
+      n, label, hint,
+      options: opts.map(o => ({
+        label: o[1],
+        style: chip(key === "reno" ? en.reno.indexOf(o[0]) >= 0 : en[key] === o[0]),
+        pick: () => this.enPick(key, o[0])
+      }))
+    });
+    const groups = [
+      grp(1, "zone", "Klimaatzone", "Waar staat de woning?", [
+        ["med", "Méditerranée"], ["ouest", "Zuid-West / Atlantisch"], ["paris", "Noord / Parijs"],
+        ["centre", "Centraal / Bourgogne"], ["est", "Oost / Elzas"], ["mont", "Bergen"]]),
+      grp(2, "houseType", "Type woning", "Bepaalt bouwlagen en gedeelde muren.", [
+        ["longere", "Longère / fermette"], ["village", "Dorpswoning"], ["maitre", "Maison de maître"],
+        ["pavillon", "Pavillon"], ["modern", "Moderne woning"], ["appartement", "Appartement"]]),
+      grp(3, "period", "Bouwperiode", "Bepaalt de forfaitaire isolatiewaarden.", [
+        ["pre1948", "Vóór 1948"], ["y48_74", "1948–1974"], ["y75_89", "1975–1989"],
+        ["y90_05", "1990–2005"], ["post2005", "Na 2005"]]),
+      grp(4, "reno", "Al gerenoveerd?", "Meerdere antwoorden mogelijk. Niets aanvinken mag ook.", [
+        ["roof", "Dak"], ["walls", "Muren"], ["windows", "Ramen"], ["floor", "Vloer"]]),
+      grp(5, "heating", "Verwarming", "Uw hoofdsysteem.", [
+        ["hp", "Warmtepomp"], ["elec", "Elektrisch"], ["gas", "Aardgas"],
+        ["fioul", "Fioul"], ["wood", "Hout"], ["pellet", "Pellets"]]),
+      grp(6, "usage", "Gebruik", "Hoe vaak bent u er?", [
+        ["permanent", "Permanent"], ["halftijds", "Halftijds"],
+        ["zomer", "Zomervakantie"], ["winter", "Winterverblijf"]])
+    ];
+    const base = {
+      isEnergie: isEn,
+      enIntake: isEn && st.enPhase === "intake",
+      enResult: isEn && st.enPhase === "result",
+      enGroups: groups,
+      enM2: en.m2,
+      enM2Min: () => this.setState(s => ({ en: Object.assign({}, s.en, { m2: Math.max(20, s.en.m2 - 10) }), enSaved: false })),
+      enM2Plus: () => this.setState(s => ({ en: Object.assign({}, s.en, { m2: Math.min(600, s.en.m2 + 10) }), enSaved: false })),
+      enCalc: () => this.setState({ enPhase: "result", enSaved: false }),
+      enEdit: () => this.setState({ enPhase: "intake" }),
+      enFullUrl: "https://energieportaal.vercel.app/",
+      enSave: () => this.setState({ enSaved: true }),
+      enSaveLabel: st.enSaved ? "Bewaard in DossierFrankrijk ✓" : "Bewaar in DossierFrankrijk",
+      enClass: "—", enLabelStyle: "width:104px;flex:none;border-radius:16px;background:#800000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 0",
+      enCostYear: "—", enCostMonth: "—", enRows: [], enWhy: "", enDossierUrl: "https://dossierfrankrijk.nl/"
+    };
+    if (!base.enResult || typeof computeDPE !== "function" || typeof computeResults !== "function") return base;
+    let s;
+    try { s = this.enBuild(); } catch (e) { return base; }
+    if (!s) return base;
+    let dpe, res;
+    try { dpe = computeDPE(s); res = computeResults(s); } catch (e) { return base; }
+    const eur = x => new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(x || 0);
+    const n0 = x => new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 0 }).format(x || 0);
+    const n1 = x => new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 1 }).format(x || 0);
+    const kleur = dpe.details.kleur, letter = dpe.classe;
+    const donker = ["A", "B", "F", "G"].indexOf(letter) >= 0;
+    base.enClass = letter;
+    base.enLabelStyle = "width:104px;flex:none;border-radius:16px;background:" + kleur + ";color:" +
+      (donker ? "#FFFFFF" : "#15181A") + ";display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 0";
+    base.enCostYear = eur(res.totalCost) + " / jaar";
+    base.enCostMonth = eur(res.perMonth);
+    base.enRows = [
+      { k: "Primaire energie", v: n0(dpe.perM2.ep) + " kWh EP/m²·jr" },
+      { k: "CO₂-uitstoot", v: n1(dpe.perM2.ges) + " kg/m²·jr" },
+      { k: "Warmtevraag woning", v: n0(res.heatDemand) + " kWh/jr" },
+      { k: "Verwarming", v: eur(res.costs.verwarming) },
+      { k: "Warm water", v: eur(res.costs.tapwater) },
+      { k: "Apparaten en licht", v: eur(res.costs.apparaten) },
+      { k: "Netto stroom", v: n0(res.verbruik.nettoElec) + " kWh/jr" }
+    ];
+    const dr = dpe.details.drivenBy;
+    base.enWhy = "Label " + letter + " wordt bepaald door " +
+      (dr === "ges" ? "de CO₂-schaal (" + dpe.details.gesClasse + ") — uw energieverbruik zit op " + dpe.details.epClasse + ". Een schoner energiedrager verbetert het label meer dan extra isolatie."
+       : dr === "energie" ? "het energieverbruik (" + dpe.details.epClasse + ") — de CO₂-schaal geeft " + dpe.details.gesClasse + ". Isolatie weegt hier het zwaarst."
+       : "energie en CO₂ gelijk (beide " + letter + ").") +
+      " De DPE rekent conventioneel: 365 dagen, 19 °C — uw eigen gebruik zit wél in de kostenschatting.";
+    base.enDossierUrl = "https://dossierfrankrijk.nl/opslaan?bron=if-mobiel&tool=energieportaal" +
+      "&label=" + encodeURIComponent(letter) +
+      "&ep=" + Math.round(dpe.perM2.ep) + "&ges=" + Math.round(dpe.perM2.ges) +
+      "&kosten=" + Math.round(res.totalCost) +
+      "&woning=" + encodeURIComponent(en.houseType + "/" + en.period + "/" + en.m2 + "m2") +
+      "&zone=" + encodeURIComponent(en.zone);
+    return base;
+  }
+  renderVals() {
+    const st = this.state, sc = st.screen;
+    const q = st.query.trim().toLowerCase();
+    const active = this.all().filter(t => this.isOn(t));
+    const match = t => !q || (t.name + " " + t.meta + " " + t.group).toLowerCase().includes(q);
+    const dec = t => Object.assign({}, t, {
+      dot: t.kind === "fire" ? COL[4] : t.kind.indexOf("fire:") === 0 ? COL[3] : t.kind === "cafe" ? "#800000" : t.kind === "dossier" ? "#800000" : "#C7CBCC",
+      open: () => this.open(t), letter: t.name[0].toUpperCase()
+    });
+
+    const shown = active.filter(match).map(dec);
+    const groups = G.map(([name, ts]) => {
+      const list = shown.filter(t => t.group === name);
+      return { name, count: list.length + " actief", tools: list };
+    }).filter(g => g.tools.length);
+
+    const filters = ["Alle"].concat(G.map(g => g[0])).map(name => ({
+      name, pick: () => this.setState({ filter: name }),
+      style: "flex:none;border-radius:999px;padding:9px 13px;min-height:40px;cursor:pointer;font:700 12px Mulish;border:1px solid " +
+        (st.filter === name ? "#800000" : "rgba(21,24,26,.10)") + ";background:" +
+        (st.filter === name ? "#800000" : "#fff") + ";color:" + (st.filter === name ? "#FFFFFF" : "#3D4346")
+    }));
+    const tiles = shown.filter(t => st.filter === "Alle" || t.group === st.filter);
+    const indexed = shown.slice().sort((a, b) => a.name.localeCompare(b.name, "nl"));
+    const pinned = ["Brandrisico Frankrijk", "Café Claude", "Correspondentie-assistent", "Belastingaangifte-wijzer"]
+      .map(n => this.find(n)).filter(Boolean).map(dec);
+
+    const tabStyle = on => "flex:1;min-height:38px;border:0;border-radius:9px;cursor:pointer;font:700 12px Mulish;background:" +
+      (on ? "#fff" : "transparent") + ";color:" + (on ? "#15181A" : "#71787C") +
+      (on ? ";box-shadow:0 1px 3px rgba(21,24,26,.10)" : "");
+    const tabStyleF = on => "flex:none;border-radius:999px;padding:9px 13px;min-height:40px;cursor:pointer;font:700 12px Mulish;border:1px solid " +
+      (on ? "#800000" : "rgba(21,24,26,.10)") + ";background:" + (on ? "#800000" : "#fff") + ";color:" + (on ? "#FFFFFF" : "#3D4346");
+    const navStyle = on => "border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;font:700 10px Mulish;color:" +
+      (on ? "#800000" : "#71787C");
+
+    const titles = {
+      hub: ["Infofrankrijk", active.length + " modules actief · Hérault (34)"],
+      dossier: ["Dossier Frankrijk", "Naslag · offline beschikbaar"],
+      fire: [st.tool && st.tool.kind && st.tool.kind.indexOf("fire:") === 0 ? st.tool.name : "Brandrisico Frankrijk", "Veiligheidsmodule · live"],
+      tool: [st.tool ? st.tool.name : "Module", st.tool ? st.tool.group : ""],
+      forum: ["Nederlanders.fr", "Blog en forum · alleen lezen"],
+      modules: ["Mijn modules", "Aan- en uitzetten · synchroniseert"],
+      account: ["Account", "Premium · gesynchroniseerd"],
+      energie: ["Energie-portaal", "Wonen & vastgoed · indicatief"]
+    };
+    const t = titles[sc] || titles.hub;
+    const fireLvl = 4;
+
+    return {
+      isLogin: sc === "login", inApp: sc !== "login",
+      isHub: sc === "hub", isDossier: sc === "dossier", isFire: sc === "fire",
+      isTool: sc === "tool", isModules: sc === "modules", isAccount: sc === "account",
+      isForum: sc === "forum",
+      ...this.enVals(sc),
+      goForum: () => this.setState({ screen: "forum" }),
+      forumUrl: FORUM_URL,
+      feedKindAll: st.feedKind === "alles", feedKindBlog: st.feedKind === "blog", feedKindForum: st.feedKind === "forum",
+      setFeedAll: () => this.setState({ feedKind: "alles" }),
+      setFeedBlog: () => this.setState({ feedKind: "blog" }),
+      setFeedForum: () => this.setState({ feedKind: "forum" }),
+      chipAllStyle: tabStyleF(st.feedKind === "alles"), chipBlogStyle: tabStyleF(st.feedKind === "blog"), chipForumStyle: tabStyleF(st.feedKind === "forum"),
+      feedItems: st.feed.filter(i => st.feedKind === "alles" || i.kind === st.feedKind),
+      feedNote: st.feedState === "live" ? "Feed opgehaald " + st.feedTime + " — u leest mee via RSS."
+        : st.feedState === "cache" ? "Laatst opgehaald " + st.feedTime + " — offline zichtbaar."
+        : st.feedState === "laden" ? "Feed ophalen bij nederlanders.fr…"
+        : "De feed is nu niet bereikbaar (RSS staat lezen vanuit de app niet toe zonder proxy). U ziet voorbeelditems.",
+      relatedItems: st.tool ? this.related(st.tool.name) : [],
+      hasRelated: st.tool ? this.related(st.tool.name).length > 0 : false,
+      dossierItems: st.feed.slice(0, 3),
+      refreshFeed: () => this.loadFeed(),
+      showBack: sc !== "hub", showMark: sc === "hub",
+      title: t[0], subtitle: t[1], planLabel: this.props.planLabel ?? "PREMIUM",
+      offline: st.offline,
+      fireSrc: "Bosbranden Mobiel.html?embed=1&tab=" + (st.fireTab || "kaart"),
+
+      login: () => this.setState({ screen: "hub" }),
+      logout: () => this.setState({ screen: "login" }),
+      back: () => this.setState({ screen: "hub" }),
+      goHub: () => this.setState({ screen: "hub" }),
+      goModules: () => this.setState({ screen: "modules" }),
+      goAccount: () => this.setState({ screen: "account" }),
+      openDossier: () => this.setState({ screen: "dossier" }),
+      openFire: () => this.setState({ screen: "fire" }),
+      openCafe: () => this.openByName("Café Claude"),
+      openLetter: () => this.openByName("Correspondentie-assistent"),
+
+      query: st.query, onQuery: e => this.setState({ query: e.target.value }),
+      setVA: () => { this.setState({ variant: "A" }); this.persist(st.off, "A"); },
+      setVB: () => { this.setState({ variant: "B" }); this.persist(st.off, "B"); },
+      setVC: () => { this.setState({ variant: "C" }); this.persist(st.off, "C"); },
+      vA: st.variant === "A", vB: st.variant === "B", vC: st.variant === "C",
+      tabAStyle: tabStyle(st.variant === "A"), tabBStyle: tabStyle(st.variant === "B"), tabCStyle: tabStyle(st.variant === "C"),
+      showToday: this.props.showTodayStrip ?? true,
+      groups, filters, tiles, indexed, pinned,
+      fireColor: COL[fireLvl], fireLevel: "zeer hoog", fireMeta: "J+1 · 3 hittebronnen in de buurt", userDept: "HÉRAULT (34)",
+      activeNote: active.length + " van " + this.all().length + " modules staan aan. Wat u uitzet, verdwijnt overal — hub, zoeken en meldingen.",
+
+      chapters: SECTIONS.map(s => ({ name: s.title.split(" ")[0], href: "#" + s.id })),
+      sections: SECTIONS.map(s => Object.assign({}, s, {
+        links: s.links.map(([n]) => ({ name: n, open: () => this.openByName(n) }))
+      })),
+      saved: st.saved, savedLabel: st.saved ? "Offline bewaard ✓" : "Bewaar offline",
+      savedBg: st.saved ? "#800000" : "#fff", savedFg: st.saved ? "#FFFFFF" : "#15181A",
+      toggleSaved: () => this.setState({ saved: !st.saved }),
+
+      toolName: st.tool ? st.tool.name : "", toolGroup: st.tool ? st.tool.group : "",
+      toolDesc: st.tool ? "Deze module doet één ding goed: " + st.tool.meta + ". In het skelet is de schil klaar; de werking volgt per module." : "",
+      toolStatus: st.tool && this.isOn(st.tool) ? "Actief" : "Uitgezet",
+      toolUpdated: "24 juli 2026", toolOffline: "Ja — laatste gegevens",
+      toolEnabled: st.tool && this.isOn(st.tool) ? "Ja" : "Nee",
+      toolCta: st.tool && this.isOn(st.tool) ? "Module uitzetten" : "Module aanzetten",
+      toggleCurrent: () => { if (st.tool) this.toggle(st.tool.name); },
+
+      activeCount: active.length + " van " + this.all().length + " modules actief",
+      activeShort: active.length + " / " + this.all().length,
+      moduleGroups: G.map(([name, ts]) => ({
+        name,
+        tools: ts.map(([n, meta, kind, on]) => {
+          const item = { group: name, name: n, meta, kind, on };
+          const isOn = this.isOn(item);
+          return { name: n, meta, track: isOn ? "#800000" : "rgba(21,24,26,.18)", knob: isOn ? "21px" : "3px", toggle: () => this.toggle(n) };
+        })
+      })),
+
+      syncLabel: st.offline ? "Wacht op verbinding" : "Bijgewerkt 2 min geleden",
+      offlineSize: "18,4 MB · 6 dossiers",
+      offlineCta: st.offline ? "Offlinemodus uitzetten" : "Offlinemodus simuleren",
+      toggleOffline: () => this.setState({ offline: !st.offline }),
+
+      navForStyle: navStyle(sc === "forum"),
+      navHubStyle: navStyle(sc === "hub"), navDosStyle: navStyle(sc === "dossier"),
+      navModStyle: navStyle(sc === "modules"), navAccStyle: navStyle(sc === "account")
+    };
+  }
+}
+</script>
+</body>
+</html>

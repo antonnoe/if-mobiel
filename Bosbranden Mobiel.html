@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Brandrisico Frankrijk — mobiel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<style>
+:root{
+  --paper:#F6F4EF; --card:#FFFFFF; --ink:#15181A; --ink-2:#3D4346; --muted:#71787C;
+  --line:rgba(21,24,26,.10); --line-2:rgba(21,24,26,.06);
+  --forest:#1E3B33; --ember:#B8431E;
+  --r1:#5AA469; --r2:#E9C13D; --r3:#E2812F; --r4:#C6362C; --r0:#C7CBCC;
+  --sheet-shadow:0 -2px 24px rgba(21,24,26,.13);
+  --tabh:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{
+  background:#E8E5DE;font-family:Manrope,system-ui,sans-serif;color:var(--ink);
+  display:flex;align-items:stretch;justify-content:center;
+}
+a{color:var(--forest);text-decoration:none;border-bottom:1px solid rgba(30,59,51,.28)}
+a:hover{color:var(--ember);border-bottom-color:rgba(184,67,30,.4)}
+#phone{
+  width:100%;max-width:412px;background:var(--paper);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(21,24,26,.08);
+}
+/* ---------- top bar ---------- */
+.topbar{
+  flex:none;padding:14px 18px 12px;background:var(--paper);
+  border-bottom:1px solid var(--line-2);display:flex;align-items:center;gap:10px;
+  position:relative;z-index:600;
+}
+.mark{width:26px;height:26px;flex:none;border-radius:7px;background:var(--forest);display:grid;place-items:center}
+.mark svg{width:15px;height:15px}
+.tb-t{font-size:15px;font-weight:700;letter-spacing:-.015em;line-height:1.15;white-space:nowrap}
+.tb-s{font-size:11px;color:var(--muted);font-weight:500;margin-top:2px;line-height:1.2}
+.topbar>div:nth-child(2){min-width:0}
+.tb-live{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;
+  color:var(--forest);background:rgba(30,59,51,.07);padding:5px 9px;border-radius:999px;letter-spacing:.02em}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--r1);box-shadow:0 0 0 3px rgba(90,164,105,.22)}
+/* ---------- screens ---------- */
+.screen{display:none;flex:1;min-height:0;flex-direction:column}
+.screen.on{display:flex}
+.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0;padding:0 0 calc(var(--tabh) + 22px)}
+/* ---------- generic ---------- */
+h2.sec{font:600 12px/1 Manrope;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);margin:26px 18px 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:0 14px 12px;overflow:hidden}
+.card-p{padding:16px}
+.h1{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:33px;line-height:1.05;letter-spacing:-.015em;margin:0}
+.lede{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin:10px 0 0;text-wrap:pretty}
+.small{font-size:12px;line-height:1.5;color:var(--muted);text-wrap:pretty}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:0;border-radius:12px;
+  background:var(--forest);color:#fff;font:700 14.5px Manrope;width:100%;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.field{display:flex;gap:8px}
+input[type=text]{flex:1;min-height:48px;border:1px solid var(--line);border-radius:12px;padding:0 14px;
+  font:600 16px Manrope;background:#fff;color:var(--ink);letter-spacing:.06em}
+input[type=text]:focus{outline:2px solid rgba(30,59,51,.35);outline-offset:-1px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;border:1px solid var(--line);
+  background:#fff;font:700 12.5px Manrope;color:var(--ink-2);cursor:pointer;min-height:38px}
+.chip[aria-pressed=true],.chip.on{background:var(--forest);border-color:var(--forest);color:#fff}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:12px;height:12px;border-radius:3px;flex:none}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--line-2);font-size:13.5px}
+.kv:first-child{border-top:0}
+.kv b{font-weight:700}
+/* risk banner */
+.risk{border-radius:16px;padding:16px;color:#fff;display:flex;flex-direction:column;gap:2px}
+.risk .lvl{font-family:"Instrument Serif",serif;font-size:30px;line-height:1.05}
+.risk .meta{font-size:12px;opacity:.9;font-weight:600}
+/* ---------- map ---------- */
+.maparea{position:relative;flex:1;min-height:0;margin-bottom:var(--tabh)}
+.mapel{position:absolute;inset:0;background:#DFDCD4}
+.leaflet-container{background:#DFDCD4;font-family:Manrope,sans-serif}
+.leaflet-control-attribution{font-size:9px}
+.mapctl{position:absolute;z-index:500;display:flex;flex-direction:column;gap:8px}
+.mapctl.tl{top:12px;left:12px;flex-direction:row}
+.mapctl.tr{top:12px;right:12px}
+.mbtn{width:40px;height:40px;border-radius:11px;background:#fff;border:1px solid var(--line);
+  display:grid;place-items:center;font:700 18px Manrope;color:var(--ink);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.seg{display:flex;background:#fff;border:1px solid var(--line);border-radius:11px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.seg button{border:0;background:transparent;font:700 12.5px Manrope;color:var(--muted);padding:0 12px;height:40px;cursor:pointer}
+.seg button.on{background:var(--forest);color:#fff}
+/* bottom sheet */
+#sheet{position:absolute;left:0;right:0;bottom:0;z-index:550;background:var(--paper);
+  border-radius:20px 20px 0 0;box-shadow:var(--sheet-shadow);display:flex;flex-direction:column;
+  transition:transform .28s cubic-bezier(.32,.72,0,1);touch-action:none;will-change:transform}
+#sheet.dragging{transition:none}
+.grab{padding:8px 0 6px;display:grid;place-items:center;flex:none;cursor:grab}
+.grab i{display:block;width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.2)}
+.sheet-head{padding:0 16px 10px;flex:none}
+.sheet-body{overflow-y:auto;flex:1;min-height:0;padding:0 16px 22px;touch-action:pan-y}
+.sheet-body.locked{overflow:hidden}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+.legend div{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--ink-2)}
+.deptrow{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--line-2);
+  font-size:13.5px;cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;font-family:Manrope}
+.deptrow span.nm{flex:1;font-weight:600}
+.deptrow span.lv{font-size:11.5px;font-weight:700;color:var(--muted)}
+/* accordion */
+.acc{border-top:1px solid var(--line-2)}
+.acc:first-child{border-top:0}
+.acc>button{width:100%;display:flex;align-items:center;gap:10px;padding:15px 16px;background:none;border:0;
+  font:700 14px Manrope;color:var(--ink);text-align:left;cursor:pointer;min-height:52px}
+.acc>button svg{margin-left:auto;flex:none;transition:transform .2s}
+.acc.open>button svg{transform:rotate(180deg)}
+.acc .body{display:none;padding:0 16px 16px}
+.acc.open .body{display:block}
+.acc .body p{margin:0 0 10px;font-size:13px;line-height:1.55;color:var(--ink-2);text-wrap:pretty}
+/* news */
+.news{display:block;padding:15px 16px;border-top:1px solid var(--line-2);border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;width:100%;font-family:Manrope;cursor:pointer}
+.news:first-child{border-top:0}
+.news time{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ember)}
+.news h3{margin:5px 0 4px;font:700 14.5px/1.3 Manrope}
+/* tabs */
+body.embed .topbar,body.embed #tabs{display:none}
+body.embed{--tabh:0px}
+#tabs{position:absolute;bottom:0;left:0;right:0;height:var(--tabh);z-index:700;background:rgba(246,244,239,.94);
+  backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr)}
+#tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  font:700 10px Manrope;color:var(--muted);cursor:pointer;padding-top:2px}
+#tabs button svg{width:21px;height:21px}
+#tabs button.on{color:var(--forest)}
+.notice{margin:14px;padding:12px 14px;border-radius:12px;background:rgba(184,67,30,.07);
+  border:1px solid rgba(184,67,30,.18);font-size:11.5px;line-height:1.5;color:#7A2E14}
+.emerg{display:flex;gap:8px;margin:0 14px 12px}
+.emerg a{flex:1;background:var(--ember);color:#fff;border:0;border-radius:12px;min-height:52px;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;font:800 17px Manrope;text-decoration:none}
+.emerg a small{font:600 10px Manrope;opacity:.85;letter-spacing:.04em}
+.pin{display:grid;place-items:center;font:800 11px Manrope;color:#fff;border-radius:50%;
+  background:var(--ember);box-shadow:0 0 0 3px rgba(184,67,30,.25)}
+.srcrow{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line-2);width:100%;
+  background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;font-family:Manrope;cursor:pointer}
+.srcrow.on{background:rgba(30,59,51,.05)}
+.srcrow .n{width:30px;height:30px;border-radius:9px;background:rgba(184,67,30,.12);color:var(--ember);
+  display:grid;place-items:center;font:800 12px Manrope;flex:none}
+.srcrow .t{flex:1}
+.srcrow .t b{display:block;font-size:13.5px}
+.srcrow .t span{font-size:11.5px;color:var(--muted);font-weight:600}
+.bar{height:6px;border-radius:3px;background:rgba(21,24,26,.08);overflow:hidden;margin-top:7px}
+.bar i{display:block;height:100%;border-radius:3px;background:var(--ember)}
+</style>
+</head>
+<body>
+<div id="phone">
+
+  <div class="topbar">
+    <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1.5 3.5-1 5-1 7a3 3 0 0 0 6 0c0-1-.3-2-.8-2.8C17.9 9 19 11.3 19 13.5A7 7 0 1 1 5 13.5C5 8.8 9 7 12 3z"/></svg></div>
+    <div>
+      <div class="tb-t">Brandrisico Frankrijk</div>
+      <div class="tb-s" id="tb-sub">Météo-France · vandaag</div>
+    </div>
+    <div class="tb-live"><span class="dot" id="livedot"></span><span id="livetxt">LIVE</span></div>
+  </div>
+
+  <!-- ================= START ================= -->
+  <section class="screen on" id="s-start">
+    <div class="scroll">
+      <div style="padding:22px 18px 4px">
+        <h1 class="h1">Weet u waar het<br><em>brandgevaar</em> hoog is?</h1>
+        <p class="lede">Het verwachte bosbrandgevaar per departement, met een rustige laag van recente satellietwaarnemingen van hittebronnen.</p>
+      </div>
+
+      <h2 class="sec">Check op postcode</h2>
+      <div class="card card-p">
+        <div class="field">
+          <input id="pc-start" type="text" inputmode="numeric" maxlength="5" placeholder="34000" aria-label="Franse postcode">
+          <button class="btn" style="width:auto;padding:0 18px" onclick="checkPostcode('start')">Toon</button>
+        </div>
+        <div id="pc-out" style="margin-top:12px"></div>
+      </div>
+
+      <h2 class="sec">Vandaag in het kort</h2>
+      <div class="card">
+        <div class="card-p" style="padding-bottom:8px">
+          <div class="kv"><span>Departementen zeer hoog</span><b id="k-vh">—</b></div>
+          <div class="kv"><span>Departementen hoog</span><b id="k-h">—</b></div>
+          <div class="kv"><span>VIIRS-warmtemetingen (24u)</span><b id="k-v">—</b></div>
+          <div class="kv"><span>Officiële FR-Alert-meldingen</span><b id="k-a">—</b></div>
+        </div>
+      </div>
+      <div class="card" style="padding:0">
+        <button class="btn ghost" style="border:0;justify-content:space-between;padding:0 16px;min-height:56px" onclick="go('kaart')">
+          <span style="font-weight:700">Kaart van Frankrijk openen</span><span aria-hidden="true">→</span></button>
+      </div>
+      <div class="card" style="padding:0">
+        <button class="btn ghost" style="border:0;justify-content:space-between;padding:0 16px;min-height:56px" onclick="go('rook')">
+          <span style="font-weight:700">Waar waait de rook naartoe?</span><span aria-hidden="true">→</span></button>
+      </div>
+
+      <div class="notice">
+        De Météo des forêts toont het <b>verwachte</b> gevaarniveau, geen actuele branden. Ziet u rook of vuur: bel 18 of 112 (doven en slechthorenden: 114).
+      </div>
+      <div class="emerg">
+        <a href="tel:112"><span>112</span><small>NOODNUMMER</small></a>
+        <a href="tel:18"><span>18</span><small>BRANDWEER</small></a>
+        <a href="tel:114" style="background:var(--forest)"><span>114</span><small>SMS / DOVEN</small></a>
+      </div>
+      <p class="small" style="margin:2px 18px 0">Bronnen: Météo-France — Météo des forêts, NASA FIRMS, CAMS/Copernicus. Terug naar de pagina op <a href="https://www.nederlanders.fr/page/bosbranden">Nederlanders.fr</a>.</p>
+    </div>
+  </section>
+
+  <!-- ================= KAART ================= -->
+  <section class="screen" id="s-kaart">
+    <div class="maparea">
+      <div class="mapel" id="map"></div>
+      <div class="mapctl tl">
+        <div class="seg" id="dayseg">
+          <button class="on" data-day="1">J+1</button><button data-day="2">J+2</button>
+        </div>
+      </div>
+      <div class="mapctl tr">
+        <button class="mbtn" onclick="zoomBy(1)" aria-label="Inzoomen">+</button>
+        <button class="mbtn" onclick="zoomBy(-1)" aria-label="Uitzoomen">−</button>
+        <button class="mbtn" onclick="resetMap()" aria-label="Heel Frankrijk">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9V3h6M21 15v6h-6"/></svg></button>
+      </div>
+
+      <div id="sheet">
+        <div class="grab" id="grab"><i></i></div>
+        <div class="sheet-head">
+          <div id="sheet-title" style="font:700 15px Manrope">Kaartlagen &amp; legenda</div>
+          <div class="small" id="sheet-sub" style="margin-top:2px">Tik op een departement voor het risico</div>
+        </div>
+        <div class="sheet-body" id="sheet-body">
+          <div id="sheet-detail" style="display:none"></div>
+          <div id="sheet-default">
+            <div class="row" style="margin:4px 0 16px">
+              <button class="chip on" id="lay-heat" aria-pressed="true" onclick="toggleLayer('heat')">Warmtebronnen</button>
+              <button class="chip" id="lay-alert" aria-pressed="false" onclick="toggleLayer('alert')">Officiële meldingen</button>
+            </div>
+            <div class="legend">
+              <div><i class="swatch" style="background:var(--r1)"></i>laag</div>
+              <div><i class="swatch" style="background:var(--r2)"></i>gemiddeld</div>
+              <div><i class="swatch" style="background:var(--r3)"></i>hoog</div>
+              <div><i class="swatch" style="background:var(--r4)"></i>zeer hoog</div>
+              <div><i class="swatch" style="background:var(--r0)"></i>geen gegevens</div>
+              <div><i class="swatch" style="background:var(--ember);border-radius:50%"></i>FR-Alert</div>
+            </div>
+            <p class="small" style="margin:14px 0 0" id="viirs-note">Warmtemetingen laden…</p>
+            <div class="field" style="margin:16px 0 0">
+              <input id="pc-map" type="text" inputmode="numeric" maxlength="5" placeholder="Postcode" aria-label="Franse postcode">
+              <button class="btn" style="width:auto;padding:0 16px" onclick="checkPostcode('map')">Zoek</button>
+            </div>
+            <h2 class="sec" style="margin:20px 0 4px">Departementen op risico</h2>
+            <div id="deptlist"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ROOK ================= -->
+  <section class="screen" id="s-rook">
+    <div class="scroll">
+      <div style="padding:22px 18px 4px">
+        <h1 class="h1">Waar waait de<br><em>rook</em> naartoe?</h1>
+        <p class="lede">De berekende windbaan vanaf gedetecteerde hittebronnen — op leefniveau en op hoogte.</p>
+      </div>
+      <div class="card" style="padding:0;margin-top:16px">
+        <div style="height:230px;position:relative"><div class="mapel" id="map2" style="border-radius:16px 16px 0 0"></div></div>
+        <div class="card-p" style="border-top:1px solid var(--line-2)">
+          <div class="row">
+            <button class="chip on" id="hgt-10" onclick="setHeight(10)">Leefniveau · 10 m</button>
+            <button class="chip" id="hgt-1500" onclick="setHeight(1500)">Op hoogte · 1500 m</button>
+          </div>
+          <div id="plume-meta" class="small" style="margin-top:12px"></div>
+        </div>
+      </div>
+      <h2 class="sec">Gedetecteerde hittebronnen</h2>
+      <div class="card card-p" style="padding-top:4px" id="srclist"></div>
+      <h2 class="sec">Komt de windbaan naar u toe?</h2>
+      <div class="card card-p">
+        <div class="field">
+          <input id="pc-rook" type="text" inputmode="numeric" maxlength="5" placeholder="83000" aria-label="Franse postcode">
+          <button class="btn" style="width:auto;padding:0 18px" onclick="checkPlume()">Check</button>
+        </div>
+        <div id="plume-out" style="margin-top:12px"></div>
+      </div>
+      <div class="notice">Een berekende windbaan is geen rookmeting. Organische aerosolen en roet kunnen samenhangen met natuurbrandrook, maar ook met andere bronnen. Volg bij een brand altijd FR-Alert en de instructies van prefectuur en mairie.</div>
+      <div class="card card-p">
+        <div style="font:700 14px Manrope;margin-bottom:4px">Rook- en aerosolpatronen · CAMS</div>
+        <p class="small" style="margin:0 0 12px">Modelverwachtingen tot drie dagen vooruit voor organische aerosolen, roet, PM2.5 en wind.</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a class="btn" style="border-bottom:0;color:#fff" href="https://aerosol-alerts.atmosphere.copernicus.eu/">Open interactieve CAMS-kaart</a>
+          <a class="btn ghost" style="border-bottom:1px solid var(--line);color:var(--ink)" href="https://aerosol-alerts.atmosphere.copernicus.eu/subscription/">Stel een aerosolwaarschuwing in</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NIEUWS ================= -->
+  <section class="screen" id="s-nieuws">
+    <div class="scroll">
+      <div style="padding:22px 18px 4px">
+        <h1 class="h1">Nieuws</h1>
+        <p class="lede">Wijzigingen aan deze dienst en meldingen over gegevensbronnen.</p>
+      </div>
+      <h2 class="sec">Meldingen</h2>
+      <div class="card" style="padding:0" id="newslist"></div>
+    </div>
+  </section>
+
+  <!-- ================= INFO ================= -->
+  <section class="screen" id="s-info">
+    <div class="scroll">
+      <div style="padding:22px 18px 4px">
+        <h1 class="h1">Verantwoording</h1>
+        <p class="lede">Wat de gegevens wel en niet zeggen, en waar ze vandaan komen.</p>
+      </div>
+      <h2 class="sec">Uitleg</h2>
+      <div class="card" style="padding:0" id="accs"></div>
+      <h2 class="sec">Bronnen</h2>
+      <div class="card card-p">
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13.5px">
+          <a href="https://meteofrance.com/meteo-des-forets">Météo-France — Météo des forêts</a>
+          <a href="https://firms.modaps.eosdis.nasa.gov/map/">NASA FIRMS</a>
+          <a href="https://aerosol-alerts.atmosphere.copernicus.eu/">CAMS — Copernicus</a>
+          <a href="https://feux-foret.gouv.fr">Officiële preventie-informatie</a>
+          <a href="https://www.nederlanders.fr/page/bosbranden">Terug naar de pagina op Nederlanders.fr</a>
+        </div>
+      </div>
+      <div class="notice">Deze mobiele weergave is een ontwerp. De risicokleuren en satellietmetingen zijn illustratief tot de echte Météo-France- en FIRMS-endpoints zijn aangesloten.</div>
+    </div>
+  </section>
+
+  <nav id="tabs">
+    <button class="on" data-tab="start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg>Start</button>
+    <button data-tab="kaart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v14M15 6v14"/></svg>Kaart</button>
+    <button data-tab="rook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9c2-2 5-1 6 1s4 2 6 0 4-1 4 1"/><path d="M4 14c2-2 5-1 6 1s4 2 6 0 4-1 4 1"/><path d="M4 19c2-2 5-1 6 1"/></svg>Rook</button>
+    <button data-tab="nieuws"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h7M7 13h10M7 16h5"/></svg>Nieuws</button>
+    <button data-tab="info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Info</button>
+  </nav>
+</div>
+
+<script>
+/* ---------------- data ---------------- */
+const DEPTS={"01":"Ain","02":"Aisne","03":"Allier","04":"Alpes-de-Haute-Provence","05":"Hautes-Alpes","06":"Alpes-Maritimes","07":"Ardèche","08":"Ardennes","09":"Ariège","10":"Aube","11":"Aude","12":"Aveyron","13":"Bouches-du-Rhône","14":"Calvados","15":"Cantal","16":"Charente","17":"Charente-Maritime","18":"Cher","19":"Corrèze","21":"Côte-d'Or","22":"Côtes-d'Armor","23":"Creuse","24":"Dordogne","25":"Doubs","26":"Drôme","27":"Eure","28":"Eure-et-Loir","29":"Finistère","2A":"Corse-du-Sud","2B":"Haute-Corse","30":"Gard","31":"Haute-Garonne","32":"Gers","33":"Gironde","34":"Hérault","35":"Ille-et-Vilaine","36":"Indre","37":"Indre-et-Loire","38":"Isère","39":"Jura","40":"Landes","41":"Loir-et-Cher","42":"Loire","43":"Haute-Loire","44":"Loire-Atlantique","45":"Loiret","46":"Lot","47":"Lot-et-Garonne","48":"Lozère","49":"Maine-et-Loire","50":"Manche","51":"Marne","52":"Haute-Marne","53":"Mayenne","54":"Meurthe-et-Moselle","55":"Meuse","56":"Morbihan","57":"Moselle","58":"Nièvre","59":"Nord","60":"Oise","61":"Orne","62":"Pas-de-Calais","63":"Puy-de-Dôme","64":"Pyrénées-Atlantiques","65":"Hautes-Pyrénées","66":"Pyrénées-Orientales","67":"Bas-Rhin","68":"Haut-Rhin","69":"Rhône","70":"Haute-Saône","71":"Saône-et-Loire","72":"Sarthe","73":"Savoie","74":"Haute-Savoie","75":"Paris","76":"Seine-Maritime","77":"Seine-et-Marne","78":"Yvelines","79":"Deux-Sèvres","80":"Somme","81":"Tarn","82":"Tarn-et-Garonne","83":"Var","84":"Vaucluse","85":"Vendée","86":"Vienne","87":"Haute-Vienne","88":"Vosges","89":"Yonne","90":"Territoire de Belfort","91":"Essonne","92":"Hauts-de-Seine","93":"Seine-Saint-Denis","94":"Val-de-Marne","95":"Val-d'Oise"};
+const LVL=["geen gegevens","laag","gemiddeld","hoog","zeer hoog"];
+const COL=["#C7CBCC","#5AA469","#E9C13D","#E2812F","#C6362C"];
+const SOUTH=["04","05","06","07","11","13","2A","2B","26","30","31","32","33","34","40","46","47","48","64","65","66","81","82","83","84","09","12","24"];
+function seed(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return((h>>>0)%1000)/1000}
+/* Deterministic July-like forecast until the real Météo-France endpoint is wired in. */
+const RISK={1:{},2:{}};
+for(const d in DEPTS){for(const j of[1,2]){
+  const r=seed(d+"|j"+j), s=SOUTH.includes(d);
+  let v; if(s) v=r<.12?2:r<.5?3:4; else v=r<.42?1:r<.82?2:3;
+  if(["75","92","93","94"].includes(d)&&r<.5) v=0;
+  RISK[j][d]=v;
+}}
+const HEAT=[
+  {id:1,dept:"83",place:"Le Luc, Var",lat:43.39,lon:6.31,n:14,frp:38,cluster:true,bearing:118,speed:22},
+  {id:2,dept:"11",place:"Corbières, Aude",lat:43.05,lon:2.72,n:9,frp:21,cluster:true,bearing:95,speed:29},
+  {id:3,dept:"33",place:"Landiras, Gironde",lat:44.55,lon:-0.42,n:6,frp:12,cluster:false,bearing:60,speed:17},
+  {id:4,dept:"2B",place:"Balagne, Haute-Corse",lat:42.55,lon:8.85,n:4,frp:9,cluster:false,bearing:140,speed:24},
+  {id:5,dept:"34",place:"Minervois, Hérault",lat:43.35,lon:2.85,n:3,frp:7,cluster:false,bearing:100,speed:19}
+];
+const ALERTS=[{dept:"83",place:"Var — prefectuur",lat:43.47,lon:6.02,txt:"FR-Alert: rookontwikkeling A57, ramen en deuren sluiten."}];
+const NEWS=[
+ {d:"28 juli 2026",t:"VIIRS-clustering aangescherpt",b:"Metingen worden nu ook op signaalsterkte gewogen. Vaste industriële warmtebronnen worden daarbij nog niet uitgesloten."},
+ {d:"21 juli 2026",t:"Rookmodule: baan op hoogte",b:"Naast leefniveau (10 m) is de berekende baan op 1500 m toegevoegd."},
+ {d:"12 juli 2026",t:"Météo des forêts weer volledig",b:"Voor alle departementen komt weer een gevaarniveau binnen, inclusief J+2."},
+ {d:"3 juli 2026",t:"CAMS-aerosolwaarschuwing",b:"U kunt een gebied tekenen en per e-mail een melding krijgen bij verhoogde aerosolwaarden."}
+];
+const ACCS=[
+ {t:"Wat betekenen VIIRS-detecties?",b:["<b>Dit zijn niet evenveel afzonderlijke natuurbranden.</b> VIIRS is een infraroodsensor op weersatellieten. Eén detectie markeert het middelpunt van een beeldpixel van ongeveer 375 × 375 meter waarin een hittebron of andere thermische afwijking is gemeten.","Dezelfde brand kan tijdens verschillende satellietpassages meermaals worden gemeten. Ook landbouwvuren, industrie of hete rook kunnen een detectie veroorzaken. Een cluster is geen bevestigde natuurbrand, maar een technische inschatting.","Bron: <a href='https://firms.modaps.eosdis.nasa.gov/map/'>NASA FIRMS</a>."]},
+ {t:"Kleur versus bolletjes",b:["De <b>kleur</b> van elk departement toont het verwachte brandgevaar — een voorspelling van Météo-France.","De <b>bolletjes en pins</b> tonen gemeten warmte en officiële meldingen van de afgelopen 24 uur. Dat zijn twee losse gegevensbronnen die los van elkaar gelezen moeten worden."]},
+ {t:"Rook- en aerosolpatronen (CAMS)",b:["De CAMS Aerosol Alerts-kaart toont modelverwachtingen tot drie dagen vooruit voor onder meer organische aerosolen, roet, PM2.5 en wind.","Deze informatie kan helpen bij het volgen van grote rook- of aerosolpluimen, maar bevestigt geen lokale natuurbrand."]},
+ {t:"Bij brand of rook",b:["Bel <b>18</b> of <b>112</b>; doven en slechthorenden <b>114</b>. Volg altijd FR-Alert en de instructies van prefectuur en mairie.","Deze dienst is informatief en vervangt geen officiële waarschuwing."]}
+];
+
+/* ---------------- helpers ---------------- */
+const $=s=>document.querySelector(s);
+function deptFromPostcode(p){
+  if(!/^\d{5}$/.test(p))return null;
+  let c=p.slice(0,2);
+  if(c==="20")c=+p<20200?"2A":"2B";
+  if(c==="97"||c==="98")return null;
+  return DEPTS[c]?c:null;
+}
+let day=1, layers={heat:true,alert:false};
+
+/* ---------------- tabs ---------------- */
+function go(t){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id==="s-"+t));
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));
+  $("#tb-sub").textContent = t==="rook" ? "Berekende windbaan · NASA FIRMS" : t==="kaart" ? "Météo des forêts · J+"+day : "Météo-France · vandaag";
+  if(t==="kaart"){ ensureMap(); requestAnimationFrame(()=>{ map&&map.invalidateSize(); computeSnaps(); }); setTimeout(()=>{ map&&map.invalidateSize(); computeSnaps(); },140); }
+  if(t==="rook"){ ensureMap2(); setTimeout(()=>map2&&map2.invalidateSize(),60); }
+}
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>go(b.dataset.tab));
+
+/* ---------------- start screen ---------------- */
+function riskCard(code,d){
+  const v=RISK[d][code];
+  return `<div class="risk" style="background:${COL[v]};${v===2?'color:#3B2E05':''}">
+    <div class="meta">${DEPTS[code]} (${code}) · J+${d}</div>
+    <div class="lvl">${LVL[v]}</div>
+    <div class="meta">${v>=3?'Wees extra voorzichtig met alles wat vuur of vonken maakt.':v===0?'Voor dit departement komt geen voorspelling binnen.':'Blijf alert bij droogte en wind.'}</div></div>`;
+}
+function checkPostcode(where){
+  const inp = where==="start" ? $("#pc-start") : $("#pc-map");
+  const out = where==="start" ? $("#pc-out") : null;
+  const code = deptFromPostcode(inp.value.trim());
+  if(!code){
+    const msg=`<p class="small" style="color:var(--ember);margin:0">Vul een Franse postcode van 5 cijfers in (bijvoorbeeld 34000).</p>`;
+    if(out) out.innerHTML=msg; else { $("#sheet-sub").textContent="Ongeldige postcode"; }
+    return;
+  }
+  if(where==="start"){ out.innerHTML = riskCard(code,1)+riskCard(code,2).replace('class="risk"','class="risk" style2'); out.innerHTML = riskCard(code,1)+`<div style="height:8px"></div>`+riskCard(code,2); }
+  else { showDept(code); snap(1); focusDept(code); }
+}
+function renderStart(){
+  const vals=Object.values(RISK[1]);
+  $("#k-vh").textContent=vals.filter(v=>v===4).length;
+  $("#k-h").textContent=vals.filter(v=>v===3).length;
+  const n=HEAT.reduce((a,h)=>a+h.n,0);
+  $("#k-v").textContent=n;
+  $("#k-a").textContent=ALERTS.length;
+  const worst=Math.max(...vals);
+  $("#livedot").style.background=COL[worst];
+  $("#livedot").style.boxShadow="0 0 0 3px "+COL[worst]+"3d";
+}
+renderStart();
+
+/* ---------------- news + accordions ---------------- */
+$("#newslist").innerHTML=NEWS.map(n=>`<div class="news"><time>${n.d}</time><h3>${n.t}</h3><p class="small" style="margin:0">${n.b}</p></div>`).join("");
+$("#accs").innerHTML=ACCS.map((a,i)=>`<div class="acc${i===0?' open':''}"><button onclick="this.parentNode.classList.toggle('open')">${a.t}<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="body">${a.b.map(p=>`<p>${p}</p>`).join("")}</div></div>`).join("");
+
+/* ---------------- map ---------------- */
+let map,geoLayer,heatLayer,alertLayer,geo=null,selected=null;
+const FR_BOUNDS=[[41.2,-5.4],[51.3,9.8]];
+function ensureMap(){
+  if(map) return;
+  map=L.map("map",{zoomControl:false,attributionControl:true,maxBounds:[[38,-11],[54,16]],maxBoundsViscosity:.9,scrollWheelZoom:false,tap:true});
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',opacity:.5,maxZoom:12}).addTo(map);
+  map.fitBounds(FR_BOUNDS);
+  map.on("click",()=>{ map.scrollWheelZoom.enable(); });
+  heatLayer=L.layerGroup().addTo(map); alertLayer=L.layerGroup();
+  drawPoints();
+  fetch("https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson")
+    .then(r=>r.json()).then(g=>{geo=g;drawGeo();buildList();})
+    .catch(()=>{ $("#sheet-sub").textContent="Departementsgrenzen konden niet worden geladen"; buildList(); });
+  $("#viirs-note").innerHTML=`<b>${HEAT.reduce((a,h)=>a+h.n,0)} thermische VIIRS-warmtemetingen</b> — dit zijn niet automatisch branden. ${HEAT.filter(h=>h.cluster).length} daarvan vormen een samenhangend cluster.`;
+  $("#dayseg").querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    day=+b.dataset.day;
+    $("#dayseg").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+    $("#tb-sub").textContent="Météo des forêts · J+"+day;
+    drawGeo(); buildList(); if(selected) showDept(selected);
+  });
+}
+function style1(f){
+  const c=f.properties.code, v=RISK[day][c];
+  return {fillColor:COL[v===undefined?0:v],fillOpacity:.82,color:"#F6F4EF",weight:.8};
+}
+function drawGeo(){
+  if(!geo) return;
+  if(geoLayer) geoLayer.remove();
+  geoLayer=L.geoJSON(geo,{style:style1,onEachFeature:(f,l)=>{
+    l.on("click",()=>{showDept(f.properties.code);snap(1);});
+  }}).addTo(map);
+  geoLayer.bringToBack();
+}
+function drawPoints(){
+  HEAT.forEach(h=>{
+    const r=10+Math.min(12,h.n);
+    L.circleMarker([h.lat,h.lon],{radius:r/1.6,color:"#fff",weight:2,fillColor:"#B8431E",fillOpacity:.85})
+      .bindTooltip(`${h.n} metingen · ${h.place}`,{direction:"top"})
+      .on("click",()=>showHeat(h)).addTo(heatLayer);
+  });
+  ALERTS.forEach(a=>{
+    L.marker([a.lat,a.lon],{icon:L.divIcon({className:"",html:`<div class="pin" style="width:22px;height:22px">!</div>`,iconSize:[22,22]})})
+      .bindTooltip(a.place,{direction:"top"}).on("click",()=>{
+        $("#sheet-title").textContent=a.place; $("#sheet-sub").textContent="Officiële melding";
+        detail(`<p class="small" style="margin:0 0 10px">${a.txt}</p><button class="btn ghost" onclick="clearDetail()">Terug naar lagen</button>`);
+        snap(1);
+      }).addTo(alertLayer);
+  });
+}
+function toggleLayer(k){
+  layers[k]=!layers[k];
+  const b=$(k==="heat"?"#lay-heat":"#lay-alert");
+  b.setAttribute("aria-pressed",layers[k]); b.classList.toggle("on",layers[k]);
+  const lay = k==="heat"?heatLayer:alertLayer;
+  if(!map) return;
+  layers[k]?lay.addTo(map):lay.remove();
+}
+function zoomBy(d){ map&&map.setZoom(map.getZoom()+d); }
+function resetMap(){ if(map){map.fitBounds(FR_BOUNDS); clearDetail();} }
+function focusDept(code){
+  if(!geoLayer) return;
+  geoLayer.eachLayer(l=>{ if(l.feature.properties.code===code){ map.fitBounds(l.getBounds().pad(.3)); l.setStyle({weight:2.4,color:"#15181A"}); } else l.setStyle(style1(l.feature)); });
+}
+function detail(html){ $("#sheet-detail").style.display="block"; $("#sheet-default").style.display="none"; $("#sheet-detail").innerHTML=html; }
+function clearDetail(){ selected=null; $("#sheet-detail").style.display="none"; $("#sheet-default").style.display="block";
+  $("#sheet-title").textContent="Kaartlagen & legenda"; $("#sheet-sub").textContent="Tik op een departement voor het risico";
+  if(geoLayer) geoLayer.eachLayer(l=>l.setStyle(style1(l.feature)));
+}
+function showDept(code){
+  selected=code;
+  const v=RISK[day][code]??0, hs=HEAT.filter(h=>h.dept===code), al=ALERTS.filter(a=>a.dept===code);
+  $("#sheet-title").textContent=DEPTS[code]+" ("+code+")";
+  $("#sheet-sub").textContent="Verwacht brandgevaar J+"+day;
+  detail(`${riskCard(code,day)}
+    <div style="height:14px"></div>
+    <div class="kv"><span>Satellietmetingen (24u)</span><b>${hs.reduce((a,h)=>a+h.n,0)}</b></div>
+    <div class="kv"><span>Samenhangende clusters</span><b>${hs.filter(h=>h.cluster).length}</b></div>
+    <div class="kv"><span>Officiële meldingen</span><b>${al.length}</b></div>
+    ${hs.length?`<h2 class="sec" style="margin:18px 0 2px">Hittebronnen</h2>`+hs.map(h=>`<button class="srcrow" onclick="showHeat(HEAT.find(x=>x.id===${h.id}))"><span class="n">${h.n}</span><span class="t"><b>${h.place}</b><span>${h.cluster?"cluster · ":""}FRP ${h.frp} MW</span></span><span aria-hidden="true">→</span></button>`).join(""):`<p class="small" style="margin:14px 0 0">Geen satellietmetingen in de afgelopen 24 uur.</p>`}
+    <div style="height:16px"></div>
+    <button class="btn ghost" onclick="clearDetail()">Terug naar lagen</button>`);
+  focusDept(code);
+}
+function showHeat(h){
+  $("#sheet-title").textContent=h.place;
+  $("#sheet-sub").textContent="VIIRS-warmtemeting · afgelopen 24 uur";
+  detail(`<div class="kv"><span>Metingen in dit gebied</span><b>${h.n}</b></div>
+   <div class="kv"><span>Vuurkracht (FRP)</span><b>${h.frp} MW</b></div>
+   <div class="kv"><span>Cluster</span><b>${h.cluster?"ja — technische inschatting":"nee"}</b></div>
+   <div class="kv"><span>Wind</span><b>${h.speed} km/u · ${bearingName(h.bearing)}</b></div>
+   <p class="small" style="margin:12px 0 0">Een meting markeert een pixel van ±375 × 375 m met een thermische afwijking — niet automatisch een natuurbrand.</p>
+   <div style="height:14px"></div>
+   <button class="btn" onclick="selectSource(${h.id});go('rook')">Bekijk de windbaan</button>
+   <div style="height:8px"></div>
+   <button class="btn ghost" onclick="clearDetail()">Terug naar lagen</button>`);
+  map.setView([h.lat,h.lon],8);
+}
+function bearingName(b){const n=["noord","noordoost","oost","zuidoost","zuid","zuidwest","west","noordwest"];return n[Math.round(b/45)%8];}
+function buildList(){
+  const rows=Object.keys(DEPTS).map(c=>({c,v:RISK[day][c]})).sort((a,b)=>b.v-a.v||a.c.localeCompare(b.c)).slice(0,18);
+  $("#deptlist").innerHTML=rows.map(r=>`<button class="deptrow" onclick="showDept('${r.c}')"><i class="swatch" style="background:${COL[r.v]}"></i><span class="nm">${DEPTS[r.c]}</span><span class="lv">${LVL[r.v]}</span><span aria-hidden="true" style="color:var(--muted)">→</span></button>`).join("");
+}
+
+/* ---------------- bottom sheet ---------------- */
+const sheet=$("#sheet"), grab=$("#grab"), sbody=$("#sheet-body");
+let snapPx=[], cur=0;
+function computeSnaps(){
+  const h=document.querySelector("#s-kaart .maparea").clientHeight;
+  if(!h) return;
+  sheet.style.height=Math.round(h*.86)+"px";
+  const sh=sheet.clientHeight;
+  snapPx=[sh-118, sh-Math.round(h*.5), 0].map(v=>Math.max(0,v)); // peek, half, full
+  apply(cur,false);
+}
+function apply(i,anim=true){
+  cur=Math.max(0,Math.min(2,i));
+  if(snapPx.length!==3){ computeSnaps(); if(snapPx.length!==3) return; }
+  if(!anim) sheet.classList.add("dragging");
+  sheet.style.transform="translateY("+snapPx[cur]+"px)";
+  if(!anim) requestAnimationFrame(()=>sheet.classList.remove("dragging"));
+  sbody.classList.toggle("locked",cur===0);
+}
+function snap(i){apply(i);}
+let drag=null;
+function onDown(e){
+  if(snapPx.length!==3){ computeSnaps(); if(snapPx.length!==3) return; }
+  drag={y:e.clientY,start:snapPx[cur],t:Date.now()};
+  sheet.classList.add("dragging"); sheet.setPointerCapture&&sheet.setPointerCapture(e.pointerId);
+}
+function onMove(e){
+  if(!drag) return;
+  const dy=e.clientY-drag.y;
+  let y=Math.max(snapPx[2],Math.min(snapPx[0],drag.start+dy));
+  sheet.style.transform="translateY("+y+"px)";
+}
+function onUp(e){
+  if(!drag) return;
+  const dy=e.clientY-drag.y, fast=Date.now()-drag.t<260&&Math.abs(dy)>26;
+  sheet.classList.remove("dragging");
+  let y=drag.start+dy, i;
+  if(fast) i=cur+(dy>0?1:-1);
+  else { let best=0,bd=1e9; snapPx.forEach((p,k)=>{const d=Math.abs(p-y);if(d<bd){bd=d;best=k}}); i=best; }
+  drag=null; apply(i);
+}
+grab.addEventListener("pointerdown",onDown);
+grab.addEventListener("pointermove",onMove);
+grab.addEventListener("pointerup",onUp);
+grab.addEventListener("pointercancel",onUp);
+grab.addEventListener("click",()=>{ /* tap toggles */ });
+$("#sheet-title").parentNode.addEventListener("pointerdown",onDown);
+$("#sheet-title").parentNode.addEventListener("pointermove",onMove);
+$("#sheet-title").parentNode.addEventListener("pointerup",onUp);
+window.addEventListener("resize",computeSnaps);
+
+/* ---------------- rook ---------------- */
+let map2,plumeLayer,srcSel=HEAT[0],hgt=10;
+function ensureMap2(){
+  if(map2){drawPlume();return;}
+  map2=L.map("map2",{zoomControl:false,attributionControl:true,scrollWheelZoom:false,dragging:true});
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',opacity:.55,maxZoom:12}).addTo(map2);
+  plumeLayer=L.layerGroup().addTo(map2);
+  drawPlume();
+}
+function dest(lat,lon,brg,km){
+  const R=6371,d=km/R,b=brg*Math.PI/180,p1=lat*Math.PI/180,l1=lon*Math.PI/180;
+  const p2=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(b));
+  const l2=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(p2));
+  return [p2*180/Math.PI,l2*180/Math.PI];
+}
+function plumePath(h){
+  const drift = hgt===10 ? 0 : 14;          // upper-level flow veers
+  const spd = hgt===10 ? h.speed : h.speed*1.9;
+  const pts=[[h.lat,h.lon]];
+  for(let t=1;t<=6;t++) pts.push(dest(h.lat,h.lon,h.bearing+drift*(t/6),spd*t));
+  return pts;
+}
+function drawPlume(){
+  if(!map2) return;
+  plumeLayer.clearLayers();
+  const pts=plumePath(srcSel);
+  L.polyline(pts,{color:"#B8431E",weight:hgt===10?5:4,opacity:.85,dashArray:hgt===10?null:"7 7"}).addTo(plumeLayer);
+  pts.slice(1).forEach((p,i)=>L.circleMarker(p,{radius:3+i*.9,color:"#B8431E",weight:1,fillColor:"#B8431E",fillOpacity:.25-i*.03}).addTo(plumeLayer));
+  L.circleMarker(pts[0],{radius:7,color:"#fff",weight:2,fillColor:"#B8431E",fillOpacity:1}).addTo(plumeLayer);
+  map2.fitBounds(L.latLngBounds(pts).pad(.25));
+  const spd=hgt===10?srcSel.speed:Math.round(srcSel.speed*1.9);
+  $("#plume-meta").innerHTML=`Vanaf <b>${srcSel.place}</b> · richting <b>${bearingName(srcSel.bearing+(hgt===10?0:14))}</b> · ${spd} km/u · baan tot ±${spd*6} km over 6 uur.`;
+  $("#srclist").querySelectorAll(".srcrow").forEach(r=>r.classList.toggle("on",+r.dataset.id===srcSel.id));
+}
+function setHeight(h){hgt=h;$("#hgt-10").classList.toggle("on",h===10);$("#hgt-1500").classList.toggle("on",h===1500);drawPlume();}
+function selectSource(id){srcSel=HEAT.find(h=>h.id===id);ensureMap2();drawPlume();$("#plume-out").innerHTML="";}
+$("#srclist").innerHTML=HEAT.map(h=>`<button class="srcrow" data-id="${h.id}" onclick="selectSource(${h.id})"><span class="n">${h.n}</span><span class="t"><b>${h.place}</b><span>${h.cluster?"cluster · ":""}wind ${h.speed} km/u ${bearingName(h.bearing)}</span></span><span aria-hidden="true" style="color:var(--muted)">→</span></button>`).join("");
+const PC={"83":[43.42,6.05],"11":[43.21,2.35],"33":[44.84,-0.58],"2B":[42.30,9.15],"34":[43.61,3.88],"13":[43.30,5.37],"06":[43.70,7.26],"30":[43.84,4.36],"84":[43.95,4.81],"66":[42.70,2.90],"31":[43.60,1.44],"40":[43.89,-0.50]};
+function checkPlume(){
+  const p=$("#pc-rook").value.trim(), code=deptFromPostcode(p), out=$("#plume-out");
+  if(!code){out.innerHTML=`<p class="small" style="color:var(--ember);margin:0">Vul een Franse postcode van 5 cijfers in.</p>`;return;}
+  const c=PC[code];
+  if(!c){out.innerHTML=`<p class="small" style="margin:0">Voor ${DEPTS[code]} (${code}) is geen referentiepunt beschikbaar in deze demo. Kies de kaart voor de baan.</p>`;return;}
+  const pts=plumePath(srcSel);
+  let min=1e9;
+  pts.forEach(p2=>{const d=L.latLng(c).distanceTo(L.latLng(p2))/1000;if(d<min)min=d;});
+  const near=min<35, mid=min<90;
+  out.innerHTML=`<div class="risk" style="background:${near?"var(--ember)":mid?"var(--r2)":"var(--forest)"};${mid&&!near?"color:#3B2E05":""}">
+    <div class="meta">${DEPTS[code]} (${code}) · ${hgt===10?"leefniveau":"op hoogte"}</div>
+    <div class="lvl">${near?"baan komt langs":mid?"baan in de buurt":"baan gaat elders heen"}</div>
+    <div class="meta">Kortste afstand tot de berekende baan: ±${Math.round(min)} km.</div></div>
+    <p class="small" style="margin:10px 0 0">Een berekende baan is geen rookmeting; volg FR-Alert voor officiële informatie.</p>`;
+}
+
+/* boot */
+const QS=new URLSearchParams(location.search);
+if(QS.has("embed")){
+  document.body.classList.add("embed");
+  const t=QS.get("tab");
+  go(["start","kaart","rook","nieuws","info"].includes(t)?t:"kaart");
+  setTimeout(()=>{ map&&map.invalidateSize(); computeSnaps(); },200);
+}
+window.addEventListener("load",()=>{ /* map sizes when tab opens */ });
+new ResizeObserver(()=>{ if(document.querySelector("#s-kaart").classList.contains("on")) computeSnaps(); })
+  .observe(document.querySelector("#s-kaart .maparea"));
+sheet.style.maxHeight="86%";
+</script>
+</body>
+</html>
