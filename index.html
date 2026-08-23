@@ -1547,7 +1547,7 @@ class Component extends DCLogic {
     (((this.state.cat || {}).klusonderwerpen) || []).forEach(k => {
       if (norm(k.titel + " " + k.wat).includes(q))
         out.push({kind:"KLUSSEN", fr:k.titel, nl:k.wat, where:k.secties + " secties · Klussen & verbouwen",
-          open:() => this.route(klusMod)});
+          open:() => this.route(klusMod && {...klusMod, url: k.url || klusMod.url})});
     });
     SC.forEach(s => {
       if (norm(s.title + " " + s.group).includes(q))

@@ -78,7 +78,7 @@
       "houdbaar": "jaren",
       "status": "inhoud af",
       "kind": "iframe",
-      "url": "",
+      "url": "https://klussen-in-frankrijk.vercel.app/#onderwerpen",
       "nagekeken": "2026-08-23",
       "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier."
     },
@@ -354,42 +354,56 @@
     {
       "titel": "Basis, planning & referenties",
       "wat": "Voorbereiding, vergunningen, vakmensen, woordenlijsten",
-      "secties": 9
+      "secties": 9,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=basis-en-planning#onderwerp-basis-en-planning"
     },
     {
       "titel": "Dak & isolatie",
       "wat": "Dakconstructies, dakramen, dakbedekking, isolatie binnen en buiten",
-      "secties": 2
+      "secties": 2,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=dak-en-isolatie#onderwerp-dak-en-isolatie"
     },
     {
       "titel": "Muren, afwerking & vocht",
       "wat": "Scheidingswanden, natuursteen, vochtproblemen, bevestigen",
-      "secties": 4
+      "secties": 4,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=muren-afwerking-en-vocht#onderwerp-muren-afwerking-en-vocht"
     },
     {
       "titel": "Vloeren, plafonds & trappen",
       "wat": "Balklagen, plankenvloeren, versteviging, tegelvloeren",
-      "secties": 1
+      "secties": 1,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=vloeren-plafonds-en-trappen#onderwerp-vloeren-plafonds-en-trappen"
     },
     {
       "titel": "Deuren, ramen & luiken",
       "wat": "Herstel, hang- en sluitwerk, beglazing, traditionele detaillering",
-      "secties": 1
+      "secties": 1,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=deuren-ramen-en-luiken#onderwerp-deuren-ramen-en-luiken"
     },
     {
       "titel": "Water, riool & sanitair",
       "wat": "Huiswaternet, afvoer, sanitair, fosse septique",
-      "secties": 2
+      "secties": 2,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=water-riool-en-sanitair#onderwerp-water-riool-en-sanitair"
     },
     {
       "titel": "Verwarming, ventilatie, elektra & gas",
       "wat": "Warmtehuishouding, ventilatie, technische installaties",
-      "secties": 3
+      "secties": 3,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=verwarming-ventilatie-elektra-en-gas#onderwerp-verwarming-ventilatie-elektra-en-gas"
     },
     {
       "titel": "Buitenruimte, gereedschap & projecten",
       "wat": "Terrassen en erf, gereedschap, complete praktijkprojecten",
-      "secties": 3
+      "secties": 3,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=buitenruimte-gereedschap-en-projecten#onderwerp-buitenruimte-gereedschap-en-projecten"
+    },
+    {
+      "titel": "Elektrische installatie",
+      "wat": "Twee dossiers samengebracht: meterkast, groepen en aarding binnenshuis, plus klussen voor tuin, bijgebouwen, poort en zwembad",
+      "secties": 2,
+      "url": "https://klussen-in-frankrijk.vercel.app/dossiers"
     }
   ],
   "nedergids": {
