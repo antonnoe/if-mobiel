@@ -1,0 +1,7834 @@
+{
+ "01": {
+  "code": "01",
+  "naam": "Ain",
+  "prefectuur": "Bourg-en-Bresse",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Bugey",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bugey Cerdon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bugey Manicle",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bugey Montagnieu",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de l'Ain",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de l'Ain Pays de Gex",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de l'Ain Revermont",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de l'Ain Val de Saône",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jean Anthelme Brillat-Savarin",
+    "geb": "1755",
+    "ovl": "1826",
+    "beroep": "rechter",
+    "plaats": "hôtel Brillat-Savarin",
+    "bekendheid": 57
+   },
+   {
+    "naam": "Jérôme Lalande",
+    "geb": "1732",
+    "ovl": "1807",
+    "beroep": "astronoom",
+    "plaats": "Bourg-en-Bresse",
+    "bekendheid": 53
+   },
+   {
+    "naam": "Edgar Quinet",
+    "geb": "1803",
+    "ovl": "1875",
+    "beroep": "schrijver",
+    "plaats": "Bourg-en-Bresse",
+    "bekendheid": 35
+   },
+   {
+    "naam": "Louise van Savoye",
+    "geb": "1476",
+    "ovl": "1531",
+    "beroep": "politicus",
+    "plaats": "Pont-d'Ain",
+    "bekendheid": 35
+   },
+   {
+    "naam": "François Clerc",
+    "geb": "1983",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Bourg-en-Bresse",
+    "bekendheid": 34
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "02": {
+  "code": "02",
+  "naam": "Aisne",
+  "prefectuur": "Laon",
+  "regio": "Hauts-de-France",
+  "producten": [
+   {
+    "naam": "Haricot de Soissons",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Maroilles",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Coteaux champenois",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Alexandre Dumas père",
+    "geb": "1802",
+    "ovl": "1870",
+    "beroep": "schrijver",
+    "plaats": "Villers-Cotterêts",
+    "bekendheid": 174
+   },
+   {
+    "naam": "Jean de La Fontaine",
+    "geb": "1621",
+    "ovl": "1695",
+    "beroep": "advocaat",
+    "plaats": "Château-Thierry",
+    "bekendheid": 145
+   },
+   {
+    "naam": "Jean Racine",
+    "geb": "",
+    "ovl": "1699",
+    "beroep": "schrijver",
+    "plaats": "La Ferté-Milon",
+    "bekendheid": 118
+   },
+   {
+    "naam": "Paul Claudel",
+    "geb": "1868",
+    "ovl": "1955",
+    "beroep": "schrijver",
+    "plaats": "Villeneuve-sur-Fère",
+    "bekendheid": 75
+   },
+   {
+    "naam": "Nicolas de Condorcet",
+    "geb": "1743",
+    "ovl": "1794",
+    "beroep": "schrijver",
+    "plaats": "Ribemont",
+    "bekendheid": 71
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "03": {
+  "code": "03",
+  "naam": "Allier",
+  "prefectuur": "Moulins",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Poulet du Bourbonnais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saint-Pourçain",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles du Charolais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charolais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Agneau du Bourbonnais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Boeuf Charolais du Bourbonnais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Jambon d'Auvergne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Saucisson sec d'Auvergne ou Saucisse sèche d'Auvergne",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "André Michael Lwoff",
+    "geb": "1902",
+    "ovl": "1994",
+    "beroep": "arts",
+    "plaats": "Ainay-le-Château",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Théodore de Banville",
+    "geb": "1823",
+    "ovl": "1891",
+    "beroep": "schrijver",
+    "plaats": "Moulins",
+    "bekendheid": 52
+   },
+   {
+    "naam": "Antoine Meillet",
+    "geb": "1866",
+    "ovl": "1936",
+    "beroep": "oriëntalist",
+    "plaats": "Moulins",
+    "bekendheid": 48
+   },
+   {
+    "naam": "Sandrine Bonnaire",
+    "geb": "1967",
+    "ovl": "",
+    "beroep": "scenarioschrijver",
+    "plaats": "Gannat",
+    "bekendheid": 47
+   },
+   {
+    "naam": "Georges Bidault",
+    "geb": "1899",
+    "ovl": "1983",
+    "beroep": "politicus",
+    "plaats": "Moulins",
+    "bekendheid": 44
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "04": {
+  "code": "04",
+  "naam": "Alpes-de-Haute-Provence",
+  "prefectuur": "Digne-les-Bains",
+  "regio": "Provence-Alpes-Côte d'Azur",
+  "producten": [
+   {
+    "naam": "Alpes-de-Haute-Provence",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pierrevert",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pommes des Alpes de Haute Durance",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Banon",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Farine de petit épeautre de haute Provence",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Huile d'olive de Haute-Provence",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Huile essentielle de lavande de Haute-Provence",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Melon de Cavaillon",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Pierre Gassendi",
+    "geb": "1592",
+    "ovl": "1655",
+    "beroep": "natuuronderzoeker",
+    "plaats": "Champtercier",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Jean Giono",
+    "geb": "1895",
+    "ovl": "1970",
+    "beroep": "scenarioschrijver",
+    "plaats": "Manosque",
+    "bekendheid": 56
+   },
+   {
+    "naam": "Paul Reynaud",
+    "geb": "1878",
+    "ovl": "1966",
+    "beroep": "minister",
+    "plaats": "Barcelonnette",
+    "bekendheid": 46
+   },
+   {
+    "naam": "Margaretha van Provence",
+    "geb": "1221",
+    "ovl": "1295",
+    "beroep": "",
+    "plaats": "Forcalquier",
+    "bekendheid": 45
+   },
+   {
+    "naam": "Pierre de Villeneuve",
+    "geb": "1763",
+    "ovl": "1806",
+    "beroep": "marineofficier",
+    "plaats": "Valensole",
+    "bekendheid": 34
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "05": {
+  "code": "05",
+  "naam": "Hautes-Alpes",
+  "prefectuur": "Gap",
+  "regio": "Provence-Alpes-Côte d'Azur",
+  "producten": [
+   {
+    "naam": "Hautes-Alpes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pommes des Alpes de Haute Durance",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Abricot des Baronnies",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Banon",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Farine de petit épeautre de haute Provence",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Huile essentielle de lavande de Haute-Provence",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Petit épeautre de haute Provence",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Génépi des Alpes",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Sébastien Ogier",
+    "geb": "1983",
+    "ovl": "",
+    "beroep": "rallyrijder",
+    "plaats": "Gap",
+    "bekendheid": 35
+   },
+   {
+    "naam": "Guillaume Farel",
+    "geb": "1489",
+    "ovl": "1565",
+    "beroep": "onderwijzer",
+    "plaats": "Gap",
+    "bekendheid": 30
+   },
+   {
+    "naam": "Pierre-Alexis Ponson du Terrail",
+    "geb": "1829",
+    "ovl": "1871",
+    "beroep": "schrijver",
+    "plaats": "Montmaur",
+    "bekendheid": 26
+   },
+   {
+    "naam": "Pierre Vaultier",
+    "geb": "1987",
+    "ovl": "",
+    "beroep": "snowboarder",
+    "plaats": "Briançon",
+    "bekendheid": 26
+   },
+   {
+    "naam": "Oronce Finé",
+    "geb": "1494",
+    "ovl": "1555",
+    "beroep": "astronoom",
+    "plaats": "Briançon",
+    "bekendheid": 25
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "06": {
+  "code": "06",
+  "naam": "Alpes-Maritimes",
+  "prefectuur": "Nice",
+  "regio": "Provence-Alpes-Côte d'Azur",
+  "producten": [
+   {
+    "naam": "Alpes-Maritimes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bellet",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Citron de Menton",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Huile d'olive de Nice",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Olive de Nice",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Provence",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Génépi des Alpes",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Agneau de Sisteron",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Giuseppe Garibaldi",
+    "geb": "1807",
+    "ovl": "1882",
+    "beroep": "schrijver",
+    "plaats": "Nice",
+    "bekendheid": 130
+   },
+   {
+    "naam": "Jean-Marie Gustave Le Clezio",
+    "geb": "1940",
+    "ovl": "",
+    "beroep": "schrijver",
+    "plaats": "Nice",
+    "bekendheid": 103
+   },
+   {
+    "naam": "Henry Cavendish",
+    "geb": "1731",
+    "ovl": "1810",
+    "beroep": "natuurkundige",
+    "plaats": "Nice",
+    "bekendheid": 90
+   },
+   {
+    "naam": "Hugo Lloris",
+    "geb": "1986",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Nice",
+    "bekendheid": 84
+   },
+   {
+    "naam": "Simone Veil",
+    "geb": "1927",
+    "ovl": "2017",
+    "beroep": "rechter",
+    "plaats": "Nice",
+    "bekendheid": 68
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "07": {
+  "code": "07",
+  "naam": "Ardèche",
+  "prefectuur": "Privas",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Cornas",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Saint-Andéol",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Jambon de l'Ardèche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saint-Péray",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saucisson de l'Ardèche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ardèche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ardèche Coteaux de l'Ardèche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Vivarais",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Henri Charrière",
+    "geb": "1906",
+    "ovl": "1973",
+    "beroep": "schrijver",
+    "plaats": "Saint-Étienne-de-Lugdarès",
+    "bekendheid": 43
+   },
+   {
+    "naam": "Auguste Bravais",
+    "geb": "1811",
+    "ovl": "1863",
+    "beroep": "astronoom",
+    "plaats": "Annonay",
+    "bekendheid": 37
+   },
+   {
+    "naam": "Clément Grenier",
+    "geb": "1991",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Annonay",
+    "bekendheid": 36
+   },
+   {
+    "naam": "Amandine Leynaud",
+    "geb": "1986",
+    "ovl": "",
+    "beroep": "handballer",
+    "plaats": "Aubenas",
+    "bekendheid": 29
+   },
+   {
+    "naam": "Franck Sauzée",
+    "geb": "1965",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Aubenas",
+    "bekendheid": 24
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "08": {
+  "code": "08",
+  "naam": "Ardennes",
+  "prefectuur": "Charleville-Mézières",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Boudin blanc de Rethel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Jambon sec des Ardennes ou Noix de jambon sec des Ardennes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Arthur Rimbaud",
+    "geb": "1854",
+    "ovl": "1891",
+    "beroep": "schrijver",
+    "plaats": "Charleville",
+    "bekendheid": 142
+   },
+   {
+    "naam": "Hippolyte Taine",
+    "geb": "1828",
+    "ovl": "1893",
+    "beroep": "schrijver",
+    "plaats": "Vouziers",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Nicolas Louis de Lacaille",
+    "geb": "1713",
+    "ovl": "1762",
+    "beroep": "schrijver",
+    "plaats": "Rumigny",
+    "bekendheid": 69
+   },
+   {
+    "naam": "Yannick Noah",
+    "geb": "1960",
+    "ovl": "",
+    "beroep": "zanger",
+    "plaats": "Sedan",
+    "bekendheid": 50
+   },
+   {
+    "naam": "Boudewijn II van Jeruzalem",
+    "geb": "1075",
+    "ovl": "1131",
+    "beroep": "politicus",
+    "plaats": "Rethel",
+    "bekendheid": 46
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "09": {
+  "code": "09",
+  "naam": "Ariège",
+  "prefectuur": "Foix",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Ariège",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ariège Coteaux de la Lèze",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ariège Coteaux du Plantaurel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cathare",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Tomme des Pyrénées",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Comté tolosan Coteaux et Terrasses de Montauban",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Comté tolosan Haute-Garonne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Comté Tolosan",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paus Benedictus XII",
+    "geb": "1280",
+    "ovl": "1342",
+    "beroep": "bisschop",
+    "plaats": "Saverdun",
+    "bekendheid": 76
+   },
+   {
+    "naam": "Pierre Bayle",
+    "geb": "1647",
+    "ovl": "1706",
+    "beroep": "schrijver",
+    "plaats": "Carla-Bayle",
+    "bekendheid": 72
+   },
+   {
+    "naam": "Gabriel Fauré",
+    "geb": "1845",
+    "ovl": "1924",
+    "beroep": "componist",
+    "plaats": "Pamiers",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Fabien Barthez",
+    "geb": "1971",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Lavelanet",
+    "bekendheid": 62
+   },
+   {
+    "naam": "Anna van Foix",
+    "geb": "1484",
+    "ovl": "1506",
+    "beroep": "soeverein",
+    "plaats": "Foix",
+    "bekendheid": 37
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "10": {
+  "code": "10",
+  "naam": "Aube",
+  "prefectuur": "Troyes",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Rosé des Riceys",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chaource",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Brie de Melun",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Soumaintrain",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Brillat-Savarin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Coteaux champenois",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Georges Danton",
+    "geb": "1759",
+    "ovl": "1794",
+    "beroep": "advocaat",
+    "plaats": "Arcis-sur-Aube",
+    "bekendheid": 91
+   },
+   {
+    "naam": "Paus Urbanus IV",
+    "geb": "1185",
+    "ovl": "1264",
+    "beroep": "diplomaat",
+    "plaats": "Troyes",
+    "bekendheid": 76
+   },
+   {
+    "naam": "Chretien de Troyes",
+    "geb": "1135",
+    "ovl": "1181",
+    "beroep": "schrijver",
+    "plaats": "Troyes",
+    "bekendheid": 75
+   },
+   {
+    "naam": "Jean Tirole",
+    "geb": "1953",
+    "ovl": "",
+    "beroep": "econoom",
+    "plaats": "Troyes",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Gaston Bachelard",
+    "geb": "1884",
+    "ovl": "1962",
+    "beroep": "schrijver",
+    "plaats": "Bar-sur-Aube",
+    "bekendheid": 60
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "11": {
+  "code": "11",
+  "naam": "Aude",
+  "prefectuur": "Carcassonne",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Aude",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aude Coteaux de Miramont",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aude Coteaux de la Cabrerisse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aude Côtes de Lastours",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aude Côtes de Prouilhe",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aude Hauterive",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aude La côte rêvée",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aude Pays de Cucugnan",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Albert Fert",
+    "geb": "1938",
+    "ovl": "",
+    "beroep": "natuurkundige",
+    "plaats": "Carcassonne",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Paul Sabatier",
+    "geb": "1854",
+    "ovl": "1941",
+    "beroep": "academisch docent",
+    "plaats": "Carcassonne",
+    "bekendheid": 71
+   },
+   {
+    "naam": "Sint-Sebastiaan",
+    "geb": "0255",
+    "ovl": "0287",
+    "beroep": "officier",
+    "plaats": "Narbonne",
+    "bekendheid": 68
+   },
+   {
+    "naam": "Marcus Aurelius Carus",
+    "geb": "0224",
+    "ovl": "0283",
+    "beroep": "militair",
+    "plaats": "Narbonne",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Charles Trenet",
+    "geb": "1913",
+    "ovl": "2001",
+    "beroep": "acteur",
+    "plaats": "Narbonne",
+    "bekendheid": 45
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "12": {
+  "code": "12",
+  "naam": "Aveyron",
+  "prefectuur": "Rodez",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Aveyron",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Millau",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Estaing",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Marcillac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Entraygues - Le Fel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Laguiole",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Tome fraîche de l'Aubrac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Génisse Fleur d'Aubrac",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Émile Borel",
+    "geb": "1871",
+    "ovl": "1956",
+    "beroep": "politicus",
+    "plaats": "Saint-Affrique",
+    "bekendheid": 56
+   },
+   {
+    "naam": "Jean-Henri Fabre",
+    "geb": "1823",
+    "ovl": "1915",
+    "beroep": "natuuronderzoeker",
+    "plaats": "Saint-Léons",
+    "bekendheid": 53
+   },
+   {
+    "naam": "Louis de Bonald",
+    "geb": "1754",
+    "ovl": "1840",
+    "beroep": "schrijver",
+    "plaats": "château du Monna",
+    "bekendheid": 45
+   },
+   {
+    "naam": "Pierre Soulages",
+    "geb": "1919",
+    "ovl": "2022",
+    "beroep": "illustrator",
+    "plaats": "Rodez",
+    "bekendheid": 37
+   },
+   {
+    "naam": "Raymond Berengarius III van Barcelona",
+    "geb": "1082",
+    "ovl": "1131",
+    "beroep": "heerser",
+    "plaats": "Rodez",
+    "bekendheid": 33
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "13": {
+  "code": "13",
+  "naam": "Bouches-du-Rhône",
+  "prefectuur": "Marseille",
+  "regio": "Provence-Alpes-Côte d'Azur",
+  "producten": [
+   {
+    "naam": "Alpilles",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cassis",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Foin de Crau",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Huile d'olive de la vallée des Baux-de-Provence",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Les Baux de Provence",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Palette",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pays des Bouches-du-Rhône",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pays des Bouches-du-Rhône Terre de Camargue",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Zinédine Zidane",
+    "geb": "1972",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "16e arrondissement de Marseille",
+    "bekendheid": 144
+   },
+   {
+    "naam": "Paul Cézanne",
+    "geb": "1839",
+    "ovl": "1906",
+    "beroep": "kunstschilder",
+    "plaats": "Aix-en-Provence",
+    "bekendheid": 139
+   },
+   {
+    "naam": "Frédéric Mistral",
+    "geb": "1830",
+    "ovl": "1914",
+    "beroep": "schrijver",
+    "plaats": "Maillane",
+    "bekendheid": 124
+   },
+   {
+    "naam": "Nostradamus",
+    "geb": "1503",
+    "ovl": "1566",
+    "beroep": "astronoom",
+    "plaats": "Saint-Rémy-de-Provence",
+    "bekendheid": 122
+   },
+   {
+    "naam": "Adolphe Thiers",
+    "geb": "1797",
+    "ovl": "1877",
+    "beroep": "schrijver",
+    "plaats": "Marseille",
+    "bekendheid": 84
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "14": {
+  "code": "14",
+  "naam": "Calvados",
+  "prefectuur": "Caen",
+  "regio": "Normandie",
+  "producten": [
+   {
+    "naam": "Calvados",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Calvados Grisy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pays d'Auge Cambremer",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beurre et crème d'Isigny",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Calvados Pays d'Auge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Livarot",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pays d'Auge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Camembert de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Octave Mirbeau",
+    "geb": "1848",
+    "ovl": "1917",
+    "beroep": "schrijver",
+    "plaats": "Trévières",
+    "bekendheid": 161
+   },
+   {
+    "naam": "Pierre-Simon Laplace",
+    "geb": "1749",
+    "ovl": "1827",
+    "beroep": "schrijver",
+    "plaats": "Beaumont-en-Auge",
+    "bekendheid": 127
+   },
+   {
+    "naam": "Willem de Veroveraar",
+    "geb": "1028",
+    "ovl": "1087",
+    "beroep": "monarch",
+    "plaats": "Falaise",
+    "bekendheid": 113
+   },
+   {
+    "naam": "Erik Satie",
+    "geb": "1866",
+    "ovl": "1925",
+    "beroep": "componist",
+    "plaats": "Honfleur",
+    "bekendheid": 84
+   },
+   {
+    "naam": "Jules Dumont d'Urville",
+    "geb": "1790",
+    "ovl": "1842",
+    "beroep": "zeeman",
+    "plaats": "Condé-sur-Noireau",
+    "bekendheid": 53
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "15": {
+  "code": "15",
+  "naam": "Cantal",
+  "prefectuur": "Aurillac",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Entraygues - Le Fel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saint-Nectaire",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fourme d'Ambert",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Laguiole",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Tome fraîche de l'Aubrac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Agneau de Lozère",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Génisse Fleur d'Aubrac",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Agneau de l'Aveyron",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Georges Pompidou",
+    "geb": "1911",
+    "ovl": "1974",
+    "beroep": "politicus",
+    "plaats": "Montboudif",
+    "bekendheid": 142
+   },
+   {
+    "naam": "Paul Doumer",
+    "geb": "1857",
+    "ovl": "1932",
+    "beroep": "politicus",
+    "plaats": "Aurillac",
+    "bekendheid": 61
+   },
+   {
+    "naam": "Jacques Paul Migne",
+    "geb": "1800",
+    "ovl": "1875",
+    "beroep": "schrijver",
+    "plaats": "Saint-Flour",
+    "bekendheid": 37
+   },
+   {
+    "naam": "Jean Todt",
+    "geb": "1946",
+    "ovl": "",
+    "beroep": "rallynavigator",
+    "plaats": "Pierrefort",
+    "bekendheid": 35
+   },
+   {
+    "naam": "Marie Marvingt",
+    "geb": "1875",
+    "ovl": "1963",
+    "beroep": "schrijver",
+    "plaats": "Aurillac",
+    "bekendheid": 25
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "16": {
+  "code": "16",
+  "naam": "Charente",
+  "prefectuur": "Angoulême",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Cassis de Saintonge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Charente",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Charente-Maritime",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Ile d'Oléron",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Ile de Ré",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Saint-Sornin",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cognac Borderies",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "François Mitterrand",
+    "geb": "1916",
+    "ovl": "1996",
+    "beroep": "advocaat",
+    "plaats": "maison natale de François Mitterrand",
+    "bekendheid": 135
+   },
+   {
+    "naam": "Charles-Augustin de Coulomb",
+    "geb": "1736",
+    "ovl": "1806",
+    "beroep": "militair",
+    "plaats": "Angoulême",
+    "bekendheid": 100
+   },
+   {
+    "naam": "Frans I van Frankrijk",
+    "geb": "1494",
+    "ovl": "1547",
+    "beroep": "politicus",
+    "plaats": "Cognac",
+    "bekendheid": 92
+   },
+   {
+    "naam": "Margaretha van Valois",
+    "geb": "1492",
+    "ovl": "1549",
+    "beroep": "koning",
+    "plaats": "Angoulême",
+    "bekendheid": 68
+   },
+   {
+    "naam": "Jean Monnet",
+    "geb": "1888",
+    "ovl": "1979",
+    "beroep": "politicus",
+    "plaats": "Cognac",
+    "bekendheid": 57
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "17": {
+  "code": "17",
+  "naam": "Charente-Maritime",
+  "prefectuur": "La Rochelle",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Huîtres Marennes Oléron",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pomme de terre de l'Ile de Ré",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Sel de l'île de Ré ou Fleur de sel de l'île de Ré",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Asperges du Blayais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Charente",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Charente-Maritime",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Charentais Ile d'Oléron",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Samuel de Champlain",
+    "geb": "1574",
+    "ovl": "1635",
+    "beroep": "militair",
+    "plaats": "Hiers-Brouage",
+    "bekendheid": 72
+   },
+   {
+    "naam": "William-Adolphe Bouguereau",
+    "geb": "1825",
+    "ovl": "1905",
+    "beroep": "kunstschilder",
+    "plaats": "La Rochelle",
+    "bekendheid": 63
+   },
+   {
+    "naam": "Maurice Merleau-Ponty",
+    "geb": "1908",
+    "ovl": "1961",
+    "beroep": "professor",
+    "plaats": "Rochefort",
+    "bekendheid": 59
+   },
+   {
+    "naam": "Pierre Loti",
+    "geb": "1850",
+    "ovl": "1923",
+    "beroep": "schrijver",
+    "plaats": "Rochefort",
+    "bekendheid": 57
+   },
+   {
+    "naam": "Agrippa d'Aubigné",
+    "geb": "1552",
+    "ovl": "1630",
+    "beroep": "schrijver",
+    "plaats": "Pons",
+    "bekendheid": 46
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "18": {
+  "code": "18",
+  "naam": "Cher",
+  "prefectuur": "Bourges",
+  "regio": "Centre-Val de Loire",
+  "producten": [
+   {
+    "naam": "Menetou-Salon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Quincy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Sancerre",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Châteaumeillant",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Cher et de l'Arnon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lentilles vertes du Berry",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Reuilly",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chavignol",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Lodewijk XI van Frankrijk",
+    "geb": "1423",
+    "ovl": "1483",
+    "beroep": "politicus",
+    "plaats": "Bourges",
+    "bekendheid": 85
+   },
+   {
+    "naam": "Berthe Morisot",
+    "geb": "1841",
+    "ovl": "1895",
+    "beroep": "kunstenaar",
+    "plaats": "Bourges",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Alain-Fournier",
+    "geb": "1886",
+    "ovl": "1914",
+    "beroep": "schrijver",
+    "plaats": "La Chapelle-d'Angillon",
+    "bekendheid": 52
+   },
+   {
+    "naam": "Julian Alaphilippe",
+    "geb": "1992",
+    "ovl": "",
+    "beroep": "wielrenner",
+    "plaats": "Saint-Amand-Montrond",
+    "bekendheid": 37
+   },
+   {
+    "naam": "Jean-Christophe Rufin",
+    "geb": "1952",
+    "ovl": "",
+    "beroep": "schrijver",
+    "plaats": "Bourges",
+    "bekendheid": 30
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "19": {
+  "code": "19",
+  "naam": "Corrèze",
+  "prefectuur": "Tulle",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Corrèze",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Corrèze Coteaux de la Vézère",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Corrèze vin de paille",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pays de Brive",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Agneau du Périgord",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Périgord",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pomme du Limousin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Cantal",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paus Gregorius XI",
+    "geb": "1331",
+    "ovl": "1378",
+    "beroep": "katholiek priester",
+    "plaats": "Rosiers-d'Égletons",
+    "bekendheid": 77
+   },
+   {
+    "naam": "Paus Innocentius VI",
+    "geb": "1285",
+    "ovl": "1362",
+    "beroep": "katholiek bisschop",
+    "plaats": "Beyssac",
+    "bekendheid": 76
+   },
+   {
+    "naam": "Paus Clemens VI",
+    "geb": "1291",
+    "ovl": "1352",
+    "beroep": "bisschop",
+    "plaats": "Rosiers-d'Égletons",
+    "bekendheid": 75
+   },
+   {
+    "naam": "Laurent Koscielny",
+    "geb": "1985",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Tulle",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Éric Rohmer",
+    "geb": "1920",
+    "ovl": "2010",
+    "beroep": "acteur",
+    "plaats": "Tulle",
+    "bekendheid": 54
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "21": {
+  "code": "21",
+  "naam": "Côte-d'Or",
+  "prefectuur": "Dijon",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Aloxe-Corton",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aloxe-Corton premier cru",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aloxe-Corton premier cru Clos des Maréchaudes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aloxe-Corton premier cru Clos du Chapitre",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aloxe-Corton premier cru La Coutière",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aloxe-Corton premier cru La Maréchaude",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aloxe-Corton premier cru La Toppe au Vert",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Aloxe-Corton premier cru Les Chaillots",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Gustave Eiffel",
+    "geb": "1832",
+    "ovl": "1923",
+    "beroep": "architect",
+    "plaats": "Dijon",
+    "bekendheid": 100
+   },
+   {
+    "naam": "Georges-Louis Leclerc de Buffon",
+    "geb": "1707",
+    "ovl": "1788",
+    "beroep": "natuuronderzoeker",
+    "plaats": "Montbard",
+    "bekendheid": 90
+   },
+   {
+    "naam": "Bernardus van Clairvaux",
+    "geb": "1091",
+    "ovl": "1153",
+    "beroep": "schrijver",
+    "plaats": "Fontaine-lès-Dijon",
+    "bekendheid": 90
+   },
+   {
+    "naam": "Jean-Philippe Rameau",
+    "geb": "1683",
+    "ovl": "1764",
+    "beroep": "schrijver",
+    "plaats": "Dijon",
+    "bekendheid": 70
+   },
+   {
+    "naam": "Karel de Stoute",
+    "geb": "1433",
+    "ovl": "1477",
+    "beroep": "politicus",
+    "plaats": "Dijon",
+    "bekendheid": 66
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "22": {
+  "code": "22",
+  "naam": "Côtes-d'Armor",
+  "prefectuur": "Saint-Brieuc",
+  "regio": "Bretagne",
+  "producten": [
+   {
+    "naam": "Coco de Paimpol",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coquille Saint-Jacques des Côtes-dArmor",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pâté de campagne breton",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Whisky breton ou Whisky de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eau-de-vie de cidre de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pommeau de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Prés-salés du Mont-Saint-Michel",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Farine de blé noir de Bretagne - Gwinizh du Breizh",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Ernest Renan",
+    "geb": "1823",
+    "ovl": "1892",
+    "beroep": "schrijver",
+    "plaats": "Tréguier",
+    "bekendheid": 82
+   },
+   {
+    "naam": "Bernard Hinault",
+    "geb": "1954",
+    "ovl": "",
+    "beroep": "agrariër",
+    "plaats": "Yffiniac",
+    "bekendheid": 47
+   },
+   {
+    "naam": "Robin Le Normand",
+    "geb": "1996",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Pabu",
+    "bekendheid": 46
+   },
+   {
+    "naam": "Auguste Villiers de l'Isle-Adam",
+    "geb": "1838",
+    "ovl": "1889",
+    "beroep": "schrijver",
+    "plaats": "Saint-Brieuc",
+    "bekendheid": 44
+   },
+   {
+    "naam": "Patrick Dewaere",
+    "geb": "1947",
+    "ovl": "1982",
+    "beroep": "acteur",
+    "plaats": "Saint-Brieuc",
+    "bekendheid": 44
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "23": {
+  "code": "23",
+  "naam": "Creuse",
+  "prefectuur": "Guéret",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Pomme du Limousin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Agneau du Bourbonnais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Boeuf Charolais du Bourbonnais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles du Berry",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc du Limousin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Agneau du Limousin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Veau du Limousin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles dAuvergne",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Raymond Poulidor",
+    "geb": "1936",
+    "ovl": "2019",
+    "beroep": "kapper",
+    "plaats": "Masbaraud-Mérignat",
+    "bekendheid": 32
+   },
+   {
+    "naam": "Marcel Jouhandeau",
+    "geb": "1888",
+    "ovl": "1979",
+    "beroep": "schrijver",
+    "plaats": "Guéret",
+    "bekendheid": 30
+   },
+   {
+    "naam": "Pierre Michon",
+    "geb": "1945",
+    "ovl": "",
+    "beroep": "schrijver",
+    "plaats": "Châtelus-le-Marcheix",
+    "bekendheid": 27
+   },
+   {
+    "naam": "Hubert Védrine",
+    "geb": "1947",
+    "ovl": "",
+    "beroep": "diplomaat",
+    "plaats": "Bellegarde-en-Marche",
+    "bekendheid": 24
+   },
+   {
+    "naam": "Pierre d'Aubusson",
+    "geb": "1423",
+    "ovl": "1503",
+    "beroep": "krijger monnik",
+    "plaats": "Le Monteil-au-Vicomte",
+    "bekendheid": 23
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "24": {
+  "code": "24",
+  "naam": "Dordogne",
+  "prefectuur": "Périgueux",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Bergerac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Bergerac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Montravel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Haut-Montravel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Monbazillac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Montravel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pécharmant",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Périgord Dordogne",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Michel de Montaigne",
+    "geb": "1533",
+    "ovl": "1592",
+    "beroep": "schrijver",
+    "plaats": "Saint-Michel-de-Montaigne",
+    "bekendheid": 140
+   },
+   {
+    "naam": "Étienne de la Boétie",
+    "geb": "1530",
+    "ovl": "1563",
+    "beroep": "rechter",
+    "plaats": "Sarlat-la-Canéda",
+    "bekendheid": 69
+   },
+   {
+    "naam": "François Fénelon",
+    "geb": "1651",
+    "ovl": "1715",
+    "beroep": "schrijver",
+    "plaats": "Sainte-Mondane",
+    "bekendheid": 69
+   },
+   {
+    "naam": "Filips I van Frankrijk",
+    "geb": "1052",
+    "ovl": "1108",
+    "beroep": "monarch",
+    "plaats": "Champagne-et-Fontaine",
+    "bekendheid": 64
+   },
+   {
+    "naam": "Joseph Joubert",
+    "geb": "1754",
+    "ovl": "1824",
+    "beroep": "schrijver",
+    "plaats": "Montignac-Lascaux",
+    "bekendheid": 58
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "25": {
+  "code": "25",
+  "naam": "Doubs",
+  "prefectuur": "Besançon",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Absinthe de Pontarlier",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Mont d'Or ou Vacherin du Haut-Doubs",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Macvin du Jura",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Marc du Jura",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bois du Jura",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Buffard",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Coteaux de Champlitte",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Victor Hugo",
+    "geb": "1802",
+    "ovl": "1885",
+    "beroep": "schrijver",
+    "plaats": "Besançon",
+    "bekendheid": 267
+   },
+   {
+    "naam": "Pierre-Joseph Proudhon",
+    "geb": "1809",
+    "ovl": "1865",
+    "beroep": "schrijver",
+    "plaats": "Besançon",
+    "bekendheid": 106
+   },
+   {
+    "naam": "Georges Cuvier",
+    "geb": "1769",
+    "ovl": "1832",
+    "beroep": "natuuronderzoeker",
+    "plaats": "Montbéliard",
+    "bekendheid": 86
+   },
+   {
+    "naam": "Gustave Courbet",
+    "geb": "1819",
+    "ovl": "1877",
+    "beroep": "kunstenaar",
+    "plaats": "Ornans",
+    "bekendheid": 81
+   },
+   {
+    "naam": "Paus Calixtus II",
+    "geb": "1065",
+    "ovl": "1124",
+    "beroep": "schrijver",
+    "plaats": "Quingey",
+    "bekendheid": 77
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "26": {
+  "code": "26",
+  "naam": "Drôme",
+  "prefectuur": "Valence",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Ail de la Drôme",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Châtillon-en-Diois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette de Die",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de Die",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux des Baronnies",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Crozes-Hermitage",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Crémant de Die",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Nyons",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paul Ricœur",
+    "geb": "1913",
+    "ovl": "2005",
+    "beroep": "vertaler",
+    "plaats": "Valence",
+    "bekendheid": 57
+   },
+   {
+    "naam": "Émile Loubet",
+    "geb": "1838",
+    "ovl": "1929",
+    "beroep": "advocaat",
+    "plaats": "Marsanne",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Diane de Poitiers",
+    "geb": "1499",
+    "ovl": "1566",
+    "beroep": "hofdame",
+    "plaats": "Saint-Vallier",
+    "bekendheid": 45
+   },
+   {
+    "naam": "Romain Saïss",
+    "geb": "1990",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Bourg-de-Péage",
+    "bekendheid": 44
+   },
+   {
+    "naam": "Émile Augier",
+    "geb": "1820",
+    "ovl": "1889",
+    "beroep": "schrijver",
+    "plaats": "Valence",
+    "bekendheid": 40
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "27": {
+  "code": "27",
+  "naam": "Eure",
+  "prefectuur": "Évreux",
+  "regio": "Normandie",
+  "producten": [
+   {
+    "naam": "Calvados Pays d'Auge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Livarot",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pays d'Auge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles de Houdan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Camembert de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Huître de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pont-l'Évêque",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eaux-de-vie de poiré de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Nicolas Poussin",
+    "geb": "1594",
+    "ovl": "1665",
+    "beroep": "kunstschilder",
+    "plaats": "Les Andelys",
+    "bekendheid": 91
+   },
+   {
+    "naam": "Ousmane Dembélé",
+    "geb": "1997",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Vernon",
+    "bekendheid": 86
+   },
+   {
+    "naam": "Augustin Fresnel",
+    "geb": "1788",
+    "ovl": "1827",
+    "beroep": "ingenieur",
+    "plaats": "Broglie",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Laetitia Casta",
+    "geb": "1978",
+    "ovl": "",
+    "beroep": "acteur",
+    "plaats": "Pont-Audemer",
+    "bekendheid": 56
+   },
+   {
+    "naam": "Léon Walras",
+    "geb": "1834",
+    "ovl": "1910",
+    "beroep": "professor",
+    "plaats": "Évreux",
+    "bekendheid": 51
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "28": {
+  "code": "28",
+  "naam": "Eure-et-Loir",
+  "prefectuur": "Chartres",
+  "regio": "Centre-Val de Loire",
+  "producten": [
+   {
+    "naam": "Cidre du Perche ou Perche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles de Houdan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Porc de la Sarthe",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de lOrléanais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles du Maine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "ufs de Loué",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Calvados",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Cidre de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Gustave Le Bon",
+    "geb": "1841",
+    "ovl": "1931",
+    "beroep": "arts",
+    "plaats": "Nogent-le-Rotrou",
+    "bekendheid": 85
+   },
+   {
+    "naam": "François Philidor",
+    "geb": "1726",
+    "ovl": "1795",
+    "beroep": "acteur",
+    "plaats": "Dreux",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Jacques Pierre Brissot",
+    "geb": "1754",
+    "ovl": "1793",
+    "beroep": "rechter",
+    "plaats": "Chartres",
+    "bekendheid": 47
+   },
+   {
+    "naam": "Johanna van Frankrijk",
+    "geb": "1464",
+    "ovl": "1505",
+    "beroep": "abdis",
+    "plaats": "Nogent-le-Roi",
+    "bekendheid": 46
+   },
+   {
+    "naam": "Michel Chasles",
+    "geb": "1793",
+    "ovl": "1880",
+    "beroep": "natuurkundige",
+    "plaats": "Épernon",
+    "bekendheid": 44
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "29": {
+  "code": "29",
+  "naam": "Finistère",
+  "prefectuur": "Quimper",
+  "regio": "Bretagne",
+  "producten": [
+   {
+    "naam": "Cornouaille",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Oignon de Roscoff",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pâté de campagne breton",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Whisky breton ou Whisky de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eau-de-vie de cidre de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pommeau de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Farine de blé noir de Bretagne - Gwinizh du Breizh",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de Bretagne",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Gonzalo Higuaín",
+    "geb": "1987",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Brest",
+    "bekendheid": 75
+   },
+   {
+    "naam": "Alain Robbe-Grillet",
+    "geb": "1922",
+    "ovl": "2008",
+    "beroep": "scenarioschrijver",
+    "plaats": "Saint-Pierre-Quilbignon",
+    "bekendheid": 56
+   },
+   {
+    "naam": "René Laennec",
+    "geb": "1781",
+    "ovl": "1826",
+    "beroep": "arts",
+    "plaats": "Quimper",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Max Jacob",
+    "geb": "1876",
+    "ovl": "1944",
+    "beroep": "schrijver",
+    "plaats": "Quimper",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Yann Tiersen",
+    "geb": "1970",
+    "ovl": "",
+    "beroep": "componist",
+    "plaats": "Brest",
+    "bekendheid": 49
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "2A": {
+  "code": "2A",
+  "naam": "Corse-du-Sud",
+  "prefectuur": "Ajaccio",
+  "regio": "Corse",
+  "producten": [
+   {
+    "naam": "Ajaccio",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Corse ou Corse Figari",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Corse ou Corse Porto-Vecchio",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Corse ou Corse Sartène",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Brocciu",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bulagna de lIle de Beauté",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clémentine de Corse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coppa de Corse ou Coppa de Corse - Coppa di Corsica",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Napoleon Bonaparte",
+    "geb": "1769",
+    "ovl": "1821",
+    "beroep": "keizer",
+    "plaats": "Ajaccio",
+    "bekendheid": 286
+   },
+   {
+    "naam": "Alizée",
+    "geb": "1984",
+    "ovl": "",
+    "beroep": "zanger",
+    "plaats": "Ajaccio",
+    "bekendheid": 63
+   },
+   {
+    "naam": "Lodewijk Napoleon Bonaparte",
+    "geb": "1778",
+    "ovl": "1846",
+    "beroep": "koning",
+    "plaats": "Ajaccio",
+    "bekendheid": 61
+   },
+   {
+    "naam": "Carlo Maria Buonaparte",
+    "geb": "1746",
+    "ovl": "1785",
+    "beroep": "advocaat",
+    "plaats": "Ajaccio",
+    "bekendheid": 51
+   },
+   {
+    "naam": "Jérôme Bonaparte",
+    "geb": "1784",
+    "ovl": "1860",
+    "beroep": "politicus",
+    "plaats": "Ajaccio",
+    "bekendheid": 50
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "2B": {
+  "code": "2B",
+  "naam": "Haute-Corse",
+  "prefectuur": "Bastia",
+  "regio": "Corse",
+  "producten": [
+   {
+    "naam": "Kiwi de Corse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Muscat du Cap Corse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Noisette de Cervione - nuciola di Cervioni",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Patrimonio",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pomelo de Corse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Corse ou Corse Calvi",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Corse ou Corse Coteaux du Cap Corse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Brocciu",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jozef Bonaparte",
+    "geb": "1768",
+    "ovl": "1844",
+    "beroep": "politicus",
+    "plaats": "Corte",
+    "bekendheid": 70
+   },
+   {
+    "naam": "Adil Rami",
+    "geb": "1985",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Bastia",
+    "bekendheid": 59
+   },
+   {
+    "naam": "Pasquale Paoli",
+    "geb": "1725",
+    "ovl": "1807",
+    "beroep": "politicus",
+    "plaats": "Morosaglia",
+    "bekendheid": 52
+   },
+   {
+    "naam": "Frédéric Antonetti",
+    "geb": "1961",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Venzolasca",
+    "bekendheid": 29
+   },
+   {
+    "naam": "Horace Sébastiani",
+    "geb": "1772",
+    "ovl": "1851",
+    "beroep": "politicus",
+    "plaats": "Bastia",
+    "bekendheid": 23
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "30": {
+  "code": "30",
+  "naam": "Gard",
+  "prefectuur": "Nîmes",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Clairette de Bellegarde",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Costières de Nîmes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Pont du Gard",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cévennes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Chusclan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Saint-Gervais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Signargues",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Duché d'Uzès",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Alphonse Daudet",
+    "geb": "1840",
+    "ovl": "1897",
+    "beroep": "schrijver",
+    "plaats": "Nîmes",
+    "bekendheid": 107
+   },
+   {
+    "naam": "Paus Clemens IV",
+    "geb": "1190",
+    "ovl": "1268",
+    "beroep": "bisschop",
+    "plaats": "Saint-Gilles",
+    "bekendheid": 73
+   },
+   {
+    "naam": "François Guizot",
+    "geb": "1787",
+    "ovl": "1874",
+    "beroep": "schrijver",
+    "plaats": "Nîmes",
+    "bekendheid": 64
+   },
+   {
+    "naam": "Gaston Doumergue",
+    "geb": "1863",
+    "ovl": "1937",
+    "beroep": "politicus",
+    "plaats": "Aigues-Vives",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Laurent Blanc",
+    "geb": "1965",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Alès",
+    "bekendheid": 59
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "31": {
+  "code": "31",
+  "naam": "Haute-Garonne",
+  "prefectuur": "Toulouse",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Fronton",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saint-Sardos",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ail violet de Cadours",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles du Lauragais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Gascogne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Haricot tarbais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Jambon noir de Bigorre",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc noir de Bigorre",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Vincent Auriol",
+    "geb": "1884",
+    "ovl": "1966",
+    "beroep": "advocaat",
+    "plaats": "Revel",
+    "bekendheid": 63
+   },
+   {
+    "naam": "Carlos Gardel",
+    "geb": "1890",
+    "ovl": "1935",
+    "beroep": "componist",
+    "plaats": "Toulouse",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Blaise Matuidi",
+    "geb": "1987",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Toulouse",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Jean Dausset",
+    "geb": "1916",
+    "ovl": "2009",
+    "beroep": "arts",
+    "plaats": "Toulouse",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Philippe Mexès",
+    "geb": "1982",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Toulouse",
+    "bekendheid": 54
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "32": {
+  "code": "32",
+  "naam": "Gers",
+  "prefectuur": "Auch",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Gers",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Gers",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saint-Mont",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ail blanc de Lomagne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Gascogne Condomois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Tursan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ail violet de Cadours",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Armagnac",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jean Lannes",
+    "geb": "1769",
+    "ovl": "1809",
+    "beroep": "militair",
+    "plaats": "Lectoure",
+    "bekendheid": 51
+   },
+   {
+    "naam": "Charles de Batz-Castelmore d'Artagnan",
+    "geb": "1611",
+    "ovl": "1673",
+    "beroep": "schrijver",
+    "plaats": "château de Castelmore",
+    "bekendheid": 40
+   },
+   {
+    "naam": "Reginald Garrigou-Lagrange",
+    "geb": "1877",
+    "ovl": "1964",
+    "beroep": "katholiek priester",
+    "plaats": "Auch",
+    "bekendheid": 28
+   },
+   {
+    "naam": "Guillaume de Salluste Du Bartas",
+    "geb": "1544",
+    "ovl": "1590",
+    "beroep": "schrijver",
+    "plaats": "Monfort",
+    "bekendheid": 25
+   },
+   {
+    "naam": "Arnaud Denjoy",
+    "geb": "1884",
+    "ovl": "1974",
+    "beroep": "wiskundige",
+    "plaats": "Auch",
+    "bekendheid": 23
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "33": {
+  "code": "33",
+  "naam": "Gironde",
+  "prefectuur": "Bordeaux",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Agneau de Pauillac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Barsac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Blaye",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bordeaux",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bordeaux Haut-Benauge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bordeaux supérieur",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cadillac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Canon Fronsac",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Charles de Montesquieu",
+    "geb": "1689",
+    "ovl": "1755",
+    "beroep": "rechter",
+    "plaats": "château de La Brède",
+    "bekendheid": 159
+   },
+   {
+    "naam": "François Mauriac",
+    "geb": "1885",
+    "ovl": "1970",
+    "beroep": "scenarioschrijver",
+    "plaats": "Bordeaux",
+    "bekendheid": 118
+   },
+   {
+    "naam": "Jacques-Yves Cousteau",
+    "geb": "1910",
+    "ovl": "1997",
+    "beroep": "scenarioschrijver",
+    "plaats": "Saint-André-de-Cubzac",
+    "bekendheid": 101
+   },
+   {
+    "naam": "Jean-Joseph Sanfourche",
+    "geb": "1929",
+    "ovl": "2010",
+    "beroep": "beeldhouwer",
+    "plaats": "Bordeaux",
+    "bekendheid": 92
+   },
+   {
+    "naam": "Paus Clemens V",
+    "geb": "1264",
+    "ovl": "1314",
+    "beroep": "katholiek priester",
+    "plaats": "Villandraut",
+    "bekendheid": 77
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "34": {
+  "code": "34",
+  "naam": "Hérault",
+  "prefectuur": "Montpellier",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Clairette du Languedoc",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette du Languedoc Adissan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette du Languedoc Aspiran",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette du Languedoc Cabrières",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette du Languedoc Ceyras",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette du Languedoc Fontès",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette du Languedoc Le Bosc",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Clairette du Languedoc Lieuran-Cabrières",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Auguste Comte",
+    "geb": "1798",
+    "ovl": "1857",
+    "beroep": "schrijver",
+    "plaats": "Montpellier",
+    "bekendheid": 133
+   },
+   {
+    "naam": "Paul Valery",
+    "geb": "1871",
+    "ovl": "1945",
+    "beroep": "schrijver",
+    "plaats": "Sète",
+    "bekendheid": 95
+   },
+   {
+    "naam": "Frédéric Bazille",
+    "geb": "1841",
+    "ovl": "1870",
+    "beroep": "kunstschilder",
+    "plaats": "Montpellier",
+    "bekendheid": 58
+   },
+   {
+    "naam": "Jacobus I van Aragón",
+    "geb": "1208",
+    "ovl": "1276",
+    "beroep": "politicus",
+    "plaats": "Montpellier",
+    "bekendheid": 56
+   },
+   {
+    "naam": "Georges Brassens",
+    "geb": "1921",
+    "ovl": "1981",
+    "beroep": "singer-songwriter",
+    "plaats": "Sète",
+    "bekendheid": 55
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "35": {
+  "code": "35",
+  "naam": "Ille-et-Vilaine",
+  "prefectuur": "Rennes",
+  "regio": "Bretagne",
+  "producten": [
+   {
+    "naam": "Moules de bouchot de la baie du Mont-Saint-Michel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pâté de campagne breton",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Whisky breton ou Whisky de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eau-de-vie de cidre de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pommeau de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Prés-salés du Mont-Saint-Michel",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Farine de blé noir de Bretagne - Gwinizh du Breizh",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de Bretagne",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jacques Cartier",
+    "geb": "1492",
+    "ovl": "1557",
+    "beroep": "zeeman",
+    "plaats": "Saint-Malo",
+    "bekendheid": 160
+   },
+   {
+    "naam": "François De Chateaubriand",
+    "geb": "1768",
+    "ovl": "1848",
+    "beroep": "schrijver",
+    "plaats": "Saint-Malo",
+    "bekendheid": 94
+   },
+   {
+    "naam": "Julien Offray de La Mettrie",
+    "geb": "1709",
+    "ovl": "1751",
+    "beroep": "schrijver",
+    "plaats": "Saint-Malo",
+    "bekendheid": 62
+   },
+   {
+    "naam": "Pierre-Louis de Maupertuis",
+    "geb": "1698",
+    "ovl": "1759",
+    "beroep": "astronoom",
+    "plaats": "Saint-Malo",
+    "bekendheid": 58
+   },
+   {
+    "naam": "Hughes Félicité Robert de Lamennais",
+    "geb": "1782",
+    "ovl": "1854",
+    "beroep": "schrijver",
+    "plaats": "Saint-Malo",
+    "bekendheid": 47
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "36": {
+  "code": "36",
+  "naam": "Indre",
+  "prefectuur": "Châteauroux",
+  "regio": "Centre-Val de Loire",
+  "producten": [
+   {
+    "naam": "Pouligny-Saint-Pierre",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Châteaumeillant",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Cher et de l'Arnon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lentilles vertes du Berry",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Reuilly",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Valençay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Selles-sur-Cher",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Sainte-Maure de Touraine",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Gérard Depardieu",
+    "geb": "1948",
+    "ovl": "",
+    "beroep": "zanger",
+    "plaats": "Châteauroux",
+    "bekendheid": 101
+   },
+   {
+    "naam": "Luc Montagnier",
+    "geb": "1932",
+    "ovl": "2022",
+    "beroep": "onderzoeker",
+    "plaats": "Chabris",
+    "bekendheid": 76
+   },
+   {
+    "naam": "Hervé Faye",
+    "geb": "1814",
+    "ovl": "1902",
+    "beroep": "astronoom",
+    "plaats": "Saint-Benoît-du-Sault",
+    "bekendheid": 26
+   },
+   {
+    "naam": "Daniel Revenu",
+    "geb": "1942",
+    "ovl": "2024",
+    "beroep": "schermer",
+    "plaats": "Issoudun",
+    "bekendheid": 24
+   },
+   {
+    "naam": "Albert Aurier",
+    "geb": "1865",
+    "ovl": "1892",
+    "beroep": "schrijver",
+    "plaats": "Châteauroux",
+    "bekendheid": 23
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "37": {
+  "code": "37",
+  "naam": "Indre-et-Loire",
+  "prefectuur": "Tours",
+  "regio": "Centre-Val de Loire",
+  "producten": [
+   {
+    "naam": "Bourgueil",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chinon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Montlouis-sur-Loire",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saint-Nicolas-de-Bourgueil",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Touraine Azay-le-Rideau",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Touraine Noble Joué",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vouvray",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Loir",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "René Descartes",
+    "geb": "1596",
+    "ovl": "1650",
+    "beroep": "natuuronderzoeker",
+    "plaats": "Descartes",
+    "bekendheid": 252
+   },
+   {
+    "naam": "Honoré de Balzac",
+    "geb": "1799",
+    "ovl": "1850",
+    "beroep": "schrijver",
+    "plaats": "Tours",
+    "bekendheid": 175
+   },
+   {
+    "naam": "François Rabelais",
+    "geb": "1494",
+    "ovl": "1553",
+    "beroep": "schrijver",
+    "plaats": "Seuilly",
+    "bekendheid": 134
+   },
+   {
+    "naam": "Alfred de Vigny",
+    "geb": "1797",
+    "ovl": "1863",
+    "beroep": "schrijver",
+    "plaats": "Loches",
+    "bekendheid": 77
+   },
+   {
+    "naam": "Karel VIII van Frankrijk",
+    "geb": "1470",
+    "ovl": "1498",
+    "beroep": "politicus",
+    "plaats": "Amboise",
+    "bekendheid": 76
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "38": {
+  "code": "38",
+  "naam": "Isère",
+  "prefectuur": "Grenoble",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Isère",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Isère Balmes dauphinoises",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Isère Côteaux du Grésivaudan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Isère Trièves",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bleu du Vercors-Sassenage",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bois de Chartreuse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Raviole du Dauphiné",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Abymes",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Stendhal",
+    "geb": "1783",
+    "ovl": "1842",
+    "beroep": "schrijver",
+    "plaats": "Grenoble",
+    "bekendheid": 135
+   },
+   {
+    "naam": "Hector Berlioz",
+    "geb": "1803",
+    "ovl": "1869",
+    "beroep": "schrijver",
+    "plaats": "La Côte-Saint-André",
+    "bekendheid": 133
+   },
+   {
+    "naam": "Étienne Bonnot de Condillac",
+    "geb": "1714",
+    "ovl": "1780",
+    "beroep": "schrijver",
+    "plaats": "Grenoble",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Bradley Barcola",
+    "geb": "2002",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Villeurbanne",
+    "bekendheid": 48
+   },
+   {
+    "naam": "Henri Fantin-Latour",
+    "geb": "1836",
+    "ovl": "1904",
+    "beroep": "kunstschilder",
+    "plaats": "Grenoble",
+    "bekendheid": 46
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "39": {
+  "code": "39",
+  "naam": "Jura",
+  "prefectuur": "Lons-le-Saunier",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Arbois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Arbois Pupillin",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Château-Chalon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Crémant du Jura",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Jura",
+    "kenmerkend": true
+   },
+   {
+    "naam": "L'Etoile",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bleu de Gex haut Jura ou Bleu de Septmoncel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Macvin du Jura",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Louis Pasteur",
+    "geb": "1822",
+    "ovl": "1895",
+    "beroep": "scheikundige",
+    "plaats": "Dole",
+    "bekendheid": 210
+   },
+   {
+    "naam": "Rouget de Lisle",
+    "geb": "1760",
+    "ovl": "1836",
+    "beroep": "schrijver",
+    "plaats": "Lons-le-Saunier",
+    "bekendheid": 72
+   },
+   {
+    "naam": "Jules Grévy",
+    "geb": "1807",
+    "ovl": "1891",
+    "beroep": "advocaat",
+    "plaats": "Mont-sous-Vaudrey",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Xavier Bichat",
+    "geb": "1771",
+    "ovl": "1802",
+    "beroep": "arts",
+    "plaats": "Thoirette",
+    "bekendheid": 49
+   },
+   {
+    "naam": "Johanna II van Bourgondië",
+    "geb": "1288",
+    "ovl": "1330",
+    "beroep": "",
+    "plaats": "Bracon",
+    "bekendheid": 35
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "40": {
+  "code": "40",
+  "naam": "Landes",
+  "prefectuur": "Mont-de-Marsan",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Chalosse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Landes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Landes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Landes Coteaux de Chalosse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Landes Côtes de l'Adour",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Landes Sables de l'Océan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Landes Sables fauves",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Boeuf de Chalosse",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Henri Lefebvre",
+    "geb": "1901",
+    "ovl": "1991",
+    "beroep": "politicus",
+    "plaats": "Hagetmau",
+    "bekendheid": 45
+   },
+   {
+    "naam": "Jean-Charles de Borda",
+    "geb": "1733",
+    "ovl": "1799",
+    "beroep": "schrijver",
+    "plaats": "Dax",
+    "bekendheid": 35
+   },
+   {
+    "naam": "Joël Bats",
+    "geb": "1957",
+    "ovl": "",
+    "beroep": "doelverdediger",
+    "plaats": "Mont-de-Marsan",
+    "bekendheid": 32
+   },
+   {
+    "naam": "Jean-Louis Pons",
+    "geb": "1761",
+    "ovl": "1831",
+    "beroep": "astronoom",
+    "plaats": "Peyre",
+    "bekendheid": 27
+   },
+   {
+    "naam": "Roger Ducos",
+    "geb": "1747",
+    "ovl": "1816",
+    "beroep": "advocaat",
+    "plaats": "Dax",
+    "bekendheid": 25
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "41": {
+  "code": "41",
+  "naam": "Loir-et-Cher",
+  "prefectuur": "Blois",
+  "regio": "Centre-Val de Loire",
+  "producten": [
+   {
+    "naam": "Cheverny",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Vendômois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cour-Cheverny",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Touraine Mesland",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Touraine Oisly",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Touraine",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Touraine Amboise",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Touraine Chenonceaux",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Lodewijk XII van Frankrijk",
+    "geb": "1462",
+    "ovl": "1515",
+    "beroep": "soeverein",
+    "plaats": "château de Blois",
+    "bekendheid": 81
+   },
+   {
+    "naam": "Pierre de Ronsard",
+    "geb": "1524",
+    "ovl": "1585",
+    "beroep": "schrijver",
+    "plaats": "Château de la Possonnière",
+    "bekendheid": 77
+   },
+   {
+    "naam": "Stefanus van Engeland",
+    "geb": "1095",
+    "ovl": "1154",
+    "beroep": "monarch",
+    "plaats": "Blois",
+    "bekendheid": 68
+   },
+   {
+    "naam": "Denis Papin",
+    "geb": "1647",
+    "ovl": "1713",
+    "beroep": "wiskundige",
+    "plaats": "Chitenay",
+    "bekendheid": 57
+   },
+   {
+    "naam": "René Guénon",
+    "geb": "1886",
+    "ovl": "1951",
+    "beroep": "schrijver",
+    "plaats": "Blois",
+    "bekendheid": 54
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "42": {
+  "code": "42",
+  "naam": "Loire",
+  "prefectuur": "Saint-Étienne",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Château-Grillet",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côte roannaise",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Forez",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Urfé",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Urfé Ambierle",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Urfé Trelins",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fourme de Montbrison",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Rigotte de Condrieu",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paus Innocentius V",
+    "geb": "1225",
+    "ovl": "1276",
+    "beroep": "katholiek priester",
+    "plaats": "Tarentaise",
+    "bekendheid": 73
+   },
+   {
+    "naam": "Alain Prost",
+    "geb": "1955",
+    "ovl": "",
+    "beroep": "autocoureur",
+    "plaats": "Lorette",
+    "bekendheid": 71
+   },
+   {
+    "naam": "Pierre Boulez",
+    "geb": "1925",
+    "ovl": "2016",
+    "beroep": "schrijver",
+    "plaats": "Montbrison",
+    "bekendheid": 62
+   },
+   {
+    "naam": "Jules Massenet",
+    "geb": "1842",
+    "ovl": "1912",
+    "beroep": "componist",
+    "plaats": "Montaud",
+    "bekendheid": 61
+   },
+   {
+    "naam": "Jean-Pierre Jeunet",
+    "geb": "1953",
+    "ovl": "",
+    "beroep": "scenarioschrijver",
+    "plaats": "Le Coteau",
+    "bekendheid": 59
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "43": {
+  "code": "43",
+  "naam": "Haute-Loire",
+  "prefectuur": "Le Puy-en-Velay",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Lentille verte du Puy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles du Velay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fin Gras du Mézenc",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pintade de lArdèche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Poulet de l'Ardèche ou Chapon de l'Ardèche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Agneau de Lozère",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Génisse Fleur d'Aubrac",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles du Forez",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Gilbert du Motier de la Fayette",
+    "geb": "1757",
+    "ovl": "1834",
+    "beroep": "officier",
+    "plaats": "Chavaniac-Lafayette",
+    "bekendheid": 75
+   },
+   {
+    "naam": "Marion Bartoli",
+    "geb": "1984",
+    "ovl": "",
+    "beroep": "sportcommentator",
+    "plaats": "Le Puy-en-Velay",
+    "bekendheid": 61
+   },
+   {
+    "naam": "Sidney Govou",
+    "geb": "1979",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Le Puy-en-Velay",
+    "bekendheid": 47
+   },
+   {
+    "naam": "Jules Romains",
+    "geb": "1885",
+    "ovl": "1972",
+    "beroep": "scenarioschrijver",
+    "plaats": "Saint-Julien-Chapteuil",
+    "bekendheid": 46
+   },
+   {
+    "naam": "Grégory Coupet",
+    "geb": "1972",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Le Puy-en-Velay",
+    "bekendheid": 40
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "44": {
+  "code": "44",
+  "naam": "Loire-Atlantique",
+  "prefectuur": "Nantes",
+  "regio": "Pays de la Loire",
+  "producten": [
+   {
+    "naam": "Muscadet Sèvre et Maine Château-Thébaud",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Muscadet Sèvre et Maine Gorges",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Muscadet Sèvre et Maine Goulaine",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Muscadet Sèvre et Maine Le Pallet",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Muscadet Sèvre et Maine Monnières - Saint-Fiacre",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux d'Ancenis",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Mogette de Vendée",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Muscadet Coteaux de la Loire",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jules Verne",
+    "geb": "1828",
+    "ovl": "1905",
+    "beroep": "schrijver",
+    "plaats": "Nantes",
+    "bekendheid": 189
+   },
+   {
+    "naam": "Petrus Abaelardus",
+    "geb": "1079",
+    "ovl": "1142",
+    "beroep": "schrijver",
+    "plaats": "Le Pallet",
+    "bekendheid": 103
+   },
+   {
+    "naam": "Aristide Briand",
+    "geb": "1862",
+    "ovl": "1932",
+    "beroep": "schrijver",
+    "plaats": "Nantes",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Joseph Fouché",
+    "geb": "1759",
+    "ovl": "1820",
+    "beroep": "advocaat",
+    "plaats": "Le Pellerin",
+    "bekendheid": 62
+   },
+   {
+    "naam": "Anna van Bretagne",
+    "geb": "1477",
+    "ovl": "1514",
+    "beroep": "lid van een koninklijke familie",
+    "plaats": "château des ducs de Bretagne",
+    "bekendheid": 60
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "45": {
+  "code": "45",
+  "naam": "Loiret",
+  "prefectuur": "Orléans",
+  "regio": "Centre-Val de Loire",
+  "producten": [
+   {
+    "naam": "Orléans",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Orléans-Cléry",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Giennois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chavignol",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles du Gâtinais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de lOrléanais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles du Berry",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Honoré Gabriel de Riqueti",
+    "geb": "1749",
+    "ovl": "1791",
+    "beroep": "schrijver",
+    "plaats": "Le Bignon-Mirabeau",
+    "bekendheid": 73
+   },
+   {
+    "naam": "Siméon Poisson",
+    "geb": "1781",
+    "ovl": "1840",
+    "beroep": "astronoom",
+    "plaats": "Pithiviers",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Robert II van Frankrijk",
+    "geb": "0972",
+    "ovl": "1031",
+    "beroep": "politicus",
+    "plaats": "Orléans",
+    "bekendheid": 63
+   },
+   {
+    "naam": "Charles Péguy",
+    "geb": "1873",
+    "ovl": "1914",
+    "beroep": "schrijver",
+    "plaats": "Orléans",
+    "bekendheid": 59
+   },
+   {
+    "naam": "Florian Thauvin",
+    "geb": "1993",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Orléans",
+    "bekendheid": 48
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "46": {
+  "code": "46",
+  "naam": "Lot",
+  "prefectuur": "Cahors",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Cahors",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de Glanes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Lot Rocamadour",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lot",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Quercy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chasselas de Moissac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Quercy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fraise du Périgord",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jean-François Champollion",
+    "geb": "1790",
+    "ovl": "1832",
+    "beroep": "egyptoloog",
+    "plaats": "Figeac",
+    "bekendheid": 86
+   },
+   {
+    "naam": "Françoise Sagan",
+    "geb": "1935",
+    "ovl": "2004",
+    "beroep": "scenarioschrijver",
+    "plaats": "Cajarc",
+    "bekendheid": 84
+   },
+   {
+    "naam": "Paus Johannes XXII",
+    "geb": "1244",
+    "ovl": "1334",
+    "beroep": "schrijver",
+    "plaats": "Cahors",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Joachim Murat",
+    "geb": "1767",
+    "ovl": "1815",
+    "beroep": "politicus",
+    "plaats": "Labastide-Murat",
+    "bekendheid": 76
+   },
+   {
+    "naam": "Léon Gambetta",
+    "geb": "1838",
+    "ovl": "1882",
+    "beroep": "advocaat",
+    "plaats": "Cahors",
+    "bekendheid": 55
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "47": {
+  "code": "47",
+  "naam": "Lot-et-Garonne",
+  "prefectuur": "Agen",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Agenais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Buzet",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Duras",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Marmandais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Thézac-Perricard",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Gascogne Condomois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Armagnac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Armagnac-Ténarèze",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Alain Aspect",
+    "geb": "1947",
+    "ovl": "",
+    "beroep": "natuurkundige",
+    "plaats": "Agen",
+    "bekendheid": 64
+   },
+   {
+    "naam": "Armand Fallières",
+    "geb": "1841",
+    "ovl": "1931",
+    "beroep": "advocaat",
+    "plaats": "Mézin",
+    "bekendheid": 61
+   },
+   {
+    "naam": "Aymeric Laporte",
+    "geb": "1994",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Agen",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Jean Nouvel",
+    "geb": "1945",
+    "ovl": "",
+    "beroep": "architect",
+    "plaats": "Fumel",
+    "bekendheid": 51
+   },
+   {
+    "naam": "Marouane Chamakh",
+    "geb": "1984",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Tonneins",
+    "bekendheid": 44
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "48": {
+  "code": "48",
+  "naam": "Lozère",
+  "prefectuur": "Mende",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Fin Gras du Mézenc",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Laguiole",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Tome fraîche de l'Aubrac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Agneau de Lozère",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Châtaigne des Cévennes",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Génisse Fleur d'Aubrac",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Miel des Cévennes",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Poulet des Cévennes ou Chapon des Cévennes",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paus Urbanus V",
+    "geb": "1310",
+    "ovl": "1370",
+    "beroep": "academisch docent",
+    "plaats": "château de Grizac",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Jean-Antoine Chaptal",
+    "geb": "1756",
+    "ovl": "1832",
+    "beroep": "politicus",
+    "plaats": "Saint-Pierre-de-Nogaret",
+    "bekendheid": 29
+   },
+   {
+    "naam": "Guy de Chauliac",
+    "geb": "1300",
+    "ovl": "1368",
+    "beroep": "arts",
+    "plaats": "Chaulhac",
+    "bekendheid": 28
+   },
+   {
+    "naam": "Odilon Barrot",
+    "geb": "1791",
+    "ovl": "1873",
+    "beroep": "politicus",
+    "plaats": "Villefort",
+    "bekendheid": 25
+   },
+   {
+    "naam": "Odette Bancilhon",
+    "geb": "1908",
+    "ovl": "1993",
+    "beroep": "astronoom",
+    "plaats": "Molezon",
+    "bekendheid": 23
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "49": {
+  "code": "49",
+  "naam": "Maine-et-Loire",
+  "prefectuur": "Angers",
+  "regio": "Pays de la Loire",
+  "producten": [
+   {
+    "naam": "Anjou Brissac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Anjou-Coteaux de la Loire",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bonnezeaux",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de l'Aubance",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Layon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Layon Beaulieu-sur-Layon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Layon Faye-d'Anjou",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Layon Rablay-sur-Layon",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Coco Chanel",
+    "geb": "1883",
+    "ovl": "1971",
+    "beroep": "ondernemer",
+    "plaats": "Saumur",
+    "bekendheid": 121
+   },
+   {
+    "naam": "Jean Bodin",
+    "geb": "1530",
+    "ovl": "1596",
+    "beroep": "historicus",
+    "plaats": "Angers",
+    "bekendheid": 61
+   },
+   {
+    "naam": "Robert van Bourgondië",
+    "geb": "0860",
+    "ovl": "0923",
+    "beroep": "politicus",
+    "plaats": "Angers",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Joachim du Bellay",
+    "geb": "1522",
+    "ovl": "1560",
+    "beroep": "schrijver",
+    "plaats": "Liré",
+    "bekendheid": 59
+   },
+   {
+    "naam": "Godfried V van Anjou",
+    "geb": "1113",
+    "ovl": "1151",
+    "beroep": "aristocraat",
+    "plaats": "Angers",
+    "bekendheid": 53
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "50": {
+  "code": "50",
+  "naam": "Manche",
+  "prefectuur": "Saint-Lô",
+  "regio": "Normandie",
+  "producten": [
+   {
+    "naam": "Bulot de la Baie de Granville",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cidre Cotentin ou Cotentin",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Poireaux de Créances",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beurre et crème d'Isigny",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Calvados Domfrontais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Domfront",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Camembert de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Huître de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Roland Barthes",
+    "geb": "1915",
+    "ovl": "1980",
+    "beroep": "schrijver",
+    "plaats": "Cherbourg",
+    "bekendheid": 84
+   },
+   {
+    "naam": "Victor Grignard",
+    "geb": "1871",
+    "ovl": "1935",
+    "beroep": "scheikundige",
+    "plaats": "Cherbourg",
+    "bekendheid": 79
+   },
+   {
+    "naam": "Christian Dior",
+    "geb": "1905",
+    "ovl": "1957",
+    "beroep": "zakenpersoon",
+    "plaats": "Granville",
+    "bekendheid": 77
+   },
+   {
+    "naam": "Jean Marais",
+    "geb": "1913",
+    "ovl": "1998",
+    "beroep": "fotograaf",
+    "plaats": "Cherbourg",
+    "bekendheid": 76
+   },
+   {
+    "naam": "Urbain Le Verrier",
+    "geb": "1811",
+    "ovl": "1877",
+    "beroep": "astronoom",
+    "plaats": "Saint-Lô",
+    "bekendheid": 72
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "51": {
+  "code": "51",
+  "naam": "Marne",
+  "prefectuur": "Châlons-en-Champagne",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Coteaux champenois",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paus Urbanus II",
+    "geb": "1035",
+    "ovl": "1099",
+    "beroep": "katholiek priester",
+    "plaats": "Châtillon-sur-Marne",
+    "bekendheid": 97
+   },
+   {
+    "naam": "Nicolas Appert",
+    "geb": "1749",
+    "ovl": "1841",
+    "beroep": "zakenpersoon",
+    "plaats": "Châlons-en-Champagne",
+    "bekendheid": 86
+   },
+   {
+    "naam": "Jean Baudrillard",
+    "geb": "1929",
+    "ovl": "2007",
+    "beroep": "fotograaf",
+    "plaats": "Reims",
+    "bekendheid": 85
+   },
+   {
+    "naam": "Adelbert von Chamisso",
+    "geb": "1781",
+    "ovl": "1838",
+    "beroep": "natuuronderzoeker",
+    "plaats": "Châlons-en-Champagne",
+    "bekendheid": 69
+   },
+   {
+    "naam": "Jean-Baptiste Colbert",
+    "geb": "1619",
+    "ovl": "1683",
+    "beroep": "politicus",
+    "plaats": "Reims",
+    "bekendheid": 66
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "52": {
+  "code": "52",
+  "naam": "Haute-Marne",
+  "prefectuur": "Chaumont",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Coteaux de Coiffy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Haute-Marne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Haute-Marne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles du plateau de Langres",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Epoisses",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Langres",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Coteaux champenois",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Denis Diderot",
+    "geb": "1713",
+    "ovl": "1784",
+    "beroep": "schrijver",
+    "plaats": "Langres",
+    "bekendheid": 151
+   },
+   {
+    "naam": "Louise Michel",
+    "geb": "1830",
+    "ovl": "1905",
+    "beroep": "schrijver",
+    "plaats": "Vroncourt-la-Côte",
+    "bekendheid": 65
+   },
+   {
+    "naam": "Camille Flammarion",
+    "geb": "1842",
+    "ovl": "1925",
+    "beroep": "schrijver",
+    "plaats": "Val-de-Meuse",
+    "bekendheid": 63
+   },
+   {
+    "naam": "Hendrik de Guise",
+    "geb": "1551",
+    "ovl": "1588",
+    "beroep": "militair",
+    "plaats": "Joinville",
+    "bekendheid": 36
+   },
+   {
+    "naam": "Émile Baudot",
+    "geb": "1845",
+    "ovl": "1903",
+    "beroep": "ingenieur",
+    "plaats": "Magneux",
+    "bekendheid": 31
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "53": {
+  "code": "53",
+  "naam": "Mayenne",
+  "prefectuur": "Laval",
+  "regio": "Pays de la Loire",
+  "producten": [
+   {
+    "naam": "Eau-de-vie de cidre du Maine",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pommeau du Maine",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Calvados Domfrontais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Domfront",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Prés-salés du Mont-Saint-Michel",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eaux-de-vie de poiré de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Oie d'Anjou",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc de la Sarthe",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jules Renard",
+    "geb": "1864",
+    "ovl": "1910",
+    "beroep": "schrijver",
+    "plaats": "Châlons-du-Maine",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Pierre-Emerick Aubameyang",
+    "geb": "1989",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Laval",
+    "bekendheid": 73
+   },
+   {
+    "naam": "Henri Rousseau",
+    "geb": "1844",
+    "ovl": "1910",
+    "beroep": "kunstenaar",
+    "plaats": "Laval",
+    "bekendheid": 72
+   },
+   {
+    "naam": "Alfred Jarry",
+    "geb": "1873",
+    "ovl": "1907",
+    "beroep": "schrijver",
+    "plaats": "Laval",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Ambroise Paré",
+    "geb": "1510",
+    "ovl": "1590",
+    "beroep": "arts",
+    "plaats": "Laval",
+    "bekendheid": 51
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "54": {
+  "code": "54",
+  "naam": "Meurthe-et-Moselle",
+  "prefectuur": "Nancy",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Côtes de Toul",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Moselle",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lorraine",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bergamotes de Nancy",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelle de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelles de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Miel de sapin des Vosges",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Munster",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Henri Poincaré",
+    "geb": "1854",
+    "ovl": "1912",
+    "beroep": "schrijver",
+    "plaats": "Nancy",
+    "bekendheid": 130
+   },
+   {
+    "naam": "Michel Platini",
+    "geb": "1955",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Jœuf",
+    "bekendheid": 104
+   },
+   {
+    "naam": "Charles Messier",
+    "geb": "1730",
+    "ovl": "1817",
+    "beroep": "astronoom",
+    "plaats": "Badonviller",
+    "bekendheid": 77
+   },
+   {
+    "naam": "Keizer Frans I Stefanus",
+    "geb": "1708",
+    "ovl": "1765",
+    "beroep": "monarch",
+    "plaats": "Nancy",
+    "bekendheid": 69
+   },
+   {
+    "naam": "François Jacob",
+    "geb": "1920",
+    "ovl": "2013",
+    "beroep": "arts",
+    "plaats": "Nancy",
+    "bekendheid": 67
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "55": {
+  "code": "55",
+  "naam": "Meuse",
+  "prefectuur": "Bar-le-Duc",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Côtes de Meuse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lorraine",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bergamotes de Nancy",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelle de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelles de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Raymond Poincaré",
+    "geb": "1860",
+    "ovl": "1934",
+    "beroep": "politicus",
+    "plaats": "Bar-le-Duc",
+    "bekendheid": 79
+   },
+   {
+    "naam": "Fernand Braudel",
+    "geb": "1902",
+    "ovl": "1985",
+    "beroep": "historicus",
+    "plaats": "Luméville-en-Ornois",
+    "bekendheid": 71
+   },
+   {
+    "naam": "Madame du Barry",
+    "geb": "1743",
+    "ovl": "1793",
+    "beroep": "courtisane",
+    "plaats": "Vaucouleurs",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Marie de Guise",
+    "geb": "1515",
+    "ovl": "1560",
+    "beroep": "monarch",
+    "plaats": "Bar-le-Duc",
+    "bekendheid": 45
+   },
+   {
+    "naam": "Nicolas-Joseph Cugnot",
+    "geb": "1725",
+    "ovl": "1804",
+    "beroep": "ingenieur",
+    "plaats": "Void",
+    "bekendheid": 44
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "56": {
+  "code": "56",
+  "naam": "Morbihan",
+  "prefectuur": "Vannes",
+  "regio": "Bretagne",
+  "producten": [
+   {
+    "naam": "Sel de Guérande Fleur de Sel de Guérande",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pâté de campagne breton",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Whisky breton ou Whisky de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eau-de-vie de cidre de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pommeau de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Farine de blé noir de Bretagne - Gwinizh du Breizh",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de Bretagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de Janzé",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Alain Resnais",
+    "geb": "1922",
+    "ovl": "2014",
+    "beroep": "scenarioschrijver",
+    "plaats": "Vannes",
+    "bekendheid": 65
+   },
+   {
+    "naam": "Henri Cartier-Bresson",
+    "geb": "1908",
+    "ovl": "2004",
+    "beroep": "fotograaf",
+    "plaats": "Landévant",
+    "bekendheid": 65
+   },
+   {
+    "naam": "Yoann Gourcuff",
+    "geb": "1986",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Lorient",
+    "bekendheid": 53
+   },
+   {
+    "naam": "Alain-René Lesage",
+    "geb": "1668",
+    "ovl": "1747",
+    "beroep": "componist",
+    "plaats": "Sarzeau",
+    "bekendheid": 50
+   },
+   {
+    "naam": "Jean-Yves Le Drian",
+    "geb": "1947",
+    "ovl": "",
+    "beroep": "politicus",
+    "plaats": "Lorient",
+    "bekendheid": 43
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "57": {
+  "code": "57",
+  "naam": "Moselle",
+  "prefectuur": "Metz",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Moselle",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lorraine",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bergamotes de Nancy",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelle de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelles de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Miel de sapin des Vosges",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Munster",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paul Verlaine",
+    "geb": "1844",
+    "ovl": "1896",
+    "beroep": "schrijver",
+    "plaats": "Metz",
+    "bekendheid": 118
+   },
+   {
+    "naam": "Michel Platini",
+    "geb": "1955",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Jœuf",
+    "bekendheid": 104
+   },
+   {
+    "naam": "Albert Lebrun",
+    "geb": "1871",
+    "ovl": "1950",
+    "beroep": "politicus",
+    "plaats": "Mercy-le-Haut",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Charles Hermite",
+    "geb": "1822",
+    "ovl": "1901",
+    "beroep": "wiskundige",
+    "plaats": "Dieuze",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Jean-Victor Poncelet",
+    "geb": "1788",
+    "ovl": "1867",
+    "beroep": "politicus",
+    "plaats": "Metz",
+    "bekendheid": 53
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "58": {
+  "code": "58",
+  "naam": "Nièvre",
+  "prefectuur": "Nevers",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Coteaux de Tannay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de la Charité",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pouilly-Fumé ou Blanc Fumé de Pouilly et Pouilly-sur-Loire",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Giennois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chavignol",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Boeuf de Charolles",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Moutarde de Bourgogne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Agneau du Bourbonnais",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Romain Rolland",
+    "geb": "1866",
+    "ovl": "1944",
+    "beroep": "schrijver",
+    "plaats": "Clamecy",
+    "bekendheid": 140
+   },
+   {
+    "naam": "Louis Antoine de Saint-Just",
+    "geb": "1767",
+    "ovl": "1794",
+    "beroep": "schrijver",
+    "plaats": "Decize",
+    "bekendheid": 65
+   },
+   {
+    "naam": "Roger de Rabutin, Comte de Bussy",
+    "geb": "1618",
+    "ovl": "1693",
+    "beroep": "schrijver",
+    "plaats": "Epiry",
+    "bekendheid": 33
+   },
+   {
+    "naam": "Maria Ludovica Gonzaga",
+    "geb": "1611",
+    "ovl": "1667",
+    "beroep": "politicus",
+    "plaats": "Nevers",
+    "bekendheid": 30
+   },
+   {
+    "naam": "Arnaud Montebourg",
+    "geb": "1962",
+    "ovl": "",
+    "beroep": "advocaat",
+    "plaats": "Clamecy",
+    "bekendheid": 28
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "59": {
+  "code": "59",
+  "naam": "Nord",
+  "prefectuur": "Lille",
+  "regio": "Hauts-de-France",
+  "producten": [
+   {
+    "naam": "Ail fumé d'Arleux",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Genièvre Flandre-Artois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lingot du Nord",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Maroilles",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pommes de terre de Merville",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Charles de Gaulle",
+    "geb": "1890",
+    "ovl": "1970",
+    "beroep": "politicus",
+    "plaats": "Lille",
+    "bekendheid": 220
+   },
+   {
+    "naam": "Henri Matisse",
+    "geb": "1869",
+    "ovl": "1954",
+    "beroep": "kunstenaar",
+    "plaats": "Le Cateau-Cambrésis",
+    "bekendheid": 179
+   },
+   {
+    "naam": "Jean Perrin",
+    "geb": "1870",
+    "ovl": "1942",
+    "beroep": "componist",
+    "plaats": "Lille",
+    "bekendheid": 87
+   },
+   {
+    "naam": "Raphaël Varane",
+    "geb": "1993",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Lille",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Bernard Arnault",
+    "geb": "1949",
+    "ovl": "",
+    "beroep": "zakenpersoon",
+    "plaats": "Roubaix",
+    "bekendheid": 69
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "60": {
+  "code": "60",
+  "naam": "Oise",
+  "prefectuur": "Beauvais",
+  "regio": "Hauts-de-France",
+  "producten": [
+   {
+    "naam": "Neufchâtel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Eau-de-vie de cidre de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Calvados",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Cidre de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pommeau de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Johannes Calvijn",
+    "geb": "1509",
+    "ovl": "1564",
+    "beroep": "schrijver",
+    "plaats": "Noyon",
+    "bekendheid": 135
+   },
+   {
+    "naam": "Nicolas Chamfort",
+    "geb": "1740",
+    "ovl": "1794",
+    "beroep": "schrijver",
+    "plaats": "Clermont",
+    "bekendheid": 67
+   },
+   {
+    "naam": "Karel IV van Frankrijk",
+    "geb": "1294",
+    "ovl": "1328",
+    "beroep": "monarch",
+    "plaats": "Creil",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Bernard Cazeneuve",
+    "geb": "1963",
+    "ovl": "",
+    "beroep": "advocaat",
+    "plaats": "Senlis",
+    "bekendheid": 58
+   },
+   {
+    "naam": "Henri Lebesgue",
+    "geb": "1875",
+    "ovl": "1941",
+    "beroep": "wiskundige",
+    "plaats": "Beauvais",
+    "bekendheid": 50
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "61": {
+  "code": "61",
+  "naam": "Orne",
+  "prefectuur": "Alençon",
+  "regio": "Normandie",
+  "producten": [
+   {
+    "naam": "Calvados Domfrontais",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Calvados Pays d'Auge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cidre du Perche ou Perche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Domfront",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Livarot",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pays d'Auge",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Camembert de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pont-l'Évêque",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "André Breton",
+    "geb": "1896",
+    "ovl": "1966",
+    "beroep": "schrijver",
+    "plaats": "Tinchebray",
+    "bekendheid": 89
+   },
+   {
+    "naam": "Theresia van Lisieux",
+    "geb": "1873",
+    "ovl": "1897",
+    "beroep": "schrijver",
+    "plaats": "Alençon",
+    "bekendheid": 87
+   },
+   {
+    "naam": "Charlotte Corday d'Armont",
+    "geb": "1768",
+    "ovl": "1793",
+    "beroep": "aristocraat",
+    "plaats": "Ligneries",
+    "bekendheid": 57
+   },
+   {
+    "naam": "Fernand Léger",
+    "geb": "1881",
+    "ovl": "1955",
+    "beroep": "scenarioschrijver",
+    "plaats": "Argentan",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Remy de Gourmont",
+    "geb": "1858",
+    "ovl": "1915",
+    "beroep": "schrijver",
+    "plaats": "Bazoches-au-Houlme",
+    "bekendheid": 52
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "62": {
+  "code": "62",
+  "naam": "Pas-de-Calais",
+  "prefectuur": "Arras",
+  "regio": "Hauts-de-France",
+  "producten": [
+   {
+    "naam": "Volailles de Licques",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ail fumé d'Arleux",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Genièvre Flandre-Artois",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Lingot du Nord",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pommes de terre de Merville",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Prés-salés de la baie de Somme",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Maximilien de Robespierre",
+    "geb": "1758",
+    "ovl": "1794",
+    "beroep": "advocaat",
+    "plaats": "Arras",
+    "bekendheid": 133
+   },
+   {
+    "naam": "Franck Ribéry",
+    "geb": "1983",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Boulogne-sur-Mer",
+    "bekendheid": 89
+   },
+   {
+    "naam": "Godfried van Bouillon",
+    "geb": "1060",
+    "ovl": "1100",
+    "beroep": "monarch",
+    "plaats": "Boulogne-sur-Mer",
+    "bekendheid": 72
+   },
+   {
+    "naam": "Charles Augustin Sainte-Beuve",
+    "geb": "1804",
+    "ovl": "1869",
+    "beroep": "schrijver",
+    "plaats": "Boulogne-sur-Mer",
+    "bekendheid": 63
+   },
+   {
+    "naam": "Antoine François Prévost",
+    "geb": "1697",
+    "ovl": "1763",
+    "beroep": "schrijver",
+    "plaats": "Hesdin",
+    "bekendheid": 59
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "63": {
+  "code": "63",
+  "naam": "Puy-de-Dôme",
+  "prefectuur": "Clermont-Ferrand",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Côtes d'Auvergne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes d'Auvergne Boudes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes d'Auvergne Chanturgue",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes d'Auvergne Châteaugay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes d'Auvergne Corent",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes d'Auvergne Madargues",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Marc d'Auvergne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Puy-de-Dôme",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Blaise Pascal",
+    "geb": "1623",
+    "ovl": "1662",
+    "beroep": "schrijver",
+    "plaats": "maison natale de Blaise Pascal",
+    "bekendheid": 194
+   },
+   {
+    "naam": "Audrey Tautou",
+    "geb": "1976",
+    "ovl": "",
+    "beroep": "acteur",
+    "plaats": "Beaumont",
+    "bekendheid": 72
+   },
+   {
+    "naam": "Pierre Teilhard de Chardin",
+    "geb": "1881",
+    "ovl": "1955",
+    "beroep": "katholiek theoloog",
+    "plaats": "château de Sarcenat",
+    "bekendheid": 71
+   },
+   {
+    "naam": "Georges Bataille",
+    "geb": "1897",
+    "ovl": "1962",
+    "beroep": "tekenaar",
+    "plaats": "Billom",
+    "bekendheid": 71
+   },
+   {
+    "naam": "Vercingetorix",
+    "geb": "-007",
+    "ovl": "-004",
+    "beroep": "militair",
+    "plaats": "Gergovie",
+    "bekendheid": 68
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "64": {
+  "code": "64",
+  "naam": "Pyrénées-Atlantiques",
+  "prefectuur": "Pau",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Irouléguy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Jurançon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Piment d'Espelette ou Piment d'Espelette - Ezpeletako Biperra",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Agneau des Pyrénées",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Boeuf de Chalosse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Jambon du Kintoa",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Kintoa",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ossau-Iraty",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Maurice Ravel",
+    "geb": "1875",
+    "ovl": "1937",
+    "beroep": "componist",
+    "plaats": "Ciboure",
+    "bekendheid": 105
+   },
+   {
+    "naam": "Hendrik IV van Frankrijk",
+    "geb": "1553",
+    "ovl": "1610",
+    "beroep": "monarch",
+    "plaats": "château de Pau",
+    "bekendheid": 104
+   },
+   {
+    "naam": "Pierre Bourdieu",
+    "geb": "1930",
+    "ovl": "2002",
+    "beroep": "filosoof",
+    "plaats": "Denguin",
+    "bekendheid": 85
+   },
+   {
+    "naam": "Karel XIV Johan van Zweden",
+    "geb": "1763",
+    "ovl": "1844",
+    "beroep": "monarch",
+    "plaats": "Pau",
+    "bekendheid": 79
+   },
+   {
+    "naam": "Didier Deschamps",
+    "geb": "1968",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Bayonne",
+    "bekendheid": 78
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "65": {
+  "code": "65",
+  "naam": "Hautes-Pyrénées",
+  "prefectuur": "Tarbes",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Barèges-Gavarnie",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Agneau des Pyrénées",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ossau-Iraty",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Béarn",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Madiran",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pacherenc du Vic-Bilh",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Gascogne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Haricot tarbais",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Théophile Gautier",
+    "geb": "1811",
+    "ovl": "1872",
+    "beroep": "fotograaf",
+    "plaats": "Tarbes",
+    "bekendheid": 90
+   },
+   {
+    "naam": "Ferdinand Foch",
+    "geb": "1851",
+    "ovl": "1929",
+    "beroep": "legerofficier",
+    "plaats": "Tarbes",
+    "bekendheid": 81
+   },
+   {
+    "naam": "Bernadette Soubirous",
+    "geb": "1844",
+    "ovl": "1879",
+    "beroep": "kloosterzuster",
+    "plaats": "Lourdes",
+    "bekendheid": 65
+   },
+   {
+    "naam": "Francis Jammes",
+    "geb": "1868",
+    "ovl": "1938",
+    "beroep": "schrijver",
+    "plaats": "Tournay",
+    "bekendheid": 45
+   },
+   {
+    "naam": "Alan Brooke",
+    "geb": "1883",
+    "ovl": "1963",
+    "beroep": "politicus",
+    "plaats": "Bagnères-de-Bigorre",
+    "bekendheid": 34
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "66": {
+  "code": "66",
+  "naam": "Pyrénées-Orientales",
+  "prefectuur": "Perpignan",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Abricots rouges du Roussillon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Anchois de Collioure",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Artichaut du Roussillon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Banyuls",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Béa du Roussillon",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Collioure",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côte Vermeille",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes Catalanes",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "François Arago",
+    "geb": "1786",
+    "ovl": "1853",
+    "beroep": "schrijver",
+    "plaats": "Estagel",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Joseph Joffre",
+    "geb": "1852",
+    "ovl": "1931",
+    "beroep": "militair",
+    "plaats": "Rivesaltes",
+    "bekendheid": 62
+   },
+   {
+    "naam": "Thomas Merton",
+    "geb": "1915",
+    "ovl": "1968",
+    "beroep": "schrijver",
+    "plaats": "Prades",
+    "bekendheid": 49
+   },
+   {
+    "naam": "Aristide Maillol",
+    "geb": "1861",
+    "ovl": "1944",
+    "beroep": "kunstschilder",
+    "plaats": "Banyuls-sur-Mer",
+    "bekendheid": 47
+   },
+   {
+    "naam": "Martin Fourcade",
+    "geb": "1988",
+    "ovl": "",
+    "beroep": "militair",
+    "plaats": "Céret",
+    "bekendheid": 46
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "67": {
+  "code": "67",
+  "naam": "Bas-Rhin",
+  "prefectuur": "Strasbourg",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Alsace Blienschwiller",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Côtes de Barr",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Klevener de Heiligenstein",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Ottrott",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Scherwiller",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Wolxheim",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Coteaux du Haut Koenigsbourg",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Saint-Hippolyte",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Keizer Frederik I Barbarossa",
+    "geb": "1122",
+    "ovl": "1190",
+    "beroep": "politicus",
+    "plaats": "Haguenau",
+    "bekendheid": 101
+   },
+   {
+    "naam": "Hans Bethe",
+    "geb": "1906",
+    "ovl": "2005",
+    "beroep": "wetenschapper",
+    "plaats": "Strasbourg",
+    "bekendheid": 94
+   },
+   {
+    "naam": "Arsène Wenger",
+    "geb": "1949",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Strasbourg",
+    "bekendheid": 93
+   },
+   {
+    "naam": "Gustave Doré",
+    "geb": "1832",
+    "ovl": "1883",
+    "beroep": "stripauteur",
+    "plaats": "Strasbourg",
+    "bekendheid": 79
+   },
+   {
+    "naam": "Elif Shafak",
+    "geb": "1971",
+    "ovl": "",
+    "beroep": "schrijver",
+    "plaats": "Strasbourg",
+    "bekendheid": 77
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "68": {
+  "code": "68",
+  "naam": "Haut-Rhin",
+  "prefectuur": "Colmar",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Alsace Bergheim",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Côte de Rouffach",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Rodern",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Val Saint Grégoire",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Vallée Noble",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Coteaux du Haut Koenigsbourg",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace Saint-Hippolyte",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Alsace grand cru Altenberg de Bergbieten",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Albert Schweitzer",
+    "geb": "1875",
+    "ovl": "1965",
+    "beroep": "componist",
+    "plaats": "Kaysersberg",
+    "bekendheid": 120
+   },
+   {
+    "naam": "Paus Leo IX",
+    "geb": "1002",
+    "ovl": "1054",
+    "beroep": "schrijver",
+    "plaats": "Eguisheim",
+    "bekendheid": 77
+   },
+   {
+    "naam": "Alfred Kastler",
+    "geb": "1902",
+    "ovl": "1984",
+    "beroep": "dichter",
+    "plaats": "Guebwiller",
+    "bekendheid": 76
+   },
+   {
+    "naam": "Alfred Werner",
+    "geb": "1866",
+    "ovl": "1919",
+    "beroep": "scheikundige",
+    "plaats": "Mulhouse",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Alfred Dreyfus",
+    "geb": "1859",
+    "ovl": "1935",
+    "beroep": "officier",
+    "plaats": "Mulhouse",
+    "bekendheid": 72
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "69": {
+  "code": "69",
+  "naam": "Rhône",
+  "prefectuur": "Lyon",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Beaujolais Beaujeu",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Blacé",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Cercié",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Charentay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Denicé",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Emeringes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Jullié",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Lancié",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Claude Bernard",
+    "geb": "1813",
+    "ovl": "1878",
+    "beroep": "arts",
+    "plaats": "Saint-Julien",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Éric Abidal",
+    "geb": "1979",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Saint-Genis-Laval",
+    "bekendheid": 68
+   },
+   {
+    "naam": "Marcel Achard",
+    "geb": "1899",
+    "ovl": "1974",
+    "beroep": "acteur",
+    "plaats": "Sainte-Foy-lès-Lyon",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Johannes Maria Vianney",
+    "geb": "1786",
+    "ovl": "1859",
+    "beroep": "priester",
+    "plaats": "Dardilly",
+    "bekendheid": 55
+   },
+   {
+    "naam": "Corentin Tolisso",
+    "geb": "1994",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Tarare",
+    "bekendheid": 51
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "70": {
+  "code": "70",
+  "naam": "Haute-Saône",
+  "prefectuur": "Vesoul",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Kirsch de Fougerolles",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Franche-Comté",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Buffard",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Coteaux de Champlitte",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Doubs",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Gy",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Haute-Saône",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Hugier",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jean-Léon Gérôme",
+    "geb": "1824",
+    "ovl": "1904",
+    "beroep": "onderwijzer",
+    "plaats": "Vesoul",
+    "bekendheid": 57
+   },
+   {
+    "naam": "Jacques de Molay",
+    "geb": "http",
+    "ovl": "1314",
+    "beroep": "ridder",
+    "plaats": "Molay",
+    "bekendheid": 50
+   },
+   {
+    "naam": "Jérémy Mathieu",
+    "geb": "1983",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Luxeuil-les-Bains",
+    "bekendheid": 43
+   },
+   {
+    "naam": "Antoine-Augustin Cournot",
+    "geb": "1801",
+    "ovl": "1877",
+    "beroep": "wiskundige",
+    "plaats": "Gray",
+    "bekendheid": 40
+   },
+   {
+    "naam": "Thibaut Pinot",
+    "geb": "1990",
+    "ovl": "",
+    "beroep": "agrariër",
+    "plaats": "Lure",
+    "bekendheid": 34
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "71": {
+  "code": "71",
+  "naam": "Saône-et-Loire",
+  "prefectuur": "Mâcon",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Beaujolais Chânes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais La Chapelle-de-Guinchay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Leynes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Pruzilly",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Romanèche-Thorins",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaujolais Saint-Symphorien-d'Ancelles",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bourgogne Côte Chalonnaise",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bourgogne Côtes du Couchois",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Alphonse de Lamartine",
+    "geb": "1790",
+    "ovl": "1869",
+    "beroep": "schrijver",
+    "plaats": "Mâcon",
+    "bekendheid": 107
+   },
+   {
+    "naam": "Antoine Griezmann",
+    "geb": "1991",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Mâcon",
+    "bekendheid": 100
+   },
+   {
+    "naam": "Patrice de Mac Mahon",
+    "geb": "1808",
+    "ovl": "1893",
+    "beroep": "militair",
+    "plaats": "Sully",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Joseph Nicéphore Niépce",
+    "geb": "1765",
+    "ovl": "1833",
+    "beroep": "ingenieur",
+    "plaats": "Chalon-sur-Saône",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Louis Renault",
+    "geb": "1843",
+    "ovl": "1918",
+    "beroep": "rechter",
+    "plaats": "Autun",
+    "bekendheid": 65
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "72": {
+  "code": "72",
+  "naam": "Sarthe",
+  "prefectuur": "Le Mans",
+  "regio": "Pays de la Loire",
+  "producten": [
+   {
+    "naam": "Jasnières",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Loir",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cidre du Perche ou Perche",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Oie d'Anjou",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc de la Sarthe",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de lOrléanais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles du Maine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "ufs de Loué",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Hendrik II van Engeland",
+    "geb": "1133",
+    "ovl": "1189",
+    "beroep": "monarch",
+    "plaats": "Le Mans",
+    "bekendheid": 85
+   },
+   {
+    "naam": "Jan II van Frankrijk",
+    "geb": "1319",
+    "ovl": "1364",
+    "beroep": "soeverein",
+    "plaats": "Le Mans",
+    "bekendheid": 67
+   },
+   {
+    "naam": "Marin Mersenne",
+    "geb": "1588",
+    "ovl": "1648",
+    "beroep": "astronoom",
+    "plaats": "Oizé",
+    "bekendheid": 59
+   },
+   {
+    "naam": "Paul Henri Balluet d'Estournelles de Constant",
+    "geb": "1852",
+    "ovl": "1924",
+    "beroep": "politicus",
+    "plaats": "La Flèche",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Léo Delibes",
+    "geb": "1836",
+    "ovl": "1891",
+    "beroep": "componist",
+    "plaats": "La Flèche",
+    "bekendheid": 53
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "73": {
+  "code": "73",
+  "naam": "Savoie",
+  "prefectuur": "Chambéry",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Roussette de Savoie Marestel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Roussette de Savoie Monterminod",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Roussette de Savoie Monthoux",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Apremont",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Arbin",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Chautagne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Chignin",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Chignin-Bergeron",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Olivier Giroud",
+    "geb": "1986",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Chambéry",
+    "bekendheid": 89
+   },
+   {
+    "naam": "Paus Nicolaas II",
+    "geb": "0990",
+    "ovl": "1061",
+    "beroep": "schrijver",
+    "plaats": "château de Chevron",
+    "bekendheid": 73
+   },
+   {
+    "naam": "Joseph de Maistre",
+    "geb": "1753",
+    "ovl": "1821",
+    "beroep": "schrijver",
+    "plaats": "Chambéry",
+    "bekendheid": 70
+   },
+   {
+    "naam": "Gérard Mourou",
+    "geb": "1944",
+    "ovl": "",
+    "beroep": "natuurkundige",
+    "plaats": "Albertville",
+    "bekendheid": 61
+   },
+   {
+    "naam": "Tegenpaus Felix V",
+    "geb": "1383",
+    "ovl": "1451",
+    "beroep": "heremiet",
+    "plaats": "Chambéry",
+    "bekendheid": 49
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "74": {
+  "code": "74",
+  "naam": "Haute-Savoie",
+  "prefectuur": "Annecy",
+  "regio": "Auvergne-Rhône-Alpes",
+  "producten": [
+   {
+    "naam": "Abondance",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Roussette de Savoie Frangy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Ayze",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Crépy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Marignan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Marin",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Vin de Savoie Ripaille",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Beaufort",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Franciscus van Sales",
+    "geb": "1567",
+    "ovl": "1622",
+    "beroep": "schrijver",
+    "plaats": "château de Sales",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Claude-Louis Berthollet",
+    "geb": "1748",
+    "ovl": "1822",
+    "beroep": "arts",
+    "plaats": "Talloires",
+    "bekendheid": 51
+   },
+   {
+    "naam": "Tegenpaus Clemens VII",
+    "geb": "1342",
+    "ovl": "1394",
+    "beroep": "politicus",
+    "plaats": "château d'Annecy",
+    "bekendheid": 42
+   },
+   {
+    "naam": "Christophe Lemaitre",
+    "geb": "1990",
+    "ovl": "",
+    "beroep": "sprinter",
+    "plaats": "Annecy",
+    "bekendheid": 38
+   },
+   {
+    "naam": "Alexis Bouvard",
+    "geb": "1767",
+    "ovl": "1843",
+    "beroep": "astronoom",
+    "plaats": "Les Contamines-Montjoie",
+    "bekendheid": 37
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "75": {
+  "code": "75",
+  "naam": "Paris",
+  "prefectuur": "Paris",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Île-de-France Paris",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Voltaire",
+    "geb": "1694",
+    "ovl": "1778",
+    "beroep": "schrijver",
+    "plaats": "Paris",
+    "bekendheid": 256
+   },
+   {
+    "naam": "Molière",
+    "geb": "1622",
+    "ovl": "1673",
+    "beroep": "acteur",
+    "plaats": "Paris",
+    "bekendheid": 225
+   },
+   {
+    "naam": "Jean-Paul Sartre",
+    "geb": "1905",
+    "ovl": "1980",
+    "beroep": "scenarioschrijver",
+    "plaats": "Paris",
+    "bekendheid": 200
+   },
+   {
+    "naam": "Sarah Bernhardt",
+    "geb": "1844",
+    "ovl": "1923",
+    "beroep": "acteur",
+    "plaats": "Paris",
+    "bekendheid": 193
+   },
+   {
+    "naam": "Marcel Proust",
+    "geb": "1871",
+    "ovl": "1922",
+    "beroep": "schrijver",
+    "plaats": "16e arrondissement de Paris",
+    "bekendheid": 189
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "76": {
+  "code": "76",
+  "naam": "Seine-Maritime",
+  "prefectuur": "Rouen",
+  "regio": "Normandie",
+  "producten": [
+   {
+    "naam": "Neufchâtel",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Huître de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eaux-de-vie de poiré de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Eau-de-vie de cidre de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Calvados",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Cidre de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pommeau de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Gustave Flaubert",
+    "geb": "1821",
+    "ovl": "1880",
+    "beroep": "schrijver",
+    "plaats": "Rouen",
+    "bekendheid": 159
+   },
+   {
+    "naam": "Guy de Maupassant",
+    "geb": "1850",
+    "ovl": "1893",
+    "beroep": "schrijver",
+    "plaats": "Tourville-sur-Arques",
+    "bekendheid": 154
+   },
+   {
+    "naam": "Pierre Corneille",
+    "geb": "1606",
+    "ovl": "1684",
+    "beroep": "schrijver",
+    "plaats": "Rouen",
+    "bekendheid": 107
+   },
+   {
+    "naam": "Louis de Broglie",
+    "geb": "1892",
+    "ovl": "1987",
+    "beroep": "natuurkundige",
+    "plaats": "Dieppe",
+    "bekendheid": 99
+   },
+   {
+    "naam": "Annie Ernaux",
+    "geb": "1940",
+    "ovl": "",
+    "beroep": "schrijver",
+    "plaats": "Lillebonne",
+    "bekendheid": 93
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "77": {
+  "code": "77",
+  "naam": "Seine-et-Marne",
+  "prefectuur": "Melun",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Île-de-France Coteaux de Blunay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Île-de-France Coteaux de Provins",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Île-de-France Guérard",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Brie de Melun",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles du Gâtinais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brillat-Savarin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Coteaux champenois",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Lodewijk XIII van Frankrijk",
+    "geb": "1601",
+    "ovl": "1643",
+    "beroep": "politicus",
+    "plaats": "Fontainebleau",
+    "bekendheid": 94
+   },
+   {
+    "naam": "Paul Pogba",
+    "geb": "1993",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Lagny-sur-Marne",
+    "bekendheid": 93
+   },
+   {
+    "naam": "Louis Braille",
+    "geb": "1809",
+    "ovl": "1852",
+    "beroep": "uitvinder",
+    "plaats": "Coupvray",
+    "bekendheid": 89
+   },
+   {
+    "naam": "Filips IV van Frankrijk",
+    "geb": "1268",
+    "ovl": "1314",
+    "beroep": "heerser",
+    "plaats": "Fontainebleau",
+    "bekendheid": 85
+   },
+   {
+    "naam": "Hendrik III van Frankrijk",
+    "geb": "1551",
+    "ovl": "1589",
+    "beroep": "aristocraat",
+    "plaats": "château de Fontainebleau",
+    "bekendheid": 77
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "78": {
+  "code": "78",
+  "naam": "Yvelines",
+  "prefectuur": "Versailles",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Volailles de Houdan",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Thierry Henry",
+    "geb": "1977",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Les Ulis",
+    "bekendheid": 103
+   },
+   {
+    "naam": "Lodewijk IX van Frankrijk",
+    "geb": "1215",
+    "ovl": "1270",
+    "beroep": "monarch",
+    "plaats": "Poissy",
+    "bekendheid": 94
+   },
+   {
+    "naam": "Georges Braque",
+    "geb": "1882",
+    "ovl": "1963",
+    "beroep": "kunstenaar",
+    "plaats": "Argenteuil",
+    "bekendheid": 86
+   },
+   {
+    "naam": "Louis Daguerre",
+    "geb": "1787",
+    "ovl": "1851",
+    "beroep": "fotograaf",
+    "plaats": "Cormeilles-en-Parisis",
+    "bekendheid": 83
+   },
+   {
+    "naam": "Emmanuelle Charpentier",
+    "geb": "1968",
+    "ovl": "",
+    "beroep": "academisch docent",
+    "plaats": "Juvisy-sur-Orge",
+    "bekendheid": 80
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "79": {
+  "code": "79",
+  "naam": "Deux-Sèvres",
+  "prefectuur": "Niort",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Volailles du Val de Sèvres",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Anjou Villages",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Anjou gamay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Haut-Poitou",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Anjou",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chabichou du Poitou",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cognac Bois ordinaires ou Bois à terroirs",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de Saumur",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Henri-Georges Clouzot",
+    "geb": "1907",
+    "ovl": "1977",
+    "beroep": "scenarioschrijver",
+    "plaats": "Niort",
+    "bekendheid": 47
+   },
+   {
+    "naam": "Madame de Maintenon",
+    "geb": "1635",
+    "ovl": "1719",
+    "beroep": "briefschrijver",
+    "plaats": "Niort",
+    "bekendheid": 46
+   },
+   {
+    "naam": "Étienne Capoue",
+    "geb": "1988",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Niort",
+    "bekendheid": 37
+   },
+   {
+    "naam": "Édouard Jean-Marie Stephan",
+    "geb": "1837",
+    "ovl": "1923",
+    "beroep": "astronoom",
+    "plaats": "Niort",
+    "bekendheid": 36
+   },
+   {
+    "naam": "Laurent Cantet",
+    "geb": "1961",
+    "ovl": "2024",
+    "beroep": "scenarioschrijver",
+    "plaats": "Melle",
+    "bekendheid": 34
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "80": {
+  "code": "80",
+  "naam": "Somme",
+  "prefectuur": "Amiens",
+  "regio": "Hauts-de-France",
+  "producten": [
+   {
+    "naam": "Prés-salés de la baie de Somme",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Volailles de la Champagne",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jean-Baptiste de Lamarck",
+    "geb": "1744",
+    "ovl": "1829",
+    "beroep": "schrijver",
+    "plaats": "Bazentin",
+    "bekendheid": 110
+   },
+   {
+    "naam": "Karel de Eenvoudige",
+    "geb": "0879",
+    "ovl": "0929",
+    "beroep": "monarch",
+    "plaats": "Péronne",
+    "bekendheid": 67
+   },
+   {
+    "naam": "Paul Bourget",
+    "geb": "1852",
+    "ovl": "1935",
+    "beroep": "schrijver",
+    "plaats": "Amiens",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Pierre Choderlos de Laclos",
+    "geb": "1741",
+    "ovl": "1803",
+    "beroep": "schrijver",
+    "plaats": "Amiens",
+    "bekendheid": 58
+   },
+   {
+    "naam": "Brigitte Macron",
+    "geb": "1953",
+    "ovl": "",
+    "beroep": "onderwijzer",
+    "plaats": "Amiens",
+    "bekendheid": 58
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "81": {
+  "code": "81",
+  "naam": "Tarn",
+  "prefectuur": "Albi",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Ail rose de Lautrec",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Tarn",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Tarn Cabanes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Tarn Cunac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Gaillac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Gaillac blanc",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Gaillac premières côtes",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Jambon de Lacaune",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Henri de Toulouse-Lautrec",
+    "geb": "1864",
+    "ovl": "1901",
+    "beroep": "grafisch ontwerper",
+    "plaats": "Albi",
+    "bekendheid": 97
+   },
+   {
+    "naam": "Jean Jaurès",
+    "geb": "1859",
+    "ovl": "1914",
+    "beroep": "schrijver",
+    "plaats": "Castres",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Jean-François de La Pérouse",
+    "geb": "1741",
+    "ovl": "1788",
+    "beroep": "officier",
+    "plaats": "château du Gô",
+    "bekendheid": 51
+   },
+   {
+    "naam": "Nicolas Jean-de-Dieu Soult",
+    "geb": "1769",
+    "ovl": "1851",
+    "beroep": "politicus",
+    "plaats": "Saint-Amans-Soult",
+    "bekendheid": 46
+   },
+   {
+    "naam": "Gérald Passi",
+    "geb": "1964",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Albi",
+    "bekendheid": 45
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "82": {
+  "code": "82",
+  "naam": "Tarn-et-Garonne",
+  "prefectuur": "Montauban",
+  "regio": "Occitanie",
+  "producten": [
+   {
+    "naam": "Lavilledieu",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ail blanc de Lomagne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Quercy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chasselas de Moissac",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux du Quercy",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fronton",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saint-Sardos",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Ail violet de Cadours",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jean Auguste Dominique Ingres",
+    "geb": "1780",
+    "ovl": "1867",
+    "beroep": "architect",
+    "plaats": "Montauban",
+    "bekendheid": 133
+   },
+   {
+    "naam": "Pierre de Fermat",
+    "geb": "1601",
+    "ovl": "1665",
+    "beroep": "rechter",
+    "plaats": "Beaumont-de-Lomagne",
+    "bekendheid": 114
+   },
+   {
+    "naam": "Olympe de Gouges",
+    "geb": "1748",
+    "ovl": "1793",
+    "beroep": "schrijver",
+    "plaats": "Montauban",
+    "bekendheid": 78
+   },
+   {
+    "naam": "Daniel Cohn-Bendit",
+    "geb": "1945",
+    "ovl": "",
+    "beroep": "scenarioschrijver",
+    "plaats": "Montauban",
+    "bekendheid": 52
+   },
+   {
+    "naam": "Jean de la Valette",
+    "geb": "1494",
+    "ovl": "1568",
+    "beroep": "militair",
+    "plaats": "Parisot",
+    "bekendheid": 47
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "83": {
+  "code": "83",
+  "naam": "Var",
+  "prefectuur": "Toulon",
+  "regio": "Provence-Alpes-Côte d'Azur",
+  "producten": [
+   {
+    "naam": "Bandol",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux Varois en Provence",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Provence Fréjus",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Provence Notre-Dame des Anges",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Provence Pierrefeu",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes de Provence la Londe",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Figue de Solliès",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Maures",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Emmanuel Joseph Sieyès",
+    "geb": "1748",
+    "ovl": "1836",
+    "beroep": "schrijver",
+    "plaats": "Fréjus",
+    "bekendheid": 65
+   },
+   {
+    "naam": "Emmanuelle Béart",
+    "geb": "1963",
+    "ovl": "",
+    "beroep": "acteur",
+    "plaats": "Gassin",
+    "bekendheid": 57
+   },
+   {
+    "naam": "Jacques Le Goff",
+    "geb": "1924",
+    "ovl": "2014",
+    "beroep": "historicus",
+    "plaats": "Toulon",
+    "bekendheid": 52
+   },
+   {
+    "naam": "Sébastien Squillaci",
+    "geb": "1980",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Toulon",
+    "bekendheid": 46
+   },
+   {
+    "naam": "Gnaeus Julius Agricola",
+    "geb": "0040",
+    "ovl": "0093",
+    "beroep": "militair",
+    "plaats": "Forum Julii",
+    "bekendheid": 45
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "84": {
+  "code": "84",
+  "naam": "Vaucluse",
+  "prefectuur": "Avignon",
+  "regio": "Provence-Alpes-Côte d'Azur",
+  "producten": [
+   {
+    "naam": "Beaumes de Venise",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cairanne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Cerises des coteaux du Ventoux",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Châteauneuf-du-Pape",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Massif d'Uchaux",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Plan de Dieu",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Roaix",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Côtes du Rhône Villages Sablet",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Mireille Mathieu",
+    "geb": "1946",
+    "ovl": "",
+    "beroep": "acteur",
+    "plaats": "Avignon",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Édouard Daladier",
+    "geb": "1884",
+    "ovl": "1970",
+    "beroep": "politicus",
+    "plaats": "Carpentras",
+    "bekendheid": 66
+   },
+   {
+    "naam": "Olivier Messiaen",
+    "geb": "1908",
+    "ovl": "1992",
+    "beroep": "componist",
+    "plaats": "Avignon",
+    "bekendheid": 65
+   },
+   {
+    "naam": "Jean-Louis Trintignant",
+    "geb": "1930",
+    "ovl": "2022",
+    "beroep": "scenarioschrijver",
+    "plaats": "Piolenc",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Pierre Boulle",
+    "geb": "1912",
+    "ovl": "1994",
+    "beroep": "scenarioschrijver",
+    "plaats": "Avignon",
+    "bekendheid": 52
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "85": {
+  "code": "85",
+  "naam": "Vendée",
+  "prefectuur": "La Roche-sur-Yon",
+  "regio": "Pays de la Loire",
+  "producten": [
+   {
+    "naam": "Fiefs Vendéens Brem",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fiefs Vendéens Mareuil",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fiefs Vendéens Pissotte",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fiefs Vendéens Vix",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Fiefs Vendéens Chantonnay",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Pomme de terre de Noirmoutier",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Mogette de Vendée",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Muscadet Côtes de Grandlieu",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Georges Clemenceau",
+    "geb": "1841",
+    "ovl": "1929",
+    "beroep": "scenarioschrijver",
+    "plaats": "Mouilleron-en-Pareds",
+    "bekendheid": 100
+   },
+   {
+    "naam": "Mathurin Jacques Brisson",
+    "geb": "1723",
+    "ovl": "1806",
+    "beroep": "natuurkundige",
+    "plaats": "Fontenay-le-Comte",
+    "bekendheid": 42
+   },
+   {
+    "naam": "Jean de Lattre de Tassigny",
+    "geb": "1889",
+    "ovl": "1952",
+    "beroep": "militair",
+    "plaats": "Mouilleron-en-Pareds",
+    "bekendheid": 38
+   },
+   {
+    "naam": "Émile Faguet",
+    "geb": "1847",
+    "ovl": "1916",
+    "beroep": "schrijver",
+    "plaats": "La Roche-sur-Yon",
+    "bekendheid": 36
+   },
+   {
+    "naam": "Adlène Guédioura",
+    "geb": "1985",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "La Roche-sur-Yon",
+    "bekendheid": 33
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "86": {
+  "code": "86",
+  "naam": "Vienne",
+  "prefectuur": "Poitiers",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Haut-Poitou",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saumur Puy-Notre-Dame",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Anjou",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chabichou du Poitou",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Coteaux de Saumur",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saumur (vins tranquilles blancs et rosés)",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saumur (vins tranquilles rouges)",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Saumur mousseux",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Michel Foucault",
+    "geb": "1926",
+    "ovl": "1984",
+    "beroep": "filosoof",
+    "plaats": "Poitiers",
+    "bekendheid": 127
+   },
+   {
+    "naam": "Lodewijk de Vrome",
+    "geb": "0778",
+    "ovl": "0840",
+    "beroep": "monarch",
+    "plaats": "Chasseneuil-du-Poitou",
+    "bekendheid": 86
+   },
+   {
+    "naam": "Eleonora van Aquitanië",
+    "geb": "1124",
+    "ovl": "1204",
+    "beroep": "",
+    "plaats": "Poitiers",
+    "bekendheid": 68
+   },
+   {
+    "naam": "Hilarius van Poitiers",
+    "geb": "0315",
+    "ovl": "0367",
+    "beroep": "bisschop",
+    "plaats": "Poitiers",
+    "bekendheid": 62
+   },
+   {
+    "naam": "Jean-Pierre Raffarin",
+    "geb": "1948",
+    "ovl": "",
+    "beroep": "advocaat",
+    "plaats": "Poitiers",
+    "bekendheid": 52
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "87": {
+  "code": "87",
+  "naam": "Haute-Vienne",
+  "prefectuur": "Limoges",
+  "regio": "Nouvelle-Aquitaine",
+  "producten": [
+   {
+    "naam": "Haute-Vienne",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Canard à foie gras du Sud-Ouest Périgord",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Pomme du Limousin",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Poularde du Périgord",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Chapon du Périgord",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Poulet du Périgord",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Agneau du Poitou-Charentes",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles du Berry",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Pierre-Auguste Renoir",
+    "geb": "1841",
+    "ovl": "1919",
+    "beroep": "decoratieschilder",
+    "plaats": "Limoges",
+    "bekendheid": 115
+   },
+   {
+    "naam": "Joseph Gay-Lussac",
+    "geb": "1778",
+    "ovl": "1850",
+    "beroep": "politicus",
+    "plaats": "Saint-Léonard-de-Noblat",
+    "bekendheid": 83
+   },
+   {
+    "naam": "Jean Giraudoux",
+    "geb": "1882",
+    "ovl": "1944",
+    "beroep": "scenarioschrijver",
+    "plaats": "Bellac",
+    "bekendheid": 63
+   },
+   {
+    "naam": "Marie François Sadi Carnot",
+    "geb": "1837",
+    "ovl": "1894",
+    "beroep": "politicus",
+    "plaats": "Limoges",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Suzanne Valadon",
+    "geb": "1865",
+    "ovl": "1938",
+    "beroep": "kunstenaar",
+    "plaats": "Bessines-sur-Gartempe",
+    "bekendheid": 48
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "88": {
+  "code": "88",
+  "naam": "Vosges",
+  "prefectuur": "Épinal",
+  "regio": "Grand Est",
+  "producten": [
+   {
+    "naam": "Kirsch de Fougerolles",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Langres",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bergamotes de Nancy",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelle de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Mirabelles de Lorraine",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Miel de sapin des Vosges",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Emmental français Est-Central",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Munster",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Jeanne d'Arc",
+    "geb": "1412",
+    "ovl": "1431",
+    "beroep": "militair",
+    "plaats": "Domrémy-la-Pucelle",
+    "bekendheid": 193
+   },
+   {
+    "naam": "Émile Durkheim",
+    "geb": "1858",
+    "ovl": "1917",
+    "beroep": "etnoloog",
+    "plaats": "Épinal",
+    "bekendheid": 124
+   },
+   {
+    "naam": "Kalidou Koulibaly",
+    "geb": "1991",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Saint-Dié-des-Vosges",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Claude Lorrain",
+    "geb": "1600",
+    "ovl": "1682",
+    "beroep": "kunstschilder",
+    "plaats": "Chamagne",
+    "bekendheid": 53
+   },
+   {
+    "naam": "Emmanuelle Riva",
+    "geb": "1927",
+    "ovl": "2017",
+    "beroep": "fotograaf",
+    "plaats": "Cheniménil",
+    "bekendheid": 52
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "89": {
+  "code": "89",
+  "naam": "Yonne",
+  "prefectuur": "Auxerre",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Bourgogne Chitry",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bourgogne Coulanges-la-Vineuse",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bourgogne Côte Saint-Jacques",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bourgogne Côtes d'Auxerre",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bourgogne Epineuil",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Bourgogne Tonnerre",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chablis",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Chablis Grand Cru",
+    "kenmerkend": true
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Joseph Fourier",
+    "geb": "1768",
+    "ovl": "1830",
+    "beroep": "wiskundige",
+    "plaats": "Auxerre",
+    "bekendheid": 132
+   },
+   {
+    "naam": "Colette",
+    "geb": "1873",
+    "ovl": "1954",
+    "beroep": "scenarioschrijver",
+    "plaats": "Saint-Sauveur-en-Puisaye",
+    "bekendheid": 88
+   },
+   {
+    "naam": "Bacary Sagna",
+    "geb": "1983",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Sens",
+    "bekendheid": 64
+   },
+   {
+    "naam": "Sébastien Le Prestre de Vauban",
+    "geb": "1633",
+    "ovl": "1707",
+    "beroep": "schrijver",
+    "plaats": "Saint-Léger-Vauban",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Louis Nicolas Davout",
+    "geb": "1770",
+    "ovl": "1823",
+    "beroep": "politicus",
+    "plaats": "Annoux",
+    "bekendheid": 50
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "90": {
+  "code": "90",
+  "naam": "Territoire de Belfort",
+  "prefectuur": "Belfort",
+  "regio": "Bourgogne-Franche-Comté",
+  "producten": [
+   {
+    "naam": "Franche-Comté",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Buffard",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Coteaux de Champlitte",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Doubs",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Gy",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Haute-Saône",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Hugier",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Franche-Comté Motey-Besuche",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Tahar Rahim",
+    "geb": "1981",
+    "ovl": "",
+    "beroep": "acteur",
+    "plaats": "Belfort",
+    "bekendheid": 40
+   },
+   {
+    "naam": "Jacques Santini",
+    "geb": "1952",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Delle",
+    "bekendheid": 30
+   },
+   {
+    "naam": "André Maschinot",
+    "geb": "1903",
+    "ovl": "1963",
+    "beroep": "voetballer",
+    "plaats": "Valdoie",
+    "bekendheid": 26
+   },
+   {
+    "naam": "Jean-Pierre Chevènement",
+    "geb": "1939",
+    "ovl": "",
+    "beroep": "politicus",
+    "plaats": "Belfort",
+    "bekendheid": 24
+   },
+   {
+    "naam": "Robert de Boron",
+    "geb": "1200",
+    "ovl": "1300",
+    "beroep": "dichter",
+    "plaats": "Boron",
+    "bekendheid": 24
+   }
+  ],
+  "grap_toegestaan": true,
+  "werelderfgoed": []
+ },
+ "91": {
+  "code": "91",
+  "naam": "Essonne",
+  "prefectuur": "Évry-Courcouronnes",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Volailles du Gâtinais",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Thierry Henry",
+    "geb": "1977",
+    "ovl": "",
+    "beroep": "voetbaltrainer",
+    "plaats": "Les Ulis",
+    "bekendheid": 103
+   },
+   {
+    "naam": "Emmanuelle Charpentier",
+    "geb": "1968",
+    "ovl": "",
+    "beroep": "wetenschapper",
+    "plaats": "Juvisy-sur-Orge",
+    "bekendheid": 80
+   },
+   {
+    "naam": "Hugo Capet",
+    "geb": "0940",
+    "ovl": "0996",
+    "beroep": "lid van een koninklijke familie",
+    "plaats": "Dourdan",
+    "bekendheid": 80
+   },
+   {
+    "naam": "Jean-Jacques Annaud",
+    "geb": "1943",
+    "ovl": "",
+    "beroep": "scenarioschrijver",
+    "plaats": "Juvisy-sur-Orge",
+    "bekendheid": 60
+   },
+   {
+    "naam": "Anthony Martial",
+    "geb": "1995",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Massy",
+    "bekendheid": 59
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "92": {
+  "code": "92",
+  "naam": "Hauts-de-Seine",
+  "prefectuur": "Nanterre",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Île-de-France Coteaux de Suresne-Mont-Valérien",
+    "kenmerkend": true
+   },
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Alain Delon",
+    "geb": "1935",
+    "ovl": "2024",
+    "beroep": "acteur",
+    "plaats": "Sceaux",
+    "bekendheid": 138
+   },
+   {
+    "naam": "Jean-Paul Belmondo",
+    "geb": "1933",
+    "ovl": "2021",
+    "beroep": "acteur",
+    "plaats": "Neuilly-sur-Seine",
+    "bekendheid": 108
+   },
+   {
+    "naam": "Patrick Modiano",
+    "geb": "1945",
+    "ovl": "",
+    "beroep": "scenarioschrijver",
+    "plaats": "Boulogne-Billancourt",
+    "bekendheid": 101
+   },
+   {
+    "naam": "Roger Martin du Gard",
+    "geb": "1881",
+    "ovl": "1958",
+    "beroep": "schrijver",
+    "plaats": "Neuilly-sur-Seine",
+    "bekendheid": 100
+   },
+   {
+    "naam": "Évariste Galois",
+    "geb": "1811",
+    "ovl": "1832",
+    "beroep": "wiskundige",
+    "plaats": "Bourg-la-Reine",
+    "bekendheid": 98
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "93": {
+  "code": "93",
+  "naam": "Seine-Saint-Denis",
+  "prefectuur": "Bobigny",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Paul Éluard",
+    "geb": "1895",
+    "ovl": "1952",
+    "beroep": "Franse verzetsstrijder",
+    "plaats": "Saint-Denis",
+    "bekendheid": 79
+   },
+   {
+    "naam": "Lodewijk III van Frankrijk",
+    "geb": "0863",
+    "ovl": "0882",
+    "beroep": "monarch",
+    "plaats": "Saint-Denis",
+    "bekendheid": 56
+   },
+   {
+    "naam": "Moussa Sissoko",
+    "geb": "1989",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Le Blanc-Mesnil",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Raphaël Guerreiro",
+    "geb": "1993",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Le Blanc-Mesnil",
+    "bekendheid": 53
+   },
+   {
+    "naam": "William Saliba",
+    "geb": "2001",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Bondy",
+    "bekendheid": 51
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "94": {
+  "code": "94",
+  "naam": "Val-de-Marne",
+  "prefectuur": "Créteil",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Brie de Meaux",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Eugène Delacroix",
+    "geb": "1798",
+    "ovl": "1863",
+    "beroep": "fotograaf",
+    "plaats": "Saint-Maurice",
+    "bekendheid": 121
+   },
+   {
+    "naam": "Claudette Colbert",
+    "geb": "1903",
+    "ovl": "1996",
+    "beroep": "acteur",
+    "plaats": "Saint-Mandé",
+    "bekendheid": 85
+   },
+   {
+    "naam": "Karel V van Frankrijk",
+    "geb": "1338",
+    "ovl": "1380",
+    "beroep": "monarch",
+    "plaats": "Vincennes",
+    "bekendheid": 75
+   },
+   {
+    "naam": "Vanessa Paradis",
+    "geb": "1972",
+    "ovl": "",
+    "beroep": "acteur",
+    "plaats": "Saint-Maur-des-Fossés",
+    "bekendheid": 74
+   },
+   {
+    "naam": "Adrien Rabiot",
+    "geb": "1995",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Saint-Maurice",
+    "bekendheid": 60
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ },
+ "95": {
+  "code": "95",
+  "naam": "Val-d'Oise",
+  "prefectuur": "Pontoise",
+  "regio": "Île-de-France",
+  "producten": [
+   {
+    "naam": "Île-de-France",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Porc de Normandie",
+    "kenmerkend": false
+   },
+   {
+    "naam": "Volailles de Normandie",
+    "kenmerkend": false
+   }
+  ],
+  "personen": [
+   {
+    "naam": "Georges Braque",
+    "geb": "1882",
+    "ovl": "1963",
+    "beroep": "kunstenaar",
+    "plaats": "Argenteuil",
+    "bekendheid": 86
+   },
+   {
+    "naam": "Louis Daguerre",
+    "geb": "1787",
+    "ovl": "1851",
+    "beroep": "fotograaf",
+    "plaats": "Cormeilles-en-Parisis",
+    "bekendheid": 83
+   },
+   {
+    "naam": "Presnel Kimpembe",
+    "geb": "1995",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Beaumont-sur-Oise",
+    "bekendheid": 54
+   },
+   {
+    "naam": "Nicolas Flamel",
+    "geb": "1335",
+    "ovl": "1418",
+    "beroep": "boekhandelaar",
+    "plaats": "Pontoise",
+    "bekendheid": 50
+   },
+   {
+    "naam": "Wissam Ben ketser",
+    "geb": "1990",
+    "ovl": "",
+    "beroep": "voetballer",
+    "plaats": "Sarcelles",
+    "bekendheid": 49
+   }
+  ],
+  "grap_toegestaan": false,
+  "werelderfgoed": []
+ }
+}
