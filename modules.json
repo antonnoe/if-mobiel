@@ -1,0 +1,1761 @@
+{
+  "_uitleg": "De modulecatalogus van IF-Mobiel. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info), url (alleen bij kind iframe), nagekeken (datum, zichtbaar in de app).",
+  "bijgewerkt": "2026-08-23",
+  "groepen": [
+    {
+      "id": "aankomen",
+      "naam": "Aankomen",
+      "kleur": "#800000",
+      "wat": "Vestigen, registreren, de eerste jaren."
+    },
+    {
+      "id": "wonen",
+      "naam": "Wonen",
+      "kleur": "#2F6B3A",
+      "wat": "Het huis, wat erin zit, en de natuur eromheen."
+    },
+    {
+      "id": "geld",
+      "naam": "Geld",
+      "kleur": "#A87C3F",
+      "wat": "Belasting, erfenis, vermogen."
+    },
+    {
+      "id": "leven",
+      "naam": "Leven",
+      "kleur": "#46586B",
+      "wat": "Werken, leren, zorg, onderweg zijn."
+    }
+  ],
+  "modules": [
+    {
+      "id": "nedergids",
+      "groep": "aankomen",
+      "naam": "Nedergids",
+      "meta": "loketten, registers, adressen en nuttige websites",
+      "prijs": "gratis-lezen",
+      "schil": "kaartschil",
+      "houdbaar": "weken",
+      "status": "in bouw",
+      "kind": "nedergids",
+      "nagekeken": "2026-08-23",
+      "over": "De wegwijzer: officiële loketten, registers, adressen en nuttige websites — per categorie, met de postcode als ingang. Lezen is altijd gratis. Een nieuwe vermelding aanvragen kost eenmalig €1 om bots tegen te houden; bedrijven betalen daarnaast een jaarbedrag voor goede zichtbaarheid. Bestaande vermeldingen blijven staan."
+    },
+    {
+      "id": "correspondentie",
+      "groep": "aankomen",
+      "naam": "Correspondentie",
+      "meta": "brieven in correct Frans",
+      "prijs": "abonnee",
+      "schil": "stappenschil",
+      "houdbaar": "jaren",
+      "status": "bron onbekend",
+      "kind": "info",
+      "nagekeken": "2026-08-23",
+      "over": "Kwestie in het Nederlands beschrijven, correcte Franse brief eruit — met de juiste aanhef, toon en slotformule."
+    },
+    {
+      "id": "veiligheid",
+      "groep": "wonen",
+      "naam": "Veiligheid & natuur",
+      "meta": "brandgevaar, weeralarm, FR-Alert",
+      "prijs": "gratis",
+      "schil": "monitorschil",
+      "houdbaar": "uren",
+      "status": "deels af",
+      "kind": "iframe",
+      "url": "https://www.nederlanders.fr/page/bosbranden",
+      "nagekeken": "2026-08-23",
+      "over": "Het verwachte gevaarniveau per departement, officiële waarschuwingen en wat u moet doen. Altijd gratis, ook zonder account — met veiligheid spelen wij geen spelletjes."
+    },
+    {
+      "id": "klussen",
+      "groep": "wonen",
+      "naam": "Klussen & verbouwen",
+      "meta": "107 praktijkartikelen en het elektriciteitsdossier",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "inhoud af",
+      "kind": "iframe",
+      "url": "https://klussen-in-frankrijk.vercel.app/#onderwerpen",
+      "nagekeken": "2026-08-23",
+      "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier."
+    },
+    {
+      "id": "vastgoed",
+      "groep": "wonen",
+      "naam": "Vastgoed & huis kopen",
+      "meta": "zeven fases, 32 do's en don'ts",
+      "prijs": "gratis",
+      "schil": "stappenschil",
+      "houdbaar": "bij wetswijziging",
+      "status": "af",
+      "kind": "vastgoed",
+      "nagekeken": "2026-06",
+      "over": "Het IF-naslagwerk voor Nederlandstalige kopers, als telefoonmodule: zeven fases van voorbereiding tot na de akte, met per fase wat wettelijk geldt, wat gebruik is, en de do's en don'ts. Bijgewerkt juni 2026."
+    },
+    {
+      "id": "energie",
+      "groep": "wonen",
+      "naam": "Energie & verwarming",
+      "meta": "energielabel, jaarkosten, subsidie",
+      "prijs": "abonnee",
+      "schil": "rekenschil",
+      "houdbaar": "per jaar",
+      "status": "motor af",
+      "kind": "voorbeeld",
+      "nagekeken": "2026-08-23",
+      "over": "Zeven vragen over uw woning; de rekenmotor vult de overige veertig velden met forfaits per bouwperiode.",
+      "voorbeeld": {
+        "titel": "Pavillon uit 1968, 120 m², Hérault, elektrische verwarming",
+        "rows": [
+          [
+            "Energielabel",
+            "E"
+          ],
+          [
+            "Verbruik",
+            "287 kWh EP/m²"
+          ],
+          [
+            "Jaarkosten",
+            "€ 2.140"
+          ],
+          [
+            "CO₂",
+            "31 kg/m²"
+          ]
+        ],
+        "intake": [
+          [
+            "Bouwperiode",
+            [
+              "vóór 1948",
+              "1948–1974",
+              "1975–2000",
+              "na 2000"
+            ]
+          ],
+          [
+            "Verwarming",
+            [
+              "elektrisch",
+              "gas",
+              "hout",
+              "warmtepomp"
+            ]
+          ],
+          [
+            "Woonoppervlak",
+            [
+              "tot 90 m²",
+              "90–140 m²",
+              "meer dan 140 m²"
+            ]
+          ]
+        ],
+        "uit": [
+          [
+            "Uw energielabel",
+            "•"
+          ],
+          [
+            "Uw jaarkosten",
+            "€ ••••"
+          ],
+          [
+            "Terugverdientijd isolatie",
+            "•• jaar"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "kompas",
+      "groep": "geld",
+      "naam": "Financieel kompas",
+      "meta": "netto inkomen hier versus daar",
+      "prijs": "abonnee",
+      "schil": "rekenschil",
+      "houdbaar": "per jaar",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://financieel-kompas-ai.vercel.app/",
+      "nagekeken": "2026-03",
+      "over": "Een indicatie van uw netto inkomen in Frankrijk tegenover dat in uw thuisland, met inzicht in de belangrijkste verschillen. Voor wie nog moet beslissen of het financieel uitkomt.",
+      "let": "Een indicatie, geen berekening van uw eigen dossier. De uitkomst hangt af van uw verdragspositie, uw pensioenopbouw en uw gezinssituatie — laat een besluit er nooit alleen op rusten.",
+      "knip": {
+        "kop": "Wat er gratis is, en waar het abonnement begint",
+        "gratis": [
+          "Eén vergelijking: Frankrijk tegenover uw thuisland.",
+          "De richting van de uitkomst — houdt u hier meer of minder over.",
+          "Welke posten het verschil maken, benoemd bij naam.",
+          "De uitleg per post: waarom die in Frankrijk anders uitpakt."
+        ],
+        "abonnee": [
+          "De bedragen zelf, per post uitgesplitst.",
+          "Uw eigen situatie: gezinsquotiënt, verdragspositie, meerdere inkomstenbronnen.",
+          "Scenario's naast elkaar en bewaren in uw dossier.",
+          "De doorrekening naar volgend jaar bij een tariefwijziging."
+        ],
+        "regel": "De knip loopt door de uitkomst heen, niet eromheen: wie niet betaalt ziet wél of het gunstig uitpakt en waaróm, maar niet met hoeveel. Dat is eerlijker dan een lege pagina met een slot, en het is precies het moment waarop een abonnement iets waard wordt."
+      }
+    },
+    {
+      "id": "ruyter",
+      "groep": "geld",
+      "naam": "Sociale heffingen · De Ruyter",
+      "meta": "7,5% in plaats van 17,2 of 18,6%",
+      "prijs": "gratis",
+      "schil": "keuzeschil",
+      "houdbaar": "per jaar",
+      "status": "af",
+      "kind": "ruyter",
+      "nagekeken": "2026-08",
+      "over": "Twee vragen, en u weet of het regime op u van toepassing is — plus welke van de drie routes u moet nemen: het vinkje op de aangifte, het bewijsstuk bij de notaris, of terugvragen achteraf."
+    },
+    {
+      "id": "erfrecht",
+      "groep": "geld",
+      "naam": "Erfrecht & schenking",
+      "meta": "Frans erfrecht en het verdrag met Nederland",
+      "prijs": "abonnee",
+      "schil": "stappenschil",
+      "houdbaar": "bij wetswijziging",
+      "status": "inhoud af",
+      "kind": "voorbeeld",
+      "nagekeken": "2026-08-23",
+      "over": "Wie erft wat onder Frans recht, wat het verdrag met Nederland doet, en welk testament welk effect heeft.",
+      "voorbeeld": {
+        "titel": "Echtpaar, twee kinderen, huis in Frankrijk en spaargeld in Nederland",
+        "rows": [
+          [
+            "Reserve kinderen",
+            "2/3 van de nalatenschap"
+          ],
+          [
+            "Vrij deel",
+            "1/3"
+          ],
+          [
+            "Huis in Frankrijk",
+            "Frans recht"
+          ],
+          [
+            "Spaargeld NL",
+            "keuze mogelijk"
+          ]
+        ],
+        "intake": [
+          [
+            "Gezin",
+            [
+              "geen kinderen",
+              "kinderen uit dit huwelijk",
+              "kinderen uit eerdere relatie"
+            ]
+          ],
+          [
+            "Bezit",
+            [
+              "alleen in Frankrijk",
+              "in beide landen"
+            ]
+          ]
+        ],
+        "uit": [
+          [
+            "Uw verdeling",
+            "••••"
+          ],
+          [
+            "Wat u kunt regelen",
+            "••••"
+          ],
+          [
+            "Belasting per erfgenaam",
+            "€ ••.•••"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "transactiekosten",
+      "groep": "geld",
+      "naam": "Vastgoed transactiekosten",
+      "meta": "wat kopen kost, wat verkopen oplevert",
+      "prijs": "abonnee",
+      "schil": "rekenschil",
+      "houdbaar": "maandelijks",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://antonnoe.github.io/Vastgoedtransactie/",
+      "nagekeken": "2026-08-13",
+      "over": "Eerst één vraag: koopt u of verkoopt u. Daarna alleen de vragen die bij uw situatie horen, en na drie vragen staat er een bedrag. De tool rekent met de overdrachtsbelasting van úw departement, het wettelijke notaristarief, en bij verkoop met de vermogenswinstbelasting inclusief de aftrek voor bezitsduur. Achter elke post staat welk wetsartikel is toegepast, op welke bron dat berust en met welke peildatum.",
+      "let": "Kent u een bedrag niet — de landmeter, de doorhaling van uw hypotheek — dan laat de tool die post buiten de berekening en meldt dat de uitkomst onvolledig is, in plaats van een verzonnen getal te tonen. Een onbekende postcode geeft eveneens een melding, geen terugvaltarief.",
+      "repo": "antonnoe/Vastgoedtransactie",
+      "onderhoud": "De DMTO-tarieven staan in dmto.json, overgenomen uit het DGFiP-bestand voor notarissen. DGFiP publiceert maandelijks een nieuwe uitgave: controleer impots.gouv.fr/droits-denregistrement en vervang bij een nieuwe versie de tarieven én _meta.bron en _meta.peildatum. Nooit een tarief in de code. STATUS.md legt per tarief vast wat geverifieerd is en wat niet."
+    },
+    {
+      "id": "taal",
+      "groep": "leven",
+      "naam": "Taalassistent",
+      "meta": "15 situaties · Frans in context",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "gebouwd",
+      "kind": "taal",
+      "nagekeken": "2026-08-23",
+      "over": "De zinnen die u nodig heeft, in de volgorde waarin ze vallen — plus de woorden die de ander gebruikt."
+    },
+    {
+      "id": "zorg",
+      "groep": "leven",
+      "naam": "Ouder worden & zorg",
+      "meta": "wat te doen als het thuis niet meer gaat",
+      "prijs": "gratis",
+      "schil": "stappenschil",
+      "houdbaar": "per jaar",
+      "status": "af",
+      "kind": "zorg",
+      "nagekeken": "2026-07",
+      "over": "Het IF-dossier voor wie alleen woont en achteruitgaat, als telefoonmodule: eerst wat nú moet gebeuren, dan de aanvragen binnen 24 uur, 7 dagen en 30 dagen, en daarna het geld, het wonen en wat er vastgelegd moet worden."
+    },
+    {
+      "id": "verenigingen",
+      "groep": "leven",
+      "naam": "Verenigingen & agenda",
+      "meta": "wie waar zit, wat er wanneer is",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "dagen",
+      "status": "te smeden",
+      "kind": "info",
+      "nagekeken": "2026-08-23",
+      "over": "Nederlandstalige verenigingen, hun agenda en wat er in uw omgeving te doen is — één agenda in plaats van drie plekken."
+    },
+    {
+      "id": "auto",
+      "groep": "leven",
+      "naam": "Auto & mobiliteit",
+      "meta": "contrôle technique, kenteken, vervoer",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "maanden",
+      "status": "te smeden",
+      "kind": "info",
+      "nagekeken": "2026-08-23",
+      "over": "Een keuringsstation zoeken en plannen, kentekenzaken, en vervoer zonder eigen auto."
+    }
+  ],
+  "klusonderwerpen": [
+    {
+      "titel": "Basis, planning & referenties",
+      "wat": "Voorbereiding, vergunningen, vakmensen, woordenlijsten",
+      "secties": 9,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=basis-en-planning#onderwerp-basis-en-planning"
+    },
+    {
+      "titel": "Dak & isolatie",
+      "wat": "Dakconstructies, dakramen, dakbedekking, isolatie binnen en buiten",
+      "secties": 2,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=dak-en-isolatie#onderwerp-dak-en-isolatie"
+    },
+    {
+      "titel": "Muren, afwerking & vocht",
+      "wat": "Scheidingswanden, natuursteen, vochtproblemen, bevestigen",
+      "secties": 4,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=muren-afwerking-en-vocht#onderwerp-muren-afwerking-en-vocht"
+    },
+    {
+      "titel": "Vloeren, plafonds & trappen",
+      "wat": "Balklagen, plankenvloeren, versteviging, tegelvloeren",
+      "secties": 1,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=vloeren-plafonds-en-trappen#onderwerp-vloeren-plafonds-en-trappen"
+    },
+    {
+      "titel": "Deuren, ramen & luiken",
+      "wat": "Herstel, hang- en sluitwerk, beglazing, traditionele detaillering",
+      "secties": 1,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=deuren-ramen-en-luiken#onderwerp-deuren-ramen-en-luiken"
+    },
+    {
+      "titel": "Water, riool & sanitair",
+      "wat": "Huiswaternet, afvoer, sanitair, fosse septique",
+      "secties": 2,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=water-riool-en-sanitair#onderwerp-water-riool-en-sanitair"
+    },
+    {
+      "titel": "Verwarming, ventilatie, elektra & gas",
+      "wat": "Warmtehuishouding, ventilatie, technische installaties",
+      "secties": 3,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=verwarming-ventilatie-elektra-en-gas#onderwerp-verwarming-ventilatie-elektra-en-gas"
+    },
+    {
+      "titel": "Buitenruimte, gereedschap & projecten",
+      "wat": "Terrassen en erf, gereedschap, complete praktijkprojecten",
+      "secties": 3,
+      "url": "https://klussen-in-frankrijk.vercel.app/?vak=buitenruimte-gereedschap-en-projecten#onderwerp-buitenruimte-gereedschap-en-projecten"
+    },
+    {
+      "titel": "Elektrische installatie",
+      "wat": "Twee dossiers samengebracht: meterkast, groepen en aarding binnenshuis, plus klussen voor tuin, bijgebouwen, poort en zwembad",
+      "secties": 2,
+      "url": "https://klussen-in-frankrijk.vercel.app/dossiers"
+    }
+  ],
+  "nedergids": {
+    "categorieen": [
+      {
+        "id": "instantie",
+        "naam": "Loketten & overheid",
+        "kleur": "#5B6675"
+      },
+      {
+        "id": "zorg",
+        "naam": "Zorg",
+        "kleur": "#2E9E7B"
+      },
+      {
+        "id": "wonen",
+        "naam": "Wonen & bouwen",
+        "kleur": "#D08A2E"
+      },
+      {
+        "id": "geld",
+        "naam": "Geld & belasting",
+        "kleur": "#A87C3F"
+      },
+      {
+        "id": "auto",
+        "naam": "Auto & verkeer",
+        "kleur": "#C6362C"
+      },
+      {
+        "id": "nl",
+        "naam": "Nederlandstalig",
+        "kleur": "#800000"
+      }
+    ],
+    "sites": [
+      {
+        "cat": "instantie",
+        "naam": "Vind Franse overheden bij u in de buurt",
+        "wat": "Onze eigen tool: dertien soorten instellingen op postcode, live uit de officiële registers",
+        "url": "https://infofrankrijk.com/vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt/",
+        "eigen": true
+      },
+      {
+        "cat": "nl",
+        "naam": "Nedergids 1.0",
+        "wat": "De bestaande gids blijft bereikbaar zolang v2 in bouw is",
+        "url": "https://nedergids.nl",
+        "eigen": true,
+        "archief": true
+      },
+      {
+        "cat": "nl",
+        "naam": "Uitgebreid adressenboek voor Nederlanders in Frankrijk",
+        "wat": "Het handmatig samengestelde overzicht op infofrankrijk.com",
+        "url": "https://infofrankrijk.com/uitgebreid-adressenboek-voor-nederlanders-in-frankrijk/",
+        "eigen": true
+      },
+      {
+        "cat": "instantie",
+        "naam": "Service-Public.fr",
+        "wat": "Het officiële portaal voor alle Franse formaliteiten",
+        "url": "https://www.service-public.fr"
+      },
+      {
+        "cat": "instantie",
+        "naam": "Annuaire de l'administration",
+        "wat": "Adres en openingstijden van elk loket, op postcode",
+        "url": "https://lannuaire.service-public.fr"
+      },
+      {
+        "cat": "instantie",
+        "naam": "FranceConnect",
+        "wat": "Één inlog voor de overheidsportalen",
+        "url": "https://franceconnect.gouv.fr"
+      },
+      {
+        "cat": "instantie",
+        "naam": "CAF",
+        "wat": "Gezinstoeslagen en woontoeslag",
+        "url": "https://www.caf.fr"
+      },
+      {
+        "cat": "zorg",
+        "naam": "Ameli",
+        "wat": "Assurance Maladie: Carte Vitale, vergoedingen, dossier",
+        "url": "https://www.ameli.fr"
+      },
+      {
+        "cat": "zorg",
+        "naam": "Annuaire Santé",
+        "wat": "Zorgverleners zoeken, met tarief en of ze bijbetaling vragen",
+        "url": "https://annuairesante.ameli.fr"
+      },
+      {
+        "cat": "zorg",
+        "naam": "Mon Espace Santé",
+        "wat": "Uw eigen medische dossier",
+        "url": "https://www.monespacesante.fr"
+      },
+      {
+        "cat": "wonen",
+        "naam": "Géoportail de l'urbanisme",
+        "wat": "Wat mag er op een perceel: bestemmingsplan en beperkingen",
+        "url": "https://www.geoportail-urbanisme.gouv.fr"
+      },
+      {
+        "cat": "wonen",
+        "naam": "Cadastre",
+        "wat": "Perceelgrenzen en kadastrale nummers",
+        "url": "https://www.cadastre.gouv.fr"
+      },
+      {
+        "cat": "wonen",
+        "naam": "Géorisques",
+        "wat": "Risico's per adres: overstroming, bodem, industrie",
+        "url": "https://www.georisques.gouv.fr"
+      },
+      {
+        "cat": "wonen",
+        "naam": "France Rénov'",
+        "wat": "Officieel advies en subsidies voor verbouwen en isoleren",
+        "url": "https://france-renov.gouv.fr"
+      },
+      {
+        "cat": "geld",
+        "naam": "Impots.gouv.fr",
+        "wat": "Aangifte, aanslagen en uw fiscale ruimte",
+        "url": "https://www.impots.gouv.fr"
+      },
+      {
+        "cat": "geld",
+        "naam": "URSSAF",
+        "wat": "Sociale premies voor ondernemers en werkgevers",
+        "url": "https://www.urssaf.fr"
+      },
+      {
+        "cat": "geld",
+        "naam": "Annuaire des entreprises",
+        "wat": "Elke Franse onderneming op SIREN, gratis en officieel",
+        "url": "https://annuaire-entreprises.data.gouv.fr"
+      },
+      {
+        "cat": "auto",
+        "naam": "ANTS",
+        "wat": "Kentekenbewijs, rijbewijs en omwisselen",
+        "url": "https://ants.gouv.fr"
+      },
+      {
+        "cat": "auto",
+        "naam": "Contrôle technique — officiële zoeker",
+        "wat": "Erkende keuringsstations",
+        "url": "https://www.utac.com"
+      },
+      {
+        "cat": "auto",
+        "naam": "Bison Futé",
+        "wat": "Verkeersvoorspelling en drukte op de route",
+        "url": "https://www.bison-fute.gouv.fr"
+      },
+      {
+        "cat": "nl",
+        "naam": "Nederlanders.fr",
+        "wat": "De gemeenschap: berichten, forum, ervaringen sinds 2002",
+        "url": "https://www.nederlanders.fr"
+      },
+      {
+        "cat": "nl",
+        "naam": "Infofrankrijk.com",
+        "wat": "Dossiers, artikelen en de rekenmodules",
+        "url": "https://infofrankrijk.com"
+      },
+      {
+        "cat": "nl",
+        "naam": "Nederlandse ambassade in Parijs",
+        "wat": "Paspoort, DigiD, consulaire zaken",
+        "url": "https://www.nederlandwereldwijd.nl/landen/frankrijk"
+      }
+    ],
+    "aanmelden": {
+      "kop": "Zelf in de gids?",
+      "tekst": "Lezen is gratis. Een nieuwe vermelding aanvragen kost eenmalig €1 — dat bedrag houdt bots tegen, want geen bot doet een iDEAL-betaling. Bedrijven die goed zichtbaar willen zijn betalen daarnaast een jaarbedrag. Bestaande vermeldingen blijven staan; er wordt op dit moment geen verlenging geïnd. Elke nieuwe vermelding wordt tegen het officiële register gecontroleerd (SIRENE, KvK, KBO, BIG, RPPS, ANBI of RNA): geverifieerd betekent aantoonbaar echt, niet door ons aanbevolen.",
+      "regels": [
+        [
+          "Particulier of buur",
+          "€1 eenmalig · alleen postcode zichtbaar"
+        ],
+        [
+          "Zorgverlener",
+          "€1 eenmalig · gecontroleerd via BIG of RPPS"
+        ],
+        [
+          "Vereniging of stichting",
+          "€1 eenmalig · gecontroleerd via RNA of ANBI"
+        ],
+        [
+          "Bedrijf",
+          "€1 eenmalig + jaarbedrag voor zichtbaarheid"
+        ],
+        [
+          "Bestaande vermelding",
+          "blijft staan, geen verlenging"
+        ]
+      ]
+    },
+    "eigenLabel": "VAN ONS",
+    "archiefnoot": "De bestaande vermeldingen uit Nedergids 1.0 blijven gewoon staan: de jaarlijkse verlenging is nooit geïnd en dat verandert voorlopig niet. Wie er ooit in kwam, blijft erin — de aanmeldkosten hieronder gelden alleen voor nieuwe vermeldingen.",
+    "uitgelicht": {
+      "kop": "Uitgelicht",
+      "tekst": "Eén plek bovenaan de gids, met logo en een regel uitleg. Bedoeld voor de sponsors van Nederlanders.fr — die zichtbaarheid kan meteen, want er komt geen incasso of registercontrole aan te pas. Wat hier staat is betaald en dat zeggen wij erbij; het is geen aanbeveling van de redactie.",
+      "plekken": [
+        {
+          "naam": "Deze plek is beschikbaar",
+          "wat": "Voor sponsors van Nederlanders.fr — logo, één regel en een link, per categorie of over de hele gids",
+          "status": "beschikbaar"
+        },
+        {
+          "naam": "Deze plek is beschikbaar",
+          "wat": "Maximaal twee per categorie, zodat de gids een gids blijft en geen advertentiepagina",
+          "status": "beschikbaar"
+        }
+      ],
+      "voorwaarde": "Maximaal twee uitgelichte plekken per categorie, altijd met het label BETAALD, en nooit vóór een officieel loket bij een veiligheidsvraag."
+    }
+  },
+  "_departementen_uitleg": "Postcode → departement, op de eerste twee cijfers. Bewust simpel: een handvol postcodes hoort bij een ander departement dan hun eerste twee cijfers suggereren (grensgevallen rond 42/63 en 01/74). Voor de app volstaat dit; de definitieve toewijzing komt uit de Base Adresse Nationale.",
+  "departementen": {
+    "10": "Aube",
+    "11": "Aude",
+    "12": "Aveyron",
+    "13": "Bouches-du-Rhône",
+    "14": "Calvados",
+    "15": "Cantal",
+    "16": "Charente",
+    "17": "Charente-Maritime",
+    "18": "Cher",
+    "19": "Corrèze",
+    "20": "Corse",
+    "21": "Côte-d'Or",
+    "22": "Côtes-d'Armor",
+    "23": "Creuse",
+    "24": "Dordogne",
+    "25": "Doubs",
+    "26": "Drôme",
+    "27": "Eure",
+    "28": "Eure-et-Loir",
+    "29": "Finistère",
+    "30": "Gard",
+    "31": "Haute-Garonne",
+    "32": "Gers",
+    "33": "Gironde",
+    "34": "Hérault",
+    "35": "Ille-et-Vilaine",
+    "36": "Indre",
+    "37": "Indre-et-Loire",
+    "38": "Isère",
+    "39": "Jura",
+    "40": "Landes",
+    "41": "Loir-et-Cher",
+    "42": "Loire",
+    "43": "Haute-Loire",
+    "44": "Loire-Atlantique",
+    "45": "Loiret",
+    "46": "Lot",
+    "47": "Lot-et-Garonne",
+    "48": "Lozère",
+    "49": "Maine-et-Loire",
+    "50": "Manche",
+    "51": "Marne",
+    "52": "Haute-Marne",
+    "53": "Mayenne",
+    "54": "Meurthe-et-Moselle",
+    "55": "Meuse",
+    "56": "Morbihan",
+    "57": "Moselle",
+    "58": "Nièvre",
+    "59": "Nord",
+    "60": "Oise",
+    "61": "Orne",
+    "62": "Pas-de-Calais",
+    "63": "Puy-de-Dôme",
+    "64": "Pyrénées-Atlantiques",
+    "65": "Hautes-Pyrénées",
+    "66": "Pyrénées-Orientales",
+    "67": "Bas-Rhin",
+    "68": "Haut-Rhin",
+    "69": "Rhône",
+    "70": "Haute-Saône",
+    "71": "Saône-et-Loire",
+    "72": "Sarthe",
+    "73": "Savoie",
+    "74": "Haute-Savoie",
+    "75": "Paris",
+    "76": "Seine-Maritime",
+    "77": "Seine-et-Marne",
+    "78": "Yvelines",
+    "79": "Deux-Sèvres",
+    "80": "Somme",
+    "81": "Tarn",
+    "82": "Tarn-et-Garonne",
+    "83": "Var",
+    "84": "Vaucluse",
+    "85": "Vendée",
+    "86": "Vienne",
+    "87": "Haute-Vienne",
+    "88": "Vosges",
+    "89": "Yonne",
+    "90": "Territoire de Belfort",
+    "91": "Essonne",
+    "92": "Hauts-de-Seine",
+    "93": "Seine-Saint-Denis",
+    "94": "Val-de-Marne",
+    "95": "Val-d'Oise",
+    "971": "Guadeloupe",
+    "972": "Martinique",
+    "973": "Guyane",
+    "974": "La Réunion",
+    "976": "Mayotte",
+    "01": "Ain",
+    "02": "Aisne",
+    "03": "Allier",
+    "04": "Alpes-de-Haute-Provence",
+    "05": "Hautes-Alpes",
+    "06": "Alpes-Maritimes",
+    "07": "Ardèche",
+    "08": "Ardennes",
+    "09": "Ariège"
+  },
+  "vastgoed": {
+    "bron": "IF-dossier 'Gids voor de aankoop van onroerend goed in Frankrijk', bijgewerkt juni 2026, geldend voor 2026. Bouwt voort op de bijdrage van Bram van Zanten, auteur van En Pierre, aangevuld en geactualiseerd door de redactie op basis van Service-Public.fr, Légifrance, impots.gouv.fr en ANIL.",
+    "voorbehoud": "Informatieve handleiding, geen juridisch of fiscaal advies in een individueel dossier. Voor uw eigen situatie: uw notaris, advocaat of fiscalist.",
+    "markt": [
+      [
+        "Onderhandelingsmarge",
+        "gemiddeld −5,3% in Q1 2026; van −2,8% in Lyon tot −12,7% in Nantes. Acht op de tien kopers onderhandelt actief."
+      ],
+      [
+        "Verkooptermijn",
+        "boven de 100 dagen gemiddeld — er is tijd om op een eerste indruk terug te komen."
+      ],
+      [
+        "DPE-effect",
+        "label F of G geeft 10 tot 20% decote sinds het verhuurverbod van 2025. Ruimte voor wie zelf renoveert, rem voor wie wil verhuren."
+      ],
+      [
+        "Kredietrente",
+        "gestabiliseerd rond 3% over 20 jaar, na de piek van 4,5% eind 2023. Banken selecteren streng op het dossier."
+      ]
+    ],
+    "fases": [
+      {
+        "id": "voorbereiding",
+        "naam": "1 · Voorbereiding",
+        "wat": "Voor u één bezichtiging plant, hoort uw financiële, juridische en taalkundige situatie helder te zijn.",
+        "punten": [
+          {
+            "kop": "Reken vanaf het begin met de frais d'acquisition",
+            "tekst": "7 tot 8,5 procent van de prijs bij oudbouw, 2 tot 3 procent bij nieuwbouw. Op een woning van € 250.000 is dat al snel € 20.000 extra, te betalen op de dag van de acte.",
+            "bron": "IF-gids fase 1"
+          },
+          {
+            "kop": "Franse banken hanteren een hard schuldplafond",
+            "tekst": "35 procent van het bruto-inkomen, inclusief verzekering, en een gedocumenteerd dossier. Laat uw leencapaciteit berekenen vóór u afspraken maakt.",
+            "bron": "IF-gids fase 1"
+          },
+          {
+            "kop": "De akte is in het Frans",
+            "tekst": "Begrijpt u daar de helft niet van, dan bent u in een juridisch verband uw eigen tolk. Een Nederlandstalige deskundige inschakelen is normaal, geen schande.",
+            "bron": "IF-gids fase 1"
+          },
+          {
+            "kop": "Het DDT zegt niets over de bouwkundige staat",
+            "tekst": "Fundamenten, muren, kapconstructie en dak zitten er niet in. Een bouwkundige keuring is niet verplicht en voor rekening van de koper.",
+            "bron": "IF-gids fase 1"
+          }
+        ],
+        "doen": [
+          {
+            "n": 1,
+            "doen": "Leencapaciteit en frais d'acquisition vóór de zoektocht laten berekenen — bij minstens twee banken of een courtier.",
+            "niet": "Op online simulators vertrouwen zonder dossiercheck."
+          },
+          {
+            "n": 2,
+            "doen": "Eerst een aaneengesloten periode in de regio huren om de plek echt te leren kennen.",
+            "niet": "Een streek kiezen op vakantie-indrukken of één weekendbezichtiging."
+          },
+          {
+            "n": 3,
+            "doen": "Directe buren aanbellen vóór u biedt: zij weten waarom het huis te koop staat, en hoe lang.",
+            "niet": "Ervan uitgaan dat de makelaar u de volledige geschiedenis vertelt."
+          },
+          {
+            "n": 4,
+            "doen": "Bij onvoldoende Frans vooraf een Nederlandstalige deskundige inschakelen voor de notarisfase.",
+            "niet": "Vertrouwen op een toevallige aanwezige of op de makelaar als vertaler."
+          },
+          {
+            "n": 5,
+            "doen": "Bij kinderen uit een eerdere relatie of samenwonen zonder PACS: uw situatie laten beoordelen vóór de aankoop.",
+            "niet": "Aannemen dat het Franse erfrecht ongeveer werkt als het Nederlandse."
+          }
+        ]
+      },
+      {
+        "id": "zoeken",
+        "naam": "2 · Zoeken",
+        "wat": "De markt is sinds 2020 sterk online. Wie u tegenkomt valt in vier categorieën, en wie de courtage betaalt staat verplicht in elke advertentie.",
+        "punten": [
+          {
+            "kop": "Vier soorten bemiddelaars",
+            "tekst": "Agence immobilière met carte professionnelle T (Loi Hoguet 1970) · mandataire-netwerken als iad, SAFTI, Capifrance, Optimhome · notaire-immobilier, vaak met panden uit nalatenschappen en lagere honoraria · PAP, particulier aan particulier, zonder courtage maar met alle verantwoordelijkheid bij uzelf.",
+            "bron": "IF-gids fase 2"
+          },
+          {
+            "kop": "Charge acquéreur is voor u fiscaal gunstiger",
+            "tekst": "De overdrachtsbelasting wordt berekend over de prijs exclusief de honoraria. Dat scheelt 7 à 8 procent over het courtagedeel. Kijk in elke annonce wie betaalt, hoeveel, en wat de prix hors honoraires is.",
+            "bron": "Arrêté 10-1-2017, gew. 26-1-2022"
+          },
+          {
+            "kop": "Het energielabel moet in de advertentie staan",
+            "tekst": "Energieklasse, CO₂-klasse en de theoretische energiekosten, ook op de portalen. Boete tot € 3.000 voor een particulier en € 15.000 voor een vennootschap.",
+            "bron": "art. L126-33 CCH"
+          },
+          {
+            "kop": "Een mandat de recherche maakt ú de opdrachtgever",
+            "tekst": "Honoraria 2 tot 5 procent, alleen bij succes, exclusief voor maximaal drie maanden, met 14 dagen herroeping bij tekenen buiten kantoor. Eén bemiddelaar mag niet tegelijk een verkoop- én zoekmandaat voor hetzelfde pand hebben.",
+            "bron": "Loi Hoguet · Loi Hamon"
+          }
+        ],
+        "doen": [
+          {
+            "n": 6,
+            "doen": "Carte professionnelle T van de makelaar verifiëren, of bij een agent commercial die van de koepel.",
+            "niet": "Vertrouwen op een bemiddelaar die de carte niet kan tonen."
+          },
+          {
+            "n": 7,
+            "doen": "Annonces op meerdere portalen vergelijken — een mandat simple-pand staat vaak op vier sites.",
+            "niet": "Aannemen dat één portaal het complete aanbod toont."
+          },
+          {
+            "n": 8,
+            "doen": "Bij elke annonce de honoraires-vermelding lezen.",
+            "niet": "'Vendu en 24h' of 'exclusivité' als bewijs van kwaliteit zien."
+          },
+          {
+            "n": 9,
+            "doen": "Bij weinig tijd een mandat de recherche overwegen — maar eerst drie of vier huizen via die persoon zien.",
+            "niet": "Exclusief tekenen direct na het eerste gesprek."
+          },
+          {
+            "n": 10,
+            "doen": "Ook de notaire-immobilier in de regio raadplegen.",
+            "niet": "Notarisaanbod negeren omdat het minder zichtbaar is."
+          }
+        ],
+        "gereedschap": [
+          {
+            "naam": "Vastgoed analyseren per adres",
+            "wat": "Wat er in de buurt werkelijk is betaald (DVF, €/m² binnen 500 m), welke risico's gelden (overstroming, seismisch, radon, klei, SEVESO), perceel en PLU-zone, plus DPE en internetdekking.",
+            "url": "https://vastgoed-analyse.vercel.app",
+            "bron": "DVF · Géorisques · API Carto IGN · ADEME · ARCEP",
+            "let": "In landelijke gebieden is de DVF-data soms dun, niet elke gemeente ontsluit haar PLU via de API, en het DPE toont gebouwen in de buurt — niet per se het pand zelf."
+          }
+        ]
+      },
+      {
+        "id": "bezichtigen",
+        "naam": "3 · Bezichtigen",
+        "wat": "Wie drie of vier huizen per dag doorheen jaagt, verliest het oog voor de details die er werkelijk toe doen.",
+        "punten": [
+          {
+            "kop": "Maximaal twee bezichtigingen per dag",
+            "tekst": "Met een uur tussenruimte, en de middagpauze vrij: kantoren sluiten dan en u heeft de tijd nodig om in de omgeving rond te lopen. Plan geen volle week — laat binnengekomen aanbiedingen blijken vaak de interessantste.",
+            "bron": "IF-gids fase 3"
+          },
+          {
+            "kop": "Vraag naar wat u niet ziet",
+            "tekst": "Bouwjaar en facturen van renovaties · type verwarming, isolatie, kozijnen · waternet of eigen puits · riool of assainissement non collectif · droit de passage en andere servitudes · de bestemming volgens het kadaster, cruciaal bij een grange of dépendance.",
+            "bron": "IF-gids fase 3"
+          },
+          {
+            "kop": "Het bon de visite bindt u niet",
+            "tekst": "Het is geen mandaat en verplicht u tot niets — het bewijst alleen dat deze agence u dit pand heeft laten zien. Tekenen is gewoon; weigeren wekt onnodig wantrouwen.",
+            "bron": "Cass. 1re civ. 14-11-2000, nr. 98-10.629"
+          }
+        ],
+        "doen": [
+          {
+            "n": 11,
+            "doen": "Maximaal twee bezichtigingen per dag, met ruimte om de omgeving te bekijken.",
+            "niet": "Hele dagen volplannen om veel huizen te zien."
+          },
+          {
+            "n": 12,
+            "doen": "Het DPE-attest opvragen vóór de bezichtiging en het toekomstige DDT bespreken.",
+            "niet": "Mondelinge claims over isolatie geloven zonder DPE in de hand."
+          },
+          {
+            "n": 13,
+            "doen": "Het bon de visite tekenen en een kopie meenemen.",
+            "niet": "Het weigeren of beweren dat het al thuis op tafel ligt."
+          },
+          {
+            "n": 14,
+            "doen": "Concrete feedback geven, ook negatief: stijl, indeling, ligging, lichtinval.",
+            "niet": "'We laten nog van ons horen' zeggen als u dat niet van plan bent."
+          },
+          {
+            "n": 15,
+            "doen": "Afspraken nakomen of tijdig afzeggen per SMS of WhatsApp.",
+            "niet": "Bij aankomst melden dat u over een uur weg moet."
+          }
+        ]
+      },
+      {
+        "id": "compromis",
+        "naam": "4 · Bod en compromis",
+        "wat": "Vanaf uw bod treedt u in een juridisch verband dat strenger is dan veel Nederlanders verwachten.",
+        "punten": [
+          {
+            "kop": "Tien dagen bedenktijd — vanaf de dag ná de eerste aanbieding",
+            "tekst": "Niet vanaf ontvangst. De termijn loopt vanaf de dag na de eerste aanbieding van de aangetekende brief; ook als u niet thuis was telt die aanbieding. Overhandigt een makelaar met verkoopmandaat de akte persoonlijk, dan geldt de dag daarna, met uw handgeschreven vermelding als bewijs. Herroepen kan zonder reden en zonder kosten; afstand doen van dit recht is nietig.",
+            "bron": "art. L271-1 en D271-6 CCH"
+          },
+          {
+            "kop": "U betaalt niets vóór het einde van die tien dagen",
+            "tekst": "De verkoper mag in die periode geen enkele betaling van een niet-professionele koper ontvangen, op straffe van € 30.000. Uitzondering: storting bij een professional met financiële garantie — de notaris.",
+            "bron": "art. L271-2 CCH"
+          },
+          {
+            "kop": "De aanbetaling gaat naar de notaris, nooit naar de makelaar",
+            "tekst": "Gewoonlijk 5 tot 10 procent, op de compte séquestre. Bij faillissement van de makelaar bent u uw geld kwijt; bij de notaris staat het wettelijk veilig.",
+            "bron": "IF-gids fase 4"
+          },
+          {
+            "kop": "Koopt u bouwgrond, dan heeft u géén bedenktijd",
+            "tekst": "De Cour de cassation legt de regel strikt uit en sluit terrains à bâtir uit. Een veelgemaakte en dure vergissing.",
+            "bron": "Cass. 1re civ. 4-2-2016, nr. 15-11140"
+          },
+          {
+            "kop": "Bij een appartement begint de klok pas met de copropriété-stukken",
+            "tekst": "Zijn reglement, notulen en financiële stukken niet meebetekend, dan is de bedenktijd nog niet begonnen.",
+            "bron": "art. L721-2 CCH"
+          },
+          {
+            "kop": "Een agence omzeilen na een bezichtiging kan u de volle courtage kosten",
+            "tekst": "De Cour de cassation veroordeelde in mei 2026 een koper tot € 150.000 aan een makelaar die hij na de bezichtiging omzeilde — zonder dat er een contract met die agence bestond, op grond van onrechtmatige daad. Onderhandelen over de prijs blijft volstrekt legitiem; systematisch omzeilen om de courtage te ontlopen niet.",
+            "bron": "Cass. 3e civ. 7-5-2026, nr. 24-10.637"
+          },
+          {
+            "kop": "Laat de compromis opstellen door een notaris, niet door de agence",
+            "tekst": "De paar dagen die dat kost wegen niet op tegen het risico van een slecht opgestelde overeenkomst. Neem elke onzekerheid op als opschortende voorwaarde: financiering, voorkooprecht, servitudes, volledigheid van het DDT, verkoop van uw eigen woning, of een vergunning bij een grange.",
+            "bron": "IF-gids fase 4"
+          }
+        ],
+        "doen": [
+          {
+            "n": 16,
+            "doen": "Bod schriftelijk uitbrengen: prijs, geldigheidstermijn, wijze van financiering, gewenste datum en alle clauses suspensives.",
+            "niet": "Mondeling bieden — een schriftelijk bod op prijs en object kan al verbintenisscheppend zijn."
+          },
+          {
+            "n": 17,
+            "doen": "Compromis laten opstellen of nakijken door een notaris.",
+            "niet": "Tekenen omdat de agence haast maakt; een week extra brengt geen pand om."
+          },
+          {
+            "n": 18,
+            "doen": "Aanbetaling uitsluitend naar de compte séquestre van de notaris.",
+            "niet": "Cash betalen of overmaken naar agence, makelaar of verkoper."
+          },
+          {
+            "n": 19,
+            "doen": "Bij twijfel binnen tien kalenderdagen herroepen per aangetekende brief.",
+            "niet": "Een clausule 'afstand van herroepingsrecht' accepteren — nietig, en een teken aan de wand."
+          },
+          {
+            "n": 20,
+            "doen": "Onderhandelen op de prijs: in 2026 vanzelfsprekend, gemiddeld −5%, meer bij DPE F of G.",
+            "niet": "Een agence omzeilen om de courtage te ontlopen."
+          }
+        ],
+        "gereedschap": [
+          {
+            "naam": "Vastgoed transactiekosten",
+            "wat": "Wat de aankoop in totaal kost, of wat er na verkoop netto overblijft — met de overdrachtsbelasting van uw eigen departement en per post het toegepaste wetsartikel.",
+            "url": "https://antonnoe.github.io/Vastgoedtransactie/",
+            "bron": "DGFiP · Code général des impôts · BOFiP"
+          }
+        ]
+      },
+      {
+        "id": "tussen",
+        "naam": "5 · Tussen compromis en acte",
+        "wat": "Geen wachttijd maar een fase van controle, financiering en administratieve voorbereiding.",
+        "punten": [
+          {
+            "kop": "Het financieringsvoorbehoud duurt minimaal één maand",
+            "tekst": "Eén maand vanaf ondertekening, of vanaf registratie als de akte geregistreerd moet worden — niet dertig dagen; in februari scheelt dat. De bepaling is van openbare orde: een clausule die u zwaardere eisen oplegt heeft geen gevolg. In de praktijk wordt 30 tot 45 dagen afgesproken; houd u strikt aan de beschreven procedure, anders is het voorbehoud verbeurd.",
+            "bron": "art. L313-41 Code de la consommation"
+          },
+          {
+            "kop": "Vraag bij minstens drie banken tegelijk aan",
+            "tekst": "Een Nederlands hypotheekverleden telt vaak niet mee: de Franse bank doet haar eigen risicoanalyse. Houd salarisstroken, drie jaar aangiften, bankafschriften en leningsoverzichten compleet.",
+            "bron": "IF-gids fase 5"
+          },
+          {
+            "kop": "De gemeente heeft twee maanden voorkooprecht — maar die klok kan stilstaan",
+            "tekst": "Twee maanden vanaf ontvangst van de verklaring in de mairie, niet vanaf uw handtekening; de notaris dient hem meestal een tot twee weken na het compromis in. Vraagt de gemeente stukken op of wil zij bezichtigen, dan wordt de termijn geschorst; blijft er daarna minder dan een maand over, dan krijgt zij een volle maand. Een afstand verjaart na drie jaar.",
+            "bron": "art. L213-2 en L213-8 Code de l'urbanisme"
+          },
+          {
+            "kop": "Loop het DDT zelf na",
+            "tekst": "DPE · CREP bij bouwjaar vóór 1949 · asbest vóór juli 1997 · elektra en gas bij installaties ouder dan vijftien jaar · termieten en mérule waar aangewezen · staat van de septic tank · ERP met natuurlijke, technologische, seismische, radon- en geluidszones · débroussaillement-attest sinds 31 maart 2024 · veiligheids- en salubriteitsbesluiten sinds 11 april 2024 · het Carnet d'Information du Logement bij nieuwbouw en na energierenovaties.",
+            "bron": "IF-gids fase 5"
+          },
+          {
+            "kop": "Audit énergétique bij de laagste labels",
+            "tekst": "Verplicht bij verkoop sinds april 2023 voor F en G, sinds 1 januari 2025 ook voor E, en vanaf 1 januari 2034 voor D. Deze data komen uit het IF-dossier en zijn niet tegen de primaire bron nagelezen.",
+            "bron": "IF-gids fase 5",
+            "let": true
+          },
+          {
+            "kop": "Bij copropriété: vraag de stukken vóór de dag van de acte",
+            "tekst": "Notulen van de laatste drie vergaderingen, état daté, carnet d'entretien en het Plan Pluriannuel de Travaux. Sinds 1 januari 2025 geldt het PPT voor elke copropriété ouder dan vijftien jaar. Gestemde maar nog niet uitgevoerde werken vallen bij de nieuwe eigenaar op de mat.",
+            "bron": "IF-gids fase 5"
+          },
+          {
+            "kop": "In de Elzas en de Moezel geldt een maximum",
+            "tekst": "In Bas-Rhin, Haut-Rhin en Moselle is de wettelijke maximumtermijn tussen compromis en acte zes maanden. Elders is hij vrij overeen te komen.",
+            "bron": "IF-gids fase 5"
+          }
+        ],
+        "doen": [
+          {
+            "n": 21,
+            "doen": "Binnen één week na het compromis bij minstens drie banken aanvragen.",
+            "niet": "Wachten tot vlak voor de deadline van de clause suspensive."
+          },
+          {
+            "n": 22,
+            "doen": "Het complete DDT zelf doornemen, inclusief audit énergétique bij E, F of G.",
+            "niet": "Aannemen dat een goed DDT betekent dat het huis bouwkundig in orde is."
+          },
+          {
+            "n": 23,
+            "doen": "De mairie bezoeken voor PLU, voorkooprechten en geplande projecten in de buurt.",
+            "niet": "Vertrouwen op wat de verkoper vertelt over de plannen in de gemeente."
+          },
+          {
+            "n": 24,
+            "doen": "Bij copropriété notulen, état daté, PPT en carnet d'entretien opvragen.",
+            "niet": "Gestemde werken negeren — die rekening valt bij u."
+          }
+        ]
+      },
+      {
+        "id": "acte",
+        "naam": "6 · De acte authentique",
+        "wat": "De definitieve overdrachtsakte. Vanaf de ondertekening bent u eigenaar.",
+        "punten": [
+          {
+            "kop": "Er bestaat geen wettelijke termijn tussen compromis en acte",
+            "tekst": "Twee tot drie maanden is de gebruikelijke doorlooptijd voor voorkooprecht, hypotheekonderzoek, stedenbouw en financiering — geen recht en geen plicht. De datum in het compromis is in beginsel niet vervallend, maar het beginpunt van de periode waarin de een de ander tot nakoming kan dwingen. Hangt aan een opschortende voorwaarde wél een eigen termijn en is die niet vervuld, dan is de belofte vervallen.",
+            "bron": "Cass. 3e civ. 21-11-2012 nr. 11-23382 · 9-3-2017 nr. 15-26182"
+          },
+          {
+            "kop": "Een eigen notaris meenemen kost niets extra",
+            "tekst": "Beide notarissen delen het ene wettelijke honorarium. De Franse notaris is geen partijadviseur maar een officier ministériel met verantwoordelijkheid voor beide partijen.",
+            "bron": "IF-gids fase 6"
+          },
+          {
+            "kop": "Het tarief van de dag van de akte telt",
+            "tekst": "Sinds 1 april 2025 mogen departementen hun aandeel verhogen van 4,50 naar 5,00 procent, voor akten tot en met 31 maart 2028. De meeste deden dat: totaal 6,32 procent, tegen 5,81 waar niet is verhoogd en 5,09 in de Indre. Bij nieuwbouw is de overdrachtsbelasting 0,715 procent en zit de btw al in de prijs.",
+            "bron": "art. 116 begrotingswet 2025"
+          },
+          {
+            "kop": "Primo-accédants zijn bij wet van de verhoging uitgesloten",
+            "tekst": "5,81 in plaats van 6,32 procent, in elk departement. Voorwaarden uit het decreet van 8 september 2025: in de twee jaar vóór de aankoop geen eigenaar van uw hoofdwoning, binnen een jaar betrekken, en die bestemming vijf jaar aanhouden — behoudens overplaatsing, scheiding of overlijden.",
+            "bron": "decreet 8-9-2025"
+          },
+          {
+            "kop": "Vraag om de korting op het honorarium",
+            "tekst": "Wettelijk mag de notaris tot 20 procent korting geven op het deel boven € 100.000. Sommigen verlenen het standaard, anderen alleen op verzoek.",
+            "bron": "art. L444-2 Code de commerce"
+          },
+          {
+            "kop": "U krijgt het ontwerp tien dagen vooraf",
+            "tekst": "Lees het grondig en stel uw vragen schriftelijk. Op de tekendag wordt voorgelezen, getekend, worden de sleutels overhandigd en wordt de taxe foncière pro rata met de verkoper afgerekend. Het definitieve eigendomsbewijs komt zes tot twaalf maanden later per post.",
+            "bron": "IF-gids fase 6"
+          }
+        ],
+        "doen": [
+          {
+            "n": 25,
+            "doen": "Een eigen notaris meenemen als u daar behoefte aan heeft.",
+            "niet": "Aannemen dat de notaris van de verkoper ook uw belangen behartigt."
+          },
+          {
+            "n": 26,
+            "doen": "Het concept van de acte minstens tien dagen vooraf doornemen.",
+            "niet": "Op de tekendag voor het eerst de akte zien."
+          },
+          {
+            "n": 27,
+            "doen": "Vragen om de korting op het honorarium boven € 100.000.",
+            "niet": "De frais d'acquisition als één onveranderlijk blok zien."
+          },
+          {
+            "n": 28,
+            "doen": "Bij primo-accédant vóór de tekening verifiëren wat uw departement heeft gestemd.",
+            "niet": "De reductie automatisch verwachten."
+          }
+        ]
+      },
+      {
+        "id": "na",
+        "naam": "7 · Na de aankoop",
+        "wat": "De sleutels zijn van u — het administratieve werk begint nu pas.",
+        "punten": [
+          {
+            "kop": "De woonverzekering gaat in op de dag van de acte",
+            "tekst": "Vanaf de overhandiging van de sleutels bent u risicodrager. Sluit de assurance habitation af vóór de ondertekening.",
+            "bron": "IF-gids fase 7"
+          },
+          {
+            "kop": "Regel de adreswijziging centraal",
+            "tekst": "Via service-public.fr; dat meldt in één keer aan fiscus, CAF, pensioen, energieleveranciers en werkgever. Open eigen contracten voor elektriciteit, gas, water, internet — ook als er al een contract op het pand liep.",
+            "bron": "IF-gids fase 7"
+          },
+          {
+            "kop": "Taxe foncière en taxe d'habitation",
+            "tekst": "De onroerendgoedbelasting is verschuldigd door wie op 1 januari eigenaar is; bij aankoop in de loop van het jaar verrekent de notaris pro rata. De taxe d'habitation is sinds 2023 afgeschaft voor hoofdwoningen, maar geldt nog voor tweede woningen — in zones tendues met een opslag tot 60 procent.",
+            "bron": "IF-gids fase 7"
+          },
+          {
+            "kop": "Meld uzelf aan als nieuwe eigenaar",
+            "tekst": "Via uw espace particulier op impots.gouv.fr, rubriek Biens immobiliers. Uitstel kan boetes opleveren.",
+            "bron": "IF-gids fase 7"
+          }
+        ],
+        "doen": [
+          {
+            "n": 29,
+            "doen": "Assurance habitation met ingangsdatum gelijk aan de acte.",
+            "niet": "Eerst verhuizen, dan de verzekering."
+          },
+          {
+            "n": 30,
+            "doen": "Adreswijziging centraal via service-public.fr.",
+            "niet": "Aannemen dat de notaris fiscus of gemeente informeert."
+          },
+          {
+            "n": 31,
+            "doen": "Bij een tweede woning in zone tendue rekening houden met de opslag tot 60%.",
+            "niet": "Verrast zijn door een aanslag in oktober of november."
+          },
+          {
+            "n": 32,
+            "doen": "Eigendomsregistratie via impots.gouv.fr binnen redelijke termijn.",
+            "niet": "De aangifte als nieuwe eigenaar uitstellen."
+          }
+        ]
+      }
+    ],
+    "valkuilen": [
+      [
+        "Asbestleien dak",
+        "Op zichzelf geen acuut probleem — verwijdering is pas verplicht bij onderhoud of renovatie. Maar de kosten van gecontroleerde afvoer stijgen jaar na jaar. Verdisconteer het in de prijs."
+      ],
+      [
+        "Eigen waterbron",
+        "Charmant tot een droge zomer. Een diepere boring kost € 8.000 tot € 15.000. Controleer diepte, debiet, de mogelijkheid van aansluiting op het net, en de waterkwaliteit — microbiologisch én chemisch."
+      ],
+      [
+        "Droit de passage",
+        "De erfdienstbaarheid die in de praktijk de meeste ruzie geeft. Bekijk bij de notaris de exacte formulering: route, breedte, en type gebruik. Kies bij gelijke geschiktheid een pand zonder."
+      ],
+      [
+        "Grange zonder woonbestemming",
+        "Een goedkope kans op ruimte, tot de gemeente geen certificat d'urbanisme verleent — vanwege afstand tot water, riool of brandweer, of ligging buiten de bouwzone. Koop er nooit een zonder dat certificaat op papier."
+      ],
+      [
+        "De SCI als wondermiddel",
+        "Wordt vaak voorgesteld voor erfrecht of fiscale optimalisatie. Voor de meeste particuliere kopers wegen jaarlijkse boekhouding, vergaderingen en mogelijke dubbele belasting niet op tegen het voordeel. Laat het door een Franse fiscalist beoordelen."
+      ],
+      [
+        "Glaswol op het platteland",
+        "Marters en muizen bouwen er nesten in en vernielen de isolatie binnen enkele jaren; steenwol heeft dat probleem niet. Praktijkervaring, geen vuistregel — vraag een lokale aannemer."
+      ],
+      [
+        "Lenen voor een tweede woning",
+        "Bij rentestijging of inkomensdaling drukt de last op uw hoofdwoning, en tweede woningen zijn minder liquide. Zorg voor een ruime buffer."
+      ]
+    ],
+    "bronnen": [
+      {
+        "wat": "Primair geverifieerd op Légifrance (versie augustus 2026)",
+        "welke": "L271-1, L271-2, D271-6, L721-2, L126-28 t/m L126-33 CCH · L313-41 Code de la consommation · L213-2 en L213-8 Code de l'urbanisme · L444-2 Code de commerce"
+      },
+      {
+        "wat": "Rechtspraak, via vakbronnen",
+        "welke": "Cass. 3e civ. 7-5-2026 nr. 24-10.637 · 21-11-2012 nr. 11-23382 · 9-3-2017 nr. 15-26182 · 1re civ. 4-2-2016 nr. 15-11140 · 1re civ. 14-11-2000 nr. 98-10.629"
+      },
+      {
+        "wat": "Redactioneel",
+        "welke": "IF-dossier 'Gids voor de aankoop van onroerend goed in Frankrijk', juni 2026, na de bijdrage van Bram van Zanten (En Pierre). Volgende herziening januari 2027."
+      },
+      {
+        "wat": "Nog niet tegen de primaire bron nagelezen",
+        "welke": "de gefaseerde invoering van de audit énergétique per energieklasse"
+      }
+    ]
+  },
+  "zorg": {
+    "bron": "IF-dossier 'Alleen ouder worden in Frankrijk', versie 2.3, peildatum juli 2026. Geverifieerd op CNSA/DGCS, Service-Public.fr, France Rénov', info.gouv.fr en Légifrance.",
+    "voorbehoud": "Algemene informatie. Lokale uitvoering verschilt per département; dit vervangt geen medisch, juridisch of fiscaal advies.",
+    "alarm": {
+      "kop": "Direct gevaar?",
+      "tekst": "Bel 15 of 112. Zeg eerst uw adres.",
+      "nummers": [
+        [
+          "15",
+          "SAMU · medische spoed"
+        ],
+        [
+          "112",
+          "Europees alarmnummer"
+        ],
+        [
+          "17",
+          "Politie en gendarmerie"
+        ],
+        [
+          "3133",
+          "Mishandeling of uitbuiting van een kwetsbare volwassene · 9–20 uur, gratis"
+        ]
+      ]
+    },
+    "kort": [
+      [
+        "Direct gevaar",
+        "Bel 15 of 112. Zeg eerst uw adres."
+      ],
+      [
+        "Vannacht niet veilig alleen",
+        "Bel uw huisarts of het ziekenhuis en zeg: « Je vis seul(e) et je ne peux plus rester chez moi sans aide. »"
+      ],
+      [
+        "Het gaat langzaam slechter",
+        "Vraag iemand die u vertrouwt om samen dit dossier door te nemen en de aanvragen te starten."
+      ]
+    ],
+    "zinnen": [
+      [
+        "Je vis seul et je ne peux plus rester chez moi sans aide.",
+        "Ik woon alleen en kan niet meer zonder hulp thuis blijven."
+      ],
+      [
+        "J'ai besoin d'une évaluation urgente de ma perte d'autonomie.",
+        "Ik heb dringend een beoordeling van mijn verlies van zelfstandigheid nodig."
+      ],
+      [
+        "Je parle peu français. Pouvez-vous organiser un interprète professionnel ?",
+        "Ik spreek weinig Frans. Kunt u een professionele tolk regelen?"
+      ],
+      [
+        "Merci de parler lentement et de me donner les instructions par écrit.",
+        "Spreek alstublieft langzaam en geef mij de instructies schriftelijk."
+      ],
+      [
+        "La personne vit seule, ne parle pas suffisamment français et ne peut pas assurer seule les actes essentiels de la vie quotidienne.",
+        "Voor bij ontslag uit het ziekenhuis: deze persoon woont alleen, spreekt onvoldoende Frans en kan de essentiële dagelijkse handelingen niet zelf uitvoeren."
+      ]
+    ],
+    "secties": [
+      {
+        "id": "nu",
+        "naam": "Is het nog veilig?",
+        "wat": "'Nog thuis willen blijven' en 'nog veilig alleen kunnen wonen' zijn niet hetzelfde.",
+        "punten": [
+          {
+            "kop": "Wanneer alleen wonen geen neutrale keuze meer is",
+            "tekst": "Als eten, medicatie, persoonlijke verzorging, toiletgang, oriëntatie of alarmering niet meer betrouwbaar geregeld zijn, is wonen zonder dagelijks toezicht niet langer verantwoord.",
+            "bron": "IF-dossier §1"
+          },
+          {
+            "kop": "Acht signalen",
+            "tekst": "Herhaald vallen of niet zelf kunnen opstaan · medicatie vergeten of dubbel innemen · niet genoeg eten en drinken, zichtbaar gewichtsverlies · gas, kookplaat of verwarming onveilig gebruiken · wassen, aankleden en toiletgang niet meer zelf kunnen · desoriëntatie, verdwalen, wantrouwen of hallucinaties · niemand die dagelijks controleert · na een ziekenhuisopname naar huis zonder dat hulp geregeld is.",
+            "bron": "IF-dossier §1"
+          },
+          {
+            "kop": "Vraag om een évaluation sociale et médicale urgente",
+            "tekst": "Geen direct levensgevaar, maar vannacht alleen blijven is niet veilig? Bel de huisarts, de dienstdoende arts, het ziekenhuis of 15, en vraag daar expliciet om.",
+            "bron": "IF-dossier §1"
+          }
+        ]
+      },
+      {
+        "id": "24u",
+        "naam": "Eerste 24 uur",
+        "wat": "Vijf dingen die vandaag geregeld moeten zijn.",
+        "lijst": [
+          "Leg vast wie de coördinatie tijdelijk op zich neemt.",
+          "Maak een actuele lijst van medicatie, diagnoses, artsen, verzekeringen en contactpersonen.",
+          "Regel een sleuteloplossing die hulpdiensten of een vertrouwd persoon toegang geeft.",
+          "Controleer voedsel, drinken, verwarming, toilet, bed, telefoon en valgevaar.",
+          "Vraag bij acuut verlies van zelfstandigheid om beoordeling door huisarts, ziekenhuis of département."
+        ]
+      },
+      {
+        "id": "7d",
+        "naam": "Binnen 7 dagen",
+        "wat": "De aanvragen starten — parallel, niet na elkaar.",
+        "lijst": [
+          "Neem contact op met het point d'information local, CLIC, CCAS of de sociale dienst van het département.",
+          "Start de aanvraag voor APA à domicile, of vraag bij spoed naar APA en urgence.",
+          "Vraag een service autonomie à domicile om een intake voor hulp en zo nodig verzorging.",
+          "Regel téléassistance, maaltijdbezorging en zo nodig dagelijkse medicatiecontrole.",
+          "Vraag parallel informatie op over accueil temporaire, résidence autonomie, accueil familial en EHPAD."
+        ],
+        "punten": [
+          {
+            "kop": "Zoek niet alleen op 'CLIC'",
+            "tekst": "De naam verschilt per département. Zoek ook op point d'information local personnes âgées, service autonomie of Maison des aînés.",
+            "bron": "IF-dossier §3"
+          },
+          {
+            "kop": "Werk parallel",
+            "tekst": "Een thuiszorgaanvraag sluit een EHPAD-aanvraag niet uit. Voor iemand die alleen woont en snel achteruitgaat moeten tijdelijke veiligheid, structurele thuiszorg en een andere woonvorm gelijktijdig worden onderzocht.",
+            "bron": "IF-dossier §2"
+          }
+        ]
+      },
+      {
+        "id": "30d",
+        "naam": "Binnen 30 dagen",
+        "wat": "Van noodverband naar een plan dat ook nachten en weekenden dekt.",
+        "lijst": [
+          "Laat de woning en het functioneren beoordelen; maak een plan dat ook nachten en weekenden dekt.",
+          "Dien aanvragen in bij meerdere passende instellingen — één voorkeursinstelling is geen plan.",
+          "Leg personne de confiance, personne à prévenir en noodcontacten schriftelijk vast.",
+          "Bespreek een mandat de protection future zolang de betrokkene wilsbekwaam is.",
+          "Bereken de eigen bijdrage en onderzoek APA, ASH, woonsteun, ASPA en fiscale tegemoetkomingen."
+        ],
+        "punten": [
+          {
+            "kop": "Een paar uur hulp is niet altijd genoeg",
+            "tekst": "Controleer wie komt bij ziekte, 's avonds, 's nachts, in het weekend en tijdens vakantie. Een plan zonder vervanging is voor iemand die alleen woont geen zorgplan.",
+            "bron": "IF-dossier §7"
+          },
+          {
+            "kop": "Een vriendelijke buur is geen zorgsysteem",
+            "tekst": "Vrijwillige hulp is waardevol, maar mag niet de enige voorziening zijn voor medicatie, nachtelijke incidenten, geldbeheer of beslissingen bij onbekwaamheid.",
+            "bron": "IF-dossier §21"
+          }
+        ]
+      },
+      {
+        "id": "geld",
+        "naam": "Geld & regelingen",
+        "wat": "Wat er te krijgen is, en waar het vandaan komt.",
+        "tabel": {
+          "kop": "APA · maximum hulpplan per maand, 2026",
+          "regels": [
+            [
+              "GIR 1",
+              "Zeer zware lichamelijke of cognitieve afhankelijkheid",
+              "€ 2.080,33"
+            ],
+            [
+              "GIR 2",
+              "Zware afhankelijkheid, veel dagelijkse hulp",
+              "€ 1.682,30"
+            ],
+            [
+              "GIR 3",
+              "Dagelijkse lichamelijke hulp noodzakelijk",
+              "€ 1.215,99"
+            ],
+            [
+              "GIR 4",
+              "Hulp bij meerdere essentiële dagelijkse handelingen",
+              "€ 811,52"
+            ],
+            [
+              "GIR 5–6",
+              "Geen APA; hulp via de eigen pensioenkas, het CCAS of een lokale regeling",
+              "—"
+            ]
+          ],
+          "bron": "CNSA/DGCS, tarieven per 1 januari 2026"
+        },
+        "punten": [
+          {
+            "kop": "APA: vanaf 60 jaar, geen inkomensgrens voor toegang",
+            "tekst": "Het inkomen bepaalt wel de eigen bijdrage. De bedragen zijn plafonds van het hulpplan, geen vrij besteedbaar bedrag: na een beoordeling thuis stelt het département vast welke hulp erin komt. APA wordt na overlijden niet op de nalatenschap verhaald.",
+            "bron": "Service-Public.fr F10009"
+          },
+          {
+            "kop": "Bij spoed: APA en urgence",
+            "tekst": "Het département kent dan een voorlopig forfait toe van € 1.040,17 per maand — de helft van het GIR 1-maximum — in afwachting van het definitieve plan. Vraag er expliciet naar.",
+            "bron": "CNSA/DGCS 2026"
+          },
+          {
+            "kop": "Zonder Frans pensioen valt de pensioenkasroute weg",
+            "tekst": "De action sociale van de Franse pensioenkassen (bij Assurance retraite heet dat OSCAR, plafond € 3.000 per jaar) loopt via de kas die uw pensioen betaalt, niet via uw woonplaats. Wie alleen AOW en Nederlands pensioen heeft, is aangewezen op APA, het CCAS en de fiscale regelingen.",
+            "bron": "pour-les-personnes-agees.gouv.fr"
+          },
+          {
+            "kop": "Wél Agirc-Arrco-punten? Dan is er meer mogelijk",
+            "tekst": "Wie ooit als werknemer in Frankrijk werkte heeft vrijwel altijd Agirc-Arrco-punten. Voor 75-plussers zonder APA bestaat een tijdelijke aide à domicile en Sortir Plus: begeleide uitstapjes, tot € 300 per jaar. Voor veel Nederlanders met een gemengde loopbaan de meest toegankelijke route.",
+            "bron": "Agirc-Arrco"
+          },
+          {
+            "kop": "ASH kan wél worden teruggevorderd",
+            "tekst": "De aide sociale à l'hébergement dekt een deel van de verblijfskosten als eigen middelen tekortschieten, maar het département onderzoekt inkomen én vermogen, betrekt onderhoudsplichtige kinderen erbij (kleinkinderen zijn vrijgesteld) en kan terugvorderen uit de nalatenschap. De bewoner houdt minimaal 10% van zijn inkomsten, en nooit minder dan € 125 per maand.",
+            "bron": "Service-Public.fr F2444"
+          },
+          {
+            "kop": "ASPA vult een laag pensioen aan",
+            "tekst": "Voor een alleenstaande geldt vanaf 1 januari 2026 een maandgrens van € 1.043,59 bruto. Ook ASPA kan boven een wettelijke grens uit de nalatenschap worden teruggevorderd — laat vóór de aanvraag beoordelen wat dat in uw situatie betekent.",
+            "bron": "Service-Public.fr F16871"
+          },
+          {
+            "kop": "MaPrimeAdapt' voor de woning",
+            "tekst": "Voor bescheiden en zeer bescheiden middelen: 50 of 70 procent van de werkzaamheden, binnen een plafond van € 22.000 exclusief btw, met verplichte begeleiding door een erkende AMO. Vanaf 70 jaar, of 60–69 met GIR-indicatie. Begin niet vóór de formele toestemming.",
+            "bron": "France Rénov'"
+          },
+          {
+            "kop": "Belastingkrediet en -vermindering",
+            "tekst": "50 procent belastingkrediet over het deel van de diensten aan huis dat u werkelijk zelf betaalde, dus ná aftrek van APA. Voor bepaalde eigen EHPAD-kosten geldt 25 procent vermindering. Hetzelfde kostenbestanddeel telt niet twee keer.",
+            "bron": "IF-dossier §20"
+          }
+        ]
+      },
+      {
+        "id": "wonen",
+        "naam": "Wonen",
+        "wat": "Vijf woonvormen, en waar elk ophoudt.",
+        "punten": [
+          {
+            "kop": "Résidence autonomie",
+            "tekst": "Zelfstandige woning met gemeenschappelijke voorzieningen, vaak maaltijden en alarmering. Bedoeld voor wie nog grotendeels zelfstandig is. Vraag: is er 's nachts personeel, wie reageert op een alarm en binnen welke termijn, mag externe thuiszorg dagelijks komen, en wat gebeurt er bij overgang naar GIR 1–4?",
+            "bron": "IF-dossier §12"
+          },
+          {
+            "kop": "Résidence services seniors — marketing is geen zorggarantie",
+            "tekst": "Commercieel, comfortabel, maar geen EHPAD en zonder permanent medisch toezicht. Een receptie, restaurant en noodknop betekenen niet dat iemand met zware afhankelijkheid er veilig blijft. Laat schriftelijk vastleggen wat er 24 uur per dag werkelijk beschikbaar is.",
+            "bron": "IF-dossier §13"
+          },
+          {
+            "kop": "Accueil familial",
+            "tekst": "Wonen bij een door het département erkend gastgezin. Controleer de erkenning, de ervaring met déze zorgbehoefte, nachtelijke aanwezigheid, vervanging bij ziekte en vakantie, en de volledige maandlast.",
+            "bron": "IF-dossier §14"
+          },
+          {
+            "kop": "EHPAD: vraag niet 'is er zorg?' maar wie er 's nachts is",
+            "tekst": "Gemedicaliseerd wonen; de bezetting verschilt sterk per instelling. Er bestaat geen bruikbare landelijke wachttijd — meld parallel aan bij meerdere instellingen en vraag naar tijdelijke én permanente plaatsen. De officiële vergelijker staat op pour-les-personnes-agees.gouv.fr; aanmelden gaat via ViaTrajectoire of het landelijke formulier.",
+            "bron": "IF-dossier §15–16"
+          },
+          {
+            "kop": "De EHPAD-factuur bestaat uit drie delen",
+            "tekst": "Hébergement (kamer, maaltijden, schoonmaak) betaalt de bewoner, eventueel met woonsteun en ASH. Dépendance is het eigen deel bij verlies van zelfstandigheid, waaraan APA kan bijdragen. Soins wordt door de Assurance Maladie betaald en niet aan de bewoner gefactureerd. Reken met de actuele tarieven van de instelling zelf, niet met landelijke gemiddelden.",
+            "bron": "IF-dossier §17"
+          },
+          {
+            "kop": "Na een ziekenhuisopname: een ontslagdatum is geen zorgplan",
+            "tekst": "Vraag vóór ontslag schriftelijk om een gesprek met de assistante sociale, een oordeel of thuiskomst veilig is, voorschriften voor thuisverpleging, en een concrete startdatum van de thuiszorg — niet alleen een telefoonnummer.",
+            "bron": "IF-dossier §10"
+          }
+        ]
+      },
+      {
+        "id": "vastleggen",
+        "naam": "Vastleggen",
+        "wat": "Wat op papier moet staan vóórdat het nodig is.",
+        "punten": [
+          {
+            "kop": "Personne de confiance en personne à prévenir zijn niet hetzelfde",
+            "tekst": "De eerste ondersteunt bij medische gesprekken en brengt de wensen over als de patiënt dat zelf niet meer kan; de aanwijzing is schriftelijk en wordt door die persoon medeondertekend. De tweede wordt gebeld bij een voorval. Leg van beiden naam, telefoon, taal en een reservecontact vast.",
+            "bron": "Service-Public.fr F32748"
+          },
+          {
+            "kop": "Mandat de protection future — zolang iemand wilsbekwaam is",
+            "tekst": "Vooraf iemand aanwijzen die later uw belangen behartigt. Onderhands of notarieel; bij vastgoed of complex vermogen notarieel. Neem op: bankzaken en vaste lasten, contact met instanties, beheer of verkoop van de woning, toezicht en verantwoording, een vervanger, en uitdrukkelijke grenzen. Kan iemand de gevolgen niet meer overzien, dan is een rechterlijke maatregel nodig.",
+            "bron": "Service-Public.fr F16670"
+          },
+          {
+            "kop": "Rechterlijke bescherming: van licht naar zwaar",
+            "tekst": "Sauvegarde de justice (tijdelijk en licht) · curatelle (bijstand) · tutelle (vertegenwoordiging) · habilitation familiale (bevoegdheid voor een familielid). De rechter kiest zo licht mogelijk. Nodig is een medisch certificaat van een arts van de lijst van de procureur: gereguleerd tarief € 192, reiskosten kunnen erbij komen.",
+            "bron": "Service-Public.fr F21667"
+          },
+          {
+            "kop": "Directives anticipées",
+            "tekst": "Schriftelijk vastleggen welke behandelingen u aan het levenseinde wel of niet wilt. Gebruik het officiële model of een eigen duidelijke verklaring met identiteit, datum en handtekening; bespreek het met de huisarts en geef kopieën aan de personne de confiance. De arts moet ze in beginsel volgen.",
+            "bron": "Service-Public.fr F32010"
+          },
+          {
+            "kop": "Palliatieve zorg — en wat de wet op de peildatum niet toestaat",
+            "tekst": "De wet van 26 mei 2026 versterkt het recht op palliatieve en begeleidende zorg en introduceert maisons d'accompagnement. Diepe, aanhoudende sedatie tot het overlijden is onder strikte voorwaarden mogelijk — dat is geen euthanasie. Het aparte wetsvoorstel over hulp bij sterven is op 30 juni 2026 door de Assemblée aangenomen en op 7 juli 2026 door de Senaat verworpen; op de peildatum bestaat er geen geldende wet die hulp bij sterven toestaat.",
+            "bron": "loi n° 2026-404 · stand 7-7-2026",
+            "let": true
+          },
+          {
+            "kop": "Overlijden: de termijn is kort",
+            "tekst": "Begrafenis of crematie in beginsel vanaf 24 uur na het overlijden en uiterlijk 14 kalenderdagen na de dag van overlijden, behoudens toestemming van de prefect. Leg vooraf vast wie gewaarschuwd wordt, wie de huisdieren opvangt, waar het testament ligt en wie de woning mag beveiligen.",
+            "bron": "décret n° 2024-790"
+          },
+          {
+            "kop": "Terugkeer naar Nederland: vertrek niet op een mondelinge verwachting",
+            "tekst": "Een Wlz-aanvraag kan vanuit Frankrijk bij het CIZ worden voorbereid, maar een indicatie betekent niet dat de zorg beschikbaar of verzekerd is: er kan een wachttijd van maximaal twaalf maanden gelden, en tijdens die wachttijd kunnen verblijfskosten voor eigen rekening komen. Zorg dat indicatie, verzekeringspositie, verblijfplaats en startdatum schriftelijk bevestigd zijn.",
+            "bron": "CIZ"
+          }
+        ]
+      },
+      {
+        "id": "noodkaart",
+        "naam": "Noodkaart",
+        "wat": "Eén blad bij de voordeur. Vul in, druk af, leg zichtbaar neer.",
+        "kaart": [
+          [
+            "Nom / naam",
+            ""
+          ],
+          [
+            "Adresse complète",
+            ""
+          ],
+          [
+            "Boîte à clés / accès",
+            "oui – non · code bekend bij:"
+          ],
+          [
+            "Date de naissance",
+            ""
+          ],
+          [
+            "Médecin traitant",
+            "+ tél."
+          ],
+          [
+            "Personne à prévenir",
+            "+ tél."
+          ],
+          [
+            "Personne de confiance",
+            "+ tél."
+          ],
+          [
+            "Allergies",
+            ""
+          ],
+          [
+            "Traitements importants",
+            ""
+          ],
+          [
+            "Maladies importantes",
+            ""
+          ],
+          [
+            "Mutuelle",
+            ""
+          ],
+          [
+            "Animal à domicile",
+            ""
+          ],
+          [
+            "Langue",
+            "Néerlandais. Je parle peu français."
+          ]
+        ],
+        "punten": [
+          {
+            "kop": "Schrijf nooit een code of wachtwoord op deze kaart",
+            "tekst": "Noteer alleen wíe de code kent en hoe die persoon bereikbaar is. De kaart bevat het adres en kan zoekraken.",
+            "bron": "IF-dossier §30"
+          },
+          {
+            "kop": "Vraag inschrijving in het gemeentelijke risicoregister",
+            "tekst": "Het register voor kwetsbare personen bij de mairie is relevant bij hittegolf, kou, stroomstoring of crisis.",
+            "bron": "IF-dossier §8"
+          },
+          {
+            "kop": "Waarschuwingssignalen van uitbuiting",
+            "tekst": "Onverklaarde geldopnames of nieuwe 'leningen' · iemand die contact met anderen verhindert · handtekeningen die niet begrepen worden · slechte hygiëne of onbehandelde wonden ondanks betaalde hulp · dreigen met verlies van hulp of huisvesting · verdwenen sieraden, documenten of bankpassen. Bel 3133.",
+            "bron": "info.gouv.fr"
+          }
+        ]
+      }
+    ],
+    "bronnen": [
+      {
+        "wat": "Officiële tarieven en regelingen",
+        "welke": "CNSA/DGCS APA-tarieven 1-1-2026 · Service-Public.fr F10009 (APA), F2444 (ASH), F16871 (ASPA), F16670 (mandat), F21667 (certificat), F32748 (personne de confiance), F32010 (directives) · France Rénov' MaPrimeAdapt'"
+      },
+      {
+        "wat": "Wetgeving",
+        "welke": "loi n° 2026-404 van 26 mei 2026 (palliatieve en begeleidende zorg) · décret n° 2024-790 (termijn begrafenis)"
+      },
+      {
+        "wat": "Redactioneel",
+        "welke": "IF-dossier 'Alleen ouder worden in Frankrijk', versie 2.3, peildatum juli 2026"
+      },
+      {
+        "wat": "Nederlanders.fr is geen hulporganisatie",
+        "welke": "Op het forum kunt u ervaringen en lokale tips vragen, maar niemand is verplicht te reageren en niemand controleert wie reageert. Bouw er geen zorgplan op en deel er nooit medische gegevens of toegangsinformatie."
+      }
+    ]
+  },
+  "ruyter": {
+    "kern": "Bent u voor de ziektekosten verzekerd in een land van de EER, het Verenigd Koninkrijk of Zwitserland, én komt u niet ten laste van een Frans verplicht stelsel, dan vervallen de Franse CSG en CRDS op uw vermogensinkomsten. U betaalt dan alleen het prélèvement de solidarité van 7,5 procent.",
+    "waarschuwing": "Teruggave gaat niet vanzelf. Het staat of valt met één vinkje op uw aangifte, of met één bewijsstuk bij de notaris.",
+    "vragen": [
+      {
+        "id": "a",
+        "vraag": "Bent u voor uw ziektekosten verzekerd in een land van de EER, het VK of Zwitserland?",
+        "hulp": "Ook: u woont in Frankrijk met een S1 en betaalt de verdragsbijdrage aan het CAK. Woonplaats is geen criterium."
+      },
+      {
+        "id": "b",
+        "vraag": "Komt u ten laste van een Frans verplicht socialezekerheidsstelsel?",
+        "hulp": "Dat gebeurt bij werk in Frankrijk, een Frans pensioen náást het Nederlandse, een zelfstandige activiteit in Frankrijk, of inschrijving in PUMa."
+      }
+    ],
+    "uitkomsten": {
+      "ja": {
+        "kop": "U valt onder het regime",
+        "tekst": "Beide voorwaarden zijn vervuld: verzekerd in een stelsel onder verordening 883/2004, en niet ten laste van een Frans stelsel. De CSG en CRDS vervallen; het prélèvement de solidarité van 7,5 procent blijft altijd verschuldigd.",
+        "bron": "art. L. 136-6, I ter CSS"
+      },
+      "nee_a": {
+        "kop": "Waarschijnlijk niet",
+        "tekst": "De eerste voorwaarde is niet vervuld. Zonder aansluiting bij een ziektekostenstelsel van de EER, het VK of Zwitserland geldt het regime niet.",
+        "bron": "art. L. 136-6, I ter CSS"
+      },
+      "nee_b": {
+        "kop": "Nee — een Franse aansluiting breekt het regime",
+        "tekst": "Niet de S1 op zichzelf is het risico, maar een Franse aansluiting ernaast. Let op bij koppels: is één van beiden wél Frans verzekerd, dan geldt de vrijstelling alleen voor de inkomsten van de ander, en moet u die op de aangifte apart uitsplitsen in 8RF, 8RV, 8RC en 8RM.",
+        "bron": "art. L. 136-6, I ter CSS"
+      }
+    },
+    "peildatum": "Uw aansluiting moet effectief zijn op 31 december van het jaar waarover de heffing wordt berekend. Voor de inkomsten van 2025 die u in 2026 aangeeft: 31 december 2025. Bij meerwaarden met uitgestelde heffing geldt het moment van realisatie.",
+    "tarieven": {
+      "kop": "Wat het scheelt, 2026",
+      "regels": [
+        [
+          "Huur uit kale verhuur",
+          "17,2%",
+          "7,5%",
+          "9,7 punt"
+        ],
+        [
+          "Meerwaarde verkoop woning",
+          "17,2%",
+          "7,5%",
+          "9,7 punt"
+        ],
+        [
+          "Rente en dividend",
+          "18,6%",
+          "7,5%",
+          "11,1 punt"
+        ],
+        [
+          "Meerwaarde op effecten",
+          "18,6%",
+          "7,5%",
+          "11,1 punt"
+        ]
+      ],
+      "noot": "Op een huuropbrengst van € 10.000 scheelt dat € 970; op een dividend van € 2.500 € 277,50; op een meerwaarde van € 50.000 bij verkoop € 4.850. Rechtstreekse rekensommen met de genoemde percentages, geen schatting van een concreet dossier."
+    },
+    "routes": [
+      {
+        "nr": "1",
+        "kop": "Vooraf, via uw aangifte",
+        "wat": "Voor het lopende jaar en de jaren daarna. Geen aanvraag, geen beschikking: u vinkt een vak aan en de heffing wordt op 7,5 procent berekend.",
+        "punten": [
+          "Vak 8SH op de 2042-C, rubriek 8 Divers — voor uzelf.",
+          "Vak 8SI — voor uw partner.",
+          "In de online aangifte verschijnt de 2042-C niet vanzelf: activeer hem links onder Annexes.",
+          "Controleer het vinkje élk jaar opnieuw; het wordt niet altijd overgenomen."
+        ],
+        "let": "Vak 8RP is NIET het juiste vak. Dat hoort bij de regels 1TT en 1UT — arbeidsinkomen en aandelenregelingen — en doet niets voor vermogensinkomsten. Wie alleen 8RP aanvinkt, krijgt de volle heffing over huur, rente en dividend."
+      },
+      {
+        "nr": "2",
+        "kop": "Bij verkoop, via de notaris",
+        "wat": "De heffing wordt ingehouden op de dag van de akte, op formulier 2048-IMM. Wie dan geen bewijs overlegt, krijgt de volle 17,2 procent ingehouden.",
+        "punten": [
+          "Stuur uw bewijs van aansluiting al bij het compromis, niet pas bij de akte.",
+          "Vraag om een voorlopige berekening.",
+          "Lees de afrekening van de notaris regel voor regel na vóór u tekent."
+        ],
+        "let": "De Ruyter verlaagt alleen de sociale lasten. De 19 procent inkomstenbelasting op de meerwaarde blijft, en boven € 50.000 belastbare meerwaarde geldt een extra heffing van 2 tot 6 procent."
+      },
+      {
+        "nr": "3",
+        "kop": "Achteraf terugvragen",
+        "wat": "Is de volle heffing ingehouden terwijl u aan de voorwaarden voldeed, dan dient u een réclamation contentieuse in — via de berichtendienst op impots.gouv.fr, of bij de dienst die de akte registreerde.",
+        "punten": [
+          "Termijn: uiterlijk 31 december van het tweede jaar na betaling. Wie in 2026 verkoopt heeft tot en met 31 december 2028.",
+          "Neem op: fiscaal nummer, jaar en soort inkomen, het ingehouden bedrag, een verwijzing naar art. L. 136-6, I ter CSS, en een kopie van uw S1 of A1.",
+          "Bij toewijzing krijgt u het te veel betaalde terug, met wettelijke rente."
+        ],
+        "let": "Bezwaren die alleen naar het arrest De Ruyter verwijzen zonder de aansluiting te onderbouwen, worden afgewezen."
+      }
+    ],
+    "brief": {
+      "kop": "Modelbrief aan de notaris",
+      "wat": "Stuur deze mee met een kopie van uw S1 of A1, ruim vóór de akte — bij voorkeur al bij het compromis.",
+      "tekst": "À l'attention de Maître [naam notaris]\nObjet : vente [adres] — application du I ter de l'article L. 136-6 du code de la sécurité sociale\n\nMaître,\n\nDans le cadre de la vente de mon bien immobilier situé à [adres], je vous informe que, par application du règlement (CE) n° 883/2004, je relève en matière d'assurance maladie de la législation des Pays-Bas et que je ne suis pas à la charge d'un régime obligatoire de sécurité sociale français.\n\nJe vous remercie de bien vouloir en tenir compte lors de l'établissement de la déclaration n° 2048-IMM, en appliquant le seul prélèvement de solidarité de 7,5 % prévu à l'article 235 ter du code général des impôts, à l'exclusion de la CSG et de la CRDS.\n\nVous trouverez ci-joint le justificatif de mon affiliation [formulaire S1 / attestation A1].\n\nJe vous prie d'agréer, Maître, l'expression de mes salutations distinguées.\n\n[naam, datum, handtekening]"
+    },
+    "papieren": [
+      "S1-formulier of A1-verklaring, geldig op 31 december van het betrokken jaar",
+      "Uw Franse aanslagen (avis d'impôt) over de betrokken jaren",
+      "Bewijs van betaling van de sociale heffingen",
+      "Bij verkoop: de akte of het compromis, en de afrekening van de notaris",
+      "CAK-overzicht van de verdragsbijdrage, als dat voor u geldt",
+      "Bankgegevens voor de terugbetaling (IBAN)"
+    ],
+    "valkuilen": [
+      "Vak 8RP aanvinken in plaats van 8SH.",
+      "Aannemen dat het alleen voor niet-ingezetenen bedoeld is.",
+      "Overal 'EU' lezen waar EER, VK en Zwitserland bedoeld is.",
+      "Denken dat De Ruyter ook de 19 procent inkomstenbelasting wegneemt.",
+      "Wachten tot achteraf terwijl u het vooraf via de aangifte kunt regelen.",
+      "Beide vakjes aanvinken terwijl één van de twee in Frankrijk werkt of een Frans pensioen ontvangt."
+    ],
+    "bronnen": [
+      {
+        "wat": "Primair geverifieerd bij wettekst of officiële publicatie",
+        "welke": "CSS art. L. 136-6 I ter en L. 136-7 I ter · CGI art. 235 ter, 150 VC, 1609 nonies G · LPF art. R*196-1 · decreet 2019-633 · arrêté 29-7-2019 (modelformulier) · art. 12 wet 2025-1403 (CSG-verhoging 2026)"
+      },
+      {
+        "wat": "Primair geverifieerd bij DGFiP Brochure Pratique 2026",
+        "welke": "de vakken 8SH, 8SI, 8RF, 8RV, 8RC en 8RM · de peildatum 31 december · het onderscheid met 8RP en 8RQ"
+      },
+      {
+        "wat": "Rechtspraak",
+        "welke": "HvJ EU 26-2-2015 C-623/13 (De Ruyter) · HvJ EU 14-3-2019 C-372/18 (Dreyer) · Conseil d'État 16-4-2019 nr. 423586"
+      },
+      {
+        "wat": "Wat de bronnen niet uitdrukkelijk zeggen",
+        "welke": "Geen enkele officiële toelichting noemt de in Frankrijk wonende S1-houder met verdragsbijdrage aan het CAK bij name. Dat deze groep eronder valt volgt uit de twee voorwaarden zoals wet, modelformulier en brochure die alle drie stellen. Stuit u op weerstand, verwijs dan naar art. L. 136-6, I ter CSS en naar de tekst van vak 8SH."
+      }
+    ],
+    "voorbehoud": "Praktische handleiding, geen persoonlijk fiscaal advies. Uw socialezekerheidspositie bepaalt of het regime op u van toepassing is, en die kan veranderen door werk, een tweede pensioen of een inschrijving in Frankrijk."
+  }
+}
