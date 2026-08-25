@@ -4,9 +4,11 @@ Werkinstructies voor Claude Code in deze repo (`antonnoe/if-mobiel`). Lees dit v
 elke wijziging. Statische mobiele webapp-schil voor Infofrankrijk.com (Nederlanders in
 Frankrijk).
 
-## Architectuur (tien regels)
+## Architectuur (v3, tien regels)
 
-1. Eén app, drie kernbestanden: `index.html`, `support.js`, `Bosbranden Mobiel.html`.
+1. Eén app, kernbestanden: `index.html` (schil + logica), `support.js` (runtime, gegenereerd),
+   `Bosbranden Mobiel.html` (brandrisico via iframe) en `modules.json` (de catalogus — data,
+   nooit logica).
 2. `index.html` is géén gewone pagina maar een **Design Component**: een `<x-dc>`-template
    met `{{ }}`-holes plus een logicaklasse `class Component extends DCLogic` in een
    `<script type="text/x-dc">`-blok.
@@ -15,17 +17,31 @@ Frankrijk).
 4. Eigen tags sturen de template: `<sc-if value="{{ }}">`, `<sc-for list="{{ }}" as="…">`
    en `<helmet>` voor `<head>`-inhoud. `{{ expr }}` vult tekst, attributen en handlers.
 5. Toestand leeft in `state` van de klasse; `setState`/`forceUpdate` hertekenen. Eén scherm
-   tegelijk via `state.screen` (`login`, `hub`, `dossier`, `fire`, `tool`, `energie`, `forum`,
-   `modules`, `account`).
-6. De modulecatalogus staat in de const `G`; het dossier in `SECTIONS`; de feed in `FEEDS`.
-   De hub heeft drie weergaven (`variant` A/B/C): Dossiers, Tegels, Index.
-7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; `enVals()` doet dat
-   voor het energie-portaal.
-8. Modules zijn óf een schil-sjabloon (`kind:"tool"`), óf echt uitgewerkt: brandrisico via
-   iframe naar `Bosbranden Mobiel.html`, energie via de rekenmotor in `engine/`.
+   tegelijk via `state.screen`: `hub`, `mod`, `zoek`, `gem`, `taal`, `lex`, `tool`, `acc`,
+   `over`, plus de uitgewerkte eigen schillen `nedergids`, `vastgoed`, `zorg`, `ruyter` en
+   `energie`. Er is geen `login`- of `dossier`-scherm — de app werkt zonder account; wat
+   betaald is krijgt een uitleg en een muur, niet een aparte inlogroute (zie `knip` per
+   module, en de openstaande vragen over abonnementsstatus in `BOUWOPDRACHT.md`).
+6. De modulecatalogus staat in `modules.json` (`groepen`, `modules`, plus per-kind extra's
+   zoals `vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`) — **nooit** in de code.
+   De taakbalk heeft twee varianten (`tabVariant` A/B, een ontwerpprop): A toont een
+   zoekbalk boven de hub, B een "Vandaag"-strip. Er zijn geen aparte hub-weergaven
+   (Dossiers/Tegels/Index) meer.
+7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; losse `*Vals()`-
+   helpers leveren hun deel toe (bv. `enVals()` voor het energiescherm).
+8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`, `taal`, `lex`,
+   `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`. Een nieuw type
+   toevoegen is: een `kind` verzinnen, een blok in de JSON, en één `sc-if`-scherm in de
+   template — bestaande modules van vorm veranderen gaat zonder code.
 9. Geen buildstap, geen bundler, geen stylesheet: alle styling staat **inline**. Draaien met
    `npx serve .`; Vercel importeert de repo zonder instellingen.
-10. Persistentie in `localStorage` (`fw_state`, `fw_feed`); feed via RSS met demo-fallback.
+10. Persistentie in `localStorage`: `ifm_favs`, `ifm_postcode`, `ifm_pc_later`,
+    `ifm_last_visit`. Actueel-tab via `nlfr-menu`'s `/api/actueel` (thema-tegels: pers,
+    overheid, infofrankrijk, verenigingen) met een voorbeeldlijst-terugval; het forum via
+    `nlfr-berichten` met een demo-terugval. Beide falen zacht: nooit een lege pagina.
+
+**De catalogus staat in `modules.json` en gaat nooit terug de code in** — ontbreekt een
+veld, voeg het toe aan de JSON en lees het uit met een veilige terugval, zie regel 6/8.
 
 **Vecht dit patroon niet aan.** Niet naar React/Vue/Tailwind converteren, geen buildstap
 introduceren, geen stylesheet toevoegen — zonder expliciete opdracht. Het werkt en het is

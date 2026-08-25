@@ -1,5 +1,13 @@
 # Prompts voor Claude Code
 
+> **Let op — dit is het v2-bouwlog.** De prompts hieronder zijn geschreven tegen de
+> vórige versie van de app (inlogscherm, catalogus in `const G`, `fw_state`/`fw_feed`,
+> een verzonnen DossierFrankrijk-URL). `main` is inmiddels v3: geen login, de catalogus
+> in `modules.json`, `ifm_*`-sleutels. Zie `BOUWOPDRACHT.md` voor de actuele opdracht en
+> `CLAUDE.md` voor de actuele architectuur. Dit bestand blijft staan als bouwgeschiedenis
+> en is per prompt hieronder gemarkeerd: **[V2 — vervangen]** waar v3 het anders doet,
+> **[NOG OPEN]** waar de vraag nog steeds openstaat (nu in `BOUWOPDRACHT.md`).
+
 Kopieer één prompt per keer, in deze volgorde. Elke prompt is zelfstandig — Claude Code
 hoeft niets van de ontwerpsessie te weten. Laat elke stap afronden en testen voordat je
 de volgende geeft.
@@ -11,7 +19,10 @@ gedupliceerd — alleen de UI verschilt per platform.
 
 ---
 
-## 0 — Repo leren kennen en CLAUDE.md schrijven
+## 0 — Repo leren kennen en CLAUDE.md schrijven **[V2 — vervangen]**
+
+*`CLAUDE.md` is voor v3 herschreven (architectuurregels), de huisstijlregels eronder
+gelden nog steeds ongewijzigd. Deze prompt hoeft niet opnieuw.*
 
 ```
 Dit is een statische mobiele webapp-schil voor Infofrankrijk.com (Nederlanders in
@@ -40,7 +51,15 @@ Schrijf daarna een CLAUDE.md met:
 
 ---
 
-## 1 — Artikelenfeed aansluiten op Infofrankrijk.com
+## 1 — Artikelenfeed aansluiten op Infofrankrijk.com **[V2 — deels achterhaald, deels nog open]**
+
+*De Actueel-tab is in v3 opgelost via `nlfr-menu`'s `/api/actueel` (thema-tegels: pers,
+overheid, infofrankrijk, verenigingen), niet via een rechtstreekse WP REST-koppeling
+zoals hieronder beschreven — zie `BOUWOPDRACHT.md` §2. De dossierindeling per categorie
+die deze prompt beschrijft (Veiligheid & natuur, Financiën, Wonen & vastgoed, …) bestaat
+in v3 niet meer als apart feed-mechanisme; dossiers zijn nu de veertien modules zelf.
+Wat nog wél open staat: een rechtstreekse WP REST-koppeling voor losse redactionele
+artikelen (buiten de modules om) is niet gebouwd.*
 
 ```
 De app toont nu een demo-feed. Sluit hem aan op de echte WordPress-installatie van
@@ -77,7 +96,11 @@ Regels:
 
 ---
 
-## 2 — Authenticatie tegen Infofrankrijk
+## 2 — Authenticatie tegen Infofrankrijk **[NOG OPEN]**
+
+*Nog steeds actueel — dit is nu `BOUWOPDRACHT.md` §5. Er staat nog altijd nul aan
+authenticatie in `index.html`; de drie vragen hieronder ("zoek eerst uit hoe...") staan
+in §5 preciezer geformuleerd. Bouw hier niets op een aanname.*
 
 ```
 De tools en dossiers van Infofrankrijk zitten achter een abonnement. Een niet-ingelogde
@@ -99,7 +122,13 @@ Bouw daarna:
 
 ---
 
-## 3 — DossierFrankrijk-koppeling echt maken
+## 3 — DossierFrankrijk-koppeling echt maken **[V2 — v3 heeft nog geen dossier-scherm]**
+
+*v3 heeft het `dossier`-scherm van v2 niet overgenomen — er is nu geen enkele
+"bewaar in dossier"-knop die iets doet, alleen tekst die het als abonnee-voordeel
+noemt (zie `kompas.knip` en `energie.knip` in `modules.json`). Deze prompt (een
+verzonnen opslag-URL vervangen door een echte koppeling) is dus pas relevant zodra er
+een dossierconcept in v3 terugkomt — niet nu doen op een aanname.*
 
 ```
 In de module Energie-portaal (index.html, zoek op enDossierUrl) staat nu een verzonnen
@@ -121,7 +150,13 @@ Eisen:
 
 ---
 
-## 4 — Rekenmotor synchroon houden met energieportaal
+## 4 — Rekenmotor synchroon houden met energieportaal **[DEELS AF]**
+
+*`loadEngine()` met guard bestaat weer in v3 (`BOUWOPDRACHT.md` §1, opgelost). De
+waarschuwing onderaan over `const ZONES` en één keer inladen is nog steeds precies
+juist en nog steeds de reden dat er geen tweede `<script src>` naast `loadEngine()`
+mag komen. Het synchronisatiescript (`npm run sync-engine`) en het vastleggen van
+bronrepo/commit zijn nog niet gebouwd.*
 
 ```
 engine/archetypes.js, engine/engine.js en engine/dpe.js zijn ongewijzigde kopieën uit
@@ -145,7 +180,12 @@ loadEngine() met een guard; voeg er geen tweede <script src> naast.
 
 ---
 
-## 5 — Belastinggids als tweede module
+## 5 — Belastinggids als tweede module **[V2 — vervangen]**
+
+*"Tweede module" is achterhaald — v3 heeft veertien modules. Een belastinggids naar dit
+artikel staat niet in de huidige veertien-modulelijst van `BOUWOPDRACHT.md`; Financieel
+kompas (iframe naar `financieel-kompas-ai`) dekt een deel van dit terrein al. Alleen
+oppakken na een expliciete nieuwe opdracht van de redactie.*
 
 ```
 Bouw de belastinggids van Infofrankrijk als tweede interactieve module, naar het model van
@@ -174,7 +214,10 @@ onleesbaar. Bouw dit:
 
 ---
 
-## 6 — Prestatie en gedrag op een echte telefoon
+## 6 — Prestatie en gedrag op een echte telefoon **[NOG STEEDS RELEVANT]**
+
+*Deze testlijst geldt onverkort voor v3 en is uitgebreid in `BOUWOPDRACHT.md` onder
+"Vier regels die overal gelden" §4 (met de energie-intake en de voorleesknoppen erbij).*
 
 ```
 Test de app op een echte telefoon, niet alleen in een smalle browser, en los op wat je
