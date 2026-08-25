@@ -99,76 +99,42 @@
       "id": "energie",
       "groep": "wonen",
       "naam": "Energie & verwarming",
-      "meta": "energielabel, jaarkosten, subsidie",
+      "meta": "energielabel, jaarkosten, CO₂",
       "prijs": "abonnee",
       "schil": "rekenschil",
       "houdbaar": "per jaar",
-      "status": "motor af",
-      "kind": "voorbeeld",
-      "nagekeken": "2026-08-23",
-      "over": "Zeven vragen over uw woning; de rekenmotor vult de overige veertig velden met forfaits per bouwperiode.",
-      "voorbeeld": {
+      "status": "af",
+      "kind": "energie",
+      "nagekeken": "2026-08-25",
+      "over": "Zeven vragen over uw woning. De rekenmotor (methode 3CL-DPE 2021) vult de overige veertig velden met forfaits per bouwperiode en berekent een indicatief energielabel, uw jaarkosten en de CO₂-uitstoot.",
+      "let": "Indicatie op basis van forfaitaire waarden en Météo-France-klimaatnormalen. Een officiële DPE komt van een gecertificeerd diagnostiqueur en kan afwijken.",
+      "demohuis": {
         "titel": "Pavillon uit 1968, 120 m², Hérault, elektrische verwarming",
-        "rows": [
-          [
-            "Energielabel",
-            "E"
-          ],
-          [
-            "Verbruik",
-            "287 kWh EP/m²"
-          ],
-          [
-            "Jaarkosten",
-            "€ 2.140"
-          ],
-          [
-            "CO₂",
-            "31 kg/m²"
-          ]
+        "archetype": {
+          "zone": "med",
+          "houseType": "pavillon",
+          "period": "y48_74",
+          "m2": 120,
+          "renovations": [],
+          "heating": "elec",
+          "usage": "permanent"
+        }
+      },
+      "knip": {
+        "kop": "Wat er gratis is, en waar het abonnement begint",
+        "gratis": [
+          "Het voorbeeldhuis met zijn volledige, echt berekende uitkomst.",
+          "Uw eigen zeven antwoorden invullen — net zo vaak als u wilt.",
+          "De richting van uw eigen uitkomst: ongeveer welk energielabel, en welke post het zwaarst weegt.",
+          "Hoe de motor rekent, met de belangrijkste tussenstappen zichtbaar."
         ],
-        "intake": [
-          [
-            "Bouwperiode",
-            [
-              "vóór 1948",
-              "1948–1974",
-              "1975–2000",
-              "na 2000"
-            ]
-          ],
-          [
-            "Verwarming",
-            [
-              "elektrisch",
-              "gas",
-              "hout",
-              "warmtepomp"
-            ]
-          ],
-          [
-            "Woonoppervlak",
-            [
-              "tot 90 m²",
-              "90–140 m²",
-              "meer dan 140 m²"
-            ]
-          ]
+        "abonnee": [
+          "Uw eigen bedragen: jaarkosten, maandkosten en de kosten per post.",
+          "De vergelijking met en zonder volledige isolatie of een warmtepomp.",
+          "Bewaren in uw dossier, zodat u er bij een verbouwing of verhuur bij kunt.",
+          "Alle veertig velden zelf aanpassen in de volledige rekentool."
         ],
-        "uit": [
-          [
-            "Uw energielabel",
-            "•"
-          ],
-          [
-            "Uw jaarkosten",
-            "€ ••••"
-          ],
-          [
-            "Terugverdientijd isolatie",
-            "•• jaar"
-          ]
-        ]
+        "regel": "De knip loopt door de uitkomst heen, niet eromheen: u ziet wél waar uw huis ongeveer staat en waaróm, maar niet met hoeveel euro. Dat is eerlijker dan een lege pagina met een slot."
       }
     },
     {

@@ -742,6 +742,154 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<!-- ============ ENERGIE (rekenmotor uit engine/, ongewijzigd) ============ -->
+<sc-if value="{{ isEnergie }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:18px 18px 0">
+    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · rekenmotor</div>
+    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:7px 0 0">Energie &amp; verwarming</h1>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ enOver }}</p>
+  </div>
+
+  <sc-if value="{{ enEngineLaden }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12px/1.7 Mulish;color:#3D4346">Rekenmotor laden…</div>
+  </sc-if>
+  <sc-if value="{{ enEngineFout }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 11.5px/1.7 Mulish">De rekenmotor (engine/) kon niet worden geladen. Geen uitkomst te tonen — probeer het later opnieuw.</div>
+  </sc-if>
+
+  <sc-if value="{{ enEngineKlaar }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <!-- Voorbeeldhuis: altijd gratis, echt berekend -->
+    <div style="padding:22px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Voorbeeldhuis — vrij te bekijken</div>
+    <sc-if value="{{ enVbKlaar }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="font:600 12.5px/1.6 Mulish;color:#71787C;padding:6px 18px 0;text-wrap:pretty">{{ enVbTitel }}</div>
+      <div style="margin:12px 14px 0;display:flex;gap:12px;align-items:stretch">
+        <div style="{{ enVbLabelStyle }}">
+          <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:42px;line-height:1">{{ enVbLetter }}</div>
+          <div style="font:800 9px Mulish;letter-spacing:.10em;margin-top:2px">DPE</div>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:13px 15px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font:600 10.5px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#71787C">Jaarkosten</div>
+          <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:22px;line-height:1.15;margin-top:2px">{{ enVbKostenJaar }}</div>
+          <div style="font:600 11.5px Mulish;color:#71787C;margin-top:2px">{{ enVbKostenMaand }} per maand</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:12px 14px 0;padding:2px 15px">
+        <sc-for list="{{ enVbRows }}" as="r" hint-placeholder-count="3">
+        <div style="display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font:500 13px/1.5 Mulish;color:#3D4346">
+          <span>{{ r.k }}</span><b style="color:#15181A;white-space:nowrap">{{ r.v }}</b>
+        </div>
+        </sc-for>
+      </div>
+      <div style="margin:10px 14px 0">
+        <button onClick="{{ enUitlegToggle }}" style="width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:10px 14px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;font:700 12.5px Mulish;color:#15181A;cursor:pointer">
+          <span>Hoe is dit gerekend?</span><span>{{ enUitlegIcon }}</span>
+        </button>
+        <sc-if value="{{ enUitlegOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:8px;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.75 Mulish;color:#3D4346">
+          <sc-for list="{{ enVbUitleg }}" as="u" hint-placeholder-count="4">
+          <div style="display:flex;justify-content:space-between;gap:10px;padding:4px 0"><span>{{ u.k }}</span><b style="color:#15181A;white-space:nowrap">{{ u.v }}</b></div>
+          </sc-for>
+          <div style="margin-top:8px;text-wrap:pretty">De forfaits per bouwperiode komen uit de methode 3CL-DPE 2021 (arrêté 31-03-2021). Deze doorrekening gaat uit van een gewone apparatenmix en geen zwembad, laadpaal of zonnepanelen.</div>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ enVbHeeftMismatch }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:12px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 12px/1.75 Mulish;color:#5C0000;text-wrap:pretty">{{ enVbMismatchTekst }}</div>
+    </sc-if>
+
+    <!-- Eigen situatie: zeven vragen -->
+    <div style="padding:26px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Nu uw eigen situatie</div>
+    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 18px 0;text-wrap:pretty">Zeven vragen, met dezelfde rekenmotor als hierboven. Gratis in te vullen — het abonnement geeft u de bedragen.</p>
+
+    <sc-for list="{{ enGroepen }}" as="g" hint-placeholder-count="6">
+    <div style="margin:18px 14px 0">
+      <div style="display:flex;align-items:baseline;gap:8px">
+        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 11px Mulish">{{ g.n }}</div>
+        <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15.5px;line-height:1.3">{{ g.label }}</div>
+      </div>
+      <div style="font:500 11.5px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">{{ g.hint }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0 30px">
+        <sc-for list="{{ g.opties }}" as="o" hint-placeholder-count="4">
+        <button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    </sc-for>
+
+    <div style="margin:18px 14px 0">
+      <div style="display:flex;align-items:baseline;gap:8px">
+        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 11px Mulish">7</div>
+        <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15.5px;line-height:1.3">Woonoppervlak</div>
+      </div>
+      <div style="font:500 11.5px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">Surface habitable, zoals op uw acte of taxe foncière.</div>
+      <div style="display:flex;align-items:center;gap:12px;margin:10px 0 0 30px">
+        <button onClick="{{ enM2Min }}" aria-label="Minder" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(128,0,0,.20);background:#fff;color:#800000;font:700 22px Mulish;cursor:pointer">−</button>
+        <div style="flex:1;text-align:center;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:24px">{{ enM2 }} m²</div>
+        <button onClick="{{ enM2Plus }}" aria-label="Meer" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(128,0,0,.20);background:#fff;color:#800000;font:700 22px Mulish;cursor:pointer">+</button>
+      </div>
+    </div>
+
+    <div style="margin:16px 14px 0">
+      <button onClick="{{ enCalc }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer">Bereken mijn energieprestatie</button>
+    </div>
+
+    <sc-if value="{{ enEigenKlaar }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="margin:20px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px">
+        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">De richting van uw uitkomst</div>
+        <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ enEigenRichting }}</div>
+      </div>
+
+      <sc-if value="{{ enMuurOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:12px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+        <div style="padding:14px 16px;font:700 12px Mulish;letter-spacing:.06em;text-transform:uppercase;color:#800000;background:rgba(128,0,0,.05)">{{ knipKop }}</div>
+        <div style="padding:14px 16px">
+          <div style="font:800 10px Mulish;letter-spacing:.1em;color:#2E7D5B">GRATIS</div>
+          <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
+            <sc-for list="{{ knipGratis }}" as="g" hint-placeholder-count="4">
+            <div style="display:flex;gap:9px">
+              <span style="font:800 12px Mulish;color:#2E7D5B;flex:none">✓</span>
+              <span style="font:500 12.5px/1.65 Mulish;color:#15181A;text-wrap:pretty">{{ g.tekst }}</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-top:1px solid rgba(21,24,26,.08);background:rgba(128,0,0,.03)">
+          <div style="font:800 10px Mulish;letter-spacing:.1em;color:#800000">MET ABONNEMENT</div>
+          <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
+            <sc-for list="{{ knipAbo }}" as="a" hint-placeholder-count="4">
+            <div style="display:flex;gap:9px">
+              <span style="font:800 12px Mulish;color:#800000;flex:none">+</span>
+              <span style="font:500 12.5px/1.65 Mulish;color:#15181A;text-wrap:pretty">{{ a.tekst }}</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:13px 16px;border-top:1px solid rgba(21,24,26,.08);font:500 11.5px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ knipRegel }}</div>
+        <div style="padding:0 16px 16px">
+          <button style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer">Word abonnee en bekijk mijn bedragen</button>
+        </div>
+      </div>
+      </sc-if>
+
+      <div style="margin:14px 14px 0">
+        <button onClick="{{ enReset }}" style="width:100%;min-height:46px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#3D4346;font:700 13px Mulish;cursor:pointer">Antwoorden wissen</button>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <div style="margin:20px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ enLet }} {{ toolNagekeken }}</div>
+  <div style="height:28px"></div>
+</div>
+</sc-if>
+
 <!-- ============ NEDERGIDS (kaartschil) ============ -->
 <sc-if value="{{ isNedergids }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -1357,7 +1505,9 @@ class Component extends DCLogic {
   state = { screen:"hub", sc:null, phase:0, tone:"vous", q:"", copied:null, big:null,
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:ACTUEEL, nieuwsLive:false,
-    cat:null, catFout:false, postcode:null, vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu" };
+    cat:null, catFout:false, postcode:null, vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
+    en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
+    enEngine:"idle", enBerekend:false, enUitleg:false };
 
   mods(){ const c = this.state.cat; return (c && c.modules) || []; }
   groepList(){ const c = this.state.cat; return (c && c.groepen) || []; }
@@ -1470,7 +1620,70 @@ class Component extends DCLogic {
     if (m.kind === "vastgoed") return this.setState({screen:"vastgoed", tool:m, q:"", from});
     if (m.kind === "zorg") return this.setState({screen:"zorg", tool:m, q:"", from});
     if (m.kind === "ruyter") return this.setState({screen:"ruyter", tool:m, q:"", from, ruA:null, ruB:null});
+    if (m.kind === "energie") { this.loadEngine(); return this.setState({screen:"energie", tool:m, q:"", from, enBerekend:false}); }
     this.setState({screen:"tool", tool:m, muur:false, antwoorden:{}, q:"", from});
+  }
+  // Lui laden zoals de vorige versie deed: drie scripts, één keer, in volgorde.
+  // engine/ wordt hier nooit gewijzigd — alleen gesynchroniseerd uit antonnoe/energieportaal.
+  loadEngine(){
+    if (typeof window.computeDPE === "function" && typeof window.computeResults === "function" && typeof window.applyArchetype === "function") {
+      if (this.state.enEngine !== "klaar") this.setState({enEngine:"klaar"});
+      return;
+    }
+    if (this.state.enEngine === "laden") return;
+    this.setState({enEngine:"laden"});
+    const files = ["engine/archetypes.js", "engine/engine.js", "engine/dpe.js"];
+    let i = 0, fout = false;
+    const next = () => {
+      if (i >= files.length) { this.setState({enEngine: fout ? "fout" : "klaar"}); return; }
+      if (document.querySelector('script[data-en="' + files[i] + '"]')) { i++; return next(); }
+      const el = document.createElement("script");
+      el.src = files[i]; el.async = false;
+      el.setAttribute("data-en", files[i]);
+      el.onload = () => { i++; next(); };
+      el.onerror = () => { fout = true; i++; next(); };
+      document.head.appendChild(el);
+    };
+    next();
+  }
+  // Vult de zeven intake-antwoorden aan met UI-standaardwaarden voor de overige
+  // motorvelden (apparatenmix, geen EV/zwembad/zon) en rekent via engine/ — geen
+  // eigen formule hier, alleen de invoer voor applyArchetype/computeResults/computeDPE.
+  enCompute(answers){
+    if (typeof window.applyArchetype !== "function" || typeof window.computeResults !== "function" || typeof window.computeDPE !== "function") return null;
+    try {
+      const pack = window.applyArchetype({
+        zone: answers.zone, houseType: answers.houseType, period: answers.period,
+        m2: answers.m2, renovations: answers.reno || [], heating: answers.heating, usage: answers.usage
+      });
+      const s = Object.assign({
+        userPrices: { elec:0.25, gas:1.20, fioul:1.15, pellet:0.60, wood:85, propaan:1.80, petroleum:2.00 },
+        appls: [
+          {key:"fridge", kwh:250, on:true, scales:false}, {key:"wash", kwh:220, on:true, scales:true},
+          {key:"dish", kwh:160, on:true, scales:true}, {key:"it", kwh:150, on:true, scales:true},
+          {key:"tv", kwh:120, on:true, scales:true}, {key:"small", kwh:150, on:true, scales:true},
+          {key:"lighting", kwh:180, on:true, scales:true}
+        ],
+        hrvEta:0.8, auxSharePreset:"0", auxShareCustom:0, auxScop:3, auxEta:0.9,
+        evKmWeek:0, evKwh100:18, evLoss:10,
+        poolHas:false, acOn:false, seer:4,
+        pvKwp:0, pvSelfUse:60, pvExportMode:"none", pvExportTariff:0
+      }, pack.fields);
+      const dpe = window.computeDPE(s);
+      const res = window.computeResults(s);
+      return { dpe, res };
+    } catch (e) { return null; }
+  }
+  enPick(key, id){
+    this.setState(s => {
+      const en = Object.assign({}, s.en);
+      if (key === "reno") {
+        const r = en.reno.slice(), i = r.indexOf(id);
+        i < 0 ? r.push(id) : r.splice(i, 1);
+        en.reno = r;
+      } else en[key] = id;
+      return { en, enBerekend:false };
+    });
   }
   openSc(id){ this.setState({screen:"taal", sc:id, phase:0, copied:null, from:this.state.screen}); }
 
@@ -1522,6 +1735,108 @@ class Component extends DCLogic {
   }
   navStyle(on){
     return "border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;font:700 9.5px Mulish;line-height:1.1;color:" + (on ? "#800000" : "#A2A7A9");
+  }
+
+  enGrootstePost(costs){
+    const labels = {verwarming:"Verwarming", tapwater:"Warm water", koeling:"Koeling", apparaten:"Apparaten en licht", ev:"Elektrische auto", zwembad:"Zwembad"};
+    let beste = null, besteWaarde = -Infinity;
+    Object.keys(labels).forEach(k => { const w = (costs && costs[k]) || 0; if (w > besteWaarde) { besteWaarde = w; beste = k; } });
+    return beste ? labels[beste] : "—";
+  }
+  // Bouwt alle {{ en... }}-holes voor het energiescherm. Rekent uitsluitend via
+  // engine/ (applyArchetype/computeResults/computeDPE, zie enCompute) — geen
+  // eigen formule hier.
+  enVals(T, st){
+    const leeg = {
+      enOver:"", enLet:"", enEngineLaden:false, enEngineFout:false, enEngineKlaar:false,
+      enVbKlaar:false, enVbTitel:"", enVbLabelStyle:"", enVbLetter:"—", enVbKostenJaar:"—", enVbKostenMaand:"—",
+      enVbRows:[], enUitlegOpen:false, enUitlegIcon:"▾", enUitlegToggle:() => {}, enVbUitleg:[], enVbMismatchTekst:"",
+      enGroepen:[], enM2:120, enM2Min:() => {}, enM2Plus:() => {}, enCalc:() => {}, enReset:() => {},
+      enEigenKlaar:false, enEigenRichting:"", enMuurOpen:false
+    };
+    if (!(T && T.kind === "energie" && st.screen === "energie")) return leeg;
+    const eur = x => new Intl.NumberFormat("nl-NL", {style:"currency", currency:"EUR", maximumFractionDigits:0}).format(x || 0);
+    const n0  = x => new Intl.NumberFormat("nl-NL", {maximumFractionDigits:0}).format(x || 0);
+    const n1  = x => new Intl.NumberFormat("nl-NL", {maximumFractionDigits:1}).format(x || 0);
+    const donker = l => ["A","B","F","G"].indexOf(l) >= 0;
+    const labelStyle = (kleur, letter) => "width:92px;flex:none;border-radius:16px;background:" + kleur + ";color:" +
+      (donker(letter) ? "#FFFFFF" : "#15181A") + ";display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 0";
+
+    const engineLaden = st.enEngine === "idle" || st.enEngine === "laden";
+    const engineFout  = st.enEngine === "fout";
+    const engineKlaar = st.enEngine === "klaar";
+
+    const vbArch = (T.demohuis && T.demohuis.archetype) || {zone:"med", houseType:"pavillon", period:"y48_74", m2:120, renovations:[], heating:"elec", usage:"permanent"};
+    const vbOut = engineKlaar ? this.enCompute({zone:vbArch.zone, houseType:vbArch.houseType, period:vbArch.period, m2:vbArch.m2, reno:vbArch.renovations || [], heating:vbArch.heating, usage:vbArch.usage}) : null;
+    const vbMismatch = !!(vbOut && vbOut.res.debug.mismatch);
+    const vbOk = !!(vbOut && !vbMismatch);
+    let vbLetter = "—", vbKleur = "#C7CBCC", vbKostenJaar = "—", vbKostenMaand = "—", vbRows = [], vbUitleg = [], vbMismatchTekst = "";
+    if (vbOk) {
+      const dpe = vbOut.dpe, res = vbOut.res;
+      vbLetter = dpe.classe; vbKleur = dpe.details.kleur;
+      vbKostenJaar = eur(res.totalCost) + " / jaar"; vbKostenMaand = eur(res.perMonth);
+      vbRows = [
+        {k:"Primaire energie", v:n0(dpe.perM2.ep) + " kWh EP/m²·jr"},
+        {k:"CO₂-uitstoot", v:n1(dpe.perM2.ges) + " kg/m²·jr"},
+        {k:"Grootste kostenpost", v:this.enGrootstePost(res.costs)}
+      ];
+      vbUitleg = [
+        {k:"Warmteverlies door de constructie (UA)", v:n0(res.debug.UA) + " W/K"},
+        {k:"Ventilatieverlies (Hvent)", v:n0(res.debug.Hvent) + " W/K"},
+        {k:"Graaddagen (HDD) in uw klimaatzone", v:n0(res.debug.HDD_present) + " Kd/jr"},
+        {k:"Rendement hoofdverwarming", v:n1(res.debug.mainEff) + "×"}
+      ];
+    } else if (vbMismatch) {
+      vbMismatchTekst = "De elektrabalans van dit voorbeeld sluit niet — de motor toont daarom geen uitkomst in plaats van een onbetrouwbaar getal.";
+    }
+
+    const chipSel = (key, id) => key === "reno" ? st.en.reno.indexOf(id) >= 0 : st.en[key] === id;
+    const grp = (n, key, label, hint, opts) => ({
+      n:String(n), label, hint,
+      opties: opts.map(([id,lbl]) => ({label:lbl, style:this.pillStyle(chipSel(key, id)), pick:() => this.enPick(key, id)}))
+    });
+    const enGroepen = [
+      grp(1, "zone", "Klimaatzone", "Waar staat de woning?",
+        [["med","Méditerranée"],["ouest","Zuid-West / Atlantisch"],["paris","Noord / Parijs"],["centre","Centraal / Bourgogne"],["est","Oost / Elzas"],["mont","Bergen"]]),
+      grp(2, "houseType", "Type woning", "Bepaalt bouwlagen en gedeelde muren.",
+        [["longere","Longère / fermette"],["village","Dorpswoning"],["maitre","Maison de maître"],["pavillon","Pavillon"],["modern","Moderne woning"],["appartement","Appartement"]]),
+      grp(3, "period", "Bouwperiode", "Bepaalt de forfaitaire isolatiewaarden.",
+        [["pre1948","Vóór 1948"],["y48_74","1948–1974"],["y75_89","1975–1989"],["y90_05","1990–2005"],["post2005","Na 2005"]]),
+      grp(4, "reno", "Al gerenoveerd?", "Meerdere antwoorden mogelijk. Niets aanvinken mag ook.",
+        [["roof","Dak"],["walls","Muren"],["windows","Ramen"],["floor","Vloer"]]),
+      grp(5, "heating", "Verwarming", "Uw hoofdsysteem.",
+        [["hp","Warmtepomp"],["elec","Elektrisch"],["gas","Aardgas"],["fioul","Fioul"],["wood","Hout"],["pellet","Pellets"]]),
+      grp(6, "usage", "Gebruik", "Hoe vaak bent u er?",
+        [["permanent","Permanent"],["halftijds","Halftijds"],["zomer","Zomervakantie"],["winter","Winterverblijf"]])
+    ];
+
+    const eigenOut = (engineKlaar && st.enBerekend) ? this.enCompute(st.en) : null;
+    const eigenMismatch = !!(eigenOut && eigenOut.res.debug.mismatch);
+    const eigenOk = !!(eigenOut && !eigenMismatch);
+    let eigenRichting = "";
+    if (eigenOk) {
+      eigenRichting = "Rond label " + eigenOut.dpe.classe + ". De grootste kostenpost is " + this.enGrootstePost(eigenOut.res.costs).toLowerCase() + " — de bedragen zelf ziet u met het abonnement.";
+    } else if (st.enBerekend && eigenMismatch) {
+      eigenRichting = "De elektrabalans sluit hier niet — de motor toont daarom geen uitkomst. Probeer andere antwoorden, of meld dit als het blijft gebeuren.";
+    }
+
+    return {
+      enOver: T.over || "", enLet: T.let || "",
+      enEngineLaden: engineLaden, enEngineFout: engineFout, enEngineKlaar: engineKlaar,
+      enVbKlaar: vbOk, enVbTitel: (T.demohuis && T.demohuis.titel) || "",
+      enVbLabelStyle: labelStyle(vbKleur, vbLetter), enVbLetter: vbLetter,
+      enVbKostenJaar: vbKostenJaar, enVbKostenMaand: vbKostenMaand, enVbRows: vbRows,
+      enUitlegOpen: st.enUitleg, enUitlegIcon: st.enUitleg ? "▴" : "▾",
+      enUitlegToggle: () => this.setState({enUitleg: !st.enUitleg}),
+      enVbUitleg: vbUitleg, enVbMismatchTekst: vbMismatchTekst,
+      enGroepen, enM2: st.en.m2,
+      enM2Min: () => this.setState(s => ({en:Object.assign({}, s.en, {m2:Math.max(20, s.en.m2 - 10)}), enBerekend:false})),
+      enM2Plus: () => this.setState(s => ({en:Object.assign({}, s.en, {m2:Math.min(600, s.en.m2 + 10)}), enBerekend:false})),
+      enCalc: () => this.setState({enBerekend:true}),
+      enReset: () => this.setState({en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"}, enBerekend:false}),
+      enEigenKlaar: eigenOk || (st.enBerekend && eigenMismatch), enEigenRichting: eigenRichting,
+      enMuurOpen: eigenOk
+    };
   }
 
   search(){
@@ -1601,7 +1916,7 @@ class Component extends DCLogic {
     const niveau = NIVEAUS[this.props.brandNiveau] || NIVEAUS["zeer hoog"];
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub: V === "B" ? "Vandaag" : "Infofrankrijk", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum",
+    const titles = {hub: V === "B" ? "Vandaag" : "Infofrankrijk", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", energie:"Energie & verwarming",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Account"};
     const subs = {hub:depLabel + " · " + (st.live ? "bijgewerkt" : "voorbeeldgegevens"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
@@ -1611,15 +1926,19 @@ class Component extends DCLogic {
       zorg:"Leven · altijd vrij toegankelijk",
       ruyter:"Geld · nagelezen bij DGFiP en Légifrance",
       zoek:"modules, berichten en zinnen",
+      energie:"Wonen · methode 3CL-DPE 2021",
       gem:"Nederlanders.fr · vrij toegankelijk", taal: st.sc && st.screen === "taal" ? sc.group + " · gratis" : "Taal & gemeenschap · gratis",
       tool: st.tool ? this.groepVan(st.tool.groep).naam + " · " + st.tool.schil : "", acc:"niet aangemeld"};
 
     const T = st.tool;
     const locked = !!(T && T.prijs === "abonnee");
-    const vb = T && T.voorbeeld ? T.voorbeeld : null;
+    // De generieke voorbeeld-schil (rows/intake/uit) hoort bij kind:"voorbeeld";
+    // energie heeft zijn eigen scherm met een echte, berekende uitkomst (zie enVals).
+    const vb = T && T.voorbeeld && T.kind !== "energie" ? T.voorbeeld : null;
     const pv = vb ? {doet:T.over, vb:vb.titel, intake:vb.intake,
       vb_rows: vb.rows.map(([k,v]) => ({k,v})),
       uit_rows: vb.uit.map(([k,v]) => ({k,v}))} : null;
+    const en = this.enVals(T, st);
     const tabDefs = V === "B"
       ? [["Vandaag","⌂","hub"],["Zoeken","⌕","zoek"],["Forum","◍","gem"],["Taal","⌗","taal"],["Account","◔","acc"]]
       : [["Hub","⌂","hub"],["Forum","◍","gem"],["Taal","⌗","taal"],["Modules","◧","mod"],["Account","◔","acc"]];
@@ -1630,8 +1949,8 @@ class Component extends DCLogic {
       badge: locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|nedergids|vastgoed|zorg|ruyter)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|nedergids|vastgoed|zorg|ruyter)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      showBack: /^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(/^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
       back: () => (st.screen === "taal" && st.sc && st.from !== "zoek")
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
@@ -1644,6 +1963,15 @@ class Component extends DCLogic {
       isVastgoed: st.screen === "vastgoed",
       isZorg: st.screen === "zorg",
       isRuyter: st.screen === "ruyter",
+      isEnergie: st.screen === "energie",
+      enOver: en.enOver, enLet: en.enLet,
+      enEngineLaden: en.enEngineLaden, enEngineFout: en.enEngineFout, enEngineKlaar: en.enEngineKlaar,
+      enVbKlaar: en.enVbKlaar, enVbTitel: en.enVbTitel, enVbLabelStyle: en.enVbLabelStyle, enVbLetter: en.enVbLetter,
+      enVbKostenJaar: en.enVbKostenJaar, enVbKostenMaand: en.enVbKostenMaand, enVbRows: en.enVbRows,
+      enUitlegOpen: en.enUitlegOpen, enUitlegIcon: en.enUitlegIcon, enUitlegToggle: en.enUitlegToggle,
+      enVbUitleg: en.enVbUitleg, enVbMismatchTekst: en.enVbMismatchTekst, enVbHeeftMismatch: !!en.enVbMismatchTekst,
+      enGroepen: en.enGroepen, enM2: en.enM2, enM2Min: en.enM2Min, enM2Plus: en.enM2Plus, enCalc: en.enCalc, enReset: en.enReset,
+      enEigenKlaar: en.enEigenKlaar, enEigenRichting: en.enEigenRichting, enMuurOpen: en.enMuurOpen,
       ruKern: ru.kern || "", ruWaarschuwing: ru.waarschuwing || "", ruPeildatum: ru.peildatum || "",
       ruVragen: (ru.vragen || []).map(v => {
         const val = st["ru" + v.id.toUpperCase()];
