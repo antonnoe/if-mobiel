@@ -2148,7 +2148,7 @@ class Component extends DCLogic {
       actueel: st.nieuws,
       actueelNote: st.nieuwsLive
         ? "Live uit de nieuwsroute van nlfr-menu: overheid, pers en verenigingen, met redactiesyntheses bovenaan. Links openen de bron zelf."
-        : "Voorbeeldlijst. De echte route (/api/actueel van nlfr-menu) voegt overheid, pers en verenigingen samen, maar stuurt geen CORS-header mee: die route is gemaakt om binnen een iframe op de site zelf te draaien. Eén regel in api/actueel.js (Access-Control-Allow-Origin voor de eigen domeinen, zoals nlfr-berichten die al heeft) maakt hem hier bruikbaar.",
+        : "Voorbeeldlijst — de nieuwsroute van nlfr-menu was zojuist niet bereikbaar. U ziet vier voorbeelden met dezelfde structuur; zodra de verbinding er weer is, staan hier de echte berichten.",
 
       taalHome: !st.sc, taalScenario: !!st.sc,
       situations: SC.map(s => ({kicker:s.kicker, title:s.title, meta:s.meta, open:() => this.openSc(s.id)})),

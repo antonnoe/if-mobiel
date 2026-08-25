@@ -132,6 +132,19 @@ het model dat `nlfr-berichten` al heeft — nederlanders.fr, infofrankrijk.com e
 eigen `*.vercel.app`-domeinen. Geen `*`: dit is een eigen route en de allowlist is
 precies het verschil tussen "open voor ons" en "open voor iedereen".
 
+**Welke oorsprong in de allowlist moet:** IF-Mobiel wordt straks als **iframe** ingebed
+op `mobiel.nederlanders.fr` (voorlopig: het Vercel-domein van deze app). Bij een fetch
+uit een iframe is de `Origin` het domein van de **iframe zelf** — dus van IF-Mobiel op
+Vercel, niet dat van de omliggende pagina. Zet daarom beide in de allowlist: het
+`*.vercel.app`-domein van IF-Mobiel én `nederlanders.fr` met de subdomeinen, zodat het
+na de domeinverhuizing niet opnieuw stukloopt.
+
+**Tweede kant van dezelfde inbedding:** IF-Mobiel moet ook *geframed mogen worden*. Dat
+is een andere header, op de IF-Mobiel-kant: in `vercel.json` geen `X-Frame-Options:
+DENY`, maar `Content-Security-Policy: frame-ancestors 'self' https://*.nederlanders.fr`.
+Controleer wat er nu staat en rapporteer het; verander het pas als het inbedden er
+daadwerkelijk op stukloopt.
+
 **Let op de vorm van het antwoord:** `/api/actueel` levert **tegels met artikelen
 erin**, geen platte lijst. De app leest dat al correct uit. Verander die mapping niet
 zonder de route ernaast te leggen.
@@ -201,8 +214,12 @@ om iets te bouwen; het is een reden om te vragen wat het is.
 
 # §5 — Inloggen en abonnementsstatus
 
-De app werkt zonder inloggen en dat blijft het uitgangspunt. Inloggen is alleen nodig
-om te reageren op nederlanders.fr en voor de betaalde modules.
+De app werkt zonder inloggen en dat blijft het uitgangspunt. Inloggen is **alleen**
+nodig voor de betaalde modules van infofrankrijk.com. Voor het forum niet — zie de
+paragraaf onderaan; daar is besloten dat er niet ingelogd wordt.
+
+IF en NLFR zijn twee volledig gescheiden accountsystemen. Voeg ze niet samen en bouw
+geen gedeelde inlog. De app heeft er maar één nodig.
 
 **Er staat op dit moment nul aan authenticatie in `index.html`** — geen token, geen
 cookie, geen statuscheck. Dat is bewust: dit wacht op het antwoord van de opdrachtgever
@@ -231,6 +248,32 @@ op drie vragen. Bouw niets op een aanname.
 - Faalt de statuscheck, dan is de gebruiker **niet** ineens niet-abonnee: toon de
   laatst bekende status met een melding, en laat hem niet buiten zijn eigen dossier
   staan door een netwerkfout.
+
+## Het forum: alleen lezen, geen inlog
+
+**Besloten.** Het NLFR-forum draait op Ning 2.0. De Ning-API geeft blogposts, comments
+en foto's vrij, maar **niet het forum** — discussies en topics staan expliciet op de
+lijst van wat de API niet ontsluit. Reageren of topics starten kan langs die weg dus
+niet. Ning kent bovendien geen echte SSO: een token krijg je alleen door de gebruiker
+zijn NLFR-wachtwoord in deze app te laten typen, en dat willen we niet.
+
+**Wat je bouwt:** een leesbaar mobiel forumscherm, alleen lezen. De mobiele weergave van
+NLFR is de klacht; leesbaarheid is dus de hele opdracht. Een "reageer"-knop opent het
+bericht op de site, in de browser, buiten de app. Geen inlogveld, geen wachtwoord, geen
+conceptbeheer.
+
+**Verifieer eerst wat er werkelijk vrijkomt.** De documentatie waarop dit besluit rust is
+uit 2012. Controleer met het echte abonnement wat `external.ningapis.com` voor dit
+netwerk teruggeeft, en rapporteer dat vóór je bouwt. Let op: de API wil de
+Ning-subdomeinnaam, niet een eigen domein, en knijpt af boven 20 verzoeken per seconde.
+
+**Sleutels nooit in de app.** Ning ondertekent met een consumer secret. Dat staat in een
+kleine route op Vercel — hetzelfde patroon als `nlfr-menu` — nooit in code die de
+browser kan lezen. Die route regelt tegelijk de CORS-header uit §2.
+
+**Houd de verhoudingen in het oog:** het forum is één van veertien modules. Bouw hier
+geen tweede app in. Eén lijstscherm en één leesscherm, in de bestaande schil, met de
+bestaande navigatie.
 
 ---
 
@@ -377,8 +420,9 @@ vermoedelijk een hoofdstuk in de Taalassistent, niet een eigen module.
    `BOUWOPDRACHT.md` staat in de repo.
 4. Over `data/feiten.json` en `data/streek-verhalen.ts` ligt een rapport, geen
    improvisatie.
-5. Over inloggen (§5), de drie actualiteitsbronnen (§2) en de adresanalyse (§6) liggen
-   voorstellen, geen implementaties op aanname.
+5. Het forum is een leesscherm zonder inlog, en er ligt een rapport over wat de
+   Ning-API werkelijk vrijgeeft. Over de abonnementsstatus (§5) en de adresanalyse (§6)
+   liggen voorstellen, geen implementaties op aanname.
 6. Geen aanraakvlak onder 44px, geen machinedatum in beeld, geen getal zonder bron.
 7. `main` bevat de eindtoestand. Geen open branches, geen merge-stappen voor de
    opdrachtgever.
