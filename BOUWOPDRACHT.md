@@ -1,3 +1,46 @@
+# Bouwopdracht IF-Mobiel
+
+## Ronde 3 — afgerond 25 augustus 2026
+
+Aanleiding: op if-mobiel.vercel.app opende geen enkel item in de Actueel-tab.
+Rechtermuisklik gaf `https://if-mobiel.vercel.app/#` — er werd geen URL in de
+link gezet. De feed zelf werkte; dit was geen terugval.
+
+**Oorzaak, en waar hij zat.** `/api/actueel` leverde de bron-URL alleen genest
+in `bronnen[].url`. De app las `a.href || a.link || a.url` — geen van drieën
+bestond — en viel terug op `"#"`. De fout zat dus in `nlfr-menu`, niet in de
+app; de app maskeerde hem alleen.
+
+**Wat er gewijzigd is:**
+
+| Repo | Wat |
+|---|---|
+| `nlfr-menu` | Elk artikel krijgt een expliciete, absolute `url` (overheid, infofrankrijk, verenigingen: de eigen bron; perssynthese: de eerste bruikbare uit de bronnenlijst). Relatieve paden, lege strings en `javascript:`-URL's worden geweigerd en leveren `null`. 6 tests. |
+| `nlfr-menu` | Allowlist laat nu subdomeinen van de eigen domeinen toe — `mobiel.nederlanders.fr` matchte niet op de vaste lijst. |
+| `if-mobiel` | Actueel-items linken naar die `url`, in een nieuw tabblad met `rel="noopener"`. Zonder bruikbare URL: geen link, geen pijl, met uitleg. |
+| `if-mobiel` | Nieuwe helper `veiligeUrl()`: absolute http(s)-URL of `null`. Elke plek die een adres uit externe data haalt loopt hier doorheen. |
+| `if-mobiel` | Berichten-tab: `p.href` werd ongeguard gebruikt; leesknop en "Reageer op nederlanders.fr" verschijnen nu alleen bij een bruikbare URL. |
+| `if-mobiel` | Alle knoppen zonder bestemming opgeruimd — zie de tabel hieronder. |
+| `nlfr-berichten` | Dezelfde allowlist-fix, en de drie gedupliceerde kopieën samengetrokken tot `lib/cors.js`. 5 tests. |
+
+**Knoppen zonder bestemming, en wat ze geworden zijn:**
+
+| Was | Is geworden |
+|---|---|
+| 3× "Word abonnee" (dode `<button>`) | Anchor naar `https://www.infofrankrijk.com/abonnement/` — dezelfde bestemming die `financieel-kompas-ai` al gebruikt |
+| "Aanmelden bij Nederlanders.fr" | Anchor naar `nederlanders.fr` |
+| "Abonnement koppelen" | "Wat het abonnement biedt" → dezelfde abonnementspagina; de SSO-koppeling zelf is nog niet vastgesteld (§5) |
+| "Vermelding aanvragen" (Nedergids) | Weg. Hoort in Nedergids v2, niet hier (§7) — nu een regel die uitlegt waar het straks gebeurt |
+| "Zet op mijn beginscherm" | Weg als knop; dat is een handeling van de browser. Nu een aanwijzing naar het deelmenu |
+
+**Al correct bevonden, ongewijzigd gelaten:** de alarmnummers in Zorg waren al
+echte `tel:`-links, en alle 23 Nedergids-sites hadden al een `url`.
+
+**Nog open uit deze ronde:** `nlfr-berichten/api/tellingen.js` staat op
+`Access-Control-Allow-Origin: *`. Buiten de opdracht gelaten, apart te bespreken.
+
+---
+
 # Bouwopdracht IF-Mobiel — ronde 2
 
 Repo: `antonnoe/if-mobiel`, branch `main`. Opgesteld 25 augustus 2026.
