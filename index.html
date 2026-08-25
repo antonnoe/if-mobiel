@@ -259,7 +259,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
             </sc-if>
           </div>
         </button>
-        <sc-if value="{{ p.geenReacties }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ p.leesKnop }}" hint-placeholder-val="{{ false }}">
         <div style="padding:0 15px 14px">
           <a href="{{ p.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#F4F1F0;color:#15181A;font:700 13px Mulish">{{ p.leesLabel }}</a>
         </div>
@@ -278,13 +278,18 @@ input,button{font-family:Mulish,system-ui,sans-serif}
             <sc-if value="{{ r.geenTekst }}" hint-placeholder-val="{{ false }}">
             <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:inline-block;font:600 12px/1.6 Mulish;color:#800000;margin-top:4px">Lees deze reactie op de site →</a>
             </sc-if>
+            <sc-if value="{{ r.geenTekstGeenLink }}" hint-placeholder-val="{{ false }}">
+            <div style="font:500 12px/1.6 Mulish;color:#71787C;margin-top:4px">Deze reactie kwam zonder tekst en zonder link binnen.</div>
+            </sc-if>
           </div>
           </sc-for>
           <sc-if value="{{ p.heeftRest }}" hint-placeholder-val="{{ false }}">
           <div style="padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);font:500 11px/1.6 Mulish;color:#71787C">{{ p.restLabel }}</div>
           </sc-if>
           <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)">
+            <sc-if value="{{ p.heeftHref }}" hint-placeholder-val="{{ true }}">
             <a href="{{ p.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;font:700 13.5px Mulish">Reageer op nederlanders.fr →</a>
+            </sc-if>
             <div style="font:500 11px/1.6 Mulish;color:#71787C;margin-top:8px;text-align:center">Reageren gebeurt op de site zelf, met uw eigen account. De app plaatst nooit iets namens u.</div>
           </div>
         </div>
@@ -300,11 +305,20 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div>
     <div style="margin:16px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
       <sc-for list="{{ actueel }}" as="a" hint-placeholder-count="5">
+      <sc-if value="{{ a.heeftLink }}" hint-placeholder-val="{{ true }}">
       <a href="{{ a.href }}" target="_blank" rel="noopener" style="display:block;padding:14px 15px;border-top:1px solid rgba(21,24,26,.06);color:#15181A">
         <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ a.bron }}</div>
         <div style="font:700 14px/1.35 Mulish;margin-top:4px;text-wrap:pretty">{{ a.titel }}</div>
-        <div style="font:600 11px Mulish;color:#71787C;margin-top:4px">{{ a.meta }} →</div>
+        <div style="font:600 11px Mulish;color:#71787C;margin-top:4px">{{ a.meta }}</div>
       </a>
+      </sc-if>
+      <sc-if value="{{ a.geenLink }}" hint-placeholder-val="{{ false }}">
+      <div style="display:block;padding:14px 15px;border-top:1px solid rgba(21,24,26,.06);color:#15181A">
+        <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ a.bron }}</div>
+        <div style="font:700 14px/1.35 Mulish;margin-top:4px;text-wrap:pretty">{{ a.titel }}</div>
+        <div style="font:600 11px Mulish;color:#71787C;margin-top:4px">{{ a.meta }} · geen bronlink meegeleverd</div>
+      </div>
+      </sc-if>
       </sc-for>
     </div>
     <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ actueelNote }}</div>
@@ -872,7 +886,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
         </div>
         <div style="padding:13px 16px;border-top:1px solid rgba(21,24,26,.08);font:500 11.5px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ knipRegel }}</div>
         <div style="padding:0 16px 16px">
-          <button style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer">Word abonnee en bekijk mijn bedragen</button>
+          <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">Word abonnee en bekijk mijn bedragen →</a>
         </div>
       </div>
       </sc-if>
@@ -950,7 +964,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
       </div>
       </sc-for>
     </div>
-    <button style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14.5px Mulish;cursor:pointer;margin-top:13px">Vermelding aanvragen</button>
+    <div style="margin-top:13px;padding:13px 15px;border-radius:12px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Aanmelden kan zodra Nedergids v2 online staat — de vermelding en de betaling gebeuren daar, niet in deze app.</div>
   </div>
   <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">De kaart met vermeldingen komt uit Nedergids v2, dat nog in bouw is. Wat u hier ziet is de lijstkant: de sites en loketten per categorie. {{ toolNagekeken }}</div>
   <div style="margin:10px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ ngArchief }}</div>
@@ -1100,7 +1114,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
       </div>
       </sc-for>
       <div style="padding:14px 16px;border-top:1px solid rgba(21,24,26,.06)">
-        <button style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer">Word abonnee en bekijk mijn uitkomst</button>
+        <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">Word abonnee en bekijk mijn uitkomst →</a>
         <button onClick="{{ goTaal }}" style="width:100%;min-height:46px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:9px">Later — naar de gratis onderdelen</button>
         <div style="font:500 11px/1.7 Mulish;color:#71787C;margin-top:9px;text-align:center;text-wrap:pretty">Het abonnement geeft toegang tot alle rekenmodules, uw dossier en de artikelen op infofrankrijk.com.</div>
       </div>
@@ -1129,7 +1143,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     </div>
     <sc-if value="{{ klaarVoorAbo }}" hint-placeholder-val="{{ false }}">
     <div style="margin:12px 14px 0">
-      <button style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer">Word abonnee</button>
+      <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">Word abonnee →</a>
     </div>
     </sc-if>
     <sc-if value="{{ nogNiet }}" hint-placeholder-val="{{ true }}">
@@ -1175,9 +1189,9 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Vrij te gebruiken nu</span><b>{{ freeCount }}</b></div>
   </div>
   <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
-    <button style="min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Aanmelden bij Nederlanders.fr</button>
-    <button style="min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Abonnement koppelen</button>
-    <button style="min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Zet op mijn beginscherm</button>
+    <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
+    <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
+    <div style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.6 Mulish;color:#3D4346">Op het beginscherm zetten doet u via het deelmenu van uw browser</div>
   </div>
   <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site of om betaalde modules te gebruiken. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
   <div style="margin:12px 14px 0">
@@ -1262,6 +1276,25 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:412,&quot;height&quot;:880},&quot;tabVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;'A'|'B'&quot;,&quot;section&quot;:&quot;Navigatie&quot;},&quot;brandNiveau&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;geen&quot;,&quot;matig&quot;,&quot;hoog&quot;,&quot;zeer hoog&quot;,&quot;extreem&quot;],&quot;default&quot;:&quot;zeer hoog&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Veiligheid&quot;}}">
 const API = "https://nlfr-berichten.vercel.app/api/berichten";
 const NIEUWS_API = "https://nlfr-menu.vercel.app/api/actueel";
+
+// Betalen gebeurt buiten de app. Eén bestemming voor élke "Word abonnee"-knop,
+// dezelfde die financieel-kompas-ai al gebruikt — niet per plek een andere.
+const ABONNEE_URL = "https://www.infofrankrijk.com/abonnement/";
+
+// Een element dat eruitziet als een link moet ook een link zijn. Deze helper
+// geeft een absolute http(s)-URL terug, of null. Bij null toont de schil het
+// item zónder link en zónder pijl — nooit een href="#" of een lege href, want
+// dat is een link die niets doet en dat is erger dan geen link.
+function veiligeUrl(...kandidaten){
+  for (const k of kandidaten) {
+    if (!k) continue;
+    try {
+      const u = new URL(String(k).trim());
+      if (u.protocol === "http:" || u.protocol === "https:") return u.href;
+    } catch (e) { /* geen absolute URL — volgende kandidaat */ }
+  }
+  return null;
+}
 const DOT = {gezond:"#5AA469", admin:"#E9C13D", geld:"#E2812F", auto:"#C6362C", sociaal:"#800000", veilig:"#C6362C"};
 
 const CAT = [
@@ -1594,7 +1627,11 @@ class Component extends DCLogic {
           (t.artikelen || t.items || []).forEach(a => {
             if (!a) return;
             const titel = a.titel || a.title;
-            if (titel) items.push({titel, bron, href:a.href || a.link || a.url || "#",
+            // /api/actueel levert de bron-URL sinds ronde 3 als `url` per
+            // artikel; de andere namen blijven staan voor oudere responses.
+            const href = veiligeUrl(a.url, a.href, a.link,
+              (a.bronnen && a.bronnen[0] && a.bronnen[0].url));
+            if (titel) items.push({titel, bron, href,
               meta: a.datum || a.date ? kort(a.datum || a.date) : "actueel"});
           });
         });
@@ -2122,30 +2159,46 @@ class Component extends DCLogic {
       metCount: st.posts.filter(p => aantalReacties(p) > 0).length + " met reacties",
       posts: st.posts.filter(p => st.gemFilter === "alles" || aantalReacties(p) > 0).map(p => {
         const rs = draad(p), n = aantalReacties(p);
+        const pHref = veiligeUrl(p.href);
         return {
-          titel:p.titel, samenvatting:p.samenvatting || "", href:p.href, kicker:"NEDERLANDERS.FR",
+          titel:p.titel, samenvatting:p.samenvatting || "", href: pHref || "",
+          heeftHref: !!pHref, geenHref: !pHref, kicker:"NEDERLANDERS.FR",
           isNew: !!(st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit),
           meta:(p.auteur || "onbekend") + " · " + reactieMeta(n) + " · " + kort(p.laatsteReactie || p.datum),
           heeftReacties: rs.length > 0,
           geenReacties: rs.length === 0,
+          // Leesknop alleen als er geen draad ís én er iets te openen valt.
+          leesKnop: rs.length === 0 && !!pHref,
           open: st.openPost === p.id && rs.length > 0,
           toggleLabel: st.openPost === p.id ? "Draad sluiten ▴" : (rs.length < n ? rs.length + " van " + n + " reacties ▾" : "Reacties lezen ▾"),
           toggle: () => { if (rs.length) this.setState({openPost: st.openPost === p.id ? null : p.id}); },
           leesLabel: n > 0 ? "Lees de " + reactieMeta(n) + " op nederlanders.fr →" : "Lees op nederlanders.fr →",
           restLabel: rs.length < n ? "De activiteitenfeed reikt een paar dagen terug — de oudere reacties staan op de site." : "",
           heeftRest: rs.length < n,
-          reacties: rs.map(r => ({
-            auteur: r.auteur || "Onbekend",
-            datum: /\d{4}-\d{2}/.test(r.datum || "") ? kort(r.datum) : (r.datum || ""),
-            tekst: (r.tekst || "").trim(),
-            heeftTekst: (r.tekst || "").trim().length > 1,
-            geenTekst: (r.tekst || "").trim().length <= 1,
-            href: r.href || p.href}))};
+          reacties: rs.map(r => {
+            const rHref = veiligeUrl(r.href, p.href);
+            const leeg = (r.tekst || "").trim().length <= 1;
+            return {
+              auteur: r.auteur || "Onbekend",
+              datum: /\d{4}-\d{2}/.test(r.datum || "") ? kort(r.datum) : (r.datum || ""),
+              tekst: (r.tekst || "").trim(),
+              heeftTekst: !leeg,
+              // Alleen een leeslink tonen als er ook echt iets te openen valt.
+              geenTekst: leeg && !!rHref,
+              geenTekstGeenLink: leeg && !rHref,
+              href: rHref || ""};
+          })};
       }),
       apiNote: st.live
         ? "Berichten en reacties komen van nlfr-berichten; de volledige draad staat op de site zelf. Reageren opent nederlanders.fr, zodat uw sessie meegaat."
         : "De API van nlfr-berichten staat alleen eigen domeinen toe. Op infofrankrijk.com of een vercel.app-adres verschijnen hier de echte berichten; nu ziet u vier voorbeelden met dezelfde structuur.",
-      actueel: st.nieuws,
+      // Zonder bruikbare bron-URL geen link en geen pijl: het item blijft
+      // leesbaar, maar doet zich niet voor als iets waar je op kunt tikken.
+      actueel: st.nieuws.map(a => {
+        const href = veiligeUrl(a.href);
+        return Object.assign({}, a, {href: href || "", heeftLink: !!href, geenLink: !href,
+          meta: href ? a.meta + " →" : a.meta});
+      }),
       actueelNote: st.nieuwsLive
         ? "Live uit de nieuwsroute van nlfr-menu: overheid, pers en verenigingen, met redactiesyntheses bovenaan. Links openen de bron zelf."
         : "Voorbeeldlijst — de nieuwsroute van nlfr-menu was zojuist niet bereikbaar. U ziet vier voorbeelden met dezelfde structuur; zodra de verbinding er weer is, staan hier de echte berichten.",
@@ -2230,6 +2283,7 @@ class Component extends DCLogic {
       uitRows: pv ? pv.uit_rows : [],
       resetIntake: () => this.setState({antwoorden:{}, muur:false}),
       freeCount: free + " van de " + this.mods().length + " modules",
+      abonneeUrl: ABONNEE_URL,
 
       bigOpen: !!st.big, bigFr: st.big ? st.big.fr : "", bigNl: st.big ? st.big.nl : "",
       closeBig: () => this.setState({big:null}),
