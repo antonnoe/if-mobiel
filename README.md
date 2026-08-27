@@ -14,9 +14,9 @@ forum van het Infofrankrijk-ecosysteem samenkomen voor Nederlanders in Frankrijk
 | `modules.json` | De modulecatalogus: groepen, veertien modules, en per-kind extra's (`vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`). Nooit modulegegevens terug in de code zetten |
 | `engine/` | Rekenmotor EnergiePortaal — ONGEWIJZIGD uit `antonnoe/energieportaal`, alleen gesynchroniseerd |
 | `Bosbranden Mobiel.html` | Brandrisico-module, ingesloten via iframe |
-| `kennispiramide.html` | Kennispiramide — het 3D-ordeningsmodel achter de indeling van de app. Zelfstandige pagina, net als de brandrisico-module; "Over ons" toont hem als preview (`?embed=1`) en opent hem volledig bij een tik |
+| `kennispiramide.html` | Deelbare losse pagina voor de kennispiramide — een dunne schil die dezelfde module laadt als het scherm in de app, dus geen tweede implementatie |
 | `piramide.json` | Alle redactionele tekst van de kennispiramide: zijden, banden, rubrieken, toelichtingen en de bronrangen. Nooit in de pagina zelf |
-| `piramide/` | three.js (lokaal gevendord, zie `THREE-LICENSE`) — alleen geladen door `kennispiramide.html`, niet door de app-schil |
+| `piramide/` | De kennispiramide: `scene.js` (3D-scene, `startPiramide()`/`stop()`), `opmaak.js` (opmaak, gescoopt onder `#pir-wrap`) en three.js lokaal gevendord (zie `THREE-LICENSE`). Alles wordt lui geladen — wie het model niet opent, haalt geen byte binnen |
 | `data/` | Twee bestanden zonder actieve gebruiker (`feiten.json`, `streek-verhalen.ts`) — zie "Nog te doen" |
 | `BOUWOPDRACHT.md` | De laatste bouwopdracht (ronde 2), leidend voor de openstaande punten hieronder |
 
