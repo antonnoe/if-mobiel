@@ -6,9 +6,10 @@ Frankrijk).
 
 ## Architectuur (v3, tien regels)
 
-1. Eén app, kernbestanden: `index.html` (schil + logica), `support.js` (runtime, gegenereerd),
-   `Bosbranden Mobiel.html` (brandrisico via iframe) en `modules.json` (de catalogus — data,
-   nooit logica).
+1. Eén app, kernbestanden: `index.html` (schil + logica), `support.js` (runtime, gegenereerd)
+   en `modules.json` (de catalogus — data, nooit logica). `Bosbranden Mobiel.html` staat er
+   nog wel, maar is sinds de v3-overzetting **niet aangesloten**; de module `veiligheid`
+   wijst naar de pagina op nederlanders.fr.
 2. `index.html` is géén gewone pagina maar een **Design Component**: een `<x-dc>`-template
    met `{{ }}`-holes plus een logicaklasse `class Component extends DCLogic` in een
    `<script type="text/x-dc">`-blok.

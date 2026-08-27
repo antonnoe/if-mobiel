@@ -13,7 +13,7 @@ forum van het Infofrankrijk-ecosysteem samenkomen voor Nederlanders in Frankrijk
 | `support.js` | Runtime (React-binding, template-engine), **gegenereerd, niet met de hand bewerken** |
 | `modules.json` | De modulecatalogus: groepen, veertien modules, en per-kind extra's (`vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`). Nooit modulegegevens terug in de code zetten |
 | `engine/` | Rekenmotor EnergiePortaal — ONGEWIJZIGD uit `antonnoe/energieportaal`, alleen gesynchroniseerd |
-| `Bosbranden Mobiel.html` | Brandrisico-module, ingesloten via iframe |
+| `Bosbranden Mobiel.html` | Brandrisico-module (Leaflet-kaart met Météo-France, feux-foret.gouv.fr, NASA FIRMS, Copernicus). **Op dit moment niet aangesloten**: bij de v3-overzetting ging de module `veiligheid` naar de pagina op nederlanders.fr en bleef dit bestand achter. Weer aansluiten of weghalen is een redactiekeuze — zie "Nog te doen" |
 | `kennispiramide.html` | Deelbare losse pagina voor de kennispiramide — een dunne schil die dezelfde module laadt als het scherm in de app, dus geen tweede implementatie |
 | `piramide.json` | Alle redactionele tekst van de kennispiramide: zijden, banden, rubrieken, toelichtingen en de bronrangen. Nooit in de pagina zelf |
 | `piramide/` | De kennispiramide: `scene.js` (3D-scene, `startPiramide()`/`stop()`), `opmaak.js` (opmaak, gescoopt onder `#pir-wrap`) en three.js lokaal gevendord (zie `THREE-LICENSE`). Alles wordt lui geladen — wie het model niet opent, haalt geen byte binnen |
@@ -55,6 +55,15 @@ bedragen zelf horen bij het abonnement — de knip staat in `modules.json` onder
 `energie.knip`.
 
 ## Nog te doen
+
+- **Brandgevaar heeft geen bron.** De hub toonde een gevaarniveau uit een ontwerpprop
+  (standaard "zeer hoog") met een vast tijdstip erbij — dus permanent alarm, ook buiten
+  het seizoen. Dat is verwijderd; de hub toont nu alleen een ingang naar de module.
+  Zodra Météo des forêts echt is aangesloten kan het niveau terug (`NIVEAUS` in
+  `index.html` staat er nog, met toelichting).
+- **`Bosbranden Mobiel.html` is losgeraakt** bij de v3-overzetting (commit `545794d`).
+  Weer aansluiten als eigen schil, of laten vallen ten gunste van de pagina op
+  nederlanders.fr — redactiekeuze, niet urgent buiten het brandseizoen.
 
 - **Inloggen en abonnementsstatus** — er staat nul aan authenticatie in `index.html`.
   Welk systeem de abonnementsstatus vasthoudt, cookie of token, en of er al een endpoint
