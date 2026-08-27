@@ -37,6 +37,17 @@ export function startPiramide(wortel, C) {
   const BW = () => Math.max(1, wortel.clientWidth);
   const BH = () => Math.max(1, wortel.clientHeight);
 
+  // De brede indeling (kolom links, scene rechts) hoort af te hangen van de
+  // ruimte die dit scherm KRIJGT, niet van de grootte van het venster: in de app
+  // zit de piramide in een schil van 412px, ook op een bureaublad. De CSS keek
+  // naar het venster en legde daardoor een kolom van 288px over het model.
+  const BREED = 761;
+  const meetBreedte = () => {
+    const breed = BW() >= BREED;
+    if (breed) wortel.dataset.breed = "1"; else delete wortel.dataset.breed;
+  };
+  meetBreedte();
+
   // De scene brengt zijn eigen opmaak mee, zodat het scherm in de app en de
   // losse pagina er gelijk uitzien zonder dat de regels op twee plekken staan.
   // Eén keer per document; stop() haalt hem weg als niemand hem meer gebruikt.
@@ -1054,6 +1065,8 @@ export function startPiramide(wortel, C) {
     plaatsCamera();
     renderer.render(scene, camera);
   }
+  aan(window, "resize", meetBreedte);
+
   function lus(now) {
     if (!levend) return;                 // scherm verlaten: lus valt stil
     laatsteTik = now || performance.now();

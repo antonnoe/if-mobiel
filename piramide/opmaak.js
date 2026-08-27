@@ -9,6 +9,8 @@
  * ::-webkit-scrollbar bestaan niet in een style-attribuut.
  */
 export const OPMAAK = `
+/* De app toont zijn eigen kopbalk; dan is de titel in het model dubbelop. */
+#pir-wrap[data-kop="0"] #pir-kop { display: none; }
 /* Kennispiramide — opmaak, overgenomen uit de ontwerp-referentie
    (design_handoff_kennispiramide/kennispiramide.html) en volledig gescoopt
    onder #pir-wrap, zodat niets van dit scherm de rest van de app raakt.
@@ -176,51 +178,54 @@ export const OPMAAK = `
     max-width: 70vw; overflow: hidden; text-overflow: ellipsis;
   }
 #pir-wrap #pir-uitlees .wenk { display: none; }
-@media (min-width: 761px) {
-#pir-wrap #pir-kolom {
+/* Brede indeling: kolom links, scene rechts.
+   Stond op @media (min-width: 761px) — maar dat kijkt naar het VENSTER,
+   terwijl dit scherm in de app in een schil van 412px zit. Op een breed
+   scherm kreeg de piramide daardoor de bureaubladindeling in een telefoon-
+   doos: een kolom van 288px over het model heen. De scene zet daarom zelf
+   data-breed op de container, gemeten aan de container. */
+#pir-wrap[data-breed="1"] #pir-kolom {
       display: flex; flex-direction: column; gap: 12px;
       position: absolute; z-index: 5; left: 24px; top: 22px; bottom: 24px; width: 288px;
       pointer-events: none;
     }
-#pir-wrap #pir-kolom > * { position: static; inset: auto; width: auto; max-width: none; pointer-events: auto; }
-#pir-wrap #pir-kop { pointer-events: none; }
-#pir-wrap #pir-kop { top: auto; left: auto; right: auto; }
-#pir-wrap #pir-kop h1 { font-size: 20px; }
-#pir-wrap #pir-kop p { font-size: 12.5px; letter-spacing: .04em; }
-#pir-wrap #pir-uitlees {
+#pir-wrap[data-breed="1"] #pir-kolom > * { position: static; inset: auto; width: auto; max-width: none; pointer-events: auto; }
+#pir-wrap[data-breed="1"] #pir-kop { pointer-events: none; }
+#pir-wrap[data-breed="1"] #pir-kop { top: auto; left: auto; right: auto; }
+#pir-wrap[data-breed="1"] #pir-kop h1 { font-size: 20px; }
+#pir-wrap[data-breed="1"] #pir-kop p { font-size: 12.5px; letter-spacing: .04em; }
+#pir-wrap[data-breed="1"] #pir-uitlees {
       flex: 0 1 auto; min-height: 0; overflow-y: auto; padding: 13px 15px 14px;
     }
-#pir-wrap #pir-uitlees .tekst { line-height: 1.7em; -webkit-line-clamp: 4; }
-#pir-wrap #pir-balk {
+#pir-wrap[data-breed="1"] #pir-uitlees .tekst { line-height: 1.7em; -webkit-line-clamp: 4; }
+#pir-wrap[data-breed="1"] #pir-balk {
       margin-top: auto; transform: none; flex: 0 0 auto;
       display: grid; grid-template-columns: 1fr 1fr 1fr; align-content: end;
       gap: 5px; padding: 0; background: none;
     }
-#pir-wrap button {
+#pir-wrap[data-breed="1"] button {
       font-size: 9.5px; padding: 8px 7px; min-height: 38px; text-align: left;
       white-space: normal; line-height: 1.25; letter-spacing: .03em;
     }
-#pir-wrap #pir-detail {
+#pir-wrap[data-breed="1"] #pir-detail {
       left: auto; right: 24px; bottom: 24px; width: 330px;
       border: 1px solid rgba(128,0,0,.18); border-top: 3px solid #800000;
       max-height: 62vh; padding: 18px 20px 20px;
       transform: translateY(calc(100% + 40px));
     }
-#pir-wrap #pir-detail.open { transform: translateY(0); }
-#pir-wrap #pir-bronnen {
+#pir-wrap[data-breed="1"] #pir-detail.open { transform: translateY(0); }
+#pir-wrap[data-breed="1"] #pir-bronnen {
       left: 24px; right: 24px; bottom: 24px; max-height: 52vh;
       border: 1px solid rgba(128,0,0,.18); border-top: 3px solid #800000;
       transform: translateY(calc(100% + 40px));
     }
-#pir-wrap #pir-bronnen.open { transform: none; }
-#pir-wrap #pir-bronnen:has(details[open]) { max-height: 76vh; }
-#pir-wrap #pir-bronnen .kaart { flex: 0 0 320px; }
-#pir-wrap #pir-uitlees .wenk {
+#pir-wrap[data-breed="1"] #pir-bronnen.open { transform: none; }
+#pir-wrap[data-breed="1"] #pir-bronnen:has(details[open]) { max-height: 76vh; }
+#pir-wrap[data-breed="1"] #pir-bronnen .kaart { flex: 0 0 320px; }
+#pir-wrap[data-breed="1"] #pir-uitlees .wenk {
       display: block; margin: 9px 0 0; padding-top: 9px;
       border-top: 1px solid rgba(128,0,0,.12);
       font-size: 11.5px; line-height: 1.7em; color: #8C837A; letter-spacing: .03em;
     }
 
-  
-}
 `;
