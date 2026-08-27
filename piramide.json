@@ -1,0 +1,213 @@
+{
+  "TITEL": "Kennispiramide",
+  "ONDERTITEL": "ordeningsmodel — werkversie",
+  "ZIJDEN": [
+    {
+      "naam": "MIGREREN",
+      "omschrijving": "overheden, emigratie en remigratie",
+      "kleur": "#800000"
+    },
+    {
+      "naam": "WONEN",
+      "omschrijving": "vastgoed, het huis en de omgeving eromheen",
+      "kleur": "#2F6B3A"
+    },
+    {
+      "naam": "WERKEN EN LEREN",
+      "omschrijving": "arbeidsmarkt, ondernemen, opleiding",
+      "kleur": "#A87C3F"
+    },
+    {
+      "naam": "LEVEN",
+      "omschrijving": "zorg, geldzaken, juridisch en familie",
+      "kleur": "#46586B"
+    }
+  ],
+  "BANDEN": [
+    {
+      "naam": "ERVARING",
+      "procent": 55,
+      "verzadiging": 100,
+      "merk": "MENSENWERK",
+      "bron": "Uitwisseling in het forum van Nederlanders.fr: kennis, ervaring, gevoel, instinct.",
+      "waarom": "Wie het zelf heeft gedaan weet wat er niet in de wettekst staat. Ervaring rust op de kennis eronder, corrigeert haar waar de praktijk afwijkt, en is de enige laag die geen techniek kan namaken. Daarom is dit de grootste band, en staat hij bovenaan.",
+      "omschrijving": "Het meest waardevolle: ervaring, en de uitwisseling daarvan tussen mensen. Dat gebeurt in het forum van Nederlanders.fr, waar sinds 2002 duizenden Frankrijkgangers een veilige omgeving vinden om kennis en ervaring te delen. Validatie ontstaat door herhaling: één melding is een anekdote, twintig meldingen zijn een patroon. AI, strak gekaderde zoek- en filteralgoritmen, API-koppelingen en gedisciplineerde bronselectie brengen de feiten boven tafel — deze laag maken ze niet na."
+    },
+    {
+      "naam": "KENNIS",
+      "procent": 25,
+      "verzadiging": 70,
+      "merk": "MENS MET AI-ONDERSTEUNING",
+      "bron": "Gevalideerde dossiers als input, de mens als eindredactie.",
+      "waarom": "Een vraag maakt van data kennis. Hier komt de context erbij: voor wie geldt dit, per wanneer, en met welke uitzondering. Deze laag kan niet bestaan zonder de data eronder, en blijft leeg zolang niemand iets vraagt.",
+      "omschrijving": "Een gevalideerd en contextgerelateerd antwoord op een gestelde vraag, niet minder en zeker niet meer. Hier wonen de AI-agents en de zware geactualiseerde dossiers met AI-modules — altijd op gevalideerde bronnen, nooit AI-only."
+    },
+    {
+      "naam": "DATA",
+      "procent": 20,
+      "verzadiging": 40,
+      "merk": "TECHNIEK, DOOR MENS GEVALIDEERD",
+      "bron": "Data verzinnen we niet zelf: rang AAA, AA, A — anders niet.",
+      "waarom": "Zonder feiten is er niets om over te praten. Data is de bodem: navolgbaar, herleidbaar tot een bron met een rang. Smal van betekenis, maar draagt alles wat erboven staat. Wie hier iets verzint, laat de hele piramide verzakken.",
+      "omschrijving": "Zoek-agents die uitsluitend in gevalideerde bronnen zoeken, en registers met gevalideerde adresgegevens. Elke bron heeft een rang, van AAA (de wettekst zelf) tot A (redactioneel betrouwbaar); wat geen rang heeft komt er niet in. Levert informatie, geen kennis: de vraag en de context ontbreken."
+    }
+  ],
+  "PUNT": {
+    "naam": "UITWISSELING",
+    "regel": "Niets is AI-only. Gevalideerde dossiers als input, de mens als eindredactie.",
+    "omschrijving": "De band eronder is de stof, de punt is de handeling. Draait al vierentwintig jaar. Niets van wat wij publiceren is AI-only: gevalideerde dossiers gaan erin, een mens beslist wat eruit komt.",
+    "kleur": "#800000"
+  },
+  "OPBOUW": {
+    "naam": "Opbouw",
+    "kop": "opbouw van het model",
+    "volgende": "Volgende stap",
+    "slot": "Nu het detail"
+  },
+  "NIVEAU_AAN": "Detail erbij",
+  "NIVEAU_UIT": "Hiërarchie",
+  "RUSTREGEL_HIERARCHIE": "Data draagt kennis, kennis draagt ervaring. Loop de opbouw langs, of tik een band aan voor het detail.",
+  "RUSTREGEL_DETAIL": "Beweeg over een band of rubriek voor de toelichting; tik of klik erop voor het detail.",
+  "GRONDVLAK": {
+    "VELDEN": [
+      [
+        "Overheden",
+        "Emigratie",
+        "Remigratie"
+      ],
+      [
+        "Vastgoed",
+        "Huisje boompje beestje",
+        "Cultuur en info"
+      ],
+      [
+        "Arbeidsmarkt",
+        "Ondernemen",
+        "Onderwijs en cursussen"
+      ],
+      [
+        "Zorg en welzijn",
+        "Geldzaken en belasting",
+        "Juridisch en familie"
+      ]
+    ],
+    "MIDDEN": [
+      "Vraag en antwoord",
+      "Adressen en registers",
+      "Actualiteit en wetswijzigingen",
+      "Administratie en correspondentie"
+    ]
+  },
+  "TOELICHTING": {
+    "Overheden": {
+      "tekst": "De loketten aan beide zijden van de grens: wie waarover gaat, in welke volgorde, en met welke papieren. De ingang voor wie nog niets geregeld heeft.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Emigratie": {
+      "tekst": "Van het besluit tot de eerste maanden hier: uitschrijven, aankomen, inschrijven, en de volgorde waarin dat werkelijk moet.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Remigratie": {
+      "tekst": "De weg terug. Vaak onderschat: afwikkelen hier, opnieuw aanmelden daar, en wat er met opgebouwde rechten gebeurt.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Vastgoed": {
+      "tekst": "Kopen, verkopen, huren en verhuren. Notaris, kosten, en de bepalingen die in de akte thuishoren.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Huisje boompje beestje": {
+      "tekst": "Het huis en wat eromheen staat: tuin, erfgrens, water, dieren, buren. Het dagelijkse leven op eigen terrein.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Cultuur en info": {
+      "tekst": "De omgeving leren lezen: gewoonten, gemeente, taal en de ongeschreven regels die nergens op een formulier staan.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Arbeidsmarkt": {
+      "tekst": "Werken in dienstverband: contract, loon, rechten, en de erkenning van wat u elders hebt geleerd.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Ondernemen": {
+      "tekst": "Eigen zaak: rechtsvorm, inschrijving, afdrachten en administratie. Hieronder valt ook de toerismesector — gasten ontvangen als beroep, met eigen verplichtingen en een eigen belastingregime.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Onderwijs en cursussen": {
+      "tekst": "School voor de kinderen en opleiding voor uzelf: inschrijving, taal, diploma’s en de overgang tussen twee stelsels.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Zorg en welzijn": {
+      "tekst": "Aansluiting, huisarts, ziekenhuis en de zorg die met ouder worden zwaarder gaat wegen. In twee landen tegelijk geregeld.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Geldzaken en belasting": {
+      "tekst": "Aangifte hier en daar, verdragen, pensioen en vermogen. De vragen die elk voorjaar terugkomen.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Juridisch en familie": {
+      "tekst": "Huwelijk, erfrecht, schenking en geschil. Waar het Franse en het Nederlandse recht elkaar raken of tegenspreken.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Vraag en antwoord": {
+      "tekst": "De vraag zoals hij gesteld wordt, in context, met een gevalideerd antwoord. Het hart van het model: elke zijde levert vragen aan.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Adressen en registers": {
+      "tekst": "Gevalideerde adresgegevens van instanties en loketten, met de juiste ingang per situatie. Voor alle vier de zijden dezelfde bron.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Actualiteit en wetswijzigingen": {
+      "tekst": "Wat er verandert en per wanneer, met de gevolgen per zijde benoemd. Wijzigingen houden zich niet aan één rubriek.",
+      "link": "",
+      "linktekst": ""
+    },
+    "Administratie en correspondentie": {
+      "tekst": "Brieven, formulieren en termijnen. Elke rubriek levert post op; de behandeling ervan is overal gelijk.",
+      "link": "",
+      "linktekst": ""
+    }
+  },
+  "GRONDVLAK_NAAM": "DOMEINEN",
+  "BRONRANGEN": [
+    {
+      "code": "AAA",
+      "naam": "Primaire overheid en wettekst",
+      "uitleg": "De uitgever van het recht zelf. Mag als enige als grond dienen.",
+      "fr": "service-public.fr (met de .gouv.fr- en entreprendre-varianten), legifrance.gouv.fr, impots.gouv.fr, bofip.impots.gouv.fr, economie.gouv.fr, formalites.entreprises.gouv.fr, france-renov.gouv.fr, ameli.fr, has-sante.fr, education.gouv.fr, justice.fr, interieur.gouv.fr, ecologie.gouv.fr, douane.gouv.fr, securite-routiere.gouv.fr, collectivites-locales.gouv.fr, cadastre.gouv.fr, data.gouv.fr, notaires.fr, immobilier.notaires.fr, ants.gouv.fr",
+      "nl": "rijksoverheid.nl, wetten.overheid.nl, belastingdienst.nl, svb.nl, rdw.nl, hetcak.nl, netherlandsworldwide.nl en nederlandwereldwijd.nl, nihb.nl",
+      "regel": "Alles onder .gouv.fr valt hier automatisch onder; verder op titel erkend: Sénaat, CNIL, Your Europe, europa.eu."
+    },
+    {
+      "code": "AA",
+      "naam": "Semi-overheid en uitvoeringsinstanties",
+      "uitleg": "Wie het recht uitvoert. Grond voor de uitvoering, niet voor de regel zelf.",
+      "fr": "urssaf.fr en autoentrepreneur.urssaf.fr, inpi.fr, bpifrance.fr en bpifrance-creation.fr, caf.fr, mesdroitssociaux.gouv.fr, complementaire-sante-solidaire.gouv.fr, onisep.fr, parcoursup.fr, ademe.fr, boss.gouv.fr, infogreffe.fr, guichet-entreprises.fr, annuairesante.ameli.fr, histovec, prix-controle-technique.gouv.fr, lepriximmo.fr",
+      "nl": "consulair.nl, ambfrankrijk.nl, nuffic.nl",
+      "regel": "Op titel erkend: France Travail, de kamers van koophandel en van métiers, de ordes (experts-comptables, architectes, avocats), de greffes en l’Assurance retraite. VBNGB (vbngb.eu) is altijd toegestaan, minimaal op deze rang."
+    },
+    {
+      "code": "A",
+      "naam": "Redactioneel betrouwbaar en eigen netwerk",
+      "uitleg": "Vakmatig degelijk. Bruikbaar als toelichting, nooit als enige grond.",
+      "fr": "cci.fr en cci-paris-idf.fr, vie-publique.fr, ufc-quechoisir.org, qualibat.com, ffb.fr, cmunf.fr, pap.fr, seloger.com, leparticulier.lefigaro.fr",
+      "nl": "infofrankrijk.com, nederlanders.fr",
+      "regel": ""
+    }
+  ],
+  "BRONNEN_NAAM": "BRONNEN",
+  "BRONNEN_KOP": "Rangorde van bronnen",
+  "BRONNEN_INTRO": "Data verzinnen we niet zelf; die komt uit geselecteerde bronnen. De rang bepaalt wat een bron mag dragen: hoe hoger, hoe zwaarder hij weegt. Wat geen rang heeft — fora elders, sociale media, AI-uitvoer zonder bron — komt er niet in."
+}
