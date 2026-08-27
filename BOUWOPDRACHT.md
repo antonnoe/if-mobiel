@@ -1,5 +1,40 @@
 # Bouwopdracht IF-Mobiel
 
+## Ronde 4 — discussies integraal leesbaar (25 augustus 2026)
+
+Klacht: de linkjes naar reacties en berichten op NLFR waren moeilijk te
+bedienen. Vraag: kan de discussie integraal — alleen lezen — in de app?
+
+**Ja, en het meeste stond er al.** `nlfr-berichten` had naast `/api/berichten`
+(activiteitenfeed, reikt een paar dagen terug) al `/api/reacties?post=<id>`, dat
+de **volledige** draad van de berichtpagina zelf leest, inclusief Nings
+vervolgpagina's vanaf ~10 reacties. De app riep die route alleen nooit aan.
+
+Wat er ontbrak was het bericht zelf: de app had daar alleen de samenvatting van
+260 tekens uit de feed. `berichtUit()` haalt de tekst nu uit dezelfde pagina die
+`haalDraad()` toch al ophaalt — geen extra verzoek.
+
+| Repo | Wat |
+|---|---|
+| `nlfr-berichten` | `/api/reacties` levert nu ook `bericht.regels`. Defensief: twee patronen, een lengtedrempel zodat een bijschrift niet als bericht telt, anders `null`. 6 tests. |
+| `if-mobiel` | Nieuw scherm `draad`: volledig bericht + alle reacties met behoud van alinea's, alleen lezen. Eén uitgaande knop onderaan in plaats van een linkje per reactie. |
+| `if-mobiel` | De berichtkaart en de hub-tegels openen de draad in de app; de uitklap met een paar reacties uit de activiteitenfeed is vervallen. |
+
+**Terugval, in deze volgorde:** geen numeriek BlogPost-id → uitleg plus verwijzing
+naar de site; ophalen mislukt → zelfde; draad opgehaald maar onvolledig → wat er
+is, met een strip die zegt hoeveel er ontbreekt; geen volledige berichttekst →
+de samenvatting met de melding dát het de samenvatting is. Nooit een half
+bericht zonder waarschuwing.
+
+**Nog te controleren tegen de echte site:** `berichtUit()` is HTML-schrapen op een
+pagina die vanuit de bouwomgeving niet bereikbaar is. De tests dekken het gedrag,
+niet de echte opmaak van nederlanders.fr. Werkt het patroon daar niet, dan valt
+de app zichtbaar terug op de samenvatting — dan is het een kwestie van het
+patroon bijstellen, niet van iets herbouwen.
+
+---
+
+
 ## Ronde 3 — afgerond 25 augustus 2026
 
 Aanleiding: op if-mobiel.vercel.app opende geen enkel item in de Actueel-tab.
