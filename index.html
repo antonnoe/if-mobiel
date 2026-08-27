@@ -904,6 +904,76 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<!-- ============ KENNISPIRAMIDE (3D-ordeningsmodel) ============ -->
+<!-- De knoppen en panelen hieronder worden imperatief gevuld en bediend door
+     piramide/scene.js; ze hebben daarom geen onClick in de template. De id's
+     dragen allemaal het voorvoegsel pir-, zodat dit scherm niets deelt met de
+     rest van de app. -->
+<sc-if value="{{ isPiramide }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;width:100%;height:100%;overflow:hidden;background:#F1EDE8">
+
+  <sc-if value="{{ pirLaadt }}" hint-placeholder-val="{{ true }}">
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center">
+    <div style="font:600 12.5px/1.8 Mulish;color:#5C534B">Het model wordt geladen…</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ pirFout }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:22px">
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px;max-width:320px">
+      <div style="font:700 13.5px Mulish;color:#15181A">Het model kan hier niet getekend worden</div>
+      <div style="font-size:13px;line-height:1.8;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ pirFoutTekst }}</div>
+      <div style="font-size:13px;line-height:1.8;color:#3D4346;margin-top:10px;text-wrap:pretty">De ordening zelf staat ook in woorden op de pagina Over ons: data draagt kennis, kennis draagt ervaring, en in de punt staat de uitwisseling.</div>
+      <button onClick="{{ pirTerug }}" style="width:100%;min-height:48px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:13px">Terug naar Over ons</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <div id="pir-wrap" style="position:absolute;inset:0">
+    <div id="pir-scene"></div>
+    <div id="pir-kolom">
+      <div class="ui" id="pir-kop">
+        <h1 id="pir-kop-titel"></h1>
+        <p id="pir-kop-onder"></p>
+        <p id="pir-kop-regel"></p>
+      </div>
+      <div class="ui" id="pir-uitlees">
+        <div class="kop"><span class="stip" id="pir-uit-stip"></span><span id="pir-uit-naam"></span></div>
+        <p class="tekst" id="pir-uit-tekst"></p>
+        <p class="wenk">Slepen draait, knijpen zoomt.</p>
+      </div>
+      <div class="ui" id="pir-balk"></div>
+    </div>
+    <div id="pir-tip"></div>
+    <div id="pir-detail" role="dialog" aria-modal="false" aria-hidden="true">
+      <div class="rij">
+        <span class="stip" id="pir-det-stip"></span>
+        <div style="flex:1 1 auto">
+          <h2 id="pir-det-naam"></h2>
+          <p class="soort" id="pir-det-soort"></p>
+        </div>
+      </div>
+      <p class="body" id="pir-det-tekst"></p>
+      <div class="rangen" id="pir-det-rangen"></div>
+      <div class="acties">
+        <a class="meer" id="pir-det-link" target="_blank" rel="noopener" hidden>Meer lezen</a>
+        <button class="sluit" id="pir-det-sluit">Sluiten</button>
+      </div>
+    </div>
+    <div id="pir-bronnen" role="dialog" aria-modal="false" aria-hidden="true">
+      <div class="bkop">
+        <div>
+          <h2 id="pir-bro-kop"></h2>
+          <p id="pir-bro-intro"></p>
+        </div>
+        <button class="sluit" id="pir-bro-sluit">Sluiten</button>
+      </div>
+      <div class="rij" id="pir-bro-rij"></div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
 <!-- ============ NEDERGIDS (kaartschil) ============ -->
 <sc-if value="{{ isNedergids }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -1214,14 +1284,14 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Hoe wij naar kennis kijken</div>
     <p style="font-size:13.5px;line-height:1.8;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Onderaan staan data en zoek-agents. Daarboven kennis: een gevalideerd antwoord op een gestelde vraag. Bovenaan, het grootst, staat ervaring — want één melding is een anekdote en twintig meldingen zijn een patroon. In de punt de handeling zelf: uitwisseling.</p>
   </div>
-  <div style="margin:14px 14px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(21,24,26,.10);background:#F1EDE8;position:relative">
-    <iframe src="kennispiramide?embed=1" title="Kennispiramide — ordeningsmodel" tabindex="-1" style="width:100%;height:300px;border:0;display:block;pointer-events:none"></iframe>
-    <a href="kennispiramide" target="_blank" rel="noopener" aria-label="Kennispiramide groter bekijken en zelf draaien" style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:12px">
-      <span style="font:700 11.5px Mulish;letter-spacing:.04em;color:#5C534B;background:rgba(251,249,246,.92);border:1px solid rgba(128,0,0,.18);border-radius:999px;padding:9px 14px;min-height:38px;display:flex;align-items:center">Tik om zelf te draaien</span>
-    </a>
-  </div>
-
-  <div style="padding:26px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Waar de inhoud vandaan komt</div>
+  <button onClick="{{ openPiramide }}" style="width:100%;text-align:left;margin:14px 0 0;border:0;background:none;padding:0 14px;cursor:pointer">
+    <span style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(128,0,0,.20);background:#F1EDE8;padding:16px 17px">
+      <span style="display:block;font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Het model erachter</span>
+      <span style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:19px;line-height:1.2;color:#15181A;margin-top:6px">Kennispiramide</span>
+      <span style="display:block;font-size:13px;line-height:1.8;color:#3D4346;margin-top:5px;text-wrap:pretty">Vier zijden — migreren, wonen, werken en leren, leven — en drie lagen die op elkaar rusten. Draai eraan en tik een laag aan om te zien waar een antwoord vandaan komt.</span>
+      <span style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;font:800 14px Mulish;margin-top:13px">Model openen →</span>
+    </span>
+  </button>
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
     <sc-for list="{{ bronnen }}" as="b" hint-placeholder-count="4">
     <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
@@ -1540,7 +1610,8 @@ class Component extends DCLogic {
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:ACTUEEL, nieuwsLive:false,
     cat:null, catFout:false, postcode:null, vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
-    enEngine:"idle", enBerekend:false, enUitleg:false };
+    enEngine:"idle", enBerekend:false, enUitleg:false,
+    pirStatus:"laden", pirFoutTekst:"" };
 
   mods(){ const c = this.state.cat; return (c && c.modules) || []; }
   groepList(){ const c = this.state.cat; return (c && c.groepen) || []; }
@@ -1644,7 +1715,7 @@ class Component extends DCLogic {
 
   // Tabnavigatie verlaat de module: tool moet mee weg, anders blijft de
   // prijsbadge in de kopbalk op de vorige module hangen.
-  go(s){ this.setState({screen:s, q:"", copied:null, tool:null, muur:false}); }
+  go(s){ this.stopPiramide(); this.setState({screen:s, q:"", copied:null, tool:null, muur:false}); }
 
   route(m){
     if (!m) return;
@@ -1660,6 +1731,57 @@ class Component extends DCLogic {
     if (m.kind === "energie") { this.loadEngine(); return this.setState({screen:"energie", tool:m, q:"", from, enBerekend:false}); }
     this.setState({screen:"tool", tool:m, muur:false, antwoorden:{}, q:"", from});
   }
+  // ---- Kennispiramide ------------------------------------------------------
+  // three.js is ruim 700 kB; die haalt alleen binnen wie het model opent. De
+  // scene leeft buiten de template (imperatief WebGL) en moet daarom netjes
+  // gestart en gestopt worden: sc-if haalt dit scherm bij navigatie uit de DOM,
+  // en zonder stop() blijft de renderer aan een losgekoppelde node hangen.
+  heeftWebGL(){
+    try {
+      const c = document.createElement("canvas");
+      return !!(window.WebGLRenderingContext &&
+               (c.getContext("webgl") || c.getContext("experimental-webgl")));
+    } catch (e) { return false; }
+  }
+  openPiramide(){
+    if (!this.heeftWebGL()) {
+      return this.setState({screen:"piramide", from:this.state.screen, q:"", pirStatus:"fout",
+        pirFoutTekst:"Deze telefoon of browser ondersteunt geen 3D-weergave (WebGL)."});
+    }
+    this.setState({screen:"piramide", from:this.state.screen, q:"", pirStatus:"laden", pirFoutTekst:""});
+    this.startPiramide();
+  }
+  async startPiramide(){
+    if (this._pir) return;
+    try {
+      if (!this._pirBron) {
+        this._pirBron = Promise.all([
+          import("./piramide/scene.js"),
+          fetch("piramide.json").then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+        ]);
+      }
+      const [mod, cfg] = await this._pirBron;
+      // wachten tot het scherm daadwerkelijk in de DOM staat
+      let wortel = null;
+      for (let i = 0; i < 60 && !wortel; i++) {
+        wortel = document.getElementById("pir-wrap");
+        if (!wortel) await new Promise(r => requestAnimationFrame(r));
+      }
+      if (!wortel || this.state.screen !== "piramide") return;   // ondertussen weggenavigeerd
+      this._pir = mod.startPiramide(wortel, cfg);
+      this.setState({pirStatus:"klaar"});
+    } catch (e) {
+      this._pirBron = null;
+      this.setState({pirStatus:"fout",
+        pirFoutTekst:"Het model kon niet geladen worden. Controleer uw verbinding en probeer het opnieuw."});
+    }
+  }
+  stopPiramide(){
+    if (!this._pir) return;
+    try { this._pir.stop(); } catch (e) {}
+    this._pir = null;
+  }
+
   // Lui laden zoals de vorige versie deed: drie scripts, één keer, in volgorde.
   // engine/ wordt hier nooit gewijzigd — alleen gesynchroniseerd uit antonnoe/energieportaal.
   loadEngine(){
@@ -1953,7 +2075,7 @@ class Component extends DCLogic {
     const niveau = NIVEAUS[this.props.brandNiveau] || NIVEAUS["zeer hoog"];
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub: V === "B" ? "Vandaag" : "Infofrankrijk", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", energie:"Energie & verwarming",
+    const titles = {hub: V === "B" ? "Vandaag" : "Infofrankrijk", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", energie:"Energie & verwarming", piramide:"Kennispiramide",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Account"};
     const subs = {hub:depLabel + " · " + (st.live ? "bijgewerkt" : "voorbeeldgegevens"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
@@ -1964,6 +2086,7 @@ class Component extends DCLogic {
       ruyter:"Geld · nagelezen bij DGFiP en Légifrance",
       zoek:"modules, berichten en zinnen",
       energie:"Wonen · methode 3CL-DPE 2021",
+      piramide:"het ordeningsmodel achter de app",
       gem:"Nederlanders.fr · vrij toegankelijk", taal: st.sc && st.screen === "taal" ? sc.group + " · gratis" : "Taal & gemeenschap · gratis",
       tool: st.tool ? this.groepVan(st.tool.groep).naam + " · " + st.tool.schil : "", acc:"niet aangemeld"};
 
@@ -1986,9 +2109,9 @@ class Component extends DCLogic {
       badge: locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
-      back: () => (st.screen === "taal" && st.sc && st.from !== "zoek")
+      showBack: /^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie|piramide)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(/^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie|piramide)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      back: () => (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
             tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool}),
@@ -2001,6 +2124,12 @@ class Component extends DCLogic {
       isZorg: st.screen === "zorg",
       isRuyter: st.screen === "ruyter",
       isEnergie: st.screen === "energie",
+      isPiramide: st.screen === "piramide",
+      pirLaadt: st.screen === "piramide" && st.pirStatus === "laden",
+      pirFout: st.screen === "piramide" && st.pirStatus === "fout",
+      pirFoutTekst: st.pirFoutTekst || "",
+      pirTerug: () => { this.stopPiramide(); this.setState({screen:"over", q:""}); },
+      openPiramide: () => this.openPiramide(),
       enOver: en.enOver, enLet: en.enLet,
       enEngineLaden: en.enEngineLaden, enEngineFout: en.enEngineFout, enEngineKlaar: en.enEngineKlaar,
       enVbKlaar: en.enVbKlaar, enVbTitel: en.enVbTitel, enVbLabelStyle: en.enVbLabelStyle, enVbLetter: en.enVbLetter,
