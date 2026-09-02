@@ -6,15 +6,19 @@ Frankrijk).
 
 ## Architectuur (v3, tien regels)
 
-1. Eén app, kernbestanden: `index.html` (schil + logica), `support.js` (runtime, gegenereerd)
-   en `modules.json` (de catalogus — data, nooit logica). `Bosbranden Mobiel.html` staat er
+1. Eén web-app (mobile-first website die als app op het beginscherm staat; naam naar de
+   lezer: **Infopoche**, domein infopoche.fr), kernbestanden: `index.html` (schil + logica),
+   `support.js` (runtime, gegenereerd), `modules.json` (de catalogus — data, nooit logica),
+   `vendor/` (React lokaal, zie regel 3) en `manifest.webmanifest` plus `icons/`. `Bosbranden Mobiel.html` staat er
    nog wel, maar is sinds de v3-overzetting **niet aangesloten**; de module `veiligheid`
    wijst naar de pagina op nederlanders.fr.
 2. `index.html` is géén gewone pagina maar een **Design Component**: een `<x-dc>`-template
    met `{{ }}`-holes plus een logicaklasse `class Component extends DCLogic` in een
    `<script type="text/x-dc">`-blok.
 3. `support.js` is de runtime (gegenereerd uit `dc-runtime/`, **niet met de hand bewerken**):
-   het bindt de template aan de klasse via React onder de motorkap.
+   het bindt de template aan de klasse via React onder de motorkap. React komt **niet** van
+   unpkg maar uit `vendor/`, via `window.__resources` in de `<head>` van `index.html`; die
+   regel en die map blijven, anders is de app leeg zodra de CDN wegvalt.
 4. Eigen tags sturen de template: `<sc-if value="{{ }}">`, `<sc-for list="{{ }}" as="…">`
    en `<helmet>` voor `<head>`-inhoud. `{{ expr }}` vult tekst, attributen en handlers.
 5. Toestand leeft in `state` van de klasse; `setState`/`forceUpdate` hertekenen. Eén scherm
@@ -44,6 +48,14 @@ Frankrijk).
 **De catalogus staat in `modules.json` en gaat nooit terug de code in** — ontbreekt een
 veld, voeg het toe aan de JSON en lees het uit met een veilige terugval, zie regel 6/8.
 
+**De knip blijft, ook zonder abonnement.** V1.0 heeft geen inlog en geen abonnementscheck,
+maar `prijs` en `knip` per module en de muur bij een eigen uitkomst zijn de haken voor de
+betaalde laag. Die worden niet "opgeruimd"; een latere statuscheck haalt alleen de muur weg.
+
+**Geen regel in de UI die iets belooft wat de app niet doet.** Geen "offline beschikbaar",
+geen aantallen die niet uit de data komen, geen knop of lijstitem zonder bestemming, geen
+"Gekopieerd" als het kopiëren niet gelukt is.
+
 **Vecht dit patroon niet aan.** Niet naar React/Vue/Tailwind converteren, geen buildstap
 introduceren, geen stylesheet toevoegen — zonder expliciete opdracht. Het werkt en het is
 de bron van de ontwerpsessie.
@@ -68,7 +80,9 @@ compact (strakke `line-height`, rond 1.1–1.35) zodat ze niet uit elkaar vallen
 ### 2. Volvlak versus transparant
 Volvlak `#800000` **alleen op kleine elementen**: knoppen, badges, het logo, kleine chips.
 **Grote vlakken** (panelen, banners, achtergronden, secties) krijgen een **transparante
-variant** `rgba(128,0,0,α)` — nooit een groot volvlak bordeaux.
+variant** `rgba(128,0,0,α)` — nooit een groot volvlak bordeaux. Twee bewuste uitzonderingen,
+omdat contrast op afstand daar zwaarder weegt: de rode alarmkaart bovenaan Zorg en het
+"Groot tonen"-scherm van de Taalassistent. Die niet "repareren".
 
 ### 3. `engine/` is overgenomen, niet eigen
 `engine/` is de rekenmotor van **EnergiePortaal**, overgenomen uit
@@ -90,7 +104,10 @@ een taak af, commit met een heldere boodschap, en zorg dat `main` de eindtoestan
 
 ## Praktisch
 
-- Hittargets minimaal **44px**; mobile-first (canvas ~412px breed).
+- Hittargets minimaal **44px**; mobile-first (canvas ~412px breed). Hoogte via `100dvh`
+  met `100vh` als terugval; de tabbalk heeft `env(safe-area-inset-bottom)`; de viewport
+  laat zoomen toe (geen `user-scalable=no`).
+- Tabbalk-iconen zijn SVG-maskers (`ICONS` in `index.html`), geen Unicode-glyphs.
 - Styling inline houden; geen externe CSS/JS toevoegen (fonts via Google Fonts in `<helmet>`
   zijn de uitzondering).
 - `support.js` niet met de hand bewerken — het is gegenereerd.

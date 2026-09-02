@@ -1,7 +1,10 @@
-# Infofrankrijk Mobiel
+# Infopoche (Infofrankrijk Mobiel)
 
-Mobiele app-schil voor Infofrankrijk.com — één app waarin de losse tools, dossiers en het
-forum van het Infofrankrijk-ecosysteem samenkomen voor Nederlanders in Frankrijk.
+Mobile-first web-app van Infofrankrijk.com en Nederlanders.fr — één app waarin de losse
+tools, dossiers en het forum uit het netwerk van platforms samenkomen voor Nederlanders in
+Frankrijk. Naam naar de lezer: **Infopoche**, domein infopoche.fr (vastgelegd 2 september
+2026). Technisch een statische website met manifest, dus op het beginscherm te zetten
+zonder app-winkel.
 
 **Eigenaar:** Anton Noë / Infofrankrijk.com / Communities Abroad
 
@@ -11,8 +14,10 @@ forum van het Infofrankrijk-ecosysteem samenkomen voor Nederlanders in Frankrijk
 |---|---|
 | `index.html` | De hele app: hub, zoeken, forum, taalassistent, modules, account |
 | `support.js` | Runtime (React-binding, template-engine), **gegenereerd, niet met de hand bewerken** |
+| `vendor/` | React en ReactDOM 18.3.1 lokaal; `index.html` wijst `support.js` ernaar via `window.__resources`, zodat de app niet aan unpkg.com hangt. Zie `vendor/README.md` |
+| `manifest.webmanifest`, `icons/` | Naam, kleuren en pictogrammen voor "zet op beginscherm". Bron van de pictogrammen: `icons/icon.svg` |
 | `modules.json` | De modulecatalogus: groepen, veertien modules, en per-kind extra's (`vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`). Nooit modulegegevens terug in de code zetten |
-| `engine/` | Rekenmotor EnergiePortaal — ONGEWIJZIGD uit `antonnoe/energieportaal`, alleen gesynchroniseerd |
+| `engine/` | Rekenmotor EnergiePortaal — ONGEWIJZIGD uit `antonnoe/energieportaal`, alleen gesynchroniseerd; bronrepo en commit staan in `engine/BRON.md` |
 | `Bosbranden Mobiel.html` | Brandrisico-module (Leaflet-kaart met Météo-France, feux-foret.gouv.fr, NASA FIRMS, Copernicus). **Op dit moment niet aangesloten**: bij de v3-overzetting ging de module `veiligheid` naar de pagina op nederlanders.fr en bleef dit bestand achter. Weer aansluiten of weghalen is een redactiekeuze — zie "Nog te doen" |
 | `kennispiramide.html` | Deelbare losse pagina voor de kennispiramide — een dunne schil die dezelfde module laadt als het scherm in de app, dus geen tweede implementatie |
 | `piramide.json` | Alle redactionele tekst van de kennispiramide: zijden, banden, rubrieken, toelichtingen en de bronrangen. Nooit in de pagina zelf |
@@ -53,6 +58,12 @@ de engine hoeft alleen `engine/` te worden bijgewerkt (in de bronrepo, en vervol
 gesynchroniseerd). Het voorbeeldhuis en de eigen zeven antwoorden zijn gratis; de
 bedragen zelf horen bij het abonnement — de knip staat in `modules.json` onder
 `energie.knip`.
+
+## Stand van zaken en weg naar V1.0
+
+Zie `STAND-VAN-ZAKEN-V1.md` (2 september 2026): inventaris, bevindingen, besluiten en de
+gefaseerde lijst. Fase 0 daaruit is uitgevoerd: React lokaal, titel en manifest,
+`100dvh` en safe-area, onware regels weg, aanraakvlakken, engine-bron vastgelegd.
 
 ## Nog te doen
 
