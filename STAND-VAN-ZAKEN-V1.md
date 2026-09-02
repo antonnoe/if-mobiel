@@ -422,11 +422,11 @@ Geen van deze zeven blokkeert het werk in fase 0 en 1 hieronder.
 |---|---|---|
 | 1 | **V1.0 zonder abonnement**, met de haken voor premium erin | `prijs` en `knip` blijven per module; de muur linkt naar buiten. Een latere statuscheck haalt alleen de muur weg. Vastleggen in `CLAUDE.md` zodat de knip niet wordt "opgeruimd". |
 | 4 | **Bosbranden uit** buiten het seizoen, in het seizoen weer aan; **Franse verkiezingen** als tijdelijke module | Velden `zichtbaar` (handmatig) en `seizoen` (begin- en einddatum, automatisch, handmatig te overrulen) in `modules.json`. Verborgen modules blijven vindbaar via zoeken met de vermelding "buiten seizoen". |
-| 6 | **Eigen domein**, kandidaat france-en-poche.fr; infopoche.fr beschikbaar; savoirfrance.fr al in bezit | Beschikbaarheid niet vanuit deze omgeving te controleren. Advies: france-en-poche.fr als product en domein, savoirfrance.fr als doorverwijzing. Het nieuwe domein moet in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten`. Naam, manifest en pictogram volgen de keuze (fase 0.2). |
+| 6 | **Eigen domein: infopoche.fr**, vastgelegd op 2 september 2026. App-naam "Infopoche"; Infofrankrijk en Nederlanders.fr als afzenders in Over ons en het manifest. savoirfrance.fr (en france-en-poche.fr als hij vrij is) alleen als doorverwijzing. | Titel, kopbalk, manifest en pictogram op "Infopoche" (fase 0.2). infopoche.fr in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten`. Nog te controleren door de opdrachtgever: merkregister INPI en de houders van infopoche.com en .nl. |
 | nieuw | **Modules eenvoudig toevoegen vanuit Vercel** | Voorbeeldblok plus handleiding in de README; veld `weergave` met "voorvertoning" (nu) of "volledig" (echte iframe op volle hoogte, alleen voor tools die mobiel werken en framing toestaan). Per tool controleren in fase 2. |
 | nieuw | **Doorontwikkeling naar UK/US** op termijn | Geldt voor de schil, niet voor de inhoud (vastgoedgids, De Ruyter, Zorg zijn Nederlands-Frans). De teksten van de schil staan verspreid in de template; die naar één taalbestand halen is een V1.1-klus. |
 
-Nog open: welke Vercel-tools in V1.0 (met URL, prijs en mobiele geschiktheid), welke verkiezing en of daar al een bron voor is, of Veiligheid & natuur helemaal uit gaat of alleen het brandgevaar, en of "France en poche" de naam in de app wordt.
+Nog open: welke Vercel-tools in V1.0 (met URL, prijs en mobiele geschiktheid), welke verkiezing en of daar al een bron voor is, en of Veiligheid & natuur helemaal uit gaat of alleen het brandgevaar.
 
 ---
 
@@ -439,7 +439,7 @@ Inspanning: **S** = een uur tot een dagdeel, **M** = een tot twee dagen, **L** =
 | Stap | Wat | Inspanning |
 |---|---|---|
 | 0.1 | React en ReactDOM 18.3.1 lokaal in `vendor/`, `window.__resources` vóór `support.js`, fallback-tekst buiten `<x-dc>` (T1) | S |
-| 0.2 | `<title>`, `lang="nl"`, `manifest.webmanifest`, twee iconen, `apple-touch-icon`, `meta description` (T2) | S |
+| 0.2 | `<title>Infopoche</title>`, `lang="nl"`, `manifest.webmanifest` met naam Infopoche, twee iconen, `apple-touch-icon`, `meta description` (T2) | S |
 | 0.3 | `100dvh` met terugval, `safe-area-inset-bottom` op de tabbalk, `viewport-fit=cover`, `user-scalable=no` weg (T3) | S |
 | 0.4 | Onware regels weg: "Offline beschikbaar", "Laatst bijgewerkt: vandaag", "15 situaties", elf dode situaties, postcode-belofte, "De weg terug staat linksboven" (T5) | S |
 | 0.5 | Segmentknoppen en Vernieuwen naar 44 px; tabbalk-labels naar 11 px; vijf inline-SVG-iconen (T4) | S |
@@ -452,7 +452,7 @@ Inspanning: **S** = een uur tot een dagdeel, **M** = een tot twee dagen, **L** =
 |---|---|---|
 | 1.1 | Velden `zichtbaar` en `seizoen` in `modules.json`, filter in de hub, "buiten seizoen" in zoeken; vier lege modules en Bosbranden verbergen (beslissingen 2 en 4) | S |
 | 1.1b | Voorbeeldblok en handleiding "module toevoegen" in de README; veld `weergave` (voorvertoning of volledig) voor iframe-modules | S |
-| 1.1c | Domein: naam in kopbalk, manifest en pictogram; nieuw domein in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten` (andere repo's) | S |
+| 1.1c | Domein infopoche.fr koppelen aan Vercel; "Infopoche" in kopbalk, manifest en pictogram; infopoche.fr in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten` (andere repo's) | S |
 | 1.2 | Tabbalk naar variant met Zoeken; Modules-tab weg; hub inkorten (beslissing 5) | M |
 | 1.3 | Scherm Account wordt Meer: postcode wijzigen, abonnement als link, Over ons, catalogusdatum | S |
 | 1.4 | Zoekindex uitbreiden met zorg, ruyter, nedergids en knip-teksten | S |
