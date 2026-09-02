@@ -446,6 +446,16 @@ Inspanning: **S** = een uur tot een dagdeel, **M** = een tot twee dagen, **L** =
 | 0.6 | "Gekopieerd"/"Voorgelezen" alleen bij succes (T5) | S |
 | 0.7 | `engine/BRON.md` met repo, commit en datum; prijstabel en apparatenlijst uit de motor lezen in plaats van kopiëren (T8) | S |
 
+### Fase 0: uitgevoerd op 2 september 2026 (commit op de werkbranch)
+
+Alle zeven stappen staan in de code; gecontroleerd met een nieuwe proefdraai: geen enkel verzoek
+meer naar unpkg.com, titel "Infopoche", `lang="nl"`, manifest en pictogrammen aanwezig, geen
+aanraakvlak meer onder 44 px, tabbalk-labels 11 px met SVG-iconen, "Gekopieerd" alleen bij
+succes, voorlezen meldt eerlijk "Geen Franse stem gevonden" als die ontbreekt, de postcode is
+bij Account te wijzigen, en het voorbeeldhuis geeft met de motor-constanten en de
+desktop-standaardwaarden nog exact dezelfde uitkomst (G, € 10.385). Het pictogram in `icons/`
+is een tijdelijke "iP" op een telefoonsilhouet; een echt logo is een redactiekeuze.
+
 ### Fase 1: afronding, in deze repo, met de beslissingen uit §5
 
 | Stap | Wat | Inspanning |
@@ -541,5 +551,7 @@ op een echte iPhone of Android. Daarvoor is fase 2.
   zonder bron) gelden als toetssteen; waar ze botsen met de huisstijl wint de doelgroep.
 - Het patroon (Design Component, één bestand, geen buildstap) staat niet ter discussie;
   geen enkele aanbeveling hierboven vereist een bundler of een framework-migratie.
-- Dit rapport staat op de werkbranch `claude/if-mobiel-state-report-pe92ei`; volgens regel 5
-  van `CLAUDE.md` hoort het naar `main`, dat is de enige merge-stap die overblijft.
+- Dit rapport en fase 0 staan op de werkbranch `claude/if-mobiel-state-report-pe92ei`; volgens
+  regel 5 van `CLAUDE.md` horen ze naar `main`, dat is de enige merge-stap die overblijft.
+- Terminologie: technisch is dit een mobile-first web-app (statische site met manifest, geen
+  app-winkel); naar de lezer heet het gewoon "de app".
