@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#800000"/>
+  <rect x="176" y="96" width="160" height="320" rx="30" fill="#F4F1F0"/>
+  <rect x="236" y="120" width="40" height="8" rx="4" fill="#800000" opacity=".35"/>
+  <text x="256" y="296" text-anchor="middle" font-family="Poppins, 'DejaVu Sans', Arial, sans-serif" font-weight="600" font-size="112" fill="#800000">iP</text>
+</svg>
