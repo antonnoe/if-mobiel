@@ -16,7 +16,7 @@ zonder app-winkel.
 | `support.js` | Runtime (React-binding, template-engine), **gegenereerd, niet met de hand bewerken** |
 | `vendor/` | React en ReactDOM 18.3.1 lokaal; `index.html` wijst `support.js` ernaar via `window.__resources`, zodat de app niet aan unpkg.com hangt. Zie `vendor/README.md` |
 | `manifest.webmanifest`, `icons/` | Naam, kleuren en pictogrammen voor "zet op beginscherm". Bron van de pictogrammen: `icons/icon.svg` |
-| `modules.json` | De modulecatalogus: groepen, veertien modules, en per-kind extra's (`vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`). Nooit modulegegevens terug in de code zetten |
+| `modules.json` | De modulecatalogus: groepen, vijftien modules, en per-kind extra's (`vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`). Nooit modulegegevens terug in de code zetten |
 | `engine/` | Rekenmotor EnergiePortaal — ONGEWIJZIGD uit `antonnoe/energieportaal`, alleen gesynchroniseerd; bronrepo en commit staan in `engine/BRON.md` |
 | `Bosbranden Mobiel.html` | Brandrisico-module (Leaflet-kaart met Météo-France, feux-foret.gouv.fr, NASA FIRMS, Copernicus). **Op dit moment niet aangesloten**: bij de v3-overzetting ging de module `veiligheid` naar de pagina op nederlanders.fr en bleef dit bestand achter. Weer aansluiten of weghalen is een redactiekeuze — zie "Nog te doen" |
 | `kennispiramide.html` | Deelbare losse pagina voor de kennispiramide — een dunne schil die dezelfde module laadt als het scherm in de app, dus geen tweede implementatie |
@@ -24,6 +24,40 @@ zonder app-winkel.
 | `piramide/` | De kennispiramide: `scene.js` (3D-scene, `startPiramide()`/`stop()`), `opmaak.js` (opmaak, gescoopt onder `#pir-wrap`) en three.js lokaal gevendord (zie `THREE-LICENSE`). Alles wordt lui geladen — wie het model niet opent, haalt geen byte binnen |
 | `data/` | Twee bestanden zonder actieve gebruiker (`feiten.json`, `streek-verhalen.ts`) — zie "Nog te doen" |
 | `BOUWOPDRACHT.md` | De laatste bouwopdracht (ronde 2), leidend voor de openstaande punten hieronder |
+
+## Een module toevoegen vanuit Vercel
+
+Staat een tool op Vercel (of elders), dan is toevoegen één blok in `modules.json`, geen
+code. Kopieer het blok van `klussen` en vul in:
+
+```json
+{
+  "id": "mijn-tool",
+  "groep": "wonen",
+  "naam": "Mijn tool",
+  "meta": "één regel die zegt wat hij doet",
+  "prijs": "gratis",
+  "schil": "rekenschil",
+  "houdbaar": "per jaar",
+  "status": "af",
+  "kind": "iframe",
+  "weergave": "volledig",
+  "url": "https://mijn-tool.vercel.app/",
+  "nagekeken": "2026-09-02",
+  "over": "Twee of drie zinnen voor de lezer."
+}
+```
+
+- `weergave`: `volledig` laat de site op volle hoogte in de app openen; dat werkt alleen als
+  die site framing vanaf infopoche.fr toestaat (een `Content-Security-Policy` met
+  `frame-ancestors`, zie `next.config.ts` van `klussen-in-frankrijk` als voorbeeld). Staat
+  de site dat niet toe, kies dan `knop` (één knop naar een nieuw tabblad) of laat het veld
+  weg voor de voorvertoning van 300 px.
+- `zoekindex` (optioneel): publiceert de site een JSON met `artikelen` en/of `termen` (zie
+  `_uitleg` in `modules.json` voor de vorm, en `app/zoekindex.json/route.ts` in
+  `klussen-in-frankrijk` als voorbeeld), dan doorzoekt het zoekveld van de app die lijst en
+  opent een treffer in de module. De tekst blijft op de site zelf.
+- Commit naar `main`; Vercel deployt de app opnieuw en de module staat erin.
 
 ## Draaien
 

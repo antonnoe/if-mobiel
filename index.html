@@ -177,6 +177,13 @@ input,button{font-family:Mulish,system-ui,sans-serif}
         <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="width:46px;flex:none;border:0;background:none;cursor:pointer;font-size:17px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
       </div>
       </sc-for>
+      <sc-if value="{{ g.heeftCafe }}" hint-placeholder-val="{{ false }}">
+      <a href="{{ g.cafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
+        <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 11px Mulish">CC</span>
+        <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ g.cafeTekst }}</span>
+        <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+      </a>
+      </sc-if>
     </div>
   </div>
   </sc-for>
@@ -1124,11 +1131,13 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <!-- ============ MODULE (gratis of met slot) ============ -->
 <sc-if value="{{ isTool }}" hint-placeholder-val="{{ false }}">
 <div>
+  <sc-if value="{{ toonIntro }}" hint-placeholder-val="{{ true }}">
   <div style="padding:20px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ toolGroup }}</div>
     <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:8px 0 0">{{ toolName }}</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:10px 0 0;text-wrap:pretty">{{ toolDesc }}</p>
   </div>
+  </sc-if>
   <sc-if value="{{ isIframe }}" hint-placeholder-val="{{ false }}">
   <div>
     <sc-if value="{{ isSafety }}" hint-placeholder-val="{{ false }}">
@@ -1137,7 +1146,24 @@ input,button{font-family:Mulish,system-ui,sans-serif}
       <div style="font:500 13px/1.8 Mulish;color:#5C0000;margin-top:5px;text-wrap:pretty">Alles onder Veiligheid &amp; natuur is en blijft vrij toegankelijk, ook zonder abonnement en zonder account.</div>
     </div>
     </sc-if>
-    <sc-if value="{{ heeftUrl }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ isVolledig }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <!-- De site zelf, op volle hoogte: kopbalk en tabbalk van de app blijven staan.
+           Alleen voor sites die framing toestaan (weergave: "volledig" in modules.json). -->
+      <iframe src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write" style="width:100%;height:calc(100vh - 140px);height:calc(100dvh - 140px - env(safe-area-inset-bottom));border:0;display:block;background:#fff"></iframe>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 16px 0">
+        <span style="flex:1;font:500 11px/1.5 Mulish;color:#71787C;text-wrap:pretty">Blijft het kader leeg, open de site dan in uw browser.</span>
+        <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12px Mulish;text-decoration:none">In browser ↗</a>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isKnop }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:18px 14px 0">
+      <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:54px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">{{ knopLabel }}</a>
+      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin:8px 2px 0;text-align:center;text-wrap:pretty">Opent in een nieuw tabblad van uw browser; sluit dat om terug te keren naar de app.</div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isVoorvertoning }}" hint-placeholder-val="{{ true }}">
     <div>
       <div style="margin:18px 14px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(21,24,26,.10);background:#fff;position:relative">
         <iframe src="{{ toolUrl }}" title="{{ toolName }}" tabindex="-1" style="width:100%;height:300px;border:0;display:block;pointer-events:none"></iframe>
@@ -1795,7 +1821,7 @@ class Component extends DCLogic {
 
   // Tabnavigatie verlaat de module: tool moet mee weg, anders blijft de
   // prijsbadge in de kopbalk op de vorige module hangen.
-  go(s){ this.stopPiramide(); this.setState({screen:s, q:"", copied:null, tool:null, muur:false}); }
+  go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); this.setState({screen:s, q:"", copied:null, tool:null, muur:false}); }
 
   route(m){
     if (!m) return;
@@ -2017,6 +2043,56 @@ class Component extends DCLogic {
     return "display:block;width:22px;height:22px;background-color:currentColor;-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
   }
 
+  prijsLabel(prijs){
+    return ({abonnee:"ABONNEE", "gratis-lezen":"GRATIS LEZEN", "gratis-eerste":"1E ANTWOORD GRATIS"})[prijs] || "GRATIS";
+  }
+  // Café Claude per groep: de deep link komt uit de url van de module cafeclaude,
+  // het domein en de tekst uit `cafe` bij de groep in modules.json. Geen van beide
+  // in de code.
+  cafeUrl(g){
+    const cc = this.vindModule("cafeclaude");
+    if (!cc || !cc.url || !g.cafe || !g.cafe.domein) return null;
+    try { const u = new URL(cc.url); u.searchParams.set("domain", g.cafe.domein); return u.href; } catch (e) { return null; }
+  }
+  // Zoekindexen die modules zelf publiceren (veld `zoekindex` in modules.json):
+  // één keer ophalen per sessie, zacht falen, nooit kopiëren naar de app.
+  laadZoekindexen(){
+    this._zi = this._zi || {};
+    this.mods().forEach(m => {
+      if (!m.zoekindex || this._zi[m.id]) return;
+      this._zi[m.id] = {status:"laden", data:null};
+      fetch(m.zoekindex).then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+        .then(d => { this._zi[m.id] = {status:"klaar", data:d}; this.forceUpdate(); })
+        .catch(() => { this._zi[m.id] = {status:"fout", data:null}; });
+    });
+  }
+  zoekindexTreffers(q){
+    const out = [];
+    if (!this._zi) return out;
+    Object.keys(this._zi).forEach(id => {
+      const zi = this._zi[id]; const m = this.vindModule(id);
+      if (!zi || zi.status !== "klaar" || !zi.data || !m) return;
+      const abs = (pad) => { try { return new URL(pad || "", m.zoekindex).href; } catch (e) { return null; } };
+      const label = (m.naam || "").split(" ")[0].toUpperCase();
+      (zi.data.artikelen || []).forEach(a => {
+        if (!a || !a.titel) return;
+        if (norm(a.titel + " " + (a.omschrijving || "") + " " + (a.onderwerp || "")).includes(q)) {
+          const url = abs(a.pad);
+          if (url) out.push({kind:label, fr:a.titel, nl:a.omschrijving || "", where:(a.onderwerp ? a.onderwerp + " · " : "") + m.naam,
+            open:() => this.route(Object.assign({}, m, {url}))});
+        }
+      });
+      (zi.data.termen || []).forEach(t => {
+        if (!t || !t.nl) return;
+        if (norm(t.nl + " " + (t.fr || "")).includes(q)) {
+          const url = abs(t.pad);
+          if (url) out.push({kind:"WOORD", fr:t.fr || t.nl, nl:t.nl, where:(t.rubriek ? t.rubriek + " · " : "") + m.naam,
+            open:() => this.route(Object.assign({}, m, {url}))});
+        }
+      });
+    });
+    return out;
+  }
   enGrootstePost(costs){
     const labels = {verwarming:"Verwarming", tapwater:"Warm water", koeling:"Koeling", apparaten:"Apparaten en licht", ev:"Elektrische auto", zwembad:"Zwembad"};
     let beste = null, besteWaarde = -Infinity;
@@ -2163,7 +2239,8 @@ class Component extends DCLogic {
         out.push({kind:"BERICHT", fr:p.titel, nl:p.samenvatting || "", where:"Nederlanders.fr · " + kort(p.laatsteReactie || p.datum),
           open:() => this.setState({screen:"gem", gemTab:"ber", openPost:p.id, q:""})});
     });
-    return out.slice(0, 24);
+    this.zoekindexTreffers(q).forEach(r => out.push(r));
+    return out.slice(0, 30);
   }
 
   renderVals(){
@@ -2399,10 +2476,12 @@ class Component extends DCLogic {
       goMod: () => this.go("mod"),
       groups: this.groepList().map(g => {
         const tools = this.mods().filter(m => m.groep === g.id);
+        const cafe = this.cafeUrl(g);
         return {name:g.naam, count: tools.length === 1 ? "1 module" : tools.length + " modules",
+          heeftCafe: !!cafe, cafeUrl: cafe || "", cafeTekst: (g.cafe && g.cafe.tekst) || "Vraag het Café Claude",
           tools: tools.map(m => ({
             name:m.naam, meta:m.meta, dot:g.kleur,
-            tag: m.prijs === "abonnee" ? "ABONNEE" : m.prijs === "gratis-lezen" ? "GRATIS LEZEN" : "GRATIS",
+            tag: this.prijsLabel(m.prijs),
             tagBg: m.prijs === "abonnee" ? "rgba(128,0,0,.08)" : "rgba(90,164,105,.14)",
             tagFg: m.prijs === "abonnee" ? "#800000" : "#3F7A4E",
             fav: st.favs.includes(m.id) ? "★" : "☆",
@@ -2415,7 +2494,7 @@ class Component extends DCLogic {
       favCount: favLijst.length + " van 6",
       favs: favLijst.map(m => ({
         naam:m.naam, meta:m.meta, dot:this.groepVan(m.groep).kleur,
-        tag: m.prijs === "abonnee" ? "ABONNEE" : "GRATIS",
+        tag: this.prijsLabel(m.prijs),
         tagBg: m.prijs === "abonnee" ? "rgba(128,0,0,.08)" : "rgba(90,164,105,.14)",
         tagFg: m.prijs === "abonnee" ? "#800000" : "#3F7A4E",
         open: () => this.route(m),
@@ -2531,6 +2610,11 @@ class Component extends DCLogic {
       knipGratis: (((T && T.knip) || {}).gratis || []).map(t => ({tekst:t})),
       knipAbo: (((T && T.knip) || {}).abonnee || []).map(t => ({tekst:t})),
       heeftUrl: !!(T && T.kind === "iframe" && T.url),
+      isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
+      isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
+      toonIntro: !(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      knopLabel: T ? "Open " + T.naam + " ↗" : "Openen",
       geenUrl: !!(T && T.kind === "iframe" && !T.url),
       toolUrl: T && T.url ? T.url : "",
       catFout: st.catFout,
