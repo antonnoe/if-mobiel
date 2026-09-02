@@ -426,7 +426,23 @@ Geen van deze zeven blokkeert het werk in fase 0 en 1 hieronder.
 | nieuw | **Modules eenvoudig toevoegen vanuit Vercel** | Voorbeeldblok plus handleiding in de README; veld `weergave` met "voorvertoning" (nu) of "volledig" (echte iframe op volle hoogte, alleen voor tools die mobiel werken en framing toestaan). Per tool controleren in fase 2. |
 | nieuw | **Doorontwikkeling naar UK/US** op termijn | Geldt voor de schil, niet voor de inhoud (vastgoedgids, De Ruyter, Zorg zijn Nederlands-Frans). De teksten van de schil staan verspreid in de template; die naar één taalbestand halen is een V1.1-klus. |
 
-Nog open: welke Vercel-tools in V1.0 (met URL, prijs en mobiele geschiktheid), welke verkiezing en of daar al een bron voor is, en of Veiligheid & natuur helemaal uit gaat of alleen het brandgevaar.
+Besloten en gebouwd op 2 september 2026 (PR's #3 in deze repo en #74 in `klussen-in-frankrijk`):
+
+- **Klussen in Frankrijk** opent volledig in de app (`weergave: "volledig"`); de site staat
+  framing toe voor infopoche.fr, if-mobiel.vercel.app, infofrankrijk.com en nederlanders.fr
+  (dus ook voor een pagina op de IF-website). De site publiceert `/zoekindex.json` met de
+  107 artikelen en 430 gepubliceerde bouwtermen; het zoekveld van de app doorzoekt dat en
+  opent een treffer in de module. Geen kopie van de tekst.
+- **Café Claude** als module onder Aankomen met prijs "1e antwoord gratis" en één knop naar
+  een nieuw tabblad (de site weigert framing op de hoofdroute), plus onder elke groep een
+  regel "Vraag het Café Claude" met een deep link naar het bijpassende domein.
+- **Modules toevoegen vanuit Vercel**: veld `weergave` (voorvertoning, volledig, knop) en
+  `zoekindex`, met een handleiding en voorbeeldblok in de README.
+
+Nog open: welke verkiezing en of daar al een bron voor is; of Veiligheid & natuur helemaal
+uit gaat of alleen het brandgevaar; het label van Financieel kompas (de tool is zelf
+freemium: basis gratis, premium-velden op slot; het badge "ABONNEE" klopt dus niet, en
+`?access=premium` in die repo ontgrendelt alles zonder token).
 
 ---
 
@@ -461,14 +477,14 @@ is een tijdelijke "iP" op een telefoonsilhouet; een echt logo is een redactiekeu
 | Stap | Wat | Inspanning |
 |---|---|---|
 | 1.1 | Velden `zichtbaar` en `seizoen` in `modules.json`, filter in de hub, "buiten seizoen" in zoeken; vier lege modules en Bosbranden verbergen (beslissingen 2 en 4) | S |
-| 1.1b | Voorbeeldblok en handleiding "module toevoegen" in de README; veld `weergave` (voorvertoning of volledig) voor iframe-modules | S |
+| 1.1b | ~~Voorbeeldblok en handleiding "module toevoegen" in de README; veld `weergave` (voorvertoning of volledig) voor iframe-modules~~ gedaan op 2 september 2026 (PR #3), plus `zoekindex` | S |
 | 1.1c | Domein infopoche.fr koppelen aan Vercel; "Infopoche" in kopbalk, manifest en pictogram; infopoche.fr in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten` (andere repo's) | S |
 | 1.2 | Tabbalk naar variant met Zoeken; Modules-tab weg; hub inkorten (beslissing 5) | M |
 | 1.3 | Scherm Account wordt Meer: postcode wijzigen, abonnement als link, Over ons, catalogusdatum | S |
 | 1.4 | Zoekindex uitbreiden met zorg, ruyter, nedergids en knip-teksten | S |
 | 1.5 | Chip-strips sticky in Vastgoed, Zorg, De Ruyter, Nedergids, Energie | S |
 | 1.6 | Energie: na berekenen naar de uitkomst; voorbeeldhuis volgens beslissing 3; `PREVIEW` weg | S |
-| 1.7 | Iframe-voorvertoning vervangen door beeld of knop; per bron framing controleren (T7) | M |
+| 1.7 | Iframe-voorvertoning vervangen door beeld of knop; per bron framing controleren (T7). KiF staat op `volledig`, Café Claude op `knop`; Veiligheid, Kompas en Transactiekosten nog te kiezen | M |
 | 1.8 | Marktcontext-cijfers in Vastgoed voorzien van bronlabel of indicatieregel | S (redactie) |
 | 1.9 | Nedergids: Uitgelicht-blok verbergen zonder sponsor | S |
 | 1.10 | Dode constanten weg (`CAT`, `NIVEAUS` bewaren met toelichting, `TODO`, `PREVIEW`); `Bosbranden Mobiel.html` naar `archief/` of weg; `data/` volgens beslissing 7 | S |
