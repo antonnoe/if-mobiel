@@ -416,6 +416,18 @@ bedoeling is.
 
 Geen van deze zeven blokkeert het werk in fase 0 en 1 hieronder.
 
+### Besluiten van de opdrachtgever, 2 september 2026
+
+| # | Besluit | Gevolg voor de bouw |
+|---|---|---|
+| 1 | **V1.0 zonder abonnement**, met de haken voor premium erin | `prijs` en `knip` blijven per module; de muur linkt naar buiten. Een latere statuscheck haalt alleen de muur weg. Vastleggen in `CLAUDE.md` zodat de knip niet wordt "opgeruimd". |
+| 4 | **Bosbranden uit** buiten het seizoen, in het seizoen weer aan; **Franse verkiezingen** als tijdelijke module | Velden `zichtbaar` (handmatig) en `seizoen` (begin- en einddatum, automatisch, handmatig te overrulen) in `modules.json`. Verborgen modules blijven vindbaar via zoeken met de vermelding "buiten seizoen". |
+| 6 | **Eigen domein**, kandidaat france-en-poche.fr; infopoche.fr beschikbaar; savoirfrance.fr al in bezit | Beschikbaarheid niet vanuit deze omgeving te controleren. Advies: france-en-poche.fr als product en domein, savoirfrance.fr als doorverwijzing. Het nieuwe domein moet in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten`. Naam, manifest en pictogram volgen de keuze (fase 0.2). |
+| nieuw | **Modules eenvoudig toevoegen vanuit Vercel** | Voorbeeldblok plus handleiding in de README; veld `weergave` met "voorvertoning" (nu) of "volledig" (echte iframe op volle hoogte, alleen voor tools die mobiel werken en framing toestaan). Per tool controleren in fase 2. |
+| nieuw | **Doorontwikkeling naar UK/US** op termijn | Geldt voor de schil, niet voor de inhoud (vastgoedgids, De Ruyter, Zorg zijn Nederlands-Frans). De teksten van de schil staan verspreid in de template; die naar één taalbestand halen is een V1.1-klus. |
+
+Nog open: welke Vercel-tools in V1.0 (met URL, prijs en mobiele geschiktheid), welke verkiezing en of daar al een bron voor is, of Veiligheid & natuur helemaal uit gaat of alleen het brandgevaar, en of "France en poche" de naam in de app wordt.
+
 ---
 
 ## 6. Weg naar V1.0
@@ -438,7 +450,9 @@ Inspanning: **S** = een uur tot een dagdeel, **M** = een tot twee dagen, **L** =
 
 | Stap | Wat | Inspanning |
 |---|---|---|
-| 1.1 | Veld `zichtbaar` in `modules.json` en filter in de hub; vier lege modules verbergen (beslissing 2) | S |
+| 1.1 | Velden `zichtbaar` en `seizoen` in `modules.json`, filter in de hub, "buiten seizoen" in zoeken; vier lege modules en Bosbranden verbergen (beslissingen 2 en 4) | S |
+| 1.1b | Voorbeeldblok en handleiding "module toevoegen" in de README; veld `weergave` (voorvertoning of volledig) voor iframe-modules | S |
+| 1.1c | Domein: naam in kopbalk, manifest en pictogram; nieuw domein in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten` (andere repo's) | S |
 | 1.2 | Tabbalk naar variant met Zoeken; Modules-tab weg; hub inkorten (beslissing 5) | M |
 | 1.3 | Scherm Account wordt Meer: postcode wijzigen, abonnement als link, Over ons, catalogusdatum | S |
 | 1.4 | Zoekindex uitbreiden met zorg, ruyter, nedergids en knip-teksten | S |
