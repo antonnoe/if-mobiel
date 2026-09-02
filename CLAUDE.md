@@ -37,7 +37,14 @@ Frankrijk).
 8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`, `taal`, `lex`,
    `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`. Een nieuw type
    toevoegen is: een `kind` verzinnen, een blok in de JSON, en één `sc-if`-scherm in de
-   template — bestaande modules van vorm veranderen gaat zonder code.
+   template — bestaande modules van vorm veranderen gaat zonder code. Bij `iframe` kiest
+   `weergave` de vorm: `voorvertoning` (standaard), `volledig` (de site op volle hoogte in
+   de app; alleen voor sites die framing toestaan via `frame-ancestors`) of `knop` (één
+   knop naar een nieuw tabblad). Een module met `zoekindex` (URL van een JSON dat de site
+   zelf publiceert) wordt door het zoekveld doorzocht; treffers openen in de module. Per
+   groep kan `cafe: {domein, tekst}` staan: een regel "Vraag het Café Claude" met een deep
+   link, opgebouwd uit de `url` van de module `cafeclaude`. Prijswaarden: `gratis`,
+   `gratis-lezen`, `gratis-eerste`, `abonnee`.
 9. Geen buildstap, geen bundler, geen stylesheet: alle styling staat **inline**. Draaien met
    `npx serve .`; Vercel importeert de repo zonder instellingen.
 10. Persistentie in `localStorage`: `ifm_favs`, `ifm_postcode`, `ifm_pc_later`,

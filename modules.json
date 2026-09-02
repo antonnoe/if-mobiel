@@ -1,30 +1,46 @@
 {
-  "_uitleg": "De modulecatalogus van IF-Mobiel. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info), url (alleen bij kind iframe), nagekeken (datum, zichtbaar in de app).",
-  "bijgewerkt": "2026-08-23",
+  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr.",
+  "bijgewerkt": "2026-09-02",
   "groepen": [
     {
       "id": "aankomen",
       "naam": "Aankomen",
       "kleur": "#800000",
-      "wat": "Vestigen, registreren, de eerste jaren."
+      "wat": "Vestigen, registreren, de eerste jaren.",
+      "cafe": {
+        "domein": "bureaucratie",
+        "tekst": "Vraag het Café Claude over papieren, loketten en registratie"
+      }
     },
     {
       "id": "wonen",
       "naam": "Wonen",
       "kleur": "#2F6B3A",
-      "wat": "Het huis, wat erin zit, en de natuur eromheen."
+      "wat": "Het huis, wat erin zit, en de natuur eromheen.",
+      "cafe": {
+        "domein": "wonen",
+        "tekst": "Vraag het Café Claude over wonen, kopen en verbouwen"
+      }
     },
     {
       "id": "geld",
       "naam": "Geld",
       "kleur": "#A87C3F",
-      "wat": "Belasting, erfenis, vermogen."
+      "wat": "Belasting, erfenis, vermogen.",
+      "cafe": {
+        "domein": "geld",
+        "tekst": "Vraag het Café Claude over belasting, pensioen en vermogen"
+      }
     },
     {
       "id": "leven",
       "naam": "Leven",
       "kleur": "#46586B",
-      "wat": "Werken, leren, zorg, onderweg zijn."
+      "wat": "Werken, leren, zorg, onderweg zijn.",
+      "cafe": {
+        "domein": "zorg",
+        "tekst": "Vraag het Café Claude over zorg en verzekeren"
+      }
     }
   ],
   "modules": [
@@ -40,6 +56,36 @@
       "kind": "nedergids",
       "nagekeken": "2026-08-23",
       "over": "De wegwijzer: officiële loketten, registers, adressen en nuttige websites — per categorie, met de postcode als ingang. Lezen is altijd gratis. Een nieuwe vermelding aanvragen kost eenmalig €1 om bots tegen te houden; bedrijven betalen daarnaast een jaarbedrag voor goede zichtbaarheid. Bestaande vermeldingen blijven staan."
+    },
+    {
+      "id": "cafeclaude",
+      "groep": "aankomen",
+      "naam": "Café Claude",
+      "meta": "klik uw vraag bij elkaar, krijg een gecontroleerd antwoord",
+      "prijs": "gratis-eerste",
+      "schil": "vraagschil",
+      "houdbaar": "dagelijks",
+      "status": "af",
+      "kind": "iframe",
+      "weergave": "knop",
+      "url": "https://cafeclaude.fr/app",
+      "nagekeken": "2026-09-02",
+      "over": "De AI-assistent van Infofrankrijk voor Nederlandstaligen in Frankrijk. U typt niet, u klikt: via een paar keuzes bouwt het Café uw vraag op en geeft een antwoord met bronnen (overheid eerst), een kwaliteitsscore en een aparte controle door een auditor. Zes onderwerpen: ondernemen, geld, wonen en leven, bureaucratie, verzekeren, en zorg in opbouw.",
+      "let": "Een AI-antwoord met bronnen en een auditor is een startpunt, geen vervanging van een notaris, expert-comptable of advocaat. Zonder bronnen krijgt een antwoord een veto en wordt het niet gepubliceerd.",
+      "knip": {
+        "kop": "Wat er gratis is, en waar het abonnement begint",
+        "gratis": [
+          "Het eerste antwoord op elk onderwerp, met bronnen en kwaliteitsscore.",
+          "Alle antwoorden die al eerder zijn gegeven en gecontroleerd.",
+          "Bestaat uw vraag nog niet, dan één nieuw antwoord per dag vanaf uw netwerk."
+        ],
+        "abonnee": [
+          "Vervolgvragen in hetzelfde gesprek.",
+          "Een verbeterd antwoord opvragen na een voorbehoud van de auditor.",
+          "Antwoorden bewaren in uw dossier."
+        ],
+        "regel": "Gratis is het eerste antwoord, abonnee is het gesprek. Het Café opent in een nieuw tabblad; abonnees melden zich daar aan via Infofrankrijk."
+      }
     },
     {
       "id": "correspondentie",
@@ -79,8 +125,10 @@
       "status": "inhoud af",
       "kind": "iframe",
       "url": "https://klussen-in-frankrijk.vercel.app/#onderwerpen",
-      "nagekeken": "2026-08-23",
-      "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier."
+      "nagekeken": "2026-09-02",
+      "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier. De site opent volledig in de app; via het zoekveld komt u direct bij het artikel of de bouwterm die u zoekt.",
+      "weergave": "volledig",
+      "zoekindex": "https://klussen-in-frankrijk.vercel.app/zoekindex.json"
     },
     {
       "id": "vastgoed",
