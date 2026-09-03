@@ -105,8 +105,7 @@
     {
       "id": "veiligheid",
       "groep": "wonen",
-      "seizoen": { "van": "06-01", "tot": "09-30" },
-      "reden": "Bosbrandenseizoen. Buiten 1 juni tot en met 30 september staat de module niet in de hub, maar blijft hij vindbaar via zoeken met de vermelding \"buiten seizoen\". Zet zichtbaar op true om hem het hele jaar te tonen.",
+      "reden": "Staat het hele jaar in de app, maar rustig: één regel op de hub in plaats van een alarmtegel. Zet er een seizoen op (bijvoorbeeld van 06-01 tot 09-30) om hem buiten het brandseizoen uit de hub te halen; hij blijft dan vindbaar via zoeken.",
       "naam": "Veiligheid & natuur",
       "meta": "brandgevaar, weeralarm, FR-Alert",
       "prijs": "gratis",

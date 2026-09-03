@@ -29,10 +29,17 @@
 </div>
 <script>
 (function(){
-  var toon=function(){var el=document.getElementById("ifm-start");if(el&&!document.getElementById("dc-root"))el.hidden=false;};
+  var blok=function(){return document.getElementById("ifm-start")};
+  var app=function(){return document.getElementById("dc-root")};
+  var toon=function(){var el=blok();if(el&&!app())el.hidden=false;};
+  // Komt de app na een hapering alsnog op gang, dan hoort de melding weer weg:
+  // "kon niet starten" boven een werkende app is een onware regel.
+  var verberg=function(){var el=blok();if(el&&app()){el.hidden=true;return true}return false};
   window.addEventListener("error",function(e){if(/\[dc\]|failed to load/.test(String(e&&e.message)))toon();});
   window.addEventListener("unhandledrejection",function(e){var r=e&&e.reason;if(/failed to load/.test(String(r&&r.message||r)))toon();});
   setTimeout(toon,6000);
+  var t=setInterval(function(){if(verberg())clearInterval(t)},250);
+  setTimeout(function(){clearInterval(t)},30000);
 })();
 </script>
 <x-dc>
@@ -85,13 +92,6 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 
   <sc-if value="{{ hubShowStrip }}" hint-placeholder-val="{{ true }}">
   <div style="display:flex;gap:10px;overflow-x:auto;padding:16px 16px 4px;scroll-snap-type:x proximity">
-    <sc-if value="{{ heeftFire }}" hint-placeholder-val="{{ true }}">
-    <button onClick="{{ openFire }}" aria-label="Veiligheid en natuur" style="scroll-snap-align:start;flex:none;width:132px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(128,0,0,.20);border-radius:15px;padding:14px;cursor:pointer;background:rgba(128,0,0,.06)">
-      <div style="font-size:24px;line-height:1">⚠</div>
-      <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;line-height:1.2;margin-top:8px;color:#15181A">Veiligheid<br>&amp; natuur</div>
-      <div style="font:600 11px/1.35 Mulish;color:#71787C;margin-top:auto;padding-top:6px">brandgevaar · weeralarm</div>
-    </button>
-    </sc-if>
     <button onClick="{{ goGem }}" style="scroll-snap-align:start;flex:none;width:196px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px;cursor:pointer;background:#fff">
       <div style="font:700 9.5px/1.3 Mulish;letter-spacing:.07em;color:#71787C;min-height:25px">NEDERLANDERS.FR · GRATIS</div>
       <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:4px;color:#15181A">{{ nieuwLabel }}</div>
@@ -132,6 +132,19 @@ input,button{font-family:Mulish,system-ui,sans-serif}
         <span style="font:500 11.5px/1.5 Mulish;color:#5C0000;opacity:.85">{{ ngRegel }}</span>
       </span>
       <span style="font:700 13px Mulish;color:#800000">→</span>
+    </button>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ hubToontVeiligheid }}" hint-placeholder-val="{{ true }}">
+  <div style="margin:10px 14px 0">
+    <button onClick="{{ openFire }}" aria-label="Veiligheid en natuur" style="width:100%;display:flex;align-items:center;gap:11px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:14px;padding:11px 14px;cursor:pointer;min-height:56px">
+      <span style="width:30px;height:30px;flex:none;border-radius:9px;background:rgba(128,0,0,.08);color:#800000;display:grid;place-items:center;font:700 14px Mulish">⚠</span>
+      <span style="flex:1;min-width:0">
+        <b style="display:block;font:700 13.5px/1.3 Mulish;color:#15181A">Veiligheid &amp; natuur</b>
+        <span style="font:500 11.5px/1.5 Mulish;color:#71787C">{{ veiligRegel }}</span>
+      </span>
+      <span style="font:700 13px Mulish;color:#71787C">→</span>
     </button>
   </div>
   </sc-if>
@@ -1145,9 +1158,19 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <sc-if value="{{ isIframe }}" hint-placeholder-val="{{ false }}">
   <div>
     <sc-if value="{{ isSafety }}" hint-placeholder-val="{{ false }}">
-    <div style="margin:18px 14px 0;padding:16px 17px;border-radius:16px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18)">
-      <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Altijd gratis</div>
-      <div style="font:500 13px/1.8 Mulish;color:#5C0000;margin-top:5px;text-wrap:pretty">Alles onder Veiligheid &amp; natuur is en blijft vrij toegankelijk, ook zonder abonnement en zonder account.</div>
+    <div>
+      <div style="margin:18px 14px 0;padding:16px 17px;border-radius:16px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18)">
+        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Altijd gratis</div>
+        <div style="font:500 13px/1.8 Mulish;color:#5C0000;margin-top:5px;text-wrap:pretty">Alles onder Veiligheid &amp; natuur is en blijft vrij toegankelijk, ook zonder abonnement en zonder account.</div>
+      </div>
+      <div style="margin:12px 14px 0;padding:15px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#71787C">Uw omgeving</div>
+        <div style="font:700 15px/1.3 Mulish;color:#15181A;margin-top:5px">{{ veiligDep }}</div>
+        <div style="font:500 12.5px/1.75 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">{{ veiligUitleg }}</div>
+        <sc-if value="{{ veiligGeenPc }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ wijzigPc }}" style="width:100%;min-height:46px;margin-top:11px;border:1px solid rgba(128,0,0,.22);border-radius:12px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Postcode instellen</button>
+        </sc-if>
+      </div>
     </div>
     </sc-if>
     <sc-if value="{{ isVolledig }}" hint-placeholder-val="{{ false }}">
@@ -1416,7 +1439,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 16px"></div>
     <div style="font:700 10.5px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Eén vraag</div>
     <h2 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woont u?</h2>
-    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Alleen de postcode. De app toont dan uw departement in de kopregel en richt de wegwijzer Nedergids erop; meer doet hij er nu niet mee. De postcode blijft op uw toestel en is bij Account te wijzigen.</p>
+    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Alleen de postcode. De app toont dan uw departement in de kopregel, richt de wegwijzer Nedergids erop en zegt bij Veiligheid &amp; natuur welk departement u op de kaart moet opzoeken; meer doet hij er nu niet mee. De postcode blijft op uw toestel en is bij Account te wijzigen.</p>
     <input value="{{ pcInvoer }}" onInput="{{ onPc }}" inputmode="numeric" placeholder="34360" aria-label="Postcode" style="width:100%;min-height:56px;margin-top:16px;border:1px solid rgba(128,0,0,.20);border-radius:13px;padding:0 16px;font:700 20px Mulish;letter-spacing:.08em;color:#15181A;background:#F4F1F0">
     <button onClick="{{ bewaarPc }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:{{ pcKnopBg }};color:{{ pcKnopFg }};font:800 15px Mulish;cursor:pointer;margin-top:12px">Bewaren</button>
     <button onClick="{{ slaPcOver }}" style="width:100%;min-height:46px;border:0;background:none;color:#71787C;font:600 13px Mulish;cursor:pointer;margin-top:4px">{{ pcLaterLabel }}</button>
@@ -1753,7 +1776,7 @@ class Component extends DCLogic {
   groepList(){ const c = this.state.cat; return (c && c.groepen) || []; }
   groepVan(id){ return this.groepList().find(g => g.id === id) || {naam:"", kleur:"#800000"}; }
   // Een module die handmatig uit staat is voor de app onvindbaar: knoppen die
-  // ernaar wijzen verdwijnen (zie heeftFire, hubToontNedergids, vgHeeftReken).
+  // ernaar wijzen verdwijnen (zie hubToontVeiligheid, hubToontNedergids, vgHeeftReken).
   vindModule(id){ return this.zoekMods().find(m => m.id === id) || null; }
 
   // Voorlezen in het Frans: bedoeld om een telefoon aan een arts of loket te
@@ -2513,7 +2536,19 @@ class Component extends DCLogic {
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"), goLex: () => this.go("lex"),
       goTaal: () => this.setState({screen:"taal", sc:null, q:""}),
       openFire: () => this.route(this.vindModule("veiligheid")),
-      heeftFire: this.zichtbaarNu(this.vindModule("veiligheid")),
+      // Veiligheid staat het hele jaar in de app, maar rustig: één regel op de hub,
+      // geen alarmtegel. De locator zegt alleen wat de app zeker weet — welk
+      // departement bij de postcode hoort. Een gevaarniveau claimt hij niet: daar
+      // is geen bron voor aangesloten (zie NIVEAUS en het rapport).
+      hubToontVeiligheid: st.screen === "hub" && this.zichtbaarNu(this.vindModule("veiligheid")),
+      veiligRegel: depNaam
+        ? "brandgevaar en waarschuwingen · uw departement: " + depNaam + " (" + depCode + ")"
+        : "brandgevaar en waarschuwingen, per departement",
+      veiligDep: depNaam ? depNaam + " (" + depCode + ")" : "Geen postcode ingesteld",
+      veiligGeenPc: !depNaam,
+      veiligUitleg: depNaam
+        ? "De app haalt zelf geen gevaarniveau op. De kaart hieronder geeft het verwachte niveau per departement; zoek daar " + depNaam + " op."
+        : "Met uw postcode kan de app zeggen welk departement u op de kaart moet opzoeken. Een gevaarniveau haalt de app zelf niet op.",
 
       nieuwLabel: nieuwe ? nieuwe + " nieuw" : st.posts.length + " berichten",
       nieuwSub: nieuwe ? "sinds uw laatste bezoek" : "met alle reacties erbij",

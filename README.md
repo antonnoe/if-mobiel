@@ -78,7 +78,10 @@ die knop mee zodra de module niet zichtbaar is. Er blijft dus nooit een knop sta
 nergens heen gaat.
 
 Nu uitgezet: Correspondentie, Verenigingen & agenda en Auto & mobiliteit (geen inhoud).
-Veiligheid & natuur heeft een seizoen van 1 juni tot en met 30 september.
+Geen enkele module heeft op dit moment een seizoen. Veiligheid & natuur staat het hele jaar
+in de app, maar als rustige regel op de hub in plaats van een alarmtegel; wil je hem buiten
+het brandseizoen toch uit de hub, zet er dan `"seizoen": { "van": "06-01", "tot": "09-30" }`
+op.
 
 ## Draaien
 
@@ -129,7 +132,16 @@ gefaseerde lijst. Fase 0 daaruit is uitgevoerd: React lokaal, titel en manifest,
   `index.html` staat er nog, met toelichting).
 - **`Bosbranden Mobiel.html` is losgeraakt** bij de v3-overzetting (commit `545794d`).
   Weer aansluiten als eigen schil, of laten vallen ten gunste van de pagina op
-  nederlanders.fr — redactiekeuze, niet urgent buiten het brandseizoen.
+  nederlanders.fr — redactiekeuze. **Let op bij aansluiten:** de risicokleuren in dat
+  bestand zijn niet echt. Regel 351 genereert ze met een hashfunctie ("deterministic
+  July-like forecast until the real Météo-France endpoint is wired in"), en de pagina zegt
+  dat zelf in een notitie. Aansluiten mag pas nadat er een echte bron per departement
+  binnenkomt; anders staat er een verzonnen gevaarniveau in een veiligheidsmodule.
+- **Locator Veiligheid & natuur.** De app leidt uit de postcode het departement af en zegt
+  welk departement u op de kaart moet opzoeken. Meer kan hij niet: er is geen bron
+  aangesloten die per departement of regio een gevaarniveau levert, dus de app beweert er
+  geen. Zodra die er is, kan de regel op de hub het niveau van het eigen departement tonen
+  en pas dán naar voren springen.
 
 - **Inloggen en abonnementsstatus** — er staat nul aan authenticatie in `index.html`.
   Welk systeem de abonnementsstatus vasthoudt, cookie of token, en of er al een endpoint
