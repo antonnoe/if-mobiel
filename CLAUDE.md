@@ -49,9 +49,12 @@ Frankrijk).
    (hub, modulelijst én zoekveld) zonder iets te verwijderen, `zichtbaar: true` toont hem
    altijd, en `seizoen: {van, tot}` (dag-maand als `MM-DD`, jaarwisseling toegestaan) laat
    hem vanzelf komen en gaan; buiten het seizoen blijft hij vindbaar via zoeken met de
-   vermelding "buiten seizoen". Knoppen die rechtstreeks naar één module wijzen (de tegel
-   Veiligheid & natuur, de strook Nedergids, "Naar de rekentool" in Een huis kopen)
-   verdwijnen mee — geen knop zonder bestemming.
+   vermelding "buiten seizoen". Knoppen die rechtstreeks naar één module wijzen (de regel
+   Veiligheid & natuur en de strook Nedergids op de hub, "Naar de rekentool" in Een huis
+   kopen) verdwijnen mee — geen knop zonder bestemming. Veiligheid & natuur staat het hele
+   jaar in de app, maar als rustige regel, niet als alarmtegel: de app heeft geen bron voor
+   een gevaarniveau en beweert er dus geen. Wel toont hij, uit de postcode, welk departement
+   de lezer op de kaart moet opzoeken.
 9. Geen buildstap, geen bundler, geen stylesheet: alle styling staat **inline**. Draaien met
    `npx serve .`; Vercel importeert de repo zonder instellingen.
 10. Persistentie in `localStorage`: `ifm_favs`, `ifm_postcode`, `ifm_pc_later`,

@@ -453,19 +453,38 @@ Gebouwd op 3 september 2026 (stap 1.1):
 - **Uit de hub:** Correspondentie, Verenigingen & agenda en Auto & mobiliteit. Alle drie
   `kind: "info"` met alleen een omschrijving: geen schil, geen url, niets om te openen.
   De blokken staan ongewijzigd in `modules.json`; één woord zet ze terug.
-- **Veiligheid & natuur** heeft een seizoen van 1 juni tot en met 30 september gekregen
-  (besluit 4). Op de peildatum staat de module dus gewoon aan; vanaf 1 oktober verdwijnt hij
-  uit de hub en blijft hij vindbaar via zoeken.
+- **Veiligheid & natuur** kreeg eerst een seizoen (1 juni tot en met 30 september), maar dat
+  is dezelfde dag teruggedraaid op aanwijzing van de opdrachtgever: de module staat het hele
+  jaar in de app, alleen minder dominant. De grote alarmtegel bovenaan de hub is vervangen
+  door één rustige regel onder de Nedergids-strook. Brandgevaar is geen hoofdzaak, behalve
+  voor wie zelf in het getroffen gebied woont — vandaar de locator hieronder. Het veld
+  `seizoen` blijft bestaan en werkt; er staat alleen geen module meer op.
+- **Locator op departementsniveau.** De app leidt het departement af uit de postcode (de
+  tabel `departementen` in `modules.json`) en gebruikt dat op twee plekken: de hub-regel zegt
+  "uw departement: Hérault (34)", en in de module staat een kaartje "Uw omgeving" met het
+  departement plus, zonder postcode, een knop "Postcode instellen". Wat de app **niet** zegt
+  is een gevaarniveau: daar is geen bron voor aangesloten. Het scherm zegt dat ook met zoveel
+  woorden ("De app haalt zelf geen gevaarniveau op").
+- **`Bosbranden Mobiel.html` bevat geen echte cijfers.** Bij het uitzoeken van een bron bleek
+  dat de risicokleuren in dat bestand worden gegenereerd met een hashfunctie (regel 351:
+  "deterministic July-like forecast until the real Météo-France endpoint is wired in"), met
+  een handvol verzonnen VIIRS-detecties erbij. Het bestand zegt dat zelf in een notitie
+  onderaan. Weer aansluiten kan dus pas nadat er een echte bron per departement binnenkomt.
+  Dat sluit aan bij wat de hub-tegel eerder deed: die toonde "zeer hoog" uit een ontwerpprop.
+- **Boot-melding hersteld.** Bij het testen bleef "Infopoche kon niet starten" boven een
+  werkende app staan: één vroege laadfout (in de testomgeving de geblokkeerde Google Fonts)
+  zette de melding aan, en niets zette hem weer uit zodra de app alsnog opkwam. Het blokje
+  verdwijnt nu zodra `#dc-root` bestaat.
 - **Erfrecht & schenking is blijven staan.** Beslissing 2 rekende die tot de lege modules,
   maar de module heeft een werkende voorbeeldschil (voorbeeldcasus, intakevragen, muur bij de
   eigen uitkomst) — precies het patroon van Energie en Financieel kompas, die wél blijven.
   Hem verbergen zou die twee even goed treffen. Wie hem toch weg wil: `"zichtbaar": false`
   in het blok `erfrecht`, en hij is weg zonder dat er iets verdwijnt.
 
-Nog open: welke verkiezing en of daar al een bron voor is; of Veiligheid & natuur na
-30 september helemaal uit mag (de module belooft in `meta` ook weeralarm en FR-Alert, en die
-zijn niet seizoensgebonden — de bestemming is de bosbrandenpagina van nederlanders.fr, die
-buiten het seizoen stilstaat); het label van Financieel kompas (de tool is zelf
+Nog open: welke verkiezing en of daar al een bron voor is; **een echte bron voor het
+gevaarniveau per departement** (Météo-France Météo des forêts) — zonder die bron kan de
+locator alleen zeggen wélk departement u bent, niet of daar iets aan de hand is, en kan de
+regel op de hub nooit terecht naar voren springen; het label van Financieel kompas (de tool is zelf
 freemium: basis gratis, premium-velden op slot; het badge "ABONNEE" klopt dus niet, en
 `?access=premium` in die repo ontgrendelt alles zonder token).
 
