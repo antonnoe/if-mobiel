@@ -85,11 +85,13 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 
   <sc-if value="{{ hubShowStrip }}" hint-placeholder-val="{{ true }}">
   <div style="display:flex;gap:10px;overflow-x:auto;padding:16px 16px 4px;scroll-snap-type:x proximity">
+    <sc-if value="{{ heeftFire }}" hint-placeholder-val="{{ true }}">
     <button onClick="{{ openFire }}" aria-label="Veiligheid en natuur" style="scroll-snap-align:start;flex:none;width:132px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(128,0,0,.20);border-radius:15px;padding:14px;cursor:pointer;background:rgba(128,0,0,.06)">
       <div style="font-size:24px;line-height:1">⚠</div>
       <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;line-height:1.2;margin-top:8px;color:#15181A">Veiligheid<br>&amp; natuur</div>
       <div style="font:600 11px/1.35 Mulish;color:#71787C;margin-top:auto;padding-top:6px">brandgevaar · weeralarm</div>
     </button>
+    </sc-if>
     <button onClick="{{ goGem }}" style="scroll-snap-align:start;flex:none;width:196px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px;cursor:pointer;background:#fff">
       <div style="font:700 9.5px/1.3 Mulish;letter-spacing:.07em;color:#71787C;min-height:25px">NEDERLANDERS.FR · GRATIS</div>
       <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:4px;color:#15181A">{{ nieuwLabel }}</div>
@@ -121,7 +123,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   </sc-if>
 
-  <sc-if value="{{ hubShowStrip }}" hint-placeholder-val="{{ true }}">
+  <sc-if value="{{ hubToontNedergids }}" hint-placeholder-val="{{ true }}">
   <div style="margin:18px 14px 0">
     <button onClick="{{ goNedergids }}" style="width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);border-radius:16px;padding:15px 16px;cursor:pointer;min-height:64px">
       <span style="width:34px;height:34px;flex:none;border-radius:10px;background:#800000;color:#fff;display:grid;place-items:center;font:700 15px Mulish">⌖</span>
@@ -726,11 +728,13 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   </sc-if>
 
+  <sc-if value="{{ vgHeeftReken }}" hint-placeholder-val="{{ true }}">
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(128,0,0,.20);border-radius:16px;padding:16px 17px">
     <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Wat gaat het u kosten</div>
     <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">De rekentool Vastgoed transactiekosten rekent met de overdrachtsbelasting van úw departement en het wettelijke notaristarief, en toont per post het toegepaste wetsartikel met bron en peildatum.</div>
     <button onClick="{{ vgReken }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14.5px Mulish;cursor:pointer;margin-top:13px">Naar de rekentool</button>
   </div>
+  </sc-if>
 
   <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Valkuilen die in geen enkele fase thuishoren</div>
   <div style="display:flex;flex-direction:column;gap:9px;padding:0 14px">
@@ -1709,10 +1713,48 @@ class Component extends DCLogic {
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null };
 
-  mods(){ const c = this.state.cat; return (c && c.modules) || []; }
+  // Zichtbaarheid komt uit de catalogus, niet uit de code (regel 6 van CLAUDE.md).
+  // Twee velden per module, allebei optioneel:
+  //   zichtbaar: false  — handmatig uit; de module bestaat nog, maar de lezer ziet
+  //                       hem nergens, ook niet in het zoekveld. Voor modules zonder
+  //                       inhoud. Eén woord in modules.json zet hem weer aan.
+  //   zichtbaar: true   — handmatig aan; overrulet het seizoen hieronder.
+  //   seizoen: {van, tot} — dag-maand als "MM-DD"; buiten die periode staat de module
+  //                       niet in de hub, maar blijft hij vindbaar via zoeken met de
+  //                       vermelding "buiten seizoen". Een periode over de jaarwisseling
+  //                       (van 11-01 tot 03-31) mag.
+  // Ontbreken beide velden, dan is de module gewoon zichtbaar: een oudere catalogus
+  // blijft dus werken, en een onleesbare datum verbergt nooit iets.
+  alleMods(){ const c = this.state.cat; return (c && c.modules) || []; }
+  inSeizoen(m, nu){
+    const s = m && m.seizoen;
+    if (!s || !s.van || !s.tot) return true;
+    const dagnr = v => { const x = /^(\d{1,2})-(\d{1,2})$/.exec(String(v || "").trim());
+      if (!x) return null;
+      const mnd = Number(x[1]), dag = Number(x[2]);
+      return (mnd >= 1 && mnd <= 12 && dag >= 1 && dag <= 31) ? mnd * 100 + dag : null; };
+    const van = dagnr(s.van), tot = dagnr(s.tot);
+    if (van === null || tot === null) return true;
+    const d = nu instanceof Date ? nu : new Date();
+    const nuNr = (d.getMonth() + 1) * 100 + d.getDate();
+    return van <= tot ? (nuNr >= van && nuNr <= tot) : (nuNr >= van || nuNr <= tot);
+  }
+  zichtbaarNu(m){
+    if (!m) return false;
+    if (m.zichtbaar === false) return false;
+    if (m.zichtbaar === true) return true;
+    return this.inSeizoen(m);
+  }
+  buitenSeizoen(m){ return !!m && m.zichtbaar !== false && !this.zichtbaarNu(m); }
+  // mods(): wat de lezer nú in de hub en de modulelijst hoort te zien.
+  mods(){ return this.alleMods().filter(m => this.zichtbaarNu(m)); }
+  // zoekMods(): idem plus wat buiten het seizoen valt — dat blijft vindbaar.
+  zoekMods(){ return this.alleMods().filter(m => m.zichtbaar !== false); }
   groepList(){ const c = this.state.cat; return (c && c.groepen) || []; }
   groepVan(id){ return this.groepList().find(g => g.id === id) || {naam:"", kleur:"#800000"}; }
-  vindModule(id){ return this.mods().find(m => m.id === id) || null; }
+  // Een module die handmatig uit staat is voor de app onvindbaar: knoppen die
+  // ernaar wijzen verdwijnen (zie heeftFire, hubToontNedergids, vgHeeftReken).
+  vindModule(id){ return this.zoekMods().find(m => m.id === id) || null; }
 
   // Voorlezen in het Frans: bedoeld om een telefoon aan een arts of loket te
   // kunnen laten horen. Faalt de stem, dan staat de zin er nog om te tonen.
@@ -2058,7 +2100,7 @@ class Component extends DCLogic {
   // één keer ophalen per sessie, zacht falen, nooit kopiëren naar de app.
   laadZoekindexen(){
     this._zi = this._zi || {};
-    this.mods().forEach(m => {
+    this.zoekMods().forEach(m => {
       if (!m.zoekindex || this._zi[m.id]) return;
       this._zi[m.id] = {status:"laden", data:null};
       fetch(m.zoekindex).then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
@@ -2199,10 +2241,13 @@ class Component extends DCLogic {
     const q = norm(this.state.q.trim());
     if (q.length < 2) return [];
     const out = [];
-    this.mods().forEach(m => {
+    // Buiten het seizoen staat een module niet in de hub, maar wie hem zoekt hoort
+    // hem te vinden — met die vermelding erbij, zodat de lezer weet waarom hij weg is.
+    this.zoekMods().forEach(m => {
       if (norm(m.naam + " " + m.meta + " " + (m.over || "")).includes(q))
         out.push({kind:"MODULE", fr:m.naam, nl:m.meta,
-          where:this.groepVan(m.groep).naam + " · " + (m.prijs === "abonnee" ? "abonnement" : "gratis"),
+          where:this.groepVan(m.groep).naam + " · " + (m.prijs === "abonnee" ? "abonnement" : "gratis")
+            + (this.buitenSeizoen(m) ? " · buiten seizoen" : ""),
           open:() => this.route(m)});
     });
     // De vastgoedregels zitten óók in het zoekveld: wie op "bedenktijd" zoekt,
@@ -2253,7 +2298,9 @@ class Component extends DCLogic {
     const ngCats = ng.categorieen || [];
     const ngSites = ng.sites || [];
     const ngAan = ng.aanmelden || {};
-    const favLijst = st.favs.map(id => this.vindModule(id)).filter(Boolean);
+    // Een favoriet van een module die nu niet zichtbaar is verdwijnt uit de lijst,
+    // maar blijft in localStorage staan: komt de module terug, dan staat de ster er weer.
+    const favLijst = st.favs.map(id => this.vindModule(id)).filter(m => this.zichtbaarNu(m));
     const ru = (st.cat && st.cat.ruyter) || {};
     const ruU = st.ruA === true ? (st.ruB === true ? ru.uitkomsten && ru.uitkomsten.nee_b
               : st.ruB === false ? ru.uitkomsten && ru.uitkomsten.ja : null)
@@ -2431,7 +2478,9 @@ class Component extends DCLogic {
       vgBronnen: vg.bronnen || [],
       vgVoorbehoud: vg.voorbehoud || "",
       vgReken: () => this.route(this.vindModule("transactiekosten"), "vastgoed"),
+      vgHeeftReken: this.zichtbaarNu(this.vindModule("transactiekosten")),
       goNedergids: () => this.route(this.vindModule("nedergids")),
+      hubToontNedergids: st.screen === "hub" && this.zichtbaarNu(this.vindModule("nedergids")),
       ngRegel: depNaam ? "loketten en sites in " + depNaam : "loketten, registers en nuttige sites",
       pcRegel: depNaam ? "Uw postcode " + pc + " valt in " + depNaam + "; de loketten worden daarop gericht zodra de kaart live is." : "Vul uw postcode in bij Account om dit op uw omgeving te richten.",
       ngCats: [{id:"alles", naam:"Alles"}].concat(ngCats).map(c => ({
@@ -2464,6 +2513,7 @@ class Component extends DCLogic {
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"), goLex: () => this.go("lex"),
       goTaal: () => this.setState({screen:"taal", sc:null, q:""}),
       openFire: () => this.route(this.vindModule("veiligheid")),
+      heeftFire: this.zichtbaarNu(this.vindModule("veiligheid")),
 
       nieuwLabel: nieuwe ? nieuwe + " nieuw" : st.posts.length + " berichten",
       nieuwSub: nieuwe ? "sinds uw laatste bezoek" : "met alle reacties erbij",

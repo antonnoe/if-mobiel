@@ -439,8 +439,33 @@ Besloten en gebouwd op 2 september 2026 (PR's #3 in deze repo en #74 in `klussen
 - **Modules toevoegen vanuit Vercel**: veld `weergave` (voorvertoning, volledig, knop) en
   `zoekindex`, met een handleiding en voorbeeldblok in de README.
 
-Nog open: welke verkiezing en of daar al een bron voor is; of Veiligheid & natuur helemaal
-uit gaat of alleen het brandgevaar; het label van Financieel kompas (de tool is zelf
+Gebouwd op 3 september 2026 (stap 1.1):
+
+- **`zichtbaar` en `seizoen` in `modules.json`.** `zichtbaar: false` haalt een module overal
+  weg, ook uit het zoekveld; `zichtbaar: true` overrulet het seizoen; `seizoen: {van, tot}`
+  (dag-maand als `MM-DD`, een periode over de jaarwisseling mag) haalt hem alleen uit de hub
+  en de modulelijst. Buiten het seizoen blijft de module vindbaar via zoeken, met
+  "buiten seizoen" achter de groepsnaam. Ontbreken beide velden of is de datum onleesbaar,
+  dan is de module zichtbaar: de app verbergt nooit iets door een tikfout in de catalogus.
+  Er staat geen modulenaam in de code; alleen de drie knoppen die rechtstreeks naar één
+  module wijzen (tegel Veiligheid & natuur, strook Nedergids, "Naar de rekentool" in Een huis
+  kopen) verdwijnen mee zodra die module niet zichtbaar is.
+- **Uit de hub:** Correspondentie, Verenigingen & agenda en Auto & mobiliteit. Alle drie
+  `kind: "info"` met alleen een omschrijving: geen schil, geen url, niets om te openen.
+  De blokken staan ongewijzigd in `modules.json`; één woord zet ze terug.
+- **Veiligheid & natuur** heeft een seizoen van 1 juni tot en met 30 september gekregen
+  (besluit 4). Op de peildatum staat de module dus gewoon aan; vanaf 1 oktober verdwijnt hij
+  uit de hub en blijft hij vindbaar via zoeken.
+- **Erfrecht & schenking is blijven staan.** Beslissing 2 rekende die tot de lege modules,
+  maar de module heeft een werkende voorbeeldschil (voorbeeldcasus, intakevragen, muur bij de
+  eigen uitkomst) — precies het patroon van Energie en Financieel kompas, die wél blijven.
+  Hem verbergen zou die twee even goed treffen. Wie hem toch weg wil: `"zichtbaar": false`
+  in het blok `erfrecht`, en hij is weg zonder dat er iets verdwijnt.
+
+Nog open: welke verkiezing en of daar al een bron voor is; of Veiligheid & natuur na
+30 september helemaal uit mag (de module belooft in `meta` ook weeralarm en FR-Alert, en die
+zijn niet seizoensgebonden — de bestemming is de bosbrandenpagina van nederlanders.fr, die
+buiten het seizoen stilstaat); het label van Financieel kompas (de tool is zelf
 freemium: basis gratis, premium-velden op slot; het badge "ABONNEE" klopt dus niet, en
 `?access=premium` in die repo ontgrendelt alles zonder token).
 
@@ -476,7 +501,7 @@ is een tijdelijke "iP" op een telefoonsilhouet; een echt logo is een redactiekeu
 
 | Stap | Wat | Inspanning |
 |---|---|---|
-| 1.1 | Velden `zichtbaar` en `seizoen` in `modules.json`, filter in de hub, "buiten seizoen" in zoeken; vier lege modules en Bosbranden verbergen (beslissingen 2 en 4) | S |
+| 1.1 | ~~Velden `zichtbaar` en `seizoen` in `modules.json`, filter in de hub, "buiten seizoen" in zoeken; lege modules en Bosbranden verbergen (beslissingen 2 en 4)~~ gedaan op 3 september 2026; Erfrecht bleef staan, zie hieronder | S |
 | 1.1b | ~~Voorbeeldblok en handleiding "module toevoegen" in de README; veld `weergave` (voorvertoning of volledig) voor iframe-modules~~ gedaan op 2 september 2026 (PR #3), plus `zoekindex` | S |
 | 1.1c | Domein infopoche.fr koppelen aan Vercel; "Infopoche" in kopbalk, manifest en pictogram; infopoche.fr in de CORS-allowlists van `nlfr-menu` en `nlfr-berichten` (andere repo's) | S |
 | 1.2 | Tabbalk naar variant met Zoeken; Modules-tab weg; hub inkorten (beslissing 5) | M |

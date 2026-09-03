@@ -1,5 +1,5 @@
 {
-  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr.",
+  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr.",
   "bijgewerkt": "2026-09-02",
   "groepen": [
     {
@@ -90,6 +90,8 @@
     {
       "id": "correspondentie",
       "groep": "aankomen",
+      "zichtbaar": false,
+      "reden": "Geen inhoud: alleen een omschrijving, geen schil en geen url. Zet zichtbaar op true zodra die er is; de module staat verder ongewijzigd klaar.",
       "naam": "Correspondentie",
       "meta": "brieven in correct Frans",
       "prijs": "abonnee",
@@ -103,6 +105,8 @@
     {
       "id": "veiligheid",
       "groep": "wonen",
+      "seizoen": { "van": "06-01", "tot": "09-30" },
+      "reden": "Bosbrandenseizoen. Buiten 1 juni tot en met 30 september staat de module niet in de hub, maar blijft hij vindbaar via zoeken met de vermelding \"buiten seizoen\". Zet zichtbaar op true om hem het hele jaar te tonen.",
       "naam": "Veiligheid & natuur",
       "meta": "brandgevaar, weeralarm, FR-Alert",
       "prijs": "gratis",
@@ -340,6 +344,8 @@
     {
       "id": "verenigingen",
       "groep": "leven",
+      "zichtbaar": false,
+      "reden": "Geen inhoud: alleen een omschrijving, geen schil en geen url. Zet zichtbaar op true zodra die er is; de module staat verder ongewijzigd klaar.",
       "naam": "Verenigingen & agenda",
       "meta": "wie waar zit, wat er wanneer is",
       "prijs": "gratis",
@@ -353,6 +359,8 @@
     {
       "id": "auto",
       "groep": "leven",
+      "zichtbaar": false,
+      "reden": "Geen inhoud: alleen een omschrijving, geen schil en geen url. Zet zichtbaar op true zodra die er is; de module staat verder ongewijzigd klaar.",
       "naam": "Auto & mobiliteit",
       "meta": "contrôle technique, kenteken, vervoer",
       "prijs": "gratis",

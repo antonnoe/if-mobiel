@@ -45,6 +45,13 @@ Frankrijk).
    groep kan `cafe: {domein, tekst}` staan: een regel "Vraag het Café Claude" met een deep
    link, opgebouwd uit de `url` van de module `cafeclaude`. Prijswaarden: `gratis`,
    `gratis-lezen`, `gratis-eerste`, `abonnee`.
+   Zichtbaarheid staat ook in de JSON: `zichtbaar: false` haalt een module overal weg
+   (hub, modulelijst én zoekveld) zonder iets te verwijderen, `zichtbaar: true` toont hem
+   altijd, en `seizoen: {van, tot}` (dag-maand als `MM-DD`, jaarwisseling toegestaan) laat
+   hem vanzelf komen en gaan; buiten het seizoen blijft hij vindbaar via zoeken met de
+   vermelding "buiten seizoen". Knoppen die rechtstreeks naar één module wijzen (de tegel
+   Veiligheid & natuur, de strook Nedergids, "Naar de rekentool" in Een huis kopen)
+   verdwijnen mee — geen knop zonder bestemming.
 9. Geen buildstap, geen bundler, geen stylesheet: alle styling staat **inline**. Draaien met
    `npx serve .`; Vercel importeert de repo zonder instellingen.
 10. Persistentie in `localStorage`: `ifm_favs`, `ifm_postcode`, `ifm_pc_later`,
