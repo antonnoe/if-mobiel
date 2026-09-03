@@ -59,6 +59,27 @@ code. Kopieer het blok van `klussen` en vul in:
   opent een treffer in de module. De tekst blijft op de site zelf.
 - Commit naar `main`; Vercel deployt de app opnieuw en de module staat erin.
 
+### Een module tijdelijk uitzetten
+
+Twee velden in `modules.json`, allebei optioneel; er komt geen code aan te pas.
+
+- `"zichtbaar": false` haalt de module overal weg: uit de hub, uit de modulelijst en uit
+  het zoekveld. Het blok blijft ongewijzigd staan. `true` zet hem altijd aan en overrulet
+  het seizoen hieronder. Ontbreekt het veld, dan is de module gewoon zichtbaar.
+- `"seizoen": { "van": "06-01", "tot": "09-30" }` (dag-maand als `MM-DD`) laat de module
+  vanzelf komen en gaan. Buiten die periode staat hij niet in de hub, maar blijft hij
+  vindbaar via zoeken met de vermelding "buiten seizoen". Een periode over de jaarwisseling
+  mag: `van "11-01" tot "03-31"`.
+- `"reden"` is een aantekening voor de redactie; de app doet er niets mee.
+
+Wijst een knop in de app rechtstreeks naar een module (de tegel Veiligheid & natuur en de
+strook Nedergids op de hub, de knop "Naar de rekentool" in Een huis kopen), dan verdwijnt
+die knop mee zodra de module niet zichtbaar is. Er blijft dus nooit een knop staan die
+nergens heen gaat.
+
+Nu uitgezet: Correspondentie, Verenigingen & agenda en Auto & mobiliteit (geen inhoud).
+Veiligheid & natuur heeft een seizoen van 1 juni tot en met 30 september.
+
 ## Draaien
 
 Statische bestanden, geen buildstap. Lokaal:
