@@ -44,7 +44,7 @@ const PRICE_DEFAULTS_USER = { elec: PRIJS_INFO.elec.waarde, gas: PRIJS_INFO.gas.
 const ENERGY_UNITS        = { elec: '€/kWh', gas: '€/m³', fioul: '€/L', pellet: '€/kg', wood: '€/stère', propaan: '€/L', petroleum: '€/L' };
 const KWH_CONVERSION      = { elec: 1, gas: 10, fioul: 10, pellet: 5, wood: 1800, propaan: 7.1, petroleum: 10 };
 // Tekst bij de prijzen, in gewone taal.
-const PRIJS_UITLEG = 'Dit zijn standaardprijzen: pas ze aan naar uw factuur. Elektriciteit volgt het officiële gereguleerde tarief (tarif réglementé) (CRE, sinds 1 augustus 2026); de overige prijzen zijn gemiddelden uit 2024 of 2025 en dus een aanname. Een abonnement rekent de tool niet mee: dat komt er los bij.';
+const PRIJS_UITLEG = 'Dit zijn standaardprijzen: pas ze aan naar uw factuur. Elektriciteit volgt het officiële gereguleerde tarief (tarif réglementé, CRE, sinds 1 augustus 2026); de overige prijzen zijn gemiddelden uit 2024 of 2025 en dus een aanname. Een abonnement rekent de tool niet mee: dat komt er los bij.';
 
 // Apparaatverbruik per jaar: raming, gemiddelde volgens ADEME. Het verbruik van uw eigen apparaten kan afwijken.
 // bron A: ADEME, "Électricité: quels appareils consomment le plus", bijgewerkt 7 mei 2026.
