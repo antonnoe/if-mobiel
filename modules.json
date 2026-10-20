@@ -88,21 +88,6 @@
       }
     },
     {
-      "id": "correspondentie",
-      "groep": "aankomen",
-      "zichtbaar": false,
-      "reden": "Geen inhoud: alleen een omschrijving, geen schil en geen url. Zet zichtbaar op true zodra die er is; de module staat verder ongewijzigd klaar.",
-      "naam": "Correspondentie",
-      "meta": "brieven in correct Frans",
-      "prijs": "abonnee",
-      "schil": "stappenschil",
-      "houdbaar": "jaren",
-      "status": "bron onbekend",
-      "kind": "info",
-      "nagekeken": "2026-08-23",
-      "over": "Kwestie in het Nederlands beschrijven, correcte Franse brief eruit — met de juiste aanhef, toon en slotformule."
-    },
-    {
       "id": "veiligheid",
       "weergave": "knop",
       "groep": "wonen",
@@ -327,6 +312,37 @@
       "kind": "taal",
       "nagekeken": "2026-08-23",
       "over": "De zinnen die u nodig heeft, in de volgorde waarin ze vallen — plus de woorden die de ander gebruikt."
+    },
+    {
+      "id": "correspondentie",
+      "groep": "leven",
+      "naam": "Correspondentie",
+      "meta": "kwestie in het Nederlands, Franse brief eruit",
+      "prijs": "gratis",
+      "schil": "stappenschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "iframe",
+      "weergave": "volledig",
+      "url": "https://briefhulp-fr.vercel.app",
+      "nagekeken": "2026-10-20",
+      "over": "Beschrijf uw kwestie in het Nederlands en krijg een correcte Franse brief, met de juiste aanhef, toon en slotformule, op basis van de modellen van Service-Public.fr. Dit is Briefhulp: de brief is een hulpmiddel, geen juridisch advies.",
+      "let": "Bij geschillen met financiële gevolgen is een brief uit een hulpmiddel een startpunt; laat hem controleren door een expert."
+    },
+    {
+      "id": "taalhulp",
+      "groep": "leven",
+      "naam": "TaalHulp",
+      "meta": "praktisch Frans, geen cursus",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "iframe",
+      "weergave": "volledig",
+      "url": "https://taalhulp-fr.vercel.app",
+      "nagekeken": "2026-10-20",
+      "over": "Geen cursus maar hulp op het moment dat u het nodig heeft: scenario's, begrippen en uitspraak voor Nederlanders in Frankrijk."
     },
     {
       "id": "zorg",
