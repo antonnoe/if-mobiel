@@ -945,6 +945,10 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
 
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
+    <sc-if value="{{ draadBerichtHtml }}" hint-placeholder-val="{{ false }}">
+    <div data-rijk="b"></div>
+    </sc-if>
+    <sc-if value="{{ draadBerichtPlat }}" hint-placeholder-val="{{ true }}">
     <sc-for list="{{ draadRegels }}" as="r" hint-placeholder-count="3">
     <sc-if value="{{ r.isTekst }}" hint-placeholder-val="{{ true }}">
     <p style="font-size:14px;line-height:1.8em;color:#3D4346;margin:0 0 10px;text-wrap:pretty">{{ r.tekst }}</p>
@@ -953,6 +957,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <img src="{{ r.src }}" alt="{{ r.alt }}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onError="{{ r.fout }}" style="display:block;max-width:100%;height:auto;border-radius:12px;margin:2px 0 12px">
     </sc-if>
     </sc-for>
+    </sc-if>
     <sc-if value="{{ draadIsSamenvatting }}" hint-placeholder-val="{{ false }}">
     <div style="margin-top:6px;padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit is de samenvatting uit de feed; het volledige bericht kon niet worden opgehaald. De reacties hieronder zijn wel compleet.</div>
     </sc-if>
@@ -972,6 +977,9 @@ input,button{font-family:Mulish,system-ui,sans-serif}
           <b style="font:700 13px Mulish;color:#15181A">{{ r.auteur }}</b>
           <span style="font:600 10.5px Mulish;color:#A2A7A9;margin-left:auto">{{ r.datum }}</span>
         </div>
+        <sc-if value="{{ r.metHtml }}" hint-placeholder-val="{{ false }}">
+        <div data-rijk="{{ r.sleutel }}" style="margin-top:7px"></div>
+        </sc-if>
         <sc-for list="{{ r.regels }}" as="a" hint-placeholder-count="2">
         <sc-if value="{{ a.isTekst }}" hint-placeholder-val="{{ true }}">
         <p style="font-size:13.5px;line-height:1.8em;color:#3D4346;margin:7px 0 0;text-wrap:pretty">{{ a.tekst }}</p>
@@ -1795,6 +1803,89 @@ function metBeelden(bl, afb){
   });
   return uit;
 }
+// ---- Draad-HTML: server-gesaniteerde HTML nogmaals strikt filteren -------------------
+// De runtime kent geen ruwe-HTML-hole; daarom staat in de template een leeg
+// <div data-rijk="sleutel"> en bouwt componentDidUpdate daar DOM-knooppunten in.
+// Whitelist via DOMParser en de DOM-API (geen regex): p, br, strong, em, ul, ol, li, a,
+// figure, figcaption, img. Attributen: href (http/https), src (https), alt, target, rel,
+// loading; al het andere valt weg. Onbekende tags gaan eruit, hun tekst blijft staan;
+// script en style verdwijnen met inhoud.
+const HTML_STIJL = {
+  p:"margin:0 0 10px", ul:"margin:0 0 10px;padding-left:22px", ol:"margin:0 0 10px;padding-left:22px",
+  li:"margin:0 0 4px", strong:"font-weight:700", em:"font-style:italic",
+  a:"color:#800000;text-decoration:underline;word-break:break-word",
+  figure:"margin:16px 0;padding:0",
+  figcaption:"font-size:13px;font-style:italic;color:#71787C;text-align:center;line-height:1.4;margin:6px 0 0",
+  img:"display:block;max-width:100%;height:auto;border-radius:12px;margin:0 auto"
+};
+function httpUrl(w, alleenHttps){
+  try {
+    const u = new URL(String(w || "").trim());
+    if (u.protocol === "https:" || (!alleenHttps && u.protocol === "http:")) return u.href;
+  } catch (e) {}
+  return null;
+}
+function bouwHtml(html, px){
+  const uit = document.createDocumentFragment();
+  let doc;
+  try { doc = new DOMParser().parseFromString("<!doctype html><body>" + String(html), "text/html"); }
+  catch (e) { return uit; }
+  const basis = "font-size:" + px + "px;line-height:1.8em;color:#3D4346;";
+  const maak = (tag, stijl) => { const el = document.createElement(tag); el.style.cssText = (/^(p|li)$/.test(tag) ? basis : "") + (stijl != null ? stijl : (HTML_STIJL[tag] || "")); return el; };
+  const kinderen = (van, naar, inLink) => { Array.prototype.forEach.call(van.childNodes, k => zet(k, naar, inLink)); };
+  const zet = (n, naar, inLink) => {
+    if (n.nodeType === 3) { naar.appendChild(document.createTextNode(n.nodeValue)); return; }
+    if (n.nodeType !== 1) return;
+    const t = n.tagName.toLowerCase();
+    if (t === "script" || t === "style" || t === "iframe" || t === "object" || t === "embed" || t === "template") return;
+    if (t === "br") { naar.appendChild(document.createElement("br")); return; }
+    if (t === "img") {
+      const src = httpUrl(n.getAttribute("src"), true);
+      if (!src) return;
+      const img = maak("img");
+      img.setAttribute("src", src);
+      img.setAttribute("alt", n.getAttribute("alt") || "");
+      img.setAttribute("loading", "lazy");
+      img.referrerPolicy = "no-referrer";
+      img.addEventListener("error", () => {
+        let f = img.parentNode;
+        while (f && f.tagName !== "FIGURE" && f.parentNode) f = f.parentNode;
+        (f && f.tagName === "FIGURE" ? f : img).style.display = "none";
+      });
+      if (inLink) { naar.appendChild(img); return; }
+      const a = maak("a", "display:block;text-decoration:none");
+      a.setAttribute("href", src); a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
+      a.appendChild(img); naar.appendChild(a);
+      return;
+    }
+    if (t === "a") {
+      const href = httpUrl(n.getAttribute("href"), false);
+      if (!href) { kinderen(n, naar, inLink); return; }
+      const heeftImg = n.getElementsByTagName("img").length > 0;
+      const a = maak("a", heeftImg ? "display:block;text-decoration:none" : null);
+      a.setAttribute("href", href); a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
+      kinderen(n, a, true);
+      if (a.childNodes.length) naar.appendChild(a);
+      return;
+    }
+    if (t === "figure") {
+      const f = maak("figure");
+      kinderen(n, f, false);
+      if (f.getElementsByTagName("img").length) naar.appendChild(f);
+      return;
+    }
+    if (/^(p|ul|ol|li|strong|em|figcaption)$/.test(t)) {
+      const el = maak(t);
+      kinderen(n, el, inLink);
+      naar.appendChild(el);
+      return;
+    }
+    kinderen(n, naar, inLink); // onbekende tag: tekst en toegestane kinderen blijven
+  };
+  kinderen(doc.body, uit, false);
+  return uit;
+}
+function heeftHtml(h){ return typeof h === "string" && h.replace(/\s+/g, "") !== ""; }
 // Voor de lijstweergave: alleen leesbare tekst, zonder tags.
 function platteTekst(t){ return blokken(t).filter(b => b.isTekst).map(b => b.tekst).join(" "); }
 
@@ -1934,6 +2025,20 @@ class Component extends DCLogic {
         this.setState({cat:d, catFout:false, favs:uniek});
       })
       .catch(() => this.setState({catFout:true}));
+  }
+
+  componentDidUpdate(){ this.vulRijk(); }
+  // Vult de lege <div data-rijk> van de draad met gefilterde DOM-knooppunten (zie bouwHtml).
+  vulRijk(){
+    const bron = this.__rijk || {};
+    document.querySelectorAll("[data-rijk]").forEach(el => {
+      const h = bron[el.getAttribute("data-rijk")];
+      if (typeof h !== "string") return;
+      if (el.__rijkBron === h && el.firstChild) return;
+      el.__rijkBron = h;
+      while (el.firstChild) el.removeChild(el.firstChild);
+      el.appendChild(bouwHtml(h, el.getAttribute("data-rijk") === "b" ? 14 : 13.5));
+    });
   }
 
   componentDidMount(){
@@ -2484,11 +2589,15 @@ class Component extends DCLogic {
     // zonder waarschuwing.
     const dRegels = dBericht && dBericht.length ? dBericht
       : (dp.samenvatting ? [platteTekst(dp.samenvatting)] : []);
-    const dReacties = (dd.reacties || []).map(r => ({
+    const dReacties = (dd.reacties || []).map((r, i) => ({
       auteur: r.auteur || "Onbekend",
       datum: r.tijdTekst || "",
-      regels: metBeelden(blokken(r.tekst), r.afbeeldingen)
+      regels: heeftHtml(r.html) ? [] : metBeelden(blokken(r.tekst), r.afbeeldingen),
+      metHtml: heeftHtml(r.html), sleutel: "r" + i
     }));
+    const dBerichtHtml = dd.bericht && heeftHtml(dd.bericht.html) ? dd.bericht.html : "";
+    this.__rijk = {b: dBerichtHtml};
+    (dd.reacties || []).forEach((r, i) => { if (heeftHtml(r.html)) this.__rijk["r" + i] = r.html; });
     const dHref = veiligeUrl(dp.href);
 
     const T = st.tool;
@@ -2529,6 +2638,7 @@ class Component extends DCLogic {
       draadKicker: "NEDERLANDERS.FR · ALLEEN LEZEN",
       draadTitel: dp.titel || "",
       draadMeta: (dp.auteur || "onbekend") + (dp.datum ? " · " + kort(dp.datum) : ""),
+      draadBerichtHtml: !!dBerichtHtml, draadBerichtPlat: !dBerichtHtml,
       draadRegels: metBeelden(dRegels.reduce((acc, t) => acc.concat(blokken(t)), []), dBericht ? (dd.bericht || {}).afbeeldingen : dp.afbeeldingen),
       draadIsSamenvatting: st.draadStatus === "klaar" && !dBericht && !!dp.samenvatting,
       draadLaadt: st.draadStatus === "laden",
