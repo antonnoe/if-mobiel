@@ -44,13 +44,30 @@
   var DPE_SOLAR_COVERAGE   = 0.6; // conventionele zonneboiler-dekking (rest = elektrische bijverwarming)
 
   // ── Primaire-energiefactoren (kWh EP / kWh EF) ─────────────────────────────
-  // Elektriciteit: 1,9 — geldig per 1 januari 2026 (arrêté du 13 août 2025),
-  //   verlaagd van 2,3 → 1,9 en afgestemd op de Europese waarde.
-  //   Bron: https://www.ecologie.gouv.fr/presse/evolution-du-calcul-du-dpe-1er-janvier-2026-favoriser-lelectrification-du-chauffage
-  //         https://www.economie.gouv.fr/actualites/un-nouveau-dpe-au-1er-janvier-2026-pour-favoriser-le-chauffage-electrique
-  // Overige energiedragers: 1,0.
-  var DPE_PEF_ELEC  = 1.9;
+  // Elektriciteit, datumafhankelijk (Peil: p.fr.dpe.primaire_energiefactor_elektriciteit, vastgesteld):
+  //   1,9 van 1 januari 2026 tot en met 31 december 2026: arrêté du 13 août 2025 (NOR ATDL2519132A),
+  //       https://www.legifrance.gouv.fr/eli/arrete/2025/8/13/ATDL2519132A/jo/texte
+  //   1,7 vanaf 1 januari 2027: arrêté du 19 août 2026 (NOR VLOL2617030A), dat 1,9 in annexe 3
+  //       van de arrêté van 31 maart 2021 vervangt door 1,7.
+  // De factor hangt af van de rekendatum (s.rekendatum, anders vandaag). Overige energiedragers: 1,0.
+  var DPE_PEF_ELEC_PERIODES = [
+    { vanaf: '2026-01-01', factor: 1.9 },
+    { vanaf: '2027-01-01', factor: 1.7 }
+  ];
   var DPE_PEF_OTHER = 1.0;
+  function dpeDatumIso(d) {
+    if (!d) return new Date().toISOString().slice(0, 10);
+    if (typeof d === 'string') return d.slice(0, 10);
+    return new Date(d).toISOString().slice(0, 10);
+  }
+  // Voor 1 januari 2026 geldt hier de eerste periode (de tool rekent met actuele regels).
+  function dpePefElec(datum) {
+    var iso = dpeDatumIso(datum), f = DPE_PEF_ELEC_PERIODES[0].factor;
+    for (var i = 0; i < DPE_PEF_ELEC_PERIODES.length; i++) {
+      if (iso >= DPE_PEF_ELEC_PERIODES[i].vanaf) f = DPE_PEF_ELEC_PERIODES[i].factor;
+    }
+    return f;
+  }
 
   // ── CO2-emissiefactoren per energiedrager (kg CO2eq / kWh énergie finale) ───
   // Bron: Méthode 3CL-DPE 2021, Annexe (arrêté du 31 mars 2021 relatif aux
@@ -154,11 +171,12 @@
     add(dhwCar, dhwFinal);
     add('elec', auxFinal);
 
+    var pefElec = dpePefElec(s.rekendatum);
     var epTotal = 0, gesTotal = 0, efTotal = 0;
     Object.keys(finalByCar).forEach(function (car) {
       var ef = finalByCar[car];
       efTotal  += ef;
-      epTotal  += ef * (car === 'elec' ? DPE_PEF_ELEC : DPE_PEF_OTHER);
+      epTotal  += ef * (car === 'elec' ? pefElec : DPE_PEF_OTHER);
       gesTotal += ef * (DPE_GES[car] != null ? DPE_GES[car] : DPE_GES.elec);
     });
 
@@ -182,7 +200,7 @@
         ef: efTotal / shab        // kWh EF/m²/jaar
       },
       details: {
-        shab: shab, Nmax: Nmax,
+        shab: shab, Nmax: Nmax, pefElec: pefElec, rekendatum: dpeDatumIso(s.rekendatum),
         UA: UA, Hvent: Hvent, HventEff: HventEff, H: H, hdd19: hdd19,
         heatThermal: heatThermal, heatFinal: heatFinal, heatCarrier: heatCar, heatEff: heatEff(s),
         dhwThermal: dhwThermal, dhwFinal: dhwFinal, dhwCarrier: dhwCar, solarCoverage: solarCov,
@@ -197,6 +215,7 @@
 
   // ── Export (browser + Node) ────────────────────────────────────────────────
   global.computeDPE = computeDPE;
+  global.dpePefElec = dpePefElec;
   global.DPE_EP_CLASSES = DPE_EP_CLASSES;
   global.DPE_GES_CLASSES = DPE_GES_CLASSES;
 
@@ -206,7 +225,8 @@
       DPE_EP_CLASSES: DPE_EP_CLASSES,
       DPE_GES_CLASSES: DPE_GES_CLASSES,
       DPE_ZONES: DPE_ZONES,
-      DPE_PEF_ELEC: DPE_PEF_ELEC,
+      dpePefElec: dpePefElec,
+      DPE_PEF_ELEC_PERIODES: DPE_PEF_ELEC_PERIODES,
       DPE_GES: DPE_GES
     };
   }

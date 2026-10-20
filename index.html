@@ -917,6 +917,20 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </sc-if>
 
   <div style="margin:20px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ enLet }} {{ toolNagekeken }}</div>
+  <sc-if value="{{ enEngineKlaar }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:10px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346;text-wrap:pretty"><strong>Waar deze bedragen op steunen.</strong> {{ enAannames }}</div>
+  </sc-if>
+  <sc-if value="{{ peilAan }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:12px 14px 0;display:flex;justify-content:flex-end">
+    <a href="{{ peilHref }}" target="_blank" rel="noopener" aria-label="{{ peilAria }}" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:4px 12px 4px 4px;border:1px solid #eadede;border-radius:999px;background:#fff;color:#800000;text-decoration:none">
+      <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false" style="flex:none;width:36px;height:36px;display:block;opacity:.85"><circle cx="20" cy="20" r="18.5" fill="#fff" stroke="#800000" stroke-width="1.6"/><circle cx="20" cy="20" r="14.5" fill="none" stroke="#800000" stroke-width="1"/><path d="M13.5 20.5 L18 25 L26.5 15.5" fill="none" stroke="#800000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span aria-hidden="true" style="display:flex;flex-direction:column;line-height:1.25"><span style="font:700 13px Mulish;color:#7a1f1f">Gecontroleerd tegen Peil</span><span style="font:500 12px Mulish;color:#6a5d58">stand {{ peilKort }}<span aria-hidden="true" style="display:inline-block;margin-left:.25em;font-size:12px;line-height:1">&#8599;</span></span></span>
+    </a>
+  </div>
+  <div style="position:relative;margin:14px 14px 0;padding-left:26px;font:500 13px/1.6em Mulish;color:#71787C">
+    <span aria-hidden="true" style="position:absolute;left:0;top:3px;width:18px;height:18px;border-radius:50%;background:#800000;color:#fff;font:700 12px/18px system-ui,sans-serif;text-align:center">&#10003;</span><strong style="color:#15181A">Over de bedragen in deze tool.</strong> {{ peilVoetTekst }} <a href="{{ peilHref }}" target="_blank" rel="noopener" style="display:inline-block;padding:6px 0;color:#800000;text-decoration:underline;text-underline-offset:3px">Lees in ons manifest hoe wij werken</a>
+  </div>
+  </sc-if>
   <div style="height:28px"></div>
 </div>
 </sc-if>
@@ -1726,6 +1740,30 @@ function kort(d){
   return dag === 1 ? "gisteren" : dag + " dagen";
 }
 
+// Peil: het parameterregister van Communities Abroad (privé). De waarden staan als kopie in peil/waarden.json;
+// tests/peil.test.mjs bewaakt dat de engine daarmee overeenkomt. Bij elke controle alleen PEIL_STAND aanpassen (en peil/waarden.json).
+// PEIL-BLOK-BEGIN
+const PEIL_STAND = "2026-10-20";
+// Schakelaar voor het Peil-label (stempel en voettekstalinea bij de uitkomst). Zolang false toont de app niets over Peil.
+const PEIL_LABEL_AAN = true;
+const PEIL_UITLEG_URL = "https://infofrankrijk.com/ons-manifest-hoe-wij-werken/";
+const PEIL_MAANDEN_NL = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
+const PEIL_MAANDEN_KORT = ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+function peilStandNl() {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(PEIL_STAND);
+  return m ? parseInt(m[3], 10) + " " + PEIL_MAANDEN_NL[parseInt(m[2], 10) - 1] + " " + m[1] : PEIL_STAND;
+}
+function peilStandKort() {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(PEIL_STAND);
+  return m ? parseInt(m[3], 10) + " " + PEIL_MAANDEN_KORT[parseInt(m[2], 10) - 1] + " " + m[1] : PEIL_STAND;
+}
+function peilAria() { return "Bedragen gecontroleerd tegen Peil, stand " + peilStandNl() + ", lees hoe wij werken"; }
+// Voettekstalinea: dezelfde tekst als in de andere tools. De kop en de link staan als vaste tekst in de template.
+function peilVoetTekst() {
+  return "Alle wettelijke tarieven, bedragen en grenzen komen uit Peil, het register waarin wij deze gegevens bijhouden. Elk daarvan is gecontroleerd bij de officiële bron, de laatste controle was op " + peilStandNl() + ". Waar de tool met een aanname of schatting rekent, staat dat bij de uitkomst.";
+}
+// PEIL-BLOK-EIND
+
 class Component extends DCLogic {
   state = { screen:"hub", sc:null, phase:0, tone:"vous", q:"", copied:null, big:null,
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
@@ -2158,6 +2196,12 @@ class Component extends DCLogic {
     });
     return out;
   }
+  // De aannames achter de uitkomst, in gewone taal; de bedragen komen uit engine/engine.js (PRIJS_INFO), niet uit deze tekst.
+  enAannames(engineKlaar){
+    if (!engineKlaar || typeof PRIJS_INFO === "undefined" || typeof dpePefElec !== "function") return "";
+    const nl = x => { const s = String(x), d = (s.split(".")[1] || "").length; return (Number.isInteger(x) ? s : d < 2 ? x.toFixed(2) : s).replace(".", ","); };
+    return "Deze berekening rekent met standaardprijzen: elektriciteit " + nl(PRIJS_INFO.elec.waarde) + " euro per kWh (het gereguleerde tarief sinds 1 augustus 2026; het abonnement komt er los bij en telt hier niet mee), aardgas " + nl(PRIJS_INFO.gas.waarde) + " euro per m³, fioul " + nl(PRIJS_INFO.fioul.waarde) + " euro per liter, pellets " + nl(PRIJS_INFO.pellet.waarde) + " euro per kg en hout " + nl(PRIJS_INFO.wood.waarde) + " euro per stère. Die vier laatste zijn gemiddelden uit 2024 en 2025 en dus een aanname. Het apparaatverbruik is gemiddeld volgens ADEME, uw verbruik kan afwijken. De DPE-indicatie telt elektriciteit mee met de wettelijke factor " + String(dpePefElec()).replace(".", ",") + " (1,7 vanaf 1 januari 2027).";
+  }
   enGrootstePost(costs){
     const labels = {verwarming:"Verwarming", tapwater:"Warm water", koeling:"Koeling", apparaten:"Apparaten en licht", ev:"Elektrische auto", zwembad:"Zwembad"};
     let beste = null, besteWaarde = -Infinity;
@@ -2173,7 +2217,8 @@ class Component extends DCLogic {
       enVbKlaar:false, enVbTitel:"", enVbLabelStyle:"", enVbLetter:"—", enVbKostenJaar:"—", enVbKostenMaand:"—",
       enVbRows:[], enUitlegOpen:false, enUitlegIcon:"▾", enUitlegToggle:() => {}, enVbUitleg:[], enVbMismatchTekst:"",
       enGroepen:[], enM2:120, enM2Min:() => {}, enM2Plus:() => {}, enCalc:() => {}, enReset:() => {},
-      enEigenKlaar:false, enEigenRichting:"", enMuurOpen:false
+      enEigenKlaar:false, enEigenRichting:"", enMuurOpen:false,
+      enAannames:"", peilAan:false, peilHref:PEIL_UITLEG_URL, peilAria:"", peilKort:"", peilVoetTekst:""
     };
     if (!(T && T.kind === "energie" && st.screen === "energie")) return leeg;
     const eur = x => new Intl.NumberFormat("nl-NL", {style:"currency", currency:"EUR", maximumFractionDigits:0}).format(x || 0);
@@ -2256,7 +2301,9 @@ class Component extends DCLogic {
       enCalc: () => this.setState({enBerekend:true}),
       enReset: () => this.setState({en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"}, enBerekend:false}),
       enEigenKlaar: eigenOk || (st.enBerekend && eigenMismatch), enEigenRichting: eigenRichting,
-      enMuurOpen: eigenOk
+      enMuurOpen: eigenOk,
+      enAannames: this.enAannames(engineKlaar),
+      peilAan: PEIL_LABEL_AAN, peilHref: PEIL_UITLEG_URL, peilAria: peilAria(), peilKort: peilStandKort(), peilVoetTekst: peilVoetTekst()
     };
   }
 
@@ -2443,6 +2490,7 @@ class Component extends DCLogic {
       enVbUitleg: en.enVbUitleg, enVbMismatchTekst: en.enVbMismatchTekst, enVbHeeftMismatch: !!en.enVbMismatchTekst,
       enGroepen: en.enGroepen, enM2: en.enM2, enM2Min: en.enM2Min, enM2Plus: en.enM2Plus, enCalc: en.enCalc, enReset: en.enReset,
       enEigenKlaar: en.enEigenKlaar, enEigenRichting: en.enEigenRichting, enMuurOpen: en.enMuurOpen,
+      enAannames: en.enAannames, peilAan: en.peilAan, peilHref: en.peilHref, peilAria: en.peilAria, peilKort: en.peilKort, peilVoetTekst: en.peilVoetTekst,
       ruKern: ru.kern || "", ruWaarschuwing: ru.waarschuwing || "", ruPeildatum: ru.peildatum || "",
       ruVragen: (ru.vragen || []).map(v => {
         const val = st["ru" + v.id.toUpperCase()];
