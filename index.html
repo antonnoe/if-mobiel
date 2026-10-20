@@ -2175,7 +2175,9 @@ class Component extends DCLogic {
     Object.keys(this._zi).forEach(id => {
       const zi = this._zi[id]; const m = this.vindModule(id);
       if (!zi || zi.status !== "klaar" || !zi.data || !m) return;
-      const abs = (pad) => { try { return new URL(pad || "", m.zoekindex).href; } catch (e) { return null; } };
+      // Een site die onder een submap staat (infofrankrijk.com/klussen/) publiceert paden als "/artikelen/x":
+      // die horen bij de map van de zoekindex, niet bij de hoofdmap van het domein.
+      const abs = (pad) => { try { const b = new URL(m.zoekindex); const dir = b.pathname.replace(/[^/]*$/, ""); let pd = pad || ""; if (pd.startsWith("/") && !pd.startsWith(dir)) pd = dir + pd.slice(1); return new URL(pd, b).href; } catch (e) { return null; } };
       const label = (m.naam || "").split(" ")[0].toUpperCase();
       (zi.data.artikelen || []).forEach(a => {
         if (!a || !a.titel) return;
