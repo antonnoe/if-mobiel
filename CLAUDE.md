@@ -45,6 +45,15 @@ Frankrijk).
    groep kan `cafe: {domein, tekst}` staan: een regel "Vraag het Café Claude" met een deep
    link, opgebouwd uit de `url` van de module `cafeclaude`. Prijswaarden: `gratis`,
    `gratis-lezen`, `gratis-eerste`, `abonnee`.
+   Mijn modules: per module bepaalt `standaard` (`aan` | `uit`, ontbreekt = `aan`) of hij op
+   hub en modulelijst staat zolang de lezer niets koos. In het scherm Mijn modules (Account →
+   Mijn modules) zet de lezer modules aan of uit; dat staat alleen op het toestel in
+   `localStorage` `ifm_modules` = `{aan:[ids], uit:[ids]}` (uitsluitend eigen keuzes) en wint
+   van `standaard`. Uit = weg van hub en modulelijst (en uit knoppen die ernaar wijzen), wel
+   vindbaar via zoeken met "uit in Mijn modules" en een tik zet hem aan. `zichtbaar: false`
+   blijft overal weg en staat niet in het keuzescherm; het seizoen werkt naast de keuze.
+   Bij weergave `volledig` vult het iframe exact de ruimte tussen kop en tabbalk (de
+   schermcontainer scrolt dan niet); de knop "In browser" staat in de kopbalk.
    Zichtbaarheid staat ook in de JSON: `zichtbaar: false` haalt een module overal weg
    (hub, modulelijst én zoekveld) zonder iets te verwijderen, `zichtbaar: true` toont hem
    altijd, en `seizoen: {van, tot}` (dag-maand als `MM-DD`, jaarwisseling toegestaan) laat

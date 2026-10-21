@@ -69,10 +69,15 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div>
     <div style="font:500 11px Mulish;color:#71787C;margin-top:2px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ subtitle }}</div>
   </div>
+  <sc-if value="{{ kopLink }}" hint-placeholder-val="{{ false }}">
+  <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="margin-left:auto;flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12px Mulish;text-decoration:none">In browser ↗</a>
+  </sc-if>
+  <sc-if value="{{ kopBadge }}" hint-placeholder-val="{{ true }}">
   <div style="margin-left:auto;font:800 9.5px Mulish;letter-spacing:.12em;padding:5px 8px;border-radius:999px;flex:none;background:{{ badgeBg }};color:{{ badgeFg }}">{{ badge }}</div>
+  </sc-if>
 </div>
 
-<div id="ifm-scroll" style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch">
+<div id="ifm-scroll" style="flex:1;min-height:0;position:relative;overflow-y:{{ scrollOverflow }};-webkit-overflow-scrolling:touch">
 
 <sc-if value="{{ catFout }}" hint-placeholder-val="{{ false }}">
 <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 11.5px/1.7 Mulish">De modulecatalogus kon niet worden geladen. U ziet de laatst geladen gegevens; alles wat offline bewaard is blijft werken.</div>
@@ -1246,14 +1251,11 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     </div>
     </sc-if>
     <sc-if value="{{ isVolledig }}" hint-placeholder-val="{{ false }}">
-    <div>
-      <!-- De site zelf, op volle hoogte: kopbalk en tabbalk van de app blijven staan.
-           Alleen voor sites die framing toestaan (weergave: "volledig" in modules.json). -->
-      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write" style="width:100%;height:calc(100vh - 140px);height:calc(100dvh - 140px - env(safe-area-inset-bottom));border:0;display:block;background:#fff"></iframe>
-      <div style="display:flex;align-items:center;gap:10px;padding:8px 16px 0">
-        <span style="flex:1;font:500 11px/1.5 Mulish;color:#71787C;text-wrap:pretty">Blijft het kader leeg, open de site dan in uw browser.</span>
-        <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12px Mulish;text-decoration:none">In browser ↗</a>
-      </div>
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:#fff">
+      <!-- De site zelf, exact de ruimte tussen kopbalk en tabbalk: de schermcontainer scrolt hier
+           niet (overflow hidden), het iframe scrolt zelf. Alleen voor sites die framing toestaan
+           (weergave: "volledig" in modules.json). De knop "In browser" staat in de kopbalk. -->
+      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
     </div>
     </sc-if>
     <sc-if value="{{ isKnop }}" hint-placeholder-val="{{ false }}">
@@ -1454,8 +1456,44 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site of om betaalde modules te gebruiken. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
   <div style="margin:12px 14px 0">
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer;margin-bottom:9px">Mijn modules →</button>
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
+<!-- ============ MIJN MODULES ============ -->
+<sc-if value="{{ isKeuze }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:20px 16px 0">
+    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:28px;line-height:1.1;margin:0">Wat wilt u zien?</h1>
+    <p style="font-size:15px;line-height:1.6;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zet aan wat u gebruikt. Wat uit staat verdwijnt van het beginscherm, maar blijft vindbaar via zoeken.</p>
+  </div>
+  <div style="display:flex;gap:8px;margin:16px 16px 0">
+    <button onClick="{{ keuzeAllesAan }}" style="flex:1;min-height:48px;border:1px solid rgba(128,0,0,.25);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Alles aan</button>
+    <button onClick="{{ keuzeFavs }}" aria-disabled="{{ keuzeFavsUit }}" style="flex:1;min-height:48px;border:{{ keuzeFavsStijl }};border-radius:12px;background:{{ keuzeFavsBg }};color:{{ keuzeFavsKleur }};font:700 14px Mulish;cursor:pointer">Alleen favorieten</button>
+  </div>
+  <sc-if value="{{ keuzeFavsUit }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:8px 16px 0;font:500 12.5px/1.6 Mulish;color:#71787C">U hebt nog geen favorieten. Zet een ster bij een module in de lijst, dan werkt deze knop.</div>
+  </sc-if>
+  <sc-for list="{{ keuzeGroepen }}" as="g" hint-placeholder-count="3">
+  <div style="margin:20px 0 0">
+    <div style="padding:0 16px 6px;font:700 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000">{{ g.naam }}</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;overflow:hidden">
+      <sc-for list="{{ g.mods }}" as="t" hint-placeholder-count="3">
+      <button role="switch" aria-checked="{{ t.ariaAan }}" onClick="{{ t.zet }}" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:56px;background:none;border:0;border-top:1px solid rgba(21,24,26,.07);text-align:left;cursor:pointer;font-family:Mulish,sans-serif">
+        <span style="flex:1;min-width:0;line-height:1.25">
+          <b style="display:block;font:700 15px/1.25 Mulish;color:#15181A">{{ t.naam }}<sc-if value="{{ t.abonnee }}" hint-placeholder-val="{{ false }}"><span style="font:700 10px Mulish;padding:3px 7px;border-radius:999px;background:rgba(128,0,0,.08);color:#800000;margin-left:6px;vertical-align:2px">ABONNEE</span></sc-if></b>
+          <span style="display:block;font:500 13px/1.35 Mulish;color:#71787C;margin-top:2px">{{ t.meta }}</span>
+        </span>
+        <span style="position:relative;width:48px;height:28px;border-radius:999px;flex:none;background:{{ t.swBg }}"><span style="position:absolute;top:3px;left:{{ t.knopLinks }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span>
+      </button>
+      </sc-for>
+    </div>
+  </div>
+  </sc-for>
+  <div style="margin:16px 16px 0;font:500 13px/1.5 Mulish;color:#71787C">Uw keuze wordt alleen op dit toestel bewaard.</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -1977,7 +2015,7 @@ class Component extends DCLogic {
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:ACTUEEL, nieuwsLive:false,
     artKey:null, teksten:null, tekstStatus:"",
-    cat:null, catFout:false, postcode:null, vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
+    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
@@ -2009,13 +2047,44 @@ class Component extends DCLogic {
     const nuNr = (d.getMonth() + 1) * 100 + d.getDate();
     return van <= tot ? (nuNr >= van && nuNr <= tot) : (nuNr >= van || nuNr <= tot);
   }
+  // Mijn modules (ifm_modules = {aan:[ids], uit:[ids]}, alleen eigen keuzes van de lezer):
+  // een module staat aan als de lezer hem aanzette, of als hij geen keuze maakte en de
+  // catalogus hem standaard aan heeft (veld `standaard`: "aan" | "uit", ontbreekt = "aan").
+  aanGekozen(m){
+    if (!m) return false;
+    const k = this.state.keuze || {};
+    if ((k.aan || []).includes(m.id)) return true;
+    if ((k.uit || []).includes(m.id)) return false;
+    return m.standaard !== "uit";
+  }
   zichtbaarNu(m){
     if (!m) return false;
     if (m.zichtbaar === false) return false;
+    if (!this.aanGekozen(m)) return false;
     if (m.zichtbaar === true) return true;
     return this.inSeizoen(m);
   }
-  buitenSeizoen(m){ return !!m && m.zichtbaar !== false && !this.zichtbaarNu(m); }
+  // Buiten het seizoen: de lezer wil hem wel, maar het is de verkeerde tijd van het jaar.
+  buitenSeizoen(m){ return !!m && m.zichtbaar !== false && this.aanGekozen(m) && !this.zichtbaarNu(m); }
+  // Uit in Mijn modules: de lezer (of de standaard) heeft hem uit; vindbaar via zoeken.
+  uitGekozen(m){ return !!m && m.zichtbaar !== false && !this.aanGekozen(m); }
+  bewaarKeuze(k){
+    this.setState({keuze:k});
+    try { localStorage.setItem("ifm_modules", JSON.stringify(k)); } catch(e){}
+  }
+  zetModule(id, aan){
+    const k = this.state.keuze || {aan:[], uit:[]};
+    const zonder = l => (l || []).filter(x => x !== id);
+    this.bewaarKeuze(aan ? {aan:zonder(k.aan).concat([id]), uit:zonder(k.uit)}
+                         : {aan:zonder(k.aan), uit:zonder(k.uit).concat([id])});
+  }
+  keuzeMods(){ return this.alleMods().filter(m => m.zichtbaar !== false); }
+  allesAan(){ this.bewaarKeuze({aan:this.keuzeMods().map(m => m.id), uit:[]}); }
+  alleenFavorieten(){
+    const ids = this.keuzeMods().map(m => m.id), favs = this.state.favs || [];
+    if (!ids.some(i => favs.includes(i))) return;   // geen favorieten: de knop is uitgeschakeld
+    this.bewaarKeuze({aan:ids.filter(i => favs.includes(i)), uit:ids.filter(i => !favs.includes(i))});
+  }
   // mods(): wat de lezer nú in de hub en de modulelijst hoort te zien.
   mods(){ return this.alleMods().filter(m => this.zichtbaarNu(m)); }
   // zoekMods(): idem plus wat buiten het seizoen valt — dat blijft vindbaar.
@@ -2093,15 +2162,18 @@ class Component extends DCLogic {
 
   componentDidMount(){
     this.loadCatalogus();
-    let lv = null, favs = [], pc = null, pcLater = null;
+    let lv = null, favs = [], pc = null, pcLater = null, keuze = {aan:[], uit:[]};
     try {
       lv = localStorage.getItem("ifm_last_visit");
       localStorage.setItem("ifm_last_visit", new Date().toISOString());
       favs = JSON.parse(localStorage.getItem("ifm_favs") || "[]");
       pc = localStorage.getItem("ifm_postcode");
       pcLater = localStorage.getItem("ifm_pc_later");
+      const kz = JSON.parse(localStorage.getItem("ifm_modules") || "null");
+      if (kz && typeof kz === "object") keuze = {aan: Array.isArray(kz.aan) ? kz.aan.filter(x => typeof x === "string") : [],
+        uit: Array.isArray(kz.uit) ? kz.uit.filter(x => typeof x === "string") : []};
     } catch(e){}
-    this.setState({lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
+    this.setState({keuze, lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
       postcode: pc, vraagPostcode: !pc && !pcLater});
     this.load();
   }
@@ -2562,6 +2634,30 @@ class Component extends DCLogic {
     };
   }
 
+  keuzeVals(){
+    const favs = this.state.favs || [];
+    const mods = this.keuzeMods();
+    const nFav = mods.filter(m => favs.includes(m.id)).length;
+    return {
+      keuzeGroepen: this.groepList().map(g => ({
+        naam: g.naam,
+        mods: mods.filter(m => m.groep === g.id).map(m => {
+          const aan = this.aanGekozen(m);
+          return {naam:m.naam, meta:m.meta, abonnee: m.prijs === "abonnee", aan,
+            ariaAan: aan ? "true" : "false",
+            swBg: aan ? "#800000" : "rgba(21,24,26,.18)", knopLinks: aan ? "23px" : "3px",
+            zet: () => this.zetModule(m.id, !aan)};
+        })})).filter(g => g.mods.length),
+      keuzeAllesAan: () => this.allesAan(),
+      keuzeFavs: () => this.alleenFavorieten(),
+      keuzeFavsOk: nFav > 0,
+      keuzeFavsUit: nFav === 0,
+      keuzeFavsStijl: nFav > 0 ? "1px solid rgba(128,0,0,.25)" : "1px solid rgba(21,24,26,.10)",
+      keuzeFavsKleur: nFav > 0 ? "#800000" : "#A2A7A9",
+      keuzeFavsBg: nFav > 0 ? "#fff" : "rgba(21,24,26,.04)"
+    };
+  }
+
   search(){
     const q = norm(this.state.q.trim());
     if (q.length < 2) return [];
@@ -2572,8 +2668,9 @@ class Component extends DCLogic {
       if (norm(m.naam + " " + m.meta + " " + (m.over || "")).includes(q))
         out.push({kind:"MODULE", fr:m.naam, nl:m.meta,
           where:this.groepVan(m.groep).naam + " · " + (m.prijs === "abonnee" ? "abonnement" : "gratis")
-            + (this.buitenSeizoen(m) ? " · buiten seizoen" : ""),
-          open:() => this.route(m)});
+            + (this.buitenSeizoen(m) ? " · buiten seizoen" : "")
+            + (this.uitGekozen(m) ? " · uit in Mijn modules, tik om aan te zetten" : ""),
+          open:() => { if (this.uitGekozen(m)) this.zetModule(m.id, true); this.route(m); }});
     });
     // De vastgoedregels zitten óók in het zoekveld: wie op "bedenktijd" zoekt,
     // hoort niet eerst de juiste module te moeten vinden.
@@ -2674,7 +2771,7 @@ class Component extends DCLogic {
     const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", act:"Actueel", artikel:"Artikel", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", act:"Actueel", artikel:"Artikel", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Account"};
     const subs = {hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
@@ -2729,15 +2826,15 @@ class Component extends DCLogic {
       badge: locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
       back: () => st.screen === "artikel" ? this.terugNaarLijst() : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
             tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool}),
 
       isHub: st.screen === "hub" || st.screen === "mod", isZoek: st.screen === "zoek", isGem: st.screen === "gem", isAct: st.screen === "act", isArtikel: st.screen === "artikel",
-      isTaal: st.screen === "taal", isTool: st.screen === "tool", isAcc: st.screen === "acc",
+      isKeuze: st.screen === "keuze", isTaal: st.screen === "taal", isTool: st.screen === "tool", isAcc: st.screen === "acc",
       isLex: st.screen === "lex",
       isNedergids: st.screen === "nedergids",
       isVastgoed: st.screen === "vastgoed",
@@ -2861,6 +2958,8 @@ class Component extends DCLogic {
       ngRegels: (ngAan.regels || []).map(([wie, prijs]) => ({wie, prijs})),
       isOver: st.screen === "over",
       goOver: () => this.setState({screen:"over", from:"acc"}),
+      goKeuze: () => this.setState({screen:"keuze", from:"acc", q:""}),
+      ...this.keuzeVals(),
       bronnen: [
         {naam:"Nederlanders.fr", rol:"GEMEENSCHAP", wat:"Berichten en reactiedraden van leden, sinds 2002. Gratis te lezen in deze app; reageren gebeurt op de site zelf."},
         {naam:"Infofrankrijk.com", rol:"REDACTIE", wat:"Dossiers, artikelen en de rekenmodules. De redactie actualiseert; het abonnement betaalt dat werk."},
@@ -2897,7 +2996,7 @@ class Component extends DCLogic {
       taalSub: "van " + SC[0].title.toLowerCase().replace(/^bij de |^in de /, "") + " tot " + SC[SC.length - 1].title.toLowerCase().replace(/:.*$/, ""),
       isMod: st.screen === "mod",
       goMod: () => this.go("mod"),
-      groups: this.groepList().map(g => {
+      groups: this.groepList().filter(g => this.mods().some(m => m.groep === g.id)).map(g => {
         const tools = this.mods().filter(m => m.groep === g.id);
         const cafe = this.cafeUrl(g);
         return {name:g.naam, count: tools.length === 1 ? "1 module" : tools.length + " modules",
@@ -3030,6 +3129,9 @@ class Component extends DCLogic {
       knipAbo: (((T && T.knip) || {}).abonnee || []).map(t => ({tekst:t})),
       heeftUrl: !!(T && T.kind === "iframe" && T.url),
       isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopLink: st.screen === "tool" && !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopBadge: !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      scrollOverflow: (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig") ? "hidden" : "auto",
       isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
       isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
       toonIntro: !(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
