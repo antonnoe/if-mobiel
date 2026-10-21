@@ -212,6 +212,9 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer">Alle modules bekijken →</button>
   </div>
   </sc-if>
+  <div style="margin:10px 14px 0">
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Mijn modules: kies wat u hier ziet →</button>
+  </div>
   <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ freeNote }}</div>
   <div style="height:26px"></div>
 </div>
@@ -1450,13 +1453,13 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Postcode</span><b>{{ pcLabel }}</b><button onClick="{{ wijzigPc }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12.5px Mulish;cursor:pointer">Wijzigen</button></div>
   </div>
   <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat u ziet →</button>
     <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
     <div style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.6 Mulish;color:#3D4346">Op het beginscherm zetten doet u via het deelmenu van uw browser</div>
   </div>
   <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site of om betaalde modules te gebruiken. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
   <div style="margin:12px 14px 0">
-    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer;margin-bottom:9px">Mijn modules →</button>
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
   <div style="height:26px"></div>
@@ -2958,7 +2961,7 @@ class Component extends DCLogic {
       ngRegels: (ngAan.regels || []).map(([wie, prijs]) => ({wie, prijs})),
       isOver: st.screen === "over",
       goOver: () => this.setState({screen:"over", from:"acc"}),
-      goKeuze: () => this.setState({screen:"keuze", from:"acc", q:""}),
+      goKeuze: () => this.setState({screen:"keuze", from: st.screen === "keuze" ? (st.from || "acc") : st.screen, q:""}),
       ...this.keuzeVals(),
       bronnen: [
         {naam:"Nederlanders.fr", rol:"GEMEENSCHAP", wat:"Berichten en reactiedraden van leden, sinds 2002. Gratis te lezen in deze app; reageren gebeurt op de site zelf."},
