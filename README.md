@@ -95,10 +95,13 @@ Vercel: importeer de repo, geen instellingen nodig.
 
 De app is een schil rond twee soorten inhoud:
 
-1. **Artikelen en berichten** — de Actueel-tab haalt thema-tegels op bij `nlfr-menu`
-   (`/api/actueel`: pers, overheid, infofrankrijk, verenigingen) en het forum bij
-   `nlfr-berichten`. Beide vallen zacht terug op een voorbeeldlijst als het netwerk of de
-   bron faalt.
+1. **Artikelen en berichten** — Actueel is een eigen tab in de onderbalk. Die haalt
+   thema-tegels op bij `nlfr-menu` (`/api/actueel`: pers, overheid, infofrankrijk,
+   verenigingen); een tik op een item opent het redactieartikel in de app, met de tekst en
+   bronnen uit `/api/actueel-tekst` (lui opgehaald, in het geheugen bewaard). Er worden
+   bewust geen persfoto's getoond (auteursrecht). Het forum (tab Forum) komt van
+   `nlfr-berichten`, met foto's en onderschriften op hun plek in de tekst. Beide vallen
+   zacht terug op een voorbeeldlijst als het netwerk of de bron faalt.
 2. **Modules** — interactieve tools met een eigen mobiele vorm, gedreven door
    `modules.json`. `kind` bepaalt het scherm (`iframe`, `voorbeeld`, `info`, `taal`, `lex`,
    `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`). De
