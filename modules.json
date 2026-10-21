@@ -88,8 +88,23 @@
       }
     },
     {
+      "id": "emigreren",
+      "groep": "aankomen",
+      "naam": "Emigreren naar Frankrijk",
+      "meta": "welke stappen horen bij uw situatie",
+      "prijs": "gratis",
+      "schil": "keuzeschil",
+      "houdbaar": "per jaar",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://antonnoe.github.io/emigreren-naar-frankrijk-beslisboom/",
+      "nagekeken": "2026-10-21",
+      "over": "Beantwoord een paar vragen over uw plannen en u ziet welke scenario's en stappen bij uw verhuizing naar Frankrijk horen.",
+      "weergave": "volledig"
+    },
+    {
       "id": "veiligheid",
-      "weergave": "knop",
+      "weergave": "volledig",
       "groep": "wonen",
       "reden": "Staat het hele jaar in de app, maar rustig: één regel op de hub in plaats van een alarmtegel. Zet er een seizoen op (bijvoorbeeld van 06-01 tot 09-30) om hem buiten het brandseizoen uit de hub te halen; hij blijft dan vindbaar via zoeken.",
       "naam": "Veiligheid & natuur",
@@ -99,8 +114,8 @@
       "houdbaar": "uren",
       "status": "deels af",
       "kind": "iframe",
-      "url": "https://www.nederlanders.fr/page/bosbranden",
-      "nagekeken": "2026-08-23",
+      "url": "https://bosbranden.vercel.app",
+      "nagekeken": "2026-10-21",
       "over": "Het verwachte gevaarniveau per departement, officiële waarschuwingen en wat u moet doen. Altijd gratis, ook zonder account — met veiligheid spelen wij geen spelletjes."
     },
     {
@@ -175,6 +190,66 @@
       }
     },
     {
+      "id": "woonplan",
+      "groep": "wonen",
+      "naam": "Mijn woonplan Frankrijk",
+      "meta": "van leefwens naar woonplek",
+      "prijs": "gratis",
+      "schil": "stappenschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://franse-zoekhulp.vercel.app",
+      "nagekeken": "2026-10-21",
+      "over": "In zeven stappen van wat u zoekt naar een plek die bij u past. De tool onthoudt uw keuzes en vragen.",
+      "weergave": "volledig"
+    },
+    {
+      "id": "internet",
+      "groep": "wonen",
+      "naam": "Internetverbinding",
+      "meta": "welk internet kan er op uw adres",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "maanden",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://internetverbinding.vercel.app",
+      "nagekeken": "2026-10-21",
+      "over": "Vul uw adres in en u ziet in gewone woorden welke internetverbindingen daar beschikbaar zijn.",
+      "weergave": "volledig"
+    },
+    {
+      "id": "subsidieroute",
+      "groep": "wonen",
+      "naam": "Subsidieroute energierenovatie",
+      "meta": "welk loket, in welke volgorde",
+      "prijs": "gratis",
+      "schil": "stappenschil",
+      "houdbaar": "per jaar",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://antonnoe.github.io/energiebesparing-subsidie-en-fiscale-regelingen/",
+      "nagekeken": "2026-10-21",
+      "over": "Een controle voor uw verbouwing: bij welk loket u terechtkunt voor MaPrimeRénov' en andere hulp, in welke volgorde en wanneer. Zonder bedragen.",
+      "weergave": "volledig"
+    },
+    {
+      "id": "moestuin",
+      "groep": "wonen",
+      "naam": "De Franse moestuin",
+      "meta": "wat zaaien en oogsten per maand",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://moestuin-fr.vercel.app",
+      "nagekeken": "2026-10-21",
+      "over": "Een kalender per maand en klimaatzone: wat u wanneer zaait, plant en oogst in uw Franse tuin.",
+      "weergave": "knop"
+    },
+    {
       "id": "kompas",
       "groep": "geld",
       "naam": "Financieel kompas",
@@ -221,67 +296,17 @@
     {
       "id": "erfrecht",
       "groep": "geld",
-      "naam": "Erfrecht & schenking",
-      "meta": "Frans erfrecht en het verdrag met Nederland",
+      "naam": "Erfrecht en testament",
+      "meta": "wie erft wat, en wat u kunt regelen",
       "prijs": "abonnee",
       "schil": "stappenschil",
       "houdbaar": "bij wetswijziging",
-      "status": "inhoud af",
-      "kind": "voorbeeld",
-      "nagekeken": "2026-08-23",
-      "over": "Wie erft wat onder Frans recht, wat het verdrag met Nederland doet, en welk testament welk effect heeft.",
-      "voorbeeld": {
-        "titel": "Echtpaar, twee kinderen, huis in Frankrijk en spaargeld in Nederland",
-        "rows": [
-          [
-            "Reserve kinderen",
-            "2/3 van de nalatenschap"
-          ],
-          [
-            "Vrij deel",
-            "1/3"
-          ],
-          [
-            "Huis in Frankrijk",
-            "Frans recht"
-          ],
-          [
-            "Spaargeld NL",
-            "keuze mogelijk"
-          ]
-        ],
-        "intake": [
-          [
-            "Gezin",
-            [
-              "geen kinderen",
-              "kinderen uit dit huwelijk",
-              "kinderen uit eerdere relatie"
-            ]
-          ],
-          [
-            "Bezit",
-            [
-              "alleen in Frankrijk",
-              "in beide landen"
-            ]
-          ]
-        ],
-        "uit": [
-          [
-            "Uw verdeling",
-            "••••"
-          ],
-          [
-            "Wat u kunt regelen",
-            "••••"
-          ],
-          [
-            "Belasting per erfgenaam",
-            "€ ••.•••"
-          ]
-        ]
-      }
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://antonnoe.github.io/erfrecht-en-testament/",
+      "nagekeken": "2026-10-21",
+      "over": "Wie erft wat onder Frans recht, wat het verdrag met Nederland doet en wat een testament uitmaakt.",
+      "weergave": "volledig"
     },
     {
       "id": "transactiekosten",
@@ -299,6 +324,21 @@
       "let": "Kent u een bedrag niet — de landmeter, de doorhaling van uw hypotheek — dan laat de tool die post buiten de berekening en meldt dat de uitkomst onvolledig is, in plaats van een verzonnen getal te tonen. Een onbekende postcode geeft eveneens een melding, geen terugvaltarief.",
       "repo": "antonnoe/Vastgoedtransactie",
       "onderhoud": "De DMTO-tarieven staan in dmto.json, overgenomen uit het DGFiP-bestand voor notarissen. DGFiP publiceert maandelijks een nieuwe uitgave: controleer impots.gouv.fr/droits-denregistrement en vervang bij een nieuwe versie de tarieven én _meta.bron en _meta.peildatum. Nooit een tarief in de code. STATUS.md legt per tarief vast wat geverifieerd is en wat niet."
+    },
+    {
+      "id": "efacturatie",
+      "groep": "geld",
+      "naam": "E-facturatie Frankrijk",
+      "meta": "moet u straks elektronisch factureren?",
+      "prijs": "gratis",
+      "schil": "keuzeschil",
+      "houdbaar": "per jaar",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://e-facturatie-frankrijk.vercel.app",
+      "nagekeken": "2026-10-21",
+      "over": "Vijf vragen over uw situatie (onderneming, SCI, vereniging, verhuur of zonnepanelen) en u weet of de Franse e-facturatieplicht voor u geldt.",
+      "weergave": "volledig"
     },
     {
       "id": "taal",
@@ -360,17 +400,18 @@
     {
       "id": "verenigingen",
       "groep": "leven",
-      "zichtbaar": false,
-      "reden": "Geen inhoud: alleen een omschrijving, geen schil en geen url. Zet zichtbaar op true zodra die er is; de module staat verder ongewijzigd klaar.",
-      "naam": "Verenigingen & agenda",
+      "naam": "Verenigingen & evenementen",
       "meta": "wie waar zit, wat er wanneer is",
       "prijs": "gratis",
       "schil": "zoekschil",
       "houdbaar": "dagen",
-      "status": "te smeden",
-      "kind": "info",
-      "nagekeken": "2026-08-23",
-      "over": "Nederlandstalige verenigingen, hun agenda en wat er in uw omgeving te doen is — één agenda in plaats van drie plekken."
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://antonnoe.github.io/verenigingen-kalender/",
+      "nagekeken": "2026-10-21",
+      "over": "Nederlandstalige verenigingen en hun agenda: wat er in uw omgeving te doen is, op één plek.",
+      "weergave": "volledig",
+      "zichtbaar": true
     },
     {
       "id": "dossierfrankrijk",
@@ -390,17 +431,48 @@
     {
       "id": "auto",
       "groep": "leven",
-      "zichtbaar": false,
-      "reden": "Geen inhoud: alleen een omschrijving, geen schil en geen url. Zet zichtbaar op true zodra die er is; de module staat verder ongewijzigd klaar.",
-      "naam": "Auto & mobiliteit",
-      "meta": "contrôle technique, kenteken, vervoer",
+      "naam": "Auto importeren en inschrijven",
+      "meta": "uw auto naar Frankrijk, stap voor stap",
+      "prijs": "gratis",
+      "schil": "stappenschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://fr-auto-import-tool.vercel.app",
+      "nagekeken": "2026-10-21",
+      "over": "Wat u moet regelen om een auto uit het buitenland in Frankrijk te mogen gebruiken en op uw naam te zetten.",
+      "weergave": "volledig",
+      "zichtbaar": true
+    },
+    {
+      "id": "zorgkompas",
+      "groep": "leven",
+      "naam": "Zorgkompas Frankrijk",
+      "meta": "wat betaalt u zelf bij de dokter",
+      "prijs": "gratis",
+      "schil": "rekenschil",
+      "houdbaar": "per jaar",
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://zorgkompas-frankrijk.vercel.app",
+      "nagekeken": "2026-10-21",
+      "over": "Kies een zorgsituatie en zie wat u zelf bijbetaalt, met of zonder aanvullende verzekering. Met de tarieven van 2026.",
+      "weergave": "volledig"
+    },
+    {
+      "id": "palliatief",
+      "groep": "leven",
+      "naam": "Palliatieve zorg per departement",
+      "meta": "waar vindt u een USP in de buurt",
       "prijs": "gratis",
       "schil": "zoekschil",
       "houdbaar": "maanden",
-      "status": "te smeden",
-      "kind": "info",
-      "nagekeken": "2026-08-23",
-      "over": "Een keuringsstation zoeken en plannen, kentekenzaken, en vervoer zonder eigen auto."
+      "status": "af",
+      "kind": "iframe",
+      "url": "https://antonnoe.github.io/Soins-Palliatifs-USP-beschikbaar/",
+      "nagekeken": "2026-10-21",
+      "over": "Zoek per departement welke eenheden voor palliatieve zorg (USP) er zijn en wat dat voor u betekent.",
+      "weergave": "volledig"
     }
   ],
   "klusonderwerpen": [
