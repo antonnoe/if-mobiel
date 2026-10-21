@@ -373,6 +373,21 @@
       "over": "Nederlandstalige verenigingen, hun agenda en wat er in uw omgeving te doen is — één agenda in plaats van drie plekken."
     },
     {
+      "id": "dossierfrankrijk",
+      "groep": "leven",
+      "naam": "DossierFrankrijk",
+      "meta": "uw persoonlijke archief",
+      "prijs": "abonnee",
+      "schil": "archiefschil",
+      "houdbaar": "maanden",
+      "status": "af",
+      "kind": "iframe",
+      "weergave": "knop",
+      "url": "https://dossierfrankrijk.nl",
+      "nagekeken": "2026-10-21",
+      "over": "Uw eigen archief voor Infofrankrijk-artikelen, uitkomsten van tools en antwoorden van Café Claude. Opslaan, ordenen en later terugvinden. Voor abonnees van Infofrankrijk; na afloop blijft uw dossier leesbaar."
+    },
+    {
       "id": "auto",
       "groep": "leven",
       "zichtbaar": false,
