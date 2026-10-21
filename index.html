@@ -3130,7 +3130,7 @@ class Component extends DCLogic {
       heeftUrl: !!(T && T.kind === "iframe" && T.url),
       isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       kopLink: st.screen === "tool" && !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
-      kopBadge: !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopBadge: st.screen !== "keuze" && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       scrollOverflow: (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig") ? "hidden" : "auto",
       isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
       isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
