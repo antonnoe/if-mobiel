@@ -2131,6 +2131,8 @@
   "themas": [
     {
       "id": "geld",
+      "kleur": "#1B6B3A",
+      "tint": "#DDEFE3",
       "naam": "Geld",
       "wat": "Belasting, erfenis en vermogen.",
       "nieuws": [
@@ -2144,6 +2146,8 @@
     },
     {
       "id": "overheid",
+      "kleur": "#1D4F9E",
+      "tint": "#DCE6F7",
       "naam": "Overheid",
       "wat": "Emigreren, auto en wetgeving.",
       "nieuws": [
@@ -2158,6 +2162,8 @@
     },
     {
       "id": "gezondheid",
+      "kleur": "#B3261E",
+      "tint": "#F8DFDD",
       "naam": "Gezondheid",
       "wat": "Ouder worden, zorg en zorgwoorden.",
       "scherm": "gezondheid",
@@ -2171,6 +2177,8 @@
     },
     {
       "id": "adressen",
+      "kleur": "#6B3FA0",
+      "tint": "#E9E0F5",
       "naam": "Adressen",
       "wat": "Loketten, sites en verenigingen.",
       "nieuws": [
@@ -2179,22 +2187,30 @@
     },
     {
       "id": "nieuws",
+      "kleur": "#9E4505",
+      "tint": "#FBE5D3",
       "naam": "Nieuws",
       "wat": "Overheid, pers en verenigingen.",
       "scherm": "nieuws"
     },
     {
       "id": "ervaring",
+      "kleur": "#775800",
+      "tint": "#F6EBC2",
       "naam": "Ervaring",
       "wat": "Wat anderen meemaakten."
     },
     {
       "id": "ondernemen",
+      "kleur": "#0E5B66",
+      "tint": "#D7EDF0",
       "naam": "Ondernemen",
       "wat": "Zelfstandig werken in Frankrijk."
     },
     {
       "id": "wonen",
+      "kleur": "#800000",
+      "tint": "#F3E0E0",
       "naam": "Wonen",
       "wat": "Het huis, de tuin en de omgeving.",
       "scherm": "lamaison",
@@ -2211,6 +2227,8 @@
     },
     {
       "id": "taal",
+      "kleur": "#465C70",
+      "tint": "#E1E8EE",
       "naam": "Taal",
       "wat": "Frans voor het dagelijks leven."
     }

@@ -18,6 +18,7 @@
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./lamaison-lib.js"></script>
 <script src="./nieuws-lib.js"></script>
+<script src="./hub-lib.js"></script>
 <script src="./support.js"></script>
 <script src="./dossier.js"></script>
 </head>
@@ -46,7 +47,7 @@
 })();
 </script>
 <x-dc>
-<helmet data-dc-atomics><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#800000"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style>
+<helmet data-dc-atomics><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#800000"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&family=Source+Serif+4:wght@500;600&display=swap" rel="stylesheet"><style>
 html,body{margin:0;height:100%}
 body{background:#EAE6E4;font-family:Mulish,system-ui,sans-serif;color:#15181A;-webkit-font-smoothing:antialiased}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -89,79 +90,47 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <!-- ============ HUB / VANDAAG ============ -->
 <sc-if value="{{ isHub }}" hint-placeholder-val="{{ true }}">
 <div>
-  <sc-if value="{{ hubHasSearch }}" hint-placeholder-val="{{ true }}">
-  <div style="padding:16px 16px 0">
-    <button onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:13px;padding:0 14px;min-height:48px;cursor:pointer;text-align:left">
-      <span style="color:#71787C;font-size:15px">⌕</span>
-      <span style="font:600 14.5px Mulish;color:#A2A7A9">Zoek in modules, berichten en zinnen</span>
-    </button>
-  </div>
-  </sc-if>
-
-  <sc-if value="{{ hubShowStrip }}" hint-placeholder-val="{{ true }}">
-  <div style="display:flex;gap:10px;overflow-x:auto;padding:16px 16px 4px;scroll-snap-type:x proximity">
-    <button onClick="{{ goGem }}" style="scroll-snap-align:start;flex:none;width:196px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px;cursor:pointer;background:#fff">
-      <div style="font:700 9.5px/1.3 Mulish;letter-spacing:.07em;color:#71787C;min-height:25px">NEDERLANDERS.FR · GRATIS</div>
-      <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:4px;color:#15181A">{{ nieuwLabel }}</div>
-      <div style="font:600 11.5px/1.35 Mulish;color:#71787C;margin-top:auto;padding-top:6px">{{ nieuwSub }}</div>
-    </button>
-    <button onClick="{{ goTaal }}" style="scroll-snap-align:start;flex:none;width:196px;min-height:132px;display:flex;flex-direction:column;text-align:left;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px;cursor:pointer;background:#fff">
-      <div style="font:700 9.5px/1.3 Mulish;letter-spacing:.07em;color:#71787C;min-height:25px">TAALASSISTENT · GRATIS</div>
-      <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:4px;color:#15181A">{{ taalAantal }}</div>
-      <div style="font:600 11.5px/1.35 Mulish;color:#71787C;margin-top:auto;padding-top:6px">{{ taalSub }}</div>
-    </button>
-  </div>
-  </sc-if>
-
-  <sc-if value="{{ hubIsVandaag }}" hint-placeholder-val="{{ false }}">
-  <div>
-    <div style="display:flex;align-items:baseline;gap:8px;padding:24px 18px 8px">
-      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Vandaag op Nederlanders.fr</div>
-      <div style="font:600 11px Mulish;color:#A2A7A9;margin-left:auto">gratis</div>
-    </div>
-    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
-      <sc-for list="{{ topPosts }}" as="p" hint-placeholder-count="3">
-      <button onClick="{{ p.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer">
-        <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ p.titel }}</div>
-        <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ p.meta }}</div>
-      </button>
-      </sc-for>
-      <button onClick="{{ goGem }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle berichten en reacties →</button>
-    </div>
-  </div>
-  </sc-if>
-
   <sc-if value="{{ hubToontTegels }}" hint-placeholder-val="{{ true }}">
   <div>
-    <div style="padding:22px 16px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Onderwerpen</div>
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 16px">
+    <div style="padding:24px 18px 0">
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:34px;line-height:1.1;letter-spacing:-.01em;margin:0;color:#15181A">{{ begroetingTekst }}</h1>
+    </div>
+    <div style="padding:16px 16px 0">
+      <button onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;border-radius:14px;padding:0 14px;min-height:48px;cursor:pointer;text-align:left">
+        <span style="{{ zoekIcoStyle }}"></span>
+        <span style="font:600 14.5px Mulish;color:#71787C">Zoek in modules, berichten en zinnen</span>
+      </button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:18px 16px 0">
       <sc-for list="{{ hubTegels }}" as="t" hint-placeholder-count="9">
-      <button onClick="{{ t.open }}" aria-label="{{ t.naam }}" style="min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:12px 6px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;cursor:pointer">
-        <span style="{{ t.icoStyle }}"></span>
+      <button onClick="{{ t.open }}" aria-label="{{ t.naam }}" style="min-height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:12px 6px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;cursor:pointer">
+        <span style="{{ t.cirkelStyle }}"><span style="{{ t.icoStyle }}"></span></span>
         <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:14px;line-height:1.15;color:#15181A">{{ t.naam }}</span>
       </button>
       </sc-for>
     </div>
-    <sc-if value="{{ hubToontAi }}" hint-placeholder-val="{{ true }}">
-    <div style="padding:22px 16px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">AI-tools</div>
-    <div style="margin:0 16px">
-      <button onClick="{{ openCafe }}" style="width:100%;min-height:64px;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:12px 15px;cursor:pointer">
-        <span style="{{ aiIcoStyle }}"></span>
-        <span style="flex:1;min-width:0;line-height:1.3">
-          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">Café Claude</b>
-          <span style="display:block;font:500 12.5px/1.35 Mulish;color:#71787C;margin-top:2px">Vraagbaak volgens vast protocol</span>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px 16px 0">
+      <button onClick="{{ openAiTools }}" style="min-height:112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:13px;cursor:pointer">
+        <span style="{{ aiCirkelStyle }}"><span style="{{ aiIcoStyle }}"></span></span>
+        <span style="line-height:1.25">
+          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">AI-tools</b>
+          <span style="display:block;font:500 12px/1.35 Mulish;color:#3D4346;margin-top:2px">Hulp bij uw vragen</span>
         </span>
-        <span style="font:700 13px Mulish;color:#800000">→</span>
+      </button>
+      <button onClick="{{ openDossierDemo }}" style="min-height:112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:13px;cursor:pointer">
+        <span style="{{ aiCirkelStyle }}"><span style="{{ slotIcoStyle }}"></span></span>
+        <span style="line-height:1.25">
+          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">Mijn dossier</b>
+          <span style="display:block;font:500 12px/1.35 Mulish;color:#3D4346;margin-top:2px">Voor abonnees, bekijk het voorbeeld</span>
+        </span>
       </button>
     </div>
-    </sc-if>
-    <div style="padding:22px 16px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Mijn dossier</div>
-    <div style="margin:0 16px">
-      <button onClick="{{ openDossierDemo }}" style="width:100%;min-height:64px;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:12px 15px;cursor:pointer">
-        <span style="{{ slotIcoStyle }}"></span>
+    <div style="padding:10px 16px 0">
+      <button onClick="{{ openRegio }}" style="width:100%;min-height:68px;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:12px 15px;cursor:pointer">
+        <span style="{{ aiCirkelStyle }}"><span style="{{ regioIcoStyle }}"></span></span>
         <span style="flex:1;min-width:0;line-height:1.3">
-          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">DossierFrankrijk</b>
-          <span style="display:block;font:500 12.5px/1.35 Mulish;color:#71787C;margin-top:2px">Voor abonnees, bekijk het voorbeeld</span>
+          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">{{ hubRegioLabel }}</b>
+          <span style="display:block;font:500 12.5px/1.35 Mulish;color:#3D4346;margin-top:2px">{{ hubRegioSub }}</span>
         </span>
         <span style="font:700 13px Mulish;color:#800000">→</span>
       </button>
@@ -169,7 +138,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   </sc-if>
 
-  <sc-if value="{{ heeftFavs }}" hint-placeholder-val="{{ false }}">
+  <sc-if value="{{ hubFavs }}" hint-placeholder-val="{{ false }}">
   <div style="margin:22px 0 0">
     <div style="display:flex;align-items:baseline;gap:8px;padding:0 16px 8px">
       <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Uw favorieten</div>
@@ -225,15 +194,12 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   </sc-for>
   </sc-if>
-  <sc-if value="{{ hubShowStrip }}" hint-placeholder-val="{{ true }}">
-  <div style="margin:20px 14px 0">
-    <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer">Alle modules bekijken →</button>
-  </div>
-  </sc-if>
+  <sc-if value="{{ isModScreen }}" hint-placeholder-val="{{ false }}">
   <div style="margin:10px 14px 0">
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Mijn modules: kies wat u hier ziet →</button>
   </div>
   <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ freeNote }}</div>
+  </sc-if>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -242,7 +208,8 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <sc-if value="{{ isLamaison }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:20px 18px 0">
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:0">La Maison</h1>
+    <div style="{{ accentStijl }}"></div>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:0">La Maison</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">De gids voor wie in Frankrijk een huis koopt, verbouwt of verkoopt, met de artikelen van Infofrankrijk.</p>
   </div>
   <sc-if value="{{ lmLaden }}" hint-placeholder-val="{{ false }}">
@@ -334,7 +301,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </sc-if>
   <sc-if value="{{ lmGeenTools }}" hint-placeholder-val="{{ false }}">
   <div style="margin:0 14px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-    <p style="font:500 14px/1.8 Mulish;color:#3D4346;margin:0;text-wrap:pretty">Er staan geen tools aan bij dit onderwerp. U zet ze aan bij Account, Mijn modules.</p>
+    <p style="font:500 14px/1.8 Mulish;color:#3D4346;margin:0;text-wrap:pretty">Er staan geen tools aan bij dit onderwerp. U zet ze aan bij Profiel, Mijn modules.</p>
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer;margin-top:12px">Naar Mijn modules →</button>
   </div>
   </sc-if>
@@ -360,7 +327,8 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <sc-if value="{{ isThema }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:20px 18px 0">
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:0">{{ themaNaam }}</h1>
+    <div style="{{ accentStijl }}"></div>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:0">{{ themaNaam }}</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ themaWat }}</p>
   </div>
   <sc-if value="{{ themaStub }}" hint-placeholder-val="{{ false }}">
@@ -427,7 +395,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="padding:16px 18px 0">
       <button onClick="{{ gzTerug }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">← Terug naar het overzicht</button>
       <div style="font:800 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000;margin-top:16px">{{ gzHfdKicker }}</div>
-      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:24px;line-height:1.2;margin:6px 0 0">{{ gzHfdTitel }}</h1>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:24px;line-height:1.2;margin:6px 0 0">{{ gzHfdTitel }}</h1>
     </div>
     <sc-if value="{{ gzLaadt }}" hint-placeholder-val="{{ false }}">
     <div style="padding:20px 18px;font:600 14px Mulish;color:#71787C">Hoofdstuk laden…</div>
@@ -456,7 +424,8 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <sc-if value="{{ gzOverzicht }}" hint-placeholder-val="{{ true }}">
   <div>
     <div style="padding:20px 18px 0">
-      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:0">Gezondheid</h1>
+      <div style="{{ accentStijl }}"></div>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:0">Gezondheid</h1>
       <p style="font-size:14px;line-height:1.8em;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ gzIntro }}</p>
     </div>
     <sc-if value="{{ gzFout }}" hint-placeholder-val="{{ false }}">
@@ -572,7 +541,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div>
     <div style="padding:18px 18px 0">
       <div style="display:inline-block;font:800 9.5px Mulish;letter-spacing:.12em;padding:5px 8px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">VOORBEELD</div>
-      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:9px 0 0">{{ dsTitel }}</h1>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:9px 0 0">{{ dsTitel }}</h1>
       <p style="font-size:13.5px;line-height:1.8;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ dsOndertitel }}</p>
     </div>
     <div style="display:flex;gap:8px;overflow-x:auto;padding:14px 16px 2px">
@@ -608,7 +577,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div>
       <button onClick="{{ dsNaarOverzicht }}" style="margin:12px 14px 0;min-height:44px;padding:0 14px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13px Mulish;cursor:pointer">← Overzicht</button>
       <div style="padding:14px 18px 0">
-        <h2 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:22px;line-height:1.15;margin:0">{{ dsOndNaam }}</h2>
+        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:22px;line-height:1.15;margin:0">{{ dsOndNaam }}</h2>
         <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:6px 0 0;text-wrap:pretty">{{ dsOndWat }}</p>
       </div>
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:12px 14px 0;overflow:hidden">
@@ -747,7 +716,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nederlanders.fr · vrij toegankelijk</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Forum</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Forum</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Het forum van Nederlanders.fr: berichten mét hun volledige reactiedraad, juist wat de mobiele weergave van de site weglaat. Lezen kan zonder account; reageren doet u op de site zelf.</p>
   </div>
 
@@ -800,7 +769,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div>
     <div style="padding:18px 18px 0">
       <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Taal &amp; gemeenschap · gratis</div>
-      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:7px 0 0">Wat staat u te wachten?</h1>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Wat staat u te wachten?</h1>
       <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies het gesprek dat u voert. U krijgt de zinnen in de volgorde waarin ze vallen — plus de woorden die de ander gebruikt.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 14px 0">
@@ -839,7 +808,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div>
     <div style="padding:18px 18px 0">
       <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">{{ scKicker }}</div>
-      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:25px;line-height:1.1;margin:7px 0 0">{{ scTitle }}</h1>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.1;margin:7px 0 0">{{ scTitle }}</h1>
       <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ scIntro }}</p>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin:14px 16px 0;padding:4px;border-radius:11px;background:rgba(21,24,26,.05)">
@@ -900,7 +869,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Geld · vrij toegankelijk</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:25px;line-height:1.15;margin:7px 0 0">Betaalt u 7,5% of 17,2%?</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.15;margin:7px 0 0">Betaalt u 7,5% of 17,2%?</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ ruKern }}</p>
     <div style="margin-top:12px;padding:13px 15px;border-radius:13px;background:rgba(226,129,47,.12);font:600 12.5px/1.7 Mulish;color:#8A4E14;text-wrap:pretty">{{ ruWaarschuwing }}</div>
   </div>
@@ -1018,7 +987,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
 
   <div style="padding:20px 18px 0">
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:25px;line-height:1.15;margin:0">Ouder worden in Frankrijk</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.15;margin:0">Ouder worden in Frankrijk</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Voor wie alleen woont en merkt dat het minder gaat. Eerst wat nú moet, dan de aanvragen — en pas daarna het geld en het wonen.</p>
   </div>
 
@@ -1118,7 +1087,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · vrij toegankelijk</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:7px 0 0">Een huis kopen</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Een huis kopen</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies de fase waarin u zit. Per fase staat wat er wettelijk geldt en wat alleen gebruik is — dat onderscheid is precies waar het misgaat.</p>
   </div>
 
@@ -1228,7 +1197,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · rekenmotor</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:7px 0 0">Energie &amp; verwarming</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Energie &amp; verwarming</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ enOver }}</p>
   </div>
 
@@ -1392,7 +1361,8 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div>
     <div style="padding:18px 18px 0">
       <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nieuws en wijzigingen</div>
-      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Nieuws</h1>
+      <div style="{{ accentStijl }}"></div>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Nieuws</h1>
       <p style="font-size:13.5px;line-height:1.8em;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Wat er in Frankrijk verandert, door de redactie van Nederlanders.fr in het Nederlands samengevat. Kies een onderwerp en lees alle berichten onder elkaar, met de bronnen erbij.</p>
     </div>
     <sc-if value="{{ nwLaadt }}" hint-placeholder-val="{{ false }}">
@@ -1453,7 +1423,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div data-nwb="{{ b.idx }}" style="scroll-margin-top:52px">
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
         <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ b.kicker }}</div>
-        <h2 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:20px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ b.titel }}</h2>
+        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:20px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ b.titel }}</h2>
         <div style="font:600 11.5px/1.5 Mulish;color:#71787C;margin-top:6px">{{ b.meta }}</div>
         <div style="margin-top:12px">
           <sc-for list="{{ b.alineas }}" as="p" hint-placeholder-count="2">
@@ -1516,7 +1486,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ draadKicker }}</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:22px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ draadTitel }}</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:22px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ draadTitel }}</h1>
     <div style="font:600 11.5px Mulish;color:#71787C;margin-top:6px">{{ draadMeta }}</div>
   </div>
 
@@ -1665,7 +1635,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wegwijzer · gratis te lezen</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:7px 0 0">Nedergids</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Nedergids</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Loketten, registers en de sites die u echt nodig heeft — per categorie. {{ pcRegel }}</p>
   </div>
 
@@ -1733,7 +1703,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Taalassistent · gratis</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:7px 0 0">Alle lexicons van IF</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Alle lexicons van IF</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">De woordenlijsten die nu verspreid over losse berichten op nederlanders.fr staan, hier op één plek en doorzoekbaar met het zoekveld van de app.</p>
   </div>
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;overflow:hidden">
@@ -1760,7 +1730,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div style="padding:20px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ toolGroup }}</div>
     <sc-if value="{{ toolOntw }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:8px;font:700 11px Mulish;padding:4px 9px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</div></sc-if>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:8px 0 0">{{ toolName }}</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:8px 0 0">{{ toolName }}</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:10px 0 0;text-wrap:pretty">{{ toolDesc }}</p>
   </div>
   </sc-if>
@@ -1972,7 +1942,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <sc-if value="{{ isAcc }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:20px 18px 0">
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:0">Account</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:0">Profiel</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">U gebruikt de app nu zonder aanmelden. Dat mag: de gemeenschap, de taalassistent en de woordenlijsten zijn vrij toegankelijk.</p>
   </div>
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px">
@@ -1983,6 +1953,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat u ziet →</button>
+    <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Alle modules →</button>
     <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
     <div style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.6 Mulish;color:#3D4346">Op het beginscherm zetten doet u via het deelmenu van uw browser</div>
@@ -1995,11 +1966,51 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<!-- ============ REGIO ============ -->
+<sc-if value="{{ isRegio }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:20px 18px 0">
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.1;margin:0">Uw regio</h1>
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ regioIntro }}</p>
+  </div>
+  <sc-if value="{{ regioLeeg }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:16px 14px 0;padding:15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 13px/1.8 Mulish;color:#3D4346">Er staat voor uw regio nu niets aan. Bij Profiel, Mijn modules, zet u modules aan.</div>
+  </sc-if>
+  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;overflow:hidden">
+    <sc-for list="{{ regioRijen }}" as="r" hint-placeholder-count="3">
+    <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:64px">
+      <span style="flex:1;min-width:0;line-height:1.3">
+        <b style="display:block;font:700 14px Mulish;color:#15181A">{{ r.naam }}</b>
+        <span style="display:block;font:500 12.5px/1.4 Mulish;color:#3D4346;margin-top:2px">{{ r.uitleg }}</span>
+        <sc-if value="{{ r.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+      </span>
+      <span style="font:700 13px Mulish;color:#800000">→</span>
+    </button>
+    </sc-for>
+  </div>
+  <div style="margin:12px 14px 0">
+    <button onClick="{{ wijzigPc }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Postcode wijzigen</button>
+  </div>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
+<!-- AITOOLS-SCHERM: wordt vervangen door de AI-tools-bouwer -->
+<sc-if value="{{ isAiTools }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:20px 18px 0">
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.1;margin:0">AI-tools</h1>
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">In ontwikkeling.</p>
+  </div>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
 <!-- ============ MIJN MODULES ============ -->
 <sc-if value="{{ isKeuze }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:20px 16px 0">
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:28px;line-height:1.1;margin:0">Wat wilt u zien?</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:28px;line-height:1.1;margin:0">Wat wilt u zien?</h1>
     <p style="font-size:15px;line-height:1.6;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zet aan wat u gebruikt. Wat uit staat verdwijnt van het beginscherm, maar blijft vindbaar via zoeken.</p>
   </div>
   <div style="display:flex;gap:8px;margin:16px 16px 0">
@@ -2035,7 +2046,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div>
   <div style="padding:20px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Sinds 2002</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:28px;line-height:1.08;letter-spacing:-.015em;margin:8px 0 0">Waarom dit bestaat</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:28px;line-height:1.08;letter-spacing:-.015em;margin:8px 0 0">Waarom dit bestaat</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:10px 0 0;text-wrap:pretty">Nederlanders.fr begon als plek waar mensen hun ervaring met Frankrijk uitwisselden. Infofrankrijk kwam erbij voor de dossiers en de rekentools. Deze app brengt beide bij elkaar op de telefoon — met de gemeenschap gratis, omdat die de bron is en niet het product.</p>
   </div>
 
@@ -2079,8 +2090,8 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
-<div style="flex:none;min-height:70px;padding-bottom:env(safe-area-inset-bottom);background:rgba(244,241,240,.96);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(6,1fr)">
-  <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
+<div style="flex:none;min-height:70px;padding-bottom:env(safe-area-inset-bottom);background:rgba(244,241,240,.96);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(5,1fr)">
+  <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
   <button onClick="{{ t.go }}" aria-label="{{ t.label }}" style="{{ t.style }}"><span style="{{ t.iconStyle }}"></span>{{ t.label }}</button>
   </sc-for>
 </div>
@@ -2090,7 +2101,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div style="background:#fff;border-radius:22px 22px 0 0;padding:24px 20px 20px;box-shadow:0 -10px 40px rgba(21,24,26,.22)">
     <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 16px"></div>
     <div style="font:700 10.5px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Eén vraag</div>
-    <h2 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woont u?</h2>
+    <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woont u?</h2>
     <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Alleen de postcode. De app toont dan uw departement in de kopregel, richt de wegwijzer Nedergids erop en zegt bij Veiligheid &amp; natuur welk departement u op de kaart moet opzoeken; meer doet hij er nu niet mee. De postcode blijft op uw toestel en is bij Account te wijzigen.</p>
     <input value="{{ pcInvoer }}" onInput="{{ onPc }}" inputmode="numeric" placeholder="34360" aria-label="Postcode" style="width:100%;min-height:56px;margin-top:16px;border:1px solid rgba(128,0,0,.20);border-radius:13px;padding:0 16px;font:700 20px Mulish;letter-spacing:.08em;color:#15181A;background:#F4F1F0">
     <button onClick="{{ bewaarPc }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:{{ pcKnopBg }};color:{{ pcKnopFg }};font:800 15px Mulish;cursor:pointer;margin-top:12px">Bewaren</button>
@@ -2112,7 +2123,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:412,&quot;height&quot;:880},&quot;tabVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;'A'|'B'&quot;,&quot;section&quot;:&quot;Navigatie&quot;},&quot;brandNiveau&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;geen&quot;,&quot;matig&quot;,&quot;hoog&quot;,&quot;zeer hoog&quot;,&quot;extreem&quot;],&quot;default&quot;:&quot;zeer hoog&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Veiligheid&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:412,&quot;height&quot;:880},&quot;brandNiveau&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;geen&quot;,&quot;matig&quot;,&quot;hoog&quot;,&quot;zeer hoog&quot;,&quot;extreem&quot;],&quot;default&quot;:&quot;zeer hoog&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Veiligheid&quot;}}">
 const API = "https://nlfr-berichten.vercel.app/api/berichten";
 const NIEUWS_API = "https://nlfr-menu.vercel.app/api/actueel";
 // De redactieteksten en volledige bronnenlijsten van de artikelen in Actueel (CORS open voor infopoche.fr).
@@ -2381,14 +2392,19 @@ const THEMA_ICONS = {
   wonen: '<path d="M3 11.500 12 4l9 7.500"/><path d="M5.500 10.500V20h13v-9.500"/><path d="M10 20v-5h4v5"/>',
   taal: '<path d="M3 6h9M7.500 3v3M11 6c-1.200 4.200-4 7.200-8 9"/><path d="M6 9c1 3 3.500 5.200 6.500 6.500"/><path d="m13 20 4-9 4 9M14.500 17h5"/>',
   ai: '<path d="M12 3l1.800 5.200L19 10l-5.200 1.800L12 17l-1.800-5.200L5 10l5.200-1.800z"/><path d="M18 16v4M16 18h4"/>',
+  regio: '<path d="M12 21s-6.500-5.500-6.500-11a6.500 6.500 0 0 1 13 0c0 5.500-6.500 11-6.500 11z"/><circle cx="12" cy="10" r="2.300"/>',
   slot: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
 };
-function themaIcoStijl(id){
+function themaIcoStijl(id, kleur){
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (THEMA_ICONS[id] || THEMA_ICONS.wonen) + '</svg>';
   const url = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
-  return "display:block;flex:none;width:28px;height:28px;background-color:#800000;-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
+  return "display:block;flex:none;width:26px;height:26px;background-color:" + (kleur || "#800000") + ";-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
 }
 
+function cirkelStijl(tint, maat){
+  const m = maat || 48;
+  return "display:grid;place-items:center;flex:none;width:" + m + "px;height:" + m + "px;border-radius:50%;background:" + tint;
+}
 const norm = s => (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 
 const draad = p => p.reacties || [];
@@ -2578,7 +2594,7 @@ class Component extends DCLogic {
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", nwTegel:null, nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
-    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
+    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
@@ -2843,7 +2859,7 @@ class Component extends DCLogic {
     };
   }
   themaVals(){
-    const st = this.state, V = this.variant();
+    const st = this.state;
     const stub = this.STUB_SCHERMEN.includes(st.screen);
     const isThema = st.screen === "thema" || stub;
     const t = this.themaList().find(x => x.id === (st.screen === "gezondheid" ? "gezondheid" : st.themaId)) || {id:"", naam:"", wat:""};
@@ -3019,19 +3035,21 @@ class Component extends DCLogic {
 
   componentDidMount(){
     this.loadCatalogus();
-    let lv = null, favs = [], pc = null, pcLater = null, keuze = {aan:[], uit:[]};
+    let lv = null, favs = [], pc = null, pcLater = null, plaats = "", keuze = {aan:[], uit:[]};
     try {
       lv = localStorage.getItem("ifm_last_visit");
       localStorage.setItem("ifm_last_visit", new Date().toISOString());
       favs = JSON.parse(localStorage.getItem("ifm_favs") || "[]");
       pc = localStorage.getItem("ifm_postcode");
       pcLater = localStorage.getItem("ifm_pc_later");
+      plaats = HubLib.plaatsUitOpslag(localStorage.getItem("ifm_plaats"), pc);
       const kz = JSON.parse(localStorage.getItem("ifm_modules") || "null");
       if (kz && typeof kz === "object") keuze = {aan: Array.isArray(kz.aan) ? kz.aan.filter(x => typeof x === "string") : [],
         uit: Array.isArray(kz.uit) ? kz.uit.filter(x => typeof x === "string") : []};
     } catch(e){}
     this.setState({keuze, lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
-      postcode: pc, vraagPostcode: !pc && !pcLater});
+      postcode: pc, plaats, vraagPostcode: !pc && !pcLater});
+    if (pc && !plaats) this.laadPlaats(pc);
     this.load();
   }
 
@@ -3180,7 +3198,52 @@ class Component extends DCLogic {
     }
   }
 
-  variant(){ return this.props.tabVariant === "B" ? "B" : "A"; }
+  // REGIO. De plaatsnaam bij de postcode komt van geo.api.gouv.fr (zacht falend: bij een fout of
+  // een onbruikbaar antwoord blijft alleen de postcode over) en staat samen met de postcode in
+  // localStorage ifm_plaats = {postcode, plaats}.
+  laadPlaats(pc){
+    if (!HubLib.postcodeOk(pc) || typeof fetch !== "function") return;
+    fetch(HubLib.plaatsUrl(pc)).then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
+      .then(j => {
+        const plaats = HubLib.plaatsUitApi(j);
+        if (!plaats || this.state.postcode !== pc) return;
+        this.setState({plaats});
+        try { localStorage.setItem("ifm_plaats", JSON.stringify({postcode:pc, plaats})); } catch(e){}
+      }).catch(() => {});
+  }
+  openRegio(){
+    if (!this.state.postcode) return this.setState({vraagPostcode:true, pcInvoer:""});
+    this.setState({screen:"regio", from:"hub", q:"", tool:null});
+  }
+  // KOPPELVLAK AI-TOOLS: state.screen "aitools"; de AI-tools-bouwer vervangt het stub-blok in de template.
+  openAiTools(){ this.setState({screen:"aitools", from:"hub", q:"", tool:null}); }
+  openMods(){ this.setState({screen:"mod", from:"acc", q:"", tool:null}); }
+  regioVals(){
+    const st = this.state, L = HubLib, pc = st.postcode || "";
+    const deps = (st.cat && st.cat.departementen) || {};
+    const code = L.departementCode(pc), dep = deps[code] || "";
+    const depTxt = dep ? dep + " (" + code + ")" : "";
+    const rij = (id, naam, uitleg) => {
+      const m = this.mods().find(x => x.id === id);
+      return m ? {naam, uitleg, ontw:this.inOntw(m), open:() => this.route(m)} : null;
+    };
+    const rijen = [
+      rij("veiligheid", "Bosbrandkaart", depTxt ? "Zoek op de kaart " + depTxt + " op. De app haalt zelf geen gevaarniveau op." : "Zoek op de kaart uw departement op. De app haalt zelf geen gevaarniveau op."),
+      rij("verenigingen", "Verenigingen en evenementen", "Kaart en agenda van Nederlandstalige verenigingen in heel Frankrijk. U zoekt zelf in uw omgeving; de app filtert niet voor u."),
+      rij("palliatief", "Palliatieve zorg per departement", depTxt ? "Zoek zelf " + depTxt + " op in de module." : "Zoek zelf uw departement op in de module."),
+      rij("zoekers", "Zoekers per departement", depTxt ? "Zoek zelf " + depTxt + " op in de module." : "Zoek zelf uw departement op in de module.")
+    ].filter(Boolean);
+    return {
+      isRegio: st.screen === "regio",
+      regioKop: L.regioLabel(pc, st.plaats),
+      regioIntro: depTxt ? "Uw postcode valt in " + depTxt + ". Dit zijn de onderdelen van de app die bij een departement horen." : "Dit zijn de onderdelen van de app die bij een departement horen.",
+      regioRijen: rijen, regioLeeg: rijen.length === 0,
+      hubRegioLabel: L.regioLabel(pc, st.plaats),
+      hubRegioSub: L.postcodeOk(pc) ? "Wat de app per departement weet" : "Dan toont de app wat er voor uw departement is",
+      openRegio: () => this.openRegio(),
+      regioIcoStyle: themaIcoStijl("regio")
+    };
+  }
 
   // Tabnavigatie verlaat de module: tool moet mee weg, anders blijft de
   // prijsbadge in de kopbalk op de vorige module hangen.
@@ -3730,7 +3793,7 @@ class Component extends DCLogic {
   }
 
   renderVals(){
-    const st = this.state, V = this.variant();
+    const st = this.state;
     const tv = this.themaVals();
     const sc = SC.find(s => s.id === st.sc) || SC[0];
     const phase = sc.phases[Math.min(st.phase, sc.phases.length - 1)];
@@ -3761,9 +3824,9 @@ class Component extends DCLogic {
     const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
-      taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Account"};
-    const subs = {lamaison:"Wonen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
+    const titles = {hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+      taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
+    const subs = {regio:HubLib.regioLabel(pc, st.plaats), aitools:"In ontwikkeling", lamaison:"Wonen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
       over:"Nederlanders.fr · Infofrankrijk · sinds 2002",
       nedergids:"wegwijzer · gratis te lezen",
@@ -3808,10 +3871,6 @@ class Component extends DCLogic {
       vb_rows: vb.rows.map(([k,v]) => ({k,v})),
       uit_rows: vb.uit.map(([k,v]) => ({k,v}))} : null;
     const en = this.enVals(T, st);
-    const tabDefs = V === "B"
-      ? [["Vandaag","hub","hub"],["Zoeken","zoek","zoek"],["Forum","gem","gem"],["Actueel","act","act"],["Taal","taal","taal"],["Account","acc","acc"]]
-      : [["Hub","hub","hub"],["Forum","gem","gem"],["Actueel","act","act"],["Taal","taal","taal"],["Modules","mod","mod"],["Account","acc","acc"]];
-
     return {
       title: tv.isThema ? tv.themaNaam : st.screen === "dossierdemo" ? "Mijn dossier" : titles[st.screen] || "Infopoche",
       subtitle: tv.isThema ? (tv.themaStub ? "In ontwikkeling" : "Onderwerp") : st.screen === "dossierdemo" ? "Voorbeeld · DossierFrankrijk" : subs[st.screen] || "",
@@ -3822,8 +3881,8 @@ class Component extends DCLogic {
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|dossierdemo|regio|aitools|mod)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|dossierdemo|regio|aitools|mod)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
       back: () => st.screen === "nieuws" ? this.nwTerugKnop() : (st.screen === "gezondheid" && st.gzHfd) ? this.gzTerug() : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
@@ -3963,10 +4022,13 @@ class Component extends DCLogic {
         {naam:"Talen voor Talent", rol:"TAAL", wat:"Taalcoaching van Sylvain Lelarge, achtergrond bij de taalassistent."}
       ],
       lexSets: LEXSETS.map(s => ({name:s.name.replace(/&amp;/g,"&"), meta:s.meta, dot:s.dot, state:s.state})),
-      hubHasSearch: V === "A" && st.screen === "hub", hubIsVandaag: V === "B" && st.screen === "hub",
-      hubShowStrip: st.screen === "hub",
+      ...this.regioVals(),
+      isAiTools: st.screen === "aitools",
+      begroetingTekst: HubLib.begroeting(new Date()),
+      zoekIcoStyle: this.iconStyle("zoek").replace("width:22px;height:22px", "width:20px;height:20px;color:#71787C"),
+      hubFavs: st.screen === "hub" && favLijst.length > 0,
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"), goLex: () => this.go("lex"),
-      goTaal: () => this.setState({screen:"taal", sc:null, q:""}),
+      goTaal: () => this.setState({screen:"taal", sc:null, q:"", from:"hub"}),
       openFire: () => this.route(this.vindModule("veiligheid")),
       // Veiligheid staat het hele jaar in de app, maar rustig: één regel op de hub,
       // geen alarmtegel. De locator zegt alleen wat de app zeker weet — welk
@@ -3974,10 +4036,11 @@ class Component extends DCLogic {
       // is geen bron voor aangesloten (zie NIVEAUS en het rapport).
       hubToontTegels: st.screen === "hub",
       isModScreen: st.screen === "mod",
-      hubTegels: this.themaList().map(t => ({naam:t.naam, icoStyle:themaIcoStijl(t.id), open:() => this.openThema(t)})),
-      hubToontAi: !!this.vindModule("cafeclaude"),
-      openCafe: () => this.route(this.vindModule("cafeclaude")),
+      hubTegels: this.themaList().map(t => { const k = HubLib.themaKleur(t);
+        return {naam:t.naam, icoStyle:themaIcoStijl(t.id, k.kleur), cirkelStyle:cirkelStijl(k.tint), open:() => this.openThema(t)}; }),
+      openAiTools: () => this.openAiTools(),
       openDossierDemo: () => this.openDossierDemo(),
+      aiCirkelStyle: cirkelStijl("rgba(128,0,0,.08)", 44),
       aiIcoStyle: themaIcoStijl("ai"), slotIcoStyle: themaIcoStijl("slot"),
       toolOntw: this.inOntw(T),
       veiligRegel: depNaam
@@ -3989,15 +4052,8 @@ class Component extends DCLogic {
         ? "De app haalt zelf geen gevaarniveau op. De kaart hieronder geeft het verwachte niveau per departement; zoek daar " + depNaam + " op."
         : "Met uw postcode kan de app zeggen welk departement u op de kaart moet opzoeken. Een gevaarniveau haalt de app zelf niet op.",
 
-      nieuwLabel: nieuwe ? nieuwe + " nieuw" : st.posts.length + " berichten",
-      nieuwSub: nieuwe ? "sinds uw laatste bezoek" : "met alle reacties erbij",
-      topPosts: st.posts.slice(0, 3).map(p => ({titel:p.titel,
-        meta:(p.auteur || "") + " · " + reactieMeta(aantalReacties(p)) + " · " + kort(p.laatsteReactie || p.datum),
-        open:() => this.openDraad(p)})),   // vanaf de hub direct de draad in
-      taalAantal: SC.length === 1 ? "1 situatie" : SC.length + " situaties",
-      taalSub: "van " + SC[0].title.toLowerCase().replace(/^bij de |^in de /, "") + " tot " + SC[SC.length - 1].title.toLowerCase().replace(/:.*$/, ""),
       isMod: st.screen === "mod",
-      goMod: () => this.go("mod"),
+      goMod: () => this.openMods(),
       groups: this.themaList().filter(g => this.mods().some(m => m.thema === g.id)).map(g => {
         const tools = this.mods().filter(m => m.thema === g.id);
         const cafe = this.cafeUrl(g);
@@ -4127,7 +4183,7 @@ class Component extends DCLogic {
       heeftUrl: !!(T && T.kind === "iframe" && T.url),
       isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       kopLink: st.screen === "tool" && !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
-      kopBadge: st.screen !== "keuze" && st.screen !== "lamaison" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopBadge: st.screen !== "aitools" && st.screen !== "keuze" && st.screen !== "lamaison" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       scrollOverflow: (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig") ? "hidden" : "auto",
       isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
       isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
@@ -4136,7 +4192,7 @@ class Component extends DCLogic {
       geenUrl: !!(T && T.kind === "iframe" && !T.url),
       toolUrl: T && T.url ? T.url : "",
       catFout: st.catFout,
-      pcLabel: st.postcode ? st.postcode : "niet ingesteld",
+      pcLabel: st.postcode ? (st.postcode + (st.plaats ? " " + st.plaats : "")) : "niet ingesteld",
       vraagPostcode: st.vraagPostcode,
       pcLaterLabel: st.postcode ? "Annuleren" : "Later — ik vul het per keer in",
       wijzigPc: () => this.setState({vraagPostcode:true, pcInvoer: st.postcode || ""}),
@@ -4146,8 +4202,10 @@ class Component extends DCLogic {
       pcKnopBg: st.pcInvoer.length === 5 ? "#800000" : "rgba(128,0,0,.18)",
       pcKnopFg: st.pcInvoer.length === 5 ? "#fff" : "#5C0000",
       bewaarPc: () => { if (this.state.pcInvoer.length === 5) {
-        try { localStorage.setItem("ifm_postcode", this.state.pcInvoer); } catch(e){}
-        this.setState({postcode:this.state.pcInvoer, vraagPostcode:false}); } },
+        const pcNieuw = this.state.pcInvoer;
+        try { localStorage.setItem("ifm_postcode", pcNieuw); localStorage.removeItem("ifm_plaats"); } catch(e){}
+        this.setState({postcode:pcNieuw, plaats:"", vraagPostcode:false});
+        this.laadPlaats(pcNieuw); } },
       slaPcOver: () => { try { localStorage.setItem("ifm_pc_later", "1"); } catch(e){} this.setState({vraagPostcode:false}); },
       hasPreview: !!pv,
       vbTitel: pv ? pv.vb : "",
@@ -4177,10 +4235,13 @@ class Component extends DCLogic {
       bigOpen: !!st.big, bigFr: st.big ? st.big.fr : "", bigNl: st.big ? st.big.nl : "",
       closeBig: () => this.setState({big:null}),
 
-      tabs: tabDefs.map(([label, icon, target]) => ({
-        label, iconStyle: this.iconStyle(icon),
-        style: this.navStyle(st.screen === target || (target === "act" && st.screen === "nieuws") || (target === "hub" && (tv.isThema || st.screen === "lamaison" || st.screen === "dossierdemo"))),
-        go: () => this.go(target)}))
+      tabs: HubLib.TABS.map(t => ({
+        label:t.label, iconStyle:this.iconStyle(t.icon),
+        style:this.navStyle(HubLib.tabVan(st.screen) === t.id),
+        go:() => this.go(t.id)})),
+      accentStijl: (() => { const tid = st.screen === "nieuws" ? "nieuws" : st.screen === "lamaison" ? "wonen" : st.screen === "gezondheid" ? "gezondheid" : st.themaId;
+        const k = HubLib.themaKleur(this.themaList().find(x => x.id === tid) || {});
+        return "width:36px;height:4px;border-radius:2px;margin:0 0 10px;background:" + k.kleur; })()
     };
   }
 }
