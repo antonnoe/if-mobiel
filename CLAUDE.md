@@ -24,7 +24,7 @@ Frankrijk).
 5. Toestand leeft in `state` van de klasse; `setState`/`forceUpdate` hertekenen. Eén scherm
    tegelijk via `state.screen`: `hub`, `mod`, `zoek`, `gem`, `taal`, `lex`, `tool`, `acc`,
    `over`, plus de uitgewerkte eigen schillen `nedergids`, `vastgoed`, `zorg`, `ruyter`,
-   `energie`, en sinds 22-10-2026 `thema` (generiek themascherm), `lamaison`, `gezondheid`,
+   `energie`, en sinds 22-10-2026 `thema` (generiek themascherm), `lamaison`, `ondernemen` (route van vier stappen uit if-plek `ondernemen.json`, `ondernemen-lib.js`), `gezondheid`,
    `nieuws` en `dossierdemo`. De hub is een raster van negen themategels uit `themas` in
    `modules.json`; elke module heeft een `thema`. Er is geen `login`- of `dossier`-scherm — de app werkt zonder account; wat
    betaald is krijgt een uitleg en een muur, niet een aparte inlogroute (zie `knip` per

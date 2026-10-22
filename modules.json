@@ -1,5 +1,5 @@
 {
-  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel), scherm (optioneel: gezondheid | nieuws | lamaison, een eigen scherm), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld KIF.",
+  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel, voor de hubtegel), omschrijving (één zin, getoond onder de schermtitel van het themascherm en van de eigen schermen Wonen, Ondernemen, Gezondheid en Nieuws), scherm (optioneel: gezondheid | nieuws | lamaison | ondernemen, een eigen scherm; bij ondernemen horen ook bron (ondernemen.json op if-plek.vercel.app), site en terugval, het adres van het artikel dat in de foutstaat staat), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld KIF. ook (optioneel, per module en per item in ondernemen.json: lijst thema-id's, bijvoorbeeld ['geld']): een tweede domein. De module staat dan ook in dat thema, met de regel 'hoort bij [eigen thema]', en opent op zijn vaste plek; het eigen thema in `thema` blijft het enige thema van Mijn modules en van de zoekresultaten, dus geen dubbele rijen. Zichtbaarheidsregels gelden ook in het tweede thema. Een item in ondernemen.json met ook ['wonen'] (een artikel) staat vast bij Ondernemen en verschijnt als rij 'Ook bij Wonen' onder de hulpmiddelen van La Maison.",
   "bijgewerkt": "2026-10-22",
   "groepen": [
     {
@@ -603,7 +603,10 @@
       "nagekeken": "2026-10-21",
       "over": "Een assistent in zeven stappen voor wie een gîte wil uitbaten: van profiel en strategie tot financiën, fiscaal, marketing en regels, met een rapport om af te drukken.",
       "weergave": "volledig",
-      "standaard": "uit"
+      "standaard": "uit",
+      "ook": [
+        "geld"
+      ]
     },
     {
       "id": "woningzoeker",
@@ -2135,6 +2138,7 @@
       "tint": "#DDEFE3",
       "naam": "Geld",
       "wat": "Belasting, erfenis en vermogen.",
+      "omschrijving": "Uw eigen financiën als particulier: inkomen, belasting, sociale heffingen, erfenis en de kosten van uw huis.",
       "nieuws": [
         "geld-belasting",
         "economie"
@@ -2150,6 +2154,7 @@
       "tint": "#DCE6F7",
       "naam": "Overheid",
       "wat": "Emigreren, auto en wetgeving.",
+      "omschrijving": "Papieren en regels voor wie naar Frankrijk emigreert of er woont: registratie, auto en wetgeving.",
       "nieuws": [
         "wetgeving",
         "nl-overheid",
@@ -2166,6 +2171,7 @@
       "tint": "#F8DFDD",
       "naam": "Gezondheid",
       "wat": "Ouder worden, zorg en zorgwoorden.",
+      "omschrijving": "Ouder worden en zorg in Frankrijk: het dossier daarover, wat u vooraf kunt regelen en de hulpmiddelen erbij.",
       "scherm": "gezondheid",
       "nieuws": [
         "zorg"
@@ -2181,6 +2187,7 @@
       "tint": "#E9E0F5",
       "naam": "Adressen",
       "wat": "Loketten, sites en verenigingen.",
+      "omschrijving": "Loketten, websites en verenigingen waar u in Frankrijk terechtkunt.",
       "nieuws": [
         "verenigingen"
       ]
@@ -2191,6 +2198,7 @@
       "tint": "#FBE5D3",
       "naam": "Nieuws",
       "wat": "Overheid, pers en verenigingen.",
+      "omschrijving": "Berichten van de redactie van Nederlanders.fr over wat er in Frankrijk verandert, per onderwerp.",
       "scherm": "nieuws"
     },
     {
@@ -2198,14 +2206,20 @@
       "kleur": "#775800",
       "tint": "#F6EBC2",
       "naam": "Ervaring",
-      "wat": "Wat anderen meemaakten."
+      "wat": "Wat anderen meemaakten.",
+      "omschrijving": "Wat andere Nederlanders in Frankrijk meemaakten, om te lezen."
     },
     {
       "id": "ondernemen",
       "kleur": "#0E5B66",
       "tint": "#D7EDF0",
       "naam": "Ondernemen",
-      "wat": "Zelfstandig werken in Frankrijk."
+      "wat": "Zelfstandig werken in Frankrijk.",
+      "omschrijving": "Voor wie in Frankrijk zelf iets onderneemt of verhuurt: of het mag, starten, factureren en belastingregels voor ondernemers.",
+      "scherm": "ondernemen",
+      "bron": "https://if-plek.vercel.app/ondernemen.json",
+      "site": "https://infofrankrijk.com",
+      "terugval": "https://infofrankrijk.com/ondernemen-in-frankrijk-micro-entreprise-zelfstandigen/"
     },
     {
       "id": "wonen",
@@ -2213,6 +2227,7 @@
       "tint": "#F3E0E0",
       "naam": "Wonen",
       "wat": "Het huis, de tuin en de omgeving.",
+      "omschrijving": "Een huis kopen, verbouwen, verkopen en erin wonen: de gids La Maison met de artikelen van Infofrankrijk en de hulpmiddelen erbij.",
       "scherm": "lamaison",
       "bron": "https://if-plek.vercel.app/la-maison.json",
       "site": "https://infofrankrijk.com",
@@ -2230,7 +2245,8 @@
       "kleur": "#465C70",
       "tint": "#E1E8EE",
       "naam": "Taal",
-      "wat": "Frans voor het dagelijks leven."
+      "wat": "Frans voor het dagelijks leven.",
+      "omschrijving": "Frans voor het dagelijks leven: hulp bij gesprekken, brieven en woordenlijsten."
     }
   ],
   "gezondheid": {

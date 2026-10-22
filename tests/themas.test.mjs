@@ -32,7 +32,7 @@ test("negen thema's in de juiste volgorde", () => {
 
 test("eigen schermen en nieuwsstroken per thema", () => {
   const scherm = Object.fromEntries(cat.themas.filter(t => t.scherm).map(t => [t.id, t.scherm]));
-  assert.deepEqual(scherm, {gezondheid: "gezondheid", nieuws: "nieuws", wonen: "lamaison"});
+  assert.deepEqual(scherm, {gezondheid: "gezondheid", nieuws: "nieuws", ondernemen: "ondernemen", wonen: "lamaison"});
   const nieuws = Object.fromEntries(cat.themas.filter(t => t.nieuws).map(t => [t.id, t.nieuws]));
   assert.deepEqual(nieuws, {geld: ["geld-belasting", "economie"], overheid: ["wetgeving", "nl-overheid", "douane"], adressen: ["verenigingen"], wonen: ["natuur-milieu"], gezondheid: ["zorg"]});
 });
