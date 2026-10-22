@@ -83,7 +83,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div id="ifm-scroll" style="flex:1;min-height:0;position:relative;overflow-y:{{ scrollOverflow }};-webkit-overflow-scrolling:touch">
 
 <sc-if value="{{ catFout }}" hint-placeholder-val="{{ false }}">
-<div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 11.5px/1.7 Mulish">De modulecatalogus kon niet worden geladen. U ziet de laatst geladen gegevens; alles wat offline bewaard is blijft werken.</div>
+<div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 11.5px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer uw verbinding en laad de pagina opnieuw.</div>
 </sc-if>
 
 <!-- ============ HUB / VANDAAG ============ -->
@@ -4023,7 +4023,7 @@ class Component extends DCLogic {
         tagFg: m.prijs === "abonnee" ? "#800000" : "#3F7A4E",
         open: () => this.route(m),
         unpin: () => this.toggleFav(m.id)})),
-      freeNote: "De catalogus komt uit modules.json: een module toevoegen of van groep wisselen is een wijziging in dat bestand, niet in de app. Veiligheid is altijd gratis. Bij de rekenmodules mag u het voorbeeld bekijken en uw eigen antwoorden invullen; alleen de uitkomst hoort bij het abonnement.",
+      freeNote: "Veiligheid is altijd gratis. Bij de rekenmodules mag u het voorbeeld bekijken en uw eigen antwoorden invullen; alleen de uitkomst hoort bij het abonnement.",
 
       q: st.q, hasQ: st.q.length > 0,
       onQ: e => this.setState({q:e.target.value}),
