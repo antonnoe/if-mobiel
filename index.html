@@ -17,6 +17,7 @@
      en pakt dan de lokale kopie; zonder deze regel hangt de hele app aan unpkg.com. -->
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./lamaison-lib.js"></script>
+<script src="./nieuws-lib.js"></script>
 <script src="./support.js"></script>
 <script src="./dossier.js"></script>
 </head>
@@ -1384,74 +1385,129 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
-<!-- ============ ACTUEEL (eigen tab) ============ -->
-<sc-if value="{{ isAct }}" hint-placeholder-val="{{ false }}">
+<!-- ============ NIEUWS (overzicht per thema en doorlopende leespagina; ook de tab Actueel) ============ -->
+<sc-if value="{{ isNieuws }}" hint-placeholder-val="{{ false }}">
 <div>
-  <div style="padding:18px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nieuws en wijzigingen</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Actueel</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Wat er in Frankrijk verandert, door de redactie van Nederlanders.fr in het Nederlands samengevat. Elk bericht opent hier als artikel, met de bronnen onderaan.</p>
-  </div>
-  <sc-for list="{{ actTegels }}" as="g" hint-placeholder-count="3">
+  <sc-if value="{{ nwOverzicht }}" hint-placeholder-val="{{ true }}">
   <div>
-    <div style="padding:20px 18px 8px;font:700 11.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ g.label }}</div>
-    <div style="margin:0 14px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
-      <sc-for list="{{ g.items }}" as="a" hint-placeholder-count="3">
-      <sc-if value="{{ a.kanOpenen }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ a.open }}" style="width:100%;display:block;text-align:left;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;padding:14px 15px;min-height:44px;cursor:pointer;color:#15181A">
-        <div style="font:700 14.5px/1.35 Mulish;text-wrap:pretty">{{ a.titel }}</div>
-        <div style="font:500 12.5px/1.6 Mulish;color:#71787C;margin-top:4px;text-wrap:pretty;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ a.summary }}</div>
-        <div style="font:600 11px Mulish;color:#71787C;margin-top:6px">{{ a.meta }}</div>
+    <div style="padding:18px 18px 0">
+      <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nieuws en wijzigingen</div>
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Nieuws</h1>
+      <p style="font-size:13.5px;line-height:1.8em;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Wat er in Frankrijk verandert, door de redactie van Nederlanders.fr in het Nederlands samengevat. Kies een onderwerp en lees alle berichten onder elkaar, met de bronnen erbij.</p>
+    </div>
+    <sc-if value="{{ nwLaadt }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12.5px/1.5 Mulish;color:#71787C">Nieuws wordt opgehaald...</div>
+    </sc-if>
+    <sc-if value="{{ nwHeeftTegels }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 14px 0">
+      <sc-for list="{{ nwTegelItems }}" as="g" hint-placeholder-count="4">
+      <button onClick="{{ g.open }}" style="text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:14px 14px 13px;min-height:88px;cursor:pointer;color:#15181A;display:flex;flex-direction:column;justify-content:space-between;gap:8px">
+        <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:14.5px;line-height:1.25;text-wrap:pretty">{{ g.naam }}</span>
+        <span style="font:700 12px/1.2 Mulish;color:#800000">{{ g.aantal }}</span>
       </button>
-      </sc-if>
-      <sc-if value="{{ a.voorbeeld }}" hint-placeholder-val="{{ false }}">
-      <div style="padding:14px 15px;border-top:1px solid rgba(21,24,26,.06);color:#15181A">
-        <div style="font:700 14.5px/1.35 Mulish;text-wrap:pretty">{{ a.titel }}</div>
-        <div style="font:600 11px Mulish;color:#71787C;margin-top:6px">{{ a.meta }}</div>
-      </div>
-      </sc-if>
       </sc-for>
+      <button onClick="{{ nwOpenArchief }}" style="grid-column:1 / -1;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(128,0,0,.04);border:1px solid rgba(128,0,0,.20);border-radius:16px;padding:0 15px;min-height:56px;cursor:pointer;color:#15181A">
+        <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:14.5px;line-height:1.25">{{ nwArchiefLabel }}</span>
+        <span style="font:700 13px Mulish;color:#800000">&rarr;</span>
+      </button>
     </div>
+    </sc-if>
+    <sc-if value="{{ nwGeenBerichten }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#fff;border:1px solid rgba(21,24,26,.10);font:500 13.5px/1.7 Mulish;color:#3D4346">Er staan nu geen berichten klaar.</div>
+    </sc-if>
+    <sc-if value="{{ nwVoorbeeld }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="padding:20px 18px 8px;font:700 11.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Voorbeelden</div>
+      <div style="margin:0 14px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+        <sc-for list="{{ nwVoorbeeldItems }}" as="a" hint-placeholder-count="3">
+        <div style="padding:14px 15px;border-top:1px solid rgba(21,24,26,.06);color:#15181A">
+          <div style="font:700 14.5px/1.35 Mulish;text-wrap:pretty">{{ a.titel }}</div>
+          <div style="font:600 11px Mulish;color:#71787C;margin-top:6px">{{ a.meta }}</div>
+        </div>
+        </sc-for>
+      </div>
+      <button onClick="{{ nwOpnieuw }}" style="margin:12px 14px 0;min-height:48px;padding:0 18px;border-radius:13px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Opnieuw proberen</button>
+    </div>
+    </sc-if>
+    <div style="margin:16px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ nwNote }}</div>
+    <div style="height:26px"></div>
   </div>
-  </sc-for>
-  <div style="margin:16px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ actueelNote }}</div>
-  <div style="height:26px"></div>
-</div>
-</sc-if>
+  </sc-if>
 
-<!-- ============ ARTIKEL (redactietekst van Actueel) ============ -->
-<sc-if value="{{ isArtikel }}" hint-placeholder-val="{{ false }}">
-<div>
-  <div style="padding:18px 18px 0">
-    <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ artKicker }}</div>
-    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:22px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ artTitel }}</h1>
-    <div style="font:600 11.5px/1.5 Mulish;color:#71787C;margin-top:6px">{{ artMeta }}</div>
-  </div>
-  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
-    <sc-for list="{{ artAlineas }}" as="p" hint-placeholder-count="3">
-    <p style="font-size:14.5px;line-height:1.8em;color:#3D4346;margin:0 0 12px;text-wrap:pretty">{{ p.tekst }}</p>
-    </sc-for>
-    <sc-if value="{{ artLaadt }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-top:2px;font:600 12px/1.7 Mulish;color:#71787C">De volledige tekst wordt opgehaald…</div>
+  <sc-if value="{{ nwLees }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="position:sticky;top:0;z-index:5;background:#F4F1F0;border-bottom:1px solid rgba(21,24,26,.10);padding:0 18px;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <span style="font:700 12.5px/1.25 Mulish;color:#3D4346;min-width:0;text-wrap:pretty">{{ nwKop }}</span>
+      <span style="font:800 12px Mulish;color:#800000;flex:none;padding:5px 10px;border-radius:999px;background:rgba(128,0,0,.08)">{{ nwNr }}</span>
+    </div>
+    <sc-if value="{{ nwListLaadt }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12.5px/1.5 Mulish;color:#71787C">De berichten worden opgehaald...</div>
     </sc-if>
-    <sc-if value="{{ artMelding }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-top:4px;padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346;text-wrap:pretty">{{ artMeldingTekst }}</div>
+    <sc-if value="{{ nwListFout }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <div style="font:500 13.5px/1.7 Mulish;color:#3D4346">De berichten konden niet worden opgehaald.</div>
+      <button onClick="{{ nwListOpnieuw }}" style="margin-top:8px;min-height:48px;padding:0 18px;border-radius:13px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Opnieuw proberen</button>
+    </div>
     </sc-if>
-  </div>
-  <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ artBronKop }}</div>
-  <div style="display:flex;flex-direction:column;gap:9px;padding:0 14px">
-    <sc-for list="{{ artBronnen }}" as="b" hint-placeholder-count="2">
-    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:13px 15px">
-      <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ b.naam }}</div>
-      <div style="font:700 13.5px/1.4 Mulish;color:#15181A;margin-top:4px;text-wrap:pretty">{{ b.titel }}</div>
-      <div style="font:600 11px Mulish;color:#71787C;margin-top:4px">{{ b.datum }}</div>
-      <sc-if value="{{ b.heeftLink }}" hint-placeholder-val="{{ false }}">
-      <a href="{{ b.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;margin-top:4px;font:700 12.5px Mulish;color:#800000">Lees het origineel (nieuw tabblad) →</a>
+    <sc-for list="{{ nwBerichten }}" as="b" hint-placeholder-count="2">
+    <div data-nwb="{{ b.idx }}" style="scroll-margin-top:52px">
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
+        <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ b.kicker }}</div>
+        <h2 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:20px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ b.titel }}</h2>
+        <div style="font:600 11.5px/1.5 Mulish;color:#71787C;margin-top:6px">{{ b.meta }}</div>
+        <div style="margin-top:12px">
+          <sc-for list="{{ b.alineas }}" as="p" hint-placeholder-count="2">
+          <p style="font-size:14.5px;line-height:1.8em;color:#3D4346;margin:0 0 12px;text-wrap:pretty">{{ p.tekst }}</p>
+          </sc-for>
+          <sc-if value="{{ b.plaats }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="height:10px;border-radius:6px;background:rgba(21,24,26,.06);margin:4px 0 12px;width:96%"></div>
+            <div style="height:10px;border-radius:6px;background:rgba(21,24,26,.06);margin:0 0 12px;width:88%"></div>
+            <div style="height:10px;border-radius:6px;background:rgba(21,24,26,.06);margin:0 0 12px;width:92%"></div>
+            <div style="height:10px;border-radius:6px;background:rgba(21,24,26,.06);margin:0 0 12px;width:60%"></div>
+            <div style="font:600 12px/1.7 Mulish;color:#71787C">De tekst wordt opgehaald...</div>
+          </div>
+          </sc-if>
+          <sc-if value="{{ b.fout }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04)">
+            <div style="font:500 12.5px/1.7 Mulish;color:#3D4346">De tekst kon niet worden geladen.</div>
+            <button onClick="{{ b.opnieuw }}" style="margin-top:4px;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#800000;font:700 13px Mulish;cursor:pointer">Opnieuw proberen</button>
+          </div>
+          </sc-if>
+          <sc-if value="{{ b.melding }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346;text-wrap:pretty">De volledige tekst is nu niet beschikbaar. U leest de samenvatting; de bronnen staan hieronder.</div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ b.klaar }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="padding:14px 0 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ b.bronKop }}</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ b.bronnen }}" as="r" hint-placeholder-count="2">
+            <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:13px 15px">
+              <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ r.naam }}</div>
+              <div style="font:700 13.5px/1.4 Mulish;color:#15181A;margin-top:4px;text-wrap:pretty">{{ r.titel }}</div>
+              <div style="font:600 11px Mulish;color:#71787C;margin-top:4px">{{ r.datum }}</div>
+              <sc-if value="{{ r.heeftLink }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;margin-top:4px;font:700 12.5px Mulish;color:#800000">Lees het origineel (nieuw tabblad) &rarr;</a>
+              </sc-if>
+            </div>
+            </sc-for>
+          </div>
+          <a href="{{ nwForumHref }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:48px;margin-top:8px;font:700 13px Mulish;color:#800000">Bespreek op het forum &rarr;</a>
+        </div>
+        </sc-if>
+      </div>
+      <sc-if value="{{ b.heeftVolgende }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:16px 18px 2px;padding-top:12px;border-top:1px solid rgba(21,24,26,.14);font:600 12px/1.5 Mulish;color:#71787C;text-wrap:pretty">{{ b.volgende }}</div>
       </sc-if>
     </div>
     </sc-for>
+    <sc-if value="{{ nwEinde }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:18px 18px 0;font:600 12px/1.5 Mulish;color:#71787C;text-align:center">Dit was het laatste bericht.</div>
+    </sc-if>
+    <div style="height:30px"></div>
   </div>
-  <div style="height:26px"></div>
+  </sc-if>
 </div>
 </sc-if>
 
@@ -2061,6 +2117,7 @@ const API = "https://nlfr-berichten.vercel.app/api/berichten";
 const NIEUWS_API = "https://nlfr-menu.vercel.app/api/actueel";
 // De redactieteksten en volledige bronnenlijsten van de artikelen in Actueel (CORS open voor infopoche.fr).
 const TEKST_API = "https://nlfr-menu.vercel.app/api/actueel-tekst";
+const ARCHIEF_API = "https://nlfr-menu.vercel.app/api/actueel-archief";
 // De volledige reactiedraad van één bericht, gelezen van de berichtpagina zelf.
 // /api/berichten levert alleen wat de activiteitenfeed van een paar dagen kent.
 const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
@@ -2519,8 +2576,8 @@ function peilVoetTekst() {
 class Component extends DCLogic {
   state = { screen:"hub", sc:null, phase:0, tone:"vous", q:"", copied:null, big:null,
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
-    antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:ACTUEEL, nieuwsLive:false,
-    artKey:null, teksten:null, tekstStatus:"",
+    antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
+    teksten:null, tekstStatus:"", nwTegel:null, nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
     cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, vraagPostcode:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
@@ -2535,7 +2592,7 @@ class Component extends DCLogic {
   // toe voor state.screen === "nieuws" | "gezondheid" | "lamaison" en haal die naam uit
   // STUB_SCHERMEN (zie isThema in renderVals). De regel in dit register blijft staan.
   SCHERMEN_VOOR_THEMA = {nieuws:"nieuws", gezondheid:"gezondheid", lamaison:"lamaison"};
-  STUB_SCHERMEN = ["nieuws"];
+  STUB_SCHERMEN = [];
   themaList(){ const c = this.state.cat; return (c && c.themas) || []; }
   themaVan(m){
     if (!m) return "";
@@ -2547,7 +2604,7 @@ class Component extends DCLogic {
   inOntw(m){ return !!m && String(m.status || "").trim().toLowerCase() === "in ontwikkeling"; }
   openThema(t){
     const scherm = t.scherm && this.SCHERMEN_VOOR_THEMA[t.scherm];
-    this.setState({screen: scherm || "thema", themaId: t.id, from:"hub", q:"", tool:null, gzHfd:null});
+    this.setState({screen: scherm || "thema", themaId: t.id, from:"hub", q:"", tool:null, gzHfd:null, nwTegel:null, nwTerug:null, nwVanStrook:false});
     if (scherm === "lamaison") this.laadLaMaison();
     if (scherm === "gezondheid") this.laadDossier();
   }
@@ -2604,10 +2661,39 @@ class Component extends DCLogic {
       lmHeeftTools: tools.length > 0, lmGeenTools: tools.length === 0
     };
   }
-  // wordt ingevuld door de Nieuws-bouwer: geeft maximaal drie items {titel, meta, open}
-  // (meta = datum en bron) voor de nieuwsstrook van dit thema, op basis van `nieuws` in themas.
+  // KOPPELVLAK NIEUWSSTROOK. strookVals(themaId) levert de holes strookZichtbaar, strookItems,
+  // strookTitel, strookAlle en themaNaam voor het generieke themascherm en voor de schermen
+  // lamaison en gezondheid. Een nieuw themascherm roept alleen strookVals(themaId) aan in renderVals
+  // en zet het strook-blok uit het themascherm in zijn template. De data komt van de lui geladen,
+  // gedeelde /api/actueel (loadNieuws); zolang die niet binnen is blijft de strook weg.
+  nwMeta(a){
+    const d = dagDatum(a.datum);
+    const bron = (a.soort === "pers" ? "Redactie NLFR" : (a.bronNaam || "Redactie NLFR")).replace(/\s+[\u2014\u2013]\s+/g, ", ");
+    return d ? d + " · " + bron : bron;
+  }
   strookVoorThema(themaId){
-    return [];
+    const st = this.state, Lb = NieuwsLib;
+    const ids = Lb.nieuwsIdsVoorThema(this.themaList(), themaId);
+    if (!ids.length) return [];
+    if (st.nieuwsStatus === "leeg" && !this._nwP) setTimeout(() => this.loadNieuws(), 0);
+    if (st.nieuwsStatus !== "klaar") return [];
+    return Lb.stripSelectie(st.nieuws, ids, 3).map(a => ({titel:a.titel, meta:this.nwMeta(a), open:() => this.openLees(a.tegelId, a.key, true)}));
+  }
+  strookVals(themaId){
+    const st = this.state, Lb = NieuwsLib;
+    const t = this.themaList().find(x => x.id === themaId) || {id:"", naam:""};
+    const items = this.strookVoorThema(themaId);
+    const ids = Lb.nieuwsIdsVoorThema(this.themaList(), themaId);
+    return {
+      themaNaam: t.naam,
+      strookZichtbaar: items.length > 0,
+      strookItems: items,
+      strookTitel: themaId === "gezondheid" ? "Nieuws over zorg en gezondheid" : "Nieuws bij " + t.naam,
+      strookAlle: () => {
+        const doel = Lb.stripAlleDoel(st.nieuws, ids);
+        if (doel) this.openLees(doel.id, null, true); else this.openNieuwsOverzicht(true);
+      }
+    };
   }
 
   // ---- Gezondheid: het dossier "Ouder worden in Frankrijk", live opgehaald (dossier.js) ------
@@ -2764,8 +2850,8 @@ class Component extends DCLogic {
     const alle = this.zoekMods().filter(m => m.thema === t.id);
     const zichtbaar = this.mods().filter(m => m.thema === t.id);
     const cafe = this.cafeUrl(t);
-    // ook het La Maison-scherm (tegel Wonen) toont de strook, via dezelfde holes
-    const strook = (isThema || st.screen === "lamaison" || st.screen === "gezondheid") && t.id ? (this.strookVoorThema(t.id) || []).slice(0, 3) : [];
+    const metStrook = st.screen === "thema" || st.screen === "lamaison" || st.screen === "gezondheid";
+    const strook = metStrook && t.id ? this.strookVals(t.id) : {strookZichtbaar:false, strookItems:[], strookTitel:"", strookAlle:() => {}};
     return {
       isThema, themaStub: stub, themaNaam: t.naam, themaWat: t.wat || "",
       themaMods: zichtbaar.map(m => ({
@@ -2784,11 +2870,10 @@ class Component extends DCLogic {
       themaLeegTekst: alle.length > 0
         ? "Alle modules van dit onderwerp staan uit. U zet ze weer aan bij Mijn modules."
         : "Hier staan nog geen modules.",
-      strookZichtbaar: strook.length > 0,
-      strookItems: strook,
-      strookTitel: st.screen === "gezondheid" ? "Nieuws over zorg en gezondheid" : "Nieuws bij " + t.naam,
-      // wordt aangepast door de Nieuws-bouwer; nu naar het Actueel-scherm
-      strookAlle: () => this.go("act")
+      strookZichtbaar: strook.strookZichtbaar,
+      strookItems: strook.strookItems,
+      strookTitel: strook.strookTitel,
+      strookAlle: strook.strookAlle
     };
   }
 
@@ -2918,7 +3003,7 @@ class Component extends DCLogic {
       .catch(() => this.setState({catFout:true}));
   }
 
-  componentDidUpdate(){ this.vulRijk(); this.vulDossier(); }
+  componentDidUpdate(){ this.vulRijk(); this.vulDossier(); this.nwHaak(); }
   // Vult de lege <div data-rijk> van de draad met gefilterde DOM-knooppunten (zie bouwHtml).
   vulRijk(){
     const bron = this.__rijk || {};
@@ -2959,41 +3044,25 @@ class Component extends DCLogic {
         this.setState({posts:b, live:true, laden:false});
       })
       .catch(() => this.setState({posts:DEMO, live:false, laden:false}));
-    this.loadNieuws();
   }
 
-  // De route /api/actueel van nlfr-menu voegt overheids- en persbronnen samen en
-  // zet gepubliceerde redactiesyntheses bovenaan. Veldnamen defensief afgetast.
+  // /api/actueel van nlfr-menu levert thema-tegels met artikelen. Lui geladen (themaschermen met
+  // nieuwsstrook en het nieuwsscherm), één keer, en gedeeld: er is één bron voor strook en scherm.
   loadNieuws(){
-    fetch(NIEUWS_API).then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+    if (this._nwP) return this._nwP;
+    this.setState({nieuwsStatus:"laden"});
+    this._nwP = fetch(NIEUWS_API).then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
       .then(d => {
-        // /api/actueel levert thema-TEGELS met daarin artikelen (zie api/actueel.js).
-        // Een tik opent het redactieartikel in de app (tekst via /api/actueel-tekst),
-        // niet de bron: de sleutel is "<tegelId>/<artikelId>".
-        const tegels = [];
-        ((d && d.tegels) || []).forEach(t => {
-          const items = [];
-          (t.artikelen || t.items || []).forEach(a => {
-            if (!a) return;
-            const titel = a.titel || a.title;
-            if (!titel) return;
-            const bm = a.bronMeta || {};
-            const dat = a.datum || a.date || "";
-            const pers = (a.soort || t.soort) === "pers";
-            items.push({key: (t.id || "") + "/" + (a.id || ""), titel, summary: a.summary || "",
-              label: a.label || "", datum: dat, bronNaam: bm.naam || "", bronDatum: bm.datum || "",
-              bronAantal: a.bronAantal || 0, url: veiligeUrl(a.url, a.href, a.link),
-              meta: (pers ? "Redactie NLFR" : (bm.naam || "Redactie NLFR")) + (dat ? " · " + dagDatum(dat) : "")});
-          });
-          if (items.length) tegels.push({id: t.id || t.label, label: t.label || t.titel || "Actueel", items});
-        });
-        if (tegels.length) this.setState({nieuws: tegels, nieuwsLive: true});
+        const u = NieuwsLib.tegelsUitApi(d);
+        if (!u.tegels.length) throw new Error("leeg");
+        this.setState({nieuws:u.tegels, archiefAantal:u.archiefAantal, nieuwsStatus:"klaar"});
       })
-      .catch(() => {});
+      .catch(() => { this._nwP = null; this.setState({nieuwsStatus:"mislukt"}); });
+    return this._nwP;
   }
-
-  // De redactieteksten komen in één keer binnen, lui bij het eerste geopende artikel,
-  // en blijven dan in het geheugen. Mislukt het, dan volgt een nieuwe poging bij het volgende artikel.
+  // De redactieteksten komen in één keer binnen (de levering kent geen route per artikel), lui zodra
+  // de eerste berichten in beeld komen, en blijven dan in het geheugen. Mislukt het, dan volgt een
+  // nieuwe poging via "Opnieuw proberen" bij een bericht.
   laadTeksten(){
     if (this._tekstP || this.state.teksten) return;
     this.setState({tekstStatus:"laden"});
@@ -3004,24 +3073,121 @@ class Component extends DCLogic {
       })
       .catch(() => { this._tekstP = null; this.setState({tekstStatus:"mislukt"}); });
   }
-  openArtikel(key){
-    const el = document.getElementById("ifm-scroll");
-    this._actScroll = el ? el.scrollTop : 0;
-    this.setState({screen:"artikel", from:"act", artKey:key, q:""});
-    setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0);
-    this.laadTeksten();
+  // Het archief heeft een eigen levering met de artikelen en hun teksten (sleutel "archief/<id>").
+  laadArchief(){
+    if (this._arP) return;
+    this.setState({archief:{status:"laden", items:[], teksten:{}}});
+    this._arP = fetch(ARCHIEF_API).then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
+      .then(d => {
+        const items = NieuwsLib.maakItems({id:"archief"}, d && d.artikelen);
+        if (!items.length) throw new Error("leeg");
+        this.setState({archief:{status:"klaar", items, teksten:(d && d.teksten) || {}}});
+      })
+      .catch(() => { this._arP = null; this.setState({archief:{status:"mislukt", items:[], teksten:{}}}); });
   }
-  terugNaarLijst(){
-    this.setState({screen:"act", q:""});
-    const zet = () => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = this._actScroll || 0; };
-    setTimeout(zet, 0); setTimeout(zet, 80);
+  nwLijst(){
+    const st = this.state;
+    if (!st.nwTegel) return [];
+    if (st.nwTegel === "archief") return st.archief.items;
+    const t = st.nieuws.find(x => x.id === st.nwTegel);
+    return t ? t.items : [];
+  }
+  nwScrollTop(){ const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }
+  openNieuwsOverzicht(vanaf){
+    const st = this.state;
+    this.setState({screen:"nieuws", nwTegel:null, nwVanStrook:false, nwTerug: vanaf ? {screen:st.screen, themaId:st.themaId, from:st.from} : null, q:"", tool:null});
+    setTimeout(() => this.nwScrollTop(), 0);
+  }
+  // Opent de doorlopende pagina van een tegel (of "archief"), op een bepaald bericht als `key` er is.
+  // `vanaf`: komt de lezer uit een nieuwsstrook, dan brengt de terugknop hem daar weer heen.
+  openLees(tegelId, key, vanaf){
+    const st = this.state;
+    const lijst = tegelId === "archief" ? st.archief.items : ((st.nieuws.find(x => x.id === tegelId) || {}).items || []);
+    let idx = key ? lijst.findIndex(a => a.key === key) : 0;
+    if (idx < 0) idx = 0;
+    const klaar = {};
+    [idx, idx + 1].forEach(i => { if (lijst[i]) klaar[lijst[i].key] = true; });
+    this._nwNaar = idx > 0 ? idx : null;
+    this._nwTegelGezien = null;
+    this.setState({screen:"nieuws", nwTegel:tegelId, nwKlaar:klaar, nwNu:idx, q:"", tool:null,
+      nwVanStrook: !!vanaf, nwTerug: vanaf ? {screen:st.screen, themaId:st.themaId, from:st.from} : (st.screen === "nieuws" ? st.nwTerug : null)});
+    if (idx === 0) setTimeout(() => this.nwScrollTop(), 0);
+    this.laadTeksten();
+    if (tegelId === "archief") this.laadArchief();
+  }
+  nwTerugKnop(){
+    const st = this.state, t = st.nwTerug;
+    if (!st.nwTegel) {
+      if (t) this.setState({screen:t.screen, themaId:t.themaId, from:t.from, nwTerug:null, nwVanStrook:false});
+      else this.setState({screen: st.from && st.from !== "nieuws" ? st.from : "hub", q:""});
+      return;
+    }
+    if (st.nwVanStrook && t) { this.setState({screen:t.screen, themaId:t.themaId, from:t.from, nwTegel:null, nwTerug:null, nwVanStrook:false}); return; }
+    this.setState({nwTegel:null});
+    setTimeout(() => this.nwScrollTop(), 0);
+  }
+  // Na elke render: berichten waarnemen. Eén IntersectionObserver (marge 700px) zet een bericht op
+  // "klaar" zodra het in de buurt van het scherm komt; de tekst verschijnt dan, en de volgende laadt mee.
+  // Een scroll-luisteraar houdt "n van N" bij.
+  nwHaak(){
+    const st = this.state;
+    if (st.screen === "nieuws" && !st.nwTegel && (st.nieuwsStatus === "leeg")) this.loadNieuws();
+    const root = document.getElementById("ifm-scroll");
+    const lees = st.screen === "nieuws" && !!st.nwTegel && !!root;
+    if (!lees) {
+      if (this._io) { this._io.disconnect(); this._io = null; }
+      if (this._nwRoot) { this._nwRoot.removeEventListener("scroll", this._nwScroll); this._nwRoot = null; }
+      this._nwTegelGezien = null;
+      return;
+    }
+    if (this._nwTegelGezien !== st.nwTegel || this._nwRoot !== root) {
+      if (this._io) this._io.disconnect();
+      if (this._nwRoot) this._nwRoot.removeEventListener("scroll", this._nwScroll);
+      this._nwTegelGezien = st.nwTegel; this._nwRoot = root;
+      this._nwScroll = () => {
+        if (this._nwRaf) return;
+        this._nwRaf = requestAnimationFrame(() => {
+          this._nwRaf = 0;
+          const r0 = root.getBoundingClientRect().top;
+          const tops = [].map.call(root.querySelectorAll("[data-nwb]"), e => e.getBoundingClientRect().top - r0);
+          const h = NieuwsLib.huidigIndex(tops, 90);
+          if (h !== this.state.nwNu) this.setState({nwNu:h});
+        });
+      };
+      root.addEventListener("scroll", this._nwScroll, {passive:true});
+      this._io = typeof IntersectionObserver === "function" ? new IntersectionObserver(es => {
+        const lijst = this.nwLijst(), nieuw = {};
+        es.forEach(e => {
+          if (!e.isIntersecting) return;
+          const i = Number(e.target.getAttribute("data-nwb"));
+          if (lijst[i] && !this.state.nwKlaar[lijst[i].key]) nieuw[lijst[i].key] = true;
+        });
+        if (Object.keys(nieuw).length) { this.setState({nwKlaar:{...this.state.nwKlaar, ...nieuw}}); this.laadTeksten(); }
+      }, {root, rootMargin:"700px 0px"}) : null;
+      root.querySelectorAll("[data-nwb]").forEach(e => { e.__nwo = null; });
+    }
+    if (this._io) root.querySelectorAll("[data-nwb]").forEach(e => { if (e.__nwo !== st.nwTegel) { e.__nwo = st.nwTegel; this._io.observe(e); } });
+    else if (!this._nwZonderIo) {
+      // Zonder IntersectionObserver: alles meteen tonen, liever lezen dan wachten.
+      this._nwZonderIo = true;
+      const alle = {}; this.nwLijst().forEach(a => { alle[a.key] = true; });
+      this.setState({nwKlaar:alle}); this.laadTeksten();
+    }
+    if (this._nwNaar != null) {
+      const i = this._nwNaar; this._nwNaar = null;
+      const zet = () => { const e = root.querySelector('[data-nwb="' + i + '"]'); if (e) e.scrollIntoView({block:"start"}); };
+      setTimeout(zet, 0); setTimeout(zet, 150);
+    }
   }
 
   variant(){ return this.props.tabVariant === "B" ? "B" : "A"; }
 
   // Tabnavigatie verlaat de module: tool moet mee weg, anders blijft de
   // prijsbadge in de kopbalk op de vorige module hangen.
-  go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); this.setState({screen:s, q:"", copied:null, tool:null, muur:false}); }
+  // "act" (de tab Actueel) is een alias van het nieuwsscherm.
+  go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); if (s === "act") s = "nieuws";
+    this.setState({screen:s, q:"", copied:null, tool:null, muur:false, ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
+    if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
   route(m){
     if (!m) return;
@@ -3029,7 +3195,7 @@ class Component extends DCLogic {
     if (m.kind === "taal") return this.setState({screen:"taal", sc:null, q:"", from});
     if (m.kind === "lex") return this.setState({screen:"lex", q:"", from});
     if (m.kind === "forum") return this.setState({screen:"gem", gemTab:"ber", q:""});
-    if (m.kind === "actueel") return this.setState({screen:"act", q:""});
+    if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
     if (m.kind === "nedergids") return this.setState({screen:"nedergids", tool:m, q:"", from});
     if (m.kind === "vastgoed") return this.setState({screen:"vastgoed", tool:m, q:"", from});
     if (m.kind === "zorg") return this.setState({screen:"zorg", tool:m, q:"", from});
@@ -3483,33 +3649,83 @@ class Component extends DCLogic {
     return out.slice(0, 30);
   }
 
-  // Het artikelscherm: volledige redactietekst plus bronnenlijst, of (zonder tekst) de
-  // samenvatting plus de bron uit de lijst, met een korte melding. Nooit een lege pagina.
-  artVals(){
+  // Het nieuwsscherm: overzicht van thema-tegels (twee kolommen, veel naar weinig) of de doorlopende
+  // leespagina van een tegel of het archief. Niets hier verzint een getal: aantallen komen uit de data.
+  nwTekstVan(key){
     const st = this.state;
-    let art = null, tegel = "";
-    (st.nieuws || []).forEach(g => g.items.forEach(a => { if (a.key === st.artKey) { art = a; tegel = g.label; } }));
-    if (!art) return {artKicker:"", artTitel:"", artMeta:"", artAlineas:[], artLaadt:false, artMelding:false, artMeldingTekst:"", artBronKop:"", artBronnen:[]};
-    const x = st.teksten && st.teksten[st.artKey];
-    const heeftTekst = !!(x && x.tekst && String(x.tekst).trim());
-    const laadt = !heeftTekst && (st.tekstStatus === "laden" || (!st.teksten && st.tekstStatus !== "mislukt"));
-    const bronnen = (x && Array.isArray(x.bronnen) && x.bronnen.length) ? x.bronnen
-      : (art.bronNaam ? [{naam: art.bronNaam, titel: "", datum: art.bronDatum, url: art.url}] : []);
-    const alineas = (heeftTekst ? String(x.tekst).split(/\n\n+/) : [art.summary]).map(p => p.trim()).filter(Boolean);
-    const label = (art.label || "Redactie NLFR, automatisch samengesteld, bronnen onderaan").replace(/\s+[\u2014\u2013]\s+/g, ", ");
+    return st.nwTegel === "archief" ? (st.archief.teksten || {})[key] : (st.teksten || {})[key];
+  }
+  nwVals(){
+    const st = this.state, Lb = NieuwsLib;
+    const isNieuws = st.screen === "nieuws";
+    const lees = isNieuws && !!st.nwTegel;
+    const klaar = st.nieuwsStatus === "klaar";
+    const gesorteerd = klaar ? Lb.sorteerOpAantal(st.nieuws) : [];
+    const lijst = lees ? this.nwLijst() : [];
+    const tegel = lees && st.nwTegel !== "archief" ? st.nieuws.find(x => x.id === st.nwTegel) : null;
+    const aantalTekst = n => n + (n === 1 ? " bericht" : " berichten");
+    const ar = st.archief;
+    const zonderTekst = st.nwTegel === "archief" ? false : st.tekstStatus === "mislukt";
+    const heeftTekstData = st.nwTegel === "archief" ? ar.status === "klaar" : !!st.teksten;
+    const retry = () => { this._tekstP = null; this.setState({tekstStatus:"leeg"}); this.laadTeksten(); };
+    const berichten = lijst.map((a, i) => {
+      const isKlaar = !!st.nwKlaar[a.key];
+      const x = isKlaar && heeftTekstData ? this.nwTekstVan(a.key) : null;
+      const heeftTekst = !!(x && x.tekst && String(x.tekst).trim());
+      const fout = isKlaar && zonderTekst && !heeftTekstData;
+      const plaats = !heeftTekst && !fout && !(isKlaar && heeftTekstData);
+      const bronnen = (x && Array.isArray(x.bronnen) && x.bronnen.length) ? x.bronnen
+        : (a.bronNaam ? [{naam:a.bronNaam, titel:"", datum:a.bronDatum, url:a.url}] : []);
+      const label = (a.label || "Redactie NLFR, automatisch samengesteld, bronnen onderaan").replace(/\s+[\u2014\u2013]\s+/g, ", ");
+      const volgende = lijst[i + 1];
+      return {
+        idx: i,
+        kicker: String((a.themaLabel || (tegel && tegel.label) || "")).toUpperCase(),
+        titel: a.titel,
+        meta: label + (a.datum ? " · " + dagDatum(a.datum) : ""),
+        alineas: heeftTekst ? Lb.alineas(x.tekst).map(t => ({tekst:t})) : (isKlaar && heeftTekstData ? Lb.alineas(a.summary).map(t => ({tekst:t})) : []),
+        plaats, fout, opnieuw: retry,
+        melding: isKlaar && heeftTekstData && !heeftTekst,
+        klaar: isKlaar && heeftTekstData,
+        bronKop: "Bronnen (" + bronnen.length + ")",
+        bronnen: bronnen.map(b => {
+          const href = veiligeUrl(b.url);
+          return {naam:String(b.naam || "Bron").replace(/\s+[\u2014\u2013]\s+/g, ", "), titel:b.titel || "", datum:b.datum ? dagDatum(b.datum) : "", href:href || "", heeftLink:!!href};
+        }),
+        heeftVolgende: !!volgende,
+        volgende: volgende ? "volgende: " + volgende.titel : ""
+      };
+    });
+    const arLabel = st.archiefAantal ? "Archief (" + st.archiefAantal + ")" : "Archief";
+    const kop = !lees ? "" : (st.nwTegel === "archief" ? arLabel : (tegel ? tegel.label : ""));
+    const nuIdx = Math.min(st.nwNu, Math.max(lijst.length - 1, 0));
+    const archiefStatus = ar.status;
     return {
-      artKicker: String(tegel || "").toUpperCase(),
-      artTitel: art.titel,
-      artMeta: label + (art.datum ? " · " + dagDatum(art.datum) : ""),
-      artAlineas: alineas.map(t => ({tekst: t})),
-      artLaadt: laadt,
-      artMelding: !heeftTekst && !laadt,
-      artMeldingTekst: "De volledige tekst is nu niet beschikbaar. U leest de samenvatting; de bronnen staan hieronder.",
-      artBronKop: "Bronnen (" + bronnen.length + ")",
-      artBronnen: bronnen.map(b => {
-        const href = veiligeUrl(b.url);
-        return {naam: b.naam || "Bron", titel: b.titel || "", datum: b.datum ? dagDatum(b.datum) : "", href: href || "", heeftLink: !!href};
-      })
+      isNieuws,
+      nwOverzicht: isNieuws && !lees,
+      nwLees: lees,
+      nwLaadt: isNieuws && !lees && (st.nieuwsStatus === "leeg" || st.nieuwsStatus === "laden"),
+      nwHeeftTegels: klaar && gesorteerd.length > 0,
+      nwGeenBerichten: klaar && gesorteerd.length === 0,
+      nwTegelItems: gesorteerd.map(t => ({naam:t.label, aantal:aantalTekst(t.items.length), open:() => this.openLees(t.id, null, false)})),
+      nwArchiefLabel: arLabel,
+      nwOpenArchief: () => this.openLees("archief", null, false),
+      nwVoorbeeld: st.nieuwsStatus === "mislukt",
+      nwVoorbeeldItems: ACTUEEL[0].items,
+      nwOpnieuw: () => { this._nwP = null; this.loadNieuws(); },
+      nwNote: klaar
+        ? "Live uit de nieuwsroute van nlfr-menu: overheid, pers, Infofrankrijk en verenigingen. De teksten zijn automatisch samengesteld door de redactie; de bronnen staan onder elk bericht."
+        : st.nieuwsStatus === "mislukt"
+          ? "Voorbeeldlijst: de nieuwsroute van nlfr-menu was zojuist niet bereikbaar. Zodra de verbinding er weer is, staan hier de echte berichten."
+          : "De nieuwsroute van nlfr-menu wordt geraadpleegd.",
+      nwKop: kop,
+      nwNr: lijst.length ? Lb.nVanN(nuIdx, lijst.length) : "",
+      nwBerichten: berichten,
+      nwListLaadt: lees && st.nwTegel === "archief" && archiefStatus === "laden",
+      nwListFout: lees && st.nwTegel === "archief" && archiefStatus === "mislukt",
+      nwListOpnieuw: () => { this._arP = null; this.laadArchief(); },
+      nwEinde: lijst.length > 0,
+      nwForumHref: "https://www.nederlanders.fr/"
     };
   }
 
@@ -3545,7 +3761,7 @@ class Component extends DCLogic {
     const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", act:"Actueel", artikel:"Artikel", lamaison:"La Maison", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Account"};
     const subs = {lamaison:"Wonen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
@@ -3556,6 +3772,7 @@ class Component extends DCLogic {
       gezondheid:"Ouder worden in Frankrijk",
       ruyter:"Geld · nagelezen bij DGFiP en Légifrance",
       zoek:"modules, berichten en zinnen",
+      nieuws: st.nwTegel ? (st.nwTegel === "archief" ? "Archief" : "Doorlopend lezen") : "redactie van Nederlanders.fr",
       energie:"Wonen · methode 3CL-DPE 2021",
       piramide:"het ordeningsmodel achter de app",
       draad:"Nederlanders.fr · alleen lezen",
@@ -3605,14 +3822,14 @@ class Component extends DCLogic {
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
-      back: () => st.screen === "artikel" ? this.terugNaarLijst() : (st.screen === "gezondheid" && st.gzHfd) ? this.gzTerug() : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
+      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      back: () => st.screen === "nieuws" ? this.nwTerugKnop() : (st.screen === "gezondheid" && st.gzHfd) ? this.gzTerug() : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
             tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool}),
 
-      isHub: st.screen === "hub" || st.screen === "mod", isZoek: st.screen === "zoek", isGem: st.screen === "gem", isAct: st.screen === "act", isArtikel: st.screen === "artikel",
+      isHub: st.screen === "hub" || st.screen === "mod", isZoek: st.screen === "zoek", isGem: st.screen === "gem",
       isKeuze: st.screen === "keuze", isTaal: st.screen === "taal", isTool: st.screen === "tool", isAcc: st.screen === "acc",
       isLex: st.screen === "lex",
       isNedergids: st.screen === "nedergids",
@@ -3862,14 +4079,7 @@ class Component extends DCLogic {
       apiNote: st.live
         ? "Berichten en reacties komen van nlfr-berichten; de volledige draad staat op de site zelf. Reageren opent nederlanders.fr, zodat uw sessie meegaat."
         : "De API van nlfr-berichten staat alleen eigen domeinen toe. Op infofrankrijk.com of een vercel.app-adres verschijnen hier de echte berichten; nu ziet u vier voorbeelden met dezelfde structuur.",
-      actTegels: st.nieuws.map(g => ({label: g.label, items: g.items.map(a => ({
-        titel: a.titel, summary: a.summary, meta: a.meta,
-        voorbeeld: !!a.voorbeeld, kanOpenen: !a.voorbeeld,
-        open: () => this.openArtikel(a.key)}))})),
-      actueelNote: st.nieuwsLive
-        ? "Live uit de nieuwsroute van nlfr-menu: overheid, pers, Infofrankrijk en verenigingen. De teksten zijn automatisch samengesteld door de redactie; de bronnen staan onder elk artikel."
-        : "Voorbeeldlijst: de nieuwsroute van nlfr-menu was zojuist niet bereikbaar. Zodra de verbinding er weer is, staan hier de echte berichten.",
-      ...this.artVals(),
+      ...this.nwVals(),
 
       taalHome: !st.sc, taalScenario: !!st.sc,
       situations: SC.map(s => ({kicker:s.kicker, title:s.title, meta:s.meta, open:() => this.openSc(s.id)})),
@@ -3967,7 +4177,7 @@ class Component extends DCLogic {
 
       tabs: tabDefs.map(([label, icon, target]) => ({
         label, iconStyle: this.iconStyle(icon),
-        style: this.navStyle(st.screen === target || (target === "act" && st.screen === "artikel") || (target === "hub" && (tv.isThema || st.screen === "lamaison" || st.screen === "dossierdemo"))),
+        style: this.navStyle(st.screen === target || (target === "act" && st.screen === "nieuws") || (target === "hub" && (tv.isThema || st.screen === "lamaison" || st.screen === "dossierdemo"))),
         go: () => this.go(target)}))
     };
   }
