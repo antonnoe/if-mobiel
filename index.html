@@ -2335,7 +2335,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 16px"></div>
     <div style="font:700 10.5px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Eén vraag</div>
     <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woont u?</h2>
-    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Alleen de postcode. De app toont dan uw departement in de kopregel, richt de wegwijzer Nedergids erop en zegt bij Veiligheid &amp; natuur welk departement u op de kaart moet opzoeken; meer doet hij er nu niet mee. De postcode blijft op uw toestel en is bij Account te wijzigen.</p>
+    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Alleen de postcode. De app toont dan uw departement in de kopregel, richt de wegwijzer Nedergids erop en zegt bij Veiligheid &amp; natuur welk departement u op de kaart moet opzoeken; meer doet hij er nu niet mee. De postcode blijft op uw toestel en is bij Profiel te wijzigen.</p>
     <input value="{{ pcInvoer }}" onInput="{{ onPc }}" inputmode="numeric" placeholder="34360" aria-label="Postcode" style="width:100%;min-height:56px;margin-top:16px;border:1px solid rgba(128,0,0,.20);border-radius:13px;padding:0 16px;font:700 20px Mulish;letter-spacing:.08em;color:#15181A;background:#F4F1F0">
     <button onClick="{{ bewaarPc }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:{{ pcKnopBg }};color:{{ pcKnopFg }};font:800 15px Mulish;cursor:pointer;margin-top:12px">Bewaren</button>
     <button onClick="{{ slaPcOver }}" style="width:100%;min-height:46px;border:0;background:none;color:#71787C;font:600 13px Mulish;cursor:pointer;margin-top:4px">{{ pcLaterLabel }}</button>
@@ -2409,7 +2409,7 @@ const CAT = [
   ["Administratie &amp; zorg", [
     ["Correspondentie-assistent", "brieven in correct Frans", "tool", 0, DOT.admin],
     ["Carte Vitale-status", "aanvraag volgen", "tool", 0, DOT.gezond],
-    ["Documentenkluis", "offline beschikbaar", "tool", 0, DOT.admin]]]
+    ["Documentenkluis", "bewaar uw documenten", "tool", 0, DOT.admin]]]
 ];
 
 const SC = [
@@ -2580,7 +2580,7 @@ const PREVIEW = {
     uit:[["Uw verwachte doorlooptijd","•• weken"],["Uw volgende actie","••••"],["Uw tijdelijke bewijs","••••"]] },
   "Documentenkluis": { doet:"Uw justificatifs versleuteld op de telefoon, ook zonder bereik — met een waarschuwing zodra een stuk te oud wordt voor een loket.",
     vb:"Zeven documenten bewaard, twee verlopen binnenkort",
-    rows:[["Bewaard","7 documenten"],["Verloopt binnenkort","justificatif de domicile"],["Offline beschikbaar","alles"],["Versleuteld","ja, op het toestel"]],
+    rows:[["Bewaard","7 documenten"],["Verloopt binnenkort","justificatif de domicile"],["Versleuteld","ja, op het toestel"]],
     intake:[["Wat wilt u bewaren",["identiteit","woning","zorg","auto"]],["Beschikbaar",["alleen offline","ook op laptop"]]],
     uit:[["Uw kluis","•• documenten"],["Uw verloopwaarschuwingen","••"],["Synchronisatie","••••"]] }
 };
@@ -4325,7 +4325,7 @@ class Component extends DCLogic {
       vgHeeftReken: this.zichtbaarNu(this.vindModule("transactiekosten")),
       goNedergids: () => this.route(this.vindModule("nedergids")),
       ngRegel: depNaam ? "loketten en sites in " + depNaam : "loketten, registers en nuttige sites",
-      pcRegel: depNaam ? "Uw postcode " + pc + " valt in " + depNaam + "; de loketten worden daarop gericht zodra de kaart live is." : "Vul uw postcode in bij Account om dit op uw omgeving te richten.",
+      pcRegel: depNaam ? "Uw postcode " + pc + " valt in " + depNaam + "; de loketten worden daarop gericht zodra de kaart live is." : "Vul uw postcode in bij Profiel om dit op uw omgeving te richten.",
       ngCats: [{id:"alles", naam:"Alles"}].concat(ngCats).map(c => ({
         naam:c.naam, style:this.chipStyle(st.ngCat === c.id),
         pick:() => this.setState({ngCat:c.id})})),
