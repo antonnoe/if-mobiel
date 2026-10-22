@@ -89,7 +89,7 @@ test("regiokaart: label, departement, plaatsnaam", () => {
 });
 
 test("koppelvlakken aanwezig in de app", () => {
-  assert.ok(html.includes("AITOOLS-SCHERM: wordt vervangen door de AI-tools-bouwer"));
+  assert.ok(html.includes("<!-- ============ AI-TOOLS (modules.json"));  // het stub-blok is door het echte scherm vervangen
   assert.ok(html.includes("openAiTools()") && html.includes('screen:"aitools"'));
   assert.ok(html.includes('screen:"regio"'));
   assert.ok(html.includes('<script src="./hub-lib.js"></script>'));
