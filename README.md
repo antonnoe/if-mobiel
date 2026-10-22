@@ -16,7 +16,9 @@ zonder app-winkel.
 | `support.js` | Runtime (React-binding, template-engine), **gegenereerd, niet met de hand bewerken** |
 | `vendor/` | React en ReactDOM 18.3.1 lokaal; `index.html` wijst `support.js` ernaar via `window.__resources`, zodat de app niet aan unpkg.com hangt. Zie `vendor/README.md` |
 | `manifest.webmanifest`, `icons/` | Naam, kleuren en pictogrammen voor "zet op beginscherm". Bron van de pictogrammen: `icons/icon.svg` |
-| `modules.json` | De modulecatalogus: groepen, vijftien modules, en per-kind extra's (`vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`). Nooit modulegegevens terug in de code zetten |
+| `modules.json` | De modulecatalogus: negen `themas` (de indeling van de hub), de modules met elk een `thema`, en per-kind extra's (`vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`, `gezondheid`). Nooit modulegegevens terug in de code zetten |
+| `dossier.js`, `lamaison-lib.js`, `nieuws-lib.js` | Kleine gewone JS-bestanden zonder buildstap (ophalen en opschonen van het zorgdossier, validatie van `la-maison.json`, nieuwslogica); testbaar in Node |
+| `data/dossier-demo.json` | Fictief demodossier voor Mijn dossier (statisch, geen echte personen) |
 | `engine/` | Rekenmotor EnergiePortaal — ONGEWIJZIGD uit `antonnoe/energieportaal`, alleen gesynchroniseerd; bronrepo en commit staan in `engine/BRON.md` |
 | `Bosbranden Mobiel.html` | Brandrisico-module (Leaflet-kaart met Météo-France, feux-foret.gouv.fr, NASA FIRMS, Copernicus). **Op dit moment niet aangesloten**: bij de v3-overzetting ging de module `veiligheid` naar de pagina op nederlanders.fr en bleef dit bestand achter. Weer aansluiten of weghalen is een redactiekeuze — zie "Nog te doen" |
 | `kennispiramide.html` | Deelbare losse pagina voor de kennispiramide — een dunne schil die dezelfde module laadt als het scherm in de app, dus geen tweede implementatie |
@@ -77,7 +79,7 @@ strook Nedergids op de hub, de knop "Naar de rekentool" in Een huis kopen), dan 
 die knop mee zodra de module niet zichtbaar is. Er blijft dus nooit een knop staan die
 nergens heen gaat.
 
-Nu uitgezet: Correspondentie, Verenigingen & agenda en Auto & mobiliteit (geen inhoud).
+Zie `standaard: "uit"` per module voor wat standaard uit staat (aanzetten via Account → Mijn modules).
 Geen enkele module heeft op dit moment een seizoen. Veiligheid & natuur staat het hele jaar
 in de app, maar als rustige regel op de hub in plaats van een alarmtegel; wil je hem buiten
 het brandseizoen toch uit de hub, zet er dan `"seizoen": { "van": "06-01", "tot": "09-30" }`
@@ -166,3 +168,15 @@ gefaseerde lijst. Fase 0 daaruit is uitgevoerd: React lokaal, titel en manifest,
   redactie moet de bronnen aanwijzen.
 - **Zorg (uitgebreide versie)** — de noodschil is af; de uitgebreide versie wacht op een
   reporkeuze van de redactie.
+
+
+## Hub met negen themategels (22-10-2026)
+
+De hub is een raster van 3x3 tegels: Geld, Overheid, Gezondheid, Adressen, Nieuws, Ervaring, Ondernemen, Wonen, Taal. De indeling staat op één plek: `themas` en het veld `thema` per module in `modules.json`. Modules die standaard uit staan blijven uit, ook binnen hun tegel. Onder de tegels staan het blok AI-tools (alleen Café Claude) en Mijn dossier (demodossier uit `data/dossier-demo.json`, vaste balk naar de abonnementspagina).
+
+- **Wonen** is La Maison: tabs en fasen komen live uit `https://if-plek.vercel.app/la-maison.json` (bron van waarheid is `public/la-maison.json` in `if-plek`, ook gebruikt door `plek.js` op Infofrankrijk). Artikelen openen in de browser, omdat infofrankrijk.com framing weigert.
+- **Gezondheid** laadt de hoofdstukken van het dossier "Ouder worden in Frankrijk" live via de WP REST API (geen tekst in de repo); de indeling in fasen staat in `modules.json` onder `gezondheid`.
+- **Nieuws** en de tab Actueel zijn hetzelfde scherm: themategels op aantal, een doorlopende leespagina per thema, en op de themaschermen een strook met de drie nieuwste berichten (koppeling in `themas[].nieuws`).
+- Draaien van de tests: `node --test tests/*.test.mjs` (alleen de mapnaam werkt niet in Node 22).
+
+Open: het nieuwsthema `zorg` (Zorg en gezondheid) staat klaar in `nlfr-menu` op de branch `zorg-thema`, maar main van die repo vraagt een groene statuscheck "npm test"; tot de merge toont de strook bij Gezondheid niets. Het Zorglexicon en de Zoekers per departement staan op "In ontwikkeling".

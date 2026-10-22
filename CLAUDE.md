@@ -23,8 +23,10 @@ Frankrijk).
    en `<helmet>` voor `<head>`-inhoud. `{{ expr }}` vult tekst, attributen en handlers.
 5. Toestand leeft in `state` van de klasse; `setState`/`forceUpdate` hertekenen. Eén scherm
    tegelijk via `state.screen`: `hub`, `mod`, `zoek`, `gem`, `taal`, `lex`, `tool`, `acc`,
-   `over`, plus de uitgewerkte eigen schillen `nedergids`, `vastgoed`, `zorg`, `ruyter` en
-   `energie`. Er is geen `login`- of `dossier`-scherm — de app werkt zonder account; wat
+   `over`, plus de uitgewerkte eigen schillen `nedergids`, `vastgoed`, `zorg`, `ruyter`,
+   `energie`, en sinds 22-10-2026 `thema` (generiek themascherm), `lamaison`, `gezondheid`,
+   `nieuws` en `dossierdemo`. De hub is een raster van negen themategels uit `themas` in
+   `modules.json`; elke module heeft een `thema`. Er is geen `login`- of `dossier`-scherm — de app werkt zonder account; wat
    betaald is krijgt een uitleg en een muur, niet een aparte inlogroute (zie `knip` per
    module, en de openstaande vragen over abonnementsstatus in `BOUWOPDRACHT.md`).
 6. De modulecatalogus staat in `modules.json` (`groepen`, `modules`, plus per-kind extra's

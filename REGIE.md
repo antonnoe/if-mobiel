@@ -35,3 +35,15 @@
 | Disclaimer-modal Briefhulp scrolt in kader | briefhulp-fr ab1c849 | klaar, getoetst 360x640 |
 
 Open: installatievenster Tom Polak in kader; Dossier elektriciteit is nog redactie-exemplaar; Briefhulp toont AI-voorzin en Testmodus; Financieel Kompas tegenstrijdig over wat gratis is; dubbele tegels op Hub en Taal-tab; draad zonder eigen URL.
+
+## Ronde 22-10-2026: hub met negen themategels
+
+| Taak | Repo | Commit | Status |
+|---|---|---|---|
+| Hub 3x3, thema-indeling in modules.json, AI-tools, Mijn dossier met demodossier, Tom Polak taalarchief verwijderd | if-mobiel | c0c72dc | klaar, live |
+| Wonen wordt La Maison, indeling uit la-maison.json | if-plek 3cb3250, if-mobiel 9470e83 | | klaar, live |
+| Gezondheid: noodblok, Nu al regelen, zes fasen, tools, dossier live geladen | if-mobiel | a46760b | klaar, live; Zorglexicon In ontwikkeling |
+| Nieuws: themategels, doorlopende pagina, nieuwsstrook | if-mobiel | a35476f | klaar, live |
+| Thema zorg in de nieuwsstroom | nlfr-menu | e3e22b4 (branch zorg-thema) | NIET op main: repo-regel eist statuscheck "npm test"; merge via pull request is aan de opdrachtgever |
+
+Open: merge zorg-thema; Dossier DossierFrankrijk-repo is privé en niet geraadpleegd (demo-opbouw is eigen indeling); Taalassistent en TaalHulp staan op In ontwikkeling.
