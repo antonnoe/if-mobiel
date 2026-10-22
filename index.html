@@ -4049,7 +4049,9 @@ class Component extends DCLogic {
           heeftHref: !!pHref, geenHref: !pHref, kicker:"NEDERLANDERS.FR",
           isNew: !!(st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit),
           meta:(p.auteur || "onbekend") + " · " + reactieMeta(n) + " · " + kort(p.laatsteReactie || p.datum),
-          heeftReacties: rs.length > 0,
+          // De leeslink hangt af van het totaal (aantalReacties), niet van de paar reacties
+          // uit de activiteitenfeed: ook berichten met alleen oudere reacties hebben een draad.
+          heeftReacties: n > 0,
           geenReacties: rs.length === 0,
           // De kaart opent de volledige draad in de app; de losse leesknop en
           // de uitklap met een paar reacties uit de activiteitenfeed zijn
