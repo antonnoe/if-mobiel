@@ -1,0 +1,76 @@
+{
+  "voorbeeld": true,
+  "naam": "Familie Voorbeeld",
+  "titel": "Dossier Familie Voorbeeld",
+  "ondertitel": "Een verzonnen voorbeeld om doorheen te klikken. Alle namen, bedragen en data zijn fictief.",
+  "welkom": "Zo ziet een dossier eruit: wat u bewaard hebt, wat er nog moet gebeuren en waar het over gaat. Alles hieronder is verzonnen.",
+  "onderdelen": [
+    {
+      "id": "woning",
+      "naam": "Woning",
+      "wat": "Het huis in het voorbeelddepartement: aankoop, verzekering en onderhoud.",
+      "punten": [
+        {"titel": "Aankoop afgerond", "tekst": "De akte is getekend bij een fictieve notaris. Het kadasterbewijs staat bij de documenten.", "status": "klaar"},
+        {"titel": "Woonverzekering", "tekst": "De verzekering loopt per kalenderjaar. Controleer elk jaar of de verzekerde waarde nog klopt.", "status": "loopt"},
+        {"titel": "Schoorsteen vegen", "tekst": "Jaarlijks laten vegen door een erkend bedrijf en het bewijs bewaren.", "status": "open"}
+      ]
+    },
+    {
+      "id": "belasting",
+      "naam": "Belasting",
+      "wat": "Aangifte, aanslagen en de stukken die erbij horen.",
+      "punten": [
+        {"titel": "Aangifte inkomstenbelasting", "tekst": "Ingediend via de online omgeving. De ontvangstbevestiging staat bij de documenten.", "status": "klaar"},
+        {"titel": "Taxe foncière", "tekst": "Het aanslagbiljet komt in de herfst. Het voorbeeldbedrag staat bij de termijnen.", "status": "open"},
+        {"titel": "Buitenlandse rekeningen", "tekst": "Een overzicht van rekeningen buiten het land van verblijf, om bij de aangifte te gebruiken.", "status": "loopt"}
+      ]
+    },
+    {
+      "id": "zorg",
+      "naam": "Zorg",
+      "wat": "Zorgverzekering, kaarten en afspraken.",
+      "punten": [
+        {"titel": "Zorgkaart aangevraagd", "tekst": "De aanvraag is ingediend. In de tussentijd geldt het bewijs van rechten.", "status": "loopt"},
+        {"titel": "Aanvullende verzekering", "tekst": "De polis is vastgelegd met de ingangsdatum en de dekking.", "status": "klaar"},
+        {"titel": "Jaarlijkse controle", "tekst": "Een afspraak bij de huisarts voor het voorbeeldgezin staat in de planning.", "status": "open"}
+      ]
+    },
+    {
+      "id": "papieren",
+      "naam": "Papieren",
+      "wat": "Identiteit, verblijf en de stukken die loketten vragen.",
+      "punten": [
+        {"titel": "Bewijs van woonplaats", "tekst": "Een recent stuk op naam, nodig bij veel loketten. Let op de ouderdom van het stuk.", "status": "open"},
+        {"titel": "Identiteitsbewijzen", "tekst": "De geldigheidsdatums staan bij de termijnen, zodat verlenging op tijd kan.", "status": "loopt"},
+        {"titel": "Rijbewijs", "tekst": "Omwisseling is uitgezocht en vastgelegd als notitie.", "status": "klaar"}
+      ]
+    }
+  ],
+  "documenten": [
+    {"id": "d1", "titel": "Akte van aankoop (voorbeeld)", "onderdeel": "woning", "datum": "2025-03-14"},
+    {"id": "d2", "titel": "Verzekeringspolis woning (voorbeeld)", "onderdeel": "woning", "datum": "2026-01-02"},
+    {"id": "d3", "titel": "Bewijs schoorsteenvegen (voorbeeld)", "onderdeel": "woning", "datum": "2025-11-20"},
+    {"id": "d4", "titel": "Ontvangstbevestiging aangifte (voorbeeld)", "onderdeel": "belasting", "datum": "2026-06-02"},
+    {"id": "d5", "titel": "Aanslagbiljet vorig jaar (voorbeeld)", "onderdeel": "belasting", "datum": "2025-09-15"},
+    {"id": "d6", "titel": "Polis aanvullende zorgverzekering (voorbeeld)", "onderdeel": "zorg", "datum": "2026-02-01"},
+    {"id": "d7", "titel": "Bewijs van rechten zorg (voorbeeld)", "onderdeel": "zorg", "datum": "2026-04-09"},
+    {"id": "d8", "titel": "Energierekening (voorbeeld)", "onderdeel": "papieren", "datum": "2026-08-30"},
+    {"id": "d9", "titel": "Kopie identiteitsbewijs (voorbeeld)", "onderdeel": "papieren", "datum": "2024-05-12"}
+  ],
+  "termijnen": [
+    {"id": "t1", "titel": "Taxe foncière betalen", "datum": "2026-11-12", "onderdeel": "belasting", "toelichting": "Voorbeeldtermijn. Het echte bedrag en de datum staan op het aanslagbiljet.", "klaar": false},
+    {"id": "t2", "titel": "Woonverzekering controleren", "datum": "2026-12-01", "onderdeel": "woning", "toelichting": "Verzekerde waarde en dekking nalopen voor het nieuwe jaar.", "klaar": false},
+    {"id": "t3", "titel": "Schoorsteen laten vegen", "datum": "2026-11-15", "onderdeel": "woning", "toelichting": "Voor het stookseizoen, met bewijs voor de verzekering.", "klaar": false},
+    {"id": "t4", "titel": "Identiteitsbewijs verlengen", "datum": "2027-02-10", "onderdeel": "papieren", "toelichting": "Voorbeelddatum. Vraag op tijd een nieuw bewijs aan.", "klaar": false},
+    {"id": "t5", "titel": "Aangifte inkomstenbelasting indienen", "datum": "2026-06-02", "onderdeel": "belasting", "toelichting": "Ingediend.", "klaar": true}
+  ],
+  "opgeslagen": [
+    {"id": "o1", "soort": "Artikel", "titel": "Kopen in Frankrijk: de termijnen", "datum": "2025-02-01", "bron": "Infofrankrijk (voorbeeld)", "tekst": "Een bewaard artikel over wat er tussen compromis en akte moet gebeuren."},
+    {"id": "o2", "soort": "Uitkomst", "titel": "Uitkomst rekentool aankoopkosten", "datum": "2025-02-10", "bron": "Rekentool (voorbeeld)", "tekst": "Een bewaarde uitkomst met de kosten bij aankoop, als geheugensteun."},
+    {"id": "o3", "soort": "Antwoord Café Claude", "titel": "Hoe vraag ik een bewijs van rechten aan?", "datum": "2026-04-08", "bron": "Café Claude (voorbeeld)", "tekst": "Een bewaard antwoord met de stappen en de bronnen eronder."}
+  ],
+  "notities": [
+    {"id": "n1", "titel": "Rijbewijs omwisselen", "datum": "2026-03-03", "tekst": "Uitgezocht welke stukken nodig zijn. De afspraak staat nog niet vast."},
+    {"id": "n2", "titel": "Vragen voor de notaris", "datum": "2025-01-20", "tekst": "Lijstje met vragen over de akte, bewaard voor een volgend gesprek."}
+  ]
+}

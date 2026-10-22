@@ -1,6 +1,6 @@
 {
-  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld.",
-  "bijgewerkt": "2026-10-21",
+  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel), scherm (optioneel: gezondheid | nieuws | lamaison, een eigen scherm), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld KIF.",
+  "bijgewerkt": "2026-10-22",
   "groepen": [
     {
       "id": "aankomen",
@@ -47,6 +47,7 @@
     {
       "id": "nedergids",
       "groep": "aankomen",
+      "thema": "adressen",
       "naam": "Nedergids",
       "meta": "loketten, registers, adressen en nuttige websites",
       "prijs": "gratis-lezen",
@@ -60,6 +61,7 @@
     {
       "id": "cafeclaude",
       "groep": "aankomen",
+      "thema": "ai",
       "naam": "Café Claude",
       "meta": "klik uw vraag bij elkaar, krijg een gecontroleerd antwoord",
       "prijs": "gratis-eerste",
@@ -90,6 +92,7 @@
     {
       "id": "emigreren",
       "groep": "aankomen",
+      "thema": "overheid",
       "naam": "Emigreren naar Frankrijk",
       "meta": "welke stappen horen bij uw situatie",
       "prijs": "gratis",
@@ -106,6 +109,7 @@
       "id": "veiligheid",
       "weergave": "volledig",
       "groep": "wonen",
+      "thema": "wonen",
       "reden": "Staat het hele jaar in de app, maar rustig: één regel op de hub in plaats van een alarmtegel. Zet er een seizoen op (bijvoorbeeld van 06-01 tot 09-30) om hem buiten het brandseizoen uit de hub te halen; hij blijft dan vindbaar via zoeken.",
       "naam": "Veiligheid & natuur",
       "meta": "brandgevaar, weeralarm, FR-Alert",
@@ -121,6 +125,7 @@
     {
       "id": "klussen",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Klussen & verbouwen",
       "meta": "107 praktijkartikelen en het elektriciteitsdossier",
       "prijs": "gratis",
@@ -132,11 +137,13 @@
       "nagekeken": "2026-09-02",
       "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier. De site opent volledig in de app; via het zoekveld komt u direct bij het artikel of de bouwterm die u zoekt.",
       "weergave": "volledig",
-      "zoekindex": "https://infofrankrijk.com/klussen/zoekindex.json"
+      "zoekindex": "https://infofrankrijk.com/klussen/zoekindex.json",
+      "kort": "KIF"
     },
     {
       "id": "vastgoed",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Vastgoed & huis kopen",
       "meta": "zeven fases, 32 do's en don'ts",
       "prijs": "gratis",
@@ -150,6 +157,7 @@
     {
       "id": "energie",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Energie & verwarming",
       "meta": "energielabel, jaarkosten, CO₂",
       "prijs": "abonnee",
@@ -192,6 +200,7 @@
     {
       "id": "woonplan",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Mijn woonplan Frankrijk",
       "meta": "van leefwens naar woonplek",
       "prijs": "gratis",
@@ -207,6 +216,7 @@
     {
       "id": "internet",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Internetverbinding",
       "meta": "welk internet kan er op uw adres",
       "prijs": "gratis",
@@ -222,6 +232,7 @@
     {
       "id": "subsidieroute",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Subsidieroute energierenovatie",
       "meta": "welk loket, in welke volgorde",
       "prijs": "gratis",
@@ -237,6 +248,7 @@
     {
       "id": "moestuin",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "De Franse moestuin",
       "meta": "wat zaaien en oogsten per maand",
       "prijs": "gratis",
@@ -253,6 +265,7 @@
     {
       "id": "kompas",
       "groep": "geld",
+      "thema": "geld",
       "naam": "Financieel kompas",
       "meta": "netto inkomen hier versus daar",
       "prijs": "abonnee",
@@ -284,6 +297,7 @@
     {
       "id": "ruyter",
       "groep": "geld",
+      "thema": "geld",
       "naam": "Sociale heffingen · De Ruyter",
       "meta": "7,5% in plaats van 17,2 of 18,6%",
       "prijs": "gratis",
@@ -297,6 +311,7 @@
     {
       "id": "erfrecht",
       "groep": "geld",
+      "thema": "geld",
       "naam": "Erfrecht en testament",
       "meta": "wie erft wat, en wat u kunt regelen",
       "prijs": "abonnee",
@@ -312,6 +327,7 @@
     {
       "id": "transactiekosten",
       "groep": "geld",
+      "thema": "geld",
       "naam": "Vastgoed transactiekosten",
       "meta": "wat kopen kost, wat verkopen oplevert",
       "prijs": "abonnee",
@@ -329,6 +345,7 @@
     {
       "id": "efacturatie",
       "groep": "geld",
+      "thema": "ondernemen",
       "naam": "E-facturatie Frankrijk",
       "meta": "moet u straks elektronisch factureren?",
       "prijs": "gratis",
@@ -345,12 +362,13 @@
     {
       "id": "taal",
       "groep": "leven",
+      "thema": "taal",
       "naam": "Taalassistent",
       "meta": "4 situaties · Frans in context",
       "prijs": "gratis",
       "schil": "zoekschil",
       "houdbaar": "jaren",
-      "status": "gebouwd",
+      "status": "in ontwikkeling",
       "kind": "taal",
       "nagekeken": "2026-08-23",
       "over": "De zinnen die u nodig heeft, in de volgorde waarin ze vallen — plus de woorden die de ander gebruikt."
@@ -358,6 +376,7 @@
     {
       "id": "correspondentie",
       "groep": "leven",
+      "thema": "taal",
       "naam": "Correspondentie",
       "meta": "kwestie in het Nederlands, Franse brief eruit",
       "prijs": "gratis",
@@ -365,21 +384,22 @@
       "houdbaar": "jaren",
       "status": "af",
       "kind": "iframe",
-      "weergave": "volledig",
-      "url": "https://briefhulp-fr.vercel.app",
-      "nagekeken": "2026-10-20",
-      "over": "Beschrijf uw kwestie in het Nederlands en krijg een correcte Franse brief, met de juiste aanhef, toon en slotformule, op basis van de modellen van Service-Public.fr. Dit is Briefhulp: de brief is een hulpmiddel, geen juridisch advies.",
+      "weergave": "knop",
+      "url": "https://infofrankrijk.com/correspondentie-assistent/",
+      "nagekeken": "2026-10-22",
+      "over": "De correspondentie-assistent van Infofrankrijk: beschrijf uw kwestie in het Nederlands en krijg een Franse brief. De tool opent op de site van Infofrankrijk in een nieuw tabblad. De brief is een hulpmiddel, geen juridisch advies.",
       "let": "Bij geschillen met financiële gevolgen is een brief uit een hulpmiddel een startpunt; laat hem controleren door een expert."
     },
     {
       "id": "taalhulp",
       "groep": "leven",
+      "thema": "taal",
       "naam": "TaalHulp",
       "meta": "praktisch Frans, geen cursus",
       "prijs": "gratis",
       "schil": "zoekschil",
       "houdbaar": "jaren",
-      "status": "af",
+      "status": "in ontwikkeling",
       "kind": "iframe",
       "weergave": "volledig",
       "url": "https://taalhulp-fr.vercel.app",
@@ -389,6 +409,7 @@
     {
       "id": "zorg",
       "groep": "leven",
+      "thema": "gezondheid",
       "naam": "Ouder worden & zorg",
       "meta": "wat te doen als het thuis niet meer gaat",
       "prijs": "gratis",
@@ -402,6 +423,7 @@
     {
       "id": "verenigingen",
       "groep": "leven",
+      "thema": "adressen",
       "naam": "Verenigingen & evenementen",
       "meta": "wie waar zit, wat er wanneer is",
       "prijs": "gratis",
@@ -418,6 +440,7 @@
     {
       "id": "dossierfrankrijk",
       "groep": "leven",
+      "thema": "dossier",
       "naam": "DossierFrankrijk",
       "meta": "uw persoonlijke archief",
       "prijs": "abonnee",
@@ -433,6 +456,7 @@
     {
       "id": "auto",
       "groep": "leven",
+      "thema": "overheid",
       "naam": "Auto importeren en inschrijven",
       "meta": "uw auto naar Frankrijk, stap voor stap",
       "prijs": "gratis",
@@ -449,6 +473,7 @@
     {
       "id": "zorgkompas",
       "groep": "leven",
+      "thema": "gezondheid",
       "naam": "Zorgkompas Frankrijk",
       "meta": "wat betaalt u zelf bij de dokter",
       "prijs": "gratis",
@@ -464,6 +489,7 @@
     {
       "id": "palliatief",
       "groep": "leven",
+      "thema": "gezondheid",
       "naam": "Palliatieve zorg per departement",
       "meta": "waar vindt u een USP in de buurt",
       "prijs": "gratis",
@@ -480,6 +506,7 @@
     {
       "id": "frankrijklegal",
       "groep": "leven",
+      "thema": "overheid",
       "naam": "Frankrijk legal",
       "meta": "juridische voorwaarden van Franse diensten",
       "prijs": "gratis",
@@ -496,6 +523,7 @@
     {
       "id": "plusvalue",
       "groep": "geld",
+      "thema": "geld",
       "naam": "Plus-value calculator",
       "meta": "belasting op vastgoedwinst indicatief",
       "prijs": "gratis",
@@ -512,6 +540,7 @@
     {
       "id": "bouwgrond",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Bouwgrond-check",
       "meta": "risico's en bestemming van een locatie",
       "prijs": "gratis",
@@ -528,6 +557,7 @@
     {
       "id": "devisdossier",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Devisdossier",
       "meta": "uw dossier bij een betalingsgeschil",
       "prijs": "gratis",
@@ -544,6 +574,7 @@
     {
       "id": "huizenchecker",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Franse huizen checker",
       "meta": "prijzen en valkuilen bij een huis",
       "prijs": "gratis",
@@ -560,6 +591,7 @@
     {
       "id": "gitekompas",
       "groep": "geld",
+      "thema": "ondernemen",
       "naam": "Gîtekompas",
       "meta": "uitbaten van een gîte, stap voor stap",
       "prijs": "gratis",
@@ -576,6 +608,7 @@
     {
       "id": "woningzoeker",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Woningzoeker Frankrijk",
       "meta": "uw zoekprofiel voor een huis",
       "prijs": "gratis",
@@ -592,6 +625,7 @@
     {
       "id": "nlfrzoek",
       "groep": "leven",
+      "thema": "ervaring",
       "naam": "Zoeken in forum en artikelen",
       "meta": "één vraag, twee bronnen",
       "prijs": "gratis",
@@ -606,24 +640,9 @@
       "standaard": "uit"
     },
     {
-      "id": "tompolak",
-      "groep": "leven",
-      "naam": "Tom Polak taalarchief",
-      "meta": "Franse uitdrukkingen uit radio en krant",
-      "prijs": "gratis",
-      "schil": "keuzeschil",
-      "houdbaar": "per jaar",
-      "status": "af",
-      "kind": "iframe",
-      "url": "https://tom-polak-taalarchief.vercel.app",
-      "nagekeken": "2026-10-21",
-      "over": "Het archief van Tom Polak, 2004 tot 2025: ruim twaalfduizend Franse uitdrukkingen met vertaling, te doorzoeken. Bij het openen vraagt de site of u hem op uw telefoon wilt installeren; kies 'Misschien later'.",
-      "weergave": "volledig",
-      "standaard": "uit"
-    },
-    {
       "id": "dossierelektra",
       "groep": "wonen",
+      "thema": "wonen",
       "naam": "Dossier elektriciteit",
       "meta": "de Franse elektrische installatie",
       "prijs": "gratis",
@@ -640,6 +659,7 @@
     {
       "id": "zzpplatform",
       "groep": "geld",
+      "thema": "ondernemen",
       "naam": "ZZP-boekhoudplatform",
       "meta": "boekhouding en facturen voor zzp'ers",
       "prijs": "gratis",
@@ -652,6 +672,52 @@
       "over": "Een platform voor Nederlandse zzp'ers met boekhouding, facturen, offertes en klantenbeheer. Na een proefperiode van veertien dagen is het betaald.",
       "weergave": "volledig",
       "standaard": "uit"
+    },
+    {
+      "id": "zoekers",
+      "groep": "leven",
+      "thema": "gezondheid",
+      "naam": "Zoekers per departement",
+      "meta": "zorgaanbod zoeken per departement",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "per jaar",
+      "status": "in ontwikkeling",
+      "kind": "iframe",
+      "weergave": "volledig",
+      "url": "https://ouderenzorg.vercel.app",
+      "nagekeken": "2026-10-22",
+      "over": "Zoek per departement naar zorgaanbod voor ouderen. Deze module is in ontwikkeling."
+    },
+    {
+      "id": "zorglexicon",
+      "groep": "leven",
+      "thema": "gezondheid",
+      "naam": "Zorglexicon NL-FR",
+      "meta": "zorgwoorden in het Nederlands en het Frans",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "in ontwikkeling",
+      "kind": "iframe",
+      "weergave": "volledig",
+      "url": "https://antonnoe.github.io/zorglexicon-frankrijk/",
+      "nagekeken": "2026-10-22",
+      "over": "Woorden en begrippen uit de zorg, Nederlands en Frans naast elkaar. Deze module is in ontwikkeling."
+    },
+    {
+      "id": "forum",
+      "groep": "leven",
+      "thema": "ervaring",
+      "naam": "Forum",
+      "meta": "berichten en reacties van Nederlanders.fr",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "dagelijks",
+      "status": "af",
+      "kind": "forum",
+      "nagekeken": "2026-10-22",
+      "over": "Berichten en reactiedraden van leden van Nederlanders.fr, sinds 2002. Gratis te lezen in de app; reageren gebeurt op de site zelf."
     }
   ],
   "klusonderwerpen": [
@@ -2061,5 +2127,89 @@
       }
     ],
     "voorbehoud": "Praktische handleiding, geen persoonlijk fiscaal advies. Uw socialezekerheidspositie bepaalt of het regime op u van toepassing is, en die kan veranderen door werk, een tweede pensioen of een inschrijving in Frankrijk."
-  }
+  },
+  "themas": [
+    {
+      "id": "geld",
+      "naam": "Geld",
+      "wat": "Belasting, erfenis en vermogen.",
+      "nieuws": [
+        "geld-belasting",
+        "economie"
+      ],
+      "cafe": {
+        "domein": "geld",
+        "tekst": "Vraag het Café Claude over belasting, pensioen en vermogen"
+      }
+    },
+    {
+      "id": "overheid",
+      "naam": "Overheid",
+      "wat": "Emigreren, auto en wetgeving.",
+      "nieuws": [
+        "wetgeving",
+        "nl-overheid",
+        "douane"
+      ],
+      "cafe": {
+        "domein": "bureaucratie",
+        "tekst": "Vraag het Café Claude over papieren, loketten en registratie"
+      }
+    },
+    {
+      "id": "gezondheid",
+      "naam": "Gezondheid",
+      "wat": "Ouder worden, zorg en zorgwoorden.",
+      "scherm": "gezondheid",
+      "nieuws": [
+        "zorg"
+      ],
+      "cafe": {
+        "domein": "zorg",
+        "tekst": "Vraag het Café Claude over zorg en verzekeren"
+      }
+    },
+    {
+      "id": "adressen",
+      "naam": "Adressen",
+      "wat": "Loketten, sites en verenigingen.",
+      "nieuws": [
+        "verenigingen"
+      ]
+    },
+    {
+      "id": "nieuws",
+      "naam": "Nieuws",
+      "wat": "Overheid, pers en verenigingen.",
+      "scherm": "nieuws"
+    },
+    {
+      "id": "ervaring",
+      "naam": "Ervaring",
+      "wat": "Wat anderen meemaakten."
+    },
+    {
+      "id": "ondernemen",
+      "naam": "Ondernemen",
+      "wat": "Zelfstandig werken in Frankrijk."
+    },
+    {
+      "id": "wonen",
+      "naam": "Wonen",
+      "wat": "Het huis, de tuin en de omgeving.",
+      "scherm": "lamaison",
+      "nieuws": [
+        "natuur-milieu"
+      ],
+      "cafe": {
+        "domein": "wonen",
+        "tekst": "Vraag het Café Claude over wonen, kopen en verbouwen"
+      }
+    },
+    {
+      "id": "taal",
+      "naam": "Taal",
+      "wat": "Frans voor het dagelijks leven."
+    }
+  ]
 }

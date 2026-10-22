@@ -128,29 +128,41 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   </sc-if>
 
-  <sc-if value="{{ hubToontNedergids }}" hint-placeholder-val="{{ true }}">
-  <div style="margin:18px 14px 0">
-    <button onClick="{{ goNedergids }}" style="width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);border-radius:16px;padding:15px 16px;cursor:pointer;min-height:64px">
-      <span style="width:34px;height:34px;flex:none;border-radius:10px;background:#800000;color:#fff;display:grid;place-items:center;font:700 15px Mulish">⌖</span>
-      <span style="flex:1;min-width:0">
-        <b style="display:block;font:700 14.5px Mulish;color:#5C0000">Nedergids</b>
-        <span style="font:500 11.5px/1.5 Mulish;color:#5C0000;opacity:.85">{{ ngRegel }}</span>
-      </span>
-      <span style="font:700 13px Mulish;color:#800000">→</span>
-    </button>
-  </div>
-  </sc-if>
-
-  <sc-if value="{{ hubToontVeiligheid }}" hint-placeholder-val="{{ true }}">
-  <div style="margin:10px 14px 0">
-    <button onClick="{{ openFire }}" aria-label="Veiligheid en natuur" style="width:100%;display:flex;align-items:center;gap:11px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:14px;padding:11px 14px;cursor:pointer;min-height:56px">
-      <span style="width:30px;height:30px;flex:none;border-radius:9px;background:rgba(128,0,0,.08);color:#800000;display:grid;place-items:center;font:700 14px Mulish">⚠</span>
-      <span style="flex:1;min-width:0">
-        <b style="display:block;font:700 13.5px/1.3 Mulish;color:#15181A">Veiligheid &amp; natuur</b>
-        <span style="font:500 11.5px/1.5 Mulish;color:#71787C">{{ veiligRegel }}</span>
-      </span>
-      <span style="font:700 13px Mulish;color:#71787C">→</span>
-    </button>
+  <sc-if value="{{ hubToontTegels }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <div style="padding:22px 16px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Onderwerpen</div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 16px">
+      <sc-for list="{{ hubTegels }}" as="t" hint-placeholder-count="9">
+      <button onClick="{{ t.open }}" aria-label="{{ t.naam }}" style="min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:12px 6px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;cursor:pointer">
+        <span style="{{ t.icoStyle }}"></span>
+        <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:14px;line-height:1.15;color:#15181A">{{ t.naam }}</span>
+      </button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ hubToontAi }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:22px 16px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">AI-tools</div>
+    <div style="margin:0 16px">
+      <button onClick="{{ openCafe }}" style="width:100%;min-height:64px;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:12px 15px;cursor:pointer">
+        <span style="{{ aiIcoStyle }}"></span>
+        <span style="flex:1;min-width:0;line-height:1.3">
+          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">Café Claude</b>
+          <span style="display:block;font:500 12.5px/1.35 Mulish;color:#71787C;margin-top:2px">Vraagbaak volgens vast protocol</span>
+        </span>
+        <span style="font:700 13px Mulish;color:#800000">→</span>
+      </button>
+    </div>
+    </sc-if>
+    <div style="padding:22px 16px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Mijn dossier</div>
+    <div style="margin:0 16px">
+      <button onClick="{{ openDossierDemo }}" style="width:100%;min-height:64px;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:12px 15px;cursor:pointer">
+        <span style="{{ slotIcoStyle }}"></span>
+        <span style="flex:1;min-width:0;line-height:1.3">
+          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">DossierFrankrijk</b>
+          <span style="display:block;font:500 12.5px/1.35 Mulish;color:#71787C;margin-top:2px">Voor abonnees, bekijk het voorbeeld</span>
+        </span>
+        <span style="font:700 13px Mulish;color:#800000">→</span>
+      </button>
+    </div>
   </div>
   </sc-if>
 
@@ -177,6 +189,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     </div>
   </div>
   </sc-if>
+  <sc-if value="{{ isModScreen }}" hint-placeholder-val="{{ false }}">
   <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
   <div style="margin:22px 0 0">
     <div style="display:flex;align-items:baseline;gap:8px;padding:0 16px 8px">
@@ -191,6 +204,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
           <span style="flex:1;min-width:0">
             <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
             <span style="font:600 11.5px Mulish;color:#71787C">{{ t.meta }}</span>
+            <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
           </span>
           <span style="font:800 8.5px Mulish;letter-spacing:.10em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
         </button>
@@ -207,6 +221,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     </div>
   </div>
   </sc-for>
+  </sc-if>
   <sc-if value="{{ hubShowStrip }}" hint-placeholder-val="{{ true }}">
   <div style="margin:20px 14px 0">
     <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer">Alle modules bekijken →</button>
@@ -217,6 +232,206 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ freeNote }}</div>
   <div style="height:26px"></div>
+</div>
+</sc-if>
+
+<!-- ============ THEMASCHERM (generiek; ook de tijdelijke stubs van Nieuws, Gezondheid en Wonen) ============ -->
+<sc-if value="{{ isThema }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:20px 18px 0">
+    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:0">{{ themaNaam }}</h1>
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ themaWat }}</p>
+  </div>
+  <sc-if value="{{ themaStub }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:16px 14px 0;padding:14px 16px;border-radius:16px;background:rgba(226,129,47,.12);border:1px solid rgba(226,129,47,.30)">
+    <b style="display:block;font:700 13.5px Mulish;color:#8A4E14">In ontwikkeling</b>
+    <span style="display:block;font:500 13px/1.7 Mulish;color:#3D4346;margin-top:3px">Het eigen scherm voor dit onderwerp is nog in ontwikkeling. Hieronder staan de modules die er nu bij horen.</span>
+  </div>
+  </sc-if>
+  <sc-if value="{{ themaHeeftMods }}" hint-placeholder-val="{{ true }}">
+  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;overflow:hidden">
+    <sc-for list="{{ themaMods }}" as="t" hint-placeholder-count="3">
+    <div style="display:flex;align-items:stretch;border-top:1px solid rgba(21,24,26,.06)">
+      <button onClick="{{ t.open }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:11px;padding:13px 4px 13px 15px;background:none;border:0;text-align:left;cursor:pointer;min-height:56px">
+        <span style="flex:1;min-width:0">
+          <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
+          <span style="font:600 11.5px Mulish;color:#71787C">{{ t.meta }}</span>
+          <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+        </span>
+        <span style="font:800 8.5px Mulish;letter-spacing:.10em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
+      </button>
+      <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="width:46px;flex:none;border:0;background:none;cursor:pointer;font-size:17px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
+    </div>
+    </sc-for>
+    <sc-if value="{{ themaHeeftCafe }}" hint-placeholder-val="{{ false }}">
+    <a href="{{ themaCafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
+      <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 11px Mulish">CC</span>
+      <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ themaCafeTekst }}</span>
+      <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+    </a>
+    </sc-if>
+  </div>
+  </sc-if>
+  <sc-if value="{{ themaLeeg }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:16px 14px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <p style="font:500 14px/1.8 Mulish;color:#3D4346;margin:0;text-wrap:pretty">{{ themaLeegTekst }}</p>
+    <sc-if value="{{ themaLeegKeuze }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer;margin-top:12px">Naar Mijn modules →</button>
+    </sc-if>
+  </div>
+  </sc-if>
+  <sc-if value="{{ strookZichtbaar }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:22px 0 0">
+    <div style="padding:0 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ strookTitel }}</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ strookItems }}" as="n" hint-placeholder-count="3">
+      <button onClick="{{ n.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
+        <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ n.titel }}</div>
+        <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
+      </button>
+      </sc-for>
+      <button onClick="{{ strookAlle }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle nieuws →</button>
+    </div>
+  </div>
+  </sc-if>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
+<!-- ============ MIJN DOSSIER (voorbeeld, data/dossier-demo.json) ============ -->
+<sc-if value="{{ isDossierdemo }}" hint-placeholder-val="{{ false }}">
+<div>
+  <sc-if value="{{ dsLaden }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:24px 18px;font:600 14px Mulish;color:#71787C">Voorbeeld laden…</div>
+  </sc-if>
+  <sc-if value="{{ dsFout }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:18px 14px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <b style="display:block;font:700 14px Mulish;color:#15181A">Voorbeeld kon niet geladen worden</b>
+    <button onClick="{{ dsOpnieuw }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">Opnieuw</button>
+  </div>
+  </sc-if>
+  <sc-if value="{{ dsKlaar }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <div style="padding:18px 18px 0">
+      <div style="display:inline-block;font:800 9.5px Mulish;letter-spacing:.12em;padding:5px 8px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">VOORBEELD</div>
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1;margin:9px 0 0">{{ dsTitel }}</h1>
+      <p style="font-size:13.5px;line-height:1.8;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ dsOndertitel }}</p>
+    </div>
+    <div style="display:flex;gap:8px;overflow-x:auto;padding:14px 16px 2px">
+      <sc-for list="{{ dsTabs }}" as="c" hint-placeholder-count="5">
+      <button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.naam }}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ dsIsOverzicht }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:12px 18px 0;text-wrap:pretty">{{ dsWelkom }}</p>
+      <div style="margin:14px 14px 0;padding:14px 16px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.16)">
+        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Eerstvolgende termijn</div>
+        <div style="font:700 14px/1.4 Mulish;color:#15181A;margin-top:5px">{{ dsEerstTitel }}</div>
+        <div style="font:600 12px Mulish;color:#71787C;margin-top:2px">{{ dsEerstDatum }}</div>
+      </div>
+      <div style="padding:20px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Onderdelen</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+        <sc-for list="{{ dsOnderdelen }}" as="o" hint-placeholder-count="4">
+        <button onClick="{{ o.open }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:60px">
+          <span style="flex:1;min-width:0">
+            <b style="display:block;font:700 14.5px Mulish;color:#15181A">{{ o.naam }}</b>
+            <span style="display:block;font:500 12.5px/1.4 Mulish;color:#71787C;margin-top:2px">{{ o.tel }}</span>
+          </span>
+          <span style="font:700 13px Mulish;color:#800000">→</span>
+        </button>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ dsIsOnderdeel }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <button onClick="{{ dsNaarOverzicht }}" style="margin:12px 14px 0;min-height:44px;padding:0 14px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13px Mulish;cursor:pointer">← Overzicht</button>
+      <div style="padding:14px 18px 0">
+        <h2 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:22px;line-height:1.15;margin:0">{{ dsOndNaam }}</h2>
+        <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:6px 0 0;text-wrap:pretty">{{ dsOndWat }}</p>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:12px 14px 0;overflow:hidden">
+        <sc-for list="{{ dsOndPunten }}" as="p" hint-placeholder-count="3">
+        <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
+          <div style="display:flex;align-items:baseline;gap:8px"><b style="font:700 14px Mulish;color:#15181A">{{ p.titel }}</b><span style="margin-left:auto;font:800 9px Mulish;letter-spacing:.10em;padding:3px 7px;border-radius:999px;background:rgba(21,24,26,.06);color:#3D4346">{{ p.status }}</span></div>
+          <div style="font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px;text-wrap:pretty">{{ p.tekst }}</div>
+        </div>
+        </sc-for>
+      </div>
+      <div style="padding:18px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Documenten bij {{ dsOndNaam }}</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+        <sc-for list="{{ dsOndDocs }}" as="d" hint-placeholder-count="2">
+        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ d.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ d.datum }}</span></div>
+        </sc-for>
+      </div>
+      <div style="padding:18px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Termijnen bij {{ dsOndNaam }}</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+        <sc-for list="{{ dsOndTermijnen }}" as="t" hint-placeholder-count="2">
+        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ t.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ t.datum }} · {{ t.stand }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ dsIsOpgeslagen }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:14px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+      <sc-for list="{{ dsOpgeslagen }}" as="o" hint-placeholder-count="3">
+      <div style="border-top:1px solid rgba(21,24,26,.06)">
+        <button onClick="{{ o.toggle }}" aria-expanded="{{ o.ariaOpen }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:13px 15px;background:none;border:0;text-align:left;cursor:pointer;min-height:60px">
+          <span style="flex:1;min-width:0"><span style="display:block;font:800 9px Mulish;letter-spacing:.10em;color:#800000">{{ o.soort }}</span><b style="display:block;font:700 14px/1.35 Mulish;color:#15181A;margin-top:2px">{{ o.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ o.datum }} · {{ o.bron }}</span></span>
+          <span style="font:700 14px Mulish;color:#800000">{{ o.pijl }}</span>
+        </button>
+        <sc-if value="{{ o.open }}" hint-placeholder-val="{{ false }}"><div style="padding:0 15px 14px;font:500 13px/1.7 Mulish;color:#3D4346">{{ o.tekst }}</div></sc-if>
+      </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ dsIsDocumenten }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="margin:14px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+        <sc-for list="{{ dsDocumenten }}" as="d" hint-placeholder-count="5">
+        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ d.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ d.onderdeel }} · {{ d.datum }}</span></div>
+        </sc-for>
+      </div>
+      <div style="margin:12px 14px 0">
+        <button disabled style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:rgba(21,24,26,.04);color:#A2A7A9;font:700 13.5px Mulish;cursor:not-allowed">Document toevoegen</button>
+        <div style="font:500 12px/1.6 Mulish;color:#71787C;margin-top:6px;text-align:center">In het voorbeeld niet beschikbaar</div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ dsIsTermijnen }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:14px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+      <sc-for list="{{ dsTermijnen }}" as="t" hint-placeholder-count="4">
+      <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
+        <div style="display:flex;align-items:baseline;gap:8px"><b style="font:700 14px/1.35 Mulish;color:#15181A">{{ t.titel }}</b><span style="margin-left:auto;flex:none;font:800 9px Mulish;letter-spacing:.10em;padding:3px 7px;border-radius:999px;background:rgba(21,24,26,.06);color:#3D4346">{{ t.stand }}</span></div>
+        <div style="font:600 11.5px Mulish;color:#71787C;margin-top:2px">{{ t.datum }} · {{ t.onderdeel }}</div>
+        <div style="font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px">{{ t.toelichting }}</div>
+      </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ dsIsNotities }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="margin:14px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+        <sc-for list="{{ dsNotities }}" as="n" hint-placeholder-count="2">
+        <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 14px Mulish;color:#15181A">{{ n.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ n.datum }}</span><div style="font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px">{{ n.tekst }}</div></div>
+        </sc-for>
+      </div>
+      <div style="margin:12px 14px 0">
+        <button disabled style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:rgba(21,24,26,.04);color:#A2A7A9;font:700 13.5px Mulish;cursor:not-allowed">Notitie toevoegen</button>
+        <div style="font:500 12px/1.6 Mulish;color:#71787C;margin-top:6px;text-align:center">In het voorbeeld niet beschikbaar</div>
+      </div>
+    </div>
+    </sc-if>
+    <div style="height:26px"></div>
+  </div>
+  </sc-if>
 </div>
 </sc-if>
 
@@ -1231,6 +1446,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <sc-if value="{{ toonIntro }}" hint-placeholder-val="{{ true }}">
   <div style="padding:20px 18px 0">
     <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ toolGroup }}</div>
+    <sc-if value="{{ toolOntw }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:8px;font:700 11px Mulish;padding:4px 9px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</div></sc-if>
     <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:8px 0 0">{{ toolName }}</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:10px 0 0;text-wrap:pretty">{{ toolDesc }}</p>
   </div>
@@ -1540,6 +1756,16 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 
 </div>
 
+<sc-if value="{{ isDossierdemo }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;padding:8px 14px 10px;background:#EFE4E3;border-top:1px solid rgba(128,0,0,.20)">
+  <div style="font:700 12px/1.35 Mulish;color:#5C0000">Voorbeeld. Mijn dossier is beschikbaar voor abonnees van Infofrankrijk</div>
+  <div style="display:flex;gap:8px;margin-top:7px">
+    <a href="https://infofrankrijk.com/abonnement/" target="_blank" rel="noopener" style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:#800000;color:#fff;font:800 12.5px Mulish;text-decoration:none;text-align:center">Word abonnee →</a>
+    <a href="https://dossierfrankrijk.nl" target="_blank" rel="noopener" style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;border:1px solid rgba(128,0,0,.30);background:#fff;color:#800000;font:700 12px/1.25 Mulish;text-decoration:none;text-align:center;padding:0 6px">Al abonnee? Naar dossierfrankrijk.nl</a>
+  </div>
+</div>
+</sc-if>
+
 <div style="flex:none;min-height:70px;padding-bottom:env(safe-area-inset-bottom);background:rgba(244,241,240,.96);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(6,1fr)">
   <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
   <button onClick="{{ t.go }}" aria-label="{{ t.label }}" style="{{ t.style }}"><span style="{{ t.iconStyle }}"></span>{{ t.label }}</button>
@@ -1829,6 +2055,26 @@ const ICONS = {
   acc:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>'
 };
 
+// Eenvoudige lijniconen voor de themategels, als SVG-masker (zelfde techniek als ICONS).
+const THEMA_ICONS = {
+  geld: '<circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-.8-1.6-1.2-2.8-1.2-1.6 0-2.7.9-2.7 2.1 0 1.4 1.1 1.8 2.7 2.1 1.6.3 2.7.8 2.7 2.1 0 1.2-1.1 2.1-2.7 2.1-1.2 0-2.200-.4-2.800-1.200M12 6v2M12 16v2"/>',
+  overheid: '<path d="M3 20h18M5 20V10M19 20V10M9.500 20V10M14.500 20V10M3 10l9-6 9 6"/>',
+  gezondheid: '<path d="M12 20s-7.500-4.500-7.500-10.200A4.300 4.300 0 0 1 12 7.200a4.300 4.300 0 0 1 7.500 2.600C19.500 15.500 12 20 12 20z"/><path d="M12 10.500v4M10 12.500h4"/>',
+  adressen: '<path d="M12 21s-6.500-5.500-6.500-11a6.500 6.500 0 0 1 13 0c0 5.500-6.500 11-6.500 11z"/><circle cx="12" cy="10" r="2.300"/>',
+  nieuws: '<path d="M5 4h11a1 1 0 0 1 1 1v14H6a2 2 0 0 1-2-2V5a1 1 0 0 1 1-1z"/><path d="M17 9h3v8a2 2 0 0 1-2 2M8 8h5M8 12h5"/>',
+  ervaring: '<path d="M4 5h16v10h-9l-4.500 4v-4H4z"/><path d="M8 9h8M8 12h5"/>',
+  ondernemen: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 13h18"/>',
+  wonen: '<path d="M3 11.500 12 4l9 7.500"/><path d="M5.500 10.500V20h13v-9.500"/><path d="M10 20v-5h4v5"/>',
+  taal: '<path d="M3 6h9M7.500 3v3M11 6c-1.200 4.200-4 7.200-8 9"/><path d="M6 9c1 3 3.500 5.200 6.500 6.500"/><path d="m13 20 4-9 4 9M14.500 17h5"/>',
+  ai: '<path d="M12 3l1.800 5.200L19 10l-5.200 1.800L12 17l-1.800-5.200L5 10l5.200-1.800z"/><path d="M18 16v4M16 18h4"/>',
+  slot: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
+};
+function themaIcoStijl(id){
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (THEMA_ICONS[id] || THEMA_ICONS.wonen) + '</svg>';
+  const url = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+  return "display:block;flex:none;width:28px;height:28px;background-color:#800000;-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
+}
+
 const norm = s => (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 
 const draad = p => p.reacties || [];
@@ -2022,7 +2268,121 @@ class Component extends DCLogic {
     en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
-    draadPost:null, draadStatus:"laden", draadData:null };
+    draadPost:null, draadStatus:"laden", draadData:null,
+    themaId:null, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null };
+
+  // KOPPELVLAK THEMA'S. Een tegel met `scherm` in modules.json (themas) opent het scherm uit dit
+  // register. De drie stubs hieronder tonen tijdelijk het generieke themascherm met de tekst
+  // "In ontwikkeling". De bouwer van een echt scherm: voeg een eigen sc-if-blok in de template
+  // toe voor state.screen === "nieuws" | "gezondheid" | "lamaison" en haal die naam uit
+  // STUB_SCHERMEN (zie isThema in renderVals). De regel in dit register blijft staan.
+  SCHERMEN_VOOR_THEMA = {nieuws:"nieuws", gezondheid:"gezondheid", lamaison:"lamaison"};
+  STUB_SCHERMEN = ["nieuws", "gezondheid", "lamaison"];
+  themaList(){ const c = this.state.cat; return (c && c.themas) || []; }
+  themaVan(m){
+    if (!m) return "";
+    if (m.thema === "ai") return "AI-tools";
+    if (m.thema === "dossier") return "Mijn dossier";
+    const t = this.themaList().find(x => x.id === m.thema);
+    return t ? t.naam : this.groepVan(m.groep).naam;
+  }
+  inOntw(m){ return !!m && String(m.status || "").trim().toLowerCase() === "in ontwikkeling"; }
+  openThema(t){
+    const scherm = t.scherm && this.SCHERMEN_VOOR_THEMA[t.scherm];
+    this.setState({screen: scherm || "thema", themaId: t.id, from:"hub", q:"", tool:null});
+  }
+  // wordt ingevuld door de Nieuws-bouwer: geeft maximaal drie items {titel, meta, open}
+  // (meta = datum en bron) voor de nieuwsstrook van dit thema, op basis van `nieuws` in themas.
+  strookVoorThema(themaId){
+    return [];
+  }
+  openDossierDemo(){
+    this.setState({screen:"dossierdemo", from:"hub", dsView:"overzicht", dsOnd:null, dsOpen:null, q:"", tool:null});
+    this.laadDossierDemo();
+  }
+  laadDossierDemo(){
+    if (this.state.dsStatus === "klaar" || this.state.dsStatus === "laden") return;
+    this.setState({dsStatus:"laden"});
+    fetch("data/dossier-demo.json").then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
+      .then(d => {
+        if (!d || !Array.isArray(d.onderdelen)) throw new Error("vorm");
+        this.setState({dsData:d, dsStatus:"klaar"});
+      })
+      .catch(() => this.setState({dsStatus:"fout"}));
+  }
+  dsVals(){
+    const st = this.state, d = st.dsData || {};
+    const onds = d.onderdelen || [], docs = d.documenten || [], term = d.termijnen || [];
+    const ondNaam = id => (onds.find(o => o.id === id) || {}).naam || "";
+    const dat = v => { const t = new Date(v); if (isNaN(t)) return v || ""; try { return t.toLocaleDateString("nl-NL", {day:"numeric", month:"long", year:"numeric"}); } catch(e){ return v || ""; } };
+    const stand = t => t.klaar ? "Klaar" : "Open";
+    const open = term.filter(t => !t.klaar).sort((a, b) => String(a.datum).localeCompare(String(b.datum)))[0];
+    const ond = onds.find(o => o.id === st.dsOnd) || {};
+    const tabs = [["overzicht","Overzicht"],["opgeslagen","Opgeslagen"],["documenten","Documenten"],["termijnen","Termijnen"],["notities","Notities"]];
+    const actief = st.dsView === "onderdeel" ? "overzicht" : st.dsView;
+    const n = (k, een, meer) => k === 1 ? een : k + " " + meer;
+    return {
+      isDossierdemo: st.screen === "dossierdemo",
+      dsLaden: st.dsStatus === "laden" || st.dsStatus === "leeg",
+      dsFout: st.dsStatus === "fout",
+      dsKlaar: st.dsStatus === "klaar",
+      dsOpnieuw: () => this.laadDossierDemo(),
+      dsTitel: d.titel || "", dsOndertitel: d.ondertitel || "", dsWelkom: d.welkom || "",
+      dsTabs: tabs.map(([id, naam]) => ({naam, style: this.chipStyle(actief === id), pick: () => this.setState({dsView:id, dsOnd:null, dsOpen:null})})),
+      dsIsOverzicht: st.dsView === "overzicht", dsIsOnderdeel: st.dsView === "onderdeel",
+      dsIsOpgeslagen: st.dsView === "opgeslagen", dsIsDocumenten: st.dsView === "documenten",
+      dsIsTermijnen: st.dsView === "termijnen", dsIsNotities: st.dsView === "notities",
+      dsEerstTitel: open ? open.titel : "Geen open termijnen", dsEerstDatum: open ? dat(open.datum) : "",
+      dsOnderdelen: onds.map(o => ({naam:o.naam,
+        tel: n(docs.filter(x => x.onderdeel === o.id).length, "1 document", "documenten") + " · " + n(term.filter(x => x.onderdeel === o.id).length, "1 termijn", "termijnen"),
+        open: () => this.setState({dsView:"onderdeel", dsOnd:o.id})})),
+      dsNaarOverzicht: () => this.setState({dsView:"overzicht", dsOnd:null}),
+      dsOndNaam: ond.naam || "", dsOndWat: ond.wat || "",
+      dsOndPunten: (ond.punten || []).map(p => ({titel:p.titel, tekst:p.tekst, status:({klaar:"Klaar", loopt:"Loopt", open:"Open"})[p.status] || p.status})),
+      dsOndDocs: docs.filter(x => x.onderdeel === st.dsOnd).map(x => ({titel:x.titel, datum:dat(x.datum)})),
+      dsOndTermijnen: term.filter(x => x.onderdeel === st.dsOnd).map(x => ({titel:x.titel, datum:dat(x.datum), stand:stand(x)})),
+      dsOpgeslagen: (d.opgeslagen || []).map(o => ({soort:o.soort.toUpperCase(), titel:o.titel, datum:dat(o.datum), bron:o.bron, tekst:o.tekst,
+        open: st.dsOpen === o.id, ariaOpen: st.dsOpen === o.id ? "true" : "false", pijl: st.dsOpen === o.id ? "−" : "+",
+        toggle: () => this.setState({dsOpen: st.dsOpen === o.id ? null : o.id})})),
+      dsDocumenten: docs.map(x => ({titel:x.titel, onderdeel:ondNaam(x.onderdeel), datum:dat(x.datum)})),
+      dsTermijnen: term.slice().sort((a, b) => String(a.datum).localeCompare(String(b.datum))).map(x => ({titel:x.titel, datum:dat(x.datum), onderdeel:ondNaam(x.onderdeel), toelichting:x.toelichting, stand:stand(x)})),
+      dsNotities: (d.notities || []).map(x => ({titel:x.titel, datum:dat(x.datum), tekst:x.tekst}))
+    };
+  }
+  themaVals(){
+    const st = this.state, V = this.variant();
+    const stub = this.STUB_SCHERMEN.includes(st.screen);
+    const isThema = st.screen === "thema" || stub;
+    const t = this.themaList().find(x => x.id === st.themaId) || {id:"", naam:"", wat:""};
+    const alle = this.zoekMods().filter(m => m.thema === t.id);
+    const zichtbaar = this.mods().filter(m => m.thema === t.id);
+    const cafe = this.cafeUrl(t);
+    const strook = isThema && t.id ? (this.strookVoorThema(t.id) || []).slice(0, 3) : [];
+    return {
+      isThema, themaStub: stub, themaNaam: t.naam, themaWat: t.wat || "",
+      themaMods: zichtbaar.map(m => ({
+        name:m.naam, meta:m.meta, ontw:this.inOntw(m),
+        tag: this.prijsLabel(m.prijs),
+        tagBg: m.prijs === "abonnee" ? "rgba(128,0,0,.08)" : "rgba(90,164,105,.14)",
+        tagFg: m.prijs === "abonnee" ? "#800000" : "#3F7A4E",
+        fav: this.state.favs.includes(m.id) ? "★" : "☆",
+        favColor: this.state.favs.includes(m.id) ? "#800000" : "rgba(128,0,0,.42)",
+        pin: () => this.toggleFav(m.id),
+        open: () => this.route(m)})),
+      themaHeeftMods: zichtbaar.length > 0,
+      themaHeeftCafe: !!cafe && zichtbaar.length > 0, themaCafeUrl: cafe || "", themaCafeTekst: (t.cafe && t.cafe.tekst) || "Vraag het Café Claude",
+      themaLeeg: zichtbaar.length === 0,
+      themaLeegKeuze: alle.length > 0,
+      themaLeegTekst: alle.length > 0
+        ? "Alle modules van dit onderwerp staan uit. U zet ze weer aan bij Mijn modules."
+        : "Hier staan nog geen modules.",
+      strookZichtbaar: strook.length > 0,
+      strookItems: strook,
+      strookTitel: "Nieuws bij " + t.naam,
+      // wordt aangepast door de Nieuws-bouwer; nu naar het Actueel-scherm
+      strookAlle: () => this.go("act")
+    };
+  }
 
   // Zichtbaarheid komt uit de catalogus, niet uit de code (regel 6 van CLAUDE.md).
   // Twee velden per module, allebei optioneel:
@@ -2081,7 +2441,8 @@ class Component extends DCLogic {
     this.bewaarKeuze(aan ? {aan:zonder(k.aan).concat([id]), uit:zonder(k.uit)}
                          : {aan:zonder(k.aan), uit:zonder(k.uit).concat([id])});
   }
-  keuzeMods(){ return this.alleMods().filter(m => m.zichtbaar !== false); }
+  // ai en dossier hebben een eigen blok op de hub en staan niet in de lijsten of in dit keuzescherm
+  keuzeMods(){ return this.alleMods().filter(m => m.zichtbaar !== false && m.thema !== "ai" && m.thema !== "dossier"); }
   allesAan(){ this.bewaarKeuze({aan:this.keuzeMods().map(m => m.id), uit:[]}); }
   alleenFavorieten(){
     const ids = this.keuzeMods().map(m => m.id), favs = this.state.favs || [];
@@ -2089,7 +2450,7 @@ class Component extends DCLogic {
     this.bewaarKeuze({aan:ids.filter(i => favs.includes(i)), uit:ids.filter(i => !favs.includes(i))});
   }
   // mods(): wat de lezer nú in de hub en de modulelijst hoort te zien.
-  mods(){ return this.alleMods().filter(m => this.zichtbaarNu(m)); }
+  mods(){ return this.alleMods().filter(m => this.zichtbaarNu(m) && m.thema !== "ai" && m.thema !== "dossier"); }
   // zoekMods(): idem plus wat buiten het seizoen valt — dat blijft vindbaar.
   zoekMods(){ return this.alleMods().filter(m => m.zichtbaar !== false); }
   groepList(){ const c = this.state.cat; return (c && c.groepen) || []; }
@@ -2642,9 +3003,9 @@ class Component extends DCLogic {
     const mods = this.keuzeMods();
     const nFav = mods.filter(m => favs.includes(m.id)).length;
     return {
-      keuzeGroepen: this.groepList().map(g => ({
+      keuzeGroepen: this.themaList().map(g => ({
         naam: g.naam,
-        mods: mods.filter(m => m.groep === g.id).map(m => {
+        mods: mods.filter(m => m.thema === g.id).map(m => {
           const aan = this.aanGekozen(m);
           return {naam:m.naam, meta:m.meta, abonnee: m.prijs === "abonnee", aan,
             ariaAan: aan ? "true" : "false",
@@ -2670,7 +3031,8 @@ class Component extends DCLogic {
     this.zoekMods().forEach(m => {
       if (norm(m.naam + " " + m.meta + " " + (m.over || "")).includes(q))
         out.push({kind:"MODULE", fr:m.naam, nl:m.meta,
-          where:this.groepVan(m.groep).naam + " · " + (m.prijs === "abonnee" ? "abonnement" : "gratis")
+          where:this.themaVan(m) + " · " + (m.prijs === "abonnee" ? "abonnement" : "gratis")
+            + (this.inOntw(m) ? " · In ontwikkeling" : "")
             + (this.buitenSeizoen(m) ? " · buiten seizoen" : "")
             + (this.uitGekozen(m) ? " · uit in Mijn modules, tik om aan te zetten" : ""),
           open:() => { if (this.uitGekozen(m)) this.zetModule(m.id, true); this.route(m); }});
@@ -2745,6 +3107,7 @@ class Component extends DCLogic {
 
   renderVals(){
     const st = this.state, V = this.variant();
+    const tv = this.themaVals();
     const sc = SC.find(s => s.id === st.sc) || SC[0];
     const phase = sc.phases[Math.min(st.phase, sc.phases.length - 1)];
     const results = this.search();
@@ -2788,7 +3151,7 @@ class Component extends DCLogic {
       piramide:"het ordeningsmodel achter de app",
       draad:"Nederlanders.fr · alleen lezen",
       gem:"Nederlanders.fr · vrij toegankelijk", taal: st.sc && st.screen === "taal" ? sc.group + " · gratis" : "Taal & gemeenschap · gratis",
-      tool: st.tool ? this.groepVan(st.tool.groep).naam + " · " + st.tool.schil : "", acc:"niet aangemeld"};
+      tool: st.tool ? (this.inOntw(st.tool) ? "In ontwikkeling · " : "") + this.themaVan(st.tool) + " · " + st.tool.schil : "", acc:"niet aangemeld"};
 
     // ---- Discussie lezen -------------------------------------------------
     const dp = st.draadPost || {};
@@ -2824,13 +3187,15 @@ class Component extends DCLogic {
       : [["Hub","hub","hub"],["Forum","gem","gem"],["Actueel","act","act"],["Taal","taal","taal"],["Modules","mod","mod"],["Account","acc","acc"]];
 
     return {
-      title: titles[st.screen] || "Infopoche",
-      subtitle: subs[st.screen] || "",
-      badge: locked ? "ABONNEMENT" : "GRATIS",
+      title: tv.isThema ? tv.themaNaam : st.screen === "dossierdemo" ? "Mijn dossier" : titles[st.screen] || "Infopoche",
+      subtitle: tv.isThema ? (tv.themaStub ? "In ontwikkeling" : "Onderwerp") : st.screen === "dossierdemo" ? "Voorbeeld · DossierFrankrijk" : subs[st.screen] || "",
+      ...tv,
+      ...this.dsVals(),
+      badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
       back: () => st.screen === "artikel" ? this.terugNaarLijst() : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
@@ -2941,7 +3306,6 @@ class Component extends DCLogic {
       vgReken: () => this.route(this.vindModule("transactiekosten"), "vastgoed"),
       vgHeeftReken: this.zichtbaarNu(this.vindModule("transactiekosten")),
       goNedergids: () => this.route(this.vindModule("nedergids")),
-      hubToontNedergids: st.screen === "hub" && this.zichtbaarNu(this.vindModule("nedergids")),
       ngRegel: depNaam ? "loketten en sites in " + depNaam : "loketten, registers en nuttige sites",
       pcRegel: depNaam ? "Uw postcode " + pc + " valt in " + depNaam + "; de loketten worden daarop gericht zodra de kaart live is." : "Vul uw postcode in bij Account om dit op uw omgeving te richten.",
       ngCats: [{id:"alles", naam:"Alles"}].concat(ngCats).map(c => ({
@@ -2980,7 +3344,14 @@ class Component extends DCLogic {
       // geen alarmtegel. De locator zegt alleen wat de app zeker weet — welk
       // departement bij de postcode hoort. Een gevaarniveau claimt hij niet: daar
       // is geen bron voor aangesloten (zie NIVEAUS en het rapport).
-      hubToontVeiligheid: st.screen === "hub" && this.zichtbaarNu(this.vindModule("veiligheid")),
+      hubToontTegels: st.screen === "hub",
+      isModScreen: st.screen === "mod",
+      hubTegels: this.themaList().map(t => ({naam:t.naam, icoStyle:themaIcoStijl(t.id), open:() => this.openThema(t)})),
+      hubToontAi: !!this.vindModule("cafeclaude"),
+      openCafe: () => this.route(this.vindModule("cafeclaude")),
+      openDossierDemo: () => this.openDossierDemo(),
+      aiIcoStyle: themaIcoStijl("ai"), slotIcoStyle: themaIcoStijl("slot"),
+      toolOntw: this.inOntw(T),
       veiligRegel: depNaam
         ? "brandgevaar en waarschuwingen · uw departement: " + depNaam + " (" + depCode + ")"
         : "brandgevaar en waarschuwingen, per departement",
@@ -2999,13 +3370,13 @@ class Component extends DCLogic {
       taalSub: "van " + SC[0].title.toLowerCase().replace(/^bij de |^in de /, "") + " tot " + SC[SC.length - 1].title.toLowerCase().replace(/:.*$/, ""),
       isMod: st.screen === "mod",
       goMod: () => this.go("mod"),
-      groups: this.groepList().filter(g => this.mods().some(m => m.groep === g.id)).map(g => {
-        const tools = this.mods().filter(m => m.groep === g.id);
+      groups: this.themaList().filter(g => this.mods().some(m => m.thema === g.id)).map(g => {
+        const tools = this.mods().filter(m => m.thema === g.id);
         const cafe = this.cafeUrl(g);
         return {name:g.naam, count: tools.length === 1 ? "1 module" : tools.length + " modules",
           heeftCafe: !!cafe, cafeUrl: cafe || "", cafeTekst: (g.cafe && g.cafe.tekst) || "Vraag het Café Claude",
           tools: tools.map(m => ({
-            name:m.naam, meta:m.meta, dot:g.kleur,
+            name:m.naam, meta:m.meta, dot:"#800000", ontw:this.inOntw(m),
             tag: this.prijsLabel(m.prijs),
             tagBg: m.prijs === "abonnee" ? "rgba(128,0,0,.08)" : "rgba(90,164,105,.14)",
             tagFg: m.prijs === "abonnee" ? "#800000" : "#3F7A4E",
@@ -3106,7 +3477,7 @@ class Component extends DCLogic {
       setVous: () => this.setState({tone:"vous"}), setTu: () => this.setState({tone:"tu"}),
       vousStyle: this.segStyle(st.tone === "vous"), tuStyle: this.segStyle(st.tone === "tu"),
 
-      toolName: T ? T.naam : "", toolGroup: T ? this.groepVan(T.groep).naam : "",
+      toolName: T ? T.naam : "", toolGroup: T ? this.themaVan(T) : "",
       toolDesc: T ? T.over : "",
       toolLocked: locked, toolFree: !!(T && T.prijs !== "abonnee" && T.kind === "info"),
       isSafety: !!(T && T.id === "veiligheid"),
@@ -3133,7 +3504,7 @@ class Component extends DCLogic {
       heeftUrl: !!(T && T.kind === "iframe" && T.url),
       isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       kopLink: st.screen === "tool" && !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
-      kopBadge: st.screen !== "keuze" && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopBadge: st.screen !== "keuze" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       scrollOverflow: (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig") ? "hidden" : "auto",
       isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
       isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
@@ -3185,7 +3556,7 @@ class Component extends DCLogic {
 
       tabs: tabDefs.map(([label, icon, target]) => ({
         label, iconStyle: this.iconStyle(icon),
-        style: this.navStyle(st.screen === target || (target === "act" && st.screen === "artikel")),
+        style: this.navStyle(st.screen === target || (target === "act" && st.screen === "artikel") || (target === "hub" && (tv.isThema || st.screen === "dossierdemo"))),
         go: () => this.go(target)}))
     };
   }
