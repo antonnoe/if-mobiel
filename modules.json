@@ -1,5 +1,5 @@
 {
-  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel, voor de hubtegel), omschrijving (één zin, getoond onder de schermtitel van het themascherm en van de eigen schermen Wonen, Ondernemen, Gezondheid en Nieuws), scherm (optioneel: gezondheid | nieuws | lamaison | ondernemen, een eigen scherm; bij ondernemen horen ook bron (ondernemen.json op if-plek.vercel.app), site en terugval, het adres van het artikel dat in de foutstaat staat), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld KIF. ook (optioneel, per module en per item in ondernemen.json: lijst thema-id's, bijvoorbeeld ['geld']): een tweede domein. De module staat dan ook in dat thema, met de regel 'hoort bij [eigen thema]', en opent op zijn vaste plek; het eigen thema in `thema` blijft het enige thema van Mijn modules en van de zoekresultaten, dus geen dubbele rijen. Zichtbaarheidsregels gelden ook in het tweede thema. Een item in ondernemen.json met ook ['wonen'] (een artikel) staat vast bij Ondernemen en verschijnt als rij 'Ook bij Wonen' onder de hulpmiddelen van La Maison.",
+  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel, voor de hubtegel), omschrijving (één zin, getoond onder de schermtitel van het themascherm en van de eigen schermen Wonen, Ondernemen, Gezondheid en Nieuws), scherm (optioneel: gezondheid | nieuws | lamaison | ondernemen, een eigen scherm; bij ondernemen horen ook bron (ondernemen.json op if-plek.vercel.app), site en terugval, het adres van het artikel dat in de foutstaat staat), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld KIF. ai (optioneel, ook op een thema): 'tool' (geeft zelf antwoord of advies) of 'ondersteuning' (helpt zoeken, samenvatten of schrijven); alleen invullen als in docs/ai-onderzoek.md bewijs staat dat er echt AI in zit; ai_uitleg (verplicht bij ai): één regel die de tool niet te veel belooft. Het scherm AI-tools leest deze velden. zoekindex_wacht (Klussen): het adres van een zoekindex die nog geen CORS-header voor infopoche.fr heeft; de app leest het veld niet, hernoem het naar zoekindex zodra de header er staat. ook (optioneel, per module en per item in ondernemen.json: lijst thema-id's, bijvoorbeeld ['geld']): een tweede domein. De module staat dan ook in dat thema, met de regel 'hoort bij [eigen thema]', en opent op zijn vaste plek; het eigen thema in `thema` blijft het enige thema van Mijn modules en van de zoekresultaten, dus geen dubbele rijen. Zichtbaarheidsregels gelden ook in het tweede thema. Een item in ondernemen.json met ook ['wonen'] (een artikel) staat vast bij Ondernemen en verschijnt als rij 'Ook bij Wonen' onder de hulpmiddelen van La Maison.",
   "bijgewerkt": "2026-10-22",
   "groepen": [
     {
@@ -60,6 +60,8 @@
     },
     {
       "id": "cafeclaude",
+      "ai": "tool",
+      "ai_uitleg": "Stel uw vraag in gewone taal; Café Claude schrijft zelf het antwoord, met bronvermelding. Het blijft een AI-antwoord en geen advies van een deskundige.",
       "groep": "aankomen",
       "thema": "ai",
       "naam": "Café Claude",
@@ -135,9 +137,9 @@
       "kind": "iframe",
       "url": "https://infofrankrijk.com/klussen/#onderwerpen",
       "nagekeken": "2026-09-02",
-      "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier. De site opent volledig in de app; via het zoekveld komt u direct bij het artikel of de bouwterm die u zoekt.",
+      "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier. De site opent volledig in de app.",
       "weergave": "volledig",
-      "zoekindex": "https://infofrankrijk.com/klussen/zoekindex.json",
+      "zoekindex_wacht": "https://infofrankrijk.com/klussen/zoekindex.json",
       "kort": "KIF"
     },
     {
@@ -264,6 +266,8 @@
     },
     {
       "id": "kompas",
+      "ai": "ondersteuning",
+      "ai_uitleg": "Het kompas rekent zelf; de AI-Toelichter, voor abonnees, legt uw uitkomst uit. Het blijft een toelichting, geen financieel advies.",
       "groep": "geld",
       "thema": "geld",
       "naam": "Financieel kompas",
@@ -375,6 +379,8 @@
     },
     {
       "id": "correspondentie",
+      "ai": "ondersteuning",
+      "ai_uitleg": "Helpt bij het schrijven van een Franstalige brief; een AI vult uw gegevens in een vaste opzet in. Lees de brief na voordat u hem verstuurt.",
       "groep": "leven",
       "thema": "taal",
       "naam": "Correspondentie",
@@ -627,6 +633,8 @@
     },
     {
       "id": "nlfrzoek",
+      "ai": "ondersteuning",
+      "ai_uitleg": "Zoekt in forum en artikelen en vat de best passende bronnen samen in lopende tekst. Controleer bij geld en overheid de datum van de bron.",
       "groep": "leven",
       "thema": "ervaring",
       "naam": "Zoeken in forum en artikelen",
@@ -661,6 +669,8 @@
     },
     {
       "id": "zzpplatform",
+      "ai": "ondersteuning",
+      "ai_uitleg": "Boekhoudplatform voor zzp’ers met AI-hulp bij analyse en het inlezen van bonnetjes. De tool zegt zelf dat AI fouten kan maken.",
       "groep": "geld",
       "thema": "ondernemen",
       "naam": "ZZP-boekhoudplatform",
@@ -2196,6 +2206,8 @@
       "id": "nieuws",
       "kleur": "#9E4505",
       "tint": "#FBE5D3",
+      "ai": "ondersteuning",
+      "ai_uitleg": "Redactieberichten zijn deels met AI samengevat uit bronartikelen. Dat staat erbij en de bronnen staan onderaan. Controleer belangrijke zaken in de bron.",
       "naam": "Nieuws",
       "wat": "Overheid, pers en verenigingen.",
       "omschrijving": "Berichten van de redactie van Nederlanders.fr over wat er in Frankrijk verandert, per onderwerp.",

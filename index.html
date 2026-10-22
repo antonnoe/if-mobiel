@@ -735,6 +735,39 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<!-- ============ AI-TOOLS (modules.json: veld ai en ai_uitleg; bewijs in docs/ai-onderzoek.md) ============ -->
+<sc-if value="{{ isAiTools }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:20px 18px 0">
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:0;text-wrap:pretty">Hier staat alleen wat echt AI gebruikt. Een AI kan fouten maken: controleer belangrijke zaken in de bron of bij een deskundige.</p>
+  </div>
+  <sc-for list="{{ aiGroepen }}" as="g" hint-placeholder-count="2">
+  <div style="margin:20px 0 0">
+    <div style="padding:0 18px;font:700 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000">{{ g.naam }}</div>
+    <div style="padding:3px 18px 8px;font:500 13px/1.5 Mulish;color:#71787C">{{ g.wat }}</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ g.rijen }}" as="r" hint-placeholder-count="2">
+      <button onClick="{{ r.open }}" style="width:100%;display:block;text-align:left;padding:13px 15px;min-height:56px;background:none;border:0;border-top:1px solid rgba(21,24,26,.07);cursor:pointer">
+        <b style="display:block;font:700 15px/1.3 Mulish;color:#15181A">{{ r.naam }}<span style="margin-left:6px;color:#800000">→</span></b>
+        <span style="display:block;font:500 13px/1.5 Mulish;color:#3D4346;margin-top:3px;text-wrap:pretty">{{ r.uitleg }}</span>
+      </button>
+      </sc-for>
+    </div>
+  </div>
+  </sc-for>
+  <sc-if value="{{ aiLeeg }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 13px/1.6 Mulish;color:#3D4346">Er staan nu geen AI-tools aan.</div>
+  </sc-if>
+  <sc-if value="{{ aiUitHeeft }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.04);border:1px solid rgba(128,0,0,.12)">
+    <div style="font:500 13px/1.6 Mulish;color:#3D4346">{{ aiUitTekst }}</div>
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:48px;margin-top:10px;border:1px solid rgba(128,0,0,.25);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat u ziet →</button>
+  </div>
+  </sc-if>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
 <!-- ============ MIJN DOSSIER (voorbeeld, data/dossier-demo.json) ============ -->
 <sc-if value="{{ isDossierdemo }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -2206,17 +2239,6 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
-<!-- AITOOLS-SCHERM: wordt vervangen door de AI-tools-bouwer -->
-<sc-if value="{{ isAiTools }}" hint-placeholder-val="{{ false }}">
-<div>
-  <div style="padding:20px 18px 0">
-    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.1;margin:0">AI-tools</h1>
-    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">In ontwikkeling.</p>
-  </div>
-  <div style="height:26px"></div>
-</div>
-</sc-if>
-
 <!-- ============ MIJN MODULES ============ -->
 <sc-if value="{{ isKeuze }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -3083,6 +3105,29 @@ class Component extends DCLogic {
       gzBronnenOpen: () => this.gzOpenHfd(br.hoofdstuk),
       gzToolsZichtbaar: tools.length > 0, gzToolsTitel: (cfg.tools && cfg.tools.titel) || "Hulpmiddelen",
       gzTools: tools.map(m => ({name:m.naam, meta:m.meta, ontw:this.inOntw(m), open:() => this.route(m)}))
+    };
+  }
+  // AI-TOOLS. De indeling staat in modules.json (veld ai: "tool" | "ondersteuning", plus ai_uitleg);
+  // het bewijs per module staat in docs/ai-onderzoek.md. Café Claude (thema ai) is altijd zichtbaar,
+  // de rest volgt Mijn modules. Een thema (Nieuws) kan ook een ai-veld dragen.
+  aiVals(){
+    const st = this.state;
+    const geldig = x => x && (x.ai === "tool" || x.ai === "ondersteuning") && x.ai_uitleg;
+    const alle = this.alleMods().filter(m => geldig(m) && m.zichtbaar !== false);
+    const aan = alle.filter(m => m.thema === "ai" || this.zichtbaarNu(m));
+    const uit = alle.filter(m => !aan.includes(m));
+    const themas = this.themaList().filter(t => geldig(t));
+    const rij = (naam, uitleg, open) => ({naam, uitleg, open});
+    const lijst = soort => aan.filter(m => m.ai === soort).map(m => rij(m.naam, m.ai_uitleg, () => this.route(m)))
+      .concat(themas.filter(t => t.ai === soort).map(t => rij(t.naam, t.ai_uitleg, () => this.openThema(t))));
+    const groepen = [
+      {naam:"AI-tool", wat:"Geeft zelf antwoord of advies.", rijen: lijst("tool")},
+      {naam:"AI-ondersteuning", wat:"Helpt zoeken, samenvatten of schrijven.", rijen: lijst("ondersteuning")}
+    ].filter(g => g.rijen.length);
+    return {
+      aiGroepen: groepen, aiLeeg: groepen.length === 0,
+      aiUitHeeft: uit.length > 0,
+      aiUitTekst: uit.length === 1 ? "Nog 1 AI-tool staat uit in Mijn modules: " + uit[0].naam + "." : "Nog " + uit.length + " AI-tools staan uit in Mijn modules: " + uit.map(m => m.naam).join(", ") + "."
     };
   }
   openDossierDemo(){
@@ -4110,7 +4155,7 @@ class Component extends DCLogic {
 
     const titles = {hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {regio:HubLib.regioLabel(pc, st.plaats), aitools:"In ontwikkeling", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
+    const subs = {regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
       over:"Nederlanders.fr · Infofrankrijk · sinds 2002",
       nedergids:"wegwijzer · gratis te lezen",
@@ -4161,6 +4206,7 @@ class Component extends DCLogic {
       ...tv,
       ...this.gzVals(),
       ...this.dsVals(),
+      ...this.aiVals(),
       ...this.lmVals(),
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",

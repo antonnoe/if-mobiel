@@ -62,7 +62,10 @@
     {"id": "t2", "titel": "Woonverzekering controleren", "datum": "2026-12-01", "onderdeel": "woning", "toelichting": "Verzekerde waarde en dekking nalopen voor het nieuwe jaar.", "klaar": false},
     {"id": "t3", "titel": "Schoorsteen laten vegen", "datum": "2026-11-15", "onderdeel": "woning", "toelichting": "Voor het stookseizoen, met bewijs voor de verzekering.", "klaar": false},
     {"id": "t4", "titel": "Identiteitsbewijs verlengen", "datum": "2027-02-10", "onderdeel": "papieren", "toelichting": "Voorbeelddatum. Vraag op tijd een nieuw bewijs aan.", "klaar": false},
-    {"id": "t5", "titel": "Aangifte inkomstenbelasting indienen", "datum": "2026-06-02", "onderdeel": "belasting", "toelichting": "Ingediend.", "klaar": true}
+    {"id": "t5", "titel": "Aangifte inkomstenbelasting indienen", "datum": "2026-06-02", "onderdeel": "belasting", "toelichting": "Ingediend.", "klaar": true},
+    {"id": "t6", "titel": "Mutuelle (aanvullende verzekering) vernieuwen", "datum": "2026-12-15", "onderdeel": "zorg", "toelichting": "Voorbeeldtermijn. Vergelijk de dekking voor het nieuwe jaar en zeg op tijd op of verleng.", "klaar": false},
+    {"id": "t7", "titel": "Afspraak huisarts voor jaarlijkse controle", "datum": "2027-01-20", "onderdeel": "zorg", "toelichting": "Voorbeelddatum. Neem uw carte vitale en lopende recepten mee.", "klaar": false},
+    {"id": "t8", "titel": "Griepprik laten zetten", "datum": "2026-10-30", "onderdeel": "zorg", "toelichting": "Voorbeeldtermijn. Vraag bij uw apotheek of huisarts naar de oproep van uw zorgverzekeraar.", "klaar": true}
   ],
   "opgeslagen": [
     {"id": "o1", "soort": "Artikel", "titel": "Kopen in Frankrijk: de termijnen", "datum": "2025-02-01", "bron": "Infofrankrijk (voorbeeld)", "tekst": "Een bewaard artikel over wat er tussen compromis en akte moet gebeuren."},
