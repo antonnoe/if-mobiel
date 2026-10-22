@@ -31,9 +31,13 @@ Frankrijk).
    module, en de openstaande vragen over abonnementsstatus in `BOUWOPDRACHT.md`).
 6. De modulecatalogus staat in `modules.json` (`groepen`, `modules`, plus per-kind extra's
    zoals `vastgoed`, `zorg`, `ruyter`, `nedergids`, `departementen`) — **nooit** in de code.
-   De taakbalk heeft twee varianten (`tabVariant` A/B, een ontwerpprop): A toont een
-   zoekbalk boven de hub, B een "Vandaag"-strip. Er zijn geen aparte hub-weergaven
-   (Dossiers/Tegels/Index) meer.
+   De hub toont van boven naar beneden: begroeting naar dagdeel (`begroeting()` in
+   `hub-lib.js`), zoekbalk, negen themategels, twee halve tegels (AI-tools en Mijn dossier), de
+   regiokaart en eventueel favorieten. De ontwerpprop `tabVariant` en de "Vandaag"-strip zijn
+   vervallen. Schermen `aitools` (stub tot de AI-tools-bouwer het vervangt, `openAiTools()`)
+   en `regio` (per departement: bosbrandkaart, verenigingen, palliatieve zorg, zoekers, alleen
+   als de module aan staat). De tab-actief-markering komt uit `HubLib.tabVan(screen)`;
+   `mod` (Alle modules), `keuze` en `over` zijn rijen in Profiel (scherm `acc`).
 7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; losse `*Vals()`-
    helpers leveren hun deel toe (bv. `enVals()` voor het energiescherm).
 8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`, `taal`, `lex`,
@@ -48,7 +52,7 @@ Frankrijk).
    link, opgebouwd uit de `url` van de module `cafeclaude`. Prijswaarden: `gratis`,
    `gratis-lezen`, `gratis-eerste`, `abonnee`.
    Mijn modules: per module bepaalt `standaard` (`aan` | `uit`, ontbreekt = `aan`) of hij op
-   hub en modulelijst staat zolang de lezer niets koos. In het scherm Mijn modules (Account →
+   hub en modulelijst staat zolang de lezer niets koos. In het scherm Mijn modules (Profiel →
    Mijn modules) zet de lezer modules aan of uit; dat staat alleen op het toestel in
    `localStorage` `ifm_modules` = `{aan:[ids], uit:[ids]}` (uitsluitend eigen keuzes) en wint
    van `standaard`. Uit = weg van hub en modulelijst (en uit knoppen die ernaar wijzen), wel
@@ -69,7 +73,8 @@ Frankrijk).
 9. Geen buildstap, geen bundler, geen stylesheet: alle styling staat **inline**. Draaien met
    `npx serve .`; Vercel importeert de repo zonder instellingen.
 10. Persistentie in `localStorage`: `ifm_favs`, `ifm_postcode`, `ifm_pc_later`,
-    `ifm_last_visit`. Actueel-tab via `nlfr-menu`'s `/api/actueel` (thema-tegels: pers,
+    `ifm_last_visit`, `ifm_plaats` (JSON `{postcode, plaats}`, plaatsnaam van
+    geo.api.gouv.fr, zacht falend, alleen geldig bij dezelfde postcode). Actueel-tab via `nlfr-menu`'s `/api/actueel` (thema-tegels: pers,
     overheid, infofrankrijk, verenigingen) met een voorbeeldlijst-terugval; het forum via
     `nlfr-berichten` met een demo-terugval. Beide falen zacht: nooit een lege pagina.
 
@@ -92,7 +97,16 @@ de bron van de ontwerpsessie.
 
 - **Primaire kleur:** `#800000` (bordeaux), met transparante varianten `rgba(128,0,0,α)`,
   α tussen **0.04 en 0.80**, voor vlakken en accenten.
-- **Koppen:** Poppins, gewicht **600**.
+- **Grote koppen** (begroeting op de hub, schermtitels, artikeltitels): Source Serif 4, gewicht
+  **500** (Google Fonts in `<helmet>`, ook gewicht 600 geladen). **Kleine koppen en UI-labels:**
+  Poppins, gewicht **600**.
+- **Themakleuren:** elk van de negen thema's heeft in `modules.json` (`themas[].kleur` en
+  `tint`) een eigen kleur: Geld groen, Overheid blauw, Gezondheid rood, Adressen paars, Nieuws
+  oranje, Ervaring oker, Ondernemen petrol, Wonen bordeaux, Taal grijsblauw. De kleur (donker)
+  kleurt het icoon en het accent in de kop van het themascherm, de tint is de cirkel erachter.
+  Terugval in `hub-lib.js`; `tests/hub.test.mjs` bewaakt WCAG AA (icoon tegen tint >= 3:1,
+  accent tegen pagina >= 4.5:1).
+- **Tabbalk:** vijf tabs, Home, Zoeken, Forum, Nieuws, Profiel (`TABS` in `hub-lib.js`).
 - **Lopende tekst (body):** Mulish.
 - **Pagina-achtergrond:** `#F4F1F0`.
 - **Kaarten:** wit, `1px` rand `rgba(21,24,26,.10)`, `border-radius: 16px`.
