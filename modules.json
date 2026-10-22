@@ -2198,6 +2198,9 @@
       "naam": "Wonen",
       "wat": "Het huis, de tuin en de omgeving.",
       "scherm": "lamaison",
+      "bron": "https://if-plek.vercel.app/la-maison.json",
+      "site": "https://infofrankrijk.com",
+      "gids": "https://infofrankrijk.com/la-maison/",
       "nieuws": [
         "natuur-milieu"
       ],

@@ -16,6 +16,7 @@
      unpkg-bestanden waar support.js om vraagt). support.js kijkt eerst in window.__resources
      en pakt dan de lokale kopie; zonder deze regel hangt de hele app aan unpkg.com. -->
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
+<script src="./lamaison-lib.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -231,6 +232,124 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Mijn modules: kies wat u hier ziet →</button>
   </div>
   <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ freeNote }}</div>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
+<!-- ============ LA MAISON (tegel Wonen; data: themas[wonen].bron in modules.json) ============ -->
+<sc-if value="{{ isLamaison }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:20px 18px 0">
+    <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:0">La Maison</h1>
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">De gids voor wie in Frankrijk een huis koopt, verbouwt of verkoopt, met de artikelen van Infofrankrijk.</p>
+  </div>
+  <sc-if value="{{ lmLaden }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:24px 18px;font:600 14px Mulish;color:#71787C">La Maison laden…</div>
+  </sc-if>
+  <sc-if value="{{ lmFout }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:16px 14px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <b style="display:block;font:700 14px Mulish;color:#15181A">La Maison kon niet geladen worden</b>
+    <p style="font:500 13.5px/1.8 Mulish;color:#3D4346;margin:4px 0 0;text-wrap:pretty">Controleer uw verbinding en probeer het opnieuw. U kunt de gids ook op de website lezen.</p>
+    <button onClick="{{ lmOpnieuw }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">Opnieuw</button>
+    <a href="{{ lmGidsUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;text-decoration:none;margin-top:8px">La Maison op infofrankrijk.com ↗</a>
+  </div>
+  </sc-if>
+  <sc-if value="{{ lmKlaar }}" hint-placeholder-val="{{ true }}">
+  <div role="tablist" aria-label="Delen van La Maison" style="display:flex;gap:8px;overflow-x:auto;padding:16px 16px 2px">
+    <sc-for list="{{ lmTabs }}" as="c" hint-placeholder-count="4">
+    <button role="tab" aria-selected="{{ c.sel }}" onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.naam }}</button>
+    </sc-for>
+  </div>
+  <sc-if value="{{ lmIsKopen }}" hint-placeholder-val="{{ true }}">
+  <div style="margin:14px 14px 0;display:flex;flex-direction:column;gap:10px">
+    <sc-for list="{{ lmFasen }}" as="f" hint-placeholder-count="3">
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+      <button onClick="{{ f.toggle }}" aria-expanded="{{ f.ariaOpen }}" style="width:100%;display:flex;align-items:center;gap:12px;padding:10px 15px;background:none;border:0;text-align:left;cursor:pointer;min-height:56px">
+        <span style="width:30px;height:30px;flex:none;border-radius:50%;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:700 13px Poppins,system-ui,sans-serif">{{ f.nr }}</span>
+        <span style="flex:1;min-width:0;font:700 14.5px/1.3 Mulish;color:#15181A">{{ f.titel }}</span>
+        <span style="font:700 18px Mulish;color:#800000;flex:none;width:20px;text-align:center">{{ f.pijl }}</span>
+      </button>
+      <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <sc-for list="{{ f.arts }}" as="a" hint-placeholder-count="2">
+        <sc-if value="{{ a.live }}" hint-placeholder-val="{{ true }}">
+        <a href="{{ a.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
+          <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ a.titel }}</span>
+          <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+        </a>
+        </sc-if>
+        <sc-if value="{{ a.later }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);min-height:52px;opacity:.6">
+          <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#71787C;text-wrap:pretty">{{ a.titel }}</span>
+          <span style="font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
+        </div>
+        </sc-if>
+        </sc-for>
+        <sc-if value="{{ f.heeftGids }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ f.gidsUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);text-decoration:none;min-height:48px">
+          <span style="flex:1;min-width:0;font:700 12.5px Mulish;color:#800000">Bekijk de fase in de gids</span>
+          <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+        </a>
+        </sc-if>
+      </div>
+      </sc-if>
+    </div>
+    </sc-for>
+  </div>
+  </sc-if>
+  <sc-if value="{{ lmIsLijst }}" hint-placeholder-val="{{ false }}">
+  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;overflow:hidden">
+    <sc-for list="{{ lmArts }}" as="a" hint-placeholder-count="3">
+    <sc-if value="{{ a.live }}" hint-placeholder-val="{{ true }}">
+    <a href="{{ a.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
+      <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ a.titel }}</span>
+      <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+    </a>
+    </sc-if>
+    <sc-if value="{{ a.later }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);min-height:52px;opacity:.6">
+      <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#71787C;text-wrap:pretty">{{ a.titel }}</span>
+      <span style="font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
+    </div>
+    </sc-if>
+    </sc-for>
+  </div>
+  </sc-if>
+  </sc-if>
+  <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Tools bij wonen</div>
+  <sc-if value="{{ lmHeeftTools }}" hint-placeholder-val="{{ true }}">
+  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+    <sc-for list="{{ lmTools }}" as="t" hint-placeholder-count="3">
+    <button onClick="{{ t.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:52px">
+      <span style="flex:1;min-width:0">
+        <b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ t.label }}</b>
+        <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+      </span>
+      <span style="font:700 14px Mulish;color:#800000;flex:none">→</span>
+    </button>
+    </sc-for>
+  </div>
+  </sc-if>
+  <sc-if value="{{ lmGeenTools }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:0 14px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <p style="font:500 14px/1.8 Mulish;color:#3D4346;margin:0;text-wrap:pretty">Er staan geen tools aan bij dit onderwerp. U zet ze aan bij Account, Mijn modules.</p>
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer;margin-top:12px">Naar Mijn modules →</button>
+  </div>
+  </sc-if>
+  <sc-if value="{{ strookZichtbaar }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:22px 0 0">
+    <div style="padding:0 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ strookTitel }}</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ strookItems }}" as="n" hint-placeholder-count="3">
+      <button onClick="{{ n.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
+        <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ n.titel }}</div>
+        <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
+      </button>
+      </sc-for>
+      <button onClick="{{ strookAlle }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle nieuws →</button>
+    </div>
+  </div>
+  </sc-if>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -2269,7 +2388,7 @@ class Component extends DCLogic {
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
-    themaId:null, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null };
+    themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null };
 
   // KOPPELVLAK THEMA'S. Een tegel met `scherm` in modules.json (themas) opent het scherm uit dit
   // register. De drie stubs hieronder tonen tijdelijk het generieke themascherm met de tekst
@@ -2277,7 +2396,7 @@ class Component extends DCLogic {
   // toe voor state.screen === "nieuws" | "gezondheid" | "lamaison" en haal die naam uit
   // STUB_SCHERMEN (zie isThema in renderVals). De regel in dit register blijft staan.
   SCHERMEN_VOOR_THEMA = {nieuws:"nieuws", gezondheid:"gezondheid", lamaison:"lamaison"};
-  STUB_SCHERMEN = ["nieuws", "gezondheid", "lamaison"];
+  STUB_SCHERMEN = ["nieuws", "gezondheid"];
   themaList(){ const c = this.state.cat; return (c && c.themas) || []; }
   themaVan(m){
     if (!m) return "";
@@ -2290,6 +2409,60 @@ class Component extends DCLogic {
   openThema(t){
     const scherm = t.scherm && this.SCHERMEN_VOOR_THEMA[t.scherm];
     this.setState({screen: scherm || "thema", themaId: t.id, from:"hub", q:"", tool:null});
+    if (scherm === "lamaison") this.laadLaMaison();
+  }
+  // LA MAISON. Eén fetch bij het openen van het scherm, daarna in het geheugen (state.lmDelen).
+  // De URL staat in modules.json (themas[wonen].bron). De vorm wordt gecontroleerd door
+  // lamaisonValideer (lamaison-lib.js); bij elke fout volgt de nette foutstaat met Opnieuw.
+  // ARTIKELBESLISSING: artikelen openen in de browser (nieuw tabblad), niet in de app.
+  // Bewijs: infofrankrijk.com stuurt "x-frame-options: sameorigin" (curl -I), dus een iframe
+  // (scherm tool, weergave volledig of voorvertoning) wordt geweigerd; het scherm "artikel" kent
+  // alleen redactieberichten van nlfr-menu (/api/actueel-tekst, sleutel tegel/artikel).
+  lmWonen(){ return this.themaList().find(x => x.id === "wonen") || {}; }
+  laadLaMaison(){
+    if (this.state.lmStatus === "klaar" || this.state.lmStatus === "laden") return;
+    const bron = this.lmWonen().bron;
+    if (!bron) return this.setState({lmStatus:"fout"});
+    this.setState({lmStatus:"laden"});
+    let ctl = null, timer = null;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 15000); } catch(e){ ctl = null; }
+    fetch(bron, ctl ? {signal: ctl.signal} : undefined).then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
+      .then(d => {
+        const v = window.lamaisonValideer ? window.lamaisonValideer(d) : {ok:false};
+        if (!v.ok) throw new Error(v.fout || "vorm");
+        this.setState({lmDelen:v.delen, lmStatus:"klaar"});
+      })
+      .catch(() => this.setState({lmStatus:"fout"}))
+      .then(() => { if (timer) clearTimeout(timer); });
+  }
+  lmVals(){
+    const st = this.state, is = st.screen === "lamaison";
+    const w = this.lmWonen(), site = w.site || "https://infofrankrijk.com", gids = w.gids || "https://infofrankrijk.com/la-maison/";
+    const delen = st.lmDelen || [];
+    const del = delen.find(x => x.id === st.lmTab) || delen[0] || {};
+    const art = a => ({titel:a.titel, later:!!a.later, live:!a.later, href: a.later ? "" : window.lamaisonUrl(site, a.pad)});
+    const fasen = (del.fasen || []).map(f => {
+      const open = st.lmFase === f.nr;
+      return {nr:f.nr, titel:f.titel, open, ariaOpen: open ? "true" : "false", pijl: open ? "−" : "+",
+        toggle: () => this.setState({lmFase: open ? null : f.nr}),
+        arts: f.artikelen.map(art),
+        heeftGids: !!f.anker, gidsUrl: f.anker ? gids + f.anker : ""};
+    });
+    const tools = ["klussen","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
+      .map(id => this.mods().find(m => m.id === id)).filter(Boolean);
+    return {
+      isLamaison: is,
+      lmLaden: st.lmStatus === "laden" || st.lmStatus === "leeg",
+      lmFout: st.lmStatus === "fout", lmKlaar: st.lmStatus === "klaar",
+      lmOpnieuw: () => { this.setState({lmStatus:"leeg"}); setTimeout(() => this.laadLaMaison(), 0); },
+      lmGidsUrl: gids,
+      lmTabs: delen.map(x => ({naam:x.naam, sel: del.id === x.id ? "true" : "false", style: this.chipStyle(del.id === x.id),
+        pick: () => this.setState({lmTab:x.id})})),
+      lmIsKopen: !!del.fasen, lmIsLijst: !!del.artikelen,
+      lmFasen: fasen, lmArts: (del.artikelen || []).map(art),
+      lmTools: tools.map(m => ({label: m.kort || m.naam, ontw: this.inOntw(m), open: () => this.route(m)})),
+      lmHeeftTools: tools.length > 0, lmGeenTools: tools.length === 0
+    };
   }
   // wordt ingevuld door de Nieuws-bouwer: geeft maximaal drie items {titel, meta, open}
   // (meta = datum en bron) voor de nieuwsstrook van dit thema, op basis van `nieuws` in themas.
@@ -2357,7 +2530,8 @@ class Component extends DCLogic {
     const alle = this.zoekMods().filter(m => m.thema === t.id);
     const zichtbaar = this.mods().filter(m => m.thema === t.id);
     const cafe = this.cafeUrl(t);
-    const strook = isThema && t.id ? (this.strookVoorThema(t.id) || []).slice(0, 3) : [];
+    // ook het La Maison-scherm (tegel Wonen) toont de strook, via dezelfde holes
+    const strook = (isThema || st.screen === "lamaison") && t.id ? (this.strookVoorThema(t.id) || []).slice(0, 3) : [];
     return {
       isThema, themaStub: stub, themaNaam: t.naam, themaWat: t.wat || "",
       themaMods: zichtbaar.map(m => ({
@@ -3137,9 +3311,9 @@ class Component extends DCLogic {
     const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", act:"Actueel", artikel:"Artikel", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", act:"Actueel", artikel:"Artikel", lamaison:"La Maison", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Account"};
-    const subs = {hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
+    const subs = {lamaison:"Wonen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
       over:"Nederlanders.fr · Infofrankrijk · sinds 2002",
       nedergids:"wegwijzer · gratis te lezen",
@@ -3191,6 +3365,7 @@ class Component extends DCLogic {
       subtitle: tv.isThema ? (tv.themaStub ? "In ontwikkeling" : "Onderwerp") : st.screen === "dossierdemo" ? "Voorbeeld · DossierFrankrijk" : subs[st.screen] || "",
       ...tv,
       ...this.dsVals(),
+      ...this.lmVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
@@ -3504,7 +3679,7 @@ class Component extends DCLogic {
       heeftUrl: !!(T && T.kind === "iframe" && T.url),
       isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       kopLink: st.screen === "tool" && !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
-      kopBadge: st.screen !== "keuze" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopBadge: st.screen !== "keuze" && st.screen !== "lamaison" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       scrollOverflow: (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig") ? "hidden" : "auto",
       isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
       isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
@@ -3556,7 +3731,7 @@ class Component extends DCLogic {
 
       tabs: tabDefs.map(([label, icon, target]) => ({
         label, iconStyle: this.iconStyle(icon),
-        style: this.navStyle(st.screen === target || (target === "act" && st.screen === "artikel") || (target === "hub" && (tv.isThema || st.screen === "dossierdemo"))),
+        style: this.navStyle(st.screen === target || (target === "act" && st.screen === "artikel") || (target === "hub" && (tv.isThema || st.screen === "lamaison" || st.screen === "dossierdemo"))),
         go: () => this.go(target)}))
     };
   }
