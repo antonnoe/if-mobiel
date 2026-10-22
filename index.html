@@ -18,6 +18,7 @@
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./lamaison-lib.js"></script>
 <script src="./support.js"></script>
+<script src="./dossier.js"></script>
 </head>
 <body>
 <!-- Zichtbaar zolang de runtime niet gestart is: na 6 seconden zonder app, of meteen bij een
@@ -414,6 +415,143 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   </sc-if>
   <div style="height:26px"></div>
+</div>
+</sc-if>
+
+<!-- ============ GEZONDHEID (dossier Ouder worden in Frankrijk, live opgehaald) ============ -->
+<sc-if value="{{ isGezondheid }}" hint-placeholder-val="{{ false }}">
+<div>
+  <sc-if value="{{ gzHfdOpen }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:16px 18px 0">
+      <button onClick="{{ gzTerug }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">← Terug naar het overzicht</button>
+      <div style="font:800 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000;margin-top:16px">{{ gzHfdKicker }}</div>
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:24px;line-height:1.2;margin:6px 0 0">{{ gzHfdTitel }}</h1>
+    </div>
+    <sc-if value="{{ gzLaadt }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px 18px;font:600 14px Mulish;color:#71787C">Hoofdstuk laden…</div>
+    </sc-if>
+    <sc-if value="{{ gzFout }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:16px 14px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <b style="display:block;font:700 14px Mulish;color:#15181A">Het hoofdstuk kon niet geladen worden</b>
+      <span style="display:block;font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px">Mogelijk is de verbinding weg of is Infofrankrijk tijdelijk niet bereikbaar.</span>
+      <button onClick="{{ gzOpnieuw }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">Opnieuw</button>
+      <a href="{{ gzHfdUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:8px;border:1px solid rgba(128,0,0,.25);border-radius:13px;color:#800000;font:700 13.5px Mulish;text-decoration:none">Lees het op Infofrankrijk ↗</a>
+    </div>
+    </sc-if>
+    <sc-if value="{{ gzHfdKlaar }}" hint-placeholder-val="{{ true }}">
+    <div style="margin:14px 14px 0;padding:6px 16px 10px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <div data-dossier="1"></div>
+    </div>
+    </sc-if>
+    <div style="padding:14px 14px 0">
+      <a href="{{ gzHfdUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:6px;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;text-decoration:none">Dit hoofdstuk op Infofrankrijk ↗</a>
+      <button onClick="{{ gzTerug }}" style="width:100%;min-height:50px;margin-top:8px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer">← Terug naar het overzicht</button>
+    </div>
+    <div style="height:26px"></div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ gzOverzicht }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <div style="padding:20px 18px 0">
+      <h1 style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:29px;line-height:1.08;margin:0">Gezondheid</h1>
+      <p style="font-size:14px;line-height:1.8em;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ gzIntro }}</p>
+    </div>
+    <sc-if value="{{ gzFout }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:14px 14px 0;padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <b style="display:block;font:700 13.5px Mulish;color:#15181A">Het dossier kon niet geladen worden</b>
+      <span style="display:block;font:500 12.5px/1.6 Mulish;color:#3D4346;margin-top:3px">De hoofdstukken staan hieronder met hun nummer. Probeer het opnieuw of lees het dossier op Infofrankrijk.</span>
+      <button onClick="{{ gzOpnieuw }}" style="width:100%;min-height:48px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:10px">Opnieuw</button>
+      <a href="{{ gzBronUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:8px;border:1px solid rgba(128,0,0,.25);border-radius:13px;color:#800000;font:700 13.5px Mulish;text-decoration:none">Het dossier op Infofrankrijk ↗</a>
+    </div>
+    </sc-if>
+
+    <div style="margin:16px 14px 0;padding:15px 16px;border-radius:16px;background:#FDF3F2;border:2px solid #B3261E">
+      <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:18px;line-height:1.25;color:#8A1414">{{ gzNoodTitel }}</div>
+      <sc-if value="{{ gzNoodKnop }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ gzNoodOpen }}" style="width:100%;min-height:50px;margin-top:11px;border:0;border-radius:13px;background:#B3261E;color:#fff;font:800 14px Mulish;cursor:pointer;text-align:left;padding:0 15px;display:flex;align-items:center">
+        <span style="flex:1">{{ gzNoodKnopTekst }}</span><span>→</span>
+      </button>
+      </sc-if>
+      <sc-for list="{{ gzNoodHfd }}" as="h" hint-placeholder-count="2">
+      <button onClick="{{ h.open }}" style="width:100%;min-height:50px;margin-top:8px;border:1px solid rgba(179,38,30,.35);border-radius:13px;background:#fff;color:#15181A;text-align:left;padding:8px 15px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 13.5px Mulish">{{ h.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ h.meta }}</span></span>
+        <span style="font:700 13px Mulish;color:#B3261E">→</span>
+      </button>
+      </sc-for>
+    </div>
+
+    <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ gzNuTitel }}</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ gzNuHfd }}" as="h" hint-placeholder-count="4">
+      <button onClick="{{ h.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:11px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
+        <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ h.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ h.meta }}</span></span>
+        <span style="font:700 13px Mulish;color:#800000">→</span>
+      </button>
+      </sc-for>
+    </div>
+
+    <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">De fasen</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ gzFasen }}" as="f" hint-placeholder-count="6">
+      <div style="border-top:1px solid rgba(21,24,26,.06)">
+        <button onClick="{{ f.toggle }}" aria-expanded="{{ f.ariaOpen }}" style="width:100%;display:flex;align-items:center;gap:12px;padding:10px 15px;border:0;background:none;text-align:left;cursor:pointer;min-height:58px">
+          <span style="width:30px;height:30px;flex:none;border-radius:50%;background:{{ f.cirkel }};color:{{ f.cirkelTekst }};display:grid;place-items:center;font:800 13px/1 Mulish">{{ f.nummer }}</span>
+          <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 14px Mulish;color:#15181A">{{ f.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ f.aantal }}</span></span>
+          <span style="font:700 16px Mulish;color:#800000;flex:none">{{ f.pijl }}</span>
+        </button>
+        <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+        <div style="background:rgba(128,0,0,.04);border-top:1px solid rgba(21,24,26,.06)">
+          <sc-for list="{{ f.hfds }}" as="h" hint-placeholder-count="3">
+          <button onClick="{{ h.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 15px 10px 57px;border:0;border-top:1px solid rgba(21,24,26,.05);background:none;text-align:left;cursor:pointer;min-height:52px">
+            <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ h.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ h.meta }}</span></span>
+            <span style="font:700 13px Mulish;color:#800000">→</span>
+          </button>
+          </sc-for>
+        </div>
+        </sc-if>
+      </div>
+      </sc-for>
+      <button onClick="{{ gzBronnenOpen }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
+        <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 14px Mulish;color:#15181A">{{ gzBronnenTitel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ gzBronnenMeta }}</span></span>
+        <span style="font:700 13px Mulish;color:#800000">→</span>
+      </button>
+    </div>
+
+    <sc-if value="{{ gzToolsZichtbaar }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ gzToolsTitel }}</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ gzTools }}" as="t" hint-placeholder-count="3">
+      <button onClick="{{ t.open }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
+        <span style="flex:1;min-width:0">
+          <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
+          <span style="font:600 11.5px Mulish;color:#71787C">{{ t.meta }}</span>
+          <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:block;width:max-content;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+        </span>
+        <span style="font:700 13px Mulish;color:#800000">→</span>
+      </button>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ strookZichtbaar }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:22px 0 0">
+      <div style="padding:0 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ strookTitel }}</div>
+      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+        <sc-for list="{{ strookItems }}" as="n" hint-placeholder-count="3">
+        <button onClick="{{ n.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
+          <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ n.titel }}</div>
+          <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
+        </button>
+        </sc-for>
+        <button onClick="{{ strookAlle }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle nieuws →</button>
+      </div>
+    </div>
+    </sc-if>
+    <div style="height:26px"></div>
+  </div>
+  </sc-if>
 </div>
 </sc-if>
 
@@ -2388,6 +2526,7 @@ class Component extends DCLogic {
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
+    gzStatus:"leeg", gzTitels:{}, gzOpen:[], gzHfd:null, gzHfdFout:false,
     themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null };
 
   // KOPPELVLAK THEMA'S. Een tegel met `scherm` in modules.json (themas) opent het scherm uit dit
@@ -2396,7 +2535,7 @@ class Component extends DCLogic {
   // toe voor state.screen === "nieuws" | "gezondheid" | "lamaison" en haal die naam uit
   // STUB_SCHERMEN (zie isThema in renderVals). De regel in dit register blijft staan.
   SCHERMEN_VOOR_THEMA = {nieuws:"nieuws", gezondheid:"gezondheid", lamaison:"lamaison"};
-  STUB_SCHERMEN = ["nieuws", "gezondheid"];
+  STUB_SCHERMEN = ["nieuws"];
   themaList(){ const c = this.state.cat; return (c && c.themas) || []; }
   themaVan(m){
     if (!m) return "";
@@ -2408,8 +2547,9 @@ class Component extends DCLogic {
   inOntw(m){ return !!m && String(m.status || "").trim().toLowerCase() === "in ontwikkeling"; }
   openThema(t){
     const scherm = t.scherm && this.SCHERMEN_VOOR_THEMA[t.scherm];
-    this.setState({screen: scherm || "thema", themaId: t.id, from:"hub", q:"", tool:null});
+    this.setState({screen: scherm || "thema", themaId: t.id, from:"hub", q:"", tool:null, gzHfd:null});
     if (scherm === "lamaison") this.laadLaMaison();
+    if (scherm === "gezondheid") this.laadDossier();
   }
   // LA MAISON. Eén fetch bij het openen van het scherm, daarna in het geheugen (state.lmDelen).
   // De URL staat in modules.json (themas[wonen].bron). De vorm wordt gecontroleerd door
@@ -2469,6 +2609,100 @@ class Component extends DCLogic {
   strookVoorThema(themaId){
     return [];
   }
+
+  // ---- Gezondheid: het dossier "Ouder worden in Frankrijk", live opgehaald (dossier.js) ------
+  // Indeling (fasen, noodblok, tools) staat in modules.json onder `gezondheid`; de tekst niet.
+  // De ruwe HTML blijft in het geheugen (this._gzSet), alleen de titels gaan in de state.
+  gzCfg(){ return (this.state.cat && this.state.cat.gezondheid) || {}; }
+  laadDossier(){
+    const st = this.state;
+    if (st.gzStatus === "klaar" || st.gzStatus === "laden" || !window.IfDossier) {
+      if (!window.IfDossier && st.gzStatus !== "klaar") this.setState({gzStatus:"fout"});
+      return;
+    }
+    this.setState({gzStatus:"laden"});
+    window.IfDossier.haalOp().then(set => {
+      this._gzSet = set;
+      this.setState({gzStatus:"klaar", gzTitels:set.titels});
+    }).catch(() => this.setState({gzStatus:"fout"}));
+  }
+  gzNaam(n){ const t = this.state.gzTitels[n]; return t || "Hoofdstuk " + n; }
+  gzOpenHfd(n){
+    const el = document.getElementById("ifm-scroll");
+    if (this.state.gzHfd === null) this._gzScroll = el ? el.scrollTop : 0;
+    this.setState({gzHfd:n});
+    setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0);
+    this.laadDossier();
+  }
+  gzTerug(){
+    this.setState({gzHfd:null});
+    const zet = () => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = this._gzScroll || 0; };
+    setTimeout(zet, 0); setTimeout(zet, 80);
+  }
+  gzOpnieuw(){ this.laadDossier(); }
+  // Vult <div data-dossier> met het opgeschoonde hoofdstuk (DOM-knooppunten, geen ruwe HTML-hole).
+  vulDossier(){
+    const el = document.querySelector("[data-dossier]");
+    const n = this.state.gzHfd;
+    if (!el || !n || !this._gzSet || !window.IfDossier) return;
+    if (el.__gzHfd === n && el.firstChild) return;
+    el.__gzHfd = n;
+    while (el.firstChild) el.removeChild(el.firstChild);
+    const body = window.IfDossier.hoofdstuk(this._gzSet, n);
+    if (body) { while (body.firstChild) el.appendChild(document.adoptNode(body.firstChild)); }
+    if (!el.__gzKlik) {
+      el.__gzKlik = true;
+      el.addEventListener("click", ev => {
+        const a = ev.target && ev.target.closest ? ev.target.closest("a[data-hfd]") : null;
+        if (a) { ev.preventDefault(); this.gzOpenHfd(parseInt(a.getAttribute("data-hfd"), 10)); }
+      });
+    }
+  }
+  gzVals(){
+    const st = this.state, cfg = this.gzCfg();
+    const bron = cfg.bron || {}, nood = cfg.nood || {}, nu = cfg.nuregelen || {}, br = cfg.bronnen || {};
+    const D = window.IfDossier || {};
+    const pagina = bron.pagina || D.PAGINA || "https://infofrankrijk.com/ouderenzorg-frankrijk/";
+    const hfdRij = (n, extra) => ({titel:this.gzNaam(n), meta:(st.gzTitels[n] ? "Hoofdstuk " + n : "") + (extra ? (st.gzTitels[n] ? " · " : "") + extra : ""), open:() => this.gzOpenHfd(n)});
+    const fasen = (cfg.fasen || []).map(f => {
+      const open = st.gzOpen.includes(f.nummer), n = (f.hoofdstukken || []).length;
+      return {nummer:String(f.nummer), titel:f.titel, aantal: n === 1 ? "1 hoofdstuk" : n + " hoofdstukken",
+        open, ariaOpen: open ? "true" : "false", pijl: open ? "−" : "+",
+        cirkel: open ? "#800000" : "rgba(128,0,0,.10)", cirkelTekst: open ? "#fff" : "#800000",
+        toggle: () => this.setState({gzOpen: open ? st.gzOpen.filter(x => x !== f.nummer) : st.gzOpen.concat([f.nummer])}),
+        hfds: (f.hoofdstukken || []).map(h => hfdRij(h))};
+    });
+    const zorgMod = nood.module ? this.vindModule(nood.module) : null;
+    const toolIds = (cfg.tools && cfg.tools.modules) || [];
+    const tools = toolIds.map(id => this.vindModule(id)).filter(m => m && this.zichtbaarNu(m));
+    const nr = st.gzHfd;
+    return {
+      isGezondheid: st.screen === "gezondheid",
+      gzOverzicht: !nr, gzHfdOpen: !!nr,
+      gzIntro: bron.naam ? "Het dossier \u201c" + bron.naam + "\u201d, geordend per fase. De hoofdstukken worden live van Infofrankrijk geladen." : "",
+      gzBronUrl: pagina,
+      gzLaadt: st.gzStatus === "laden" || st.gzStatus === "leeg",
+      gzFout: st.gzStatus === "fout",
+      gzHfdKlaar: st.gzStatus === "klaar",
+      gzOpnieuw: () => this.gzOpnieuw(),
+      gzTerug: () => this.gzTerug(),
+      gzHfdKicker: nr ? "Hoofdstuk " + nr : "",
+      gzHfdTitel: nr ? this.gzNaam(nr) : "",
+      gzHfdUrl: nr ? pagina + "#ifr-sec-" + nr : pagina,
+      gzNoodTitel: nood.titel || "",
+      gzNoodKnop: !!zorgMod, gzNoodKnopTekst: nood.knop || (zorgMod && zorgMod.naam) || "",
+      gzNoodOpen: () => this.route(zorgMod),
+      gzNoodHfd: (nood.hoofdstukken || []).map(n => hfdRij(n)),
+      gzNuTitel: nu.titel || "",
+      gzNuHfd: (nu.hoofdstukken || []).map(n => hfdRij(n, nu.verwijzing)),
+      gzFasen: fasen,
+      gzBronnenTitel: br.titel || "Bronnen",
+      gzBronnenMeta: br.hoofdstuk && st.gzTitels[br.hoofdstuk] ? "Hoofdstuk " + br.hoofdstuk + " · " + st.gzTitels[br.hoofdstuk] : "Hoofdstuk " + (br.hoofdstuk || ""),
+      gzBronnenOpen: () => this.gzOpenHfd(br.hoofdstuk),
+      gzToolsZichtbaar: tools.length > 0, gzToolsTitel: (cfg.tools && cfg.tools.titel) || "Hulpmiddelen",
+      gzTools: tools.map(m => ({name:m.naam, meta:m.meta, ontw:this.inOntw(m), open:() => this.route(m)}))
+    };
+  }
   openDossierDemo(){
     this.setState({screen:"dossierdemo", from:"hub", dsView:"overzicht", dsOnd:null, dsOpen:null, q:"", tool:null});
     this.laadDossierDemo();
@@ -2526,12 +2760,12 @@ class Component extends DCLogic {
     const st = this.state, V = this.variant();
     const stub = this.STUB_SCHERMEN.includes(st.screen);
     const isThema = st.screen === "thema" || stub;
-    const t = this.themaList().find(x => x.id === st.themaId) || {id:"", naam:"", wat:""};
+    const t = this.themaList().find(x => x.id === (st.screen === "gezondheid" ? "gezondheid" : st.themaId)) || {id:"", naam:"", wat:""};
     const alle = this.zoekMods().filter(m => m.thema === t.id);
     const zichtbaar = this.mods().filter(m => m.thema === t.id);
     const cafe = this.cafeUrl(t);
     // ook het La Maison-scherm (tegel Wonen) toont de strook, via dezelfde holes
-    const strook = (isThema || st.screen === "lamaison") && t.id ? (this.strookVoorThema(t.id) || []).slice(0, 3) : [];
+    const strook = (isThema || st.screen === "lamaison" || st.screen === "gezondheid") && t.id ? (this.strookVoorThema(t.id) || []).slice(0, 3) : [];
     return {
       isThema, themaStub: stub, themaNaam: t.naam, themaWat: t.wat || "",
       themaMods: zichtbaar.map(m => ({
@@ -2552,7 +2786,7 @@ class Component extends DCLogic {
         : "Hier staan nog geen modules.",
       strookZichtbaar: strook.length > 0,
       strookItems: strook,
-      strookTitel: "Nieuws bij " + t.naam,
+      strookTitel: st.screen === "gezondheid" ? "Nieuws over zorg en gezondheid" : "Nieuws bij " + t.naam,
       // wordt aangepast door de Nieuws-bouwer; nu naar het Actueel-scherm
       strookAlle: () => this.go("act")
     };
@@ -2684,7 +2918,7 @@ class Component extends DCLogic {
       .catch(() => this.setState({catFout:true}));
   }
 
-  componentDidUpdate(){ this.vulRijk(); }
+  componentDidUpdate(){ this.vulRijk(); this.vulDossier(); }
   // Vult de lege <div data-rijk> van de draad met gefilterde DOM-knooppunten (zie bouwHtml).
   vulRijk(){
     const bron = this.__rijk || {};
@@ -3311,7 +3545,7 @@ class Component extends DCLogic {
     const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", act:"Actueel", artikel:"Artikel", lamaison:"La Maison", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+    const titles = {hub: V === "B" ? "Vandaag" : "Infopoche", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", act:"Actueel", artikel:"Artikel", lamaison:"La Maison", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Account"};
     const subs = {lamaison:"Wonen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
@@ -3319,6 +3553,7 @@ class Component extends DCLogic {
       nedergids:"wegwijzer · gratis te lezen",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
       zorg:"Leven · altijd vrij toegankelijk",
+      gezondheid:"Ouder worden in Frankrijk",
       ruyter:"Geld · nagelezen bij DGFiP en Légifrance",
       zoek:"modules, berichten en zinnen",
       energie:"Wonen · methode 3CL-DPE 2021",
@@ -3364,6 +3599,7 @@ class Component extends DCLogic {
       title: tv.isThema ? tv.themaNaam : st.screen === "dossierdemo" ? "Mijn dossier" : titles[st.screen] || "Infopoche",
       subtitle: tv.isThema ? (tv.themaStub ? "In ontwikkeling" : "Onderwerp") : st.screen === "dossierdemo" ? "Voorbeeld · DossierFrankrijk" : subs[st.screen] || "",
       ...tv,
+      ...this.gzVals(),
       ...this.dsVals(),
       ...this.lmVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
@@ -3371,7 +3607,7 @@ class Component extends DCLogic {
       badgeFg: locked ? "#800000" : "#3D4346",
       showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
       showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|artikel|thema|nieuws|gezondheid|lamaison|dossierdemo)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
-      back: () => st.screen === "artikel" ? this.terugNaarLijst() : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
+      back: () => st.screen === "artikel" ? this.terugNaarLijst() : (st.screen === "gezondheid" && st.gzHfd) ? this.gzTerug() : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
             tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool}),

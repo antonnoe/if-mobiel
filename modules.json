@@ -2214,5 +2214,113 @@
       "naam": "Taal",
       "wat": "Frans voor het dagelijks leven."
     }
-  ]
+  ],
+  "gezondheid": {
+    "_uitleg": "Indeling van het scherm Gezondheid. Alleen hoofdstuknummers en labels; de tekst van het dossier wordt live bij Infofrankrijk opgehaald (dossier.js) en staat niet in de repo.",
+    "bron": {
+      "naam": "Ouder worden in Frankrijk: het complete dossier",
+      "pagina": "https://infofrankrijk.com/ouderenzorg-frankrijk/",
+      "rest": "https://infofrankrijk.com/wp-json/wp/v2/posts?slug=ouderenzorg-frankrijk&_fields=id,content",
+      "hoofdstukken": 32
+    },
+    "nood": {
+      "titel": "Gaat het nu niet meer?",
+      "module": "zorg",
+      "knop": "Ouder worden & zorg",
+      "hoofdstukken": [
+        28,
+        30
+      ]
+    },
+    "nuregelen": {
+      "titel": "Nu al regelen",
+      "verwijzing": "hoort bij fase 5: het levenseinde",
+      "hoofdstukken": [
+        22,
+        23,
+        24,
+        25
+      ]
+    },
+    "fasen": [
+      {
+        "nummer": 0,
+        "titel": "Blijf ik hier of ga ik terug?",
+        "hoofdstukken": [
+          27
+        ]
+      },
+      {
+        "nummer": 1,
+        "titel": "Ik red het niet meer alleen thuis",
+        "hoofdstukken": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+          21
+        ]
+      },
+      {
+        "nummer": 2,
+        "titel": "Ik heb verzorging nodig",
+        "hoofdstukken": [
+          7,
+          9,
+          10
+        ]
+      },
+      {
+        "nummer": 3,
+        "titel": "Ik kan niet meer thuis wonen",
+        "hoofdstukken": [
+          11,
+          12,
+          13,
+          14,
+          31
+        ]
+      },
+      {
+        "nummer": 4,
+        "titel": "Intensieve zorg (EHPAD)",
+        "hoofdstukken": [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ]
+      },
+      {
+        "nummer": 5,
+        "titel": "Het levenseinde",
+        "hoofdstukken": [
+          22,
+          23,
+          24,
+          25,
+          26,
+          29
+        ]
+      }
+    ],
+    "bronnen": {
+      "titel": "Bronnen",
+      "hoofdstuk": 32
+    },
+    "tools": {
+      "titel": "Hulpmiddelen",
+      "modules": [
+        "zorgkompas",
+        "zoekers",
+        "palliatief",
+        "zorglexicon"
+      ]
+    }
+  }
 }
