@@ -180,3 +180,15 @@ De hub is een raster van 3x3 tegels: Geld, Overheid, Gezondheid, Adressen, Nieuw
 - Draaien van de tests: `node --test tests/*.test.mjs` (alleen de mapnaam werkt niet in Node 22).
 
 Open: het nieuwsthema `zorg` (Zorg en gezondheid) staat klaar in `nlfr-menu` op de branch `zorg-thema`, maar main van die repo vraagt een groene statuscheck "npm test"; tot de merge toont de strook bij Gezondheid niets. Het Zorglexicon en de Zoekers per departement staan op "In ontwikkeling".
+
+
+## Ronde 22-10-2026 (tweede): landing, kleur, route Ondernemen, AI-tools
+
+- **Landing en installeren:** in een gewone browser (niet standalone) opent eerst een donkere landing (`landing-lib.js` detecteert Android, iPhone/iPad, in-app browsers en computer; 14 dagen uitstel in `ifm_landing_tot`). In de geïnstalleerde app nooit. QR-code: `icons/qr-infopoche.svg`.
+- **Service worker** (`sw.js`): netwerk eerst voor HTML en JSON, de app-schil als terugval in de cache, `VERSIE` bovenaan verhogen bij een release die de schil verandert. Het is een terugval, geen offline-functie en de app belooft dat ook niet.
+- **Logo:** `icons/logo-goud.svg` (landing) en `icons/logo-brons.svg` (app); de iconen zijn opnieuw gemaakt uit de bronzen versie. De gouden vector is dezelfde geometrie als de bronzen, in goud: de gouden PNG was niet strak te tracen.
+- **Hub:** begroeting naar dagdeel (`hub-lib.js`), negen tegels in eigen kleur (`themas[].kleur`), twee halve tegels (AI-tools, Mijn dossier), regiokaart (`ifm_postcode`, `ifm_plaats`; plaatsnaam via geo.api.gouv.fr). Tabbalk: Home, Zoeken, Forum, Nieuws, Profiel.
+- **Ondernemen** is een route van vier stappen uit `https://if-plek.vercel.app/ondernemen.json` (bron: `public/ondernemen.json` in if-plek). Artikelen zijn altijd zichtbaar, tools volgen Mijn modules. Het veld `ook` (module of item) zet iets ook in een tweede thema met de regel "hoort bij ...".
+- **AI-tools:** alleen modules met `ai` in `modules.json`, met bewijs in `docs/ai-onderzoek.md`.
+- **Klussen-zoekindex** staat uit (`zoekindex_wacht`) tot infofrankrijk.com een `Access-Control-Allow-Origin`-header op `/klussen/zoekindex.json` zet; hernoem het veld dan terug naar `zoekindex`.
+- **Nieuws:** het thema van perspublicaties kiest nu het model in de bestaande synthese-aanroep (nlfr-menu PR 59), met keuzelijst in `/review`; trefwoordregels blijven als terugval. Thema `zorg` ("Zorg en gezondheid") verschijnt zodra er een zorgbericht is.

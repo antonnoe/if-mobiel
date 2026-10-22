@@ -34,7 +34,7 @@
 | Iframe vult exact de ruimte tussen kop en tabbalk | if-mobiel 63d3ee5 | klaar, getoetst 360x640 tot 390x844 |
 | Disclaimer-modal Briefhulp scrolt in kader | briefhulp-fr ab1c849 | klaar, getoetst 360x640 |
 
-Open: installatievenster Tom Polak in kader; Dossier elektriciteit is nog redactie-exemplaar; Briefhulp toont AI-voorzin en Testmodus; Financieel Kompas tegenstrijdig over wat gratis is; dubbele tegels op Hub en Taal-tab; draad zonder eigen URL.
+Open: Dossier elektriciteit is nog redactie-exemplaar; Briefhulp toont AI-voorzin en Testmodus; Financieel Kompas tegenstrijdig over wat gratis is; dubbele tegels op Hub en Taal-tab; draad zonder eigen URL.
 
 ## Ronde 22-10-2026: hub met negen themategels
 
@@ -47,3 +47,16 @@ Open: installatievenster Tom Polak in kader; Dossier elektriciteit is nog redact
 | Thema zorg in de nieuwsstroom | nlfr-menu | e3e22b4 (branch zorg-thema) | NIET op main: repo-regel eist statuscheck "npm test"; merge via pull request is aan de opdrachtgever |
 
 Open: merge zorg-thema; Dossier DossierFrankrijk-repo is privé en niet geraadpleegd (demo-opbouw is eigen indeling); Taalassistent en TaalHulp staan op In ontwikkeling.
+
+## Ronde 22-10-2026 (tweede)
+
+| Taak | Repo | Commit | Status |
+|---|---|---|---|
+| Logo's vector en iconen | if-mobiel | dc5cbf4 | klaar, live |
+| Landing, service worker, manifest, QR | if-mobiel | 44e3a4f | klaar, live; niet op echt toestel getest |
+| Hub in kleur, begroeting, regiokaart, vijf tabs, Source Serif 4 | if-mobiel | a159079, 0f701ac | klaar, live |
+| Ondernemen als route, veld ook, omschrijvingen | if-plek 47332c1, if-mobiel c264883 | | klaar, live |
+| AI-tools-scherm, forum-leeslink, Klussen-zoekindex, demodossier Zorg | if-mobiel | 46d5f26, 0991805 | klaar, live |
+| Thema door het model, zorg, reviewtool | nlfr-menu | PR 59, d486804 | gemerged; branches zorg-thema en thema-door-model niet te verwijderen (403) |
+
+Open: branches in nlfr-menu handmatig verwijderen; Klussen-zoekindex wacht op CORS-header aan de WordPress-kant; zzpplatform roept Gemini vanuit de browser aan met een sleutel (nakijken); de gouden vector is dezelfde geometrie als de bronzen.
