@@ -9,6 +9,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500&display=swap" rel="stylesheet">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Infopoche">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -19,10 +20,114 @@
 <script src="./lamaison-lib.js"></script>
 <script src="./nieuws-lib.js"></script>
 <script src="./hub-lib.js"></script>
+<script src="./landing-lib.js"></script>
 <script src="./support.js"></script>
 <script src="./dossier.js"></script>
 </head>
 <body>
+<!-- Landingsscherm voor wie infopoche.fr in een gewone browser opent: nooit in de geïnstalleerde app,
+     en na "Verder in de browser" 14 dagen niet (localStorage ifm_landing_tot). Draait synchroon voor de
+     eerste render van de app, zodat er geen flits van de hub is. Pure logica staat in landing-lib.js. -->
+<script>
+(function(){
+  var L=window.LandingLib;if(!L)return;
+  var KEY="ifm_landing_tot";
+  function lees(){try{return localStorage.getItem(KEY)}catch(e){return null}}
+  function bewaar(v){try{localStorage.setItem(KEY,String(v));return true}catch(e){return false}}
+  function isStandalone(){
+    try{if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)return true}catch(e){}
+    return window.navigator.standalone===true;
+  }
+  if(isStandalone())return;
+  if(!L.toonLanding(lees()))return;
+  var nav=window.navigator,ev=null,afgebroken=false,status="",klaar=false;
+  var GOUD="#E8B04B",NAVY="#0E1A2E",LICHT="#F6F1E7",DEMP="#B9C2D0";
+  var ST={ico:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="'+GOUD+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="de deelknop" role="img" style="vertical-align:-5px;margin:0 2px"><path d="M12 15V3"/><path d="M7.5 7.5L12 3l4.5 4.5"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>'};
+  var el=document.createElement("div");
+  el.id="ifm-landing";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-label","Welkom bij InfoPoche");
+  el.style.cssText="position:fixed;left:0;top:0;right:0;bottom:0;height:100vh;height:100dvh;z-index:2147483000;background:"+NAVY+";color:"+LICHT+";overflow-y:auto;-webkit-overflow-scrolling:touch;font:500 16px/1.5 Mulish,system-ui,sans-serif";
+  function omgeving(){
+    return L.detecteerOmgeving({ua:nav.userAgent,platform:nav.platform,maxTouchPoints:nav.maxTouchPoints,standalone:false,breedte:window.innerWidth,heeftInstallEvent:!!ev});
+  }
+  var P='margin:0;font:500 15px/1.6 Mulish,system-ui,sans-serif;color:'+DEMP;
+  var KNOP='display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;padding:0 20px;border-radius:14px;font:800 16px/1.2 Mulish,system-ui,sans-serif;cursor:pointer;text-align:center;';
+  function stap(n,html){return '<li style="display:flex;gap:12px;align-items:flex-start;margin:0 0 14px;text-align:left"><span aria-hidden="true" style="flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid '+GOUD+';color:'+GOUD+';font:800 15px/27px Mulish,system-ui,sans-serif;text-align:center">'+n+'</span><span style="font:500 16px/1.5 Mulish,system-ui,sans-serif;color:'+LICHT+';padding-top:3px">'+html+'</span></li>'}
+  function blok(){
+    var o=omgeving();
+    if(o==="inapp"){
+      return '<div style="text-align:left;border:1px solid rgba(232,176,75,.45);border-radius:16px;padding:18px">'
+        +'<div style="font:600 17px/1.35 Mulish,system-ui,sans-serif;color:'+GOUD+'">Installeren kan hier niet</div>'
+        +'<p style="'+P+';margin-top:8px">Open deze pagina in Chrome of Safari.</p>'
+        +'<button type="button" id="ifm-l-kopieer" style="'+KNOP+'margin-top:14px;border:1.5px solid '+GOUD+';background:transparent;color:'+GOUD+'">Kopieer de link</button>'
+        +'<p id="ifm-l-status" role="status" aria-live="polite" style="'+P+';margin-top:10px;color:'+LICHT+'">'+status+'</p></div>';
+    }
+    if(o==="ios"){
+      var b=L.iosBrowser(nav.userAgent),s=b==="safari";
+      return '<ol style="list-style:none;margin:0;padding:0">'
+        +stap(1,s?'Tik op '+ST.ico+' onderaan in Safari':'Tik op '+ST.ico+' (Delen) in de balk van uw browser')
+        +stap(2,"Kies 'Zet op beginscherm'")
+        +stap(3,"Tik op 'Voeg toe'")+'</ol>'
+        +(s?'':'<p style="'+P+';text-align:left">Ziet u \'Zet op beginscherm\' niet in het menu? Open deze pagina dan in Safari.</p>');
+    }
+    if(o==="android"){
+      if(ev)return '<button type="button" id="ifm-l-install" style="'+KNOP+'border:0;background:'+GOUD+';color:'+NAVY+'">Installeer de app</button><p style="'+P+';margin-top:10px">Eén tik, het systeem vraagt om bevestiging</p>';
+      return '<p style="'+P+';text-align:left">'+(afgebroken?'Installeren is afgebroken. U kunt het later opnieuw proberen via het menu van uw browser.':"Uw browser biedt installeren hier niet aan; open het menu van de browser en kies 'App installeren' of 'Toevoegen aan startscherm', als die er staat.")+'</p>';
+    }
+    return '<div style="display:inline-block;background:#fff;border-radius:14px;padding:10px"><img src="./icons/qr-infopoche.svg" width="176" height="176" alt="QR-code naar '+L.URL_APP+'" style="display:block"></div><p style="'+P+';margin-top:12px;color:'+LICHT+'">Scan met uw telefoon</p>';
+  }
+  function teken(){
+    el.innerHTML='<div style="box-sizing:border-box;min-height:100%;max-width:440px;margin:0 auto;padding:max(32px,env(safe-area-inset-top)) 24px max(28px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;text-align:center">'
+      +'<img src="./icons/logo-goud.svg" alt="" width="84" height="82" style="display:block;margin:0 auto;width:84px;height:auto">'
+      +'<h1 style="margin:18px 0 0;font:500 40px/1.15 \'Source Serif 4\',Georgia,serif;color:'+LICHT+'">InfoPoche</h1>'
+      +'<p style="margin:10px 0 0;font:600 18px/1.4 Mulish,system-ui,sans-serif;color:'+GOUD+'">Kennis en ervaring dans la poche</p>'
+      +'<p style="'+P+';margin-top:8px">Gratis · geen account nodig · geen app store</p>'
+      +'<div style="margin-top:28px">'+blok()+'</div>'
+      +'<button type="button" id="ifm-l-verder" style="'+KNOP+'margin-top:22px;border:0;background:transparent;color:'+LICHT+';text-decoration:underline;text-underline-offset:4px;min-height:48px">Verder in de browser</button>'
+      +'</div>';
+    var v=el.querySelector("#ifm-l-verder");if(v)v.onclick=verder;
+    var i=el.querySelector("#ifm-l-install");if(i)i.onclick=installeer;
+    var k=el.querySelector("#ifm-l-kopieer");if(k)k.onclick=kopieer;
+  }
+  function sluit(){klaar=true;if(el.parentNode)el.parentNode.removeChild(el)}
+  function verder(){bewaar(L.uitstelTot());sluit()}
+  function installeer(){
+    var e=ev;if(!e||typeof e.prompt!=="function")return;
+    ev=null;
+    try{
+      var r=e.prompt();
+      Promise.resolve(e.userChoice).then(function(c){
+        if(c&&c.outcome==="accepted")sluit();else{afgebroken=true;if(!klaar)teken()}
+      },function(){afgebroken=true;if(!klaar)teken()});
+      void r;
+    }catch(x){afgebroken=true;teken()}
+  }
+  function kopieerTerugval(){
+    var ta=document.createElement("textarea"),ok=false;
+    ta.value=L.URL_APP;ta.setAttribute("readonly","");
+    ta.style.cssText="position:fixed;left:0;top:0;opacity:0;font-size:16px";
+    document.body.appendChild(ta);
+    try{ta.focus();ta.select();ta.setSelectionRange(0,ta.value.length);ok=!!document.execCommand("copy")}catch(e){ok=false}
+    document.body.removeChild(ta);return ok;
+  }
+  function kopieer(){
+    function klaarMet(ok){
+      status=ok?"Gekopieerd":'Kopiëren lukte niet, houd de link ingedrukt: <span style="color:'+GOUD+';user-select:all;-webkit-user-select:all;word-break:break-all">'+L.URL_APP+'</span>';
+      if(!klaar)teken();
+    }
+    try{
+      if(nav.clipboard&&nav.clipboard.writeText){
+        nav.clipboard.writeText(L.URL_APP).then(function(){klaarMet(true)},function(){klaarMet(kopieerTerugval())});
+        return;
+      }
+    }catch(e){}
+    klaarMet(kopieerTerugval());
+  }
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();ev=e;afgebroken=false;if(!klaar&&el.parentNode)teken()});
+  window.addEventListener("appinstalled",sluit);
+  teken();
+  document.body.appendChild(el);
+})();
+</script>
 <!-- Zichtbaar zolang de runtime niet gestart is: na 6 seconden zonder app, of meteen bij een
      laadfout. Zodra de app draait vervangt support.js <x-dc> door #dc-root en verdwijnt dit. -->
 <div id="ifm-start" hidden style="max-width:412px;margin:0 auto;padding:40px 24px;font:500 15px/1.8 Mulish,system-ui,sans-serif;color:#15181A;background:#F4F1F0;min-height:100vh;box-sizing:border-box">
@@ -4245,6 +4350,19 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<!-- Service worker: een terugval voor als het netwerk haperkt, geen offline-functie. Netwerk eerst, zie sw.js. -->
+<script>
+(function(){
+  try{
+    var h=location.hostname;
+    if(!("serviceWorker" in navigator))return;
+    if(location.protocol!=="https:"&&h!=="localhost"&&h!=="127.0.0.1")return;
+    window.addEventListener("load",function(){
+      try{navigator.serviceWorker.register("./sw.js").catch(function(){})}catch(e){}
+    });
+  }catch(e){}
+})();
 </script>
 </body>
 </html>

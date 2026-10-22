@@ -73,7 +73,7 @@ Frankrijk).
 9. Geen buildstap, geen bundler, geen stylesheet: alle styling staat **inline**. Draaien met
    `npx serve .`; Vercel importeert de repo zonder instellingen.
 10. Persistentie in `localStorage`: `ifm_favs`, `ifm_postcode`, `ifm_pc_later`,
-    `ifm_last_visit`, `ifm_plaats` (JSON `{postcode, plaats}`, plaatsnaam van
+    `ifm_last_visit`, `ifm_landing_tot` (tijdstempel tot wanneer het landingsscherm na "Verder in de browser" wegblijft, 14 dagen), `ifm_plaats` (JSON `{postcode, plaats}`, plaatsnaam van
     geo.api.gouv.fr, zacht falend, alleen geldig bij dezelfde postcode). Actueel-tab via `nlfr-menu`'s `/api/actueel` (thema-tegels: pers,
     overheid, infofrankrijk, verenigingen) met een voorbeeldlijst-terugval; het forum via
     `nlfr-berichten` met een demo-terugval. Beide falen zacht: nooit een lege pagina.
