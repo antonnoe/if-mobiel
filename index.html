@@ -23,6 +23,8 @@
 <script src="./landing-lib.js"></script>
 <script src="./support.js"></script>
 <script src="./dossier.js"></script>
+<script src="./artikel-lib.js"></script>
+<script src="./abonnee-lib.js"></script>
 </head>
 <body>
 <!-- Landingsscherm voor wie infopoche.fr in een gewone browser opent: nooit in de geïnstalleerde app,
@@ -180,6 +182,9 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </div>
   <sc-if value="{{ kopLink }}" hint-placeholder-val="{{ false }}">
   <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="margin-left:auto;flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12px Mulish;text-decoration:none">In browser ↗</a>
+  </sc-if>
+  <sc-if value="{{ kopDeel }}" hint-placeholder-val="{{ false }}">
+  <button onClick="{{ artDelen }}" aria-label="Delen" style="margin-left:auto;flex:none;width:46px;height:46px;border:0;border-radius:12px;background:none;display:grid;place-items:center;color:#3D4346;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
   </sc-if>
   <sc-if value="{{ kopBadge }}" hint-placeholder-val="{{ true }}">
   <div style="margin-left:auto;font:800 9.5px Mulish;letter-spacing:.12em;padding:5px 8px;border-radius:999px;flex:none;background:{{ badgeBg }};color:{{ badgeFg }}">{{ badge }}</div>
@@ -348,9 +353,9 @@ input,button{font-family:Mulish,system-ui,sans-serif}
       <div>
         <sc-for list="{{ f.arts }}" as="a" hint-placeholder-count="2">
         <sc-if value="{{ a.live }}" hint-placeholder-val="{{ true }}">
-        <a href="{{ a.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
+        <a href="{{ a.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
           <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ a.titel }}</span>
-          <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+          <span style="font:700 13px Mulish;color:#800000;flex:none">›</span>
         </a>
         </sc-if>
         <sc-if value="{{ a.later }}" hint-placeholder-val="{{ false }}">
@@ -376,9 +381,9 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;overflow:hidden">
     <sc-for list="{{ lmArts }}" as="a" hint-placeholder-count="3">
     <sc-if value="{{ a.live }}" hint-placeholder-val="{{ true }}">
-    <a href="{{ a.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
+    <a href="{{ a.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
       <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ a.titel }}</span>
-      <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+      <span style="font:700 13px Mulish;color:#800000;flex:none">›</span>
     </a>
     </sc-if>
     <sc-if value="{{ a.later }}" hint-placeholder-val="{{ false }}">
@@ -415,12 +420,12 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Ook bij Wonen</div>
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
     <sc-for list="{{ lmOok }}" as="o" hint-placeholder-count="1">
-    <a href="{{ o.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
+    <a href="{{ o.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
       <span style="flex:1;min-width:0">
         <b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ o.titel }}</b>
         <span style="display:block;margin-top:2px;font:700 11px Mulish;color:#800000">{{ o.hoort }}</span>
       </span>
-      <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+      <span style="font:700 13px Mulish;color:#800000;flex:none">›</span>
     </a>
     </sc-for>
   </div>
@@ -483,10 +488,10 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div style="margin:14px 16px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
         <sc-for list="{{ onLijst.rijen }}" as="a" hint-placeholder-count="3">
         <sc-if value="{{ a.isArt }}" hint-placeholder-val="{{ true }}">
-        <a href="{{ a.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
+        <a href="{{ a.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
           <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ a.titel }}</span>
           <span style="font:600 10.5px Mulish;color:#71787C;flex:none">Artikel</span>
-          <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
+          <span style="font:700 13px Mulish;color:#800000;flex:none">›</span>
         </a>
         </sc-if>
         <sc-if value="{{ a.isTool }}" hint-placeholder-val="{{ false }}">
@@ -1191,6 +1196,15 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     </sc-for>
   </div>
 
+<sc-if value="{{ abRuyter }}" hint-placeholder-val="{{ false }}">
+<section aria-label="Abonnement" style="margin:14px 16px 0;padding:18px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.16);display:flex;flex-direction:column;gap:12px">
+  <div style="display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:9px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px Mulish">IF</span><span style="font:600 15px Poppins,system-ui,sans-serif;line-height:1.25">{{ abKop }}</span></div>
+  <p style="margin:0;font:400 14.5px Mulish;line-height:1.8em;color:#15181A">{{ abRuyterTekst }}</p>
+  <p style="margin:0;font:500 13.5px Mulish;line-height:1.8em;color:#3D4346">{{ abForum }}</p>
+  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement</a>
+</section>
+</sc-if>
+
   <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Waar dit vandaan komt</div>
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
     <sc-for list="{{ ruBronnen }}" as="b" hint-placeholder-count="4">
@@ -1694,7 +1708,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
               <div style="font:700 13.5px/1.4 Mulish;color:#15181A;margin-top:4px;text-wrap:pretty">{{ r.titel }}</div>
               <div style="font:600 11px Mulish;color:#71787C;margin-top:4px">{{ r.datum }}</div>
               <sc-if value="{{ r.heeftLink }}" hint-placeholder-val="{{ false }}">
-              <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;margin-top:4px;font:700 12.5px Mulish;color:#800000">Lees het origineel (nieuw tabblad) &rarr;</a>
+              <a href="{{ r.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;margin-top:4px;font:700 12.5px Mulish;color:#800000">{{ r.leesLabel }} &rarr;</a>
               </sc-if>
             </div>
             </sc-for>
@@ -2234,6 +2248,78 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<!-- ============ ARTIKEL (infofrankrijk.com in de app, via de WordPress REST API; artikel-lib.js) ============ -->
+<sc-if value="{{ isArtikel }}" hint-placeholder-val="{{ false }}">
+<div>
+  <article style="padding:22px 20px 0">
+    <sc-if value="{{ artHeeftTitel }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <h1 style="margin:0;font:500 28px 'Source Serif 4',Georgia,serif;line-height:1.2;text-wrap:balance">{{ artTitel }}</h1>
+      <div style="margin-top:10px;font:500 13px Mulish;color:#71787C">{{ artMeta }}</div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ artLaadt }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="padding:22px 0;font:600 14px Mulish;color:#71787C">Artikel laden…</div>
+    </sc-if>
+    <sc-if value="{{ artFout }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:18px 0 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <b style="display:block;font:700 14px Mulish;color:#15181A">Dit artikel kon niet in de app worden geladen</b>
+      <span style="display:block;font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px">Mogelijk is de verbinding weg of is Infofrankrijk tijdelijk niet bereikbaar. Het artikel zelf staat gewoon op de site.</span>
+      <button onClick="{{ artOpnieuw }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">Opnieuw proberen</button>
+      <a href="{{ artSiteUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:8px;border:1px solid rgba(128,0,0,.25);border-radius:13px;color:#800000;font:700 13.5px Mulish;text-decoration:none">Op infofrankrijk.com &#8599;</a>
+    </div>
+    </sc-if>
+    <div data-artikel="1"></div>
+    <div data-artikel-einde="1" style="height:1px"></div>
+  </article>
+
+<sc-if value="{{ abMuur }}" hint-placeholder-val="{{ false }}">
+<section aria-label="Abonnement" style="margin:14px 16px 0;padding:18px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.16);display:flex;flex-direction:column;gap:12px">
+  <div style="display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:9px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px Mulish">IF</span><span style="font:600 15px Poppins,system-ui,sans-serif;line-height:1.25">{{ abMuurKop }}</span></div>
+  <p style="margin:0;font:400 14.5px Mulish;line-height:1.8em;color:#15181A">{{ abMuurTekst }}</p>
+  <p style="margin:0;font:500 13.5px Mulish;line-height:1.8em;color:#3D4346">{{ abForum }}</p>
+  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement</a>
+</section>
+</sc-if>
+
+  <sc-if value="{{ artKlaar }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="margin:22px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 14.5px Poppins,system-ui,sans-serif">Ervaring met dit onderwerp?</div>
+      <p style="margin:0;font:500 13.5px Mulish;line-height:1.6;color:#3D4346">Start een gesprek op Nederlanders.fr. Titel, korte samenvatting en de link naar dit artikel worden gekopieerd, zodat u ze in het nieuwe bericht kunt plakken.</p>
+      <button onClick="{{ artForum }}" style="display:flex;align-items:center;justify-content:center;min-height:46px;border:0;border-radius:12px;background:#800000;color:#fff;cursor:pointer;font:700 14px Mulish">Bespreek op het forum</button>
+      <sc-if value="{{ artForumOk }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="padding:12px 14px;border-radius:12px;background:rgba(46,125,91,.10);font:600 13px/1.6 Mulish;color:#1F5A40">Tekst gekopieerd, plak hem in het bericht. Nederlanders.fr opent in een nieuw tabblad. <a href="{{ artForumUrl }}" target="_blank" rel="noopener" style="color:#1F5A40;font-weight:700">Opent het niet? Open het forum &#8599;</a></div>
+      </sc-if>
+      <sc-if value="{{ artForumMis }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="padding:12px 14px;border-radius:12px;background:rgba(226,129,47,.12);font:600 13px/1.6 Mulish;color:#8A4E14">Kopiëren lukte niet op dit toestel. Kopieer de tekst hieronder zelf en open daarna het forum.
+        <div style="margin-top:8px;padding:10px 12px;border-radius:10px;background:#fff;font:500 13px/1.6 Mulish;color:#15181A;white-space:pre-wrap;word-break:break-word;user-select:text;-webkit-user-select:text">{{ artForumTekst }}</div>
+        <a href="{{ artForumUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;color:#8A4E14;font-weight:700">Open het forum &#8599;</a>
+      </div>
+      </sc-if>
+    </div>
+    <div style="display:flex;gap:10px;margin:12px 16px 0">
+      <button onClick="{{ artDelen }}" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;cursor:pointer;font:700 13.5px Mulish">Delen</button>
+      <a href="{{ artSiteUrl }}" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(21,24,26,.12);color:#3D4346;text-decoration:none;font:700 13.5px Mulish">Op infofrankrijk.com &#8599;</a>
+    </div>
+    <sc-if value="{{ artDeelMld }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="margin:10px 16px 0;font:600 13px/1.6 Mulish;color:#3D4346">{{ artDeelMld }}</div>
+    </sc-if>
+  </div>
+  </sc-if>
+<sc-if value="{{ abArtikel }}" hint-placeholder-val="{{ false }}">
+<section aria-label="Abonnement" style="margin:14px 16px 0;padding:18px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.16);display:flex;flex-direction:column;gap:12px">
+  <div style="display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:9px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px Mulish">IF</span><span style="font:600 15px Poppins,system-ui,sans-serif;line-height:1.25">{{ abKop }}</span></div>
+  <p style="margin:0;font:400 14.5px Mulish;line-height:1.8em;color:#15181A">{{ abArtikelTekst }}</p>
+  <p style="margin:0;font:500 13.5px Mulish;line-height:1.8em;color:#3D4346">{{ abForum }}</p>
+  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement</a>
+</section>
+</sc-if>
+
+  <div style="height:28px"></div>
+</div>
+</sc-if>
+
 <!-- ============ MIJN MODULES ============ -->
 <sc-if value="{{ isKeuze }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -2325,7 +2411,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <div style="flex:none;padding:8px 14px 10px;background:#EFE4E3;border-top:1px solid rgba(128,0,0,.20)">
   <div style="font:700 12px/1.35 Mulish;color:#5C0000">Voorbeeld. Mijn dossier is beschikbaar voor abonnees van Infofrankrijk</div>
   <div style="display:flex;gap:8px;margin-top:7px">
-    <a href="https://infofrankrijk.com/abonnement/" target="_blank" rel="noopener" style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:#800000;color:#fff;font:800 12.5px Mulish;text-decoration:none;text-align:center">Word abonnee →</a>
+    <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:#800000;color:#fff;font:800 12.5px Mulish;text-decoration:none;text-align:center">Word abonnee →</a>
     <a href="https://dossierfrankrijk.nl" target="_blank" rel="noopener" style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;border:1px solid rgba(128,0,0,.30);background:#fff;color:#800000;font:700 12px/1.25 Mulish;text-decoration:none;text-align:center;padding:0 6px">Al abonnee? Naar dossierfrankrijk.nl</a>
   </div>
 </div>
@@ -2383,6 +2469,25 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<sc-if value="{{ oproepOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:60">
+  <div onClick="{{ oproepSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.45)"></div>
+  <section role="dialog" aria-modal="true" aria-label="Abonnement" data-oproep="1" style="position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(30px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.18)">
+    <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+      <h2 style="margin:6px 0 0;font:500 24px 'Source Serif 4',Georgia,serif;line-height:1.25">Fijn dat Infopoche u helpt</h2>
+      <button onClick="{{ oproepSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
+    </div>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Wat u net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.</p>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.</p>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Als abonnee leest u bovendien alle artikelen en dossiers en gebruikt u de tools met het label Abonnee.</p>
+    <a href="{{ abonneeUrl }}" onClick="{{ oproepSluit }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14.5px Mulish">Bekijk het abonnement</a>
+    <button onClick="{{ oproepSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:700 14px Mulish">Niet nu</button>
+    <p style="margin:0;text-align:center;font:500 12.5px Mulish;color:#71787C">U ziet deze vraag hooguit eens per week.</p>
+  </section>
+</div>
+</sc-if>
+
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:412,&quot;height&quot;:880},&quot;brandNiveau&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;geen&quot;,&quot;matig&quot;,&quot;hoog&quot;,&quot;zeer hoog&quot;,&quot;extreem&quot;],&quot;default&quot;:&quot;zeer hoog&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Veiligheid&quot;}}">
@@ -2395,9 +2500,11 @@ const ARCHIEF_API = "https://nlfr-menu.vercel.app/api/actueel-archief";
 // /api/berichten levert alleen wat de activiteitenfeed van een paar dagen kent.
 const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
 
-// Betalen gebeurt buiten de app. Eén bestemming voor élke "Word abonnee"-knop,
-// dezelfde die financieel-kompas-ai al gebruikt — niet per plek een andere.
-const ABONNEE_URL = "https://www.infofrankrijk.com/abonnement/";
+// Interne schermnaam van het artikelscherm (besluit 7).
+const SCHERM_ART = "artikel";
+
+// Betalen gebeurt buiten de app. Eén bestemming voor élke "Word abonnee"-knop: `abonnement.url`
+// in modules.json, met de terugval in abonnee-lib.js (IfAbonnee.abonneeUrl). Niet per plek een andere.
 
 // Een element dat eruitziet als een link moet ook een link zijn. Deze helper
 // geeft een absolute http(s)-URL terug, of null. Bij null toont de schil het
@@ -2861,6 +2968,7 @@ class Component extends DCLogic {
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
+    art:null, artStack:[], artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false,
     gzStatus:"leeg", gzTitels:{}, gzOpen:[], gzLijst:null, onStap:null, gzHfd:null, gzHfdFout:false,
     themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null, onStatus:"leeg", onStappen:null, onDicht:[] };
 
@@ -3403,7 +3511,14 @@ class Component extends DCLogic {
       .catch(() => this.setState({catFout:true}));
   }
 
-  componentDidUpdate(){ this.vulRijk(); this.vulDossier(); this.nwHaak(); }
+  componentDidUpdate(){
+    this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkOproep();
+    if (this.state.oproep && !this._opFocus) {
+      this._opFocus = true;
+      const b = document.querySelector('[data-oproep] button[aria-label="Sluiten"]');
+      if (b && b.focus) b.focus();
+    }
+  }
   // Vult de lege <div data-rijk> van de draad met gefilterde DOM-knooppunten (zie bouwHtml).
   vulRijk(){
     const bron = this.__rijk || {};
@@ -3418,6 +3533,18 @@ class Component extends DCLogic {
   }
 
   componentDidMount(){
+    // Links met data-art (rijen in Ondernemen, La Maison, nieuwsbronnen en links in artikelen) openen in de app
+    // als ze naar een artikel van infofrankrijk.com wijzen; anders blijft het gewone nieuwe tabblad.
+    this._klikArt = ev => {
+      const a = ev.target && ev.target.closest ? ev.target.closest("a[data-art]") : null;
+      if (!a || ev.defaultPrevented || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button > 0) return;
+      const href = a.getAttribute("href");
+      if (!window.IfArtikel || !window.IfArtikel.isInApp(href)) return;
+      ev.preventDefault(); this.openInfoArtikel(href);
+    };
+    document.addEventListener("click", this._klikArt);
+    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
+    document.addEventListener("keydown", this._toetsOproep);
     this.loadCatalogus();
     let lv = null, favs = [], pc = null, pcLater = null, plaats = "", keuze = {aan:[], uit:[]};
     try {
@@ -3601,9 +3728,183 @@ class Component extends DCLogic {
   }
   // KOPPELVLAK AI-TOOLS: state.screen "aitools"; de AI-tools-bouwer vervangt het stub-blok in de template.
   openAiTools(){ this.setState({screen:"aitools", from:"hub", q:"", tool:null}); }
-  // Een Infofrankrijk-artikel openen. Voorlopig naar buiten (nieuw tabblad); het artikelscherm
-  // (besluit 7) vervangt alleen de inhoud van deze ene functie, alle aanroepers blijven staan.
-  openInfoArtikel(url){ try { window.open(url, "_blank", "noopener"); } catch(e){} }
+  // ---- Artikelscherm (besluit 7): Infofrankrijk-artikelen in de app --------------------------------
+  // openInfoArtikel(url) is de ene ingang. Een URL die geen artikel van infofrankrijk.com is
+  // (abonnementspagina, andere sites) gaat naar een nieuw tabblad. Artikelen komen anoniem uit de
+  // WordPress REST API (artikel-lib.js), worden opgeschoond tot DOM-knooppunten en alleen in het
+  // geheugen bewaard (this._artCache). Betaalmuur: zie knipBijMuur in artikel-lib.js en CLAUDE.md.
+  openInfoArtikel(url){
+    const L = window.IfArtikel, slug = L && L.slugUitUrl(url);
+    if (!slug) { try { window.open(url, "_blank", "noopener"); } catch(e){} return; }
+    const st = this.state, sc = document.getElementById("ifm-scroll"), schoon = L.schoneUrl(url);
+    const entry = {screen:st.screen, from:st.from, art: st.screen === "artikel" ? st.art : null, scroll: sc ? sc.scrollTop : 0};
+    const stack = st.screen === "artikel" ? (st.artStack || []).concat([entry]) : [entry];
+    this.setState({screen:SCHERM_ART, from: st.screen === "artikel" ? st.from : st.screen,
+      art:{url:schoon, slug, status:"laden", titel:"", datum:"", link:schoon, muur:false, samenvatting:""},
+      artStack:stack, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false});
+    setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0);
+    this.artLaad(slug, schoon);
+  }
+  artLaad(slug, url){
+    const L = window.IfArtikel;
+    this._artCache = this._artCache || {};
+    const nu = () => { const a = this.state.art; return this.state.screen === "artikel" && a && a.slug === slug; };
+    const toon = (c) => { if (nu()) this.setState({art:Object.assign({}, this.state.art, c.meta, {status:"klaar"})}); };
+    if (this._artCache[slug]) return toon(this._artCache[slug]);
+    if (!L) return this.setState({art:Object.assign({}, this.state.art, {status:"fout"})});
+    L.haalOp(slug).then(a => {
+      const k = L.knipBijMuur(a.html);
+      const body = L.schoon(k.html);
+      const heeftInhoud = !!(body.textContent || "").replace(/\s+/g, "") || !!body.querySelector("img");
+      if (!heeftInhoud && !k.muur) throw new Error("leeg");
+      const meta = {titel: L.tekstVan(a.titel) || slug.replace(/-/g, " "), datum: L.datumNl(a.datum), muur: k.muur,
+        link: L.schoneUrl(a.link) || url, samenvatting: L.inkorten(L.eersteAlinea(body), 280)};
+      this._artCache[slug] = {meta, body};
+      toon(this._artCache[slug]);
+    }).catch(() => { if (nu()) this.setState({art:Object.assign({}, this.state.art, {status:"fout"})}); });
+  }
+  artOpnieuw(){
+    const a = this.state.art; if (!a) return;
+    this.setState({art:Object.assign({}, a, {status:"laden"})});
+    this.artLaad(a.slug, a.url);
+  }
+  artTerug(){
+    const st = this.state, stack = (st.artStack || []).slice(), top = stack.pop();
+    this.artLuisterStop();
+    if (!top) { this.setState({screen:"hub", art:null, artStack:[]}); return; }
+    const basis = {artStack:stack, artForumMld:"", artDeelMld:"", artGelezen:false};
+    if (top.art) this.setState(Object.assign({screen:SCHERM_ART, art:top.art}, basis));
+    else this.setState(Object.assign({screen:top.screen, from:top.from, art:null}, basis));
+    const zet = () => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = top.scroll || 0; };
+    setTimeout(zet, 0); setTimeout(zet, 120);
+  }
+  // Vult <div data-artikel> met de opgeschoonde inhoud (DOM-knooppunten, nooit een ruwe HTML-hole).
+  vulArtikel(){
+    const el = document.querySelector("[data-artikel]"), st = this.state, a = st.art;
+    if (!el) return;
+    const klaar = st.screen === "artikel" && a && a.status === "klaar";
+    if (!klaar) { if (el.firstChild) { while (el.firstChild) el.removeChild(el.firstChild); this.artLuisterStop(); } el.__url = null; return; }
+    if (el.__url === a.url && el.firstChild) return;
+    const c = this._artCache && this._artCache[a.slug];
+    if (!c) return;
+    el.__url = a.url;
+    while (el.firstChild) el.removeChild(el.firstChild);
+    Array.prototype.slice.call(c.body.childNodes).forEach(n => el.appendChild(document.importNode(n, true)));
+    this.artLuister();
+  }
+  // "Gelezen" = het einde van de tekst (data-artikel-einde) is in beeld geweest of voorbij gescrold.
+  artLuister(){
+    this.artLuisterStop();
+    const root = document.getElementById("ifm-scroll"), a = this.state.art;
+    if (!root || !a || a.muur) return;
+    const check = () => {
+      const eind = document.querySelector("[data-artikel-einde]");
+      if (!eind) return;
+      if (eind.getBoundingClientRect().top < root.getBoundingClientRect().bottom) { this.artLuisterStop(); this.setState({artGelezen:true}); }
+    };
+    this._artScroll = {root, check};
+    root.addEventListener("scroll", check, {passive:true});
+    setTimeout(check, 0);
+  }
+  artLuisterStop(){
+    const l = this._artScroll;
+    if (l) { l.root.removeEventListener("scroll", l.check); this._artScroll = null; }
+  }
+  // Kopiëren binnen het tikmoment (execCommand) zodat het openen van het forum daarna nog mag; geeft true of false.
+  kopieerSync(tekst){
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = tekst; ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px";
+      document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, tekst.length);
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return !!ok;
+    } catch(e){ return false; }
+  }
+  artForumTekst(){
+    const a = this.state.art, L = window.IfArtikel;
+    return a && L ? L.forumTekst(a.titel, a.samenvatting, a.link || a.url) : "";
+  }
+  // Besluit 9: titel, samenvatting en link naar het klembord, dan het nieuwe-bericht-scherm van NLFR.
+  // "Gekopieerd" wordt alleen gemeld als het kopiëren gelukt is. Bij NLFR V2 wordt dit een vooraf ingevulde draad (CLAUDE.md).
+  artForum(){
+    const tekst = this.artForumTekst(), FORUM = "https://www.nederlanders.fr/profiles/blog/new";
+    if (!tekst) return;
+    const open = () => { try { window.open(FORUM, "_blank", "noopener"); } catch(e){} };
+    if (this.kopieerSync(tekst)) { this.setState({artForumMld:"ok"}); open(); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(tekst).then(() => { this.setState({artForumMld:"ok"}); open(); }, () => this.setState({artForumMld:"mislukt"}));
+      return;
+    }
+    this.setState({artForumMld:"mislukt"});
+  }
+  artDelen(){
+    const a = this.state.art; if (!a) return;
+    const url = a.link || a.url, mld = t => this.setState({artDeelMld:t});
+    if (navigator.share) { navigator.share({title:a.titel, url}).catch(() => {}); return; }
+    const fout = () => mld("Delen en kopiëren lukt op dit toestel niet. Open het artikel op infofrankrijk.com en deel de link daar.");
+    if (this.kopieerSync(url)) return mld("Link gekopieerd");
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => mld("Link gekopieerd"), fout);
+    else fout();
+  }
+  artVals(){
+    const st = this.state, a = st.art, is = st.screen === "artikel" && !!a, klaar = is && a.status === "klaar";
+    return {
+      isArtikel: is, artHeeftTitel: klaar && !!a.titel, artTitel: klaar ? a.titel : "",
+      artMeta: klaar && a.datum ? a.datum + " · Infofrankrijk" : "Infofrankrijk",
+      artLaadt: is && a.status === "laden", artFout: is && a.status === "fout", artKlaar: klaar,
+      artSiteUrl: is ? (a.link || a.url) : "https://infofrankrijk.com/",
+      artForumUrl: "https://www.nederlanders.fr/profiles/blog/new",
+      artForumOk: klaar && st.artForumMld === "ok", artForumMis: klaar && st.artForumMld === "mislukt",
+      artForumTekst: klaar && st.artForumMld === "mislukt" ? this.artForumTekst() : "",
+      artDeelMld: klaar ? (st.artDeelMld || "") : "",
+      artDelen: () => this.artDelen(), artForum: () => this.artForum(), artOpnieuw: () => this.artOpnieuw()
+    };
+  }
+
+  // ---- Abonneeblok en onderblad (besluit 3 en 4) ---------------------------------------------------
+  abonneeUrl(){ return window.IfAbonnee ? window.IfAbonnee.abonneeUrl(this.state.cat) : "https://infofrankrijk.com/abonnement/"; }
+  abVals(){
+    const st = this.state, A = window.IfAbonnee, a = st.art, klaar = st.screen === "artikel" && !!a && a.status === "klaar";
+    const zin = A ? A.toolZin(A.voorbeeldTools(st.cat)) : "";
+    const lees = " Abonnees van Infofrankrijk lezen daarnaast alle artikelen en dossiers, en gebruiken ook de tools met het label Abonnee" + zin + ".";
+    return {
+      abKop: "Had u hier iets aan?", abMuurKop: "Lees verder als abonnee",
+      abForum: "Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
+      abRuyterTekst: "Deze keuzehulp is gratis." + lees,
+      abArtikelTekst: "Dit artikel las u gratis." + lees,
+      abMuurTekst: "Het vervolg van dit artikel is voor abonnees van Infofrankrijk. Abonnees lezen alle artikelen en dossiers en gebruiken ook de tools met het label Abonnee" + zin + ".",
+      abArtikel: klaar && !a.muur, abMuur: klaar && !!a.muur,
+      oproepOpen: !!st.oproep, oproepSluit: () => this.oproepSluit()
+    };
+  }
+  // Welke soort nuttige uitkomst staat er nu op het scherm? (De Ruyter en Energie: zie renderVals; artikel: tot het einde gelezen.)
+  opSoort(){
+    const st = this.state;
+    if (st.screen === "ruyter" && this._opRu) return "uitkomst";
+    if (st.screen === "energie" && this._opEn) return "abonneetool";
+    if (st.screen === "artikel" && st.artGelezen && st.art && st.art.status === "klaar" && !st.art.muur) return "uitkomst";
+    return null;
+  }
+  // Hooguit eens per week (localStorage ifm_abo_vraag, alleen op het toestel) en eens per sessie; na een korte pauze,
+  // zodat de lezer de uitkomst eerst ziet. Regel zelf: IfAbonnee.moetOproep.
+  checkOproep(){
+    const st = this.state, A = window.IfAbonnee;
+    if (!A || st.oproep || this._opTimer) return;
+    const soort = this.opSoort();
+    if (!soort) return;
+    let opslag = null; try { opslag = window.localStorage; } catch(e){}
+    if (!A.moetOproep({soort, laatst: opslag ? A.leesLaatst(opslag) : null, nu: Date.now(), sessieGetoond: !!this._opSessie})) return;
+    this._opTimer = setTimeout(() => {
+      this._opTimer = null;
+      if (this.opSoort() !== soort || this.state.oproep) return;
+      this._opSessie = true;
+      if (opslag) A.schrijfLaatst(opslag, Date.now());
+      this.setState({oproep:true});
+    }, 1800);
+  }
+  oproepSluit(){ this._opFocus = false; this.setState({oproep:false}); }
   openMods(){ this.setState({screen:"mod", from:"acc", q:"", tool:null}); }
   regioVals(){
     const st = this.state, L = HubLib, pc = st.postcode || "";
@@ -4140,7 +4441,8 @@ class Component extends DCLogic {
         bronKop: "Bronnen (" + bronnen.length + ")",
         bronnen: bronnen.map(b => {
           const href = veiligeUrl(b.url);
-          return {naam:String(b.naam || "Bron").replace(/\s+[\u2014\u2013]\s+/g, ", "), titel:b.titel || "", datum:b.datum ? dagDatum(b.datum) : "", href:href || "", heeftLink:!!href};
+          return {naam:String(b.naam || "Bron").replace(/\s+[\u2014\u2013]\s+/g, ", "), titel:b.titel || "", datum:b.datum ? dagDatum(b.datum) : "", href:href || "", heeftLink:!!href,
+            leesLabel: href && window.IfArtikel && window.IfArtikel.isInApp(href) ? "Lees het origineel in de app" : "Lees het origineel (nieuw tabblad)"};
         }),
         heeftVolgende: !!volgende,
         volgende: volgende ? "volgende: " + volgende.titel : ""
@@ -4197,6 +4499,7 @@ class Component extends DCLogic {
     const ruU = st.ruA === true ? (st.ruB === true ? ru.uitkomsten && ru.uitkomsten.nee_b
               : st.ruB === false ? ru.uitkomsten && ru.uitkomsten.ja : null)
               : st.ruA === false ? ru.uitkomsten && ru.uitkomsten.nee_a : null;
+    this._opRu = !!ruU && st.screen === "ruyter";
     const zo = (st.cat && st.cat.zorg) || {};
     const zoSecties = zo.secties || [];
     const zoHuidig = zoSecties.find(s => s.id === st.zoSectie) || zoSecties[0] || {};
@@ -4211,9 +4514,9 @@ class Component extends DCLogic {
     const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+    const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
       mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
       over:"Profiel",
       nedergids:"wegwijzer · gratis te lezen",
@@ -4258,6 +4561,7 @@ class Component extends DCLogic {
       vb_rows: vb.rows.map(([k,v]) => ({k,v})),
       uit_rows: vb.uit.map(([k,v]) => ({k,v}))} : null;
     const en = this.enVals(T, st);
+    this._opEn = !!en.enEigenKlaar && st.screen === "energie";
     return {
       title: tv.isThema ? tv.themaNaam : st.screen === "dossierdemo" ? "Mijn dossier" : titles[st.screen] || "Infopoche",
       subtitle: tv.isThema ? (tv.themaStub ? "In ontwikkeling" : "Onderwerp") : st.screen === "dossierdemo" ? "Voorbeeld · DossierFrankrijk" : subs[st.screen] || "",
@@ -4270,9 +4574,9 @@ class Component extends DCLogic {
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
-      back: () => st.screen === "nieuws" ? this.nwTerugKnop() : (st.screen === "gezondheid" && st.gzHfd) ? this.gzTerug() : (st.screen === "gezondheid" && st.gzLijst !== null) ? this.setState({gzLijst:null}) : (st.screen === "ondernemen" && st.onStap !== null) ? this.setState({onStap:null}) : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
+      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      back: () => st.screen === "artikel" ? this.artTerug() : st.screen === "nieuws" ? this.nwTerugKnop() : (st.screen === "gezondheid" && st.gzHfd) ? this.gzTerug() : (st.screen === "gezondheid" && st.gzLijst !== null) ? this.setState({gzLijst:null}) : (st.screen === "ondernemen" && st.onStap !== null) ? this.setState({onStap:null}) : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
         ? this.setState({sc:null, phase:0})
         : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
             tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool}),
@@ -4330,7 +4634,7 @@ class Component extends DCLogic {
           ja:() => this.setState({["ru"+v.id.toUpperCase()]:true}),
           nee:() => this.setState({["ru"+v.id.toUpperCase()]:false})};
       }),
-      ruKlaar: !!ruU,
+      ruKlaar: !!ruU, abRuyter: !!ruU && st.screen === "ruyter",
       ruKop: (ruU || {}).kop || "", ruTekst: (ruU || {}).tekst || "", ruBron: (ruU || {}).bron || "",
       ruTarievenKop: (ru.tarieven || {}).kop || "",
       ruTarievenNoot: (ru.tarieven || {}).noot || "",
@@ -4400,6 +4704,8 @@ class Component extends DCLogic {
       ngAanmeldTekst: ngAan.tekst || "",
       ngRegels: (ngAan.regels || []).map(([wie, prijs]) => ({wie, prijs})),
       isOver: st.screen === "over",
+      ...this.artVals(),
+      ...this.abVals(),
       goOver: () => this.setState({screen:"over", from:"acc"}),
       openManifest: () => this.openInfoArtikel("https://infofrankrijk.com/ons-manifest-hoe-wij-werken/"),
       goKeuze: () => this.setState({screen:"keuze", from: st.screen === "keuze" ? (st.from || "acc") : st.screen, q:""}),
@@ -4573,8 +4879,9 @@ class Component extends DCLogic {
       knipAbo: (((T && T.knip) || {}).abonnee || []).map(t => ({tekst:t})),
       heeftUrl: !!(T && T.kind === "iframe" && T.url),
       isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopDeel: st.screen === "artikel" && !!st.art && st.art.status === "klaar",
       kopLink: st.screen === "tool" && !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
-      kopBadge: st.screen !== "aitools" && st.screen !== "keuze" && st.screen !== "lamaison" && st.screen !== "ondernemen" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      kopBadge: st.screen !== "aitools" && st.screen !== "artikel" && st.screen !== "keuze" && st.screen !== "lamaison" && st.screen !== "ondernemen" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       scrollOverflow: (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig") ? "hidden" : "auto",
       isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
       isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
@@ -4628,14 +4935,14 @@ class Component extends DCLogic {
       uitRows: pv ? pv.uit_rows : [],
       resetIntake: () => this.setState({antwoorden:{}, muur:false}),
       freeCount: free + " van de " + this.mods().length + " modules",
-      abonneeUrl: ABONNEE_URL,
+      abonneeUrl: this.abonneeUrl(),
 
       bigOpen: !!st.big, bigFr: st.big ? st.big.fr : "", bigNl: st.big ? st.big.nl : "",
       closeBig: () => this.setState({big:null}),
 
       tabs: HubLib.TABS.map(t => ({
         label:t.label, iconStyle:this.iconStyle(t.icon),
-        style:this.navStyle(HubLib.tabVan(st.screen) === t.id),
+        style:this.navStyle((st.screen !== "artikel" && HubLib.tabVan(st.screen) === t.id) || (st.screen === "artikel" && HubLib.tabVan(((st.artStack || [])[0] || {}).screen) === t.id)),
         go:() => this.go(t.id)})),
       accentStijl: (() => { const tid = st.screen === "nieuws" ? "nieuws" : st.screen === "lamaison" ? "wonen" : st.screen === "gezondheid" ? "gezondheid" : st.themaId;
         const k = HubLib.themaKleur(this.themaList().find(x => x.id === tid) || {});

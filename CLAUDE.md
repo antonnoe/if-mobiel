@@ -93,6 +93,31 @@ geen aantallen die niet uit de data komen, geen knop of lijstitem zonder bestemm
 introduceren, geen stylesheet toevoegen — zonder expliciete opdracht. Het werkt en het is
 de bron van de ontwerpsessie.
 
+## Artikelen in de app, betaalmuur, forumroute (ronde 23-10-2026)
+
+- **Artikelscherm** (`screen: artikel`, `artikel-lib.js`): `openInfoArtikel(url)` is de ene ingang. Een artikel van
+  infofrankrijk.com opent in de app via de WordPress REST API (`/wp/v2/posts?slug=..&_fields=title,content,date,link`, dan
+  `/pages`), het slug komt uit het pad van de URL. De inhoud wordt opgeschoond tot DOM-knooppunten (geen scripts, styles,
+  iframes, on*-attributen) en alleen in het geheugen bewaard, nooit in de repo. Links in rijen en artikelen openen in de app
+  als ze `data-art="1"` hebben en `IfArtikel.isInApp(href)` waar is; de abonnementspagina, nederlanders.fr en tools in een
+  frame blijven naar buiten gaan. Mislukt het ophalen, dan een melding met de knop naar de site, nooit een lege pagina.
+- **Betaalmuurregel**: de app toont nooit meer dan infofrankrijk.com zelf aan een anonieme bezoeker geeft. Hij haalt alleen
+  anoniem op (geen inlog, geen sleutel). Herkent `knipBijMuur` in de opgehaalde inhoud de afschermingsmelding van Paid Member
+  Subscriptions (klasse of tekst `pms-...`, zoals `pms-restriction-message` of `[pms-restrict]`; losse "PMS" en "3PMSF" tellen
+  niet), dan blijft alleen de inleiding tot dat punt staan, gevolgd door het abonneeblok als muur ("Lees verder als abonnee").
+  Heeft de site de markup ooit anders, pas dan alleen `MUUR_START` in `artikel-lib.js` aan en voeg een geval toe aan
+  `tests/artikel.test.mjs`.
+- **Forumroute ("Bespreek op het forum")**: titel, korte samenvatting (eerste alinea, ingekort) en artikellink gaan naar het
+  klembord (`kopieerSync` binnen het tikmoment, terugval `navigator.clipboard`), daarna opent
+  https://www.nederlanders.fr/profiles/blog/new in een nieuw tabblad. "Tekst gekopieerd, plak hem in het bericht" staat er
+  alleen als het kopiëren gelukt is; anders toont de app de tekst om zelf te kopiëren. Bij de overstap naar NLFR V2 wordt dit
+  een vooraf ingevulde draad (alleen `artForum()` en `artForumUrl` aanpassen).
+- **Abonneeblok en onderblad**: de abonnementslink staat op één plek, `abonnement.url` in `modules.json` (terugval
+  `ABONNEE_URL` in `abonnee-lib.js`). Het vaste blok staat onder de uitkomst van De Ruyter en onder een gelezen artikel (bij
+  een muur is het blok de muur). Het onderblad (oproep) komt hooguit eens per week (`localStorage` `ifm_abo_vraag`, alleen een
+  tijdstempel) en eens per sessie, na een uitkomst van De Ruyter, na een berekening in Energie (tool met prijs abonnee) of
+  na het einde van een artikel; altijd te sluiten. Tekst staat in `index.html`; de regel in `IfAbonnee.moetOproep`.
+
 ## Huisstijl
 
 - **Primaire kleur:** `#800000` (bordeaux), met transparante varianten `rgba(128,0,0,α)`,

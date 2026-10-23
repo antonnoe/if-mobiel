@@ -73,3 +73,17 @@ Bouwer 1 (besluiten 1, 5 en 6).
 | 6 Over ons | Scherm volgens OverOns.dc.html. "Lees het volledige manifest" roept `openInfoArtikel(url)` aan; die opent nu een nieuw tabblad. Bouwer 2 hoeft alleen de inhoud van die ene functie te vervangen | klaar |
 
 Afwijkingen van de mock-up: (a) de postcodetekst noemt alleen wat de app echt doet (Nedergids noemt het departement, regiokaart en zoekers zeggen welk departement u opzoekt; de app filtert niet); (b) Bronnen staat als kleine tegel bij de hulpmiddelen, omdat het een hoofdstuk is dat niet in de mock voorkomt; (c) Over ons houdt onder de mock-inhoud de Kennispiramide, de bronnenlijst en de disclaimer, zodat die niet onbereikbaar worden; (d) de functie heet `openInfoArtikel`, want `tests/nieuws.test.mjs` verbiedt de naam `openArtikel`.
+
+Bouwer 2 (besluiten 3, 4, 7, 8 en 9).
+
+| Besluit | Wat | Status |
+|---|---|---|
+| 7 Artikelscherm | `openInfoArtikel(url)` opent infofrankrijk.com-artikelen in de app (`artikel-lib.js`, REST posts dan pages, opgeschoonde DOM, terugstapel, delen, "Op infofrankrijk.com", zacht falen met nieuwe poging). Rijen in Ondernemen en La Maison en nieuwsbronnen met een infofrankrijk.com-link openen in de app (`data-art`, pijltje wordt ›) | klaar |
+| 8 Betaalmuur | `knipBijMuur`: bij `pms-`-klassen of -tekst alleen de inleiding plus het abonneeblok als muur; vastgelegd in CLAUDE.md, getest | klaar |
+| 9 Forumknop | titel, samenvatting en link naar het klembord, dan nederlanders.fr/profiles/blog/new; melding alleen bij gelukt kopiëren, anders de tekst om zelf te kopiëren | klaar |
+| 3 Abonneeblok | vast blok onder de uitkomst van De Ruyter en onder een gelezen artikel; link uit `modules.json` (`abonnement.url`) | klaar |
+| 4 Onderblad | tekst letterlijk, hooguit eens per week (`ifm_abo_vraag`) en eens per sessie, "Niet nu" en kruisje, na De Ruyter-uitkomst, Energie-berekening of einde artikel | klaar |
+
+Afwijkingen: (a) kop van het artikelscherm zegt "Artikel / Van Infofrankrijk" en er is geen themaregel boven de titel, omdat de REST-velden geen rubriek geven; (b) de forumtekst in de mock ("staan al klaar") is eerlijker gemaakt: ze worden gekopieerd en u plakt ze; (c) het vaste blok staat niet onder Zorg (noodschil), Vastgoed (stappenschil, geen uitkomst) en Energie (heeft al een eigen abonnee-muur met knop); (d) iframe-tools (Financieel kompas e.d.) kunnen niets terugmelden, daar komt geen blok of onderblad; (e) de week- en sessieregel gelden ook voor abonnee-tools, omdat de voetregel "hooguit eens per week" anders niet klopt; (f) in artikelen zonder muur staat het abonneeblok onder het delen-blok, niet ertussen.
+
+Open: de echte markup van de afschermingsmelding van Paid Member Subscriptions is niet te zien zonder een afgeschermd artikel; de herkenning (`pms-`) is getest op voorbeelden. Controleer één afgeschermd artikel live.
