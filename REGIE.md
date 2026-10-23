@@ -145,3 +145,7 @@ Afwijkingen: (a) zeven van de veertien tool-hosts hebben geen module in `modules
 ## Herstelronde ronde 2 (23-10-2026)
 
 Negen punten na bouwronde 2: exclusiviteitsteksten weg, Bel 112 naast Bel 15, onderblad niet meer na een artikel, tabbladen in artikelen naar koppen, toolpagina voor artikelen die alleen een tool zijn, correspondentie (briefhulp) en financieel kompas volledig in de app, forumblok op een regel, zoekvolgorde modules, artikelen, taal. Tests: tests/herstel3.test.mjs plus aangepaste ronde2 en themas. Gecontroleerd met headless Chromium op 390x844 en 360x640 tegen een lokale server.
+
+## Laatste herstel ronde 2 (23-10-2026)
+
+Forumblok onder een artikel is één knop "Bespreek dit op het forum Nederlanders.fr" (geen kaart meer); tekst bij Energie belooft geen bedragen meer voor abonnees. Keuring na 5ae3762: 7 van 9 geslaagd, deze twee hersteld.

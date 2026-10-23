@@ -32,7 +32,8 @@ test("onderblad: niet na het einde van een artikel", () => {
 });
 
 test("forumblok onder een artikel: één korte regel", () => {
-  assert.ok(html.includes("Start een gesprek op Nederlanders.fr over dit artikel."));
+  assert.ok(html.includes(">Bespreek dit op het forum Nederlanders.fr</button>"));
+  assert.ok(!html.includes("Ervaring met dit onderwerp?"));
   assert.ok(!html.includes("worden gekopieerd, zodat u ze in een nieuw bericht kunt plakken. Daarvoor"));
 });
 
