@@ -42,7 +42,7 @@
   // Sleutel van wat de lezer ziet (scherm, onderdeel, blad). Verandert die, dan hoort er een geschiedenisregel bij.
   function navKey(t) {
     t = t || {};
-    return [t.screen, t.artSlug || "", t.gzHfd || "", t.gzLijst == null ? "" : t.gzLijst, t.onStap == null ? "" : t.onStap, t.nwTegel || "",
+    return [t.screen, t.artSlug || "", t.gzHfd || "", t.gzOnd || "", t.gzLijst == null ? "" : t.gzLijst, t.onStap == null ? "" : t.onStap, t.nwTegel || "",
       t.sc || "", t.themaId || "", t.toolId || "", t.blad || ""].join("|");
   }
 

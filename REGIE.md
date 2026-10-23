@@ -125,3 +125,18 @@ Tests: `tests/nav.test.mjs` (hash-route, sleutels, laadtoken, zoek-URL en treffe
 | 3 Consolefouten | oorzaak: een `<path d="{{ }}">` in de template wordt bij het parsen van de pagina als echt SVG-pad gelezen. Het themabeeld op het nieuwsscherm is nu een achtergrondafbeelding (data-URI-SVG, zelfde tekening) via `nwHero.bgGroot` en `r.bgKlein`; geen consolefout meer | klaar |
 
 Gecontroleerd met headless Chromium op 390x844: hangend verzoek geeft na ca. 15 s de foutmelding, eerste bezoek plus terug sluit het postcodeblad, geen consolefouten bij hub en nieuws (alleen de CORS-melding van de externe berichten-API op localhost).
+
+## Ronde 2 (23-10-2026)
+
+Bouwer bouwronde 2, naar de opdracht van de opdrachtgever. Details in CLAUDE.md, sectie "Gezondheid in twee niveaus, toolkaart, veld artikel en drempel".
+
+| Onderdeel | Wat | Status |
+|---|---|---|
+| A Gezondheid breder | Eerste niveau met intro, spoedblok (`tel:15`), zes onderwerptegels en Hulpmiddelen; lijst per onderwerp met artikelen in de app en modules; Ouder worden en zorg opent het bestaande dossierscherm een niveau dieper; terug via geschiedenis | klaar |
+| B1 Toolkaart | iframe in een artikel wordt een kaart (module in de app, externe tool of video), alleen https; Divi-shortcodes uit REST-inhoud gehaald | klaar |
+| B2 Veld `artikel` | zeven modules gevuld; tegel of rij naar het artikel opent de tool, de tool heeft de rij "Lees de uitleg op Infofrankrijk" | klaar (zeven van veertien: zie afwijkingen) |
+| B3 Framing | plus-value-calculator staat op weergave `knop` (nieuw tabblad) | klaar |
+| C Abonnee-labels | vijf modules op `gratis`, veld `drempel` in de catalogus en `_uitleg`, alinea 3 van het onderblad weg, vaste abonneeblok zonder exclusieve toegang | klaar |
+
+Afwijkingen: (a) zeven van de veertien tool-hosts hebben geen module in `modules.json` (dashboard-admin-beige-ten, werk-in-frankrijk-platform-v02, energieportaal-pbuv, briefhulp-fr, vastgoed-analyse-v84x, infofrankrijk-klussen-archief, controle-technique-zoeker); er is geen module bijgemaakt, hun iframe wordt een externe toolkaart; (b) de module `correspondentie` wijst met zijn url naar het artikel zelf, dus is er geen `artikel`-veld gezet (dat zou een kring geven); (c) het knipblok "Wat er gratis is" en de muur om de eigen uitkomst in Energie volgen nu `prijs` en zijn bij `gratis` weg, anders beloven ze een abonnement dat niet meer nodig is; Café Claude is niet aangeraakt; (d) het onderblad na een berekening in Energie blijft bestaan (`abonneetool`), omdat de regel in `IfAbonnee` blijft; (e) de Hulpmiddelen op het eerste niveau laten `zorg` en `zorglexicon` weg (data: `hulpmiddelen.uitsluiten`).
+

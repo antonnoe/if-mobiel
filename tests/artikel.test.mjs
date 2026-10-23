@@ -124,10 +124,10 @@ test("abonnementslink: één plek in modules.json, terugval in de code", () => {
   assert.ok(!/href="https?:\/\/(www\.)?infofrankrijk\.com\/abonnement\/?"/.test(html), "geen losse abonnementslink in index.html");
 });
 
-test("voorbeeldtools komen uit de catalogus", () => {
-  const namen = B.voorbeeldTools(cat);
-  assert.equal(namen.length, 2);
-  namen.forEach(n => assert.ok(cat.modules.some(m => m.naam === n && m.prijs === "abonnee")));
+test("voorbeeldtools komen uit de catalogus (nu leeg: alle prijzen staan voorlopig op gratis)", () => {
+  assert.equal(B.voorbeeldTools(cat).length, 0);
+  const proef = { modules: [{ naam: "A", prijs: "abonnee", kind: "iframe" }, { naam: "B", prijs: "abonnee", kind: "iframe" }, { naam: "C", prijs: "gratis", kind: "iframe" }] };
+  assert.deepEqual(B.voorbeeldTools(proef), ["A", "B"], "de haak blijft werken zodra een module weer abonnee wordt");
   assert.equal(B.toolZin(["A", "B"]), ", zoals het A en B");
   assert.equal(B.toolZin([]), "");
 });
@@ -137,10 +137,11 @@ test("onderblad: tekst letterlijk uit de opdracht", () => {
     "Fijn dat Infopoche u helpt",
     "Wat u net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.",
     "Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
-    "Als abonnee leest u bovendien alle artikelen en dossiers en gebruikt u de tools met het label Abonnee.",
     "Bekijk het abonnement", "Niet nu", "U ziet deze vraag hooguit eens per week."
   ].forEach(t => assert.ok(html.includes(t), t));
   assert.ok(html.includes('role="dialog"') && html.includes('aria-label="Sluiten"'));
+  assert.ok(!html.includes("Als abonnee leest u bovendien"), "alinea 3 van het onderblad is weg");
+  assert.ok(!/tools met het label Abonnee/.test(html), "geen belofte van exclusieve toegang meer in de teksten");
 });
 
 test("het vaste abonneeblok draagt dezelfde forumzin", () => {
@@ -149,7 +150,7 @@ test("het vaste abonneeblok draagt dezelfde forumzin", () => {
 
 test("index.html: artikelscherm hangt aan openInfoArtikel, nooit openArtikel; forumroute en delen", () => {
   assert.ok(!/openArtikel/.test(html));
-  assert.match(html, /openInfoArtikel\(url\)\{\s*\n\s*const L = window\.IfArtikel/);
+  assert.match(html, /openInfoArtikel\(url, opt\)\{\s*\n\s*const L = window\.IfArtikel/);
   assert.ok(html.includes("https://www.nederlanders.fr/profiles/blog/new"));
   assert.ok(html.includes("Tekst gekopieerd. Open Nederlanders.fr, maak een nieuw bericht en plak de tekst."));
   assert.match(html, /navigator\.share/);

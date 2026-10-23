@@ -130,13 +130,94 @@
     return (d.body.textContent || "").replace(/\s+/g, " ").trim();
   }
 
+  // ---- Toolkaart: wat er van een iframe in een artikel overblijft ----------------------------------
+  // Een iframe wordt nooit overgenomen. Er komt een kaart voor in de plaats: hoort de URL bij een module uit de
+  // catalogus (zelfde host; bij github.io ook het eerste padsegment), dan opent de knop die module in de app
+  // (data-tool = module-id, afgehandeld in index.html); anders opent de URL in een nieuw tabblad. Video-embeds
+  // worden een kaart "Bekijk de video". Alleen https-URL's.
+  var VIDEO = /(^|\.)(youtube\.com|youtube-nocookie\.com|youtu\.be|vimeo\.com|dailymotion\.com)$/i;
+  function schoneHost(h) { return String(h || "").toLowerCase().replace(/^www\./, ""); }
+  function hostSleutel(u) {
+    var h = schoneHost(u.hostname);
+    if (/\.github\.io$/.test(h)) { var seg = u.pathname.split("/").filter(Boolean)[0]; return h + (seg ? "/" + seg.toLowerCase() : ""); }
+    return h;
+  }
+  // De module (uit de catalogus) die bij een URL hoort, of null.
+  function moduleVoorUrl(url, modules) {
+    var u = geldigeUrl(url);
+    if (!u || u.protocol !== "https:" || !modules) return null;
+    var sl = hostSleutel(u);
+    for (var i = 0; i < modules.length; i++) {
+      var m = modules[i];
+      if (!m || !m.url || m.zichtbaar === false) continue;
+      var mu = geldigeUrl(m.url);
+      if (mu && mu.protocol === "https:" && hostSleutel(mu) === sl && !isIfHost(mu.hostname)) return m;
+    }
+    return null;
+  }
+  // Videolink (kijkpagina) uit een embed-URL; andere URL's blijven zoals ze zijn.
+  function videoLink(u) {
+    var h = schoneHost(u.hostname), m;
+    if (/youtube(-nocookie)?\.com$/.test(h) && (m = /^\/embed\/([A-Za-z0-9_-]{6,})/.exec(u.pathname))) return "https://www.youtube.com/watch?v=" + m[1];
+    if (h === "player.vimeo.com" && (m = /^\/video\/(\d+)/.exec(u.pathname))) return "https://vimeo.com/" + m[1];
+    return u.href;
+  }
+  // {soort: "video" | "module" | "extern", href, module?, naam, label, knop} voor een iframe-src, of null (geen https).
+  function toolKaartVoor(src, modules) {
+    var u = geldigeUrl(src);
+    if (!u || u.protocol !== "https:") return null;
+    if (VIDEO.test(u.hostname)) return { soort: "video", href: videoLink(u), naam: "Video", label: "Video", knop: "Bekijk de video \u2197" };
+    var m = moduleVoorUrl(u.href, modules);
+    if (m) return { soort: "module", href: u.href, module: m.id, naam: m.naam || m.id, label: "Tool in de app", knop: "Open de tool" };
+    return { soort: "extern", href: u.href, naam: schoneHost(u.hostname), label: "Interactieve tool", knop: "Open de tool \u2197" };
+  }
+  var KAART = {
+    kaart: "margin:18px 0 0;padding:16px;border-radius:16px;background:rgba(128,0,0,.05);border:1px solid rgba(128,0,0,.16)",
+    label: "font:700 10.5px Mulish,system-ui,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#800000",
+    naam: "margin:5px 0 0;font:600 16px Poppins,system-ui,sans-serif;line-height:1.3;color:" + KLEUR + ";overflow-wrap:anywhere",
+    knop: "display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;border-radius:12px;background:#800000;color:#fff;font:700 14.5px Mulish,system-ui,sans-serif;text-decoration:none"
+  };
+  function maakKaart(doc, k) {
+    var kaart = doc.createElement("div"); kaart.setAttribute("style", KAART.kaart); kaart.setAttribute("data-toolkaart", k.soort);
+    var l = doc.createElement("div"); l.setAttribute("style", KAART.label); l.textContent = k.label; kaart.appendChild(l);
+    var n = doc.createElement("div"); n.setAttribute("style", KAART.naam); n.textContent = k.naam; kaart.appendChild(n);
+    var a = doc.createElement("a"); a.setAttribute("style", KAART.knop); a.setAttribute("href", k.href);
+    a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener noreferrer");
+    if (k.module) a.setAttribute("data-tool", k.module);
+    a.textContent = k.knop; kaart.appendChild(a);
+    return kaart;
+  }
+
+  // De REST-API geeft bij pagina's die met Divi gebouwd zijn de ruwe shortcodes mee ([et_pb_section ...] en [/et_pb_code]).
+  // Die staan nooit in de lopende tekst: weg, de inhoud ertussen blijft.
+  function zonderDivi(html) {
+    return String(html || "").replace(/\[\/?et_pb_[a-z0-9_]+(?:\s[^\]]*)?\]/gi, "");
+  }
+
   // Geeft een <body>-element uit een inert document. Scripts, styles, iframes, formulieren en alle
   // on*-attributen verdwijnen; alleen de lijst ATTR blijft over. Eigen inline opmaak (huisstijl).
   function schoon(html, opt) {
     opt = opt || {};
     var DP = opt.DOMParser || root.DOMParser;
-    var doc = new DP().parseFromString("<!doctype html><body>" + String(html || ""), "text/html");
+    var doc = new DP().parseFromString("<!doctype html><body>" + zonderDivi(html), "text/html");
     var body = doc.body;
+    // <pee> is wat Divi's codemodule van een <p> maakt; wij tonen het als alinea.
+    Array.prototype.slice.call(body.querySelectorAll("pee")).forEach(function (el) {
+      var nw = doc.createElement("p");
+      while (el.firstChild) nw.appendChild(el.firstChild);
+      el.parentNode.replaceChild(nw, el);
+    });
+
+    // Iframes: een plaatsmarkering (met tekst, zodat de lege-alinea-opruiming haar laat staan); de kaart komt er helemaal
+    // aan het eind voor in de plaats, na het opschonen van attributen en het zetten van de opmaak.
+    var kaarten = [];
+    Array.prototype.slice.call(body.querySelectorAll("iframe")).forEach(function (fr) {
+      var k = toolKaartVoor(fr.getAttribute("src") || fr.getAttribute("data-src") || fr.getAttribute("data-lazy-src"), opt.modules);
+      if (!k || !fr.parentNode) return;
+      var plek = doc.createElement("div"); plek.textContent = "tool";
+      fr.parentNode.replaceChild(plek, fr);
+      kaarten.push({ plek: plek, kaart: k });
+    });
 
     var walker = doc.createTreeWalker(body, 128 /* SHOW_COMMENT */);
     var com = [], c;
@@ -196,6 +277,9 @@
       if (el.tagName === "TD" || el.tagName === "TH") s = STIJL[el.tagName.toLowerCase()];
       if (s) el.setAttribute("style", s);
     });
+    kaarten.forEach(function (x) {
+      if (x.plek.parentNode && body.contains(x.plek)) x.plek.parentNode.replaceChild(maakKaart(doc, x.kaart), x.plek);
+    });
     // Tekst direct in een div zonder alinea (bv. een Divi-blok) blijft leesbaar: div's zelf krijgen geen stijl.
     return body;
   }
@@ -236,7 +320,7 @@
   var api = {
     BASIS: BASIS, slugUitUrl: slugUitUrl, isInApp: isInApp, schoneUrl: schoneUrl, restUrl: restUrl,
     heeftBetaalmuur: heeftBetaalmuur, knipBijMuur: knipBijMuur, haalOp: haalOp, leesAntwoord: leesAntwoord,
-    schoon: schoon, tekstVan: tekstVan, inkorten: inkorten, eersteAlinea: eersteAlinea, forumTekst: forumTekst, datumNl: datumNl
+    schoon: schoon, zonderDivi: zonderDivi, moduleVoorUrl: moduleVoorUrl, toolKaartVoor: toolKaartVoor, tekstVan: tekstVan, inkorten: inkorten, eersteAlinea: eersteAlinea, forumTekst: forumTekst, datumNl: datumNl
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfArtikel = api;

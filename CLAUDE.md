@@ -146,6 +146,23 @@ de bron van de ontwerpsessie.
 - **Schermovergangen**: `Component.setState` wikkelt een wissel van `state.screen` in `document.startViewTransition` (180 ms vervagen van de schermcontainer); zonder de API of bij `prefers-reduced-motion` wisselt het scherm direct. Andere setState-aanroepen wachten tijdens de wissel in een rij. Bij reduced motion staan ook alle animaties en transities uit (CSS in `<helmet>`).
 - **Grotere tekst**: Profiel-schakelaar, `localStorage` `ifm_grote_tekst`. Techniek: CSS `zoom` (`TEKST_ZOOM`, nu 1,18) op kopbalk, schermcontainer, tabbalk, dossierbalk en de twee bladen via de hole `zoomCss`. Nieuwe vaste elementen met tekst krijgen dezelfde hole. Rijen met twee kolommen krijgen `flex-wrap`, lange titels `overflow-wrap:anywhere`.
 
+## Gezondheid in twee niveaus, toolkaart, veld `artikel` en `drempel` (bouwronde 2, 23-10-2026)
+
+- **Gezondheid, eerste niveau** (`screen: gezondheid`, `state.gzOnd` = null): intro, spoedblok (`tel:15`, geverifieerd op service-public.gouv.fr F33954), zes onderwerptegels en de Hulpmiddelen
+  (modules met thema gezondheid, Mijn modules telt mee; `hulpmiddelen.uitsluiten` laat `zorg` en `zorglexicon` weg). De indeling staat in `modules.json` onder `gezondheid`:
+  `intro`, `spoed`, `onderwerpen: [{id, titel, regel, icoon, artikelen:[{url, titel}], modules:[id], scherm:"ouderen"}]`, `hulpmiddelen`. De titels in de data zijn de terugval; de app haalt
+  de actuele titels per onderwerp live op (`gzLaadTitels`, posts met slug-lijst, 15 s, zacht falend). Pictogrammen: sleutels `gz...` in `THEMA_ICONS`. Een tik op een onderwerp opent een lijst
+  met artikelen (`openInfoArtikel`) en eventuele modules; `scherm:"ouderen"` opent het bestaande dossierscherm (noodblok, Nu al regelen, zes fasen) ongewijzigd, een niveau dieper
+  (`gzOnd === "ouderen"`). Terug: `terugStap` (hoofdstuk, lijst, onderwerp), `histToestand` en `IfNav.navKey` kennen `gzOnd`. Een nieuw onderwerp is een blok in de JSON en een icoon.
+- **Toolkaart** (`artikel-lib.js`, `toolKaartVoor`, `moduleVoorUrl`): `schoon(html, {modules})` vervangt een iframe in een artikel door een kaart: hoort de URL bij een module (zelfde host, bij github.io ook
+  het eerste padsegment) dan staat er de modulenaam en "Open de tool" (`a[data-tool]`, in `index.html` afgehandeld met `route(m)`); anders "Interactieve tool" met de hostnaam en een link naar een nieuw
+  tabblad; YouTube, Vimeo en Dailymotion worden "Bekijk de video". Alleen https. `zonderDivi` haalt de ruwe Divi-shortcodes (`[et_pb_...]`) uit REST-inhoud, `<pee>` wordt een alinea.
+- **Veld `artikel`** op een module: het Infofrankrijk-artikel waarvan de kern deze tool is. `openInfoArtikel(url, {tegel:true})` (data-art-links buiten een artikel, zoekresultaten) opent dan de module;
+  in de module staat de rij "Lees de uitleg op Infofrankrijk" (`toolArtikelOpen`, opent altijd het artikel). Hash-routes en links binnen een artikel openen altijd het artikel.
+- **Prijzen en `drempel`**: alle betaalmuren op Infofrankrijk zijn eruit; `prijs` staat voorlopig overal op `gratis`. Het veld `prijs`, de knip-haken en de abonnee-labels in de code blijven bestaan
+  (terugzetten naar `abonnee` brengt label, knipblok en muur terug: `heeftKnip` en `enMuurOpen` volgen `prijs`). `drempel` (leeg) is de plek voor de latere regel; er hangt geen logica aan.
+  Het vaste abonneeblok en het onderblad leunen op bekostiging en het forum, niet op exclusieve toegang.
+
 ## Huisstijl
 
 - **Primaire kleur:** `#800000` (bordeaux), met transparante varianten `rgba(128,0,0,α)`,

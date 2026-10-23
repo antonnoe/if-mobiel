@@ -40,7 +40,7 @@ test("tools verwijzen naar bestaande modules in thema gezondheid", () => {
 
 test("geen hoofdstuktekst in de repo: alleen nummers en labels", () => {
   const tekst = JSON.stringify(gz);
-  assert.ok(tekst.length < 3000, "gezondheid in modules.json is verdacht groot: " + tekst.length);
+  assert.ok(tekst.length < 9000, "gezondheid in modules.json is verdacht groot: " + tekst.length);
   assert.ok(!/<[a-z]+[ >]/i.test(tekst));
   for (const f of fs.readdirSync(root)) {
     if (!/\.(html|js|json|md)$/.test(f) || f === "support.js") continue;
