@@ -2142,6 +2142,24 @@
     ],
     "voorbehoud": "Praktische handleiding, geen persoonlijk fiscaal advies. Uw socialezekerheidspositie bepaalt of het regime op u van toepassing is, en die kan veranderen door werk, een tweede pensioen of een inschrijving in Frankrijk."
   },
+  "nieuwsBeeld": {
+    "_uitleg": "Themabeeld per nieuwsthema (de `thema`-sleutel van de tegels uit /api/actueel van nlfr-menu): welke themakleur uit `themas` en welk pictogram (sleutel uit ICONEN in nieuws-lib.js). Een thema dat hier niet staat krijgt het neutrale beeld. Nooit persfoto's.",
+    "verkeer": {"thema": "taal", "icoon": "weg"},
+    "zorg": {"thema": "gezondheid", "icoon": "hart"},
+    "landelijk": {"thema": "nieuws", "icoon": "land"},
+    "nl-nieuws": {"thema": "nieuws", "icoon": "krant"},
+    "regionaal": {"thema": "adressen", "icoon": "pin"},
+    "geld-belasting": {"thema": "geld", "icoon": "munt"},
+    "economie": {"thema": "geld", "icoon": "grafiek"},
+    "praktisch": {"thema": "ervaring", "icoon": "lijst"},
+    "ondernemen": {"thema": "ondernemen", "icoon": "koffer"},
+    "douane": {"thema": "overheid", "icoon": "doos"},
+    "wetgeving": {"thema": "overheid", "icoon": "wet"},
+    "nl-overheid": {"thema": "overheid", "icoon": "gebouw"},
+    "natuur-milieu": {"thema": "geld", "icoon": "blad"},
+    "infofrankrijk": {"thema": "wonen", "icoon": "huis"},
+    "verenigingen": {"thema": "adressen", "icoon": "mensen"}
+  },
   "themas": [
     {
       "id": "geld",

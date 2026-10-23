@@ -87,3 +87,15 @@ Bouwer 2 (besluiten 3, 4, 7, 8 en 9).
 Afwijkingen: (a) kop van het artikelscherm zegt "Artikel / Van Infofrankrijk" en er is geen themaregel boven de titel, omdat de REST-velden geen rubriek geven; (b) de forumtekst in de mock ("staan al klaar") is eerlijker gemaakt: ze worden gekopieerd en u plakt ze; (c) het vaste blok staat niet onder Zorg (noodschil), Vastgoed (stappenschil, geen uitkomst) en Energie (heeft al een eigen abonnee-muur met knop); (d) iframe-tools (Financieel kompas e.d.) kunnen niets terugmelden, daar komt geen blok of onderblad; (e) de week- en sessieregel gelden ook voor abonnee-tools, omdat de voetregel "hooguit eens per week" anders niet klopt; (f) in artikelen zonder muur staat het abonneeblok onder het delen-blok, niet ertussen.
 
 Open: de echte markup van de afschermingsmelding van Paid Member Subscriptions is niet te zien zonder een afgeschermd artikel; de herkenning (`pms-`) is getest op voorbeelden. Controleer één afgeschermd artikel live.
+
+Bouwer 3 (besluiten 2 en 10).
+
+| Besluit | Wat | Status |
+|---|---|---|
+| 2 Nieuws met themabeeld | Overzicht volgens Nieuws.dc.html: filterchips per tegel, eerste bericht groot met banner, rest als lijst met beeld van 76 px (nieuwste 25 bij Alles). Koppeling thema naar kleur en pictogram als data (`nieuwsBeeld` in modules.json), neutrale terugval, uniek patroon-id per item | klaar |
+| 10 Schermovergangen | `document.startViewTransition` rond schermwissels (180 ms), terugval zonder API getest | klaar |
+| 10 Beweging | `prefers-reduced-motion`: geen overgangen, geen animaties | klaar |
+| 10 Grotere tekst | Schakelaar in Profiel (`ifm_grote_tekst`), CSS zoom 1,18 op kop, scherm, tabbalk en bladen | klaar |
+| 10 Grote systeemtekst | Getest op 390x844 met alle tekst x2 (hub, nieuws, lezen, Profiel), met en zonder Grotere tekst: geen horizontaal scrollen; Profielrijen kregen flex-wrap, titels overflow-wrap | klaar |
+
+Afwijkingen: (a) de chips zijn 44 px hoog aangeklikt (zichtbaar 36 px), vanwege de regel hittargets; (b) de tegelkoppen "Kies een onderwerp" zijn vervangen door "Tik op een bericht...", omdat de oude tegels er niet meer zijn; (c) tik op een bericht opent de doorlopende leespagina van zijn onderwerp op dat bericht; (d) onderwerp-tegels en hun aantallen zijn vervangen door chips; (e) op 195 px breedte (200% paginazoom) is de app niet getest als in-bereik: de app is ontworpen op 390 px.

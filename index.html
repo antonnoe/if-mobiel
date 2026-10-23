@@ -162,6 +162,12 @@ a{color:#800000;text-decoration:none}
 a:hover{color:#5C0000}
 input,button{font-family:Mulish,system-ui,sans-serif}
 *{scrollbar-width:none}
+::view-transition-group(*){animation-duration:180ms}
+::view-transition-old(ifm-inhoud){animation:180ms ease-out both ifm-uit}
+::view-transition-new(ifm-inhoud){animation:180ms ease-in both ifm-in}
+@keyframes ifm-uit{to{opacity:0}}
+@keyframes ifm-in{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#800000"/><rect x="72" y="46" width="56" height="108" rx="10" fill="#F4F1F0"/><text x="100" y="112" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="600" font-size="30" fill="#800000">IF</text></svg></template>
@@ -169,7 +175,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 
 <div style="width:100%;max-width:412px;margin:0 auto;height:100vh;height:100dvh;background:#F4F1F0;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(21,24,26,.08)">
 
-<div style="flex:none;padding:14px 16px 12px;border-bottom:1px solid rgba(21,24,26,.06);display:flex;align-items:center;gap:10px;background:#F4F1F0">
+<div style="{{ zoomCss }}view-transition-name:ifm-kop;flex:none;padding:14px 16px 12px;border-bottom:1px solid rgba(21,24,26,.06);display:flex;align-items:center;gap:10px;background:#F4F1F0">
   <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
   <button onClick="{{ back }}" aria-label="Terug" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;font:700 16px Mulish;color:#15181A">←</button>
   </sc-if>
@@ -191,7 +197,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   </sc-if>
 </div>
 
-<div id="ifm-scroll" style="flex:1;min-height:0;position:relative;overflow-y:{{ scrollOverflow }};-webkit-overflow-scrolling:touch">
+<div id="ifm-scroll" style="{{ zoomCss }}view-transition-name:ifm-inhoud;flex:1;min-height:0;position:relative;overflow-y:{{ scrollOverflow }};-webkit-overflow-scrolling:touch">
 
 <sc-if value="{{ catFout }}" hint-placeholder-val="{{ false }}">
 <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 11.5px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer uw verbinding en laad de pagina opnieuw.</div>
@@ -1300,7 +1306,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <sc-for list="{{ zoKaart }}" as="k" hint-placeholder-count="13">
     <div style="display:flex;gap:12px;align-items:baseline;padding:11px 15px;border-top:1px solid rgba(21,24,26,.07)">
       <span style="font:700 12px Mulish;color:#15181A;flex:none;width:132px;overflow-wrap:anywhere">{{ k.veld }}</span>
-      <span style="flex:1;border-bottom:1px dashed rgba(21,24,26,.28);min-height:17px;font:500 12px Mulish;color:#71787C">{{ k.hint }}</span>
+      <span style="flex:1;border-bottom:1px dashed #71787C;min-height:17px;font:500 12px Mulish;color:#71787C">{{ k.hint }}</span>
     </div>
     </sc-for>
   </div>
@@ -1613,20 +1619,41 @@ input,button{font-family:Mulish,system-ui,sans-serif}
       <div style="{{ accentStijl }}"></div>
       <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Nieuws</h1>
       <p style="font-size:13.5px;line-height:1.8em;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ themaOmschr }}</p>
-      <p style="font-size:13px;line-height:1.8em;color:#71787C;margin:4px 0 0;text-wrap:pretty">Kies een onderwerp en lees alle berichten onder elkaar, met de bronnen erbij.</p>
+      <p style="font-size:13px;line-height:1.8em;color:#71787C;margin:4px 0 0;text-wrap:pretty">Tik op een bericht en lees alle berichten van dat onderwerp onder elkaar, met de bronnen erbij.</p>
     </div>
     <sc-if value="{{ nwLaadt }}" hint-placeholder-val="{{ false }}">
     <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12.5px/1.5 Mulish;color:#71787C">Nieuws wordt opgehaald...</div>
     </sc-if>
     <sc-if value="{{ nwHeeftTegels }}" hint-placeholder-val="{{ true }}">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 14px 0">
-      <sc-for list="{{ nwTegelItems }}" as="g" hint-placeholder-count="4">
-      <button onClick="{{ g.open }}" style="text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:14px 14px 13px;min-height:88px;cursor:pointer;color:#15181A;display:flex;flex-direction:column;justify-content:space-between;gap:8px">
-        <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:14.5px;line-height:1.25;text-wrap:pretty">{{ g.naam }}</span>
-        <span style="font:700 12px/1.2 Mulish;color:#800000">{{ g.aantal }}</span>
+    <div>
+      <div role="group" aria-label="Filter op onderwerp" style="display:flex;gap:8px;padding:12px 14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch">
+        <sc-for list="{{ nwChips }}" as="c" hint-placeholder-count="5">
+        <button onClick="{{ c.kies }}" aria-pressed="{{ c.aan }}" style="flex:none;display:flex;align-items:center;min-height:44px;padding:4px 0;border:0;background:none;cursor:pointer"><span style="{{ c.stijl }}">{{ c.label }}</span></button>
+        </sc-for>
+      </div>
+      <button onClick="{{ nwHero.open }}" style="display:block;width:calc(100% - 28px);margin:12px 14px 0;padding:0;text-align:left;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);overflow:hidden;cursor:pointer;color:#15181A">
+        <svg viewBox="0 0 358 168" role="img" aria-label="{{ nwHero.alt }}" style="display:block;width:100%;height:auto"><defs><pattern id="{{ nwHero.pid }}" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="{{ nwHero.kleur }}" opacity=".22"/></pattern></defs><rect width="358" height="168" fill="{{ nwHero.tint }}"/><rect width="358" height="168" fill="{{ nwHero.fillUrl }}"/><circle cx="262" cy="84" r="74" fill="{{ nwHero.kleur }}" opacity=".12"/><path d="{{ nwHero.d }}" fill="none" stroke="{{ nwHero.kleur }}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" transform="translate(182 4) scale(2.1)"/></svg>
+        <span style="display:block;padding:14px 16px 16px">
+          <span style="display:block;font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ nwHero.kleur }}">{{ nwHero.kicker }}</span>
+          <span style="display:block;margin-top:6px;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25;overflow-wrap:anywhere">{{ nwHero.titel }}</span>
+          <span style="display:block;margin-top:8px;font:500 13px Mulish;color:#71787C">{{ nwHero.meta }}</span>
+        </span>
       </button>
-      </sc-for>
-      <button onClick="{{ nwOpenArchief }}" style="grid-column:1 / -1;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(128,0,0,.04);border:1px solid rgba(128,0,0,.20);border-radius:16px;padding:0 15px;min-height:56px;cursor:pointer;color:#15181A">
+      <sc-if value="{{ nwHeeftRijen }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="padding:22px 18px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Meer nieuws</div>
+        <div style="margin:0 14px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);overflow:hidden">
+          <sc-for list="{{ nwRijen }}" as="r" hint-placeholder-count="4">
+          <button onClick="{{ r.open }}" style="display:flex;gap:12px;width:100%;padding:12px;margin:0;border:0;border-bottom:1px solid rgba(21,24,26,.08);background:none;text-align:left;cursor:pointer;color:#15181A;min-height:100px">
+            <svg width="76" height="76" viewBox="0 0 76 76" role="img" aria-label="{{ r.alt }}" style="flex:none;border-radius:12px"><defs><pattern id="{{ r.pid }}" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="{{ r.kleur }}" opacity=".22"/></pattern></defs><rect width="76" height="76" fill="{{ r.tint }}"/><rect width="76" height="76" fill="{{ r.fillUrl }}"/><path d="{{ r.d }}" fill="none" stroke="{{ r.kleur }}" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(7 7) scale(.82)"/></svg>
+            <span style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:0"><span style="font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ r.kleur }}">{{ r.kicker }}</span><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.3;overflow-wrap:anywhere">{{ r.titel }}</span><span style="font:500 12.5px Mulish;color:#71787C">{{ r.meta }}</span></span>
+          </button>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+      <p style="margin:12px 18px 0;font:500 12.5px/1.5 Mulish;color:#71787C">{{ nwBeeldNote }}</p>
+      <button onClick="{{ nwOpenArchief }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:calc(100% - 28px);margin:16px 14px 0;background:rgba(128,0,0,.04);border:1px solid rgba(128,0,0,.20);border-radius:16px;padding:0 15px;min-height:56px;cursor:pointer;color:#15181A">
         <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:14.5px;line-height:1.25">{{ nwArchiefLabel }}</span>
         <span style="font:700 13px Mulish;color:#800000">&rarr;</span>
       </button>
@@ -1673,7 +1700,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div data-nwb="{{ b.idx }}" style="scroll-margin-top:52px">
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
         <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ b.kicker }}</div>
-        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:20px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ b.titel }}</h2>
+        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:20px;line-height:1.25;margin:7px 0 0;text-wrap:pretty;overflow-wrap:anywhere">{{ b.titel }}</h2>
         <div style="font:600 11.5px/1.5 Mulish;color:#71787C;margin-top:6px">{{ b.meta }}</div>
         <div style="margin-top:12px">
           <sc-for list="{{ b.alineas }}" as="p" hint-placeholder-count="2">
@@ -1718,7 +1745,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
         </sc-if>
       </div>
       <sc-if value="{{ b.heeftVolgende }}" hint-placeholder-val="{{ false }}">
-      <div style="margin:16px 18px 2px;padding-top:12px;border-top:1px solid rgba(21,24,26,.14);font:600 12px/1.5 Mulish;color:#71787C;text-wrap:pretty">{{ b.volgende }}</div>
+      <div style="margin:16px 18px 2px;padding-top:12px;border-top:1px solid rgba(21,24,26,.14);font:600 12px/1.5 Mulish;color:#71787C;text-wrap:pretty;overflow-wrap:anywhere">{{ b.volgende }}</div>
       </sc-if>
     </div>
     </sc-for>
@@ -2196,13 +2223,19 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">U gebruikt de app nu zonder aanmelden. Dat mag: de gemeenschap, de taalassistent en de woordenlijsten zijn vrij toegankelijk.</p>
   </div>
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px">
-    <div style="display:flex;justify-content:space-between;padding:11px 0;font-size:13.5px"><span>Nederlanders.fr</span><b style="color:#71787C">niet aangemeld</b></div>
-    <div style="display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Infofrankrijk-abonnement</span><b style="color:#71787C">niet gekoppeld</b></div>
-    <div style="display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Vrij te gebruiken nu</span><b>{{ freeCount }}</b></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Postcode</span><b>{{ pcLabel }}</b><button onClick="{{ wijzigPc }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12.5px Mulish;cursor:pointer">Wijzigen</button></div>
+    <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;font-size:13.5px"><span>Nederlanders.fr</span><b style="color:#71787C">niet aangemeld</b></div>
+    <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Infofrankrijk-abonnement</span><b style="color:#71787C">niet gekoppeld</b></div>
+    <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Vrij te gebruiken nu</span><b>{{ freeCount }}</b></div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 10px;padding:6px 0 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Postcode</span><b>{{ pcLabel }}</b><button onClick="{{ wijzigPc }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12.5px Mulish;cursor:pointer">Wijzigen</button></div>
     <sc-if value="{{ heeftPc }}" hint-placeholder-val="{{ false }}">
     <div style="display:flex;justify-content:flex-end;padding-top:2px"><button onClick="{{ wisPc }}" style="min-height:44px;padding:0 14px;border:0;background:none;color:#71787C;font:600 13px Mulish;cursor:pointer">Postcode wissen</button></div>
     </sc-if>
+  </div>
+  <div style="margin:12px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:6px 16px">
+    <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:56px;padding:6px 0;border:0;background:none;text-align:left;cursor:pointer;color:#15181A">
+      <span style="min-width:0"><span style="display:block;font:700 14px Mulish">Grotere tekst</span><span style="display:block;margin-top:2px;font:500 12.5px/1.5 Mulish;color:#3D4346">{{ groteTekstUitleg }}</span></span>
+      <span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span>
+    </button>
   </div>
   <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat u ziet →</button>
@@ -2408,7 +2441,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 
 <sc-if value="{{ isDossierdemo }}" hint-placeholder-val="{{ false }}">
-<div style="flex:none;padding:8px 14px 10px;background:#EFE4E3;border-top:1px solid rgba(128,0,0,.20)">
+<div style="{{ zoomCss }}flex:none;padding:8px 14px 10px;background:#EFE4E3;border-top:1px solid rgba(128,0,0,.20)">
   <div style="font:700 12px/1.35 Mulish;color:#5C0000">Voorbeeld. Mijn dossier is beschikbaar voor abonnees van Infofrankrijk</div>
   <div style="display:flex;gap:8px;margin-top:7px">
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:#800000;color:#fff;font:800 12.5px Mulish;text-decoration:none;text-align:center">Word abonnee →</a>
@@ -2417,7 +2450,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 </div>
 </sc-if>
 
-<div style="flex:none;min-height:70px;padding-bottom:env(safe-area-inset-bottom);background:rgba(244,241,240,.96);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(5,1fr)">
+<div style="{{ zoomCss }}view-transition-name:ifm-tabs;flex:none;min-height:70px;padding-bottom:env(safe-area-inset-bottom);background:rgba(244,241,240,.96);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(5,1fr)">
   <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
   <button onClick="{{ t.go }}" aria-label="{{ t.label }}" style="{{ t.style }}"><span style="{{ t.iconStyle }}"></span>{{ t.label }}</button>
   </sc-for>
@@ -2425,7 +2458,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 
 <sc-if value="{{ vraagPostcode }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:50;background:rgba(21,24,26,.42);display:flex;flex-direction:column;justify-content:flex-end">
-  <div style="background:#fff;border-radius:22px 22px 0 0;padding:24px 20px 20px;box-shadow:0 -10px 40px rgba(21,24,26,.22);max-height:92%;overflow-y:auto;box-sizing:border-box">
+  <div style="{{ zoomCss }}background:#fff;border-radius:22px 22px 0 0;padding:24px 20px 20px;box-shadow:0 -10px 40px rgba(21,24,26,.22);max-height:92%;overflow-y:auto;box-sizing:border-box">
     <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 16px"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
       <div style="min-width:0">
@@ -2472,7 +2505,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 <sc-if value="{{ oproepOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:60">
   <div onClick="{{ oproepSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.45)"></div>
-  <section role="dialog" aria-modal="true" aria-label="Abonnement" data-oproep="1" style="position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(30px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.18)">
+  <section role="dialog" aria-modal="true" aria-label="Abonnement" data-oproep="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(30px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.18)">
     <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
       <h2 style="margin:6px 0 0;font:500 24px 'Source Serif 4',Georgia,serif;line-height:1.25">Fijn dat Infopoche u helpt</h2>
@@ -2502,6 +2535,11 @@ const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
 
 // Interne schermnaam van het artikelscherm (besluit 7).
 const SCHERM_ART = "artikel";
+
+// Grotere tekst (Profiel, localStorage ifm_grote_tekst = "1", alleen op het toestel): CSS zoom op kopbalk,
+// schermcontainer, tabbalk en bladen. Zoom schaalt lettergrootte, tussenruimte en pictogrammen samen, dus
+// de inline px-opmaak van dit patroon blijft kloppen; een browser zonder zoom toont gewoon de normale grootte.
+const TEKST_ZOOM = 1.18;
 
 // Betalen gebeurt buiten de app. Eén bestemming voor élke "Word abonnee"-knop: `abonnement.url`
 // in modules.json, met de terugval in abonnee-lib.js (IfAbonnee.abonneeUrl). Niet per plek een andere.
@@ -2962,7 +3000,7 @@ class Component extends DCLogic {
   state = { screen:"hub", sc:null, phase:0, tone:"vous", q:"", copied:null, big:null,
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
-    teksten:null, tekstStatus:"", nwTegel:null, nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
+    teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
     cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
@@ -3546,7 +3584,7 @@ class Component extends DCLogic {
     this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
     document.addEventListener("keydown", this._toetsOproep);
     this.loadCatalogus();
-    let lv = null, favs = [], pc = null, pcLater = null, plaats = "", keuze = {aan:[], uit:[]};
+    let groteTekst = false, lv = null, favs = [], pc = null, pcLater = null, plaats = "", keuze = {aan:[], uit:[]};
     try {
       lv = localStorage.getItem("ifm_last_visit");
       localStorage.setItem("ifm_last_visit", new Date().toISOString());
@@ -3554,14 +3592,38 @@ class Component extends DCLogic {
       pc = localStorage.getItem("ifm_postcode");
       pcLater = localStorage.getItem("ifm_pc_later");
       plaats = HubLib.plaatsUitOpslag(localStorage.getItem("ifm_plaats"), pc);
+      groteTekst = localStorage.getItem("ifm_grote_tekst") === "1";
       const kz = JSON.parse(localStorage.getItem("ifm_modules") || "null");
       if (kz && typeof kz === "object") keuze = {aan: Array.isArray(kz.aan) ? kz.aan.filter(x => typeof x === "string") : [],
         uit: Array.isArray(kz.uit) ? kz.uit.filter(x => typeof x === "string") : []};
     } catch(e){}
-    this.setState({keuze, lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
+    this.setState({groteTekst, keuze, lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
       postcode: pc, plaats, vraagPostcode: !pc && !pcLater});
     if (pc && !plaats) this.laadPlaats(pc);
     this.load();
+  }
+
+  // Schermwissels lopen via de View Transition API als de browser die kent en de lezer geen beperkte
+  // beweging wil; anders (of bij een fout) wisselt het scherm gewoon, precies als voorheen. De wissel
+  // wordt even uitgesteld tot de browser het oude beeld heeft vastgelegd; setState-aanroepen in die
+  // tussentijd wachten in de rij en worden in dezelfde volgorde toegepast.
+  setState(update, cb){
+    if (this._vtWacht) { this._vtWacht.push([update, cb]); return; }
+    let beweegt = false;
+    try {
+      beweegt = !!(update && typeof update === "object" && update.screen && update.screen !== this.state.screen
+        && typeof document !== "undefined" && typeof document.startViewTransition === "function"
+        && !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches));
+    } catch (e) { beweegt = false; }
+    if (!beweegt) return super.setState(update, cb);
+    const rij = this._vtWacht = [[update, cb]];
+    const pas = klaar => {
+      this._vtWacht = null;
+      rij.forEach(([u, c], i) => super.setState(u, i === rij.length - 1 ? () => { if (c) c(); if (klaar) klaar(); } : c));
+    };
+    try {
+      document.startViewTransition(() => new Promise(klaar => { pas(klaar); setTimeout(klaar, 600); }));
+    } catch (e) { if (this._vtWacht) pas(null); }
   }
 
   load(){
@@ -4406,6 +4468,37 @@ class Component extends DCLogic {
     const st = this.state;
     return st.nwTegel === "archief" ? (st.archief.teksten || {})[key] : (st.teksten || {})[key];
   }
+  // Overzicht met themabeeld (besluit 2): filterchips, eerste bericht groot, de rest als lijst. Kleur en
+  // pictogram per thema komen uit modules.json (`nieuwsBeeld`) via NieuwsLib.beeldVoor; onbekend = neutraal.
+  nwOverzichtVals(){
+    const st = this.state, Lb = NieuwsLib, cat = st.cat || {};
+    if (st.screen !== "nieuws" || st.nwTegel || st.nieuwsStatus !== "klaar") return {nwChips:[], nwHero:{}, nwRijen:[], nwHeeftRijen:false, nwBeeldNote:""};
+    const filter = Lb.geldigFilter(st.nieuws, st.nwFilter);
+    const MAX = 25;
+    const alle = Lb.lijstVoorFilter(st.nieuws, filter, 0);
+    const lijst = alle.slice(0, MAX);
+    const beeld = (a, i, voorvoegsel) => {
+      const b = Lb.beeldVoor(a.thema, cat.nieuwsBeeld, cat.themas);
+      const pid = Lb.patroonId(voorvoegsel, i);
+      return {pid, fillUrl:"url(#" + pid + ")", d:b.d, kleur:b.kleur, tint:b.tint,
+        alt:"Themabeeld " + String(a.tegelLabel || "nieuws").toLowerCase(),
+        kicker:String(a.tegelLabel || a.themaLabel || "Nieuws").replace(/&/g, "en"),
+        titel:a.titel, meta:(a.datum ? dagDatum(a.datum) : "") + (a.datum ? " · " : "") + "Redactie",
+        open:() => this.openLees(a.tegelId, a.key, false)};
+    };
+    const items = lijst.map((a, i) => beeld(a, i, "nwp"));
+    return {
+      nwChips: Lb.chips(st.nieuws).map(c => ({label:c.label, aan:c.id === filter,
+        stijl: c.id === filter
+          ? "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#800000;color:#fff;font:700 13px Mulish;white-space:nowrap"
+          : "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#fff;border:1px solid rgba(21,24,26,.12);color:#15181A;font:600 13px Mulish;white-space:nowrap",
+        kies: () => this.setState({nwFilter:c.id})})),
+      nwHero: items[0] || {},
+      nwRijen: items.slice(1),
+      nwHeeftRijen: items.length > 1,
+      nwBeeldNote: "Beelden zijn eigen themaillustraties, geen persfoto's." + (alle.length > MAX ? " U ziet de " + MAX + " nieuwste berichten; kies een onderwerp voor de rest." : "")
+    };
+  }
   nwVals(){
     const st = this.state, Lb = NieuwsLib;
     const isNieuws = st.screen === "nieuws";
@@ -4459,7 +4552,7 @@ class Component extends DCLogic {
       nwLaadt: isNieuws && !lees && (st.nieuwsStatus === "leeg" || st.nieuwsStatus === "laden"),
       nwHeeftTegels: klaar && gesorteerd.length > 0,
       nwGeenBerichten: klaar && gesorteerd.length === 0,
-      nwTegelItems: gesorteerd.map(t => ({naam:t.label, aantal:aantalTekst(t.items.length), open:() => this.openLees(t.id, null, false)})),
+      ...this.nwOverzichtVals(),
       nwArchiefLabel: arLabel,
       nwOpenArchief: () => this.openLees("archief", null, false),
       nwVoorbeeld: st.nieuwsStatus === "mislukt",
@@ -4936,6 +5029,17 @@ class Component extends DCLogic {
       resetIntake: () => this.setState({antwoorden:{}, muur:false}),
       freeCount: free + " van de " + this.mods().length + " modules",
       abonneeUrl: this.abonneeUrl(),
+      zoomCss: st.groteTekst ? "zoom:" + TEKST_ZOOM + ";" : "",
+      groteTekstAan: !!st.groteTekst,
+      groteTekstLabel: "Grotere tekst: " + (st.groteTekst ? "aan" : "uit"),
+      groteTekstUitleg: "Maakt alle tekst in de app ongeveer " + Math.round((TEKST_ZOOM - 1) * 100) + "% groter. De keuze blijft alleen op dit toestel.",
+      groteTekstSchakel: () => {
+        const aan = !this.state.groteTekst;
+        try { if (aan) localStorage.setItem("ifm_grote_tekst", "1"); else localStorage.removeItem("ifm_grote_tekst"); } catch(e){}
+        this.setState({groteTekst:aan});
+      },
+      groteTekstSchuif: st.groteTekst ? "left:25px" : "left:3px",
+      groteTekstBg: st.groteTekst ? "#800000" : "#71787C",
 
       bigOpen: !!st.big, bigFr: st.big ? st.big.fr : "", bigNl: st.big ? st.big.nl : "",
       closeBig: () => this.setState({big:null}),

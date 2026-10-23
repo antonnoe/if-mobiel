@@ -73,7 +73,7 @@ Frankrijk).
 9. Geen buildstap, geen bundler, geen stylesheet: alle styling staat **inline**. Draaien met
    `npx serve .`; Vercel importeert de repo zonder instellingen.
 10. Persistentie in `localStorage`: `ifm_favs`, `ifm_postcode`, `ifm_pc_later`,
-    `ifm_last_visit`, `ifm_landing_tot` (tijdstempel tot wanneer het landingsscherm na "Verder in de browser" wegblijft, 14 dagen), `ifm_plaats` (JSON `{postcode, plaats}`, plaatsnaam van
+    `ifm_last_visit`, `ifm_landing_tot` (tijdstempel tot wanneer het landingsscherm na "Verder in de browser" wegblijft, 14 dagen), `ifm_grote_tekst` (`"1"` = Grotere tekst aan, Profiel), `ifm_abo_vraag` (tijdstempel oproep), `ifm_plaats` (JSON `{postcode, plaats}`, plaatsnaam van
     geo.api.gouv.fr, zacht falend, alleen geldig bij dezelfde postcode). Actueel-tab via `nlfr-menu`'s `/api/actueel` (thema-tegels: pers,
     overheid, infofrankrijk, verenigingen) met een voorbeeldlijst-terugval; het forum via
     `nlfr-berichten` met een demo-terugval. Beide falen zacht: nooit een lege pagina.
@@ -117,6 +117,12 @@ de bron van de ontwerpsessie.
   een muur is het blok de muur). Het onderblad (oproep) komt hooguit eens per week (`localStorage` `ifm_abo_vraag`, alleen een
   tijdstempel) en eens per sessie, na een uitkomst van De Ruyter, na een berekening in Energie (tool met prijs abonnee) of
   na het einde van een artikel; altijd te sluiten. Tekst staat in `index.html`; de regel in `IfAbonnee.moetOproep`.
+
+## Themabeeld, schermovergangen, grotere tekst (ronde 23-10-2026)
+
+- **Themabeeld nieuws**: kleur en pictogram per nieuwsthema staan als data in `modules.json` (`nieuwsBeeld`, thema naar `themas`-kleur en pictogramsleutel); de pictogramlijnen en de neutrale terugval staan in `nieuws-lib.js` (`ICONEN`, `beeldVoor`). Een nieuw thema van de nieuwsroute: één regel in `nieuwsBeeld`. Inline SVG, geen foto's, patroon-id's uniek per item (`patroonId`). Tests: `tests/nieuws-beeld.test.mjs`.
+- **Schermovergangen**: `Component.setState` wikkelt een wissel van `state.screen` in `document.startViewTransition` (180 ms vervagen van de schermcontainer); zonder de API of bij `prefers-reduced-motion` wisselt het scherm direct. Andere setState-aanroepen wachten tijdens de wissel in een rij. Bij reduced motion staan ook alle animaties en transities uit (CSS in `<helmet>`).
+- **Grotere tekst**: Profiel-schakelaar, `localStorage` `ifm_grote_tekst`. Techniek: CSS `zoom` (`TEKST_ZOOM`, nu 1,18) op kopbalk, schermcontainer, tabbalk, dossierbalk en de twee bladen via de hole `zoomCss`. Nieuwe vaste elementen met tekst krijgen dezelfde hole. Rijen met twee kolommen krijgen `flex-wrap`, lange titels `overflow-wrap:anywhere`.
 
 ## Huisstijl
 
