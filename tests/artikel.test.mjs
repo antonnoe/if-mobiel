@@ -151,7 +151,7 @@ test("index.html: artikelscherm hangt aan openInfoArtikel, nooit openArtikel; fo
   assert.ok(!/openArtikel/.test(html));
   assert.match(html, /openInfoArtikel\(url\)\{\s*\n\s*const L = window\.IfArtikel/);
   assert.ok(html.includes("https://www.nederlanders.fr/profiles/blog/new"));
-  assert.ok(html.includes("Tekst gekopieerd, plak hem in het bericht"));
+  assert.ok(html.includes("Tekst gekopieerd. Open Nederlanders.fr, maak een nieuw bericht en plak de tekst."));
   assert.match(html, /navigator\.share/);
   assert.ok(html.includes('src="./artikel-lib.js"') && html.includes('src="./abonnee-lib.js"'));
   assert.ok(!/window\.open\(url, "_blank", "noopener"\); \} catch\(e\)\{\} \}\n\s+openMods/.test(html));

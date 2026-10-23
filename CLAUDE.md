@@ -118,6 +118,28 @@ de bron van de ontwerpsessie.
   tijdstempel) en eens per sessie, na een uitkomst van De Ruyter, na een berekening in Energie (tool met prijs abonnee) of
   na het einde van een artikel; altijd te sluiten. Tekst staat in `index.html`; de regel in `IfAbonnee.moetOproep`.
 
+## Terugknop, hash-routes, zoeken in artikelen, forumblad (herstelronde 1, 23-10-2026)
+
+- **Geschiedenis en hash-routes** (`nav-lib.js`, `window.IfNav`; in `index.html` `histSync`, `histPop`, `terugStap`, `terugKnop`): elke schermwissel
+  (scherm, fase- of stappenlijst, hoofdstuk, artikel, genest artikel) en elk onderblad (forumblad, abonneeblad, postcodeblad, groot tonen) is een
+  `history.pushState`-regel; `popstate` doet dezelfde stap als de pijl linksboven (`terugStap`, die ook bladen eerst sluit). De pijl zelf roept
+  `history.back()` aan zodra er een eerdere regel is. Hoofdschermen onderling (tabs) vervangen de regel in plaats van een nieuwe te maken. Routes:
+  `#/artikel/<slug>`, `#/nieuws`, `#/forum`, `#/profiel`, `#/zoek`; elke andere hash valt terug op de hub, geen server-routes nodig. Een gedeelde
+  artikellink slaat bij een eerste bezoek het postcodeblad over. Delen deelt `https://infopoche.fr/#/artikel/<slug>` plus de bron (`APP_URL`).
+  Elk nieuw scherm opent bovenaan; terug herstelt de scrollstand (`_scr` per regel, bijgehouden via een scroll-luisteraar). Nieuwe schermen met
+  eigen terugstap: voeg ze toe aan `terugStap` en, voor een eigen sleutel, aan `histToestand` en `navKey`.
+- **Laadtoken**: `artLaad` en het zoeken gebruiken `IfNav.maakTeller()`, los van `state`; zo toont een mislukking die sneller komt dan de
+  schermovergang (offline, geblokkeerde route, HTTP 500) altijd de foutmelding met "Opnieuw proberen" en de siteknop, nooit een eindeloze spinner.
+  Updates na een asynchrone aanvraag lopen via een functionele `setState` die het token en het artikel (slug) controleert.
+- **Zoeken in artikelen**: het zoekscherm heeft onder de modulezoek een sectie "Artikelen op Infofrankrijk" via
+  `https://infofrankrijk.com/wp-json/wp/v2/search?search=<term>&per_page=8&_fields=title,url,subtype` (anoniem, `credentials:"omit"`, 350 ms
+  debounce, minimaal 3 tekens, cache per term, zacht falen met een eerlijke regel). Treffers openen in het artikelscherm.
+- **Forumblad** (`forumStart(tekst)`): "Bespreek op het forum" (artikelscherm en elke nieuwskaart: titel, samenvatting, bronlink) kopieert en opent een
+  klein blad met uitleg; pas de tik op "Open Nederlanders.fr" opent https://www.nederlanders.fr/profiles/blog/new in een nieuw tabblad. Mislukt
+  kopiëren, dan staat de tekst in het blad om zelf te selecteren. Het abonneeblad komt na een forumblad in dezelfde sessie niet meer (`_opSessie`).
+- **Eerlijke teksten**: de app belooft alleen wat hij doet (de noodtegel zegt "Wat u vandaag kunt doen", de postcode laat de app uw departement
+  noemen, hij filtert niet). Postcode wissen toont "Postcode gewist" met "Ongedaan maken" in het scherm, geen browser-confirm.
+
 ## Themabeeld, schermovergangen, grotere tekst (ronde 23-10-2026)
 
 - **Themabeeld nieuws**: kleur en pictogram per nieuwsthema staan als data in `modules.json` (`nieuwsBeeld`, thema naar `themas`-kleur en pictogramsleutel); de pictogramlijnen en de neutrale terugval staan in `nieuws-lib.js` (`ICONEN`, `beeldVoor`). Een nieuw thema van de nieuwsroute: één regel in `nieuwsBeeld`. Inline SVG, geen foto's, patroon-id's uniek per item (`patroonId`). Tests: `tests/nieuws-beeld.test.mjs`.

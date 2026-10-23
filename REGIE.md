@@ -99,3 +99,19 @@ Bouwer 3 (besluiten 2 en 10).
 | 10 Grote systeemtekst | Getest op 390x844 met alle tekst x2 (hub, nieuws, lezen, Profiel), met en zonder Grotere tekst: geen horizontaal scrollen; Profielrijen kregen flex-wrap, titels overflow-wrap | klaar |
 
 Afwijkingen: (a) de chips zijn 44 px hoog aangeklikt (zichtbaar 36 px), vanwege de regel hittargets; (b) de tegelkoppen "Kies een onderwerp" zijn vervangen door "Tik op een bericht...", omdat de oude tegels er niet meer zijn; (c) tik op een bericht opent de doorlopende leespagina van zijn onderwerp op dat bericht; (d) onderwerp-tegels en hun aantallen zijn vervangen door chips; (e) op 195 px breedte (200% paginazoom) is de app niet getest als in-bereik: de app is ontworpen op 390 px.
+
+## Herstelronde 1 (23-10-2026)
+
+Bouwer herstelronde 1, naar aanleiding van de bevindingen van de keurders. Details in CLAUDE.md, sectie "Terugknop, hash-routes, zoeken in artikelen, forumblad".
+
+| Punt | Wat | Status |
+|---|---|---|
+| 1 Eindeloze spinner | oorzaak: de `.catch` in `artLaad` las `this.state` voordat de `setState` van `openInfoArtikel` (View Transition-wachtrij) verwerkt was. Nu laadtoken (`IfNav.maakTeller`) plus functionele `setState`. Getest in Playwright: `route.abort`, HTTP 500 en offline, alle drie direct na openen | klaar |
+| 2 Terugknop en hash-routes | `pushState` per schermwissel en blad, `popstate` doet de stap van de pijl; `#/artikel/<slug>`, `#/nieuws`, `#/forum`, `#/profiel`, `#/zoek`; onbekend valt terug op de hub; delen deelt de infopoche-link plus bron | klaar |
+| 3 Zoeken in artikelen | sectie "Artikelen op Infofrankrijk" via de WordPress zoek-API, debounce, zacht falen | klaar |
+| 4 Forumknop | blad met uitleg, aparte knop "Open Nederlanders.fr", terugval met zelf te selecteren tekst; ook op nieuwskaarten; geen abonneeblad in dezelfde sessie | klaar |
+| 5 Beloftes | noodtegel zonder "en wie u belt"; hubregel "Met uw postcode noemt de app uw departement" | klaar |
+| 6 Scroll | nieuw scherm bovenaan, terug herstelt de stand | klaar |
+| 7 Postcode | voorbeeld "bijv. 24200" lichter, "Postcode wissen" donkerder (#3D4346) met "Postcode gewist" en "Ongedaan maken" | klaar |
+
+Tests: `tests/nav.test.mjs` (hash-route, sleutels, laadtoken, zoek-URL en treffers); `tests/artikel.test.mjs` aangepast aan de nieuwe forumtekst. Gecontroleerd met headless Chromium op 390x844 en 360x640.

@@ -23,6 +23,7 @@
 <script src="./landing-lib.js"></script>
 <script src="./support.js"></script>
 <script src="./dossier.js"></script>
+<script src="./nav-lib.js"></script>
 <script src="./artikel-lib.js"></script>
 <script src="./abonnee-lib.js"></script>
 </head>
@@ -169,6 +170,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 @keyframes ifm-in{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 ::-webkit-scrollbar{width:0;height:0}
+input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </style>
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#800000"/><rect x="72" y="46" width="56" height="108" rx="10" fill="#F4F1F0"/><text x="100" y="112" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="600" font-size="30" fill="#800000">IF</text></svg></template>
 </helmet>
@@ -667,7 +669,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div>
     <button onClick="{{ gzNoodTegel.open }}" style="width:calc(100% - 32px);margin:16px 16px 0;display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:#F8DFDD;border:1px solid rgba(179,38,30,.25);color:#15181A;text-align:left;cursor:pointer;min-height:44px;box-sizing:border-box">
       <span style="width:40px;height:40px;border-radius:50%;background:#B3261E;color:#fff;display:flex;align-items:center;justify-content:center;font:700 18px Mulish;flex:none">!</span>
-      <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.25">{{ gzNoodTitel }}</span><span style="font:500 13px Mulish;color:#3D4346;line-height:1.3">Wat u vandaag kunt doen, en wie u belt</span></span>
+      <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.25">{{ gzNoodTitel }}</span><span style="font:500 13px Mulish;color:#3D4346;line-height:1.3">Wat u vandaag kunt doen</span></span>
       <span style="color:#B3261E;font-size:18px">›</span>
     </button>
     <button onClick="{{ gzNuTegel.open }}" style="width:calc(100% - 32px);margin:14px 16px 0;display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-align:left;cursor:pointer;min-height:44px;box-sizing:border-box">
@@ -914,7 +916,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div style="padding:16px 16px 0">
     <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(128,0,0,.22);border-radius:13px;padding:0 14px;min-height:54px;box-shadow:0 0 0 3px rgba(128,0,0,.06)">
       <span style="color:#800000;font-size:16px">⌕</span>
-      <input value="{{ q }}" onInput="{{ onQ }}" placeholder="module, bericht, Franse zin of woord" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15.5px Mulish;color:#15181A;min-height:52px">
+      <input value="{{ q }}" onInput="{{ onQ }}" placeholder="module, artikel, Franse zin of woord" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15.5px Mulish;color:#15181A;min-height:52px">
       <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}">
       <button onClick="{{ clearQ }}" aria-label="Wissen" style="width:30px;height:30px;flex:none;border-radius:8px;border:0;background:rgba(21,24,26,.06);color:#3D4346;font:700 14px Mulish;cursor:pointer">×</button>
       </sc-if>
@@ -937,11 +939,29 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     </div>
   </div>
   </sc-if>
+  <sc-if value="{{ zaToon }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:16px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Artikelen op Infofrankrijk</div>
+    <sc-if value="{{ zaLaadt }}" hint-placeholder-val="{{ false }}"><div role="status" style="margin:0 14px;padding:12px 15px;font:500 13px/1.6 Mulish;color:#3D4346">Zoeken op Infofrankrijk&hellip;</div></sc-if>
+    <sc-if value="{{ zaFout }}" hint-placeholder-val="{{ false }}"><div role="status" style="margin:0 14px;padding:12px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 13px/1.6 Mulish;color:#3D4346">Zoeken in de artikelen van Infofrankrijk lukt nu niet. De resultaten van de app zelf staan hierboven.</div></sc-if>
+    <sc-if value="{{ zaLeeg }}" hint-placeholder-val="{{ false }}"><div role="status" style="margin:0 14px;padding:12px 15px;font:500 13px/1.6 Mulish;color:#3D4346">Geen artikelen gevonden op Infofrankrijk.</div></sc-if>
+    <sc-if value="{{ zaHeeft }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ zaItems }}" as="r" hint-placeholder-count="3">
+      <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:52px">
+        <span style="font:800 9px Mulish;letter-spacing:.09em;color:#800000;flex:none;width:56px;padding-top:4px">ARTIKEL</span>
+        <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }}</b>
+      </button>
+      </sc-for>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
   <sc-if value="{{ zoekEmpty }}" hint-placeholder-val="{{ true }}">
   <div>
     <div style="padding:22px 18px 0">
       <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Eén zoekveld voor de hele app</div>
-      <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zoek een module, een bericht van de site, een Franse zin of een woord uit de lexicons — alles in één lijst, met een label erbij.</p>
+      <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zoek een module, een artikel of bericht van de site, een Franse zin of een woord uit de lexicons — alles in één lijst, met een label erbij.</p>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;padding:16px 18px 0">
       <sc-for list="{{ suggesties }}" as="s" hint-placeholder-count="6">
@@ -1740,7 +1760,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
             </div>
             </sc-for>
           </div>
-          <a href="{{ nwForumHref }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:48px;margin-top:8px;font:700 13px Mulish;color:#800000">Bespreek op het forum &rarr;</a>
+          <button onClick="{{ b.forum }}" style="display:flex;align-items:center;min-height:48px;margin-top:8px;padding:0;border:0;background:none;cursor:pointer;font:700 13px Mulish;color:#800000">Bespreek op het forum &rarr;</button>
         </div>
         </sc-if>
       </div>
@@ -2228,7 +2248,10 @@ input,button{font-family:Mulish,system-ui,sans-serif}
     <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Vrij te gebruiken nu</span><b>{{ freeCount }}</b></div>
     <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 10px;padding:6px 0 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Postcode</span><b>{{ pcLabel }}</b><button onClick="{{ wijzigPc }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12.5px Mulish;cursor:pointer">Wijzigen</button></div>
     <sc-if value="{{ heeftPc }}" hint-placeholder-val="{{ false }}">
-    <div style="display:flex;justify-content:flex-end;padding-top:2px"><button onClick="{{ wisPc }}" style="min-height:44px;padding:0 14px;border:0;background:none;color:#71787C;font:600 13px Mulish;cursor:pointer">Postcode wissen</button></div>
+    <div style="display:flex;justify-content:flex-end;padding-top:2px"><button onClick="{{ wisPc }}" style="min-height:44px;padding:0 14px;border:0;background:none;color:#3D4346;font:600 13px Mulish;cursor:pointer;text-decoration:underline">Postcode wissen</button></div>
+    </sc-if>
+    <sc-if value="{{ pcGewist }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px;margin-top:6px;padding:4px 4px 4px 12px;border-radius:12px;background:rgba(21,24,26,.06);font:600 13px Mulish;color:#15181A"><span>Postcode gewist</span><button onClick="{{ pcHerstel }}" style="min-height:44px;padding:0 14px;border:0;background:none;color:#800000;font:700 13px Mulish;cursor:pointer">Ongedaan maken</button></div>
     </sc-if>
   </div>
   <div style="margin:12px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:6px 16px">
@@ -2319,17 +2342,8 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div>
     <div style="margin:22px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);display:flex;flex-direction:column;gap:10px">
       <div style="font:600 14.5px Poppins,system-ui,sans-serif">Ervaring met dit onderwerp?</div>
-      <p style="margin:0;font:500 13.5px Mulish;line-height:1.6;color:#3D4346">Start een gesprek op Nederlanders.fr. Titel, korte samenvatting en de link naar dit artikel worden gekopieerd, zodat u ze in het nieuwe bericht kunt plakken.</p>
+      <p style="margin:0;font:500 13.5px Mulish;line-height:1.6;color:#3D4346">Start een gesprek op Nederlanders.fr. Titel, korte samenvatting en de link naar dit artikel worden gekopieerd, zodat u ze in een nieuw bericht kunt plakken. Daarvoor moet u aangemeld zijn op Nederlanders.fr.</p>
       <button onClick="{{ artForum }}" style="display:flex;align-items:center;justify-content:center;min-height:46px;border:0;border-radius:12px;background:#800000;color:#fff;cursor:pointer;font:700 14px Mulish">Bespreek op het forum</button>
-      <sc-if value="{{ artForumOk }}" hint-placeholder-val="{{ false }}">
-      <div role="status" style="padding:12px 14px;border-radius:12px;background:rgba(46,125,91,.10);font:600 13px/1.6 Mulish;color:#1F5A40">Tekst gekopieerd, plak hem in het bericht. Nederlanders.fr opent in een nieuw tabblad. <a href="{{ artForumUrl }}" target="_blank" rel="noopener" style="color:#1F5A40;font-weight:700">Opent het niet? Open het forum &#8599;</a></div>
-      </sc-if>
-      <sc-if value="{{ artForumMis }}" hint-placeholder-val="{{ false }}">
-      <div role="status" style="padding:12px 14px;border-radius:12px;background:rgba(226,129,47,.12);font:600 13px/1.6 Mulish;color:#8A4E14">Kopiëren lukte niet op dit toestel. Kopieer de tekst hieronder zelf en open daarna het forum.
-        <div style="margin-top:8px;padding:10px 12px;border-radius:10px;background:#fff;font:500 13px/1.6 Mulish;color:#15181A;white-space:pre-wrap;word-break:break-word;user-select:text;-webkit-user-select:text">{{ artForumTekst }}</div>
-        <a href="{{ artForumUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;color:#8A4E14;font-weight:700">Open het forum &#8599;</a>
-      </div>
-      </sc-if>
     </div>
     <div style="display:flex;gap:10px;margin:12px 16px 0">
       <button onClick="{{ artDelen }}" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;cursor:pointer;font:700 13.5px Mulish">Delen</button>
@@ -2484,7 +2498,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
       </div>
     </div>
     </sc-if>
-    <input value="{{ pcInvoer }}" onInput="{{ onPc }}" inputmode="numeric" placeholder="34360" aria-label="Postcode" style="width:100%;min-height:56px;margin-top:16px;border:1px solid rgba(128,0,0,.20);border-radius:13px;padding:0 16px;font:700 20px Mulish;letter-spacing:.08em;color:#15181A;background:#F4F1F0">
+    <input value="{{ pcInvoer }}" onInput="{{ onPc }}" inputmode="numeric" placeholder="bijv. 24200" aria-label="Postcode" style="width:100%;min-height:56px;margin-top:16px;border:1px solid rgba(128,0,0,.20);border-radius:13px;padding:0 16px;font:700 20px Mulish;letter-spacing:.08em;color:#15181A;background:#F4F1F0">
     <button onClick="{{ bewaarPc }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:{{ pcKnopBg }};color:{{ pcKnopFg }};font:800 15px Mulish;cursor:pointer;margin-top:12px">Bewaren</button>
     <button onClick="{{ slaPcOver }}" style="width:100%;min-height:46px;border:0;background:none;color:#71787C;font:600 13px Mulish;cursor:pointer;margin-top:4px">{{ pcLaterLabel }}</button>
   </div>
@@ -2499,6 +2513,27 @@ input,button{font-family:Mulish,system-ui,sans-serif}
   <div style="margin-top:auto;padding-top:22px">
     <button onClick="{{ closeBig }}" style="width:100%;min-height:52px;border:1px solid rgba(255,255,255,.35);border-radius:13px;background:transparent;color:#fff;font:700 14.5px Mulish;cursor:pointer">Sluiten</button>
   </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ forumBladOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:55">
+  <div onClick="{{ forumBladSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.45)"></div>
+  <section role="dialog" aria-modal="true" aria-label="Bespreek op het forum" data-forumblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px;box-shadow:0 -8px 30px rgba(21,24,26,.18);box-sizing:border-box">
+    <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
+    <h2 style="margin:6px 0 0;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25">Bespreek op het forum</h2>
+    <sc-if value="{{ forumBladOk }}" hint-placeholder-val="{{ false }}">
+    <p role="status" style="margin:0;font:500 15px Mulish;line-height:1.7;color:#15181A">Tekst gekopieerd. Open Nederlanders.fr, maak een nieuw bericht en plak de tekst. U moet daarvoor aangemeld zijn op Nederlanders.fr.</p>
+    </sc-if>
+    <sc-if value="{{ forumBladMis }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <p role="status" style="margin:0;font:500 15px Mulish;line-height:1.7;color:#15181A">Kopiëren lukte niet op dit toestel. Selecteer de tekst hieronder en kopieer hem zelf. Open daarna Nederlanders.fr, maak een nieuw bericht en plak de tekst. U moet daarvoor aangemeld zijn op Nederlanders.fr.</p>
+      <div style="margin-top:10px;padding:12px;border-radius:10px;background:#F4F1F0;font:500 13.5px/1.6 Mulish;color:#15181A;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text">{{ forumBladTekst }}</div>
+    </div>
+    </sc-if>
+    <a href="{{ forumBladUrl }}" onClick="{{ forumBladSluit }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14.5px Mulish">Open Nederlanders.fr &#8599;</a>
+    <button onClick="{{ forumBladSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:700 14px Mulish">Annuleren</button>
+  </section>
 </div>
 </sc-if>
 
@@ -2535,6 +2570,11 @@ const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
 
 // Interne schermnaam van het artikelscherm (besluit 7).
 const SCHERM_ART = "artikel";
+// Schermen met een pijl linksboven (zie ook showBack).
+const SHOWBACK = /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/;
+// Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
+const APP_URL = "https://infopoche.fr";
+const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
 
 // Grotere tekst (Profiel, localStorage ifm_grote_tekst = "1", alleen op het toestel): CSS zoom op kopbalk,
 // schermcontainer, tabbalk en bladen. Zoom schaalt lettergrootte, tussenruimte en pictogrammen samen, dus
@@ -3006,7 +3046,7 @@ class Component extends DCLogic {
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
-    art:null, artStack:[], artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false,
+    art:null, artStack:[], forumBlad:null, pcGewist:null, zaq:{q:"", status:"leeg", items:[]}, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false,
     gzStatus:"leeg", gzTitels:{}, gzOpen:[], gzLijst:null, onStap:null, gzHfd:null, gzHfdFout:false,
     themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null, onStatus:"leeg", onStappen:null, onDicht:[] };
 
@@ -3550,7 +3590,7 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(){
-    this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkOproep();
+    this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkOproep(); this.histSync();
     if (this.state.oproep && !this._opFocus) {
       this._opFocus = true;
       const b = document.querySelector('[data-oproep] button[aria-label="Sluiten"]');
@@ -3597,8 +3637,10 @@ class Component extends DCLogic {
       if (kz && typeof kz === "object") keuze = {aan: Array.isArray(kz.aan) ? kz.aan.filter(x => typeof x === "string") : [],
         uit: Array.isArray(kz.uit) ? kz.uit.filter(x => typeof x === "string") : []};
     } catch(e){}
+    const route = this.histStart() || {soort:"hub"};
     this.setState({groteTekst, keuze, lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
-      postcode: pc, plaats, vraagPostcode: !pc && !pcLater});
+      postcode: pc, plaats, vraagPostcode: !pc && !pcLater && route.soort === "hub"});
+    if (route.soort !== "hub") this.routeToepassen(route);
     if (pc && !plaats) this.laadPlaats(pc);
     this.load();
   }
@@ -3803,18 +3845,27 @@ class Component extends DCLogic {
     const stack = st.screen === "artikel" ? (st.artStack || []).concat([entry]) : [entry];
     this.setState({screen:SCHERM_ART, from: st.screen === "artikel" ? st.from : st.screen,
       art:{url:schoon, slug, status:"laden", titel:"", datum:"", link:schoon, muur:false, samenvatting:""},
-      artStack:stack, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false});
+      artStack:stack, artDeelMld:"", artGelezen:false, oproep:false});
     setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0);
     this.artLaad(slug, schoon);
   }
   artLaad(slug, url){
-    const L = window.IfArtikel;
+    const L = window.IfArtikel, Nv = window.IfNav;
     this._artCache = this._artCache || {};
-    const nu = () => { const a = this.state.art; return this.state.screen === "artikel" && a && a.slug === slug; };
-    const toon = (c) => { if (nu()) this.setState({art:Object.assign({}, this.state.art, c.meta, {status:"klaar"})}); };
+    this._artTeller = this._artTeller || (Nv ? Nv.maakTeller() : { volgende: () => 0, actueel: () => true });
+    const tok = this._artTeller.volgende();
+    // Het laadtoken staat los van state: een mislukking vlak na het openen (offline, geblokkeerde route, HTTP 500) komt
+    // eerder dan de schermovergang, dus this.state is dan nog niet bijgewerkt. De functionele setState staat in dezelfde
+    // wachtrij als de schermwissel en ziet dus altijd het artikel dat bij deze aanvraag hoort.
+    const zet = (c) => this.setState(prev => (this._artTeller.actueel(tok) && prev.art && prev.art.slug === slug)
+      ? {art:Object.assign({}, prev.art, c, {status: c.status})} : null);
+    const fout = () => zet({status:"fout"});
+    const toon = (c) => zet(Object.assign({}, c.meta, {status:"klaar"}));
     if (this._artCache[slug]) return toon(this._artCache[slug]);
-    if (!L) return this.setState({art:Object.assign({}, this.state.art, {status:"fout"})});
-    L.haalOp(slug).then(a => {
+    if (!L) return fout();
+    let belofte;
+    try { belofte = L.haalOp(slug); } catch (e) { return fout(); }
+    belofte.then(a => {
       const k = L.knipBijMuur(a.html);
       const body = L.schoon(k.html);
       const heeftInhoud = !!(body.textContent || "").replace(/\s+/g, "") || !!body.querySelector("img");
@@ -3823,7 +3874,7 @@ class Component extends DCLogic {
         link: L.schoneUrl(a.link) || url, samenvatting: L.inkorten(L.eersteAlinea(body), 280)};
       this._artCache[slug] = {meta, body};
       toon(this._artCache[slug]);
-    }).catch(() => { if (nu()) this.setState({art:Object.assign({}, this.state.art, {status:"fout"})}); });
+    }).catch(fout);
   }
   artOpnieuw(){
     const a = this.state.art; if (!a) return;
@@ -3834,7 +3885,7 @@ class Component extends DCLogic {
     const st = this.state, stack = (st.artStack || []).slice(), top = stack.pop();
     this.artLuisterStop();
     if (!top) { this.setState({screen:"hub", art:null, artStack:[]}); return; }
-    const basis = {artStack:stack, artForumMld:"", artDeelMld:"", artGelezen:false};
+    const basis = {artStack:stack, artDeelMld:"", artGelezen:false};
     if (top.art) this.setState(Object.assign({screen:SCHERM_ART, art:top.art}, basis));
     else this.setState(Object.assign({screen:top.screen, from:top.from, art:null}, basis));
     const zet = () => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = top.scroll || 0; };
@@ -3888,26 +3939,31 @@ class Component extends DCLogic {
     const a = this.state.art, L = window.IfArtikel;
     return a && L ? L.forumTekst(a.titel, a.samenvatting, a.link || a.url) : "";
   }
-  // Besluit 9: titel, samenvatting en link naar het klembord, dan het nieuwe-bericht-scherm van NLFR.
-  // "Gekopieerd" wordt alleen gemeld als het kopiëren gelukt is. Bij NLFR V2 wordt dit een vooraf ingevulde draad (CLAUDE.md).
-  artForum(){
-    const tekst = this.artForumTekst(), FORUM = "https://www.nederlanders.fr/profiles/blog/new";
+  // Besluit 9, herstelronde 1: één duidelijke stap. Tik op "Bespreek op het forum" kopieert (als dat lukt) en opent een klein
+  // blad met uitleg; pas de tik op "Open Nederlanders.fr" in dat blad opent het forum in een nieuw tabblad. Mislukt het
+  // kopiëren, dan toont het blad de tekst om zelf te selecteren. Bij NLFR V2 wordt dit een vooraf ingevulde draad (CLAUDE.md).
+  forumStart(tekst){
     if (!tekst) return;
-    const open = () => { try { window.open(FORUM, "_blank", "noopener"); } catch(e){} };
-    if (this.kopieerSync(tekst)) { this.setState({artForumMld:"ok"}); open(); return; }
+    this._opSessie = true; // het abonneeblad komt in deze sessie niet in dezelfde beweging als het forumblad
+    const toon = ok => this.setState({forumBlad:{tekst, ok}});
+    if (this.kopieerSync(tekst)) return toon(true);
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(tekst).then(() => { this.setState({artForumMld:"ok"}); open(); }, () => this.setState({artForumMld:"mislukt"}));
+      navigator.clipboard.writeText(tekst).then(() => toon(true), () => toon(false));
       return;
     }
-    this.setState({artForumMld:"mislukt"});
+    toon(false);
   }
+  forumBladSluit(){ this.setState({forumBlad:null}); }
+  artForum(){ this.forumStart(this.artForumTekst()); }
   artDelen(){
     const a = this.state.art; if (!a) return;
-    const url = a.link || a.url, mld = t => this.setState({artDeelMld:t});
-    if (navigator.share) { navigator.share({title:a.titel, url}).catch(() => {}); return; }
+    const bron = a.link || a.url, Nv = window.IfNav;
+    const url = Nv && a.slug ? Nv.deelUrl(APP_URL, a.slug) : bron, mld = t => this.setState({artDeelMld:t});
+    const tekst = (a.titel ? a.titel + "\n" : "") + url + "\nBron: " + bron;
+    if (navigator.share) { navigator.share({title:a.titel, text:(a.titel ? a.titel + "\n" : "") + "Bron: " + bron, url}).catch(() => {}); return; }
     const fout = () => mld("Delen en kopiëren lukt op dit toestel niet. Open het artikel op infofrankrijk.com en deel de link daar.");
-    if (this.kopieerSync(url)) return mld("Link gekopieerd");
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => mld("Link gekopieerd"), fout);
+    if (this.kopieerSync(tekst)) return mld("Link gekopieerd");
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(tekst).then(() => mld("Link gekopieerd"), fout);
     else fout();
   }
   artVals(){
@@ -3917,9 +3973,8 @@ class Component extends DCLogic {
       artMeta: klaar && a.datum ? a.datum + " · Infofrankrijk" : "Infofrankrijk",
       artLaadt: is && a.status === "laden", artFout: is && a.status === "fout", artKlaar: klaar,
       artSiteUrl: is ? (a.link || a.url) : "https://infofrankrijk.com/",
-      artForumUrl: "https://www.nederlanders.fr/profiles/blog/new",
-      artForumOk: klaar && st.artForumMld === "ok", artForumMis: klaar && st.artForumMld === "mislukt",
-      artForumTekst: klaar && st.artForumMld === "mislukt" ? this.artForumTekst() : "",
+      forumBladOpen: !!st.forumBlad, forumBladOk: !!st.forumBlad && st.forumBlad.ok, forumBladMis: !!st.forumBlad && !st.forumBlad.ok,
+      forumBladTekst: st.forumBlad ? st.forumBlad.tekst : "", forumBladUrl: FORUM_NIEUW, forumBladSluit: () => this.forumBladSluit(),
       artDeelMld: klaar ? (st.artDeelMld || "") : "",
       artDelen: () => this.artDelen(), artForum: () => this.artForum(), artOpnieuw: () => this.artOpnieuw()
     };
@@ -3944,6 +3999,7 @@ class Component extends DCLogic {
   // Welke soort nuttige uitkomst staat er nu op het scherm? (De Ruyter en Energie: zie renderVals; artikel: tot het einde gelezen.)
   opSoort(){
     const st = this.state;
+    if (st.forumBlad) return null;
     if (st.screen === "ruyter" && this._opRu) return "uitkomst";
     if (st.screen === "energie" && this._opEn) return "abonneetool";
     if (st.screen === "artikel" && st.artGelezen && st.art && st.art.status === "klaar" && !st.art.muur) return "uitkomst";
@@ -3960,7 +4016,7 @@ class Component extends DCLogic {
     if (!A.moetOproep({soort, laatst: opslag ? A.leesLaatst(opslag) : null, nu: Date.now(), sessieGetoond: !!this._opSessie})) return;
     this._opTimer = setTimeout(() => {
       this._opTimer = null;
-      if (this.opSoort() !== soort || this.state.oproep) return;
+      if (this.opSoort() !== soort || this.state.oproep || this._opSessie) return;
       this._opSessie = true;
       if (opslag) A.schrijfLaatst(opslag, Date.now());
       this.setState({oproep:true});
@@ -3989,9 +4045,164 @@ class Component extends DCLogic {
       regioIntro: depTxt ? "Uw postcode valt in " + depTxt + ". Dit zijn de onderdelen van de app die bij een departement horen." : "Dit zijn de onderdelen van de app die bij een departement horen.",
       regioRijen: rijen, regioLeeg: rijen.length === 0,
       hubRegioLabel: L.regioLabel(pc, st.plaats),
-      hubRegioSub: L.postcodeOk(pc) ? "Wat de app per departement weet" : "Dan toont de app wat er voor uw departement is",
+      hubRegioSub: L.postcodeOk(pc) ? "De onderdelen die bij uw departement horen" : "Met uw postcode noemt de app uw departement",
       openRegio: () => this.openRegio(),
       regioIcoStyle: themaIcoStijl("regio")
+    };
+  }
+
+  // ---- Terug, geschiedenis en hash-routes (herstelronde 1) ----------------------------------------
+  // Eén stap terug, dezelfde logica voor de pijl linksboven en de terugknop van telefoon of browser. Geeft true als er
+  // iets veranderd is. Bladen (forum, oproep, groot tonen, postcode) sluiten eerst.
+  terugStap(){
+    const st = this.state;
+    if (st.forumBlad) { this.forumBladSluit(); return true; }
+    if (st.oproep) { this.oproepSluit(); return true; }
+    if (st.big) { this.setState({big:null}); return true; }
+    if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
+    if (st.screen === "artikel") { this.artTerug(); return true; }
+    if (st.screen === "nieuws") { this.nwTerugKnop(); return true; }
+    if (st.screen === "gezondheid" && st.gzHfd) { this.gzTerug(); return true; }
+    if (st.screen === "gezondheid" && st.gzLijst !== null) { this.setState({gzLijst:null}); return true; }
+    if (st.screen === "ondernemen" && st.onStap !== null) { this.setState({onStap:null}); return true; }
+    const heeftTerug = SHOWBACK.test(st.screen) || (st.screen === "taal" && !!st.sc);
+    if (!heeftTerug) {
+      if (st.screen === "hub") return false;
+      this.setState({screen:"hub", q:"", copied:null, tool:null}); return true;
+    }
+    this.stopPiramide();
+    if (st.screen === "taal" && st.sc && st.from !== "zoek") { this.setState({sc:null, phase:0}); return true; }
+    this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
+      tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool});
+    return true;
+  }
+  // De pijl linksboven: met een eerdere regel in de geschiedenis gaat hij daar naartoe (dan volgt popstate);
+  // op de eerste regel (bijvoorbeeld na een gedeelde artikellink) doet hij dezelfde stap zonder nieuwe regel.
+  terugKnop(){
+    let h = null; try { h = history.state; } catch(e){}
+    if (this._hOk && h && h.ifm && h.id > 0) { history.back(); return; }
+    this.histPopMarkeer();
+    this.terugStap();
+  }
+  histPopMarkeer(){
+    this._hPopped = true;
+    clearTimeout(this._hPopT); this._hPopT = setTimeout(() => { this._hPopped = false; }, 1500);
+  }
+  histUrl(t){
+    const h = window.IfNav.bouwHash(t);
+    return location.pathname + location.search + h;
+  }
+  histToestand(){
+    const st = this.state;
+    const blad = st.forumBlad ? "forum" : st.oproep ? "oproep" : st.big ? "big" : st.vraagPostcode ? "pc" : "";
+    return {screen:st.screen, artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzLijst:st.gzLijst, onStap:st.onStap,
+      nwTegel:st.nwTegel, nwTerug:st.nwTerug, sc: st.screen === "taal" ? st.sc : "", blad,
+      themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
+  }
+  histScroll(id, nul){
+    const y = nul ? 0 : ((this._scr && this._scr[id]) || 0);
+    const zet = () => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = y; };
+    zet(); setTimeout(zet, 0); if (!nul) setTimeout(zet, 120);
+  }
+  // Na elke render: hoort er een nieuwe geschiedenisregel bij wat de lezer nu ziet? Elk nieuw scherm opent bovenaan;
+  // terug via pijl of terugknop herstelt de scrollstand van de vorige regel.
+  histSync(){
+    const Nv = window.IfNav;
+    if (!this._hOk || !Nv) return;
+    let cur = null; try { cur = history.state; } catch(e){ return; }
+    const t = this.histToestand(), key = Nv.navKey(t), base = Nv.navKey(Object.assign({}, t, {blad:""}));
+    if (!cur || !cur.ifm) {
+      try { history.replaceState({ifm:1, id:0, key, base, sheet:false}, "", this.histUrl(t)); } catch(e){}
+      this._hId = 0; this._hT = t; return;
+    }
+    if (cur.key === key) {
+      if (this._hPopped) { this._hPopped = false; this.histScroll(cur.id, false); }
+      this._hT = t; return;
+    }
+    if (this._hIgnore) return;
+    const url = this.histUrl(t), vorige = this._hT || t;
+    const zet = (id, sheet, push) => {
+      const stt = {ifm:1, id, key, base, sheet};
+      try { push ? history.pushState(stt, "", url) : history.replaceState(stt, "", url); } catch(e){}
+      this._hId = id;
+    };
+    this._scr = this._scr || {};
+    if (this._hPopped) { this._hPopped = false; zet(cur.id, false, false); this.histScroll(cur.id, false); this._hT = t; return; }
+    if (base === cur.base) {
+      if (t.blad && !cur.sheet) zet(cur.id + 1, true, true);
+      else if (t.blad) zet(cur.id, true, false);
+      else if (cur.sheet) { this._hIgnore = true; try { history.back(); } catch(e){ this._hIgnore = false; } return; }
+      else zet(cur.id, false, false);
+      this._hT = t; return;
+    }
+    if (cur.sheet) { this._hIgnore = true; try { history.back(); } catch(e){ this._hIgnore = false; } return; }
+    this._scr[cur.id] = this._scrNow || 0;
+    if (Nv.isTop(t) && Nv.isTop(vorige) && vorige.screen !== "hub") zet(cur.id, false, false);
+    else zet(cur.id + 1, false, true);
+    this.histScroll(0, true);
+    this._hT = t;
+  }
+  // Een hash-route toepassen (eerste keer openen, handmatig gewijzigde hash, vooruit in de geschiedenis).
+  routeToepassen(r){
+    const A = window.IfArtikel;
+    if (r.soort === "artikel" && A) { this.openInfoArtikel(A.BASIS + "/" + r.slug + "/"); return; }
+    if (r.soort === "scherm") { this.go(r.scherm); return; }
+    this.stopPiramide();
+    this.setState({screen:"hub", q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, big:null, vraagPostcode:false,
+      gzHfd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false});
+  }
+  histPop(e){
+    const Nv = window.IfNav, stt = e && e.state;
+    if (this._hIgnore) { this._hIgnore = false; this.histSync(); return; }
+    if (!stt || !stt.ifm) { this._hPopped = false; this.routeToepassen(Nv.parseHash(location.hash)); return; }
+    const voorwaarts = typeof this._hId === "number" && stt.id > this._hId;
+    this._hId = stt.id;
+    this.histPopMarkeer();
+    if (voorwaarts) { this.routeToepassen(Nv.parseHash(location.hash)); return; }
+    if (!this.terugStap()) {
+      this._hPopped = false;
+      if (stt.id > 0) { try { history.back(); } catch(e){} }
+    }
+  }
+  histStart(){
+    const Nv = window.IfNav;
+    try { this._hOk = typeof history !== "undefined" && typeof history.pushState === "function" && !!Nv; } catch(e){ this._hOk = false; }
+    if (!this._hOk) return null;
+    this._scr = {}; this._scrNow = 0; this._hId = 0; this._hPopped = false; this._hIgnore = false;
+    window.addEventListener("popstate", e => this.histPop(e));
+    document.addEventListener("scroll", ev => { const el = ev.target; if (el && el.id === "ifm-scroll") this._scrNow = el.scrollTop; }, true);
+    return Nv.parseHash(location.hash);
+  }
+
+  // ---- Zoeken in de artikelen van Infofrankrijk (WordPress zoek-API, anoniem, zacht falend) -----------
+  zoekArtikelen(q){
+    const Nv = window.IfNav;
+    clearTimeout(this._zaT);
+    const url = Nv ? Nv.artikelZoekUrl(q) : null;
+    if (!url) { if (this._zaTeller) this._zaTeller.volgende(); return; }
+    const qn = String(q).trim().replace(/\s+/g, " ").slice(0, 80);
+    this._zaTeller = this._zaTeller || Nv.maakTeller();
+    this._zaCache = this._zaCache || {};
+    const tok = this._zaTeller.volgende();
+    const klaar = (status, items) => this.setState(prev => this._zaTeller.actueel(tok) ? {zaq:{q:qn, status, items}} : null);
+    if (this._zaCache[qn]) { klaar("klaar", this._zaCache[qn]); return; }
+    this._zaT = setTimeout(() => {
+      this.setState(prev => this._zaTeller.actueel(tok) ? {zaq:{q:qn, status:"laden", items:[]}} : null);
+      let f;
+      try { f = fetch(url, {credentials:"omit", headers:{"Accept":"application/json"}}); } catch(e){ klaar("fout", []); return; }
+      f.then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+        .then(d => { const items = Nv.artikelTreffers(d); this._zaCache[qn] = items; klaar("klaar", items); })
+        .catch(() => klaar("fout", []));
+    }, 350);
+  }
+  zaVals(){
+    const st = this.state, qn = st.q.trim().replace(/\s+/g, " ").slice(0, 80), toon = qn.length >= 3, zq = st.zaq || {};
+    const status = !toon ? "" : (zq.q !== qn ? "laden" : zq.status);
+    const items = toon && zq.q === qn && zq.status === "klaar" ? zq.items : [];
+    return {
+      zaToon: toon, zaLaadt: status === "laden", zaFout: status === "fout", zaLeeg: status === "klaar" && items.length === 0,
+      zaHeeft: items.length > 0, zaBezig: toon && (status === "laden"),
+      zaItems: items.map(it => ({titel: it.titel, open: () => this.openInfoArtikel(it.url)}))
     };
   }
 
@@ -3999,7 +4210,7 @@ class Component extends DCLogic {
   // prijsbadge in de kopbalk op de vorige module hangen.
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
   go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); if (s === "act") s = "nieuws";
-    this.setState({screen:s, q:"", copied:null, tool:null, muur:false, ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
+    this.setState({screen:s, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
   route(m){
@@ -4538,7 +4749,12 @@ class Component extends DCLogic {
             leesLabel: href && window.IfArtikel && window.IfArtikel.isInApp(href) ? "Lees het origineel in de app" : "Lees het origineel (nieuw tabblad)"};
         }),
         heeftVolgende: !!volgende,
-        volgende: volgende ? "volgende: " + volgende.titel : ""
+        volgende: volgende ? "volgende: " + volgende.titel : "",
+        forum: () => {
+          const L = window.IfArtikel, eerste = (heeftTekst ? Lb.alineas(x.tekst) : Lb.alineas(a.summary))[0] || "";
+          const bron = (bronnen.map(b => veiligeUrl(b.url)).filter(Boolean)[0]) || veiligeUrl(a.url) || "";
+          if (L) this.forumStart(L.forumTekst(a.titel, L.inkorten(eerste, 280), bron));
+        }
       };
     });
     const arLabel = st.archiefAantal ? "Archief (" + st.archiefAantal + ")" : "Archief";
@@ -4569,8 +4785,7 @@ class Component extends DCLogic {
       nwListLaadt: lees && st.nwTegel === "archief" && archiefStatus === "laden",
       nwListFout: lees && st.nwTegel === "archief" && archiefStatus === "mislukt",
       nwListOpnieuw: () => { this._arP = null; this.laadArchief(); },
-      nwEinde: lijst.length > 0,
-      nwForumHref: "https://www.nederlanders.fr/"
+      nwEinde: lijst.length > 0
     };
   }
 
@@ -4667,12 +4882,9 @@ class Component extends DCLogic {
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(/^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/.test(st.screen) || (st.screen === "taal" && !!st.sc)),
-      back: () => st.screen === "artikel" ? this.artTerug() : st.screen === "nieuws" ? this.nwTerugKnop() : (st.screen === "gezondheid" && st.gzHfd) ? this.gzTerug() : (st.screen === "gezondheid" && st.gzLijst !== null) ? this.setState({gzLijst:null}) : (st.screen === "ondernemen" && st.onStap !== null) ? this.setState({onStap:null}) : (this.stopPiramide(), (st.screen === "taal" && st.sc && st.from !== "zoek"))
-        ? this.setState({sc:null, phase:0})
-        : this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
-            tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool}),
+      showBack: SHOWBACK.test(st.screen) || (st.screen === "taal" && !!st.sc),
+      showMark: !(SHOWBACK.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      back: () => this.terugKnop(),
 
       isHub: st.screen === "hub" || st.screen === "mod", isZoek: st.screen === "zoek", isGem: st.screen === "gem",
       isKeuze: st.screen === "keuze", isTaal: st.screen === "taal", isTool: st.screen === "tool", isAcc: st.screen === "acc",
@@ -4872,13 +5084,14 @@ class Component extends DCLogic {
       freeNote: "Veiligheid is altijd gratis. Bij de rekenmodules mag u het voorbeeld bekijken en uw eigen antwoorden invullen; alleen de uitkomst hoort bij het abonnement.",
 
       q: st.q, hasQ: st.q.length > 0,
-      onQ: e => this.setState({q:e.target.value}),
-      clearQ: () => this.setState({q:""}),
+      onQ: e => { const v = e.target.value; this.setState({q:v}); this.zoekArtikelen(v); },
+      clearQ: () => { this.setState({q:""}); this.zoekArtikelen(""); },
+      ...this.zaVals(),
       results, hasResults: results.length > 0,
       resultCount: results.length + " resultaten",
       zoekEmpty: st.q.trim().length < 2,
-      noResults: st.q.trim().length >= 2 && results.length === 0,
-      suggesties: ["dokter","recept","notaris","brandrisico","carte vitale","spoed"].map(s => ({name:s, pick:() => this.setState({q:s})})),
+      noResults: st.q.trim().length >= 2 && results.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
+      suggesties: ["dokter","recept","notaris","brandrisico","carte vitale","spoed"].map(s => ({name:s, pick:() => { this.setState({q:s}); this.zoekArtikelen(s); }})),
 
       feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Live van nederlanders.fr · gesorteerd op laatste reactie" : "Voorbeeldgegevens — live zodra de app op een eigen domein staat",
       refresh: () => this.load(),
@@ -4991,8 +5204,21 @@ class Component extends DCLogic {
       pcInfoWissel: () => this.setState({pcInfo: !this.state.pcInfo}),
       heeftPc: !!st.postcode,
       wisPc: () => {
+        let later = null; try { later = localStorage.getItem("ifm_pc_later"); } catch(e){}
+        const was = {postcode: this.state.postcode, plaats: this.state.plaats, later};
         try { localStorage.removeItem("ifm_postcode"); localStorage.removeItem("ifm_plaats"); localStorage.setItem("ifm_pc_later", "1"); } catch(e){}
-        this.setState({postcode:null, plaats:""});
+        this.setState({postcode:null, plaats:"", pcGewist:was});
+      },
+      pcGewist: !!st.pcGewist && !st.postcode,
+      pcHerstel: () => {
+        const was = this.state.pcGewist; if (!was) return;
+        try {
+          localStorage.setItem("ifm_postcode", was.postcode);
+          if (was.plaats) localStorage.setItem("ifm_plaats", JSON.stringify({postcode:was.postcode, plaats:was.plaats}));
+          if (was.later === null) localStorage.removeItem("ifm_pc_later");
+        } catch(e){}
+        this.setState({postcode:was.postcode, plaats:was.plaats || "", pcGewist:null});
+        if (!was.plaats) this.laadPlaats(was.postcode);
       },
       pcInvoer: st.pcInvoer,
       onPc: e => this.setState({pcInvoer: e.target.value.replace(/[^0-9]/g, "").slice(0, 5)}),
@@ -5002,7 +5228,7 @@ class Component extends DCLogic {
       bewaarPc: () => { if (this.state.pcInvoer.length === 5) {
         const pcNieuw = this.state.pcInvoer;
         try { localStorage.setItem("ifm_postcode", pcNieuw); localStorage.removeItem("ifm_plaats"); } catch(e){}
-        this.setState({postcode:pcNieuw, plaats:"", vraagPostcode:false, pcInfo:false});
+        this.setState({postcode:pcNieuw, plaats:"", vraagPostcode:false, pcInfo:false, pcGewist:null});
         this.laadPlaats(pcNieuw); } },
       slaPcOver: () => { try { localStorage.setItem("ifm_pc_later", "1"); } catch(e){} this.setState({vraagPostcode:false, pcInfo:false}); },
       hasPreview: !!pv,
