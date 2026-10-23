@@ -60,3 +60,16 @@ Open: merge zorg-thema; Dossier DossierFrankrijk-repo is privé en niet geraadpl
 | Thema door het model, zorg, reviewtool | nlfr-menu | PR 59, d486804 | gemerged; branches zorg-thema en thema-door-model niet te verwijderen (403) |
 
 Open: branches in nlfr-menu handmatig verwijderen; Klussen-zoekindex wacht op CORS-header aan de WordPress-kant; zzpplatform roept Gemini vanuit de browser aan met een sleutel (nakijken); de gouden vector is dezelfde geometrie als de bronzen.
+
+## Ronde 23-10-2026
+
+Bouwer 1 (besluiten 1, 5 en 6).
+
+| Besluit | Wat | Status |
+|---|---|---|
+| 1 Gezondheid | Noodblok en "Nu al regelen" als brede tegels, zes fasen als tegels (2 kolommen), hulpmiddelen als kleine tegels; een tik opent de hoofdstukken als lijst (`gzLijst` in state, terugknop in de kop sluit de lijst). Indeling blijft uit `modules.json` (`gezondheid`) | klaar |
+| 1 Ondernemen | Vier stappen als tegels met telling uit de data (artikelen, tools); een tik opent artikelen en tools als lijst (`onStap` in state) | klaar |
+| 5 Postcode | [i]-knop (44px) in het postcodeblad; klapt de toepassingen en de privacyregel uit. Dit blad is de enige plek waar de app om de postcode vraagt (eerste start, Profiel, regio, Veiligheid & natuur). Nieuw: "Postcode wissen" in Profiel, want de tekst belooft wissen | klaar |
+| 6 Over ons | Scherm volgens OverOns.dc.html. "Lees het volledige manifest" roept `openInfoArtikel(url)` aan; die opent nu een nieuw tabblad. Bouwer 2 hoeft alleen de inhoud van die ene functie te vervangen | klaar |
+
+Afwijkingen van de mock-up: (a) de postcodetekst noemt alleen wat de app echt doet (Nedergids noemt het departement, regiokaart en zoekers zeggen welk departement u opzoekt; de app filtert niet); (b) Bronnen staat als kleine tegel bij de hulpmiddelen, omdat het een hoofdstuk is dat niet in de mock voorkomt; (c) Over ons houdt onder de mock-inhoud de Kennispiramide, de bronnenlijst en de disclaimer, zodat die niet onbereikbaar worden; (d) de functie heet `openInfoArtikel`, want `tests/nieuws.test.mjs` verbiedt de naam `openArtikel`.
