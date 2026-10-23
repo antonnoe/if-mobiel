@@ -140,3 +140,8 @@ Bouwer bouwronde 2, naar de opdracht van de opdrachtgever. Details in CLAUDE.md,
 
 Afwijkingen: (a) zeven van de veertien tool-hosts hebben geen module in `modules.json` (dashboard-admin-beige-ten, werk-in-frankrijk-platform-v02, energieportaal-pbuv, briefhulp-fr, vastgoed-analyse-v84x, infofrankrijk-klussen-archief, controle-technique-zoeker); er is geen module bijgemaakt, hun iframe wordt een externe toolkaart; (b) de module `correspondentie` wijst met zijn url naar het artikel zelf, dus is er geen `artikel`-veld gezet (dat zou een kring geven); (c) het knipblok "Wat er gratis is" en de muur om de eigen uitkomst in Energie volgen nu `prijs` en zijn bij `gratis` weg, anders beloven ze een abonnement dat niet meer nodig is; Café Claude is niet aangeraakt; (d) het onderblad na een berekening in Energie blijft bestaan (`abonneetool`), omdat de regel in `IfAbonnee` blijft; (e) de Hulpmiddelen op het eerste niveau laten `zorg` en `zorglexicon` weg (data: `hulpmiddelen.uitsluiten`).
 
+
+
+## Herstelronde ronde 2 (23-10-2026)
+
+Negen punten na bouwronde 2: exclusiviteitsteksten weg, Bel 112 naast Bel 15, onderblad niet meer na een artikel, tabbladen in artikelen naar koppen, toolpagina voor artikelen die alleen een tool zijn, correspondentie (briefhulp) en financieel kompas volledig in de app, forumblok op een regel, zoekvolgorde modules, artikelen, taal. Tests: tests/herstel3.test.mjs plus aangepaste ronde2 en themas. Gecontroleerd met headless Chromium op 390x844 en 360x640 tegen een lokale server.

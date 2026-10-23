@@ -272,7 +272,7 @@
       "id": "kompas",
       "artikel": "https://infofrankrijk.com/financieel-kompas/",
       "ai": "ondersteuning",
-      "ai_uitleg": "Het kompas rekent zelf; de AI-Toelichter, voor abonnees, legt uw uitkomst uit. Het blijft een toelichting, geen financieel advies.",
+      "ai_uitleg": "Het kompas rekent zelf; de AI-Toelichter legt uw uitkomst uit. Het blijft een toelichting, geen financieel advies.",
       "groep": "geld",
       "thema": "geld",
       "naam": "Financieel kompas",
@@ -283,6 +283,7 @@
       "houdbaar": "per jaar",
       "status": "af",
       "kind": "iframe",
+      "weergave": "volledig",
       "url": "https://financieel-kompas-ai.vercel.app/",
       "nagekeken": "2026-03",
       "over": "Een indicatie van uw netto inkomen in Frankrijk tegenover dat in uw thuisland, met inzicht in de belangrijkste verschillen. Voor wie nog moet beslissen of het financieel uitkomt.",
@@ -398,10 +399,11 @@
       "houdbaar": "jaren",
       "status": "af",
       "kind": "iframe",
-      "weergave": "knop",
-      "url": "https://infofrankrijk.com/correspondentie-assistent/",
+      "weergave": "volledig",
+      "artikel": "https://infofrankrijk.com/correspondentie-assistent/",
+      "url": "https://briefhulp-fr.vercel.app",
       "nagekeken": "2026-10-22",
-      "over": "De correspondentie-assistent van Infofrankrijk: beschrijf uw kwestie in het Nederlands en krijg een Franse brief. De tool opent op de site van Infofrankrijk in een nieuw tabblad. De brief is een hulpmiddel, geen juridisch advies.",
+      "over": "De correspondentie-assistent van Infofrankrijk: beschrijf uw kwestie in het Nederlands en krijg een Franse brief, bijvoorbeeld voor een instantie als de CPAM, de belastingdienst of uw gemeente. De brief is een hulpmiddel, geen juridisch advies.",
       "let": "Bij geschillen met financiële gevolgen is een brief uit een hulpmiddel een startpunt; laat hem controleren door een expert."
     },
     {
@@ -2299,6 +2301,7 @@
           "titel": "Spoed",
           "tekst": "Medisch spoedgeval: 15 (Samu). Overal in de EU: 112.",
           "knop": "Bel 15",
+  "knoppen": [{"label": "Bel 15", "tel": "15"}, {"label": "Bel 112", "tel": "112"}],
           "tel": "15",
           "bron": "https://www.service-public.gouv.fr/particuliers/vosdroits/F33954"
       },
@@ -2311,7 +2314,8 @@
               "artikelen": [
                   {
                       "url": "https://infofrankrijk.com/het-zorglandschap/",
-                      "titel": "Het zorglandschap"
+                      "titel": "Het zorglandschap",
+                      "soort": "tool"
                   },
                   {
                       "url": "https://infofrankrijk.com/verzekeringen-in-frankrijk/",

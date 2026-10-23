@@ -658,10 +658,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <p style="font-size:14px;line-height:1.8em;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ gzIntro1 }}</p>
       </div>
       <sc-if value="{{ gzSpoedZichtbaar }}" hint-placeholder-val="{{ true }}">
-      <div style="margin:16px 16px 0;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:#F8DFDD;border:1px solid rgba(179,38,30,.25)">
-        <span style="width:40px;height:40px;border-radius:50%;background:#B3261E;color:#fff;display:flex;align-items:center;justify-content:center;font:700 18px Mulish;flex:none" aria-hidden="true">!</span>
-        <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.25">{{ gzSpoedTitel }}</span><span style="font:500 13px Mulish;color:#3D4346;line-height:1.3">{{ gzSpoedTekst }}</span></span>
-        <a href="{{ gzSpoedHref }}" style="flex:none;display:flex;align-items:center;justify-content:center;min-width:56px;min-height:44px;padding:0 12px;border-radius:12px;background:#B3261E;color:#fff;text-decoration:none;font:700 15px Mulish">{{ gzSpoedKnop }}</a>
+      <div style="margin:16px 16px 0;display:flex;flex-direction:column;gap:10px;padding:12px 14px;border-radius:16px;background:#F8DFDD;border:1px solid rgba(179,38,30,.25)">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="width:40px;height:40px;border-radius:50%;background:#B3261E;color:#fff;display:flex;align-items:center;justify-content:center;font:700 18px Mulish;flex:none" aria-hidden="true">!</span>
+          <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.25">{{ gzSpoedTitel }}</span><span style="font:500 13px Mulish;color:#3D4346;line-height:1.3">{{ gzSpoedTekst }}</span></span>
+        </div>
+        <div style="display:flex;gap:10px">
+          <sc-for list="{{ gzSpoedKnoppen }}" as="k" hint-placeholder-count="2">
+          <a href="{{ k.href }}" style="flex:1;display:flex;align-items:center;justify-content:center;min-width:0;min-height:48px;padding:0 12px;border-radius:12px;background:#B3261E;color:#fff;text-decoration:none;white-space:nowrap;font:700 16px Mulish">{{ k.label }}</a>
+          </sc-for>
+        </div>
       </div>
       </sc-if>
       <div style="padding:22px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Onderwerpen</div>
@@ -1016,6 +1022,23 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </sc-for>
     </div>
     </sc-if>
+  </div>
+  </sc-if>
+  <sc-if value="{{ hasResultsTaal }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:16px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ resultCountTaal }}</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ resultsTaal }}" as="r" hint-placeholder-count="6">
+      <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:58px">
+        <span style="font:800 9px Mulish;letter-spacing:.09em;color:#800000;flex:none;width:56px;padding-top:4px">{{ r.kind }}</span>
+        <span style="flex:1;min-width:0">
+          <b style="display:block;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ r.fr }}</b>
+          <span style="display:block;font:500 12.5px/1.5 Mulish;color:#71787C;margin-top:2px">{{ r.nl }}</span>
+          <span style="display:block;font:600 10.5px Mulish;color:#A2A7A9;margin-top:4px">{{ r.where }}</span>
+        </span>
+      </button>
+      </sc-for>
+    </div>
   </div>
   </sc-if>
   <sc-if value="{{ zoekEmpty }}" hint-placeholder-val="{{ true }}">
@@ -2138,7 +2161,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <span style="font:700 12px Mulish;color:#15181A;background:rgba(255,255,255,.94);border:1px solid rgba(21,24,26,.12);border-radius:999px;padding:10px 15px;min-height:40px;display:flex;align-items:center">Tik om te openen</span>
         </a>
       </div>
-      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin:8px 16px 0;text-wrap:pretty">De module opent in een nieuw tabblad van uw browser; sluit dat om terug te keren. Wat u hier zoekt vindt u wél via het zoekveld van de app.</div>
+      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin:8px 16px 0;text-wrap:pretty">De module opent in een nieuw tabblad van uw browser; sluit dat om terug te keren.</div>
     </div>
     </sc-if>
     <sc-if value="{{ geenUrl }}" hint-placeholder-val="{{ false }}">
@@ -2334,7 +2357,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
     <div style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.6 Mulish;color:#3D4346">Op het beginscherm zetten doet u via het deelmenu van uw browser</div>
   </div>
-  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site of om betaalde modules te gebruiken. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
+  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
   <div style="margin:12px 14px 0">
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
@@ -2409,7 +2432,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div>
     <div style="margin:22px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);display:flex;flex-direction:column;gap:10px">
       <div style="font:600 14.5px Poppins,system-ui,sans-serif">Ervaring met dit onderwerp?</div>
-      <p style="margin:0;font:500 13.5px Mulish;line-height:1.6;color:#3D4346">Start een gesprek op Nederlanders.fr. Titel, korte samenvatting en de link naar dit artikel worden gekopieerd, zodat u ze in een nieuw bericht kunt plakken. Daarvoor moet u aangemeld zijn op Nederlanders.fr.</p>
+      <p style="margin:0;font:500 13.5px Mulish;line-height:1.6;color:#3D4346">Start een gesprek op Nederlanders.fr over dit artikel.</p>
       <button onClick="{{ artForum }}" style="display:flex;align-items:center;justify-content:center;min-height:46px;border:0;border-radius:12px;background:#800000;color:#fff;cursor:pointer;font:700 14px Mulish">Bespreek op het forum</button>
     </div>
     <div style="display:flex;gap:10px;margin:12px 16px 0">
@@ -2514,7 +2537,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-for>
   </div>
-  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Wat achter het abonnement zit, staat dat vanwege de kosten van redactie en onderhoud — veiligheidsinformatie nooit.</div>
+  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Het abonnement bekostigt de redactie en het onderhoud van dit werk; het geeft geen voorrang bij veiligheidsinformatie en bepaalt niet wat u kunt gebruiken.</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -3413,7 +3436,9 @@ class Component extends DCLogic {
     const ond = Array.isArray(cfg.onderwerpen) ? cfg.onderwerpen.filter(o => o && o.id && o.titel) : [];
     const gekozen = st.gzOnd ? ond.find(o => o.id === st.gzOnd) || null : null;
     const sp = cfg.spoed || {};
-    const telOk = /^[0-9+]{2,15}$/.test(String(sp.tel || ""));
+    // Knoppen van het spoedblok: sp.knoppen [{label, tel}]; terugval op de oude velden knop/tel. Alleen geldige nummers.
+    const spoedKnoppen = (Array.isArray(sp.knoppen) && sp.knoppen.length ? sp.knoppen : [{label:sp.knop, tel:sp.tel}])
+      .filter(k => k && k.label && /^[0-9+]{2,15}$/.test(String(k.tel || ""))).map(k => ({label:String(k.label), href:"tel:" + k.tel}));
     const hu = cfg.hulpmiddelen || {};
     const hulp = this.alleMods().filter(m => m.thema === "gezondheid" && m.zichtbaar !== false && this.zichtbaarNu(m) && !(hu.uitsluiten || []).includes(m.id));
     const onderwerpOpen = o => () => {
@@ -3422,7 +3447,7 @@ class Component extends DCLogic {
       setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0);
     };
     const artTitel = a => st.gzArtTitels[a.url] || a.titel || "";
-    const ondRijen = gekozen ? ((gekozen.artikelen || []).filter(a => a && a.url).map(a => ({titel:artTitel(a), meta:"Artikel op Infofrankrijk", open:() => this.openInfoArtikel(a.url)}))
+    const ondRijen = gekozen ? ((gekozen.artikelen || []).filter(a => a && a.url).map(a => ({titel:artTitel(a), meta:this.artIsTool(a) ? "Tool op Infofrankrijk" : "Artikel op Infofrankrijk", open:() => this.openInfoArtikel(a.url)}))
       .concat((gekozen.modules || []).map(id => this.vindModule(id)).filter(m => m && this.zichtbaarNu(m)).map(m => ({titel:m.naam, meta:"Hulpmiddel" + (this.inOntw(m) ? " \u00b7 in ontwikkeling" : ""), open:() => this.route(m)})))) : [];
     const ouderen = !nr && (!ond.length || (!!gekozen && gekozen.scherm === "ouderen"));
     const niv1 = !nr && !!ond.length && !gekozen;
@@ -3430,7 +3455,7 @@ class Component extends DCLogic {
     return {
       gzNiv1: niv1, gzOuderen: ouderen, gzOndLijst: !nr && !!gekozen && gekozen.scherm !== "ouderen",
       gzIntro1: cfg.intro || "",
-      gzSpoedZichtbaar: !!(sp.tekst && sp.knop && telOk), gzSpoedTitel: sp.titel || "Spoed", gzSpoedTekst: sp.tekst || "", gzSpoedKnop: sp.knop || "", gzSpoedHref: telOk ? "tel:" + sp.tel : "",
+      gzSpoedZichtbaar: spoedKnoppen.length > 0 && !!sp.tekst, gzSpoedTitel: sp.titel || "Spoed", gzSpoedTekst: sp.tekst || "", gzSpoedKnoppen: spoedKnoppen,
       gzOnderwerpen: ond.map(o => ({titel:o.titel, regel:o.regel || "", icoStijl:themaIcoStijl(o.icoon, "#B3261E"), open:onderwerpOpen(o)})),
       gzHulpZichtbaar: hulp.length > 0, gzHulpTitel: hu.titel || "Hulpmiddelen",
       gzHulp: hulp.map(m => ({name:m.naam, ontw:this.inOntw(m), stijl:kleinStijl(this.inOntw(m)), open:() => this.route(m)})),
@@ -4013,10 +4038,17 @@ class Component extends DCLogic {
       const heeftInhoud = !!(body.textContent || "").replace(/\s+/g, "") || !!body.querySelector("img");
       if (!heeftInhoud && !k.muur) throw new Error("leeg");
       const meta = {titel: L.tekstVan(a.titel) || slug.replace(/-/g, " "), datum: L.datumNl(a.datum), muur: k.muur,
-        link: L.schoneUrl(a.link) || url, samenvatting: L.inkorten(L.eersteAlinea(body), 280)};
+        link: L.schoneUrl(a.link) || url, samenvatting: L.inkorten(L.eersteAlinea(body), 280), toolAlleen: !!body.querySelector("[data-toolregel]")};
       this._artCache[slug] = {meta, body};
       toon(this._artCache[slug]);
     }).catch(fout);
+  }
+  // Is dit item een tool? Uit de data (soort: "tool") of uit een eerder geopend artikel dat na opschonen alleen een toolkaart was.
+  artIsTool(a){
+    if (a && a.soort === "tool") return true;
+    const L = window.IfArtikel, slug = L && a && a.url ? L.slugUitUrl(a.url) : null;
+    const c = slug && this._artCache && this._artCache[slug];
+    return !!(c && c.meta && c.meta.toolAlleen);
   }
   artOpnieuw(){
     const a = this.state.art; if (!a) return;
@@ -4137,13 +4169,13 @@ class Component extends DCLogic {
       oproepOpen: !!st.oproep, oproepSluit: () => this.oproepSluit()
     };
   }
-  // Welke soort nuttige uitkomst staat er nu op het scherm? (De Ruyter en Energie: zie renderVals; artikel: tot het einde gelezen.)
+  // Welke soort nuttige uitkomst staat er nu op het scherm? (De Ruyter en Energie: zie renderVals. Een artikel telt niet.)
   opSoort(){
     const st = this.state;
     if (st.forumBlad) return null;
     if (st.screen === "ruyter" && this._opRu) return "uitkomst";
     if (st.screen === "energie" && this._opEn) return "abonneetool";
-    if (st.screen === "artikel" && st.artGelezen && st.art && st.art.status === "klaar" && !st.art.muur) return "uitkomst";
+    // Niet na het einde van een artikel: daar staat al het vaste abonneeblok.
     return null;
   }
   // Hooguit eens per week (localStorage ifm_abo_vraag, alleen op het toestel) en eens per sessie; na een korte pauze,
@@ -4781,7 +4813,9 @@ class Component extends DCLogic {
     // Buiten het seizoen staat een module niet in de hub, maar wie hem zoekt hoort
     // hem te vinden — met die vermelding erbij, zodat de lezer weet waarom hij weg is.
     this.zoekMods().forEach(m => {
-      if (norm(m.naam + " " + m.meta + " " + (m.over || "")).includes(q))
+      // Alle woorden van de zoekvraag moeten in de naam, regel of uitleg voorkomen ("brief CPAM"), niet per se naast elkaar.
+      const tekst = norm(m.naam + " " + m.meta + " " + (m.over || ""));
+      if (q.split(" ").filter(Boolean).every(w => tekst.includes(w)))
         out.push({kind:"MODULE", fr:m.naam, nl:m.meta,
           where:this.themaVan(m) + " · " + (m.prijs === "abonnee" ? "abonnement" : "gratis")
             + (this.inOntw(m) ? " · In ontwikkeling" : "")
@@ -4956,7 +4990,10 @@ class Component extends DCLogic {
     const tv = this.themaVals();
     const sc = SC.find(s => s.id === st.sc) || SC[0];
     const phase = sc.phases[Math.min(st.phase, sc.phases.length - 1)];
-    const results = this.search();
+    // Volgorde van treffers: 1) modules en tools, 2) artikelen op Infofrankrijk (eigen sectie eronder), 3) zinnen, woorden en berichten.
+    const alleTreffers = this.search();
+    const taalSoort = r => r.kind === "SITUATIE" || r.kind === "ZIN" || r.kind === "WOORD" || r.kind === "BERICHT";
+    const results = alleTreffers.filter(r => !taalSoort(r)), resultsTaal = alleTreffers.filter(taalSoort);
     const free = this.mods().filter(m => m.prijs !== "abonnee").length;
     const ng = (st.cat && st.cat.nedergids) || {};
     const ngCats = ng.categorieen || [];
@@ -4987,7 +5024,7 @@ class Component extends DCLogic {
     const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
     const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
-      mod:free + " gratis · de rest bij het abonnement", lex:"Taalassistent · alle lexicons",
+      mod:this.mods().length + " modules", lex:"Taalassistent · alle lexicons",
       over:"Profiel",
       nedergids:"wegwijzer · gratis te lezen",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
@@ -5243,16 +5280,16 @@ class Component extends DCLogic {
         tagFg: m.prijs === "abonnee" ? "#800000" : "#3F7A4E",
         open: () => this.route(m),
         unpin: () => this.toggleFav(m.id)})),
-      freeNote: "Veiligheid is altijd gratis. Bij de rekenmodules mag u het voorbeeld bekijken en uw eigen antwoorden invullen; alleen de uitkomst hoort bij het abonnement.",
+      freeNote: "Alle onderdelen zijn gratis te gebruiken.",
 
       q: st.q, hasQ: st.q.length > 0,
       onQ: e => { const v = e.target.value; this.setState({q:v}); this.zoekArtikelen(v); },
       clearQ: () => { this.setState({q:""}); this.zoekArtikelen(""); },
       ...this.zaVals(),
-      results, hasResults: results.length > 0,
-      resultCount: results.length + " resultaten",
+      results, hasResults: results.length > 0, resultsTaal, hasResultsTaal: resultsTaal.length > 0,
+      resultCount: "Modules en tools", resultCountTaal: "Zinnen, woorden en berichten",
       zoekEmpty: st.q.trim().length < 2,
-      noResults: st.q.trim().length >= 2 && results.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
+      noResults: st.q.trim().length >= 2 && alleTreffers.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
       suggesties: ["dokter","recept","notaris","brandrisico","carte vitale","spoed"].map(s => ({name:s, pick:() => { this.setState({q:s}); this.zoekArtikelen(s); }})),
 
       feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Live van nederlanders.fr · gesorteerd op laatste reactie" : "Voorbeeldgegevens — live zodra de app op een eigen domein staat",

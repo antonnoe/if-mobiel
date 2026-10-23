@@ -57,10 +57,11 @@ test("cafeclaude is ai en dossierfrankrijk is dossier, tompolak bestaat niet", (
   assert.ok(!/tompolak|tom-polak/i.test(lees("index.html")));
 });
 
-test("correspondentie is een knop naar de site van Infofrankrijk", () => {
+test("correspondentie opent de briefhulp volledig in de app, met uitleg-artikel", () => {
   const c = vind("correspondentie");
-  assert.equal(c.url, "https://infofrankrijk.com/correspondentie-assistent/");
-  assert.equal(c.weergave, "knop");
+  assert.equal(c.url, "https://briefhulp-fr.vercel.app");
+  assert.equal(c.weergave, "volledig");
+  assert.equal(c.artikel, "https://infofrankrijk.com/correspondentie-assistent/");
   assert.notEqual(c.zichtbaar, false);
 });
 

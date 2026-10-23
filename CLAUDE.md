@@ -113,10 +113,10 @@ de bron van de ontwerpsessie.
   alleen als het kopiëren gelukt is; anders toont de app de tekst om zelf te kopiëren. Bij de overstap naar NLFR V2 wordt dit
   een vooraf ingevulde draad (alleen `artForum()` en `artForumUrl` aanpassen).
 - **Abonneeblok en onderblad**: de abonnementslink staat op één plek, `abonnement.url` in `modules.json` (terugval
-  `ABONNEE_URL` in `abonnee-lib.js`). Het vaste blok staat onder de uitkomst van De Ruyter en onder een gelezen artikel (bij
+  `ABONNEE_URL` in `abonnee-lib.js`). Het vaste blok staat onder de uitkomst van De Ruyter en onder een artikel (bij
   een muur is het blok de muur). Het onderblad (oproep) komt hooguit eens per week (`localStorage` `ifm_abo_vraag`, alleen een
-  tijdstempel) en eens per sessie, na een uitkomst van De Ruyter, na een berekening in Energie (tool met prijs abonnee) of
-  na het einde van een artikel; altijd te sluiten. Tekst staat in `index.html`; de regel in `IfAbonnee.moetOproep`.
+  tijdstempel) en eens per sessie, na een uitkomst van De Ruyter of na een berekening in Energie (tool met prijs abonnee); niet
+  na een artikel (daar staat al het vaste blok); altijd te sluiten. Tekst staat in `index.html`; de regel in `IfAbonnee.moetOproep`.
 
 ## Terugknop, hash-routes, zoeken in artikelen, forumblad (herstelronde 1, 23-10-2026)
 
@@ -162,6 +162,15 @@ de bron van de ontwerpsessie.
 - **Prijzen en `drempel`**: alle betaalmuren op Infofrankrijk zijn eruit; `prijs` staat voorlopig overal op `gratis`. Het veld `prijs`, de knip-haken en de abonnee-labels in de code blijven bestaan
   (terugzetten naar `abonnee` brengt label, knipblok en muur terug: `heeftKnip` en `enMuurOpen` volgen `prijs`). `drempel` (leeg) is de plek voor de latere regel; er hangt geen logica aan.
   Het vaste abonneeblok en het onderblad leunen op bekostiging en het forum, niet op exclusieve toegang.
+
+## Herstelronde na bouwronde 2 (23-10-2026)
+
+- **Geen exclusiviteit**: alle tools zijn gratis; zichtbare tekst belooft nergens iets alleen voor abonnees (uitzondering: Mijn dossier, DossierFrankrijk). Alle modules toont alleen het aantal; Over ons zegt dat het abonnement redactie en onderhoud bekostigt. Teksten die alleen bij `prijs: abonnee` verschijnen (haken) blijven staan.
+- **Spoedblok Gezondheid**: `gezondheid.spoed.knoppen: [{label, tel}]` (Bel 15, Bel 112), twee knoppen naast elkaar van minimaal 48 px; terugval op de oude velden `knop`/`tel`.
+- **Tabbladen in artikelen** (`tabsNaarKoppen` in `artikel-lib.js`): tabs met radioknoppen en labels, Divi's `.et_pb_tabs` en `[et_pb_tab title=..]` worden een h3 met de inhoud eronder.
+- **Toolpagina**: een artikel dat na opschonen vrijwel alleen een toolkaart is (minder dan 160 tekens tekst) toont "Dit onderdeel is een interactieve tool." en de kaart groot bovenaan (`toolAlleen`); in lijsten krijgt zo'n item "Tool op Infofrankrijk" via `soort: "tool"` in de data of een eerder geopend artikel.
+- **Zoeken**: volgorde modules en tools, artikelen op Infofrankrijk, zinnen/woorden/berichten; modules matchen als alle zoekwoorden voorkomen (niet per se naast elkaar).
+- Correspondentie en Financieel kompas staan op `weergave: volledig` (briefhulp-fr.vercel.app en financieel-kompas-ai.vercel.app laten framing toe).
 
 ## Huisstijl
 

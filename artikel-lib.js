@@ -190,8 +190,56 @@
 
   // De REST-API geeft bij pagina's die met Divi gebouwd zijn de ruwe shortcodes mee ([et_pb_section ...] en [/et_pb_code]).
   // Die staan nooit in de lopende tekst: weg, de inhoud ertussen blijft.
+  // Een Divi-tab ([et_pb_tab title="Zorg"]) wordt eerst een kop, zodat de titel niet als losse tekst achterblijft.
+  var Q = "(?:\"|'|&quot;|&#8220;|&#8221;|&#8243;|&#8242;|\u201C|\u201D|\u2033)";
+  var TAB_TITEL = new RegExp("\\[et_pb_tab\\s[^\\]]*?\\btitle=" + Q + "(.*?)" + Q + "(?=[\\s\\]])[^\\]]*\\]", "gi");
   function zonderDivi(html) {
-    return String(html || "").replace(/\[\/?et_pb_[a-z0-9_]+(?:\s[^\]]*)?\]/gi, "");
+    return String(html || "")
+      .replace(TAB_TITEL, function (_, t) { return "<h3>" + String(t).replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</h3>"; })
+      .replace(/\[\/?et_pb_[a-z0-9_]+(?:\s[^\]]*)?\]/gi, "");
+  }
+
+  // ---- Tabbladen ----------------------------------------------------------------------------------
+  // Tabbladen werken niet in de app (geen CSS, geen scripts). Elke tab wordt een kop (h3) met de inhoud eronder, zodat het
+  // artikel van boven naar beneden leesbaar loopt. Twee vormen: (1) tabs met radioknoppen en labels (input[type=radio] +
+  // label[for], inhoud in een element met "tab-content" in de klasse, gekoppeld via id "content-x" bij "tab-x" of op volgorde),
+  // (2) Divi's eigen weergave (.et_pb_tabs met .et_pb_tabs_controls en .et_pb_all_tabs > .et_pb_tab).
+  function tabsNaarKoppen(doc, body) {
+    function kop(titel) { var h = doc.createElement("h3"); h.textContent = titel; return h; }
+    var radios = Array.prototype.slice.call(body.querySelectorAll("input[type=radio][id]"));
+    var groepen = {};
+    radios.forEach(function (r) {
+      var lab = null, labels = body.querySelectorAll("label[for]");
+      for (var i = 0; i < labels.length; i++) if (labels[i].getAttribute("for") === r.id) { lab = labels[i]; break; }
+      if (!lab) return;
+      var n = r.getAttribute("name") || "";
+      (groepen[n] = groepen[n] || []).push({ radio: r, label: lab });
+    });
+    var inhoud = Array.prototype.slice.call(body.querySelectorAll("[class*='tab-content'], [class*='tab_content'], [class*='tabcontent']"));
+    Object.keys(groepen).forEach(function (n) {
+      var g = groepen[n];
+      if (g.length < 2) return;
+      var paren = g.map(function (x, i) {
+        var id = x.radio.id, c = null;
+        var kandidaten = [id.replace(/^tab/i, "content"), id.replace(/^tab/i, "tabcontent"), id.replace(/^tab/i, "tab-content"), id + "-content", "content-" + id];
+        for (var k = 0; k < kandidaten.length && !c; k++) { var e = doc.getElementById(kandidaten[k]); if (e && e !== x.radio) c = e; }
+        if (!c && inhoud.length === g.length) c = inhoud[i];
+        return { titel: (x.label.textContent || "").replace(/\s+/g, " ").trim(), content: c, x: x };
+      });
+      paren.forEach(function (p) {
+        if (p.content && p.content.parentNode && p.titel) p.content.parentNode.insertBefore(kop(p.titel), p.content);
+        else if (p.titel && !p.content) return;
+        if (p.x.label.parentNode) p.x.label.parentNode.removeChild(p.x.label);
+        if (p.x.radio.parentNode) p.x.radio.parentNode.removeChild(p.x.radio);
+      });
+    });
+    Array.prototype.slice.call(body.querySelectorAll(".et_pb_tabs")).forEach(function (t) {
+      var titels = Array.prototype.slice.call(t.querySelectorAll(".et_pb_tabs_controls li")).map(function (li) { return (li.textContent || "").replace(/\s+/g, " ").trim(); });
+      var tabs = Array.prototype.slice.call(t.querySelectorAll(".et_pb_all_tabs > .et_pb_tab"));
+      if (!tabs.length) return;
+      tabs.forEach(function (tab, i) { if (titels[i]) tab.parentNode.insertBefore(kop(titels[i]), tab); });
+      var ctl = t.querySelector(".et_pb_tabs_controls"); if (ctl && ctl.parentNode) ctl.parentNode.removeChild(ctl);
+    });
   }
 
   // Geeft een <body>-element uit een inert document. Scripts, styles, iframes, formulieren en alle
@@ -201,6 +249,7 @@
     var DP = opt.DOMParser || root.DOMParser;
     var doc = new DP().parseFromString("<!doctype html><body>" + zonderDivi(html), "text/html");
     var body = doc.body;
+    tabsNaarKoppen(doc, body);
     // <pee> is wat Divi's codemodule van een <p> maakt; wij tonen het als alinea.
     Array.prototype.slice.call(body.querySelectorAll("pee")).forEach(function (el) {
       var nw = doc.createElement("p");
@@ -281,7 +330,35 @@
       if (x.plek.parentNode && body.contains(x.plek)) x.plek.parentNode.replaceChild(maakKaart(doc, x.kaart), x.plek);
     });
     // Tekst direct in een div zonder alinea (bv. een Divi-blok) blijft leesbaar: div's zelf krijgen geen stijl.
+    if (toolAlleen(body)) maakToolPagina(doc, body);
     return body;
+  }
+
+  // Bestaat het artikel na opschonen vrijwel alleen uit een toolkaart (bv. het-zorglandschap), dan staat die kaart bovenaan,
+  // groot, met een korte regel; niets blijft een leeg artikel. Geeft true als het artikel zo is omgebouwd.
+  var TOOL_REGEL = "Dit onderdeel is een interactieve tool.";
+  function toolAlleen(body) {
+    if (!body || !body.querySelectorAll) return false;
+    var kaarten = Array.prototype.slice.call(body.querySelectorAll("[data-toolkaart]"));
+    if (!kaarten.length) return false;
+    var klon = body.cloneNode(true);
+    Array.prototype.slice.call(klon.querySelectorAll("[data-toolkaart]")).forEach(function (k) { k.parentNode.removeChild(k); });
+    var rest = (klon.textContent || "").replace(/[\s\u00a0]+/g, "");
+    return rest.length < 160 && !klon.querySelector("img");
+  }
+  function maakToolPagina(doc, body) {
+    var kaarten = Array.prototype.slice.call(body.querySelectorAll("[data-toolkaart]"));
+    var regel = doc.createElement("p"); regel.setAttribute("data-toolregel", "1");
+    regel.setAttribute("style", STIJL.p); regel.textContent = TOOL_REGEL;
+    body.insertBefore(regel, body.firstChild);
+    kaarten.forEach(function (k, i) {
+      body.insertBefore(k, i === 0 ? regel.nextSibling : kaarten[i - 1].nextSibling);
+      k.setAttribute("style", KAART.kaart + ";padding:24px 20px");
+      var kids = k.children;
+      if (kids[1]) kids[1].setAttribute("style", KAART.naam + ";font-size:20px");
+      if (kids[2]) kids[2].setAttribute("style", KAART.knop + ";min-height:56px;font-size:16px");
+    });
+    return true;
   }
 
   // Eerste alinea van de opgeschoonde inhoud, ingekort op een woordgrens.
@@ -320,7 +397,7 @@
   var api = {
     BASIS: BASIS, slugUitUrl: slugUitUrl, isInApp: isInApp, schoneUrl: schoneUrl, restUrl: restUrl,
     heeftBetaalmuur: heeftBetaalmuur, knipBijMuur: knipBijMuur, haalOp: haalOp, leesAntwoord: leesAntwoord,
-    schoon: schoon, zonderDivi: zonderDivi, moduleVoorUrl: moduleVoorUrl, toolKaartVoor: toolKaartVoor, tekstVan: tekstVan, inkorten: inkorten, eersteAlinea: eersteAlinea, forumTekst: forumTekst, datumNl: datumNl
+    schoon: schoon, tabsNaarKoppen: tabsNaarKoppen, zonderDivi: zonderDivi, moduleVoorUrl: moduleVoorUrl, toolKaartVoor: toolKaartVoor, tekstVan: tekstVan, inkorten: inkorten, eersteAlinea: eersteAlinea, forumTekst: forumTekst, datumNl: datumNl
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfArtikel = api;

@@ -23,7 +23,8 @@ test("gezondheid: zes onderwerpen in de afgesproken volgorde, spoedblok met tel:
   assert.equal(gz.spoed.tel, "15");
   assert.equal(gz.spoed.knop, "Bel 15");
   assert.equal(gz.spoed.tekst, "Medisch spoedgeval: 15 (Samu). Overal in de EU: 112.");
-  assert.match(html, /gzSpoedHref: telOk \? "tel:" \+ sp\.tel/);
+  assert.deepEqual(gz.spoed.knoppen, [{ label: "Bel 15", tel: "15" }, { label: "Bel 112", tel: "112" }]);
+  assert.match(html, /gzSpoedKnoppen: spoedKnoppen/);
 });
 
 test("gezondheid: elk onderwerp heeft een bestemming (artikel, module of scherm)", () => {
@@ -63,8 +64,8 @@ test("toolkaart: module-herkenning op host (en op eerste padsegment bij github.i
   assert.equal(A.toolKaartVoor("https://antonnoe.github.io/erfrecht-en-testament/", cat.modules).module, "erfrecht");
   assert.equal(A.toolKaartVoor("https://antonnoe.github.io/Vastgoedtransactie/index.html", cat.modules).module, "transactiekosten");
   assert.equal(A.moduleVoorUrl("https://antonnoe.github.io/onbekend/", cat.modules), null, "ander github.io-pad is een andere tool");
-  const ext = A.toolKaartVoor("https://briefhulp-fr.vercel.app/", cat.modules);
-  assert.equal(ext.soort, "extern"); assert.equal(ext.label, "Interactieve tool"); assert.equal(ext.naam, "briefhulp-fr.vercel.app");
+  const ext = A.toolKaartVoor("https://onbekende-tool.vercel.app/", cat.modules);
+  assert.equal(ext.soort, "extern"); assert.equal(ext.label, "Interactieve tool"); assert.equal(ext.naam, "onbekende-tool.vercel.app");
   assert.equal(A.toolKaartVoor("http://onveilig.example/", cat.modules), null, "alleen https");
   assert.equal(A.toolKaartVoor("javascript:alert(1)", cat.modules), null);
   const v = A.toolKaartVoor("https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0", cat.modules);
@@ -88,7 +89,8 @@ async function inBrowser(fn, arg) {
 }
 
 test("toolkaart: een iframe in een artikel wordt een kaart, nooit een iframe", async t => {
-  const h = '<p>Voor</p><p><iframe src="https://financieel-kompas-ai.vercel.app/" width="600"></iframe></p>'
+  const lang = '<p>' + 'Lopende tekst die het artikel een echt artikel maakt. '.repeat(8) + '</p>';
+  const h = lang + '<p>Voor</p><p><iframe src="https://financieel-kompas-ai.vercel.app/" width="600"></iframe></p>'
     + '<div><iframe src="https://www.youtube.com/embed/abcdefghijk"></iframe></div><iframe src="http://onveilig.example/"></iframe>'
     + '<iframe data-src="https://tool.example/x"></iframe><p>Na</p>';
   const uit = await inBrowser(([x, mods]) => {
@@ -111,7 +113,7 @@ test("toolkaart: een iframe in een artikel wordt een kaart, nooit een iframe", a
 test("veld artikel: gevulde modules wijzen naar een artikel dat de app kan openen", () => {
   const verwacht = { kompas: "financieel-kompas", auto: "auto-importeren-in-frankrijk-stappenplan-en-kostenraming", internet: "internet-internetverbinding",
     moestuin: "de-moestuin-in-frankrijk-van-begin-januari-tot-eind-december", devisdossier: "zakelijke-transactie-van-offerte-tot-incasso",
-    bouwgrond: "locatie-en-omgevingsanalyse", plusvalue: "plus-value-calculator" };
+    bouwgrond: "locatie-en-omgevingsanalyse", plusvalue: "plus-value-calculator", correspondentie: "correspondentie-assistent" };
   Object.entries(verwacht).forEach(([id, slug]) => assert.equal(A.slugUitUrl(mod(id).artikel), slug, id));
   cat.modules.filter(m => m.artikel).forEach(m => assert.ok(A.isInApp(m.artikel), m.id));
   assert.equal(cat.modules.filter(m => m.artikel).length, Object.keys(verwacht).length);
