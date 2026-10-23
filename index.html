@@ -1652,7 +1652,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         </sc-for>
       </div>
       <button onClick="{{ nwHero.open }}" style="display:block;width:calc(100% - 28px);margin:12px 14px 0;padding:0;text-align:left;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);overflow:hidden;cursor:pointer;color:#15181A">
-        <svg viewBox="0 0 358 168" role="img" aria-label="{{ nwHero.alt }}" style="display:block;width:100%;height:auto"><defs><pattern id="{{ nwHero.pid }}" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="{{ nwHero.kleur }}" opacity=".22"/></pattern></defs><rect width="358" height="168" fill="{{ nwHero.tint }}"/><rect width="358" height="168" fill="{{ nwHero.fillUrl }}"/><circle cx="262" cy="84" r="74" fill="{{ nwHero.kleur }}" opacity=".12"/><path d="{{ nwHero.d }}" fill="none" stroke="{{ nwHero.kleur }}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" transform="translate(182 4) scale(2.1)"/></svg>
+        <div role="img" aria-label="{{ nwHero.alt }}" style="display:block;width:100%;aspect-ratio:358/168;background:{{ nwHero.bgGroot }} center/100% 100% no-repeat"></div>
         <span style="display:block;padding:14px 16px 16px">
           <span style="display:block;font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ nwHero.kleur }}">{{ nwHero.kicker }}</span>
           <span style="display:block;margin-top:6px;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25;overflow-wrap:anywhere">{{ nwHero.titel }}</span>
@@ -1665,7 +1665,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <div style="margin:0 14px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);overflow:hidden">
           <sc-for list="{{ nwRijen }}" as="r" hint-placeholder-count="4">
           <button onClick="{{ r.open }}" style="display:flex;gap:12px;width:100%;padding:12px;margin:0;border:0;border-bottom:1px solid rgba(21,24,26,.08);background:none;text-align:left;cursor:pointer;color:#15181A;min-height:100px">
-            <svg width="76" height="76" viewBox="0 0 76 76" role="img" aria-label="{{ r.alt }}" style="flex:none;border-radius:12px"><defs><pattern id="{{ r.pid }}" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="{{ r.kleur }}" opacity=".22"/></pattern></defs><rect width="76" height="76" fill="{{ r.tint }}"/><rect width="76" height="76" fill="{{ r.fillUrl }}"/><path d="{{ r.d }}" fill="none" stroke="{{ r.kleur }}" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(7 7) scale(.82)"/></svg>
+            <div role="img" aria-label="{{ r.alt }}" style="flex:none;width:76px;height:76px;border-radius:12px;background:{{ r.bgKlein }} center/100% 100% no-repeat"></div>
             <span style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:0"><span style="font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ r.kleur }}">{{ r.kicker }}</span><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.3;overflow-wrap:anywhere">{{ r.titel }}</span><span style="font:500 12.5px Mulish;color:#71787C">{{ r.meta }}</span></span>
           </button>
           </sc-for>
@@ -4112,6 +4112,15 @@ class Component extends DCLogic {
     let cur = null; try { cur = history.state; } catch(e){ return; }
     const t = this.histToestand(), key = Nv.navKey(t), base = Nv.navKey(Object.assign({}, t, {blad:""}));
     if (!cur || !cur.ifm) {
+      // Opent de app met een blad (eerste start: postcodeblad), dan is regel 0 het scherm zonder blad en komt het blad
+      // als regel 1 erbovenop, zodat terug het blad sluit en de app niet verlaat.
+      if (t.blad) {
+        try {
+          history.replaceState({ifm:1, id:0, key:base, base, sheet:false}, "", this.histUrl(Object.assign({}, t, {blad:""})));
+          history.pushState({ifm:1, id:1, key, base, sheet:true}, "", this.histUrl(t));
+        } catch(e){}
+        this._hId = 1; this._hT = t; return;
+      }
       try { history.replaceState({ifm:1, id:0, key, base, sheet:false}, "", this.histUrl(t)); } catch(e){}
       this._hId = 0; this._hT = t; return;
     }
@@ -4189,10 +4198,13 @@ class Component extends DCLogic {
     this._zaT = setTimeout(() => {
       this.setState(prev => this._zaTeller.actueel(tok) ? {zaq:{q:qn, status:"laden", items:[]}} : null);
       let f;
-      try { f = fetch(url, {credentials:"omit", headers:{"Accept":"application/json"}}); } catch(e){ klaar("fout", []); return; }
+      let ctl = null, timer = null;
+      try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 15000); } catch(e){ ctl = null; }
+      try { f = fetch(url, ctl ? {credentials:"omit", headers:{"Accept":"application/json"}, signal: ctl.signal} : {credentials:"omit", headers:{"Accept":"application/json"}}); } catch(e){ clearTimeout(timer); klaar("fout", []); return; }
       f.then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
         .then(d => { const items = Nv.artikelTreffers(d); this._zaCache[qn] = items; klaar("klaar", items); })
-        .catch(() => klaar("fout", []));
+        .catch(() => klaar("fout", []))
+        .then(() => { if (timer) clearTimeout(timer); });
     }, 350);
   }
   zaVals(){
@@ -4691,7 +4703,15 @@ class Component extends DCLogic {
     const beeld = (a, i, voorvoegsel) => {
       const b = Lb.beeldVoor(a.thema, cat.nieuwsBeeld, cat.themas);
       const pid = Lb.patroonId(voorvoegsel, i);
-      return {pid, fillUrl:"url(#" + pid + ")", d:b.d, kleur:b.kleur, tint:b.tint,
+      // Themabeeld als data-URI-achtergrond: een path-attribuut d met een hole in de template geeft bij het parseren van de pagina
+      // een consolefout zolang de waarde er nog niet is.
+      const svg = (w, h, vlak, r, cx, cy, tf, sw, ps, pr) => "data:image/svg+xml," + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '"><defs><pattern id="p" width="' + ps + '" height="' + ps + '" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="' + pr + '" fill="' + b.kleur + '" opacity=".22"/></pattern></defs>'
+        + '<rect width="' + w + '" height="' + h + '" fill="' + b.tint + '"/><rect width="' + w + '" height="' + h + '" fill="url(#p)"/>'
+        + (r ? '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + b.kleur + '" opacity=".12"/>' : "")
+        + '<path d="' + b.d + '" fill="none" stroke="' + b.kleur + '" stroke-width="' + sw + '" stroke-linecap="round" stroke-linejoin="round" transform="' + tf + '"/></svg>');
+      return {pid, bgGroot:'url("' + svg(358, 168, 0, 74, 262, 84, "translate(182 4) scale(2.1)", 2.3, 14, 1.3) + '")',
+        bgKlein:'url("' + svg(76, 76, 0, 0, 0, 0, "translate(7 7) scale(.82)", 4.8, 10, 1) + '")', kleur:b.kleur, tint:b.tint,
         alt:"Themabeeld " + String(a.tegelLabel || "nieuws").toLowerCase(),
         kicker:String(a.tegelLabel || a.themaLabel || "Nieuws").replace(/&/g, "en"),
         titel:a.titel, meta:(a.datum ? dagDatum(a.datum) : "") + (a.datum ? " · " : "") + "Redactie",

@@ -115,3 +115,13 @@ Bouwer herstelronde 1, naar aanleiding van de bevindingen van de keurders. Detai
 | 7 Postcode | voorbeeld "bijv. 24200" lichter, "Postcode wissen" donkerder (#3D4346) met "Postcode gewist" en "Ongedaan maken" | klaar |
 
 Tests: `tests/nav.test.mjs` (hash-route, sleutels, laadtoken, zoek-URL en treffers); `tests/artikel.test.mjs` aangepast aan de nieuwe forumtekst. Gecontroleerd met headless Chromium op 390x844 en 360x640.
+
+## Herstelronde 2 (23-10-2026)
+
+| Punt | Wat | Status |
+|---|---|---|
+| 1 Time-out | `haalOp` (artikel-lib.js) heeft een tijdgrens van 15 s (AbortController plus race, `opt.timeout` voor tests); daarna de bestaande foutmelding met "Opnieuw proberen" en siteknop. Artikelzoeken (wp/v2/search) kreeg dezelfde 15 s. Test in `tests/artikel.test.mjs` | klaar |
+| 2 Postcodeblad | opent de app met een blad (eerste start), dan is geschiedenisregel 0 de hub zonder blad en regel 1 het postcodeblad; terug sluit het blad en de hub blijft | klaar |
+| 3 Consolefouten | oorzaak: een `<path d="{{ }}">` in de template wordt bij het parsen van de pagina als echt SVG-pad gelezen. Het themabeeld op het nieuwsscherm is nu een achtergrondafbeelding (data-URI-SVG, zelfde tekening) via `nwHero.bgGroot` en `r.bgKlein`; geen consolefout meer | klaar |
+
+Gecontroleerd met headless Chromium op 390x844: hangend verzoek geeft na ca. 15 s de foutmelding, eerste bezoek plus terug sluit het postcodeblad, geen consolefouten bij hub en nieuws (alleen de CORS-melding van de externe berichten-API op localhost).

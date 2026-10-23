@@ -73,18 +73,29 @@
     opt = opt || {};
     var f = opt.fetch || (root.fetch && root.fetch.bind(root));
     if (!f) return Promise.reject(new Error("geen fetch"));
+    // Eén tijdgrens (standaard 15 s) over het hele ophalen; daarna een afwijzing, zodat het scherm de foutmelding toont.
+    var ms = typeof opt.timeout === "number" ? opt.timeout : 15000;
+    var ctl = null, timer = null;
+    try { ctl = new root.AbortController(); } catch (e) { ctl = null; }
+    var tijd = new Promise(function (_, weiger) {
+      timer = setTimeout(function () { try { if (ctl) ctl.abort(); } catch (e) {} weiger(new Error("time-out")); }, ms);
+    });
     var probeer = function (soort) {
-      return f(restUrl(slug, soort), { credentials: "omit" }).then(function (r) {
+      return f(restUrl(slug, soort), ctl ? { credentials: "omit", signal: ctl.signal } : { credentials: "omit" }).then(function (r) {
         if (!r.ok) throw new Error("status " + r.status);
         return r.json();
       }).then(function (d) { var a = leesAntwoord(d); if (a) a.soort = soort; return a; });
     };
-    return probeer("posts").then(function (a) {
+    var werk = probeer("posts").then(function (a) {
       return a || probeer("pages");
     }).then(function (a) {
       if (!a) throw new Error("niet gevonden");
       return a;
     });
+    var klaar = function () { clearTimeout(timer); };
+    var uitkomst = Promise.race([werk, tijd]);
+    uitkomst.then(klaar, klaar);
+    return uitkomst;
   }
 
   // ---- Opschonen ---------------------------------------------------------------------------

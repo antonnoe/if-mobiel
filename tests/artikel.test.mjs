@@ -186,3 +186,19 @@ test("sanering: geen scripts, stijlen, iframes, on*-attributen of javascript-lin
   assert.deepEqual(uit.inApp, ["https://infofrankrijk.com/ander-artikel/"], "alleen artikellinks openen in de app; nederlanders.fr en de abonnementspagina niet");
   assert.ok(/<a [^>]*href="https:\/\/nederlanders\.fr\/x\/"[^>]*target="_blank"/.test(uit.html) || /<a [^>]*target="_blank"[^>]*href="https:\/\/nederlanders\.fr\/x\/"/.test(uit.html));
 });
+
+test("haalOp: een hangend verzoek wijst na de tijdgrens af (herstelronde 2)", async () => {
+  let signaal = null;
+  const hangend = (url, o) => { signaal = o && o.signal; return new Promise(() => {}); };
+  const t0 = Date.now();
+  await assert.rejects(A.haalOp("x", { fetch: hangend, timeout: 60 }), /time-out/);
+  assert.ok(Date.now() - t0 < 2000);
+  assert.ok(signaal && signaal.aborted, "het verzoek wordt ook afgebroken");
+});
+
+test("haalOp: standaard tijdgrens 15 s; artikelzoeken en postcodeblad in index.html", () => {
+  assert.match(fs.readFileSync(path.join(root, "artikel-lib.js"), "utf8"), /: 15000;/);
+  assert.match(html, /zoekArtikelen[\s\S]{0,1800}new AbortController\(\); timer = setTimeout\(\(\) => ctl\.abort\(\), 15000\)/);
+  assert.match(html, /if \(t\.blad\) \{\s*try \{\s*history\.replaceState\(\{ifm:1, id:0, key:base[\s\S]{0,200}history\.pushState\(\{ifm:1, id:1, key, base, sheet:true\}/);
+  assert.ok(!/<path d="\{\{/.test(html), "geen <path d> met een hole: dat geeft consolefouten bij het parseren");
+});
