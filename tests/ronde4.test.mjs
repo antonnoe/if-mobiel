@@ -29,7 +29,7 @@ test("zes nieuwe modules: velden, standaard uit, gratis, artikel-URL", () => {
     const m = mod(id);
     assert.ok(m, id + " bestaat");
     assert.equal(m.kind, "iframe"); assert.equal(m.url, url); assert.equal(m.artikel, artikel);
-    assert.equal(m.standaard, "uit"); assert.equal(m.prijs, "gratis"); assert.equal(m.weergave, "volledig");
+    assert.equal(m.standaard, "uit"); assert.equal(m.prijs, "gratis"); assert.equal(m.weergave, m.id === "klusforum" ? "knop" : "volledig");
     assert.ok(thema.includes(m.thema), id + " thema");
     assert.ok(m.naam && m.meta && m.over && m.over.length > 40, id + " teksten");
     assert.ok(A.isInApp(m.artikel), id + " artikel opent in de app");

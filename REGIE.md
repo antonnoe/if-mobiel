@@ -160,3 +160,5 @@ Zes modules erbij en een noodregel op de hub. Details in CLAUDE.md, sectie "Rond
 | 2 Noodregel hub | "Spoed? Bel 15 (Samu) of 112" met Bel 15 en Bel 112 (tel:, 44 px), uit `gezondheid.spoed` | klaar |
 
 Framing: alle zes staan het toe (geen beperkende headers; energieportaal en controle-technique-zoeker sturen `frame-ancestors *` en `ALLOWALL`), dus `volledig`. Het klusforum vraagt inloggen met Google; daarvoor staat een `let`-regel in de module. Gecontroleerd met headless Chromium op 390x844 en 360x640: noodregel zichtbaar met twee knoppen van 44 px, Mijn modules toont de zes, aanzetten werkt, alle zes artikelen tonen "Tool in de app", een zoekresultaat opent de tool. Bestaande tests ronde2 en themas aangepast aan de nieuwe modules.
+
+Klusforum op weergave knop: de tool vraagt Google-inlog, dat werkt niet betrouwbaar in een iframe.

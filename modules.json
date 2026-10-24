@@ -626,8 +626,8 @@
       "url": "https://infofrankrijk-klussen-archief.vercel.app",
       "nagekeken": "2026-10-24",
       "over": "Het klus- en forumarchief van Infofrankrijk: 12 jaar forumdiscussies, veiliggesteld en doorzoekbaar, met vragen over onder meer elektra, loodgieterswerk, renovatie en vergunningen.",
-      "let": "De tool vraagt om in te loggen met Google. Lukt dat niet in de app, open hem dan met de knop In browser.",
-      "weergave": "volledig",
+      "let": "De tool vraagt om in te loggen met Google en opent daarom in een nieuw tabblad.",
+      "weergave": "knop",
       "standaard": "uit"
     },
     {
