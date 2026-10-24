@@ -4425,10 +4425,13 @@ class Component extends DCLogic {
             open:() => this.route(Object.assign({}, m, {url}))});
         }
       });
+      const gezien = new Set();
       (zi.data.termen || []).forEach(t => {
         if (!t || !t.nl) return;
         if (norm(t.nl + " " + (t.fr || "")).includes(q)) {
           const url = abs(t.pad);
+          if (url && gezien.has(url)) return;
+          if (url) gezien.add(url);
           if (url) out.push({kind:"WOORD", fr:t.fr || t.nl, nl:t.nl, where:(t.rubriek ? t.rubriek + " · " : "") + m.naam,
             open:() => this.route(Object.assign({}, m, {url}))});
         }

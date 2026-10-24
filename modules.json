@@ -421,8 +421,9 @@
       "kind": "iframe",
       "weergave": "volledig",
       "url": "https://taalhulp-fr.vercel.app/woordenboek",
+      "zoekindex": "https://taalhulp-fr.vercel.app/zoekindex.json",
       "nagekeken": "2026-10-24",
-      "over": "Zoek een Frans begrip op en lees er in gewoon Nederlands bij wat het betekent, hoe u het gebruikt en welke zinnen erbij horen. Bijvoorbeeld de woorden die u bij de dokter of de apotheek tegenkomt. Deze module is in ontwikkeling."
+      "over": "Zoek een Frans begrip op en lees er in gewoon Nederlands bij wat het betekent, hoe u het gebruikt en welke zinnen erbij horen. Bijvoorbeeld bij de dokter, de mairie, de bank, de notaris of de garage. Met lijstjes die u meeneemt. Deze module is in ontwikkeling."
     },
     {
       "id": "zorg",
