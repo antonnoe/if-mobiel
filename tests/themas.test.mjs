@@ -15,13 +15,13 @@ const VOLGORDE = ["geld", "overheid", "gezondheid", "adressen", "nieuws", "ervar
 const INDELING = {
   geld: ["kompas", "ruyter", "erfrecht", "transactiekosten", "plusvalue"],
   overheid: ["emigreren", "auto", "frankrijklegal", "controletechnique", "overhedenbuurt"],
-  gezondheid: ["zorg", "zorgkompas", "palliatief", "zoekers", "zorglexicon"],
+  gezondheid: ["zorg", "zorgkompas", "palliatief", "zoekers"],
   adressen: ["nedergids", "verenigingen"],
   nieuws: [],
   ervaring: ["forum", "nlfrzoek", "klusforum"],
   ondernemen: ["efacturatie", "gitekompas", "zzpplatform", "beroepenchecker"],
   wonen: ["klussen", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
-  taal: ["correspondentie", "taal", "taalhulp"]
+  taal: ["correspondentie", "taalhulp", "woordenboek"]
 };
 
 test("negen thema's in de juiste volgorde", () => {
@@ -65,18 +65,17 @@ test("correspondentie opent de briefhulp volledig in de app, met uitleg-artikel"
   assert.notEqual(c.zichtbaar, false);
 });
 
-test("taal en taalhulp zijn in ontwikkeling", () => {
-  assert.equal(vind("taal").status, "in ontwikkeling");
+test("taalhulp en woordenboek zijn in ontwikkeling", () => {
+  assert.equal(vind("woordenboek").status, "in ontwikkeling");
   assert.equal(vind("taalhulp").status, "in ontwikkeling");
   assert.equal(vind("zoekers").status, "in ontwikkeling");
-  assert.equal(vind("zorglexicon").status, "in ontwikkeling");
 });
 
 test("nieuwe modules en KIF", () => {
   assert.equal(vind("zoekers").url, "https://ouderenzorg.vercel.app");
-  assert.equal(vind("zorglexicon").url, "https://antonnoe.github.io/zorglexicon-frankrijk/");
+  assert.equal(vind("woordenboek").url, "https://taalhulp-fr.vercel.app/woordenboek");
   assert.equal(vind("zoekers").weergave, "volledig");
-  assert.equal(vind("zorglexicon").weergave, "volledig");
+  assert.equal(vind("woordenboek").weergave, "volledig");
   assert.equal(vind("forum").kind, "forum");
   assert.equal(vind("klussen").kort, "KIF");
 });

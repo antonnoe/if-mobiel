@@ -216,7 +216,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:16px 16px 0">
       <button onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;border-radius:14px;padding:0 14px;min-height:48px;cursor:pointer;text-align:left">
         <span style="{{ zoekIcoStyle }}"></span>
-        <span style="font:600 14.5px Mulish;color:#71787C">Zoek in modules, berichten en zinnen</span>
+        <span style="font:600 14.5px Mulish;color:#71787C">Zoek in modules, berichten en woorden</span>
       </button>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:18px 16px 0">
@@ -1055,7 +1055,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div>
     <div style="padding:22px 18px 0">
       <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Eén zoekveld voor de hele app</div>
-      <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zoek een module, een artikel of bericht van de site, een Franse zin of een woord uit de lexicons — alles in één lijst, met een label erbij.</p>
+      <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zoek een module, een artikel of bericht van de site, een woord uit de woordenlijsten van de tools — alles in één lijst, met een label erbij.</p>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;padding:16px 18px 0">
       <sc-for list="{{ suggesties }}" as="s" hint-placeholder-count="6">
@@ -1119,108 +1119,6 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ apiNote }}</div>
   </div>
   <div style="height:26px"></div>
-</div>
-</sc-if>
-
-<!-- ============ TAALASSISTENT ============ -->
-<sc-if value="{{ isTaal }}" hint-placeholder-val="{{ false }}">
-<div>
-  <sc-if value="{{ taalHome }}" hint-placeholder-val="{{ true }}">
-  <div>
-    <div style="padding:18px 18px 0">
-      <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Taal &amp; gemeenschap · gratis</div>
-      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Wat staat u te wachten?</h1>
-      <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies het gesprek dat u voert. U krijgt de zinnen in de volgorde waarin ze vallen — plus de woorden die de ander gebruikt.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 14px 0">
-      <sc-for list="{{ situations }}" as="s" hint-placeholder-count="4">
-      <button onClick="{{ s.open }}" style="text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:14px;padding:13px;cursor:pointer;min-height:112px;display:flex;flex-direction:column;gap:5px">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ s.kicker }}</span>
-        <b style="font:700 14.5px/1.25 Mulish;color:#15181A;text-wrap:pretty">{{ s.title }}</b>
-        <span style="font:500 11.5px/1.45 Mulish;color:#71787C;margin-top:auto">{{ s.meta }}</span>
-      </button>
-      </sc-for>
-    </div>
-    <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Alle situaties</div>
-    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
-      <sc-for list="{{ allSituations }}" as="s" hint-placeholder-count="8">
-      <button onClick="{{ s.open }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:12px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:54px">
-        <span style="width:8px;height:8px;border-radius:50%;flex:none;background:{{ s.dot }}"></span>
-        <span style="flex:1;min-width:0">
-          <b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ s.title }}</b>
-          <span style="font:600 11px Mulish;color:#71787C">{{ s.group }} · {{ s.meta }}</span>
-        </span>
-        <span style="font:700 13px Mulish;color:#A2A7A9">→</span>
-      </button>
-      </sc-for>
-    </div>
-    <div style="padding:24px 14px 0">
-      <button onClick="{{ goLex }}" style="width:100%;text-align:left;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.16);border-radius:16px;padding:16px 18px;cursor:pointer;display:block">
-        <b style="font:700 15px Mulish;color:#5C0000">Alle lexicons in één index</b>
-        <div style="font:500 12.5px/1.7 Mulish;color:#5C0000;opacity:.85;margin-top:4px;text-wrap:pretty">Medisch, garage, klussen, IT en de Franse afkortingen — doorzoekbaar op één plek.</div>
-      </button>
-    </div>
-    <div style="height:26px"></div>
-  </div>
-  </sc-if>
-
-  <sc-if value="{{ taalScenario }}" hint-placeholder-val="{{ false }}">
-  <div>
-    <div style="padding:18px 18px 0">
-      <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">{{ scKicker }}</div>
-      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.1;margin:7px 0 0">{{ scTitle }}</h1>
-      <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ scIntro }}</p>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;margin:14px 16px 0;padding:4px;border-radius:11px;background:rgba(21,24,26,.05)">
-      <div style="font:600 11px Mulish;color:#71787C;padding:0 6px 0 8px;flex:none">Aanspreekvorm</div>
-      <button onClick="{{ setVous }}" style="{{ vousStyle }}">vous</button>
-      <button onClick="{{ setTu }}" style="{{ tuStyle }}">tu</button>
-    </div>
-    <div style="display:flex;gap:7px;overflow-x:auto;padding:14px 16px 2px">
-      <sc-for list="{{ phases }}" as="p" hint-placeholder-count="4">
-      <button onClick="{{ p.pick }}" style="{{ p.style }}">{{ p.label }}</button>
-      </sc-for>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:10px;padding:14px 14px 0">
-      <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
-      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px 15px">
-        <div style="font-family:Poppins,system-ui,sans-serif;font-weight:400;font-size:17.5px;line-height:1.35;color:#15181A;text-wrap:pretty">{{ l.fr }}</div>
-        <div style="font:500 12.5px/1.55 Mulish;color:#71787C;margin-top:5px;text-wrap:pretty">{{ l.nl }}</div>
-        <sc-if value="{{ l.hasNote }}" hint-placeholder-val="{{ false }}">
-        <div style="font:600 11.5px/1.6 Mulish;color:#5C0000;background:rgba(128,0,0,.06);border-radius:9px;padding:8px 10px;margin-top:9px;text-wrap:pretty">{{ l.note }}</div>
-        </sc-if>
-        <div style="display:flex;gap:7px;margin-top:11px">
-          <button onClick="{{ l.big }}" style="flex:1;min-height:44px;border:1px solid rgba(128,0,0,.20);border-radius:11px;background:rgba(128,0,0,.06);color:#800000;font:700 12.5px Mulish;cursor:pointer">Groot tonen</button>
-          <button onClick="{{ l.copy }}" style="flex:1;min-height:44px;border:1px solid rgba(21,24,26,.10);border-radius:11px;background:#fff;color:#3D4346;font:700 12.5px Mulish;cursor:pointer">{{ l.copyLabel }}</button>
-        </div>
-      </div>
-      </sc-for>
-    </div>
-    <sc-if value="{{ isLastPhase }}" hint-placeholder-val="{{ false }}">
-    <div>
-      <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Wat de ander zegt</div>
-      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
-        <sc-for list="{{ scLex }}" as="w" hint-placeholder-count="6">
-        <div style="display:flex;align-items:baseline;gap:10px;padding:11px 15px;border-top:1px solid rgba(21,24,26,.06)">
-          <b style="font:700 14px Mulish;color:#15181A;flex:none">{{ w.fr }}</b>
-          <span style="font:500 12.5px Mulish;color:#71787C;text-align:right;margin-left:auto">{{ w.nl }}</span>
-        </div>
-        </sc-for>
-      </div>
-      <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Voordat u gaat</div>
-      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
-        <sc-for list="{{ scPrep }}" as="p" hint-placeholder-count="3">
-        <div style="display:flex;gap:10px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);font:500 13px/1.6 Mulish;color:#3D4346">
-          <span style="color:#800000;font-weight:800;flex:none">·</span><span style="text-wrap:pretty">{{ p }}</span>
-        </div>
-        </sc-for>
-      </div>
-      <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ scWarn }}</div>
-    </div>
-    </sc-if>
-    <div style="height:26px"></div>
-  </div>
-  </sc-if>
 </div>
 </sc-if>
 
@@ -2089,31 +1987,6 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
-<!-- ============ WOORDENLIJSTEN ============ -->
-<sc-if value="{{ isLex }}" hint-placeholder-val="{{ false }}">
-<div>
-  <div style="padding:18px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Taalassistent · gratis</div>
-    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Alle lexicons van IF</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">De woordenlijsten die nu verspreid over losse berichten op nederlanders.fr staan, hier op één plek en doorzoekbaar met het zoekveld van de app.</p>
-  </div>
-  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;overflow:hidden">
-    <sc-for list="{{ lexSets }}" as="s" hint-placeholder-count="6">
-    <div style="display:flex;align-items:center;gap:11px;padding:13px 15px;border-top:1px solid rgba(21,24,26,.06);min-height:56px">
-      <span style="width:8px;height:8px;border-radius:50%;flex:none;background:{{ s.dot }}"></span>
-      <span style="flex:1;min-width:0">
-        <b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ s.name }}</b>
-        <span style="font:600 11px Mulish;color:#71787C">{{ s.meta }}</span>
-      </span>
-      <span style="font:700 10.5px Mulish;color:#A2A7A9;flex:none">{{ s.state }}</span>
-    </div>
-    </sc-for>
-  </div>
-  <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">Voorstel: de lijsten worden één keer omgezet naar JSON en daarna vanuit deze module onderhouden. De berichten op nederlanders.fr blijven bestaan en verwijzen hierheen.</div>
-  <div style="height:26px"></div>
-</div>
-</sc-if>
-
 <!-- ============ MODULE (gratis of met slot) ============ -->
 <sc-if value="{{ isTool }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -2340,7 +2213,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div>
   <div style="padding:20px 18px 0">
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:0">Profiel</h1>
-    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">U gebruikt de app nu zonder aanmelden. Dat mag: de gemeenschap, de taalassistent en de woordenlijsten zijn vrij toegankelijk.</p>
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">U gebruikt de app nu zonder aanmelden. Dat mag: de gemeenschap en de taaltools zijn vrij toegankelijk.</p>
   </div>
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px">
     <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;font-size:13.5px"><span>Nederlanders.fr</span><b style="color:#71787C">niet aangemeld</b></div>
@@ -2601,17 +2474,6 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
-<sc-if value="{{ bigOpen }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;inset:0;z-index:40;background:#800000;color:#fff;display:flex;flex-direction:column;padding:26px 22px 22px">
-  <div style="font:800 10px Mulish;letter-spacing:.14em;opacity:.7">LAAT DIT ZIEN OF LEES HET VOOR</div>
-  <div style="margin-top:auto;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:33px;line-height:1.18;text-wrap:pretty">{{ bigFr }}</div>
-  <div style="font:500 14.5px/1.7 Mulish;opacity:.72;margin-top:14px;text-wrap:pretty">{{ bigNl }}</div>
-  <div style="margin-top:auto;padding-top:22px">
-    <button onClick="{{ closeBig }}" style="width:100%;min-height:52px;border:1px solid rgba(255,255,255,.35);border-radius:13px;background:transparent;color:#fff;font:700 14.5px Mulish;cursor:pointer">Sluiten</button>
-  </div>
-</div>
-</sc-if>
-
 <sc-if value="{{ forumBladOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:55">
   <div onClick="{{ forumBladSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.45)"></div>
@@ -2666,7 +2528,7 @@ const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
 // Interne schermnaam van het artikelscherm (besluit 7).
 const SCHERM_ART = "artikel";
 // Schermen met een pijl linksboven (zie ook showBack).
-const SHOWBACK = /^(tool|lex|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
@@ -2702,8 +2564,6 @@ const CAT = [
     ["FR-Alert-meldingen", "officiële waarschuwingen", "tool", 1, DOT.veilig],
     ["Spoednummers &amp; wat te zeggen", "15 · 18 · 112 · 114", "spoed", 1, DOT.veilig]]],
   ["Vrij toegankelijk", [
-    ["Taalassistent", "15 situaties · Frans in context", "taal", 1, DOT.sociaal],
-    ["Woordenlijsten NL–FR", "alle lexicons van IF", "lex", 1, DOT.sociaal],
     ["Berichten &amp; reacties", "van Nederlanders.fr", "gem", 1, DOT.sociaal],
     ["Actueel", "nieuws en wijzigingen", "act", 1, DOT.admin],
     ["Feestdagen &amp; schoolvakanties", "zones A/B/C", "tool", 1, DOT.admin]]],
@@ -2719,84 +2579,6 @@ const CAT = [
     ["Correspondentie-assistent", "brieven in correct Frans", "tool", 0, DOT.admin],
     ["Carte Vitale-status", "aanvraag volgen", "tool", 0, DOT.gezond],
     ["Documentenkluis", "bewaar uw documenten", "tool", 0, DOT.admin]]]
-];
-
-const SC = [
-  { id:"huisarts", group:"Gezondheidszorg", kicker:"GEZONDHEID", title:"Bij de huisarts", meta:"consultatie · 4 fases", dot:DOT.gezond,
-    intro:"Van de wachtkamer tot het recept. Kies de fase waarin u zit.",
-    warn:"Zonder aangemelde médecin traitant vergoedt het stelsel minder. Regel dat bij het eerste bezoek.",
-    phases:[
-      { label:"Aanmelden", lines:[
-        {v:"Bonjour, j'ai rendez-vous à 10 h 30 avec le docteur Martin.", nl:"Goedendag, ik heb om 10.30 uur een afspraak met dokter Martin."},
-        {v:"Voici ma carte Vitale et ma carte de mutuelle.", nl:"Hier zijn mijn Carte Vitale en mijn mutuellekaart."},
-        {v:"Je voudrais vous déclarer comme médecin traitant.", t:"Je voudrais te déclarer comme médecin traitant.", nl:"Ik zou u als vaste huisarts willen aanmelden.", note:"Dit is de zin die u het eerste jaar het meeste geld scheelt."}]},
-      { label:"Klacht uitleggen", lines:[
-        {v:"J'ai mal à la gorge depuis quatre jours.", nl:"Ik heb sinds vier dagen keelpijn.", note:"Franse volgorde: eerst de plek, dan sinds hoelang."},
-        {v:"J'ai de la fièvre, 38,5 le matin.", nl:"Ik heb koorts, 38,5 in de ochtend."},
-        {v:"Je suis allergique à la pénicilline.", nl:"Ik ben allergisch voor penicilline."}]},
-      { label:"Vragen stellen", lines:[
-        {v:"Est-ce que c'est urgent ?", nl:"Is dit spoedeisend?"},
-        {v:"Que dois-je faire si ça empire ?", nl:"Wat moet ik doen als het erger wordt?"},
-        {v:"Pourriez-vous répéter plus lentement, s'il vous plaît ?", t:"Tu peux répéter plus lentement ?", nl:"Kunt u dat langzamer herhalen, alstublieft?", note:"De nuttigste zin van de hele module."}]},
-      { label:"Afronden", lines:[
-        {v:"Si j'ai bien compris : un comprimé matin et soir, pendant cinq jours.", nl:"Als ik het goed begrijp: één tablet 's ochtends en 's avonds, vijf dagen.", note:"Herhaal het plan hardop — een misverstand herstelt u nog in de kamer."},
-        {v:"Il me faut un arrêt de travail, s'il vous plaît.", t:"Il me faut un arrêt de travail, s'il te plaît.", nl:"Ik heb een werkverzuimverklaring nodig, alstublieft."},
-        {v:"Je vous dois combien ?", t:"Je te dois combien ?", nl:"Hoeveel ben ik u verschuldigd?"}]}],
-    lex:[["le médecin traitant","de vaste huisarts"],["l'ordonnance","het recept"],["la posologie","de dosering"],["les antécédents","de voorgeschiedenis"],["l'arrêt de travail","werkverzuimverklaring"],["le tiers payant","directe vergoeding"]],
-    prep:["Carte Vitale en mutuellekaart bij de hand","Lijstje met medicijnen, allergieën en eerdere ingrepen","De Franse naam van uw NL-medicijnen (werkzame stof)"] },
-
-  { id:"apotheek", group:"Gezondheidszorg", kicker:"GEZONDHEID", title:"In de apotheek", meta:"ordonnance · 3 fases", dot:DOT.gezond,
-    intro:"Recept inleveren, generiek bespreken, dosering laten herhalen.",
-    warn:"Weiger nooit zomaar het generiek: dan betaalt u zelf voor het merkgeneesmiddel.",
-    phases:[
-      { label:"Inleveren", lines:[
-        {v:"Bonjour, je viens pour cette ordonnance.", nl:"Goedendag, ik kom voor dit recept."},
-        {v:"Est-ce que vous avez tout en stock ?", t:"Est-ce que tu as tout en stock ?", nl:"Heeft u alles op voorraad?"},
-        {v:"Avez-vous un générique ?", t:"Tu as un générique ?", nl:"Heeft u een generiek alternatief?"}]},
-      { label:"Uitleg vragen", lines:[
-        {v:"Pouvez-vous m'expliquer la posologie ?", t:"Tu peux m'expliquer la posologie ?", nl:"Kunt u me de dosering uitleggen?"},
-        {v:"Combien de fois par jour, et pendant combien de temps ?", nl:"Hoe vaak per dag, en hoe lang?"},
-        {v:"Est-ce compatible avec mon traitement pour la tension ?", nl:"Kan dit samen met mijn bloeddrukmedicijn?"}]},
-      { label:"Zonder recept", lines:[
-        {v:"Auriez-vous quelque chose contre les piqûres de moustique ?", t:"Tu aurais quelque chose contre les piqûres de moustique ?", nl:"Heeft u iets tegen muggenbulten?"},
-        {v:"C'est pour un enfant de six ans.", nl:"Het is voor een kind van zes."},
-        {v:"Est-ce que la pharmacie de garde est ouverte ce dimanche ?", nl:"Is de dienstapotheek deze zondag open?"}]}],
-    lex:[["le générique","generiek alternatief"],["la notice","de bijsluiter"],["les effets secondaires","bijwerkingen"],["le renouvellement","herhaalrecept"],["la pharmacie de garde","dienstapotheek"],["à jeun","op een lege maag"]],
-    prep:["Ordonnance en Carte Vitale mee","Foto van de doosjes die u nu gebruikt","Weet of u het merk of het generiek wilt"] },
-
-  { id:"rdv", group:"Aan de telefoon", kicker:"TELEFOON", title:"Afspraak maken", meta:"telefonisch · 3 fases", dot:DOT.gezond,
-    intro:"Het moeilijkste gesprek: geen gezicht, geen tijd, en uw naam moet gespeld worden.",
-    warn:"Spel uw naam met het Franse spelalfabet, anders staat u onvindbaar in het systeem.",
-    phases:[
-      { label:"Openen", lines:[
-        {v:"Bonjour, je voudrais prendre rendez-vous, s'il vous plaît.", t:"Bonjour, je voudrais prendre rendez-vous, s'il te plaît.", nl:"Goedendag, ik zou graag een afspraak maken."},
-        {v:"Je suis un nouveau patient.", nl:"Ik ben een nieuwe patiënt."},
-        {v:"Excusez-moi, je parle français lentement.", t:"Excuse-moi, je parle français lentement.", nl:"Neem me niet kwalijk, ik spreek langzaam Frans.", note:"Zeg dit meteen. Het tempo aan de andere kant zakt onmiddellijk."}]},
-      { label:"Gegevens geven", lines:[
-        {v:"Mon nom est Jansen : J comme Joseph, A comme Anatole, N comme Nicolas.", nl:"Mijn naam is Jansen: J van Joseph, A van Anatole, N van Nicolas.", note:"Frans spelalfabet: Anatole, Berthe, Célestin, Désiré…"},
-        {v:"Mon numéro est le 06 12 34 56 78.", nl:"Mijn nummer is 06 12 34 56 78.", note:"Fransen zeggen nummers in paren: zéro-six, douze, trente-quatre…"},
-        {v:"Vous pouvez me rappeler à ce numéro.", t:"Tu peux me rappeler à ce numéro.", nl:"U kunt me op dit nummer terugbellen."}]},
-      { label:"Bevestigen", lines:[
-        {v:"Je répète : mardi 14 à 9 h 15.", nl:"Ik herhaal: dinsdag de 14e om 9.15 uur."},
-        {v:"Qu'est-ce que je dois apporter ?", nl:"Wat moet ik meenemen?"},
-        {v:"Merci beaucoup, bonne journée.", nl:"Hartelijk dank, prettige dag."}]}],
-    lex:[["le rendez-vous","de afspraak"],["le créneau","het tijdslot"],["la salle d'attente","de wachtkamer"],["annuler","afzeggen"],["reporter","verzetten"],["le secrétariat","de balie"]],
-    prep:["Uw naam gespeld op papier, in het Franse spelalfabet","Twee mogelijke dagdelen","Pen bij de hand voor datum en tijd"] },
-
-  { id:"spoed", group:"Gezondheidszorg", kicker:"SPOED", title:"Spoed: 15 of 112", meta:"noodgeval · 2 fases", dot:DOT.auto,
-    intro:"Korte zinnen. Adres eerst, klacht daarna — zo werkt de Franse meldkamer.",
-    warn:"Blijf aan de lijn tot de centralist ophangt. 15 is SAMU, 112 werkt in heel Europa, 114 is voor sms.",
-    phases:[
-      { label:"Melden", lines:[
-        {v:"J'appelle pour une urgence.", nl:"Ik bel voor een noodgeval.", note:"Eerste zin. Daarna wacht u op de vraag naar het adres."},
-        {v:"Mon adresse : 12 route des Vignes, à Saint-Chinian, code postal 34360.", nl:"Mijn adres: 12 route des Vignes, in Saint-Chinian, postcode 34360.", note:"Adres vóór klacht: zo kan de wagen al rijden terwijl u praat."},
-        {v:"La personne respire, mais elle est inconsciente.", nl:"De persoon ademt, maar is buiten bewustzijn."}]},
-      { label:"Wachten", lines:[
-        {v:"Que dois-je faire en attendant ?", nl:"Wat moet ik doen in de tussentijd?"},
-        {v:"Je reste en ligne.", nl:"Ik blijf aan de lijn."},
-        {v:"Je ne comprends pas — parlez-vous anglais ou néerlandais ?", t:"Je ne comprends pas — tu parles anglais ?", nl:"Ik begrijp het niet — spreekt u Engels of Nederlands?"}]}],
-    lex:[["les pompiers","de brandweer"],["le SAMU","ambulancedienst"],["inconscient","buiten bewustzijn"],["saigner","bloeden"],["les urgences","de spoedeisende hulp"]],
-    prep:["Uw volledige adres met postcode bij de telefoon","15 SAMU · 18 pompiers · 112 Europa · 114 sms","Wie het beste Frans spreekt, belt"] }
 ];
 
 const DEMO = [
@@ -2819,15 +2601,6 @@ const DEMO = [
     samenvatting:"De geomètre kost geld, maar zonder proces-verbaal blijft het onduidelijk. Wat hebben jullie gedaan?",
     href:"https://www.nederlanders.fr/",
     reacties:[{auteur:"Marijke J.",datum:"2 dagen",tekst:"Wij hebben het samen met de buren laten doen en de kosten gedeeld. Nooit meer discussie gehad."}] }
-];
-
-const LEXSETS = [
-  {name:"Medische termen NL↔FR", meta:"nederlanders.fr · basis van de taalassistent", dot:DOT.gezond, state:"in app"},
-  {name:"Garage &amp; contrôle technique", meta:"nederlanders.fr", dot:DOT.auto, state:"te doen"},
-  {name:"Klussen &amp; doe-het-zelf", meta:"nederlanders.fr", dot:DOT.geld, state:"te doen"},
-  {name:"IT, portalen &amp; FranceConnect", meta:"nederlanders.fr", dot:DOT.admin, state:"te doen"},
-  {name:"Franse afkortingen", meta:"CAF, URSSAF, DPE, ANTS…", dot:DOT.sociaal, state:"te doen"},
-  {name:"Begrippen bij de notaris", meta:"uit IF-artikelen", dot:DOT.geld, state:"te doen"}
 ];
 
 // Voorbeeldlijst voor als de nieuwsroute niet bereikbaar is: zichtbaar, maar niet aantikbaar.
@@ -3138,7 +2911,7 @@ function peilVoetTekst() {
 // PEIL-BLOK-EIND
 
 class Component extends DCLogic {
-  state = { screen:"hub", sc:null, phase:0, tone:"vous", q:"", copied:null, big:null,
+  state = { screen:"hub", q:"", copied:null,
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -4242,7 +4015,6 @@ class Component extends DCLogic {
     const st = this.state;
     if (st.forumBlad) { this.forumBladSluit(); return true; }
     if (st.oproep) { this.oproepSluit(); return true; }
-    if (st.big) { this.setState({big:null}); return true; }
     if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
     if (st.screen === "artikel") { this.artTerug(); return true; }
     if (st.screen === "nieuws") { this.nwTerugKnop(); return true; }
@@ -4250,13 +4022,12 @@ class Component extends DCLogic {
     if (st.screen === "gezondheid" && st.gzLijst !== null) { this.setState({gzLijst:null}); return true; }
     if (st.screen === "gezondheid" && st.gzOnd !== null) { this.setState({gzOnd:null}); return true; }
     if (st.screen === "ondernemen" && st.onStap !== null) { this.setState({onStap:null}); return true; }
-    const heeftTerug = SHOWBACK.test(st.screen) || (st.screen === "taal" && !!st.sc);
+    const heeftTerug = SHOWBACK.test(st.screen);
     if (!heeftTerug) {
       if (st.screen === "hub") return false;
       this.setState({screen:"hub", q:"", copied:null, tool:null}); return true;
     }
     this.stopPiramide();
-    if (st.screen === "taal" && st.sc && st.from !== "zoek") { this.setState({sc:null, phase:0}); return true; }
     this.setState({screen: st.from && st.from !== st.screen ? st.from : "hub", q:"", copied:null,
       tool: st.from === "vastgoed" ? this.vindModule("vastgoed") : st.tool});
     return true;
@@ -4279,9 +4050,9 @@ class Component extends DCLogic {
   }
   histToestand(){
     const st = this.state;
-    const blad = st.forumBlad ? "forum" : st.oproep ? "oproep" : st.big ? "big" : st.vraagPostcode ? "pc" : "";
+    const blad = st.forumBlad ? "forum" : st.oproep ? "oproep" : st.vraagPostcode ? "pc" : "";
     return {screen:st.screen, artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
-      nwTegel:st.nwTegel, nwTerug:st.nwTerug, sc: st.screen === "taal" ? st.sc : "", blad,
+      nwTegel:st.nwTegel, nwTerug:st.nwTerug, blad,
       themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
   }
   histScroll(id, nul){
@@ -4342,7 +4113,7 @@ class Component extends DCLogic {
     if (r.soort === "artikel" && A) { this.openInfoArtikel(A.BASIS + "/" + r.slug + "/"); return; }
     if (r.soort === "scherm") { this.go(r.scherm); return; }
     this.stopPiramide();
-    this.setState({screen:"hub", q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, big:null, vraagPostcode:false,
+    this.setState({screen:"hub", q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, vraagPostcode:false,
       gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false});
   }
   histPop(e){
@@ -4413,8 +4184,6 @@ class Component extends DCLogic {
   route(m){
     if (!m) return;
     const from = this.state.screen;
-    if (m.kind === "taal") return this.setState({screen:"taal", sc:null, q:"", from});
-    if (m.kind === "lex") return this.setState({screen:"lex", q:"", from});
     if (m.kind === "forum") return this.setState({screen:"gem", gemTab:"ber", q:""});
     if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
     if (m.kind === "nedergids") return this.setState({screen:"nedergids", tool:m, q:"", from});
@@ -4559,17 +4328,6 @@ class Component extends DCLogic {
       return { en, enBerekend:false };
     });
   }
-  openSc(id){ this.setState({screen:"taal", sc:id, phase:0, copied:null, from:this.state.screen}); }
-
-  line(l){
-    if (this.state.tone === "tu") {
-      if (l.t) return {fr:l.t, nl:l.nl, note:l.note};
-      if (/\bvous\b|\bvotre\b|\bvos\b/i.test(l.v))
-        return {fr:l.v, nl:l.nl, note:"Blijft vous: deze zin richt zich tot een arts of baliemedewerker."};
-    }
-    return {fr:l.v, nl:l.nl, note:l.note};
-  }
-
   // "2026-08-23" en "2026-03" zijn machinevelden; een lezer wil een datum zien.
   datum(v){
     if (!v) return "op een onbekende datum";
@@ -4614,10 +4372,6 @@ class Component extends DCLogic {
   pillStyle(on){
     return "flex:none;border-radius:11px;padding:11px 13px;min-height:44px;cursor:pointer;font:700 12.5px Mulish;border:1px solid " +
       (on ? "#800000;background:#800000;color:#fff" : "rgba(21,24,26,.12);background:#fff;color:#3D4346");
-  }
-  segStyle(on){
-    return "flex:1;min-height:44px;border:0;border-radius:9px;cursor:pointer;font:700 13px Mulish;" +
-      (on ? "background:#fff;color:#800000;box-shadow:0 1px 3px rgba(21,24,26,.12)" : "background:transparent;color:#71787C");
   }
   navStyle(on){
     return "border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:70px;cursor:pointer;font:700 11px Mulish;line-height:1.1;color:" + (on ? "#800000" : "#71787C");
@@ -4849,20 +4603,6 @@ class Component extends DCLogic {
         out.push({kind:"KLUSSEN", fr:k.titel, nl:k.wat, where:k.secties + " secties · Klussen & verbouwen",
           open:() => this.route(klusMod && {...klusMod, url: k.url || klusMod.url})});
     });
-    SC.forEach(s => {
-      if (norm(s.title + " " + s.group).includes(q))
-        out.push({kind:"SITUATIE", fr:s.title, nl:s.intro, where:"Taalassistent", open:() => this.openSc(s.id)});
-      s.phases.forEach((p, pi) => p.lines.forEach(l => {
-        const L = this.line(l);
-        if (norm(L.fr + " " + L.nl).includes(q))
-          out.push({kind:"ZIN", fr:L.fr, nl:L.nl, where:s.title + " · " + p.label,
-            open:() => this.setState({screen:"taal", sc:s.id, phase:pi, q:"", big:L, from:"zoek"})});
-      }));
-      s.lex.forEach(([fr,nl]) => {
-        if (norm(fr + " " + nl).includes(q))
-          out.push({kind:"WOORD", fr, nl, where:s.title, open:() => this.openSc(s.id)});
-      });
-    });
     this.state.posts.forEach(p => {
       if (norm((p.titel||"") + " " + (p.samenvatting||"")).includes(q))
         out.push({kind:"BERICHT", fr:p.titel, nl:p.samenvatting || "", where:"Nederlanders.fr · " + kort(p.laatsteReactie || p.datum),
@@ -4999,11 +4739,9 @@ class Component extends DCLogic {
   renderVals(){
     const st = this.state;
     const tv = this.themaVals();
-    const sc = SC.find(s => s.id === st.sc) || SC[0];
-    const phase = sc.phases[Math.min(st.phase, sc.phases.length - 1)];
     // Volgorde van treffers: 1) modules en tools, 2) artikelen op Infofrankrijk (eigen sectie eronder), 3) zinnen, woorden en berichten.
     const alleTreffers = this.search();
-    const taalSoort = r => r.kind === "SITUATIE" || r.kind === "ZIN" || r.kind === "WOORD" || r.kind === "BERICHT";
+    const taalSoort = r => r.kind === "WOORD" || r.kind === "BERICHT";
     const results = alleTreffers.filter(r => !taalSoort(r)), resultsTaal = alleTreffers.filter(taalSoort);
     const free = this.mods().filter(m => m.prijs !== "abonnee").length;
     const ng = (st.cat && st.cat.nedergids) || {};
@@ -5032,22 +4770,22 @@ class Component extends DCLogic {
     const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", lex:"Woordenlijsten", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
-      taal: st.sc && st.screen === "taal" ? sc.title : "Taalassistent", tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
+    const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+      tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
     const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
-      mod:this.mods().length + " modules", lex:"Taalassistent · alle lexicons",
+      mod:this.mods().length + " modules",
       over:"Profiel",
       nedergids:"wegwijzer · gratis te lezen",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
       zorg:"Leven · altijd vrij toegankelijk",
       gezondheid: st.gzOnd === "ouderen" ? "Ouder worden in Frankrijk" : (st.gzOnd ? "Onderwerp" : "Zorg en gezondheid"),
       ruyter:"Geld · nagelezen bij DGFiP en Légifrance",
-      zoek:"modules, berichten en zinnen",
+      zoek:"modules, berichten en woorden",
       nieuws: st.nwTegel ? (st.nwTegel === "archief" ? "Archief" : "Doorlopend lezen") : "redactie van Nederlanders.fr",
       energie:"Wonen · methode 3CL-DPE 2021",
       piramide:"het ordeningsmodel achter de app",
       draad:"Nederlanders.fr · alleen lezen",
-      gem:"Nederlanders.fr · vrij toegankelijk", taal: st.sc && st.screen === "taal" ? sc.group + " · gratis" : "Taal & gemeenschap · gratis",
+      gem:"Nederlanders.fr · vrij toegankelijk",
       tool: st.tool ? (this.inOntw(st.tool) ? "In ontwikkeling · " : "") + this.themaVan(st.tool) + " · " + st.tool.schil : "", acc:"niet aangemeld"};
 
     // ---- Discussie lezen -------------------------------------------------
@@ -5092,13 +4830,12 @@ class Component extends DCLogic {
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
-      showBack: SHOWBACK.test(st.screen) || (st.screen === "taal" && !!st.sc),
-      showMark: !(SHOWBACK.test(st.screen) || (st.screen === "taal" && !!st.sc)),
+      showBack: SHOWBACK.test(st.screen),
+      showMark: !SHOWBACK.test(st.screen),
       back: () => this.terugKnop(),
 
       isHub: st.screen === "hub" || st.screen === "mod", isZoek: st.screen === "zoek", isGem: st.screen === "gem",
-      isKeuze: st.screen === "keuze", isTaal: st.screen === "taal", isTool: st.screen === "tool", isAcc: st.screen === "acc",
-      isLex: st.screen === "lex",
+      isKeuze: st.screen === "keuze", isTool: st.screen === "tool", isAcc: st.screen === "acc",
       isNedergids: st.screen === "nedergids",
       isVastgoed: st.screen === "vastgoed",
       isZorg: st.screen === "zorg",
@@ -5230,9 +4967,8 @@ class Component extends DCLogic {
         {naam:"Infofrankrijk.com", rol:"REDACTIE", wat:"Dossiers, artikelen en de rekenmodules. De redactie actualiseert; het abonnement betaalt dat werk."},
         {naam:"Overheid en pers", rol:"ACTUEEL", wat:"Officiële bronnen en persberichten, samengevoegd in de nieuwsroute — met redactiesyntheses die altijd eerst door een mens worden nagelezen."},
         {naam:"Météo-France en FR-Alert", rol:"VEILIGHEID", wat:"Brandgevaar, weeralarm en officiële waarschuwingen. Altijd gratis, ook zonder account."},
-        {naam:"Talen voor Talent", rol:"TAAL", wat:"Taalcoaching van Sylvain Lelarge, achtergrond bij de taalassistent."}
+        {naam:"Talen voor Talent", rol:"TAAL", wat:"Taalcoaching van Sylvain Lelarge, achtergrond bij TaalHulp."}
       ],
-      lexSets: LEXSETS.map(s => ({name:s.name.replace(/&amp;/g,"&"), meta:s.meta, dot:s.dot, state:s.state})),
       ...this.regioVals(),
       isAiTools: st.screen === "aitools",
       begroetingTekst: HubLib.begroeting(new Date()),
@@ -5241,8 +4977,8 @@ class Component extends DCLogic {
       hubNoodKnoppen: this.spoedKnoppenLijst(),
       hubNoodTekst: (this.gzCfg().spoed || {}).hubTekst || "",
       hubNood: st.screen === "hub" && this.spoedKnoppenLijst().length > 0 && !!(this.gzCfg().spoed || {}).hubTekst,
-      goZoek: () => this.go("zoek"), goGem: () => this.go("gem"), goLex: () => this.go("lex"),
-      goTaal: () => this.setState({screen:"taal", sc:null, q:"", from:"hub"}),
+      goZoek: () => this.go("zoek"), goGem: () => this.go("gem"),
+      goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
       openFire: () => this.route(this.vindModule("veiligheid")),
       // Veiligheid staat het hele jaar in de app, maar rustig: één regel op de hub,
       // geen alarmtegel. De locator zegt alleen wat de app zeker weet — welk
@@ -5301,7 +5037,7 @@ class Component extends DCLogic {
       clearQ: () => { this.setState({q:""}); this.zoekArtikelen(""); },
       ...this.zaVals(),
       results, hasResults: results.length > 0, resultsTaal, hasResultsTaal: resultsTaal.length > 0,
-      resultCount: "Modules en tools", resultCountTaal: "Zinnen, woorden en berichten",
+      resultCount: "Modules en tools", resultCountTaal: "Woorden en berichten",
       zoekEmpty: st.q.trim().length < 2,
       noResults: st.q.trim().length >= 2 && alleTreffers.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
       suggesties: ["dokter","recept","notaris","brandrisico","carte vitale","spoed"].map(s => ({name:s, pick:() => { this.setState({q:s}); this.zoekArtikelen(s); }})),
@@ -5354,23 +5090,6 @@ class Component extends DCLogic {
         ? "Berichten en reacties komen van nlfr-berichten; de volledige draad staat op de site zelf. Reageren opent nederlanders.fr, zodat uw sessie meegaat."
         : "De API van nlfr-berichten staat alleen eigen domeinen toe. Op infofrankrijk.com of een vercel.app-adres verschijnen hier de echte berichten; nu ziet u vier voorbeelden met dezelfde structuur.",
       ...this.nwVals(),
-
-      taalHome: !st.sc, taalScenario: !!st.sc,
-      situations: SC.map(s => ({kicker:s.kicker, title:s.title, meta:s.meta, open:() => this.openSc(s.id)})),
-      allSituations: SC.map(s => ({title:s.title, group:s.group, meta:s.meta, dot:s.dot, open:() => this.openSc(s.id)})),
-      scKicker:sc.kicker, scTitle:sc.title, scIntro:sc.intro, scWarn:sc.warn,
-      scLex: sc.lex.map(([fr,nl]) => ({fr,nl})), scPrep: sc.prep,
-      isLastPhase: st.phase >= sc.phases.length - 1,
-      phases: sc.phases.map((p,i) => ({label:p.label, style:this.chipStyle(i === st.phase), pick:() => this.setState({phase:i, copied:null})})),
-      lines: phase.lines.map((l,i) => {
-        const L = this.line(l), key = sc.id + st.phase + i;
-        return {fr:L.fr, nl:L.nl, note:L.note, hasNote: !!L.note,
-          big: () => this.setState({big:L}),
-          copyLabel: this.kopieLabel(key, "Kopiëren"),
-          copy: () => this.kopieer(L.fr, key)};
-      }),
-      setVous: () => this.setState({tone:"vous"}), setTu: () => this.setState({tone:"tu"}),
-      vousStyle: this.segStyle(st.tone === "vous"), tuStyle: this.segStyle(st.tone === "tu"),
 
       toolName: T ? T.naam : "", toolGroup: T ? this.themaVan(T) : "",
       toolDesc: T ? T.over : "",
@@ -5483,8 +5202,6 @@ class Component extends DCLogic {
       groteTekstSchuif: st.groteTekst ? "left:25px" : "left:3px",
       groteTekstBg: st.groteTekst ? "#800000" : "#71787C",
 
-      bigOpen: !!st.big, bigFr: st.big ? st.big.fr : "", bigNl: st.big ? st.big.nl : "",
-      closeBig: () => this.setState({big:null}),
 
       tabs: HubLib.TABS.map(t => ({
         label:t.label, iconStyle:this.iconStyle(t.icon),

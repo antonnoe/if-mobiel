@@ -162,3 +162,16 @@ Zes modules erbij en een noodregel op de hub. Details in CLAUDE.md, sectie "Rond
 Framing: alle zes staan het toe (geen beperkende headers; energieportaal en controle-technique-zoeker sturen `frame-ancestors *` en `ALLOWALL`), dus `volledig`. Het klusforum vraagt inloggen met Google; daarvoor staat een `let`-regel in de module. Gecontroleerd met headless Chromium op 390x844 en 360x640: noodregel zichtbaar met twee knoppen van 44 px, Mijn modules toont de zes, aanzetten werkt, alle zes artikelen tonen "Tool in de app", een zoekresultaat opent de tool. Bestaande tests ronde2 en themas aangepast aan de nieuwe modules.
 
 Klusforum op weergave knop: de tool vraagt Google-inlog, dat werkt niet betrouwbaar in een iframe.
+
+## Ronde 24-10-2026 (2): Taal
+
+Besluit opdrachtgever: Taalassistent en Zorglexicon vervallen; thema Taal heeft drie onderdelen die elkaar niet overlappen.
+
+| Onderdeel | Wat | Status |
+|---|---|---|
+| 1 Export | Inhoud Taalassistent als JSON buiten de repo (4 situaties, 12 fases, 36 zinnen, 23 woorden, 12 tips) als kandidaat-materiaal voor het woordenboek | klaar |
+| 2 Catalogus | Modules `taal` en `zorglexicon` weg; `woordenboek` ("Woordenboek met uitleg", iframe `volledig`, in ontwikkeling) erbij en gekoppeld aan Gezondheid, onderwerp "Woorden bij de dokter" | klaar |
+| 3 Code | Schermen `taal` en `lex`, situatiedata, Groot tonen, zoekhits (situatie, zin, situatiewoorden), kopteksten, strip-regels, terugstap/histToestand-sleutels weggehaald | klaar |
+| 4 Tests | Alle tests groen (141); nieuw `tests/ronde5.test.mjs`; headless Chromium 390 px: hub, Taal (drie onderdelen), Woordenboek-iframe, Forum, Nieuws, Zoeken, Gezondheid, geen pageerror, geen horizontale scroll | klaar |
+
+Afwijkingen: de Taalassistent-subtab in Forum en de elf niet-gebouwde situatietitels stonden al niet meer in de code (geen dode regels meer te verwijderen). De knop "Later, naar de gratis onderdelen" op de Energie-muur opende het taalscherm en opent nu het themascherm Taal. Zoektekst noemt geen "zinnen" meer.

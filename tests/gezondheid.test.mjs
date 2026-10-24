@@ -34,7 +34,7 @@ test("alle 32 hoofdstukken zijn bereikbaar", () => {
 });
 
 test("tools verwijzen naar bestaande modules in thema gezondheid", () => {
-  assert.deepEqual(gz.tools.modules, ["zorgkompas", "zoekers", "palliatief", "zorglexicon"]);
+  assert.deepEqual(gz.tools.modules, ["zorgkompas", "zoekers", "palliatief"]);
   gz.tools.modules.forEach(id => { const m = cat.modules.find(x => x.id === id); assert.ok(m, id); assert.equal(m.thema, "gezondheid"); });
 });
 

@@ -373,20 +373,6 @@
       "standaard": "uit"
     },
     {
-      "id": "taal",
-      "groep": "leven",
-      "thema": "taal",
-      "naam": "Taalassistent",
-      "meta": "4 situaties · Frans in context",
-      "prijs": "gratis",
-      "schil": "zoekschil",
-      "houdbaar": "jaren",
-      "status": "in ontwikkeling",
-      "kind": "taal",
-      "nagekeken": "2026-08-23",
-      "over": "De zinnen die u nodig heeft, in de volgorde waarin ze vallen — plus de woorden die de ander gebruikt."
-    },
-    {
       "id": "correspondentie",
       "ai": "ondersteuning",
       "ai_uitleg": "Helpt bij het schrijven van een Franstalige brief; een AI vult uw gegevens in een vaste opzet in. Lees de brief na voordat u hem verstuurt.",
@@ -421,6 +407,22 @@
       "url": "https://taalhulp-fr.vercel.app",
       "nagekeken": "2026-10-20",
       "over": "Geen cursus maar hulp op het moment dat u het nodig heeft: scenario's, begrippen en uitspraak voor Nederlanders in Frankrijk."
+    },
+    {
+      "id": "woordenboek",
+      "groep": "leven",
+      "thema": "taal",
+      "naam": "Woordenboek met uitleg",
+      "meta": "Franse begrippen met uitleg en zinnen",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "in ontwikkeling",
+      "kind": "iframe",
+      "weergave": "volledig",
+      "url": "https://taalhulp-fr.vercel.app/woordenboek",
+      "nagekeken": "2026-10-24",
+      "over": "Zoek een Frans begrip op en lees er in gewoon Nederlands bij wat het betekent, hoe u het gebruikt en welke zinnen erbij horen. Bijvoorbeeld de woorden die u bij de dokter of de apotheek tegenkomt. Deze module is in ontwikkeling."
     },
     {
       "id": "zorg",
@@ -826,22 +828,6 @@
       "url": "https://ouderenzorg.vercel.app",
       "nagekeken": "2026-10-22",
       "over": "Zoek per departement naar zorgaanbod voor ouderen. Deze module is in ontwikkeling."
-    },
-    {
-      "id": "zorglexicon",
-      "groep": "leven",
-      "thema": "gezondheid",
-      "naam": "Zorglexicon NL-FR",
-      "meta": "zorgwoorden in het Nederlands en het Frans",
-      "prijs": "gratis",
-      "schil": "zoekschil",
-      "houdbaar": "jaren",
-      "status": "in ontwikkeling",
-      "kind": "iframe",
-      "weergave": "volledig",
-      "url": "https://antonnoe.github.io/zorglexicon-frankrijk/",
-      "nagekeken": "2026-10-22",
-      "over": "Woorden en begrippen uit de zorg, Nederlands en Frans naast elkaar. Deze module is in ontwikkeling."
     },
     {
       "id": "forum",
@@ -2505,14 +2491,14 @@
                   }
               ],
               "modules": [
-                  "zorglexicon"
+                  "woordenboek"
               ]
           }
       ],
       "hulpmiddelen": {
           "titel": "Hulpmiddelen",
-          "uitsluiten": ["zorg", "zorglexicon"],
-          "_uitleg": "Alle modules met thema gezondheid die nu zichtbaar zijn (Mijn modules telt mee), behalve de hier uitgesloten: zorg is het noodscherm achter Ouder worden en zorg, zorglexicon staat al bij Woorden bij de dokter."
+          "uitsluiten": ["zorg"],
+          "_uitleg": "Alle modules met thema gezondheid die nu zichtbaar zijn (Mijn modules telt mee), behalve de hier uitgesloten: zorg is het noodscherm achter Ouder worden en zorg."
       },
     "_uitleg": "Indeling van het scherm Gezondheid. Alleen hoofdstuknummers en labels; de tekst van het dossier wordt live bij Infofrankrijk opgehaald (dossier.js) en staat niet in de repo.",
     "bron": {
@@ -2616,8 +2602,7 @@
       "modules": [
         "zorgkompas",
         "zoekers",
-        "palliatief",
-        "zorglexicon"
+        "palliatief"
       ]
     }
   }

@@ -40,7 +40,7 @@ test("gezondheid: elk onderwerp heeft een bestemming (artikel, module of scherm)
   const artikelen = gz.onderwerpen.flatMap(o => (o.artikelen || []).map(a => a.url));
   assert.equal(artikelen.length, 10, "de tien artikelen uit de opdracht");
   assert.equal(new Set(artikelen).size, artikelen.length);
-  assert.deepEqual(gz.onderwerpen.find(o => o.id === "woorden").modules, ["zorglexicon"]);
+  assert.deepEqual(gz.onderwerpen.find(o => o.id === "woorden").modules, ["woordenboek"]);
 });
 
 test("gezondheid: het dossier Ouder worden blijft ongewijzigd (zes fasen, nood, nu al regelen)", () => {

@@ -22,7 +22,7 @@ Frankrijk).
 4. Eigen tags sturen de template: `<sc-if value="{{ }}">`, `<sc-for list="{{ }}" as="…">`
    en `<helmet>` voor `<head>`-inhoud. `{{ expr }}` vult tekst, attributen en handlers.
 5. Toestand leeft in `state` van de klasse; `setState`/`forceUpdate` hertekenen. Eén scherm
-   tegelijk via `state.screen`: `hub`, `mod`, `zoek`, `gem`, `taal`, `lex`, `tool`, `acc`,
+   tegelijk via `state.screen`: `hub`, `mod`, `zoek`, `gem`, `tool`, `acc`,
    `over`, plus de uitgewerkte eigen schillen `nedergids`, `vastgoed`, `zorg`, `ruyter`,
    `energie`, en sinds 22-10-2026 `thema` (generiek themascherm), `lamaison`, `ondernemen` (route van vier stappen uit if-plek `ondernemen.json`, `ondernemen-lib.js`), `gezondheid`,
    `nieuws` en `dossierdemo`. De hub is een raster van negen themategels uit `themas` in
@@ -40,7 +40,7 @@ Frankrijk).
    `mod` (Alle modules), `keuze` en `over` zijn rijen in Profiel (scherm `acc`).
 7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; losse `*Vals()`-
    helpers leveren hun deel toe (bv. `enVals()` voor het energiescherm).
-8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`, `taal`, `lex`,
+8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`,
    `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`. Een nieuw type
    toevoegen is: een `kind` verzinnen, een blok in de JSON, en één `sc-if`-scherm in de
    template — bestaande modules van vorm veranderen gaat zonder code. Bij `iframe` kiest
@@ -149,7 +149,7 @@ de bron van de ontwerpsessie.
 ## Gezondheid in twee niveaus, toolkaart, veld `artikel` en `drempel` (bouwronde 2, 23-10-2026)
 
 - **Gezondheid, eerste niveau** (`screen: gezondheid`, `state.gzOnd` = null): intro, spoedblok (`tel:15`, geverifieerd op service-public.gouv.fr F33954), zes onderwerptegels en de Hulpmiddelen
-  (modules met thema gezondheid, Mijn modules telt mee; `hulpmiddelen.uitsluiten` laat `zorg` en `zorglexicon` weg). De indeling staat in `modules.json` onder `gezondheid`:
+  (modules met thema gezondheid, Mijn modules telt mee; `hulpmiddelen.uitsluiten` laat `zorg` weg). De indeling staat in `modules.json` onder `gezondheid`:
   `intro`, `spoed`, `onderwerpen: [{id, titel, regel, icoon, artikelen:[{url, titel}], modules:[id], scherm:"ouderen"}]`, `hulpmiddelen`. De titels in de data zijn de terugval; de app haalt
   de actuele titels per onderwerp live op (`gzLaadTitels`, posts met slug-lijst, 15 s, zacht falend). Pictogrammen: sleutels `gz...` in `THEMA_ICONS`. Een tik op een onderwerp opent een lijst
   met artikelen (`openInfoArtikel`) en eventuele modules; `scherm:"ouderen"` opent het bestaande dossierscherm (noodblok, Nu al regelen, zes fasen) ongewijzigd, een niveau dieper
@@ -207,8 +207,8 @@ compact (strakke `line-height`, rond 1.1–1.35) zodat ze niet uit elkaar vallen
 Volvlak `#800000` **alleen op kleine elementen**: knoppen, badges, het logo, kleine chips.
 **Grote vlakken** (panelen, banners, achtergronden, secties) krijgen een **transparante
 variant** `rgba(128,0,0,α)` — nooit een groot volvlak bordeaux. Twee bewuste uitzonderingen,
-omdat contrast op afstand daar zwaarder weegt: de rode alarmkaart bovenaan Zorg en het
-"Groot tonen"-scherm van de Taalassistent. Die niet "repareren".
+omdat contrast op afstand daar zwaarder weegt: de rode alarmkaart bovenaan Zorg. Die niet
+"repareren". (Het "Groot tonen"-scherm van de Taalassistent is vervallen; het verhuist naar TaalHulp.)
 
 ### 3. `engine/` is overgenomen, niet eigen
 `engine/` is de rekenmotor van **EnergiePortaal**, overgenomen uit
@@ -237,3 +237,7 @@ een taak af, commit met een heldere boodschap, en zorg dat `main` de eindtoestan
 - Styling inline houden; geen externe CSS/JS toevoegen (fonts via Google Fonts in `<helmet>`
   zijn de uitzondering).
 - `support.js` niet met de hand bewerken — het is gegenereerd.
+
+## Ronde 24-10-2026 (2): Taal
+
+- De ingebouwde Taalassistent (module `taal`, schermen `taal` en `lex`, de situatiedata, "Groot tonen", zoekhits SITUATIE, ZIN en situatiewoorden) en de module `zorglexicon` zijn verwijderd. Thema Taal heeft nu drie onderdelen die elkaar niet overlappen: TaalHulp (`taalhulp`, situaties), Woordenboek met uitleg (`woordenboek`, nieuw, iframe op taalhulp-fr.vercel.app/woordenboek, `volledig`, in ontwikkeling) en Correspondentie. Het woordenboek staat ook bij het Gezondheid-onderwerp "Woorden bij de dokter". "Later — naar de gratis onderdelen" op de Energie-muur opent nu het themascherm Taal. Tests: `tests/ronde5.test.mjs`.

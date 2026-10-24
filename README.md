@@ -12,7 +12,7 @@ zonder app-winkel.
 
 | Bestand | Functie |
 |---|---|
-| `index.html` | De hele app: hub, zoeken, forum, taalassistent, modules, account |
+| `index.html` | De hele app: hub, zoeken, forum, modules, account |
 | `support.js` | Runtime (React-binding, template-engine), **gegenereerd, niet met de hand bewerken** |
 | `vendor/` | React en ReactDOM 18.3.1 lokaal; `index.html` wijst `support.js` ernaar via `window.__resources`, zodat de app niet aan unpkg.com hangt. Zie `vendor/README.md` |
 | `manifest.webmanifest`, `icons/` | Naam, kleuren en pictogrammen voor "zet op beginscherm". Bron van de pictogrammen: `icons/icon.svg` |
@@ -105,7 +105,7 @@ De app is een schil rond twee soorten inhoud:
    `nlfr-berichten`, met foto's en onderschriften op hun plek in de tekst. Beide vallen
    zacht terug op een voorbeeldlijst als het netwerk of de bron faalt.
 2. **Modules** — interactieve tools met een eigen mobiele vorm, gedreven door
-   `modules.json`. `kind` bepaalt het scherm (`iframe`, `voorbeeld`, `info`, `taal`, `lex`,
+   `modules.json`. `kind` bepaalt het scherm (`iframe`, `voorbeeld`, `info`,
    `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`). De
    rekenlogica van een tool wordt nooit gedupliceerd — alleen de UI verschilt per
    platform. Zie Energie & verwarming.
