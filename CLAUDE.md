@@ -172,6 +172,11 @@ de bron van de ontwerpsessie.
 - **Zoeken**: volgorde modules en tools, artikelen op Infofrankrijk, zinnen/woorden/berichten; modules matchen als alle zoekwoorden voorkomen (niet per se naast elkaar).
 - Correspondentie en Financieel kompas staan op `weergave: volledig` (briefhulp-fr.vercel.app en financieel-kompas-ai.vercel.app laten framing toe).
 
+## Ronde 24-10-2026: zes modules erbij, noodregel op de hub
+
+- Zes modules in `modules.json`, alle `standaard: "uit"`, `gratis`, `weergave: "volledig"` (framing gecontroleerd met curl -sI: geen x-frame-options of frame-ancestors-beperking, bij twee hosts expliciet `ALLOWALL`), met veld `artikel`: `beroepenchecker`, `energieportaal` ("EnergiePortaal, volledige site"; de eigen schil `energie` is ongewijzigd), `vastgoedanalyse`, `klusforum`, `controletechnique`, `overhedenbuurt`. Toolkaarten in de zes artikelen tonen "Tool in de app". Tests: `tests/ronde4.test.mjs`.
+- Noodregel onderaan de hub (alleen scherm `hub`, onder de favorieten): tekst uit `gezondheid.spoed.hubTekst`, knoppen uit `gezondheid.spoed.knoppen` via `spoedKnoppenLijst()` (ook gebruikt door het Gezondheid-scherm); rustig grijs vlak, tikvlak 44 px, geen alarmkleur.
+
 ## Huisstijl
 
 - **Primaire kleur:** `#800000` (bordeaux), met transparante varianten `rgba(128,0,0,α)`,

@@ -113,7 +113,11 @@ test("toolkaart: een iframe in een artikel wordt een kaart, nooit een iframe", a
 test("veld artikel: gevulde modules wijzen naar een artikel dat de app kan openen", () => {
   const verwacht = { kompas: "financieel-kompas", auto: "auto-importeren-in-frankrijk-stappenplan-en-kostenraming", internet: "internet-internetverbinding",
     moestuin: "de-moestuin-in-frankrijk-van-begin-januari-tot-eind-december", devisdossier: "zakelijke-transactie-van-offerte-tot-incasso",
-    bouwgrond: "locatie-en-omgevingsanalyse", plusvalue: "plus-value-calculator", correspondentie: "correspondentie-assistent" };
+    bouwgrond: "locatie-en-omgevingsanalyse", plusvalue: "plus-value-calculator", correspondentie: "correspondentie-assistent",
+    // ronde 24-10-2026: zes modules erbij (tests/ronde4.test.mjs)
+    beroepenchecker: "beroepenchecker-werken-of-ondernemen-in-frankrijk", energieportaal: "energieportaal-bereken-de-energieprestatie-van-uw-franse-woning",
+    vastgoedanalyse: "vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu", klusforum: "uit-het-klusforum-van-infofrankrijk-com",
+    controletechnique: "de-controle-technique-de-franse-apk", overhedenbuurt: "vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt" };
   Object.entries(verwacht).forEach(([id, slug]) => assert.equal(A.slugUitUrl(mod(id).artikel), slug, id));
   cat.modules.filter(m => m.artikel).forEach(m => assert.ok(A.isInApp(m.artikel), m.id));
   assert.equal(cat.modules.filter(m => m.artikel).length, Object.keys(verwacht).length);

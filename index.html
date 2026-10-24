@@ -279,6 +279,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
   </div>
   </sc-if>
+  <sc-if value="{{ hubNood }}" hint-placeholder-val="{{ true }}">
+  <div style="margin:22px 16px 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 14px;border-radius:14px;background:rgba(21,24,26,.04)">
+    <span style="flex:1 1 150px;min-width:0;font:600 13px/1.4 Mulish;color:#3D4346">{{ hubNoodTekst }}</span>
+    <span style="display:flex;gap:8px;flex:none">
+      <sc-for list="{{ hubNoodKnoppen }}" as="k" hint-placeholder-count="2">
+      <a href="{{ k.href }}" style="display:flex;align-items:center;justify-content:center;min-width:72px;min-height:44px;padding:0 14px;box-sizing:border-box;border-radius:12px;background:#fff;border:1px solid rgba(21,24,26,.18);color:#15181A;text-decoration:none;white-space:nowrap;font:700 14px Mulish">{{ k.label }}</a>
+      </sc-for>
+    </span>
+  </div>
+  </sc-if>
   <sc-if value="{{ isModScreen }}" hint-placeholder-val="{{ false }}">
   <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
   <div style="margin:22px 0 0">
@@ -3334,6 +3344,12 @@ class Component extends DCLogic {
   // Indeling (fasen, noodblok, tools) staat in modules.json onder `gezondheid`; de tekst niet.
   // De ruwe HTML blijft in het geheugen (this._gzSet), alleen de titels gaan in de state.
   gzCfg(){ return (this.state.cat && this.state.cat.gezondheid) || {}; }
+  // Spoedknoppen uit modules.json (gezondheid.spoed.knoppen), de ene bron voor Gezondheid en de noodregel op de hub.
+  spoedKnoppenLijst(){
+    const sp = this.gzCfg().spoed || {};
+    return (Array.isArray(sp.knoppen) && sp.knoppen.length ? sp.knoppen : [{label:sp.knop, tel:sp.tel}])
+      .filter(k => k && k.label && /^[0-9+]{2,15}$/.test(String(k.tel || ""))).map(k => ({label:String(k.label), href:"tel:" + k.tel}));
+  }
   laadDossier(){
     const st = this.state;
     if (st.gzStatus === "klaar" || st.gzStatus === "laden" || !window.IfDossier) {
@@ -3433,8 +3449,7 @@ class Component extends DCLogic {
     const gekozen = st.gzOnd ? ond.find(o => o.id === st.gzOnd) || null : null;
     const sp = cfg.spoed || {};
     // Knoppen van het spoedblok: sp.knoppen [{label, tel}]; terugval op de oude velden knop/tel. Alleen geldige nummers.
-    const spoedKnoppen = (Array.isArray(sp.knoppen) && sp.knoppen.length ? sp.knoppen : [{label:sp.knop, tel:sp.tel}])
-      .filter(k => k && k.label && /^[0-9+]{2,15}$/.test(String(k.tel || ""))).map(k => ({label:String(k.label), href:"tel:" + k.tel}));
+    const spoedKnoppen = this.spoedKnoppenLijst();
     const hu = cfg.hulpmiddelen || {};
     const hulp = this.alleMods().filter(m => m.thema === "gezondheid" && m.zichtbaar !== false && this.zichtbaarNu(m) && !(hu.uitsluiten || []).includes(m.id));
     const onderwerpOpen = o => () => {
@@ -5223,6 +5238,9 @@ class Component extends DCLogic {
       begroetingTekst: HubLib.begroeting(new Date()),
       zoekIcoStyle: this.iconStyle("zoek").replace("width:22px;height:22px", "width:20px;height:20px;color:#71787C"),
       hubFavs: st.screen === "hub" && favLijst.length > 0,
+      hubNoodKnoppen: this.spoedKnoppenLijst(),
+      hubNoodTekst: (this.gzCfg().spoed || {}).hubTekst || "",
+      hubNood: st.screen === "hub" && this.spoedKnoppenLijst().length > 0 && !!(this.gzCfg().spoed || {}).hubTekst,
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"), goLex: () => this.go("lex"),
       goTaal: () => this.setState({screen:"taal", sc:null, q:"", from:"hub"}),
       openFire: () => this.route(this.vindModule("veiligheid")),

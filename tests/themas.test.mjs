@@ -14,13 +14,13 @@ const vind = id => mods.find(m => m.id === id);
 const VOLGORDE = ["geld", "overheid", "gezondheid", "adressen", "nieuws", "ervaring", "ondernemen", "wonen", "taal"];
 const INDELING = {
   geld: ["kompas", "ruyter", "erfrecht", "transactiekosten", "plusvalue"],
-  overheid: ["emigreren", "auto", "frankrijklegal"],
+  overheid: ["emigreren", "auto", "frankrijklegal", "controletechnique", "overhedenbuurt"],
   gezondheid: ["zorg", "zorgkompas", "palliatief", "zoekers", "zorglexicon"],
   adressen: ["nedergids", "verenigingen"],
   nieuws: [],
-  ervaring: ["forum", "nlfrzoek"],
-  ondernemen: ["efacturatie", "gitekompas", "zzpplatform"],
-  wonen: ["klussen", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute"],
+  ervaring: ["forum", "nlfrzoek", "klusforum"],
+  ondernemen: ["efacturatie", "gitekompas", "zzpplatform", "beroepenchecker"],
+  wonen: ["klussen", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
   taal: ["correspondentie", "taal", "taalhulp"]
 };
 

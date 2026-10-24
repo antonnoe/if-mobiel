@@ -149,3 +149,14 @@ Negen punten na bouwronde 2: exclusiviteitsteksten weg, Bel 112 naast Bel 15, on
 ## Laatste herstel ronde 2 (23-10-2026)
 
 Forumblok onder een artikel is één knop "Bespreek dit op het forum Nederlanders.fr" (geen kaart meer); tekst bij Energie belooft geen bedragen meer voor abonnees. Keuring na 5ae3762: 7 van 9 geslaagd, deze twee hersteld.
+
+## Ronde 24-10-2026
+
+Zes modules erbij en een noodregel op de hub. Details in CLAUDE.md, sectie "Ronde 24-10-2026".
+
+| Onderdeel | Wat | Status |
+|---|---|---|
+| 1 Zes modules | Beroepenchecker, EnergiePortaal (volledige site), Vastgoed-analyse per adres, Uit het klusforum, Controle technique-zoeker, Franse overheden bij u in de buurt; standaard uit, gratis, veld `artikel`, omschrijvingen uit de live tools | klaar |
+| 2 Noodregel hub | "Spoed? Bel 15 (Samu) of 112" met Bel 15 en Bel 112 (tel:, 44 px), uit `gezondheid.spoed` | klaar |
+
+Framing: alle zes staan het toe (geen beperkende headers; energieportaal en controle-technique-zoeker sturen `frame-ancestors *` en `ALLOWALL`), dus `volledig`. Het klusforum vraagt inloggen met Google; daarvoor staat een `let`-regel in de module. Gecontroleerd met headless Chromium op 390x844 en 360x640: noodregel zichtbaar met twee knoppen van 44 px, Mijn modules toont de zes, aanzetten werkt, alle zes artikelen tonen "Tool in de app", een zoekresultaat opent de tool. Bestaande tests ronde2 en themas aangepast aan de nieuwe modules.
