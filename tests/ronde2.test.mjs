@@ -117,7 +117,7 @@ test("veld artikel: gevulde modules wijzen naar een artikel dat de app kan opene
     // ronde 24-10-2026: zes modules erbij (tests/ronde4.test.mjs)
     beroepenchecker: "beroepenchecker-werken-of-ondernemen-in-frankrijk", energieportaal: "energieportaal-bereken-de-energieprestatie-van-uw-franse-woning",
     vastgoedanalyse: "vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu", klusforum: "uit-het-klusforum-van-infofrankrijk-com",
-    controletechnique: "de-controle-technique-de-franse-apk", overhedenbuurt: "vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt" };
+    controletechnique: "de-controle-technique-de-franse-apk", tekoop: "huizen-van-leden-te-koop", overhedenbuurt: "vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt" };
   Object.entries(verwacht).forEach(([id, slug]) => assert.equal(A.slugUitUrl(mod(id).artikel), slug, id));
   cat.modules.filter(m => m.artikel).forEach(m => assert.ok(A.isInApp(m.artikel), m.id));
   assert.equal(cat.modules.filter(m => m.artikel).length, Object.keys(verwacht).length);

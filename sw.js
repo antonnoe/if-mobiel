@@ -1,6 +1,6 @@
 // Service worker van Infopoche: netwerk eerst, de cache is alleen een terugval als het netwerk haperkt.
 // Verhoog VERSIE bij een wijziging van deze lijst; bij activate gaan oude caches weg.
-const VERSIE = "2026-10-25-7";
+const VERSIE = "2026-10-25-8";
 const CACHE = "infopoche-" + VERSIE;
 const SCHIL = [
   "./", "./index.html", "./support.js", "./dossier.js", "./nav-lib.js", "./artikel-lib.js", "./abonnee-lib.js", "./landing-lib.js", "./lamaison-lib.js", "./nieuws-lib.js", "./sponsors-lib.js", "./advertenties-lib.js", "./sponsors.json",
