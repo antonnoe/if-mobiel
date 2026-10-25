@@ -148,7 +148,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div aria-hidden="true" style="width:34px;height:34px;flex:none;border-radius:9px;background:#0E1A2E;display:grid;place-items:center"><img src="./icons/logo-goud.svg" alt="" width="24" height="23" style="display:block;width:24px;height:auto"></div>
   </sc-if>
   <div style="flex:1 1 auto;min-width:0">
-    <div style="font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div>
+    <div style="font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;overflow-wrap:anywhere">{{ title }}</div>
     <div style="font:500 12px Mulish;color:#71787C;margin-top:2px;line-height:1.25;{{ subStijl }}">{{ subtitle }}</div>
   </div>
   <sc-if value="{{ kopLink }}" hint-placeholder-val="{{ false }}">
@@ -2387,7 +2387,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="display:flex;flex-direction:column;gap:12px;padding:18px 16px 0">
       <sc-for list="{{ spKaarten }}" as="s" hint-placeholder-count="3">
       <a href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.label }}" style="display:block;min-height:44px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
-        <div style="font:700 11.5px Poppins,system-ui,sans-serif;letter-spacing:.08em;color:#71787C">SPONSOR</div>
+        <div style="font:700 12px Poppins,system-ui,sans-serif;letter-spacing:.08em;color:#71787C;overflow-wrap:anywhere">SPONSOR &middot; {{ s.naamHoofd }}</div>
         <div style="position:relative;width:100%;aspect-ratio:{{ s.ratio }};margin-top:10px;border-radius:10px;overflow:hidden;background:#fff">
           <sc-for list="{{ s.beelden }}" as="b" hint-placeholder-count="1">
           <img src="{{ b.src }}" alt="{{ b.alt }}" loading="lazy" decoding="async" onError="{{ b.fout }}" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;display:{{ b.zicht }};opacity:{{ b.opacity }};transition:opacity {{ s.fadeMs }}ms ease">
@@ -2396,12 +2396,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <div style="position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:12px;background:rgba(21,24,26,.04);font:600 18px Poppins,system-ui,sans-serif;color:#15181A;text-align:center;overflow-wrap:anywhere">{{ s.naam }}</div>
           </sc-if>
         </div>
+        <div style="margin-top:10px;font:700 13.5px/1.4 Mulish;color:#800000;overflow-wrap:anywhere">Naar de site van {{ s.naam }} &#8599;</div>
       </a>
       </sc-for>
     </div>
-    <p style="margin:14px 16px 0;font:500 13.5px/1.6 Mulish;color:#71787C">De volgorde wisselt bij elke opening.</p>
+    <p style="margin:14px 16px 0;font:500 13.5px/1.6 Mulish;color:#71787C">Volgorde wisselt bij elke opening. Tik op een sponsor om de site te openen.</p>
     <div style="padding:14px 16px 0">
-      <a href="https://www.nederlanders.fr/page/sponsors" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;border-radius:14px;background:#800000;color:#fff;font:700 16px Mulish;text-decoration:none">Word ook sponsor</a>
+      <a href="https://www.nederlanders.fr/page/sponsors" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;min-height:52px;border-radius:14px;background:#800000;color:#fff;font:700 16px Mulish;text-decoration:none;text-align:center;padding:0 16px">Word ook sponsor &#8599;</a>
     </div>
   </div>
   </sc-if>
@@ -2426,7 +2427,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De advertenties zijn nu niet te laden.</p>
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
       <button onClick="{{ tkOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
-      <a href="{{ tkAlleUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-align:center;text-decoration:none">Open de advertenties op Nederlanders.fr</a>
+      <a href="{{ tkAlleUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-align:center;text-decoration:none">Open de advertenties op Nederlanders.fr &#8599;</a>
     </div>
   </div>
   </sc-if>
@@ -2462,15 +2463,19 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <sc-if value="{{ k.heeftDatum }}" hint-placeholder-val="{{ true }}">
         <div style="margin-top:8px;font:500 13px/1.4 Mulish;color:#71787C">{{ k.datumRegel }}</div>
         </sc-if>
+        <div style="margin-top:10px;font:700 13.5px/1.4 Mulish;color:#800000">Bekijk op Nederlanders.fr &#8599;</div>
       </div>
     </a>
     </sc-for>
     <sc-if value="{{ tkMeerZichtbaar }}" hint-placeholder-val="{{ false }}">
-    <button onClick="{{ tkMeer }}" style="min-height:52px;border-radius:14px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 15px Mulish;cursor:pointer">Toon meer</button>
+    <button onClick="{{ tkMeer }}" style="min-height:52px;border-radius:14px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 15px Mulish;cursor:pointer">{{ tkMeerTekst }}</button>
     </sc-if>
   </div>
   </sc-if>
-  <div style="padding:18px 16px 0;font:400 15px/1.6 Mulish;color:#15181A">Zelf adverteren? Dat gaat voorlopig via Nederlanders.fr.<br><a href="{{ tkAdverterenUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:#800000">Hoe werkt dat?</a></div>
+  <div style="padding:22px 16px 0">
+    <p style="margin:0;font:400 15px/1.6 Mulish;color:#15181A">Adverteren is betaald en gaat via Nederlanders.fr. Staat uw advertentie daar, dan vindt u hem ook in deze lijst.</p>
+    <a href="{{ tkAdverterenUrl }}" target="_blank" rel="noopener" style="margin-top:12px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-align:center;text-decoration:none">Adverteren op Nederlanders.fr &#8599;</a>
+  </div>
   <div style="height:28px"></div>
 </div>
 </sc-if>
@@ -4421,7 +4426,7 @@ class Component extends DCLogic {
       const verandert = (st.spLijst || []).some(s => {
         if (s.beelden.length < 2) return false;
         const kp = s.beelden.map(b => !!kapot[b]);
-        return S.toonIndex(st.spT0, nu, s.interval, s.beelden.length, kp) !== S.toonIndex(st.spT0, st.spNu, s.interval, s.beelden.length, kp);
+        return S.toonIndex(st.spT0 + (s.vertraging || 0), nu, s.interval, s.beelden.length, kp) !== S.toonIndex(st.spT0 + (s.vertraging || 0), st.spNu, s.interval, s.beelden.length, kp);
       });
       if (verandert) this.setState({spNu:nu});
     }, 250);
@@ -4430,11 +4435,11 @@ class Component extends DCLogic {
     const st = this.state, S = window.IfSponsors, kapot = this._spKapot || {}, beperkt = this.spBeperkt();
     const kaarten = (st.spLijst || []).map(s => {
       const kp = s.beelden.map(b => !!kapot[b]);
-      const cur = S ? S.toonIndex(st.spT0, beperkt ? st.spT0 : st.spNu, s.interval || 0, s.beelden.length, kp) : 0;
+      const cur = S ? S.toonIndex(st.spT0 + (s.vertraging || 0), beperkt ? st.spT0 : st.spNu, s.interval || 0, s.beelden.length, kp) : 0;
       const lijst = beperkt ? s.beelden.slice(0, 1) : s.beelden;
       const w = s.breedte || 710, h = s.hoogte || 240;
       return {
-        naam: s.naam, url: s.url, label: "Sponsor " + s.naam, ratio: w + "/" + h,
+        naam: s.naam, naamHoofd: String(s.naam).toUpperCase(), url: s.url, label: "Sponsor " + s.naam, ratio: w + "/" + h,
         fadeMs: beperkt ? 0 : (s.fade || 0), toonTekst: cur === -1 || (beperkt && kp[0]),
         beelden: lijst.map((b, i) => ({src: "./sponsors/" + b, alt: "Sponsor " + s.naam, opacity: i === cur ? 1 : 0, zicht: kp[i] ? "none" : "block",
           fout: () => { this._spKapot = this._spKapot || {}; this._spKapot[b] = true; this.setState({spFout: (this.state.spFout || 0) + 1}); }}))
@@ -4491,7 +4496,7 @@ class Component extends DCLogic {
       tkLaadt: st.tkStatus === "laden" || st.tkStatus === "", tkFoutMelding: st.tkStatus === "fout",
       tkKlaar: st.tkStatus === "klaar", tkLeeg: st.tkStatus === "klaar" && items.length === 0, tkLijst: st.tkStatus === "klaar" && items.length > 0,
       tkKaarten: kaarten, tkTelling: A ? A.telTekst(items.length) : "",
-      tkMeerZichtbaar: items.length > n, tkMeer: () => this.setState({tkToon: A ? A.meer(n, items.length) : n}),
+      tkMeerZichtbaar: items.length > n, tkMeerTekst: "Toon meer (nog " + Math.max(0, items.length - n) + ")", tkMeer: () => this.setState({tkToon: A ? A.meer(n, items.length) : n}),
       tkOpnieuw: () => this.tkLaad(),
       tkAlleUrl: A ? A.ALLE_URL : "https://www.nederlanders.fr/page/onroerend-goed",
       tkAdverterenUrl: A ? A.ADVERTEREN_URL : "https://www.nederlanders.fr/page/onroerend-goed"

@@ -241,3 +241,7 @@ De module `zzpplatform` (financieel-kompas.vercel.app) is volledig uit de catalo
 Afwijkingen en keuzes: `nvlr-1.png` en `nvlr-3.png` zijn byte voor byte gelijk (NING levert voor de eerste en derde id hetzelfde beeld; beide bewaard zodat de volgorde van de bron klopt, de banner toont dus beeld 1, 2, 1). `frankrijkkeuring` is door NING als JPEG geleverd en staat daarom als `.jpg`. Extra velden in `sponsors.json`: `breedte` en `hoogte` (vaste beeldverhouding, geen verspringen). Extra veld `zoekwoorden` op modules.
 
 Service worker VERSIE 2026-10-25-6.
+
+## Herstelronde 1 na reiskeuring: sponsors en Te koop (25-10-2026)
+
+Opgelost: zichtbare externe links, uitleg bij adverteren, één naam, "Toon meer (nog N)", k.k. voluit, sponsorlabel met naam en uit de pas lopende banners (NVLR vertraging 2750 ms). Getest op 390x844 en 320x640, ook met Grotere tekst, geen horizontale scroll. Tests 176 groen.

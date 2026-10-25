@@ -31,6 +31,7 @@
     "breedte": 710,
     "hoogte": 261,
     "interval": 5000,
+    "vertraging": 2750,
     "fade": 600
   },
   {

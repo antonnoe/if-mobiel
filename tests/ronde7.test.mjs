@@ -74,8 +74,8 @@ test("Onze sponsors: route, geen tab, terugknop, menu tussen Mijn modules en Ove
   assert.match(html, />Onze sponsors<\/span><\/button>/);
   assert.match(html, /mnSponsors: \(\) => this\.sponsorsOpen\(\)/);
   assert.match(html, /Deze bedrijven en verenigingen steunen de media van Communities Abroad: Infofrankrijk, Nederlanders\.fr en InfoPoche\./);
-  assert.match(html, /De volgorde wisselt bij elke opening\./);
-  assert.match(html, /href="https:\/\/www\.nederlanders\.fr\/page\/sponsors" target="_blank" rel="noopener"[^>]*>Word ook sponsor</);
+  assert.match(html, /Volgorde wisselt bij elke opening\./);
+  assert.match(html, /href="https:\/\/www\.nederlanders\.fr\/page\/sponsors" target="_blank" rel="noopener"[^>]*>Word ook sponsor &#8599;</);
   assert.match(html, /<a href="\{\{ s\.url \}\}" target="_blank" rel="noopener"/);
   assert.match(html, /alt: "Sponsor " \+ s\.naam/);
 });
@@ -84,7 +84,7 @@ test("Te koop: module geldig in modules.json, onder lijstjes, thema wonen, kind 
   const ms = cat.modules, i = ms.findIndex(m => m.id === "tekoop"), j = ms.findIndex(m => m.id === "lijstjes");
   assert.ok(i > j && i - j === 1, "direct onder lijstjes");
   const m = ms[i];
-  assert.equal(m.naam, "Te koop in Frankrijk"); assert.equal(m.kort, "Te koop");
+  assert.equal(m.naam, "Te koop in Frankrijk"); assert.equal(m.kort, "Te koop in Frankrijk");
   assert.equal(m.groep, "wonen"); assert.equal(m.thema, "wonen"); assert.equal(m.prijs, "gratis"); assert.equal(m.kind, "advertenties");
   assert.equal(m.standaard, undefined, "standaard aan");
   assert.equal(m.meta, "woningen te koop van Nederlanders.fr");
@@ -123,8 +123,8 @@ test("advertenties: datum, telling en blokken van 20", () => {
 });
 
 test("Te koop: scherm met de afgesproken teksten, contract en foutafhandeling", () => {
-  ["Advertenties van Nederlanders.fr, nieuw bovenaan. Een tik opent de advertentie.", "Zelf adverteren? Dat gaat voorlopig via Nederlanders.fr.", "Hoe werkt dat?",
-    "De advertenties zijn nu niet te laden.", "Opnieuw proberen", "Open de advertenties op Nederlanders.fr", "Toon meer", "Exploitatie mogelijk"].forEach(t => assert.ok(html.includes(t), t));
+  ["Advertenties van Nederlanders.fr, nieuw bovenaan. Een tik opent de advertentie.", "Adverteren is betaald en gaat via Nederlanders.fr. Staat uw advertentie daar, dan vindt u hem ook in deze lijst.", "Adverteren op Nederlanders.fr",
+    "De advertenties zijn nu niet te laden.", "Opnieuw proberen", "Open de advertenties op Nederlanders.fr", "Toon meer (nog ", "Exploitatie mogelijk"].forEach(t => assert.ok(html.includes(t), t));
   assert.ok(html.includes("https://www.nederlanders.fr/page/onroerend-goed") || A.ADVERTEREN_URL === "https://www.nederlanders.fr/page/onroerend-goed");
   assert.equal(A.ADVERTEREN_URL, "https://www.nederlanders.fr/page/onroerend-goed");
   const stuk = html.slice(html.indexOf("tkLaad(){"), html.indexOf("tkVals(){"));
@@ -138,7 +138,7 @@ test("Te koop: scherm met de afgesproken teksten, contract en foutafhandeling", 
 
 test("service worker kent de nieuwe bestanden en de versie is opgehoogd", () => {
   const sw = lees("sw.js");
-  assert.match(sw, /VERSIE = "2026-10-25-6"/);
+  assert.match(sw, /VERSIE = "2026-10-25-7"/);
   ["./sponsors.json", "./sponsors-lib.js", "./advertenties-lib.js"].forEach(f => assert.ok(sw.includes('"' + f + '"'), f));
   spons.forEach(s => s.beelden.forEach(b => assert.ok(sw.includes('"./sponsors/' + b + '"'), b)));
   assert.match(html, /<script src="\.\/sponsors-lib\.js"><\/script>/); assert.match(html, /<script src="\.\/advertenties-lib\.js"><\/script>/);
@@ -149,4 +149,23 @@ test("geen liggende streepjes en geen verboden woorden in de nieuwe teksten", ()
     html.slice(html.indexOf("ONZE SPONSORS ====="), html.indexOf("OVER ONS ====")), html.slice(html.indexOf("Onze sponsors (sponsors.json"), html.indexOf("Zoeken in de artikelen van Infofrankrijk (WordPress"))].join("\n");
   assert.ok(!/[–—]/.test(bron), "em of en dash gevonden");
   assert.ok(!/ecosysteem|corpus|\bKIF\b/i.test(bron));
+});
+
+test("herstel 1: prijs k.k. voluit, bron ongewijzigd, nog-aantal, sponsorlabel en vertraging", async () => {
+  const { createRequire } = await import("node:module");
+  const A = createRequire(import.meta.url)("../advertenties-lib.js");
+  assert.equal(A.prijsWeergave("€ 45.000 k.k."), "€ 45.000 k.k. (kosten koper)");
+  assert.equal(A.prijsWeergave("€ 45.000 K.K."), "€ 45.000 k.k. (kosten koper)");
+  assert.equal(A.prijsWeergave("€ 45.000 kk"), "€ 45.000 k.k. (kosten koper)");
+  assert.equal(A.prijsWeergave("€ 45.000"), "€ 45.000");
+  assert.equal(A.prijsWeergave("Prijs op aanvraag"), "Prijs op aanvraag");
+  const l = A.lees({items:[{titel:"Huis", url:"https://x.nl/a", prijsTekst:"€ 45.000 k.k."}]});
+  assert.equal(l.items[0].prijsTekst, "€ 45.000 k.k. (kosten koper)");
+  assert.match(html, /"Toon meer \(nog " \+/);
+  assert.match(html, /SPONSOR &middot; \{\{ s\.naamHoofd \}\}/);
+  assert.match(html, /Naar de site van \{\{ s\.naam \}\} &#8599;/);
+  assert.match(html, /Bekijk op Nederlanders\.fr &#8599;/);
+  assert.match(html, /Volgorde wisselt bij elke opening\. Tik op een sponsor om de site te openen\./);
+  const sp = spons;
+  assert.ok(sp.find(s => s.id === "nvlr").vertraging >= 2500);
 });

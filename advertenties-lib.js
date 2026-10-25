@@ -15,6 +15,11 @@
     return "€ " + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
+  // Alleen de weergave: "k.k." (kosten koper) wordt voluit getoond, de bron blijft ongewijzigd.
+  function prijsWeergave(t) {
+    return tekst(t).replace(/(^|[^\p{L}])k\.?\s?k\.?(?![\p{L}])/giu, function (m, v) { return v + "k.k. (kosten koper)"; });
+  }
+
   // "2026-10-12" of "2026-10-12T08:00:00Z" naar "12-10-2026"; anders de losse datumtekst van de bron.
   function datumTekst(it) {
     var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(it && it.datumISO || ""));
@@ -34,7 +39,7 @@
       var datum = datumTekst(x);
       items.push({
         titel: titel, url: x.url,
-        prijsTekst: tekst(x.prijsTekst) || bedrag(x.prijs),
+        prijsTekst: prijsWeergave(tekst(x.prijsTekst) || bedrag(x.prijs)),
         foto: https(x.foto) ? x.foto : "",
         plaats: tekst(x.plaats),
         omschrijving: tekst(x.omschrijving),
@@ -48,7 +53,7 @@
   function eerste(items, n) { return (items || []).slice(0, Math.max(0, n)); }
   function meer(n, totaal) { return Math.min(totaal, n + STAP); }
 
-  var api = { API: API, STAP: STAP, ADVERTEREN_URL: ADVERTEREN_URL, ALLE_URL: ALLE_URL, https: https, bedrag: bedrag, datumTekst: datumTekst,
+  var api = { prijsWeergave: prijsWeergave, API: API, STAP: STAP, ADVERTEREN_URL: ADVERTEREN_URL, ALLE_URL: ALLE_URL, https: https, bedrag: bedrag, datumTekst: datumTekst,
     lees: lees, telTekst: telTekst, eerste: eerste, meer: meer };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfAdv = api;
