@@ -25,7 +25,7 @@ Frankrijk).
    tegelijk via `state.screen`: `hub`, `mod`, `zoek`, `gem`, `tool`, `acc`,
    `over`, plus de uitgewerkte eigen schillen `nedergids`, `vastgoed`, `zorg`, `ruyter`,
    `energie`, en sinds 22-10-2026 `thema` (generiek themascherm), `lamaison`, `ondernemen` (route van vier stappen uit if-plek `ondernemen.json`, `ondernemen-lib.js`), `gezondheid`,
-   `nieuws` en `dossierdemo`. De hub is een raster van negen themategels uit `themas` in
+   `nieuws`, `dossierdemo`, `sponsors` (Onze sponsors, hamburgermenu) en `tekoop` (Te koop in Frankrijk). De hub is een raster van negen themategels uit `themas` in
    `modules.json`; elke module heeft een `thema`. Er is geen `login`- of `dossier`-scherm — de app werkt zonder account; wat
    betaald is krijgt een uitleg en een muur, niet een aparte inlogroute (zie `knip` per
    module, en de openstaande vragen over abonnementsstatus in `BOUWOPDRACHT.md`).
@@ -41,7 +41,7 @@ Frankrijk).
 7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; losse `*Vals()`-
    helpers leveren hun deel toe (bv. `enVals()` voor het energiescherm).
 8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`,
-   `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`. Een nieuw type
+   `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`, `advertenties`. Een nieuw type
    toevoegen is: een `kind` verzinnen, een blok in de JSON, en één `sc-if`-scherm in de
    template — bestaande modules van vorm veranderen gaat zonder code. Bij `iframe` kiest
    `weergave` de vorm: `voorvertoning` (standaard), `volledig` (de site op volle hoogte in
@@ -275,3 +275,10 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 - **Tabbalk**: `HubLib.tabVan("tool")` is `mod`; een geopende module (iframe of schil) markeert Modules.
 - **Zoekresultaten Infofrankrijk**: slugs met procent-codes (`woordenlijst-klussen-bouwen-nl-%e2%87%84-fr`) worden niet meer gedecodeerd en openen in de app (REST API accepteert beide vormen; getest). Treffers zonder leesbaar slug (bijv. onder `/klussen/`) tonen "SITE" en "Op infofrankrijk.com ↗" en openen in een nieuw tabblad.
 - Aanraakdoelen: wis-kruisje in het zoekveld 44x44 (icoon 28), alle sluitkruisjes van bladen 44x44.
+
+## Ronde 25-10-2026 (3): Onze sponsors en Te koop in Frankrijk
+
+- **Onze sponsors** (`screen: sponsors`, `sponsors-lib.js` = `window.IfSponsors`, data in `sponsors.json`, beelden in `sponsors/`): menuregel tussen Mijn modules en Over ons (ster, 56 px), hash `#/sponsors`, geen tab (`tabVan` geeft ""), terugknop zoals Over ons. Elke opening schudt de volgorde (Fisher-Yates in `sponsorsOpen`), de rest van het bestand is bronvolgorde. `sponsors.json`: `[{id, naam, url, beelden:[bestandsnamen in sponsors/], breedte, hoogte, interval (ms, alleen bij meer dan 1 beeld), fade (ms)}]`. Een sponsor erbij of eraf is een regel in de JSON plus een bestand in `sponsors/` (en in `SCHIL` van `sw.js`). De beelden zijn eigen kopieen: de NING-opslag verdwijnt. Wisselende banners (NVLR 3 beelden 5 s fade 600 ms, Caderonne 5 beelden 5,5 s fade 1 s) staan als gestapelde `img`'s met opacity-overgang (dus voorgeladen); een ticker (`spTik`, 250 ms) zet `state.spNu` alleen als een beeld verandert, en stopt zodra `state.screen` niet meer `sponsors` is. Bij `prefers-reduced-motion` alleen het eerste beeld, geen ticker. Valt een beeld uit (`onError`), dan wordt het overgeslagen; vallen ze allemaal uit, dan toont de kaart de naam als tekst. Geen tellers, geen tracking. Kaart = `<a target=_blank rel=noopener>`; "Word ook sponsor" opent https://www.nederlanders.fr/page/sponsors.
+- **Te koop in Frankrijk** (module `tekoop`, `kind: advertenties`, scherm `tekoop`, `advertenties-lib.js` = `window.IfAdv`): alleen lezen. Bron `GET https://if-plek.vercel.app/api/vastgoed` (`{bijgewerkt, bron, aantal, items:[{titel, url, prijsTekst, prijs, foto, plaats, omschrijving, datum, datumISO, exploitatie}]}`, nieuwste eerst; fout = status 502). `IfAdv.lees` valideert (item zonder titel of zonder https-url valt af, alleen https-foto's, `exploitatie` mag boolean of "ja" zijn). Anoniem (`credentials:"omit"`), 10 s time-out, `IfNav.maakTeller()`; een mislukte verversing laat een eerder geladen lijst staan. Kaart per advertentie is een link naar Nederlanders.fr in een nieuw tabblad (de app opent die pagina's niet zelf), foto 16:9 met grijs vlak en bij uitval de titel, label "Exploitatie mogelijk", prijs bordeaux, plaats boven titel, omschrijving max 3 regels, "Geplaatst: dd-mm-jjjj". Blokken van 20 met "Toon meer". Geen filters in deze ronde. Hash `#/tekoop`, tab Modules actief. Zoeken vindt de module ook op `zoekwoorden` (nieuw optioneel veld in `modules.json`, gaat mee in de zoekregel). In `lmVals` staat `tekoop` direct na `lijstjes`.
+- Templatevalkuil: een `<img>` in een `<sc-for>` moet `loading="lazy"` hebben, anders laadt de browser de ruwe template-tekst `{{ b.src }}` en vuurt `onerror` met een ReferenceError in de console.
+- Service worker `VERSIE` 2026-10-25-6. Tests: `tests/ronde7.test.mjs` (fixture `tests/fixture-vastgoed.json`).

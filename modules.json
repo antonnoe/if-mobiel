@@ -160,6 +160,22 @@
       "weergave": "volledig"
     },
     {
+      "id": "tekoop",
+      "groep": "wonen",
+      "thema": "wonen",
+      "naam": "Te koop in Frankrijk",
+      "kort": "Te koop",
+      "meta": "woningen te koop van Nederlanders.fr",
+      "prijs": "gratis",
+      "schil": "lijstschil",
+      "houdbaar": "dagen",
+      "status": "inhoud af",
+      "kind": "advertenties",
+      "nagekeken": "2026-10-25",
+      "zoekwoorden": "huis woning woningen vastgoed advertentie advertenties te koop kopen makelaar onroerend goed",
+      "over": "Advertenties van particulieren en makelaars, geplaatst op Nederlanders.fr. Nieuwste bovenaan. Een tik opent de advertentie op Nederlanders.fr."
+    },
+    {
       "id": "vastgoed",
       "groep": "wonen",
       "thema": "wonen",

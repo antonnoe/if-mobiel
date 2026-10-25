@@ -94,7 +94,7 @@ test("index.html: lamaison is geen stub meer, lib wordt geladen, tools in vaste 
   assert.match(html, /<script src="\.\/lamaison-lib\.js"><\/script>/);
   assert.ok(html.includes('strookVoorThema("wonen")') || /isThema \|\| st\.screen === "lamaison"/.test(html) || html.includes("HubLib.tabVan(st.screen)"));
   const rij = /const tools = (\[[^\]]+\])/.exec(html)[1];
-  assert.deepEqual(JSON.parse(rij), ["klussen","lijstjes","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]);
+  assert.deepEqual(JSON.parse(rij), ["klussen","lijstjes","tekoop","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]);
   const ids = new Set(cat.modules.map(m => m.id));
   JSON.parse(rij).forEach(id => assert.ok(ids.has(id), id));
 });

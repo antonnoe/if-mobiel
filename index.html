@@ -22,6 +22,8 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 </script>
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./lamaison-lib.js"></script>
+<script src="./sponsors-lib.js"></script>
+<script src="./advertenties-lib.js"></script>
 <script src="./ondernemen-lib.js"></script>
 <script src="./nieuws-lib.js"></script>
 <script src="./hub-lib.js"></script>
@@ -173,6 +175,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-if>
     <button onClick="{{ mnProfiel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoProfiel }}"></span><span style="flex:1;min-width:0">Profiel</span></button>
     <button onClick="{{ mnKeuze }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoKeuze }}"></span><span style="flex:1;min-width:0">Mijn modules</span></button>
+    <button onClick="{{ mnSponsors }}" data-menu-sponsors="1" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoSponsors }}"></span><span style="flex:1;min-width:0">Onze sponsors</span></button>
     <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
     <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
     <button onClick="{{ mnPostcode }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoPostcode }}"></span><span style="flex:1;min-width:0">Postcode</span><span style="flex:0 1 auto;min-width:0;font:600 16px Mulish;color:#3D4346;text-align:right;overflow-wrap:anywhere">{{ pcLabel }}</span></button>
@@ -2363,6 +2366,115 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
+<!-- ============ ONZE SPONSORS ============ -->
+<sc-if value="{{ isSponsors }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:22px 16px 0">
+    <h1 style="margin:0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">Onze sponsors</h1>
+    <p style="margin:10px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Deze bedrijven en verenigingen steunen de media van Communities Abroad: Infofrankrijk, Nederlanders.fr en InfoPoche.</p>
+  </div>
+  <sc-if value="{{ spLaadt }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#71787C">Sponsors laden...</div>
+  </sc-if>
+  <sc-if value="{{ spFoutMelding }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De sponsors zijn nu niet te laden.</p>
+    <button onClick="{{ spOpnieuw }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+  </div>
+  </sc-if>
+  <sc-if value="{{ spKlaar }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding:18px 16px 0">
+      <sc-for list="{{ spKaarten }}" as="s" hint-placeholder-count="3">
+      <a href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.label }}" style="display:block;min-height:44px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
+        <div style="font:700 11.5px Poppins,system-ui,sans-serif;letter-spacing:.08em;color:#71787C">SPONSOR</div>
+        <div style="position:relative;width:100%;aspect-ratio:{{ s.ratio }};margin-top:10px;border-radius:10px;overflow:hidden;background:#fff">
+          <sc-for list="{{ s.beelden }}" as="b" hint-placeholder-count="1">
+          <img src="{{ b.src }}" alt="{{ b.alt }}" loading="lazy" decoding="async" onError="{{ b.fout }}" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;display:{{ b.zicht }};opacity:{{ b.opacity }};transition:opacity {{ s.fadeMs }}ms ease">
+          </sc-for>
+          <sc-if value="{{ s.toonTekst }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:12px;background:rgba(21,24,26,.04);font:600 18px Poppins,system-ui,sans-serif;color:#15181A;text-align:center;overflow-wrap:anywhere">{{ s.naam }}</div>
+          </sc-if>
+        </div>
+      </a>
+      </sc-for>
+    </div>
+    <p style="margin:14px 16px 0;font:500 13.5px/1.6 Mulish;color:#71787C">De volgorde wisselt bij elke opening.</p>
+    <div style="padding:14px 16px 0">
+      <a href="https://www.nederlanders.fr/page/sponsors" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;border-radius:14px;background:#800000;color:#fff;font:700 16px Mulish;text-decoration:none">Word ook sponsor</a>
+    </div>
+  </div>
+  </sc-if>
+  <div style="height:28px"></div>
+</div>
+</sc-if>
+
+<!-- ============ TE KOOP IN FRANKRIJK (advertenties, alleen lezen) ============ -->
+<sc-if value="{{ isTekoop }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:16px 16px 0">
+    <p style="margin:0;font:400 15.5px Mulish;line-height:1.6;color:#15181A;text-wrap:pretty">Advertenties van Nederlanders.fr, nieuw bovenaan. Een tik opent de advertentie.</p>
+    <sc-if value="{{ tkLijst }}" hint-placeholder-val="{{ true }}">
+    <div style="margin-top:8px;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#71787C">{{ tkTelling }}</div>
+    </sc-if>
+  </div>
+  <sc-if value="{{ tkLaadt }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#71787C">Advertenties laden...</div>
+  </sc-if>
+  <sc-if value="{{ tkFoutMelding }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De advertenties zijn nu niet te laden.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+      <button onClick="{{ tkOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+      <a href="{{ tkAlleUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-align:center;text-decoration:none">Open de advertenties op Nederlanders.fr</a>
+    </div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ tkLeeg }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:18px 16px 0;font:600 14.5px/1.6 Mulish;color:#3D4346">Er staan nu geen advertenties.</div>
+  </sc-if>
+  <sc-if value="{{ tkLijst }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;gap:14px;padding:14px 16px 0">
+    <sc-for list="{{ tkKaarten }}" as="k" hint-placeholder-count="2">
+    <a href="{{ k.url }}" target="_blank" rel="noopener" aria-label="{{ k.label }}" style="display:block;padding:12px 12px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none;min-width:0">
+      <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#E6E1DF">
+        <sc-if value="{{ k.heeftFoto }}" hint-placeholder-val="{{ true }}">
+        <img src="{{ k.foto }}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onError="{{ k.fout }}" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;display:block">
+        </sc-if>
+        <sc-if value="{{ k.geenFoto }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:14px;background:#E6E1DF;font:600 14px/1.4 Poppins,system-ui,sans-serif;color:#3D4346;text-align:center;overflow:hidden;overflow-wrap:anywhere"><span style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ k.titel }}</span></div>
+        </sc-if>
+        <sc-if value="{{ k.exploitatie }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:10px;top:10px;max-width:calc(100% - 20px);padding:5px 10px;border-radius:999px;background:#fff;color:#800000;font:800 12px/1.2 Mulish;box-shadow:0 1px 3px rgba(21,24,26,.18)">&#10004; Exploitatie mogelijk</div>
+        </sc-if>
+      </div>
+      <div style="padding:12px 4px 0;min-width:0">
+        <sc-if value="{{ k.heeftPrijs }}" hint-placeholder-val="{{ true }}">
+        <div style="font:600 20px/1.2 Poppins,system-ui,sans-serif;color:#800000;overflow-wrap:anywhere">{{ k.prijs }}</div>
+        </sc-if>
+        <sc-if value="{{ k.heeftPlaats }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:6px;font:700 13.5px/1.35 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ k.plaats }}</div>
+        </sc-if>
+        <div style="margin-top:4px;font:600 16px/1.35 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ k.titel }}</div>
+        <sc-if value="{{ k.heeftOmschr }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:6px;font:400 14px/1.55 Mulish;color:#3D4346;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ k.omschrijving }}</div>
+        </sc-if>
+        <sc-if value="{{ k.heeftDatum }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:8px;font:500 13px/1.4 Mulish;color:#71787C">{{ k.datumRegel }}</div>
+        </sc-if>
+      </div>
+    </a>
+    </sc-for>
+    <sc-if value="{{ tkMeerZichtbaar }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ tkMeer }}" style="min-height:52px;border-radius:14px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 15px Mulish;cursor:pointer">Toon meer</button>
+    </sc-if>
+  </div>
+  </sc-if>
+  <div style="padding:18px 16px 0;font:400 15px/1.6 Mulish;color:#15181A">Zelf adverteren? Dat gaat voorlopig via Nederlanders.fr.<br><a href="{{ tkAdverterenUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:#800000">Hoe werkt dat?</a></div>
+  <div style="height:28px"></div>
+</div>
+</sc-if>
+
 <!-- ============ OVER ONS ============ -->
 <sc-if value="{{ isOver }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -2529,7 +2641,7 @@ const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
 // Interne schermnaam van het artikelscherm (besluit 7).
 const SCHERM_ART = "artikel";
 // Schermen met een pijl linksboven (zie ook showBack).
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
@@ -2695,6 +2807,7 @@ const ICONS = {
   mod:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>',
   acc:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>',
   keuze: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>',
+  ster: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.7l-5.2 2.9 1-5.9-4.3-4.1 5.9-.8z"/></svg>',
   over: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.2"/></svg>',
   tekst: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 8 6l5 13M4.8 15h6.4"/><path d="M15 19l3-8 3 8M16 17h4"/></svg>',
   pc: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.400-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
@@ -2918,6 +3031,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0,
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -2994,7 +3108,7 @@ class Component extends DCLogic {
     const ookRijen = (st.onStatus === "klaar" && window.ondernemenOok ? window.ondernemenOok(st.onStappen, "wonen") : [])
       .filter(it => it.soort === "artikel" && !it.later)
       .map(it => ({titel:it.titel, href:window.ondernemenUrl(onSite, it), hoort:"hoort bij " + onNaam}));
-    const tools = ["klussen","lijstjes","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
+    const tools = ["klussen","lijstjes","tekoop","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
       .map(id => this.mods().find(m => m.id === id)).filter(Boolean);
     return {
       isLamaison: is,
@@ -4266,6 +4380,124 @@ class Component extends DCLogic {
     return Nv.parseHash(location.hash);
   }
 
+  // ---- Onze sponsors (sponsors.json + sponsors/, geen tellers, geen tracking) ----------------------
+  // Elke opening schudt de volgorde (Fisher-Yates). Wisselende banners lopen op tijd uit een ticker die
+  // stopt zodra het scherm verlaten wordt; bij beperkte beweging staat alleen het eerste beeld.
+  spBeperkt(){ try { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); } catch(e){ return false; } }
+  sponsorsOpen(){
+    const S = window.IfSponsors, nu = Date.now();
+    const klaar = !!(this._spData && S);
+    this.menuNaar({screen:"sponsors", from:"hub", spStatus: klaar ? "klaar" : "laden", spLijst: klaar ? S.schud(this._spData) : [], spT0:nu, spNu:nu});
+    if (!klaar) this.spLaad();
+    this.spTik();
+  }
+  spLaad(){
+    const S = window.IfSponsors, Nv = window.IfNav;
+    if (!S || !Nv) { this.setState({spStatus:"fout"}); return; }
+    this._spTeller = this._spTeller || Nv.maakTeller();
+    const tok = this._spTeller.volgende();
+    let ctl = null, timer = null;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 10000); } catch(e){ ctl = null; }
+    let f;
+    try { f = fetch("./sponsors.json", ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"}); } catch(e){ clearTimeout(timer); this.setState({spStatus:"fout"}); return; }
+    f.then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+      .then(d => {
+        const lijst = S.leesSponsors(d);
+        if (!lijst.length) throw new Error("leeg");
+        this._spData = lijst;
+        const nu = Date.now();
+        this.setState(prev => this._spTeller.actueel(tok) ? {spStatus:"klaar", spLijst:S.schud(lijst), spT0:nu, spNu:nu} : null);
+      })
+      .catch(() => this.setState(prev => this._spTeller.actueel(tok) ? {spStatus:"fout"} : null))
+      .then(() => { if (timer) clearTimeout(timer); });
+  }
+  spTik(){
+    if (this._spTimer || this.spBeperkt()) return;
+    this._spTimer = setInterval(() => {
+      const st = this.state, S = window.IfSponsors;
+      if (st.screen !== "sponsors" || !S) { clearInterval(this._spTimer); this._spTimer = null; return; }
+      if (document.hidden) return;
+      const nu = Date.now(), kapot = this._spKapot || {};
+      const verandert = (st.spLijst || []).some(s => {
+        if (s.beelden.length < 2) return false;
+        const kp = s.beelden.map(b => !!kapot[b]);
+        return S.toonIndex(st.spT0, nu, s.interval, s.beelden.length, kp) !== S.toonIndex(st.spT0, st.spNu, s.interval, s.beelden.length, kp);
+      });
+      if (verandert) this.setState({spNu:nu});
+    }, 250);
+  }
+  spVals(){
+    const st = this.state, S = window.IfSponsors, kapot = this._spKapot || {}, beperkt = this.spBeperkt();
+    const kaarten = (st.spLijst || []).map(s => {
+      const kp = s.beelden.map(b => !!kapot[b]);
+      const cur = S ? S.toonIndex(st.spT0, beperkt ? st.spT0 : st.spNu, s.interval || 0, s.beelden.length, kp) : 0;
+      const lijst = beperkt ? s.beelden.slice(0, 1) : s.beelden;
+      const w = s.breedte || 710, h = s.hoogte || 240;
+      return {
+        naam: s.naam, url: s.url, label: "Sponsor " + s.naam, ratio: w + "/" + h,
+        fadeMs: beperkt ? 0 : (s.fade || 0), toonTekst: cur === -1 || (beperkt && kp[0]),
+        beelden: lijst.map((b, i) => ({src: "./sponsors/" + b, alt: "Sponsor " + s.naam, opacity: i === cur ? 1 : 0, zicht: kp[i] ? "none" : "block",
+          fout: () => { this._spKapot = this._spKapot || {}; this._spKapot[b] = true; this.setState({spFout: (this.state.spFout || 0) + 1}); }}))
+      };
+    });
+    return {
+      isSponsors: st.screen === "sponsors",
+      spLaadt: st.spStatus === "laden", spFoutMelding: st.spStatus === "fout", spKlaar: st.spStatus === "klaar",
+      spKaarten: kaarten,
+      spOpnieuw: () => { this.setState({spStatus:"laden"}); this.spLaad(); }
+    };
+  }
+
+  // ---- Te koop in Frankrijk (alleen lezen: if-plek /api/vastgoed, een tik opent Nederlanders.fr) ---------
+  tkLaad(){
+    const A = window.IfAdv, Nv = window.IfNav;
+    if (!A || !Nv) { this.setState({tkStatus:"fout"}); return; }
+    this._tkTeller = this._tkTeller || Nv.maakTeller();
+    const tok = this._tkTeller.volgende();
+    const heeft = (this.state.tkItems || []).length > 0;
+    if (!heeft) this.setState({tkStatus:"laden"});
+    let ctl = null, timer = null;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 10000); } catch(e){ ctl = null; }
+    let f;
+    try { f = fetch(A.API, ctl ? {credentials:"omit", headers:{"Accept":"application/json"}, signal: ctl.signal} : {credentials:"omit", headers:{"Accept":"application/json"}}); }
+    catch(e){ clearTimeout(timer); this.setState(prev => this._tkTeller.actueel(tok) ? {tkStatus: heeft ? "klaar" : "fout"} : null); return; }
+    f.then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
+      .then(d => {
+        const l = A.lees(d);
+        if (!l) throw new Error("vorm");
+        this.setState(prev => this._tkTeller.actueel(tok) ? {tkStatus:"klaar", tkItems:l.items} : null);
+      })
+      .catch(() => this.setState(prev => this._tkTeller.actueel(tok) ? {tkStatus: (prev.tkItems || []).length ? "klaar" : "fout"} : null))
+      .then(() => { if (timer) clearTimeout(timer); });
+  }
+  tkVals(){
+    const st = this.state, A = window.IfAdv, kapot = this._tkKapot || {};
+    const items = st.tkItems || [], n = st.tkToon || (A ? A.STAP : 20);
+    const zicht = A ? A.eerste(items, n) : [];
+    const kaarten = zicht.map(it => {
+      const geenFoto = !it.foto || !!kapot[it.foto];
+      return {
+        url: it.url, titel: it.titel, prijs: it.prijsTekst, heeftPrijs: !!it.prijsTekst,
+        plaats: it.plaats, heeftPlaats: !!it.plaats && it.plaats !== it.titel,
+        foto: it.foto, heeftFoto: !geenFoto, geenFoto, exploitatie: it.exploitatie,
+        omschrijving: it.omschrijving, heeftOmschr: !!it.omschrijving,
+        datumRegel: it.datum ? "Geplaatst: " + it.datum : "", heeftDatum: !!it.datum,
+        label: it.titel + (it.plaats ? ", " + it.plaats : "") + (it.prijsTekst ? ", " + it.prijsTekst : "") + ". Opent op Nederlanders.fr in een nieuw tabblad.",
+        fout: () => { this._tkKapot = this._tkKapot || {}; this._tkKapot[it.foto] = true; this.setState({tkFout: (this.state.tkFout || 0) + 1}); }
+      };
+    });
+    return {
+      isTekoop: st.screen === "tekoop",
+      tkLaadt: st.tkStatus === "laden" || st.tkStatus === "", tkFoutMelding: st.tkStatus === "fout",
+      tkKlaar: st.tkStatus === "klaar", tkLeeg: st.tkStatus === "klaar" && items.length === 0, tkLijst: st.tkStatus === "klaar" && items.length > 0,
+      tkKaarten: kaarten, tkTelling: A ? A.telTekst(items.length) : "",
+      tkMeerZichtbaar: items.length > n, tkMeer: () => this.setState({tkToon: A ? A.meer(n, items.length) : n}),
+      tkOpnieuw: () => this.tkLaad(),
+      tkAlleUrl: A ? A.ALLE_URL : "https://www.nederlanders.fr/page/onroerend-goed",
+      tkAdverterenUrl: A ? A.ADVERTEREN_URL : "https://www.nederlanders.fr/page/onroerend-goed"
+    };
+  }
+
   // ---- Zoeken in de artikelen van Infofrankrijk (WordPress zoek-API, anoniem, zacht falend) -----------
   zoekArtikelen(q){
     const Nv = window.IfNav;
@@ -4309,6 +4541,8 @@ class Component extends DCLogic {
   // prijsbadge in de kopbalk op de vorige module hangen.
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
   go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); if (s === "act") s = "nieuws";
+    if (s === "sponsors") return this.sponsorsOpen();
+    if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
@@ -4318,6 +4552,7 @@ class Component extends DCLogic {
     if (m.kind === "forum") return this.setState({screen:"gem", gemTab:"ber", q:""});
     if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
     if (m.kind === "nedergids") return this.setState({screen:"nedergids", tool:m, q:"", from});
+    if (m.kind === "advertenties") { this.setState({screen:"tekoop", tool:m, q:"", from, tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     if (m.kind === "vastgoed") return this.setState({screen:"vastgoed", tool:m, q:"", from});
     if (m.kind === "zorg") return this.setState({screen:"zorg", tool:m, q:"", from});
     if (m.kind === "ruyter") return this.setState({screen:"ruyter", tool:m, q:"", from, ruA:null, ruB:null});
@@ -4714,7 +4949,7 @@ class Component extends DCLogic {
     // hem te vinden — met die vermelding erbij, zodat de lezer weet waarom hij weg is.
     this.zoekMods().forEach(m => {
       // Alle woorden van de zoekvraag moeten in de naam, regel of uitleg voorkomen ("brief CPAM"), niet per se naast elkaar.
-      const tekst = norm(m.naam + " " + m.meta + " " + (m.over || ""));
+      const tekst = norm(m.naam + " " + m.meta + " " + (m.over || "") + " " + (m.zoekwoorden || ""));
       if (q.split(" ").filter(Boolean).every(w => tekst.includes(w)))
         out.push({kind:"MODULE", fr:m.naam, nl:m.meta,
           where:this.themaVan(m) + " · " + (m.prijs === "abonnee" ? "abonnement" : "gratis")
@@ -4906,9 +5141,9 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
+    const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub,
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen",
       mod:this.mods().length + " modules",
       over:"Profiel",
       nedergids:"wegwijzer · gratis te lezen",
@@ -4962,6 +5197,8 @@ class Component extends DCLogic {
       ...this.dsVals(),
       ...this.aiVals(),
       ...this.lmVals(),
+      ...this.spVals(),
+      ...this.tkVals(),
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       subStijl: st.screen === "hub" ? "white-space:normal;overflow-wrap:anywhere" : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
@@ -4975,6 +5212,8 @@ class Component extends DCLogic {
       mnProfiel: () => this.menuNaar({screen:"acc"}),
       mnKeuze: () => this.menuNaar({screen:"keuze", from:"hub"}),
       mnOver: () => this.menuNaar({screen:"over", from:"hub"}),
+      mnSponsors: () => this.sponsorsOpen(),
+      mnIcoSponsors: this.iconStyle("ster", 24) + ";color:#800000",
       mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),
       mnInstalleer: !this.alGeinstalleerd(),
       mnBeginscherm: () => this.installOpen(),

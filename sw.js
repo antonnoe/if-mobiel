@@ -1,12 +1,14 @@
 // Service worker van Infopoche: netwerk eerst, de cache is alleen een terugval als het netwerk haperkt.
 // Verhoog VERSIE bij een wijziging van deze lijst; bij activate gaan oude caches weg.
-const VERSIE = "2026-10-25-5";
+const VERSIE = "2026-10-25-6";
 const CACHE = "infopoche-" + VERSIE;
 const SCHIL = [
-  "./", "./index.html", "./support.js", "./dossier.js", "./nav-lib.js", "./artikel-lib.js", "./abonnee-lib.js", "./landing-lib.js", "./lamaison-lib.js", "./nieuws-lib.js",
+  "./", "./index.html", "./support.js", "./dossier.js", "./nav-lib.js", "./artikel-lib.js", "./abonnee-lib.js", "./landing-lib.js", "./lamaison-lib.js", "./nieuws-lib.js", "./sponsors-lib.js", "./advertenties-lib.js", "./sponsors.json",
   "./modules.json", "./manifest.webmanifest",
   "./vendor/react.production.min.js", "./vendor/react-dom.production.min.js",
-  "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/logo-goud.svg", "./icons/qr-infopoche.svg"
+  "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/logo-goud.svg", "./icons/qr-infopoche.svg",
+  "./sponsors/loginfrance.png", "./sponsors/interfrance.png", "./sponsors/nvlr-1.png", "./sponsors/nvlr-2.png", "./sponsors/nvlr-3.png", "./sponsors/cmunf.png",
+  "./sponsors/frankrijkkeuring.jpg", "./sponsors/caderonne-1.png", "./sponsors/caderonne-2.png", "./sponsors/caderonne-3.png", "./sponsors/caderonne-4.png", "./sponsors/caderonne-5.png"
 ];
 
 self.addEventListener("install", (e) => {

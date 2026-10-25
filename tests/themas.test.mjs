@@ -20,7 +20,7 @@ const INDELING = {
   nieuws: [],
   ervaring: ["forum", "nlfrzoek", "klusforum"],
   ondernemen: ["efacturatie", "gitekompas", "beroepenchecker"],
-  wonen: ["klussen", "lijstjes", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
+  wonen: ["klussen", "lijstjes", "tekoop", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
   taal: ["correspondentie", "taalhulp", "woordenboek"]
 };
 

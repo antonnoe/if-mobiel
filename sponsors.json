@@ -1,0 +1,72 @@
+[
+  {
+    "id": "loginfrance",
+    "naam": "Log In France",
+    "url": "https://loginfrance.nl/home/",
+    "beelden": [
+      "loginfrance.png"
+    ],
+    "breedte": 710,
+    "hoogte": 237
+  },
+  {
+    "id": "interfrance",
+    "naam": "Interfrance",
+    "url": "https://www.interfrance.eu/vacatures/",
+    "beelden": [
+      "interfrance.png"
+    ],
+    "breedte": 710,
+    "hoogte": 148
+  },
+  {
+    "id": "nvlr",
+    "naam": "NVLR",
+    "url": "https://www.nvlr.eu/home",
+    "beelden": [
+      "nvlr-1.png",
+      "nvlr-2.png",
+      "nvlr-3.png"
+    ],
+    "breedte": 710,
+    "hoogte": 261,
+    "interval": 5000,
+    "fade": 600
+  },
+  {
+    "id": "cmunf",
+    "naam": "CMUNF",
+    "url": "https://cmunf.fr/",
+    "beelden": [
+      "cmunf.png"
+    ],
+    "breedte": 710,
+    "hoogte": 260
+  },
+  {
+    "id": "frankrijkkeuring",
+    "naam": "Frankrijk Keuring",
+    "url": "https://frankrijkkeuring.nl/",
+    "beelden": [
+      "frankrijkkeuring.jpg"
+    ],
+    "breedte": 710,
+    "hoogte": 235
+  },
+  {
+    "id": "caderonne",
+    "naam": "Caderonne",
+    "url": "https://www.caderonne.fr/",
+    "beelden": [
+      "caderonne-1.png",
+      "caderonne-2.png",
+      "caderonne-3.png",
+      "caderonne-4.png",
+      "caderonne-5.png"
+    ],
+    "breedte": 710,
+    "hoogte": 323,
+    "interval": 5500,
+    "fade": 1000
+  }
+]

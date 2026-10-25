@@ -230,3 +230,14 @@ Service worker VERSIE 2026-10-25-3.
 
 ## 25-10-2026: ZZP-boekhoudplatform verwijderd (derde partij)
 De module `zzpplatform` (financieel-kompas.vercel.app) is volledig uit de catalogus, tests en notities gehaald. Die site is niet van Anton: de code zegt "Onderdeel van Spectux IT Solutions" (spectux.com) en Anton heeft er geen rechten op. Regel voor de catalogus: een module komt er alleen in als Anton bevestigt dat de tool van hem is of dat hij een licentie heeft; de URL of de naam van een Vercel-project is daarvoor geen bewijs.
+
+## Ronde 25-10-2026 (3): Onze sponsors en Te koop in Frankrijk
+
+| Taak | Wat | Status |
+|---|---|---|
+| 1 Onze sponsors | Menuregel met ster, scherm `sponsors` (hash `#/sponsors`), `sponsors.json` en `sponsors/` (zes sponsors, twaalf beelden), schudden bij elke opening, twee wisselende banners met voorladen, reduced motion, uitval toont de naam, service worker | klaar |
+| 2 Te koop in Frankrijk | Module `tekoop` (kind `advertenties`, Wonen, na Mijn lijstjes), scherm `tekoop` (hash `#/tekoop`), leest if-plek `/api/vastgoed` (live 200, 58 items getoetst), kaarten in blokken van 20, fout met opnieuw en link naar Nederlanders.fr | klaar |
+
+Afwijkingen en keuzes: `nvlr-1.png` en `nvlr-3.png` zijn byte voor byte gelijk (NING levert voor de eerste en derde id hetzelfde beeld; beide bewaard zodat de volgorde van de bron klopt, de banner toont dus beeld 1, 2, 1). `frankrijkkeuring` is door NING als JPEG geleverd en staat daarom als `.jpg`. Extra velden in `sponsors.json`: `breedte` en `hoogte` (vaste beeldverhouding, geen verspringen). Extra veld `zoekwoorden` op modules.
+
+Service worker VERSIE 2026-10-25-6.
