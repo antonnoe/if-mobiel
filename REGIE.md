@@ -212,3 +212,18 @@ Besluit van Anton (optie B): sterk, ja, "heel sterk", maar nooit blokkerend; de 
 | 9 Service worker | VERSIE 2026-10-25-2 | klaar |
 
 Afwijkingen: (a) de opdracht zegt voor geinstalleerd zowel "het hamburgerkaartje wordt App is geïnstalleerd" als "geen kaart"; gekozen is een rustige regel zonder kaartopmaak; (b) de bordeaux balk is een groot volvlak, een bewuste uitzondering op de huisstijlregel; (c) het voorvertoning-iframe heeft geen `allow` en is niet aangepast.
+
+## Herstelronde 1 na keuring (25-10-2026)
+
+| Punt | Besluit | Status |
+|---|---|---|
+| 1 Streepjes | Alle em- en en-dashes uit zichtbare tekst (index.html buiten Over ons, modules.json, landing-lib.js); test in `tests/herstel1b.test.mjs`; `piramide.json` blijft bij de Over ons-ronde | klaar |
+| 2 Postcodeblad | Niet meer automatisch; via tegel op Home en menu; sluit met X (44), buiten tikken, Escape; uitleg een zin | klaar |
+| 3 Desktop | Geen balk en geen automatisch blad bij min-width 900 en pointer fine; landing met QR en menukaart blijven | klaar |
+| 4 App sluiten | Nieuwe uitleg in menu en onderaan Profiel | klaar |
+| 5 zoekschil | Kopbalk toont alleen de themanaam | klaar |
+| 6 Tab actief | `tabVan("tool")` is Modules | klaar |
+| 7 Artikelresultaten | Procent-gecodeerde slugs openen in de app; zonder slug "Op infofrankrijk.com ↗" in het resultaat, nieuw tabblad | klaar |
+| 8 Kleine dingen | Wis-kruisje en bladkruisjes 44x44; balk blijft onder open blad | klaar |
+
+Service worker VERSIE 2026-10-25-3.

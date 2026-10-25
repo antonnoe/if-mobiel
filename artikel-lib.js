@@ -29,8 +29,10 @@
     if (!seg.length) return null;
     if (GEEN_ARTIKEL.test(seg[0])) return null;
     var slug = seg[seg.length - 1];
-    try { slug = decodeURIComponent(slug); } catch (e) { return null; }
-    return /^[a-z0-9][a-z0-9_-]*$/i.test(slug) ? slug.toLowerCase() : null;
+    // WordPress bewaart een slug met bijzondere tekens procent-gecodeerd (woordenlijst-...-nl-%e2%87%84-fr). Die
+    // vorm blijft staan (kleine letters), want precies zo vraagt de REST API hem op; alleen een geldig patroon telt.
+    if (/%(?![0-9a-f]{2})/i.test(slug)) return null;
+    return /^[a-z0-9%][a-z0-9%_-]*$/i.test(slug) ? slug.toLowerCase() : null;
   }
   function isInApp(url) { return slugUitUrl(url) !== null; }
   function schoneUrl(url) { var s = slugUitUrl(url); return s ? BASIS + "/" + s + "/" : null; }

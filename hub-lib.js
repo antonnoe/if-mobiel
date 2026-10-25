@@ -60,7 +60,7 @@
   // Profiel en Over ons staan in het hamburgermenu en markeren geen tab (lege tekst).
   function tabVan(screen) {
     if (screen === "zoek") return "zoek";
-    if (screen === "mod" || screen === "keuze") return "mod";
+    if (screen === "mod" || screen === "keuze" || screen === "tool") return "mod";
     if (screen === "gem" || screen === "draad") return "gem";
     if (screen === "nieuws") return "nieuws";
     if (screen === "acc" || screen === "over" || screen === "piramide") return "";

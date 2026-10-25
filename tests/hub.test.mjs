@@ -62,7 +62,7 @@ test("vijf tabs met de juiste labels, ook in de app", () => {
 });
 
 test("elk scherm hoort bij een tab", () => {
-  const verwacht = { hub: "hub", thema: "hub", lamaison: "hub", gezondheid: "hub", dossierdemo: "hub", tool: "hub", regio: "hub", aitools: "hub",
+  const verwacht = { hub: "hub", thema: "hub", lamaison: "hub", gezondheid: "hub", dossierdemo: "hub", tool: "mod", regio: "hub", aitools: "hub",
     zoek: "zoek", gem: "gem", draad: "gem", nieuws: "nieuws", acc: "", mod: "mod", keuze: "mod", over: "" };
   Object.entries(verwacht).forEach(([s, t]) => assert.equal(L.tabVan(s), t, s));
   assert.ok(L.TABS.some(t => t.id === L.tabVan("onbekend")));

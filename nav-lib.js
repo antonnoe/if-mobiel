@@ -4,7 +4,7 @@
 (function (root) {
   var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod" };
   var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules" };
-  var SLUG = /^[a-z0-9][a-z0-9_-]*$/;
+  var SLUG = /^[a-z0-9%][a-z0-9%_-]*$/;  // % voor procent-gecodeerde WordPress-slugs (%e2%87%84)
 
   // "#/artikel/mijn-slug" -> {soort:"artikel", slug}; "#/nieuws" -> {soort:"scherm", scherm:"nieuws"}; anders {soort:"hub"}.
   function parseHash(hash) {
@@ -13,9 +13,8 @@
     var delen = h.slice(1).split("?")[0].split("/").filter(Boolean);
     if (delen[0] === "artikel" && delen.length === 2) {
       var s = delen[1];
-      try { s = decodeURIComponent(s); } catch (e) { return { soort: "hub" }; }
       s = s.toLowerCase();
-      return SLUG.test(s) ? { soort: "artikel", slug: s } : { soort: "hub" };
+      return SLUG.test(s) && !/%(?![0-9a-f]{2})/.test(s) ? { soort: "artikel", slug: s } : { soort: "hub" };
     }
     if (delen.length === 1 && Object.prototype.hasOwnProperty.call(TOP, delen[0])) return { soort: "scherm", scherm: TOP[delen[0]] };
     return { soort: "hub" };
@@ -66,7 +65,7 @@
     data.forEach(function (x) {
       if (!x || typeof x.url !== "string") return;
       if (x.subtype && x.subtype !== "post" && x.subtype !== "page") return;
-      var titel = String(x.title || "").replace(/<[^>]*>/g, "").replace(/&#8217;|&rsquo;/g, "’").replace(/&#8211;|&ndash;/g, "–")
+      var titel = String(x.title || "").replace(/<[^>]*>/g, "").replace(/&#8217;|&rsquo;/g, "’").replace(/&#8211;|&ndash;|&#8212;|&mdash;/g, "-")
         .replace(/&amp;/g, "&").replace(/&#038;/g, "&").replace(/&#8220;|&#8221;/g, '"').replace(/&nbsp;/g, " ").trim();
       if (!titel || gezien[x.url]) return;
       gezien[x.url] = true;

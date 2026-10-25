@@ -34,6 +34,13 @@
     return "android";
   }
 
+  // Desktopweergave: brede, niet-touch weergave (min-width 900 px en pointer: fine) of de omgeving "desktop".
+  // Daar staat geen installatiebalk en opent geen installatieblad vanzelf; de landing met QR en de menukaart blijven.
+  function isDesktopWeergave(o) {
+    o = o || {};
+    return o.omgeving === "desktop" || !!(o.breed && o.fijn);
+  }
+
   function iosBrowser(ua) {
     ua = String(ua || "");
     if (/CriOS/.test(ua)) return "chrome";
@@ -67,6 +74,7 @@
   // Installatiebalk onder de kopbalk: alleen in de browser, niet weggeklikt (sessie), niet onder het landingsscherm.
   function toonBalk(o) {
     o = o || {};
+    if (o.desktop) return false;
     return !o.standalone && !o.landingOpen && String(o.weg === undefined || o.weg === null ? "" : o.weg) !== "1";
   }
 
@@ -74,7 +82,7 @@
   // open staat of de app al geinstalleerd is.
   function toonAutoBlad(o) {
     o = o || {};
-    if (o.standalone || o.landingOpen || o.bladOpen || o.ander) return false;
+    if (o.standalone || o.desktop || o.landingOpen || o.bladOpen || o.ander) return false;
     if (String(o.getoond === undefined || o.getoond === null ? "" : o.getoond) === "1") return false;
     return !!o.nuttig;
   }
@@ -173,6 +181,7 @@
     SLEUTEL_LANDING: SLEUTEL_LANDING, SLEUTEL_BALK: SLEUTEL_BALK, SLEUTEL_BLAD: SLEUTEL_BLAD,
     URL_APP: URL_APP,
     detecteerOmgeving: detecteerOmgeving,
+    isDesktopWeergave: isDesktopWeergave,
     iosBrowser: iosBrowser,
     heeftInhoudHash: heeftInhoudHash,
     toonLanding: toonLanding,

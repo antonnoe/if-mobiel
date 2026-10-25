@@ -176,7 +176,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
     <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
     <button onClick="{{ mnPostcode }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoPostcode }}"></span><span style="flex:1;min-width:0">Postcode</span><span style="flex:0 1 auto;min-width:0;font:600 16px Mulish;color:#3D4346;text-align:right;overflow-wrap:anywhere">{{ pcLabel }}</span></button>
-    <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">App sluiten: iPhone, veeg omhoog vanaf de onderkant. Android, tik op Terug of op recente apps.</div>
+    <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van Infopoche omhoog. Op Android opent u de recente apps en veegt u Infopoche weg.</div>
   </div>
   </sc-if>
 </div>
@@ -984,7 +984,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <span style="color:#800000;font-size:16px">⌕</span>
       <input value="{{ q }}" onInput="{{ onQ }}" placeholder="module, artikel, Franse zin of woord" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15.5px Mulish;color:#15181A;min-height:52px">
       <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}">
-      <button onClick="{{ clearQ }}" aria-label="Wissen" style="width:30px;height:30px;flex:none;border-radius:8px;border:0;background:rgba(21,24,26,.06);color:#3D4346;font:700 14px Mulish;cursor:pointer">×</button>
+      <button onClick="{{ clearQ }}" aria-label="Wissen" style="width:44px;height:44px;flex:none;margin-right:-10px;border:0;background:none;display:grid;place-items:center;cursor:pointer;padding:0"><span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:rgba(21,24,26,.06);color:#3D4346;font:700 14px Mulish;display:grid;place-items:center">×</span></button>
       </sc-if>
     </div>
   </div>
@@ -1015,8 +1015,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
       <sc-for list="{{ zaItems }}" as="r" hint-placeholder-count="3">
       <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:52px">
-        <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000;flex:none;width:56px;padding-top:4px">ARTIKEL</span>
-        <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }}</b>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000;flex:none;width:56px;padding-top:4px">{{ r.soortLabel }}</span>
+        <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }}<span style="font:700 12px Mulish;color:#800000;margin-left:6px;white-space:nowrap">{{ r.buitenTekst }}</span></b>
       </button>
       </sc-for>
     </div>
@@ -1244,7 +1244,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
   <div style="padding:20px 18px 0">
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.15;margin:0">Ouder worden in Frankrijk</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Voor wie alleen woont en merkt dat het minder gaat. Eerst wat nú moet, dan de aanvragen — en pas daarna het geld en het wonen.</p>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Voor wie alleen woont en merkt dat het minder gaat. Eerst wat nú moet, dan de aanvragen, en pas daarna het geld en het wonen.</p>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:8px;padding:14px 14px 0">
@@ -1344,7 +1344,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:18px 18px 0">
     <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · vrij toegankelijk</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Een huis kopen</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies de fase waarin u zit. Per fase staat wat er wettelijk geldt en wat alleen gebruik is — dat onderscheid is precies waar het misgaat.</p>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies de fase waarin u zit. Per fase staat wat er wettelijk geldt en wat alleen gebruik is. Dat onderscheid is precies waar het misgaat.</p>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:8px;padding:16px 14px 0">
@@ -1461,13 +1461,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12px/1.7 Mulish;color:#3D4346">Rekenmotor laden…</div>
   </sc-if>
   <sc-if value="{{ enEngineFout }}" hint-placeholder-val="{{ false }}">
-  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De rekenmotor (engine/) kon niet worden geladen. Geen uitkomst te tonen — probeer het later opnieuw.</div>
+  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De rekenmotor (engine/) kon niet worden geladen. Geen uitkomst te tonen. Probeer het later opnieuw.</div>
   </sc-if>
 
   <sc-if value="{{ enEngineKlaar }}" hint-placeholder-val="{{ false }}">
   <div>
     <!-- Voorbeeldhuis: altijd gratis, echt berekend -->
-    <div style="padding:22px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Voorbeeldhuis — vrij te bekijken</div>
+    <div style="padding:22px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Voorbeeldhuis, vrij te bekijken</div>
     <sc-if value="{{ enVbKlaar }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="font:600 12.5px/1.6 Mulish;color:#71787C;padding:6px 18px 0;text-wrap:pretty">{{ enVbTitel }}</div>
@@ -1914,7 +1914,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:18px 18px 0">
     <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wegwijzer · gratis te lezen</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Nedergids</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Loketten, registers en de sites die u echt nodig heeft — per categorie. {{ pcRegel }}</p>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Loketten, registers en de sites die u echt nodig heeft, per categorie. {{ pcRegel }}</p>
   </div>
 
   <div style="display:flex;gap:7px;overflow-x:auto;padding:14px 16px 2px">
@@ -1968,7 +1968,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </div>
       </sc-for>
     </div>
-    <div style="margin-top:13px;padding:13px 15px;border-radius:12px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Aanmelden kan zodra Nedergids v2 online staat — de vermelding en de betaling gebeuren daar, niet in deze app.</div>
+    <div style="margin-top:13px;padding:13px 15px;border-radius:12px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Aanmelden kan zodra Nedergids v2 online staat. De vermelding en de betaling gebeuren daar, niet in deze app.</div>
   </div>
   <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">De kaart met vermeldingen komt uit Nedergids v2, dat nog in bouw is. Wat u hier ziet is de lijstkant: de sites en loketten per categorie. {{ toolNagekeken }}</div>
   <div style="margin:10px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ ngArchief }}</div>
@@ -2039,7 +2039,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ geenUrl }}" hint-placeholder-val="{{ false }}">
     <div style="margin:18px 14px 0;padding:16px 17px;border-radius:16px;background:#fff;border:1px dashed rgba(128,0,0,.35)">
       <div style="font:700 13.5px Mulish;color:#15181A">Nog geen adres ingevuld</div>
-      <div style="font:500 12.5px/1.75 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">Deze module heeft nog geen <code>url</code> in <b>modules.json</b>. Zet het adres van de gepubliceerde site erin en de module werkt — zonder dat er code aan te pas komt.</div>
+      <div style="font:500 12.5px/1.75 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">Deze module heeft nog geen <code>url</code> in <b>modules.json</b>. Zet het adres van de gepubliceerde site erin en de module werkt, zonder dat er code aan te pas komt.</div>
     </div>
     </sc-if>
     <sc-if value="{{ heeftKnip }}" hint-placeholder-val="{{ false }}">
@@ -2079,7 +2079,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
   <sc-if value="{{ hasPreview }}" hint-placeholder-val="{{ false }}">
   <div>
-    <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Eerst een voorbeeld — vrij te bekijken</div>
+    <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Eerst een voorbeeld, vrij te bekijken</div>
     <div style="margin:0 14px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 16px 6px">
       <sc-if value="{{ vbOngeverifieerd }}" hint-placeholder-val="{{ false }}">
       <div style="margin:0 0 10px">
@@ -2097,7 +2097,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
     <div style="padding:26px 18px 8px">
       <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Nu uw eigen situatie</div>
-      <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Vul in wat op u van toepassing is. Dat mag zonder abonnement — u ziet zo precies wat de module met uw antwoorden doet.</p>
+      <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Vul in wat op u van toepassing is. Dat mag zonder abonnement. U ziet zo precies wat de module met uw antwoorden doet.</p>
     </div>
     <sc-for list="{{ intake }}" as="q" hint-placeholder-count="3">
     <div style="margin:14px 16px 0">
@@ -2117,7 +2117,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="margin:20px 14px 0;background:#fff;border:1px solid rgba(128,0,0,.22);border-radius:16px;overflow:hidden">
       <div style="padding:15px 16px;background:rgba(128,0,0,.06)">
         <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Uw uitkomst is berekend</div>
-        <div style="font:500 12.5px/1.7 Mulish;color:#5C0000;margin-top:4px;text-wrap:pretty">Uw antwoorden blijven bewaard. Word abonnee en u ziet deze getallen meteen — u hoeft niets opnieuw in te vullen.</div>
+        <div style="font:500 12.5px/1.7 Mulish;color:#5C0000;margin-top:4px;text-wrap:pretty">Uw antwoorden blijven bewaard. Word abonnee en u ziet deze getallen meteen. U hoeft niets opnieuw in te vullen.</div>
       </div>
       <sc-for list="{{ uitRows }}" as="r" hint-placeholder-count="3">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid rgba(21,24,26,.06);font:500 13.5px Mulish;color:#3D4346">
@@ -2127,7 +2127,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </sc-for>
       <div style="padding:14px 16px;border-top:1px solid rgba(21,24,26,.06)">
         <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">Word abonnee en bekijk mijn uitkomst →</a>
-        <button onClick="{{ goTaal }}" style="width:100%;min-height:46px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:9px">Later — naar de gratis onderdelen</button>
+        <button onClick="{{ goTaal }}" style="width:100%;min-height:46px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:9px">Later, naar de gratis onderdelen</button>
         <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:9px;text-align:center;text-wrap:pretty">Het abonnement geeft toegang tot alle rekenmodules, uw dossier en de artikelen op infofrankrijk.com.</div>
       </div>
     </div>
@@ -2160,7 +2160,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-if>
     <sc-if value="{{ nogNiet }}" hint-placeholder-val="{{ true }}">
     <div style="margin:12px 14px 0">
-      <div style="padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Nog niet beschikbaar — geen knop die belooft wat er niet is.</div>
+      <div style="padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Nog niet beschikbaar.</div>
       <button onClick="{{ goGem }}" style="width:100%;min-height:48px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:9px">Vraag het op het forum</button>
     </div>
     </sc-if>
@@ -2186,7 +2186,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     <sc-if value="{{ nogNiet }}" hint-placeholder-val="{{ true }}">
     <div style="margin:12px 14px 0">
-      <div style="padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Nog niet beschikbaar — geen knop die belooft wat er niet is.</div>
+      <div style="padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Nog niet beschikbaar.</div>
       <button onClick="{{ goGem }}" style="width:100%;min-height:48px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:9px">Vraag het op het forum</button>
     </div>
     </sc-if>
@@ -2231,7 +2231,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button id="ifm-installeer" onClick="{{ installOpenProfiel }}" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:rgba(128,0,0,.05);color:#800000;font:700 14px Mulish;cursor:pointer">Zet Infopoche op uw beginscherm →</button>
     </sc-if>
   </div>
-  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
+  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app: u ziet altijd welke van de twee gevraagd wordt.</div>
+  <div style="margin:12px 18px 0;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van Infopoche omhoog. Op Android opent u de recente apps en veegt u Infopoche weg.</div>
   <div style="margin:12px 14px 0">
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
@@ -2431,31 +2432,24 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 
 <sc-if value="{{ vraagPostcode }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;inset:0;z-index:50;background:rgba(21,24,26,.42);display:flex;flex-direction:column;justify-content:flex-end">
-  <div style="{{ zoomCss }}background:#fff;border-radius:22px 22px 0 0;padding:24px 20px 20px;box-shadow:0 -10px 40px rgba(21,24,26,.22);max-height:92%;overflow-y:auto;box-sizing:border-box">
+<div data-pcblad="1" style="position:absolute;inset:0;z-index:50;background:rgba(21,24,26,.42);display:flex;flex-direction:column;justify-content:flex-end">
+  <div onClick="{{ pcBladSluit }}" style="flex:1 1 auto;min-height:0"></div>
+  <div role="dialog" aria-modal="true" aria-label="Waar woont u?" style="{{ zoomCss }}flex:none;background:#fff;border-radius:22px 22px 0 0;padding:24px 20px 20px;box-shadow:0 -10px 40px rgba(21,24,26,.22);max-height:92%;overflow-y:auto;box-sizing:border-box">
     <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 16px"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
       <div style="min-width:0">
         <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Eén vraag</div>
         <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woont u?</h2>
       </div>
+      <div style="display:flex;gap:4px;flex:none">
       <button onClick="{{ pcInfoWissel }}" aria-label="Waarvoor dient de postcode?" aria-expanded="{{ pcInfoAria }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:1px solid rgba(128,0,0,.30);background:rgba(128,0,0,.08);color:#800000;font:700 15px 'Source Serif 4',Georgia,serif;cursor:pointer">i</button>
+      <button onClick="{{ pcBladSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
+      </div>
     </div>
     <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Alleen de postcode, vijf cijfers.</p>
     <sc-if value="{{ pcInfoOpen }}" hint-placeholder-val="{{ false }}">
     <div style="margin-top:12px;padding:14px;border-radius:12px;background:rgba(128,0,0,.05);display:flex;flex-direction:column;gap:10px">
-      <div style="font:600 13.5px Poppins,system-ui,sans-serif;color:#800000">Hiermee doet de app dit</div>
-      <ul style="margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:6px;font:500 13.5px Mulish;line-height:1.45;color:#15181A">
-        <li>uw departement in de kopregel</li>
-        <li>de Nedergids noemt uw departement</li>
-        <li>Veiligheid en natuur zegt welk departement u op de kaart zoekt</li>
-        <li>de regiokaart wijst bij verenigingen en evenementen uw departement aan</li>
-        <li>bij palliatieve zorg en zoekers ouderenzorg zegt de app welk departement u opzoekt</li>
-      </ul>
-      <div style="display:flex;gap:10px;align-items:flex-start;padding-top:10px;border-top:1px solid rgba(128,0,0,.12)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:2px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-        <p style="margin:0;font:500 13px Mulish;line-height:1.5;color:#3D4346">Uw postcode wordt alleen op dit apparaat bewaard. Infopoche ontvangt hem niet. Voor de plaatsnaam vraagt de app die op bij geo.api.gouv.fr, een dienst van de Franse overheid. Wijzigen of wissen kan bij Profiel.</p>
-      </div>
+      <p style="margin:0;font:500 13.5px Mulish;line-height:1.5;color:#15181A">Uw postcode blijft op dit toestel en wordt alleen gebruikt om bij u in de buurt te zoeken.</p>
     </div>
     </sc-if>
     <input value="{{ pcInvoer }}" onInput="{{ onPc }}" inputmode="numeric" placeholder="bijv. 24200" aria-label="Postcode" style="width:100%;min-height:56px;margin-top:16px;border:1px solid rgba(128,0,0,.20);border-radius:13px;padding:0 16px;font:700 20px Mulish;letter-spacing:.08em;color:#15181A;background:#F4F1F0">
@@ -2565,8 +2559,8 @@ function veiligeUrl(...kandidaten){
 const DOT = {gezond:"#5AA469", admin:"#E9C13D", geld:"#E2812F", auto:"#C6362C", sociaal:"#800000", veilig:"#C6362C"};
 
 const CAT = [
-  ["Veiligheid &amp; natuur — altijd gratis", [
-    ["Brandrisico Frankrijk", "Météo des forêts · juni–september", "tool", 1, DOT.veilig],
+  ["Veiligheid &amp; natuur, altijd gratis", [
+    ["Brandrisico Frankrijk", "Météo des forêts · juni tot september", "tool", 1, DOT.veilig],
     ["Weeralarm &amp; vigilance", "per departement", "tool", 1, DOT.veilig],
     ["FR-Alert-meldingen", "officiële waarschuwingen", "tool", 1, DOT.veilig],
     ["Spoednummers &amp; wat te zeggen", "15 · 18 · 112 · 114", "spoed", 1, DOT.veilig]]],
@@ -2577,7 +2571,7 @@ const CAT = [
   ["Financiën", [
     ["Belastingaangifte-wijzer", "déclaration stap voor stap", "tool", 0, DOT.geld],
     ["Notariskosten-calculator", "frais de notaire", "tool", 0, DOT.geld],
-    ["Pensioen NL–FR", "AOW, verdrag, korting", "tool", 0, DOT.geld]]],
+    ["Pensioen NL-FR", "AOW, verdrag, korting", "tool", 0, DOT.geld]]],
   ["Wonen &amp; vastgoed", [
     ["Energie-portaal", "energieprestatie en DPE", "tool", 0, DOT.geld],
     ["Woningaankoop-stappenplan", "compromis tot acte", "tool", 0, DOT.geld],
@@ -2642,7 +2636,7 @@ const PREVIEW = {
     rows:[["Uw formulieren","2042 · 2047 · 3916"],["Secties die u aangaan","9 van de 25"],["Uiterste datum","4 juni 2026"],["Let op","AOW valt onder het verdrag"]],
     intake:[["Inkomen uit",["pensioen NL","loon FR","onderneming","huur"]],["Woning",["eigen woning","huur","tweede woning"]]],
     uit:[["Uw formulierenlijst","••••"],["Uw deadline","•• ••••"],["Aandachtspunten","••"]] },
-  "Pensioen NL–FR": { doet:"AOW, bedrijfspensioen en overheidspensioen worden verschillend behandeld. Deze module zegt per soort wie mag heffen.",
+  "Pensioen NL-FR": { doet:"AOW, bedrijfspensioen en overheidspensioen worden verschillend behandeld. Deze module zegt per soort wie mag heffen.",
     vb:"AOW plus bedrijfspensioen van € 28.000, fiscaal inwoner van Frankrijk",
     rows:[["AOW","Frankrijk heft"],["Bedrijfspensioen","Frankrijk heft"],["Overheidspensioen","Nederland heft"],["Aandachtspunt","CRDS/CSG-vrijstelling"]],
     intake:[["Soort pensioen",["AOW","bedrijfspensioen","overheidspensioen"]],["Fiscaal inwoner van",["Frankrijk","Nederland"]]],
@@ -2662,12 +2656,12 @@ const PREVIEW = {
     rows:[["Aanhef","Monsieur,"],["Toon","zakelijk, met termijn"],["Slotformule","Veuillez agréer…"],["Lengte","1 pagina"]],
     intake:[["Aan wie",["mairie","aannemer","verhuurder","verzekeraar"]],["Toon",["vriendelijk","zakelijk","laatste waarschuwing"]]],
     uit:[["Uw brief","•••• ••••"],["Als PDF en als e-mail","••"],["Bewaard in uw dossier","••"]] },
-  "Carte Vitale-status": { doet:"Uw aanvraag volgen, met per fase wat u kunt doen als het te lang duurt — en welk papier u in de tussentijd gebruikt.",
+  "Carte Vitale-status": { doet:"Uw aanvraag volgen, met per fase wat u kunt doen als het te lang duurt, en welk papier u in de tussentijd gebruikt.",
     vb:"Aanvraag ingediend in april, nog geen kaart ontvangen",
     rows:[["Fase","dossier in behandeling"],["Gemiddeld nog","6 weken"],["Wat nu werkt","attestation de droits"],["Actie","dossiernummer opvragen"]],
     intake:[["Ingediend",["deze maand","1–3 maanden","langer dan 4 maanden"]],["Via",["mairie","CPAM-loket","Ameli online"]]],
     uit:[["Uw verwachte doorlooptijd","•• weken"],["Uw volgende actie","••••"],["Uw tijdelijke bewijs","••••"]] },
-  "Documentenkluis": { doet:"Uw justificatifs versleuteld op de telefoon, ook zonder bereik — met een waarschuwing zodra een stuk te oud wordt voor een loket.",
+  "Documentenkluis": { doet:"Uw justificatifs versleuteld op de telefoon, ook zonder bereik, met een waarschuwing zodra een stuk te oud wordt voor een loket.",
     vb:"Zeven documenten bewaard, twee verlopen binnenkort",
     rows:[["Bewaard","7 documenten"],["Verloopt binnenkort","justificatif de domicile"],["Versleuteld","ja, op het toestel"]],
     intake:[["Wat wilt u bewaren",["identiteit","woning","zorg","auto"]],["Beschikbaar",["alleen offline","ook op laptop"]]],
@@ -3581,7 +3575,7 @@ class Component extends DCLogic {
       ev.preventDefault(); this.route(m);
     };
     document.addEventListener("click", this._klikTool);
-    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
+    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.vraagPostcode) this.setState({vraagPostcode:false, pcInfo:false}); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
     document.addEventListener("keydown", this._toetsOproep);
     this._toetsMenu = ev => this.menuToets(ev);
     document.addEventListener("keydown", this._toetsMenu);
@@ -3601,7 +3595,7 @@ class Component extends DCLogic {
     } catch(e){}
     const route = this.histStart() || {soort:"hub"};
     this.setState({groteTekst, keuze, lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
-      postcode: pc, plaats, vraagPostcode: !pc && !pcLater && route.soort === "hub"});
+      postcode: pc, plaats});
     if (route.soort !== "hub") this.routeToepassen(route);
     if (pc && !plaats) this.laadPlaats(pc);
     this.load();
@@ -3843,7 +3837,7 @@ class Component extends DCLogic {
       const body = L.schoon(k.html, {modules: this.alleMods()});
       const heeftInhoud = !!(body.textContent || "").replace(/\s+/g, "") || !!body.querySelector("img");
       if (!heeftInhoud && !k.muur) throw new Error("leeg");
-      const meta = {titel: L.tekstVan(a.titel) || slug.replace(/-/g, " "), datum: L.datumNl(a.datum), muur: k.muur,
+      const meta = {titel: (L.tekstVan(a.titel) || slug.replace(/-/g, " ")).replace(/\s+[\u2013\u2014]\s+/g, " - "), datum: L.datumNl(a.datum), muur: k.muur,
         link: L.schoneUrl(a.link) || url, samenvatting: L.inkorten(L.eersteAlinea(body), 280), toolAlleen: !!body.querySelector("[data-toolregel]")};
       this._artCache[slug] = {meta, body};
       toon(this._artCache[slug]);
@@ -4015,19 +4009,28 @@ class Component extends DCLogic {
     this.setState({installBlad:{kop: kop || "Zet Infopoche op uw beginscherm"}, installStatus:"", installAf:false, menu:false});
   }
   installBladSluit(){ this._ibFocus = false; this.setState({installBlad:null}); }
+  // Brede, niet-touch weergave: geen installatiebalk en geen automatisch installatieblad.
+  isDesktop(){
+    const L = window.LandingLib; if (!L) return false;
+    let breed = false, fijn = false;
+    try { breed = window.matchMedia("(min-width: 900px)").matches; fijn = window.matchMedia("(pointer: fine)").matches; } catch(e){}
+    const nav = window.navigator;
+    const omgeving = L.detecteerOmgeving({ua:nav.userAgent, platform:nav.platform, maxTouchPoints:nav.maxTouchPoints, standalone:false, breedte:window.innerWidth});
+    return L.isDesktopWeergave({omgeving, breed, fijn});
+  }
   installBalkSluit(){ this.ibSchrijf("SLEUTEL_BALK"); this.setState({balkWeg:true}); }
   // Eerste nuttige resultaat in de browser: een tooluitkomst (zelfde moment als het abonneeblad) of een geladen artikel.
   checkInstallAuto(){
     const st = this.state, L = window.LandingLib;
     if (!L || this._ibTimer) return;
     const nuttig = !!this.opSoort() || (st.screen === "artikel" && !!st.art && st.art.status === "klaar");
-    if (!L.toonAutoBlad({standalone:this.alGeinstalleerd(), landingOpen:!!window.__ifmLandingOpen, bladOpen:!!st.installBlad,
+    if (!L.toonAutoBlad({standalone:this.alGeinstalleerd(), desktop:this.isDesktop(), landingOpen:!!window.__ifmLandingOpen, bladOpen:!!st.installBlad,
       ander:!!(st.oproep || st.forumBlad || st.vraagPostcode || st.menu), getoond:this.ibLees("SLEUTEL_BLAD"), nuttig})) return;
     this._ibTimer = setTimeout(() => {
       this._ibTimer = null;
       const s2 = this.state;
       const nog = !!this.opSoort() || (s2.screen === "artikel" && !!s2.art && s2.art.status === "klaar");
-      if (!nog || s2.installBlad || s2.oproep || s2.forumBlad || s2.vraagPostcode || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
+      if (!nog || this.isDesktop() || s2.installBlad || s2.oproep || s2.forumBlad || s2.vraagPostcode || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
       this.ibSchrijf("SLEUTEL_BLAD");
       this.installOpen("Fijn dat Infopoche u helpt. Zet hem op uw beginscherm.");
     }, 1800);
@@ -4065,7 +4068,7 @@ class Component extends DCLogic {
     const st = this.state, L = window.LandingLib, geinst = this.alGeinstalleerd();
     const landing = !!window.__ifmLandingOpen;
     return {
-      balkOpen: !!L && L.toonBalk({standalone:geinst, landingOpen:landing, weg:st.balkWeg ? "1" : ""}) && !st.installBlad,
+      balkOpen: !!L && L.toonBalk({standalone:geinst, landingOpen:landing, weg:st.balkWeg ? "1" : "", desktop:this.isDesktop()}),
       installOpenBalk: () => this.installOpen(), installBalkSluit: () => this.installBalkSluit(),
       installBladOpen: !!st.installBlad && !geinst, installBladKop: st.installBlad ? st.installBlad.kop : "",
       installBladSluit: () => this.installBladSluit(), installOpenProfiel: () => this.installOpen(),
@@ -4294,7 +4297,11 @@ class Component extends DCLogic {
     return {
       zaToon: toon, zaLaadt: status === "laden", zaFout: status === "fout", zaLeeg: status === "klaar" && items.length === 0,
       zaHeeft: items.length > 0, zaBezig: toon && (status === "laden"),
-      zaItems: items.map(it => ({titel: it.titel, open: () => this.openInfoArtikel(it.url, {tegel: true})}))
+      zaItems: items.map(it => {
+        // Een treffer zonder leesbaar WordPress-slug opent op de site zelf, in een nieuw tabblad: dat staat er dan bij.
+        const binnen = !!(window.IfArtikel && window.IfArtikel.slugUitUrl(it.url));
+        return {titel: it.titel, soortLabel: binnen ? "ARTIKEL" : "SITE", buitenTekst: binnen ? "" : "Op infofrankrijk.com \u2197", open: () => this.openInfoArtikel(it.url, {tegel: true})};
+      })
     };
   }
 
@@ -4574,7 +4581,7 @@ class Component extends DCLogic {
     const labels = {verwarming:"Verwarming", tapwater:"Warm water", koeling:"Koeling", apparaten:"Apparaten en licht", ev:"Elektrische auto", zwembad:"Zwembad"};
     let beste = null, besteWaarde = -Infinity;
     Object.keys(labels).forEach(k => { const w = (costs && costs[k]) || 0; if (w > besteWaarde) { besteWaarde = w; beste = k; } });
-    return beste ? labels[beste] : "—";
+    return beste ? labels[beste] : "-";
   }
   // Bouwt alle {{ en... }}-holes voor het energiescherm. Rekent uitsluitend via
   // engine/ (applyArchetype/computeResults/computeDPE, zie enCompute) — geen
@@ -4582,7 +4589,7 @@ class Component extends DCLogic {
   enVals(T, st){
     const leeg = {
       enOver:"", enLet:"", enEngineLaden:false, enEngineFout:false, enEngineKlaar:false,
-      enVbKlaar:false, enVbTitel:"", enVbLabelStyle:"", enVbLetter:"—", enVbKostenJaar:"—", enVbKostenMaand:"—",
+      enVbKlaar:false, enVbTitel:"", enVbLabelStyle:"", enVbLetter:"-", enVbKostenJaar:"-", enVbKostenMaand:"-",
       enVbRows:[], enUitlegOpen:false, enUitlegIcon:"▾", enUitlegToggle:() => {}, enVbUitleg:[], enVbMismatchTekst:"",
       enGroepen:[], enM2:120, enM2Min:() => {}, enM2Plus:() => {}, enCalc:() => {}, enReset:() => {},
       enEigenKlaar:false, enEigenRichting:"", enMuurOpen:false,
@@ -4604,7 +4611,7 @@ class Component extends DCLogic {
     const vbOut = engineKlaar ? this.enCompute({zone:vbArch.zone, houseType:vbArch.houseType, period:vbArch.period, m2:vbArch.m2, reno:vbArch.renovations || [], heating:vbArch.heating, usage:vbArch.usage}) : null;
     const vbMismatch = !!(vbOut && vbOut.res.debug.mismatch);
     const vbOk = !!(vbOut && !vbMismatch);
-    let vbLetter = "—", vbKleur = "#C7CBCC", vbKostenJaar = "—", vbKostenMaand = "—", vbRows = [], vbUitleg = [], vbMismatchTekst = "";
+    let vbLetter = "-", vbKleur = "#C7CBCC", vbKostenJaar = "-", vbKostenMaand = "-", vbRows = [], vbUitleg = [], vbMismatchTekst = "";
     if (vbOk) {
       const dpe = vbOut.dpe, res = vbOut.res;
       vbLetter = dpe.classe; vbKleur = dpe.details.kleur;
@@ -4621,7 +4628,7 @@ class Component extends DCLogic {
         {k:"Rendement hoofdverwarming", v:n1(res.debug.mainEff) + "×"}
       ];
     } else if (vbMismatch) {
-      vbMismatchTekst = "De elektrabalans van dit voorbeeld sluit niet — de motor toont daarom geen uitkomst in plaats van een onbetrouwbaar getal.";
+      vbMismatchTekst = "De elektrabalans van dit voorbeeld sluit niet. De motor toont daarom geen uitkomst in plaats van een onbetrouwbaar getal.";
     }
 
     const chipSel = (key, id) => key === "reno" ? st.en.reno.indexOf(id) >= 0 : st.en[key] === id;
@@ -4649,9 +4656,9 @@ class Component extends DCLogic {
     const eigenOk = !!(eigenOut && !eigenMismatch);
     let eigenRichting = "";
     if (eigenOk) {
-      eigenRichting = "Rond label " + eigenOut.dpe.classe + ". De grootste kostenpost is " + this.enGrootstePost(eigenOut.res.costs).toLowerCase() + " — de bedragen zelf ziet u met het abonnement.";
+      eigenRichting = "Rond label " + eigenOut.dpe.classe + ". De grootste kostenpost is " + this.enGrootstePost(eigenOut.res.costs).toLowerCase() + ". De bedragen zelf ziet u met het abonnement.";
     } else if (st.enBerekend && eigenMismatch) {
-      eigenRichting = "De elektrabalans sluit hier niet — de motor toont daarom geen uitkomst. Probeer andere antwoorden, of meld dit als het blijft gebeuren.";
+      eigenRichting = "De elektrabalans sluit hier niet, dus de motor toont geen uitkomst. Probeer andere antwoorden, of meld dit als het blijft gebeuren.";
     }
 
     return {
@@ -4915,7 +4922,7 @@ class Component extends DCLogic {
       piramide:"het ordeningsmodel achter de app",
       draad:"Nederlanders.fr · alleen lezen",
       gem:"Nederlanders.fr · vrij toegankelijk",
-      tool: st.tool ? (this.inOntw(st.tool) ? "In ontwikkeling · " : "") + this.themaVan(st.tool) + " · " + st.tool.schil : "", acc:"niet aangemeld"};
+      tool: st.tool ? (this.inOntw(st.tool) ? "In ontwikkeling · " : "") + this.themaVan(st.tool) : "", acc:"niet aangemeld"};
 
     // ---- Discussie lezen -------------------------------------------------
     const dp = st.draadPost || {};
@@ -5108,7 +5115,7 @@ class Component extends DCLogic {
       bronnen: [
         {naam:"Nederlanders.fr", rol:"GEMEENSCHAP", wat:"Berichten en reactiedraden van leden, sinds 2002. Gratis te lezen in deze app; reageren gebeurt op de site zelf."},
         {naam:"Infofrankrijk.com", rol:"REDACTIE", wat:"Dossiers, artikelen en de rekenmodules. De redactie actualiseert; het abonnement betaalt dat werk."},
-        {naam:"Overheid en pers", rol:"ACTUEEL", wat:"Officiële bronnen en persberichten, samengevoegd in de nieuwsroute — met redactiesyntheses die altijd eerst door een mens worden nagelezen."},
+        {naam:"Overheid en pers", rol:"ACTUEEL", wat:"Officiële bronnen en persberichten, samengevoegd in de nieuwsroute, met redactiesyntheses die altijd eerst door een mens worden nagelezen."},
         {naam:"Météo-France en FR-Alert", rol:"VEILIGHEID", wat:"Brandgevaar, weeralarm en officiële waarschuwingen. Altijd gratis, ook zonder account."},
         {naam:"Talen voor Talent", rol:"TAAL", wat:"Taalcoaching van Sylvain Lelarge, achtergrond bij TaalHulp."}
       ],
@@ -5185,7 +5192,7 @@ class Component extends DCLogic {
       noResults: st.q.trim().length >= 2 && alleTreffers.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
       suggesties: ["dokter","recept","notaris","brandrisico","carte vitale","spoed"].map(s => ({name:s, pick:() => { this.setState({q:s}); this.zoekArtikelen(s); }})),
 
-      feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Live van nederlanders.fr · gesorteerd op laatste reactie" : "Voorbeeldgegevens — live zodra de app op een eigen domein staat",
+      feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Live van nederlanders.fr · gesorteerd op laatste reactie" : "Voorbeeldgegevens, live zodra de app op een eigen domein staat",
       refresh: () => this.load(),
       gemFilterAll: this.chipStyle(st.gemFilter === "alles"),
       gemFilterMet: this.chipStyle(st.gemFilter === "met"),
@@ -5212,7 +5219,7 @@ class Component extends DCLogic {
           draadLabel: n > 0 ? (n === 1 ? "1 reactie lezen →" : n + " reacties lezen →") : "Lezen →",
           toggle: () => { if (rs.length) this.setState({openPost: st.openPost === p.id ? null : p.id}); },
           leesLabel: n > 0 ? "Lees de " + reactieMeta(n) + " op nederlanders.fr →" : "Lees op nederlanders.fr →",
-          restLabel: rs.length < n ? "De activiteitenfeed reikt een paar dagen terug — de oudere reacties staan op de site." : "",
+          restLabel: rs.length < n ? "De activiteitenfeed reikt een paar dagen terug, de oudere reacties staan op de site." : "",
           heeftRest: rs.length < n,
           reacties: rs.map(r => {
             const rHref = veiligeUrl(r.href, p.href);
@@ -5276,7 +5283,7 @@ class Component extends DCLogic {
       catFout: st.catFout,
       pcLabel: st.postcode ? (st.postcode + (st.plaats ? " " + st.plaats : "")) : "niet ingesteld",
       vraagPostcode: st.vraagPostcode,
-      pcLaterLabel: st.postcode ? "Annuleren" : "Later — ik vul het per keer in",
+      pcLaterLabel: st.postcode ? "Annuleren" : "Later, ik vul het per keer in",
       wijzigPc: () => this.setState({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),
       pcInfoOpen: st.pcInfo, pcInfoAria: st.pcInfo ? "true" : "false",
       pcInfoWissel: () => this.setState({pcInfo: !this.state.pcInfo}),
@@ -5308,6 +5315,7 @@ class Component extends DCLogic {
         try { localStorage.setItem("ifm_postcode", pcNieuw); localStorage.removeItem("ifm_plaats"); } catch(e){}
         this.setState({postcode:pcNieuw, plaats:"", vraagPostcode:false, pcInfo:false, pcGewist:null});
         this.laadPlaats(pcNieuw); } },
+      pcBladSluit: () => this.setState({vraagPostcode:false, pcInfo:false}),
       slaPcOver: () => { try { localStorage.setItem("ifm_pc_later", "1"); } catch(e){} this.setState({vraagPostcode:false, pcInfo:false}); },
       hasPreview: !!pv,
       vbTitel: pv ? pv.vb : "",
