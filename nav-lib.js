@@ -2,8 +2,8 @@
 // Hash-routes (geen server nodig): #/artikel/<slug> opent een artikel, #/nieuws, #/forum, #/profiel en #/zoek
 // openen een hoofdscherm. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
 (function (root) {
-  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek" };
-  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek" };
+  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod" };
+  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules" };
   var SLUG = /^[a-z0-9][a-z0-9_-]*$/;
 
   // "#/artikel/mijn-slug" -> {soort:"artikel", slug}; "#/nieuws" -> {soort:"scherm", scherm:"nieuws"}; anders {soort:"hub"}.
@@ -35,7 +35,7 @@
 
   // Een scherm met een eigen hash op het hoogste niveau (tabs); daaronder komt een geschiedenisregel.
   function isTop(t) {
-    return !!t && !t.blad && (t.screen === "hub" || t.screen === "zoek" || t.screen === "gem" || t.screen === "acc" ||
+    return !!t && !t.blad && (t.screen === "hub" || t.screen === "zoek" || t.screen === "gem" || t.screen === "acc" || t.screen === "mod" ||
       (t.screen === "nieuws" && !t.nwTegel && !t.nwTerug));
   }
 

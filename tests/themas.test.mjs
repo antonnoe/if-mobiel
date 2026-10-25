@@ -20,7 +20,7 @@ const INDELING = {
   nieuws: [],
   ervaring: ["forum", "nlfrzoek", "klusforum"],
   ondernemen: ["efacturatie", "gitekompas", "zzpplatform", "beroepenchecker"],
-  wonen: ["klussen", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
+  wonen: ["klussen", "lijstjes", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
   taal: ["correspondentie", "taalhulp", "woordenboek"]
 };
 
@@ -71,13 +71,13 @@ test("taalhulp en woordenboek zijn in ontwikkeling", () => {
   assert.equal(vind("zoekers").status, "in ontwikkeling");
 });
 
-test("nieuwe modules en KIF", () => {
+test("nieuwe modules en Klussen", () => {
   assert.equal(vind("zoekers").url, "https://ouderenzorg.vercel.app");
   assert.equal(vind("woordenboek").url, "https://taalhulp-fr.vercel.app/woordenboek");
   assert.equal(vind("zoekers").weergave, "volledig");
   assert.equal(vind("woordenboek").weergave, "volledig");
   assert.equal(vind("forum").kind, "forum");
-  assert.equal(vind("klussen").kort, "KIF");
+  assert.equal(vind("klussen").kort, "Klussen");
 });
 
 test("modules die standaard uit staan blijven uit", () => {

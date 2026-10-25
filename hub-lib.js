@@ -47,22 +47,23 @@
     return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
   }
 
-  // De vijf tabs. icon verwijst naar een sleutel in ICONS (index.html).
+  // De vijf tabs, gelijke plekken. icon verwijst naar een sleutel in ICONS (index.html).
   var TABS = [
     { id: "hub", label: "Home", icon: "hub" },
     { id: "zoek", label: "Zoeken", icon: "zoek" },
+    { id: "mod", label: "Modules", icon: "mod" },
     { id: "gem", label: "Forum", icon: "gem" },
-    { id: "nieuws", label: "Nieuws", icon: "act" },
-    { id: "acc", label: "Profiel", icon: "acc" }
+    { id: "nieuws", label: "Nieuws", icon: "act" }
   ];
-  // Bij welke tab hoort een scherm? Alles wat niet apart genoemd is hoort bij Home
-  // (themaschermen, modules, taal, regio, AI-tools, dossier). Mijn modules, Alle modules en
-  // Over ons zijn rijen in Profiel; een draad hoort bij Forum.
+  // Bij welke tab hoort een scherm? Alles wat niet apart genoemd is hoort bij Home (themaschermen, taal,
+  // regio, AI-tools, dossier). Alle modules en Mijn modules horen bij Modules; een draad hoort bij Forum.
+  // Profiel en Over ons staan in het hamburgermenu en markeren geen tab (lege tekst).
   function tabVan(screen) {
     if (screen === "zoek") return "zoek";
+    if (screen === "mod" || screen === "keuze") return "mod";
     if (screen === "gem" || screen === "draad") return "gem";
     if (screen === "nieuws") return "nieuws";
-    if (screen === "acc" || screen === "mod" || screen === "keuze" || screen === "over" || screen === "piramide") return "acc";
+    if (screen === "acc" || screen === "over" || screen === "piramide") return "";
     return "hub";
   }
 

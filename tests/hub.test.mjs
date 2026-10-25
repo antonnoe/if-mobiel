@@ -54,18 +54,19 @@ test("themakleur-terugval in de code bij ontbrekend veld", () => {
 });
 
 test("vijf tabs met de juiste labels, ook in de app", () => {
-  assert.deepEqual(L.TABS.map(t => t.label), ["Home", "Zoeken", "Forum", "Nieuws", "Profiel"]);
+  assert.deepEqual(L.TABS.map(t => t.label), ["Home", "Zoeken", "Modules", "Forum", "Nieuws"]);
   const bron = lees("hub-lib.js");
-  ["Home", "Zoeken", "Forum", "Nieuws", "Profiel"].forEach(l => assert.ok(bron.includes('label: "' + l + '"')));
+  ["Home", "Zoeken", "Modules", "Forum", "Nieuws"].forEach(l => assert.ok(bron.includes('label: "' + l + '"')));
   L.TABS.forEach(t => assert.ok(new RegExp("\\n  " + t.icon + ":\\s+'<svg").test(html), "icoon " + t.icon + " ontbreekt in ICONS"));
   assert.ok(html.includes("repeat(5,1fr)") && html.includes("HubLib.TABS.map"));
 });
 
 test("elk scherm hoort bij een tab", () => {
   const verwacht = { hub: "hub", thema: "hub", lamaison: "hub", gezondheid: "hub", dossierdemo: "hub", tool: "hub", regio: "hub", aitools: "hub",
-    zoek: "zoek", gem: "gem", draad: "gem", nieuws: "nieuws", acc: "acc", mod: "acc", keuze: "acc", over: "acc" };
+    zoek: "zoek", gem: "gem", draad: "gem", nieuws: "nieuws", acc: "", mod: "mod", keuze: "mod", over: "" };
   Object.entries(verwacht).forEach(([s, t]) => assert.equal(L.tabVan(s), t, s));
   assert.ok(L.TABS.some(t => t.id === L.tabVan("onbekend")));
+  assert.ok(!L.TABS.some(t => t.id === "acc"), "Profiel staat niet meer in de tabbalk");
 });
 
 test("regiokaart: label, departement, plaatsnaam", () => {

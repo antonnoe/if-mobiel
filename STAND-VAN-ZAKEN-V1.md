@@ -68,7 +68,7 @@ redactionele beslissing nodig heeft schuift naar V1.1. De lijst in §6 is daarop
 | Nedergids | Aankomen | gratis lezen | eigen schil | in bouw | 23 aug 2026 | lijst van 23 sites in 6 categorieën; kaart wacht op v2 |
 | Correspondentie | Aankomen | abonnee | info | bron onbekend | 23 aug 2026 | leeg scherm met "nog niet beschikbaar" |
 | Veiligheid & natuur | Wonen | gratis | iframe | deels af | 23 aug 2026 | voorvertoning plus knop naar nederlanders.fr/page/bosbranden |
-| Klussen & verbouwen | Wonen | gratis | iframe | inhoud af | 23 aug 2026 | voorvertoning plus knop; negen deep links via zoeken |
+| Klussen in Frankrijk | Wonen | gratis | iframe | inhoud af | 23 aug 2026 | voorvertoning plus knop; negen deep links via zoeken |
 | Vastgoed & huis kopen | Wonen | gratis | eigen schil | af | juni 2026 | zeven fases, 35 punten met bronlabel, 32 do's en don'ts, 7 valkuilen |
 | Energie & verwarming | Wonen | abonnee | eigen schil | af | 25 aug 2026 | voorbeeldhuis echt berekend, zeven vragen, richting gratis, bedragen achter muur |
 | Financieel kompas | Geld | abonnee | iframe | af | maart 2026 | voorvertoning, knip-uitleg, knop naar buiten |

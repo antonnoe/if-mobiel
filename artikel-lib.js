@@ -173,7 +173,7 @@
   }
   var KAART = {
     kaart: "margin:18px 0 0;padding:16px;border-radius:16px;background:rgba(128,0,0,.05);border:1px solid rgba(128,0,0,.16)",
-    label: "font:700 10.5px Mulish,system-ui,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#800000",
+    label: "font:700 12px Mulish,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#800000",
     naam: "margin:5px 0 0;font:600 16px Poppins,system-ui,sans-serif;line-height:1.3;color:" + KLEUR + ";overflow-wrap:anywhere",
     knop: "display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;border-radius:12px;background:#800000;color:#fff;font:700 14.5px Mulish,system-ui,sans-serif;text-decoration:none"
   };

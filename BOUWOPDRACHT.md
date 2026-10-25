@@ -466,7 +466,7 @@ Niet in een smalle browser. Rapporteer per punt wat je ziet:
 ## De veertien modules
 
 **Aankomen** — Nedergids (in bouw) · Correspondentie (bron onbekend)
-**Wonen** — Veiligheid & natuur (deels af) · Klussen & verbouwen (inhoud af) ·
+**Wonen** — Veiligheid & natuur (deels af) · Klussen in Frankrijk (inhoud af) ·
 Vastgoed & huis kopen (af) · Energie & verwarming (**motor af, schil ontbreekt — §1**)
 **Geld** — Financieel kompas (af) · Sociale heffingen De Ruyter (af) ·
 Erfrecht & schenking (inhoud af) · Vastgoed transactiekosten (af)

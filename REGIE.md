@@ -175,3 +175,22 @@ Besluit opdrachtgever: Taalassistent en Zorglexicon vervallen; thema Taal heeft 
 | 4 Tests | Alle tests groen (141); nieuw `tests/ronde5.test.mjs`; headless Chromium 390 px: hub, Taal (drie onderdelen), Woordenboek-iframe, Forum, Nieuws, Zoeken, Gezondheid, geen pageerror, geen horizontale scroll | klaar |
 
 Afwijkingen: de Taalassistent-subtab in Forum en de elf niet-gebouwde situatietitels stonden al niet meer in de code (geen dode regels meer te verwijderen). De knop "Later, naar de gratis onderdelen" op de Energie-muur opende het taalscherm en opent nu het themascherm Taal. Zoektekst noemt geen "zinnen" meer.
+
+## Ronde 25-10-2026: menu, tabbalk, logo, letters, Mijn lijstjes
+
+Besluiten van Anton (elk is een eis):
+
+1. Tabbalk wordt Home, Zoeken, Modules, Forum, Nieuws; Profiel zit in het hamburgermenu; Modules opent Alle modules (`mod`); `tabVan`: `mod` en `keuze` markeren Modules, `acc` en `over` geen tab.
+2. Hamburgermenu rechts in de kopbalk op elk scherm, 46x46, `aria-label="Menu"`, `aria-expanded`, X als open; paneel onder de kopbalk met verduisterde achtergrond; sluit via achtergrond, X, item, terug-gebaar of Escape; achtergrondscroll vast; focus blijft in het paneel; rijen minstens 54 px (nu 56), icoon bordeaux, tekst 16 px; items Profiel, Mijn modules, Over ons, Grotere tekst, Postcode, kaart "Zet op uw beginscherm" (weg als al geinstalleerd), uitlegregel over app sluiten; geen sluitknop. Het hamburgerknopje staat uiterst rechts, de rest schuift ervan af; op 320 px loopt niets over.
+3. Het blokje FR wordt het logo: gouden Frankrijk-met-i op navy #0E1A2E, 34x34 (bestaand `icons/logo-goud.svg`); op schermen met Terug-knop blijft de Terug-knop.
+4. De badge GRATIS verdwijnt uit de kopbalk; ABONNEMENT en VOORBEELD blijven.
+5. Onderregel hub: "Departement NN, plaatsnaam" of "Kennis en ervaring dans la poche"; geen meldingen over berichten in de kopbalk.
+6. Tabbalklabels 12,5 px (actief 700); alle schiltekst onder 12 px is minstens 12 px, prijslabels 11,5 px; geen tekst onder 11,5 px.
+7. Tabbalk-iconen in dezelfde lijnstijl, Modules een raster van vier vierkantjes; balk ongeveer 74 px; tikvlak minstens 44 px.
+8. Module `klussen` heet "Klussen in Frankrijk"; `kort` "Klussen"; geen "KIF" of "Klussen & verbouwen" in zichtbare velden.
+9. Nieuwe module "Mijn lijstjes" (`lijstjes`) direct na Klussen, in Wonen, Alle modules, Mijn modules, zoeken en favorieten.
+10. Niet in deze ronde: Over ons (apart), installatie-aansporing (volgende bouwer), AI-samenvatting, Mijn dossier-wijzigingen.
+
+Stand: alle negen punten gebouwd en getest met headless Chromium op 390x844 en 320x640 (hub, menu open, Profiel, Alle modules, Mijn modules, Taal, thema's, tool met Terug en In browser); `node --test tests/*.test.mjs` 150 van 150 (nieuw: `tests/ronde6.test.mjs`). Opslagtest Klussen en Mijn lijstjes: zie terugmelding in de bouwlog (zelfde partitie bevestigd). Service worker `VERSIE` 2026-10-25-1.
+
+Afwijkingen: (a) `mod` heeft geen Terug-knop meer maar het logo, omdat het nu een tab is; (b) `piramide` (via Over ons) markeert geen tab meer; (c) hash-route `#/modules` erbij; (d) de iframe-inhoud van Mijn lijstjes toont zelf nog "KIF-lijstjes" (site infofrankrijk.com, buiten de app); (e) op 320 px wordt de titel bij tools met "In browser" afgekapt met ellipsis ("Mijn lijs...").

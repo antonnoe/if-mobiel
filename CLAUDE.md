@@ -37,7 +37,7 @@ Frankrijk).
    vervallen. Schermen `aitools` (stub tot de AI-tools-bouwer het vervangt, `openAiTools()`)
    en `regio` (per departement: bosbrandkaart, verenigingen, palliatieve zorg, zoekers, alleen
    als de module aan staat). De tab-actief-markering komt uit `HubLib.tabVan(screen)`;
-   `mod` (Alle modules), `keuze` en `over` zijn rijen in Profiel (scherm `acc`).
+   `mod` (Alle modules) is een hoofdscherm achter de tab Modules (hash `#/modules`); Profiel (`acc`), Mijn modules (`keuze`) en Over ons (`over`) staan in het hamburgermenu.
 7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; losse `*Vals()`-
    helpers leveren hun deel toe (bv. `enVals()` voor het energiescherm).
 8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`,
@@ -190,7 +190,7 @@ de bron van de ontwerpsessie.
   kleurt het icoon en het accent in de kop van het themascherm, de tint is de cirkel erachter.
   Terugval in `hub-lib.js`; `tests/hub.test.mjs` bewaakt WCAG AA (icoon tegen tint >= 3:1,
   accent tegen pagina >= 4.5:1).
-- **Tabbalk:** vijf tabs, Home, Zoeken, Forum, Nieuws, Profiel (`TABS` in `hub-lib.js`).
+- **Tabbalk:** vijf gelijke tabs, Home, Zoeken, Modules, Forum, Nieuws (`TABS` in `hub-lib.js`), labels 12,5 px (actief 700), balk ongeveer 74 px inclusief safe-area, tikvlak minstens 44 px. `HubLib.tabVan`: `mod` en `keuze` markeren Modules; `acc` en `over` markeren geen tab (lege tekst).
 - **Lopende tekst (body):** Mulish.
 - **Pagina-achtergrond:** `#F4F1F0`.
 - **Kaarten:** wit, `1px` rand `rgba(21,24,26,.10)`, `border-radius: 16px`.
@@ -241,3 +241,10 @@ een taak af, commit met een heldere boodschap, en zorg dat `main` de eindtoestan
 ## Ronde 24-10-2026 (2): Taal
 
 - De ingebouwde Taalassistent (module `taal`, schermen `taal` en `lex`, de situatiedata, "Groot tonen", zoekhits SITUATIE, ZIN en situatiewoorden) en de module `zorglexicon` zijn verwijderd. Thema Taal heeft nu drie onderdelen die elkaar niet overlappen: TaalHulp (`taalhulp`, situaties), Woordenboek met uitleg (`woordenboek`, nieuw, iframe op taalhulp-fr.vercel.app/woordenboek, `volledig`, in ontwikkeling) en Correspondentie. Het woordenboek staat ook bij het Gezondheid-onderwerp "Woorden bij de dokter". "Later — naar de gratis onderdelen" op de Energie-muur opent nu het themascherm Taal. Tests: `tests/ronde5.test.mjs`.
+
+## Ronde 25-10-2026: hamburgermenu, tabbalk, logo, lettergroottes
+
+- **Hamburgermenu** (`menu` in state, `menuOpen/menuSluit/menuNaar/menuToets` in `index.html`): knop 46x46 uiterst rechts in de kopbalk op elk scherm (`#ifm-menuknop`, `aria-label="Menu"`, `aria-expanded`, een X als het open is). Het paneel hangt onder de kopbalk met een verduisterde achtergrond; tik op de achtergrond, X, een item, Escape of het terug-gebaar sluit het (het menu is een blad in de geschiedenis, blad `menu`). Achtergrondscroll staat vast (`scrollOverflow`), Tab loopt rond binnen paneel en knop. Items: Profiel, Mijn modules, Over ons, Grotere tekst (schakelaar op `ifm_grote_tekst`, menu blijft open), Postcode (waarde of "niet ingesteld", opent het bestaande postcodeblad), kaart "Zet op uw beginscherm" (weg bij `display-mode: standalone` of `navigator.standalone`; verwijst nu naar de uitleg onderaan Profiel, `#ifm-installeer`), en een uitlegregel over app sluiten. Er is bewust geen sluitknop: een web-app kan zichzelf niet betrouwbaar sluiten. De logica achter de kaart (Android installatievenster, installatieblad) komt in een aparte opdracht. Nieuwe localStorage-sleutels: geen.
+- **Kopbalk**: logo (gouden Frankrijk-met-i, `icons/logo-goud.svg`, op navy #0E1A2E, 34x34) op schermen zonder Terug-knop; de badge GRATIS is weg, ABONNEMENT en VOORBEELD blijven naast het hamburgerknopje; de onderregel op de hub is "Departement NN, plaatsnaam" (alleen wat de data kent) of de tagline "Kennis en ervaring dans la poche", wordt omgebroken en nooit afgekapt; de titel krijgt ellipsis.
+- **Lettergroottes**: geen zichtbare schilltekst onder 11,5 px; prijslabels en andere hoofdletterlabels 11,5 px, alle andere tekst die kleiner was dan 12 px is nu 12 px. `tests/ronde6.test.mjs` scant de bron.
+- **Namen**: de module `klussen` heet "Klussen in Frankrijk" (`kort`: "Klussen"); de nieuwe module `lijstjes` ("Mijn lijstjes", iframe `infofrankrijk.com/klussen/lijstjes/`, zoekschil, volledig) staat direct erna in groep en thema Wonen. De lijstjes zelf staan in de localStorage-sleutel `kif-lijstjes-v1` op infofrankrijk.com (niet van de app).

@@ -177,32 +177,50 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
 <div style="width:100%;max-width:412px;margin:0 auto;height:100vh;height:100dvh;background:#F4F1F0;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(21,24,26,.08)">
 
-<div style="{{ zoomCss }}view-transition-name:ifm-kop;flex:none;padding:14px 16px 12px;border-bottom:1px solid rgba(21,24,26,.06);display:flex;align-items:center;gap:10px;background:#F4F1F0">
+<div style="{{ zoomCss }}view-transition-name:ifm-kop;position:relative;z-index:40;flex:none;padding:14px 16px 12px;border-bottom:1px solid rgba(21,24,26,.06);display:flex;align-items:center;gap:10px;background:#F4F1F0">
   <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
   <button onClick="{{ back }}" aria-label="Terug" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;font:700 16px Mulish;color:#15181A">←</button>
   </sc-if>
   <sc-if value="{{ showMark }}" hint-placeholder-val="{{ true }}">
-  <div style="width:30px;height:30px;flex:none;border-radius:8px;background:#800000;display:grid;place-items:center;font:800 12px Mulish;color:#fff">FR</div>
+  <div aria-hidden="true" style="width:34px;height:34px;flex:none;border-radius:9px;background:#0E1A2E;display:grid;place-items:center"><img src="./icons/logo-goud.svg" alt="" width="24" height="23" style="display:block;width:24px;height:auto"></div>
   </sc-if>
-  <div style="min-width:0">
+  <div style="flex:1 1 auto;min-width:0">
     <div style="font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div>
-    <div style="font:500 11px Mulish;color:#71787C;margin-top:2px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ subtitle }}</div>
+    <div style="font:500 12px Mulish;color:#71787C;margin-top:2px;line-height:1.25;{{ subStijl }}">{{ subtitle }}</div>
   </div>
   <sc-if value="{{ kopLink }}" hint-placeholder-val="{{ false }}">
-  <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="margin-left:auto;flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12px Mulish;text-decoration:none">In browser ↗</a>
+  <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12px Mulish;text-decoration:none;white-space:nowrap">In browser ↗</a>
   </sc-if>
   <sc-if value="{{ kopDeel }}" hint-placeholder-val="{{ false }}">
-  <button onClick="{{ artDelen }}" aria-label="Delen" style="margin-left:auto;flex:none;width:46px;height:46px;border:0;border-radius:12px;background:none;display:grid;place-items:center;color:#3D4346;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
+  <button onClick="{{ artDelen }}" aria-label="Delen" style="flex:none;width:46px;height:46px;border:0;border-radius:12px;background:none;display:grid;place-items:center;color:#3D4346;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
   </sc-if>
-  <sc-if value="{{ kopBadge }}" hint-placeholder-val="{{ true }}">
-  <div style="margin-left:auto;font:800 9.5px Mulish;letter-spacing:.12em;padding:5px 8px;border-radius:999px;flex:none;background:{{ badgeBg }};color:{{ badgeFg }}">{{ badge }}</div>
+  <sc-if value="{{ kopBadge }}" hint-placeholder-val="{{ false }}">
+  <div style="font:800 11.5px Mulish;letter-spacing:.06em;padding:5px 8px;border-radius:999px;flex:none;white-space:nowrap;background:{{ badgeBg }};color:{{ badgeFg }}">{{ badge }}</div>
+  </sc-if>
+  <button id="ifm-menuknop" onClick="{{ menuSchakel }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" aria-haspopup="dialog" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;color:#15181A;padding:0">
+    <sc-if value="{{ menuDicht }}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></sc-if>
+  </button>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div data-menuscrim="1" onClick="{{ menuSluit }}" style="position:absolute;left:0;right:0;top:100%;height:100dvh;background:rgba(21,24,26,.42)"></div>
+  <div role="dialog" aria-modal="true" aria-label="Menu" data-menu="1" style="position:absolute;left:0;right:0;top:100%;background:#fff;border-radius:0 0 18px 18px;box-shadow:0 14px 30px rgba(21,24,26,.18);max-height:calc(100dvh - 150px);overflow-y:auto;overscroll-behavior:contain">
+    <button onClick="{{ mnProfiel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoProfiel }}"></span><span style="flex:1;min-width:0">Profiel</span></button>
+    <button onClick="{{ mnKeuze }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoKeuze }}"></span><span style="flex:1;min-width:0">Mijn modules</span></button>
+    <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
+    <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
+    <button onClick="{{ mnPostcode }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoPostcode }}"></span><span style="flex:1;min-width:0">Postcode</span><span style="flex:0 1 auto;min-width:0;font:600 16px Mulish;color:#3D4346;text-align:right;overflow-wrap:anywhere">{{ pcLabel }}</span></button>
+    <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ mnBeginscherm }}" style="display:flex;align-items:flex-start;gap:14px;width:calc(100% - 28px);margin:6px 14px 0;padding:14px 14px;border:1px solid rgba(128,0,0,.18);border-radius:14px;background:rgba(128,0,0,.05);text-align:left;cursor:pointer;color:#15181A;min-height:56px"><span style="{{ mnIcoInstalleer }};margin-top:1px"></span><span style="flex:1;min-width:0"><b style="display:block;font:700 16px Mulish">Zet op uw beginscherm</b><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">iPhone: tik op de deelknop, dan Zet op beginscherm.</span><span style="display:block;margin-top:2px;font:500 13.5px/1.5 Mulish;color:#3D4346">Android: tik op Installeren.</span></span></button>
+    </sc-if>
+    <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">App sluiten: iPhone, veeg omhoog vanaf de onderkant. Android, tik op Terug of op recente apps.</div>
+  </div>
   </sc-if>
 </div>
 
 <div id="ifm-scroll" style="{{ zoomCss }}view-transition-name:ifm-inhoud;flex:1;min-height:0;position:relative;overflow-y:{{ scrollOverflow }};-webkit-overflow-scrolling:touch">
 
 <sc-if value="{{ catFout }}" hint-placeholder-val="{{ false }}">
-<div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 11.5px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer uw verbinding en laad de pagina opnieuw.</div>
+<div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer uw verbinding en laad de pagina opnieuw.</div>
 </sc-if>
 
 <!-- ============ HUB / VANDAAG ============ -->
@@ -260,7 +278,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="margin:22px 0 0">
     <div style="display:flex;align-items:baseline;gap:8px;padding:0 16px 8px">
       <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Uw favorieten</div>
-      <div style="font:600 11px Mulish;color:#A2A7A9;margin-left:auto">{{ favCount }}</div>
+      <div style="font:600 12px Mulish;color:#71787C;margin-left:auto">{{ favCount }}</div>
     </div>
     <div style="background:#fff;border:1px solid rgba(128,0,0,.16);border-radius:16px;margin:0 16px;overflow:hidden">
       <sc-for list="{{ favs }}" as="f" hint-placeholder-count="2">
@@ -269,9 +287,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <span style="width:8px;height:8px;border-radius:50%;flex:none;background:{{ f.dot }}"></span>
           <span style="flex:1;min-width:0">
             <b style="display:block;font:700 14px Mulish;color:#15181A">{{ f.naam }}</b>
-            <span style="font:600 11.5px Mulish;color:#71787C">{{ f.meta }}</span>
+            <span style="font:600 12px Mulish;color:#71787C">{{ f.meta }}</span>
           </span>
-          <span style="font:800 8.5px Mulish;letter-spacing:.10em;padding:4px 7px;border-radius:999px;flex:none;background:{{ f.tagBg }};color:{{ f.tagFg }}">{{ f.tag }}</span>
+          <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 7px;border-radius:999px;flex:none;background:{{ f.tagBg }};color:{{ f.tagFg }}">{{ f.tag }}</span>
         </button>
         <button onClick="{{ f.unpin }}" aria-label="Uit favorieten" style="width:46px;flex:none;border:0;background:none;cursor:pointer;font-size:17px;line-height:1;color:#800000">★</button>
       </div>
@@ -294,7 +312,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="margin:22px 0 0">
     <div style="display:flex;align-items:baseline;gap:8px;padding:0 16px 8px">
       <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ g.name }}</div>
-      <div style="font:600 11px Mulish;color:#A2A7A9;margin-left:auto">{{ g.count }}</div>
+      <div style="font:600 12px Mulish;color:#71787C;margin-left:auto">{{ g.count }}</div>
     </div>
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;overflow:hidden">
       <sc-for list="{{ g.tools }}" as="t" hint-placeholder-count="3">
@@ -303,18 +321,18 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <span style="width:8px;height:8px;border-radius:50%;flex:none;background:{{ t.dot }}"></span>
           <span style="flex:1;min-width:0">
             <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
-            <span style="font:600 11.5px Mulish;color:#71787C">{{ t.meta }}</span>
-            <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:700 11px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
-            <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+            <span style="font:600 12px Mulish;color:#71787C">{{ t.meta }}</span>
+            <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:700 12px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
+            <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
           </span>
-          <span style="font:800 8.5px Mulish;letter-spacing:.10em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
+          <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
         </button>
         <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="width:46px;flex:none;border:0;background:none;cursor:pointer;font-size:17px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
       </div>
       </sc-for>
       <sc-if value="{{ g.heeftCafe }}" hint-placeholder-val="{{ false }}">
       <a href="{{ g.cafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
-        <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 11px Mulish">CC</span>
+        <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 12px Mulish">CC</span>
         <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ g.cafeTekst }}</span>
         <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
       </a>
@@ -327,7 +345,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="margin:10px 14px 0">
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Mijn modules: kies wat u hier ziet →</button>
   </div>
-  <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ freeNote }}</div>
+  <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 12px/1.7 Mulish;color:#3D4346">{{ freeNote }}</div>
   </sc-if>
   <div style="height:26px"></div>
 </div>
@@ -379,7 +397,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <sc-if value="{{ a.later }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);min-height:52px;opacity:.6">
           <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#71787C;text-wrap:pretty">{{ a.titel }}</span>
-          <span style="font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
+          <span style="font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
         </div>
         </sc-if>
         </sc-for>
@@ -407,7 +425,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ a.later }}" hint-placeholder-val="{{ false }}">
     <div style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);min-height:52px;opacity:.6">
       <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#71787C;text-wrap:pretty">{{ a.titel }}</span>
-      <span style="font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
+      <span style="font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
     </div>
     </sc-if>
     </sc-for>
@@ -421,7 +439,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ t.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:52px">
       <span style="flex:1;min-width:0">
         <b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ t.label }}</b>
-        <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+        <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
       </span>
       <span style="font:700 14px Mulish;color:#800000;flex:none">→</span>
     </button>
@@ -441,7 +459,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <a href="{{ o.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
       <span style="flex:1;min-width:0">
         <b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ o.titel }}</b>
-        <span style="display:block;margin-top:2px;font:700 11px Mulish;color:#800000">{{ o.hoort }}</span>
+        <span style="display:block;margin-top:2px;font:700 12px Mulish;color:#800000">{{ o.hoort }}</span>
       </span>
       <span style="font:700 13px Mulish;color:#800000;flex:none">›</span>
     </a>
@@ -455,7 +473,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-for list="{{ strookItems }}" as="n" hint-placeholder-count="3">
       <button onClick="{{ n.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
         <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ n.titel }}</div>
-        <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
+        <div style="font:600 12px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
       </button>
       </sc-for>
       <button onClick="{{ strookAlle }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle nieuws →</button>
@@ -490,7 +508,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:20px 16px 0">
     <sc-for list="{{ onStappen }}" as="f" hint-placeholder-count="4">
     <button onClick="{{ f.kies }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-height:150px;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-align:left;cursor:pointer;box-sizing:border-box">
-      <span style="display:flex;align-items:center;justify-content:space-between;width:100%"><span style="{{ f.cirkelStijl }}">{{ f.nr }}</span><span style="font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ onKleur }}">Stap</span></span>
+      <span style="display:flex;align-items:center;justify-content:space-between;width:100%"><span style="{{ f.cirkelStijl }}">{{ f.nr }}</span><span style="font:600 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ onKleur }}">Stap</span></span>
       <span style="font:600 15px Poppins,system-ui,sans-serif;line-height:1.25">{{ f.titel }}</span>
       <span style="margin-top:auto;font:500 12.5px Mulish;color:#71787C;line-height:1.35">{{ f.telling }}</span>
     </button>
@@ -500,7 +518,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ onToonLijst }}" hint-placeholder-val="{{ false }}">
   <div style="padding:6px 16px 0">
     <button onClick="{{ onLijstSluit }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer;margin-top:12px">← Alle stappen</button>
-    <div style="font:700 11px Mulish;letter-spacing:.10em;text-transform:uppercase;color:{{ onKleur }};margin-top:16px">Stap {{ onLijst.nr }}</div>
+    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:{{ onKleur }};margin-top:16px">Stap {{ onLijst.nr }}</div>
     <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:22px;line-height:1.2;margin:4px 0 0">{{ onLijst.titel }}</h2>
   </div>
   <div style="margin:14px 16px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
@@ -508,7 +526,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <sc-if value="{{ a.isArt }}" hint-placeholder-val="{{ true }}">
         <a href="{{ a.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;min-height:52px">
           <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ a.titel }}</span>
-          <span style="font:600 10.5px Mulish;color:#71787C;flex:none">Artikel</span>
+          <span style="font:600 12px Mulish;color:#71787C;flex:none">Artikel</span>
           <span style="font:700 13px Mulish;color:#800000;flex:none">›</span>
         </a>
         </sc-if>
@@ -516,16 +534,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <button onClick="{{ a.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);text-align:left;cursor:pointer;min-height:52px">
           <span style="flex:1;min-width:0">
             <b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ a.titel }}</b>
-            <sc-if value="{{ a.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+            <sc-if value="{{ a.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
           </span>
-          <span style="font:600 10.5px Mulish;color:#800000;flex:none">Hulpmiddel</span>
+          <span style="font:600 12px Mulish;color:#800000;flex:none">Hulpmiddel</span>
           <span style="font:700 14px Mulish;color:#800000;flex:none">→</span>
         </button>
         </sc-if>
         <sc-if value="{{ a.isLater }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;align-items:center;gap:10px;padding:10px 15px;border-top:1px solid rgba(21,24,26,.06);min-height:52px;opacity:.6">
           <span style="flex:1;min-width:0;font:600 13.5px/1.35 Mulish;color:#71787C;text-wrap:pretty">{{ a.titel }}</span>
-          <span style="font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
+          <span style="font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#71787C;flex:none">komt later</span>
         </div>
         </sc-if>
         </sc-for>
@@ -548,7 +566,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-for list="{{ strookItems }}" as="n" hint-placeholder-count="3">
       <button onClick="{{ n.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
         <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ n.titel }}</div>
-        <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
+        <div style="font:600 12px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
       </button>
       </sc-for>
       <button onClick="{{ strookAlle }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle nieuws →</button>
@@ -580,18 +598,18 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <button onClick="{{ t.open }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:11px;padding:13px 4px 13px 15px;background:none;border:0;text-align:left;cursor:pointer;min-height:56px">
         <span style="flex:1;min-width:0">
           <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
-          <span style="font:600 11.5px Mulish;color:#71787C">{{ t.meta }}</span>
-          <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:700 11px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
-          <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+          <span style="font:600 12px Mulish;color:#71787C">{{ t.meta }}</span>
+          <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:700 12px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
+          <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
         </span>
-        <span style="font:800 8.5px Mulish;letter-spacing:.10em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
       </button>
       <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="width:46px;flex:none;border:0;background:none;cursor:pointer;font-size:17px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
     </div>
     </sc-for>
     <sc-if value="{{ themaHeeftCafe }}" hint-placeholder-val="{{ false }}">
     <a href="{{ themaCafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
-      <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 11px Mulish">CC</span>
+      <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 12px Mulish">CC</span>
       <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ themaCafeTekst }}</span>
       <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
     </a>
@@ -613,7 +631,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-for list="{{ strookItems }}" as="n" hint-placeholder-count="3">
       <button onClick="{{ n.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
         <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ n.titel }}</div>
-        <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
+        <div style="font:600 12px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
       </button>
       </sc-for>
       <button onClick="{{ strookAlle }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle nieuws →</button>
@@ -631,7 +649,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div>
     <div style="padding:16px 18px 0">
       <button onClick="{{ gzTerug }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">← Terug naar het overzicht</button>
-      <div style="font:800 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000;margin-top:16px">{{ gzHfdKicker }}</div>
+      <div style="font:800 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000;margin-top:16px">{{ gzHfdKicker }}</div>
       <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:24px;line-height:1.2;margin:6px 0 0">{{ gzHfdTitel }}</h1>
     </div>
     <sc-if value="{{ gzLaadt }}" hint-placeholder-val="{{ false }}">
@@ -697,7 +715,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <sc-for list="{{ gzHulp }}" as="t" hint-placeholder-count="2">
           <button onClick="{{ t.open }}" style="{{ t.stijl }}">
             <span>{{ t.name }}</span>
-            <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="font:500 11.5px Mulish">in ontwikkeling</span></sc-if>
+            <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px Mulish">in ontwikkeling</span></sc-if>
           </button>
           </sc-for>
         </div>
@@ -716,7 +734,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:12px 14px 0;overflow:hidden">
         <sc-for list="{{ gzOndRijen }}" as="r" hint-placeholder-count="3">
         <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:11px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
-          <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 13.5px Mulish;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ r.meta }}</span></span>
+          <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 13.5px Mulish;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</b><span style="font:600 12px Mulish;color:#71787C">{{ r.meta }}</span></span>
           <span style="font:700 13px Mulish;color:#800000">→</span>
         </button>
         </sc-for>
@@ -767,7 +785,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-for list="{{ gzKleineTegels }}" as="t" hint-placeholder-count="4">
       <button onClick="{{ t.open }}" style="{{ t.stijl }}">
         <span>{{ t.name }}</span>
-        <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="font:500 11.5px Mulish">in ontwikkeling</span></sc-if>
+        <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px Mulish">in ontwikkeling</span></sc-if>
       </button>
       </sc-for>
     </div>
@@ -788,7 +806,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:12px 14px 0;overflow:hidden">
       <sc-for list="{{ gzLijstRijen }}" as="h" hint-placeholder-count="4">
       <button onClick="{{ h.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:11px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
-        <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ h.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ h.meta }}</span></span>
+        <span style="flex:1;min-width:0;line-height:1.3"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ h.titel }}</b><span style="font:600 12px Mulish;color:#71787C">{{ h.meta }}</span></span>
         <span style="font:700 13px Mulish;color:#800000">→</span>
       </button>
       </sc-for>
@@ -804,7 +822,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <sc-for list="{{ strookItems }}" as="n" hint-placeholder-count="3">
         <button onClick="{{ n.open }}" style="width:100%;display:block;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
           <div style="font:700 13.5px/1.4 Mulish;color:#15181A;text-wrap:pretty">{{ n.titel }}</div>
-          <div style="font:600 11px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
+          <div style="font:600 12px Mulish;color:#71787C;margin-top:3px">{{ n.meta }}</div>
         </button>
         </sc-for>
         <button onClick="{{ strookAlle }}" style="width:100%;padding:13px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:700 13px Mulish;color:#800000;min-height:48px">Alle nieuws →</button>
@@ -865,7 +883,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ dsKlaar }}" hint-placeholder-val="{{ true }}">
   <div>
     <div style="padding:18px 18px 0">
-      <div style="display:inline-block;font:800 9.5px Mulish;letter-spacing:.12em;padding:5px 8px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">VOORBEELD</div>
+      <div style="display:inline-block;font:800 11.5px Mulish;letter-spacing:.04em;padding:5px 8px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">VOORBEELD</div>
       <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:9px 0 0">{{ dsTitel }}</h1>
       <p style="font-size:13.5px;line-height:1.8;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ dsOndertitel }}</p>
     </div>
@@ -879,7 +897,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div>
       <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:12px 18px 0;text-wrap:pretty">{{ dsWelkom }}</p>
       <div style="margin:14px 14px 0;padding:14px 16px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.16)">
-        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Eerstvolgende termijn</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Eerstvolgende termijn</div>
         <div style="font:700 14px/1.4 Mulish;color:#15181A;margin-top:5px">{{ dsEerstTitel }}</div>
         <div style="font:600 12px Mulish;color:#71787C;margin-top:2px">{{ dsEerstDatum }}</div>
       </div>
@@ -908,7 +926,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:12px 14px 0;overflow:hidden">
         <sc-for list="{{ dsOndPunten }}" as="p" hint-placeholder-count="3">
         <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
-          <div style="display:flex;align-items:baseline;gap:8px"><b style="font:700 14px Mulish;color:#15181A">{{ p.titel }}</b><span style="margin-left:auto;font:800 9px Mulish;letter-spacing:.10em;padding:3px 7px;border-radius:999px;background:rgba(21,24,26,.06);color:#3D4346">{{ p.status }}</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><b style="font:700 14px Mulish;color:#15181A">{{ p.titel }}</b><span style="margin-left:auto;font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 7px;border-radius:999px;background:rgba(21,24,26,.06);color:#3D4346">{{ p.status }}</span></div>
           <div style="font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px;text-wrap:pretty">{{ p.tekst }}</div>
         </div>
         </sc-for>
@@ -916,13 +934,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="padding:18px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Documenten bij {{ dsOndNaam }}</div>
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
         <sc-for list="{{ dsOndDocs }}" as="d" hint-placeholder-count="2">
-        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ d.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ d.datum }}</span></div>
+        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ d.titel }}</b><span style="font:600 12px Mulish;color:#71787C">{{ d.datum }}</span></div>
         </sc-for>
       </div>
       <div style="padding:18px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Termijnen bij {{ dsOndNaam }}</div>
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
         <sc-for list="{{ dsOndTermijnen }}" as="t" hint-placeholder-count="2">
-        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ t.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ t.datum }} · {{ t.stand }}</span></div>
+        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px Mulish;color:#15181A">{{ t.titel }}</b><span style="font:600 12px Mulish;color:#71787C">{{ t.datum }} · {{ t.stand }}</span></div>
         </sc-for>
       </div>
     </div>
@@ -933,7 +951,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-for list="{{ dsOpgeslagen }}" as="o" hint-placeholder-count="3">
       <div style="border-top:1px solid rgba(21,24,26,.06)">
         <button onClick="{{ o.toggle }}" aria-expanded="{{ o.ariaOpen }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:13px 15px;background:none;border:0;text-align:left;cursor:pointer;min-height:60px">
-          <span style="flex:1;min-width:0"><span style="display:block;font:800 9px Mulish;letter-spacing:.10em;color:#800000">{{ o.soort }}</span><b style="display:block;font:700 14px/1.35 Mulish;color:#15181A;margin-top:2px">{{ o.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ o.datum }} · {{ o.bron }}</span></span>
+          <span style="flex:1;min-width:0"><span style="display:block;font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">{{ o.soort }}</span><b style="display:block;font:700 14px/1.35 Mulish;color:#15181A;margin-top:2px">{{ o.titel }}</b><span style="font:600 12px Mulish;color:#71787C">{{ o.datum }} · {{ o.bron }}</span></span>
           <span style="font:700 14px Mulish;color:#800000">{{ o.pijl }}</span>
         </button>
         <sc-if value="{{ o.open }}" hint-placeholder-val="{{ false }}"><div style="padding:0 15px 14px;font:500 13px/1.7 Mulish;color:#3D4346">{{ o.tekst }}</div></sc-if>
@@ -946,11 +964,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div>
       <div style="margin:14px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
         <sc-for list="{{ dsDocumenten }}" as="d" hint-placeholder-count="5">
-        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ d.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ d.onderdeel }} · {{ d.datum }}</span></div>
+        <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ d.titel }}</b><span style="font:600 12px Mulish;color:#71787C">{{ d.onderdeel }} · {{ d.datum }}</span></div>
         </sc-for>
       </div>
       <div style="margin:12px 14px 0">
-        <button disabled style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:rgba(21,24,26,.04);color:#A2A7A9;font:700 13.5px Mulish;cursor:not-allowed">Document toevoegen</button>
+        <button disabled style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:rgba(21,24,26,.04);color:#71787C;font:700 13.5px Mulish;cursor:not-allowed">Document toevoegen</button>
         <div style="font:500 12px/1.6 Mulish;color:#71787C;margin-top:6px;text-align:center">In het voorbeeld niet beschikbaar</div>
       </div>
     </div>
@@ -960,8 +978,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="margin:14px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
       <sc-for list="{{ dsTermijnen }}" as="t" hint-placeholder-count="4">
       <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
-        <div style="display:flex;align-items:baseline;gap:8px"><b style="font:700 14px/1.35 Mulish;color:#15181A">{{ t.titel }}</b><span style="margin-left:auto;flex:none;font:800 9px Mulish;letter-spacing:.10em;padding:3px 7px;border-radius:999px;background:rgba(21,24,26,.06);color:#3D4346">{{ t.stand }}</span></div>
-        <div style="font:600 11.5px Mulish;color:#71787C;margin-top:2px">{{ t.datum }} · {{ t.onderdeel }}</div>
+        <div style="display:flex;align-items:baseline;gap:8px"><b style="font:700 14px/1.35 Mulish;color:#15181A">{{ t.titel }}</b><span style="margin-left:auto;flex:none;font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 7px;border-radius:999px;background:rgba(21,24,26,.06);color:#3D4346">{{ t.stand }}</span></div>
+        <div style="font:600 12px Mulish;color:#71787C;margin-top:2px">{{ t.datum }} · {{ t.onderdeel }}</div>
         <div style="font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px">{{ t.toelichting }}</div>
       </div>
       </sc-for>
@@ -972,11 +990,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div>
       <div style="margin:14px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
         <sc-for list="{{ dsNotities }}" as="n" hint-placeholder-count="2">
-        <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 14px Mulish;color:#15181A">{{ n.titel }}</b><span style="font:600 11.5px Mulish;color:#71787C">{{ n.datum }}</span><div style="font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px">{{ n.tekst }}</div></div>
+        <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)"><b style="display:block;font:700 14px Mulish;color:#15181A">{{ n.titel }}</b><span style="font:600 12px Mulish;color:#71787C">{{ n.datum }}</span><div style="font:500 13px/1.7 Mulish;color:#3D4346;margin-top:4px">{{ n.tekst }}</div></div>
         </sc-for>
       </div>
       <div style="margin:12px 14px 0">
-        <button disabled style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:rgba(21,24,26,.04);color:#A2A7A9;font:700 13.5px Mulish;cursor:not-allowed">Notitie toevoegen</button>
+        <button disabled style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:rgba(21,24,26,.04);color:#71787C;font:700 13.5px Mulish;cursor:not-allowed">Notitie toevoegen</button>
         <div style="font:500 12px/1.6 Mulish;color:#71787C;margin-top:6px;text-align:center">In het voorbeeld niet beschikbaar</div>
       </div>
     </div>
@@ -1005,11 +1023,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
       <sc-for list="{{ results }}" as="r" hint-placeholder-count="6">
       <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:58px">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;color:#800000;flex:none;width:56px;padding-top:4px">{{ r.kind }}</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000;flex:none;width:56px;padding-top:4px">{{ r.kind }}</span>
         <span style="flex:1;min-width:0">
           <b style="display:block;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ r.fr }}</b>
           <span style="display:block;font:500 12.5px/1.5 Mulish;color:#71787C;margin-top:2px">{{ r.nl }}</span>
-          <span style="display:block;font:600 10.5px Mulish;color:#A2A7A9;margin-top:4px">{{ r.where }}</span>
+          <span style="display:block;font:600 12px Mulish;color:#71787C;margin-top:4px">{{ r.where }}</span>
         </span>
       </button>
       </sc-for>
@@ -1026,7 +1044,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
       <sc-for list="{{ zaItems }}" as="r" hint-placeholder-count="3">
       <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:52px">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;color:#800000;flex:none;width:56px;padding-top:4px">ARTIKEL</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000;flex:none;width:56px;padding-top:4px">ARTIKEL</span>
         <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }}</b>
       </button>
       </sc-for>
@@ -1040,11 +1058,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
       <sc-for list="{{ resultsTaal }}" as="r" hint-placeholder-count="6">
       <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:58px">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;color:#800000;flex:none;width:56px;padding-top:4px">{{ r.kind }}</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000;flex:none;width:56px;padding-top:4px">{{ r.kind }}</span>
         <span style="flex:1;min-width:0">
           <b style="display:block;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ r.fr }}</b>
           <span style="display:block;font:500 12.5px/1.5 Mulish;color:#71787C;margin-top:2px">{{ r.nl }}</span>
-          <span style="display:block;font:600 10.5px Mulish;color:#A2A7A9;margin-top:4px">{{ r.where }}</span>
+          <span style="display:block;font:600 12px Mulish;color:#71787C;margin-top:4px">{{ r.where }}</span>
         </span>
       </button>
       </sc-for>
@@ -1075,15 +1093,15 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isGem }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nederlanders.fr · vrij toegankelijk</div>
+    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nederlanders.fr · vrij toegankelijk</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Forum</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Het forum van Nederlanders.fr: berichten mét hun volledige reactiedraad, juist wat de mobiele weergave van de site weglaat. Lezen kan zonder account; reageren doet u op de site zelf.</p>
   </div>
 
   <div>
     <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 0">
-      <div style="font:600 11px Mulish;color:#71787C;flex:1">{{ feedStatus }}</div>
-      <button onClick="{{ refresh }}" style="flex:none;border:1px solid rgba(21,24,26,.10);background:#fff;border-radius:999px;padding:8px 14px;min-height:44px;font:700 11.5px Mulish;color:#3D4346;cursor:pointer">Vernieuwen</button>
+      <div style="font:600 12px Mulish;color:#71787C;flex:1">{{ feedStatus }}</div>
+      <button onClick="{{ refresh }}" style="flex:none;border:1px solid rgba(21,24,26,.10);background:#fff;border-radius:999px;padding:8px 14px;min-height:44px;font:700 12px Mulish;color:#3D4346;cursor:pointer">Vernieuwen</button>
     </div>
     <div style="display:flex;gap:7px;overflow-x:auto;padding:12px 16px 0">
       <button onClick="{{ setFilterAll }}" style="{{ gemFilterAll }}">Alles</button>
@@ -1094,17 +1112,17 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;overflow:hidden">
         <button onClick="{{ p.open }}" style="width:100%;display:block;padding:14px 15px;border:0;background:none;text-align:left;cursor:pointer">
           <div style="display:flex;align-items:center;gap:7px">
-            <span style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ p.kicker }}</span>
+            <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">{{ p.kicker }}</span>
             <sc-if value="{{ p.isNew }}" hint-placeholder-val="{{ false }}">
-            <span style="font:800 8.5px Mulish;letter-spacing:.08em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">NIEUW</span>
+            <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">NIEUW</span>
             </sc-if>
           </div>
           <div style="font:700 15px/1.35 Mulish;color:#15181A;margin-top:5px;text-wrap:pretty">{{ p.titel }}</div>
           <div style="font:500 12.5px/1.6 Mulish;color:#71787C;margin-top:5px;text-wrap:pretty">{{ p.samenvatting }}</div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:9px">
-            <span style="font:600 11px Mulish;color:#71787C">{{ p.meta }}</span>
+            <span style="font:600 12px Mulish;color:#71787C">{{ p.meta }}</span>
             <sc-if value="{{ p.heeftReacties }}" hint-placeholder-val="{{ true }}">
-            <span style="margin-left:auto;font:700 11.5px Mulish;color:#800000">{{ p.draadLabel }}</span>
+            <span style="margin-left:auto;font:700 12px Mulish;color:#800000">{{ p.draadLabel }}</span>
             </sc-if>
           </div>
         </button>
@@ -1116,7 +1134,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </div>
       </sc-for>
     </div>
-    <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ apiNote }}</div>
+    <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">{{ apiNote }}</div>
   </div>
   <div style="height:26px"></div>
 </div>
@@ -1126,7 +1144,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isRuyter }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Geld · vrij toegankelijk</div>
+    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Geld · vrij toegankelijk</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.15;margin:7px 0 0">Betaalt u 7,5% of 17,2%?</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ ruKern }}</p>
     <div style="margin-top:12px;padding:13px 15px;border-radius:13px;background:rgba(226,129,47,.12);font:600 12.5px/1.7 Mulish;color:#8A4E14;text-wrap:pretty">{{ ruWaarschuwing }}</div>
@@ -1149,7 +1167,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="margin:16px 14px 0;background:#fff;border:2px solid #800000;border-radius:17px;padding:17px 18px">
     <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:20px;line-height:1.2;color:#800000">{{ ruKop }}</div>
     <div style="font-size:13.5px;line-height:1.8;color:#3D4346;margin-top:7px;text-wrap:pretty">{{ ruTekst }}</div>
-    <div style="margin-top:11px"><span style="font:800 9px Mulish;letter-spacing:.09em;padding:4px 8px;border-radius:999px;background:rgba(21,24,26,.05);color:#3D4346">{{ ruBron }}</span></div>
+    <div style="margin-top:11px"><span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:rgba(21,24,26,.05);color:#3D4346">{{ ruBron }}</span></div>
     <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:11px;padding-top:11px;border-top:1px solid rgba(21,24,26,.08);text-wrap:pretty">{{ ruPeildatum }}</div>
   </div>
   </sc-if>
@@ -1159,19 +1177,19 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-for list="{{ ruTarieven }}" as="t" hint-placeholder-count="4">
     <div style="display:flex;gap:10px;align-items:baseline;padding:12px 15px;border-top:1px solid rgba(21,24,26,.07)">
       <span style="font:600 12.5px/1.5 Mulish;color:#15181A;flex:1;text-wrap:pretty">{{ t.wat }}</span>
-      <span style="font:500 12px Mulish;color:#A8AEB1;flex:none;text-decoration:line-through">{{ t.zonder }}</span>
+      <span style="font:500 12px Mulish;color:#71787C;flex:none;text-decoration:line-through">{{ t.zonder }}</span>
       <span style="font:800 13px Mulish;color:#2E7D5B;flex:none;width:44px;text-align:right">{{ t.met }}</span>
-      <span style="font:600 11px Mulish;color:#71787C;flex:none;width:56px;text-align:right">{{ t.verschil }}</span>
+      <span style="font:600 12px Mulish;color:#71787C;flex:none;width:56px;text-align:right">{{ t.verschil }}</span>
     </div>
     </sc-for>
-    <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.07);font:500 11.5px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ ruTarievenNoot }}</div>
+    <div style="padding:12px 15px;border-top:1px solid rgba(21,24,26,.07);font:500 12px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ ruTarievenNoot }}</div>
   </div>
 
   <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Drie routes</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 14px">
     <sc-for list="{{ ruRoutes }}" as="r" hint-placeholder-count="3">
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px">
-      <div style="font:800 10px Mulish;letter-spacing:.1em;color:#800000">ROUTE {{ r.nr }}</div>
+      <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">ROUTE {{ r.nr }}</div>
       <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:17px;line-height:1.25;margin-top:5px;color:#15181A">{{ r.kop }}</div>
       <div style="font-size:13px;line-height:1.8;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ r.wat }}</div>
       <div style="display:flex;flex-direction:column;gap:7px;margin-top:11px">
@@ -1228,11 +1246,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-for list="{{ ruBronnen }}" as="b" hint-placeholder-count="4">
     <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
       <div style="font:700 12.5px/1.5 Mulish;color:#15181A;text-wrap:pretty">{{ b.wat }}</div>
-      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.welke }}</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.welke }}</div>
     </div>
     </sc-for>
   </div>
-  <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ ruVoorbehoud }} {{ toolNagekeken }}</div>
+  <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ ruVoorbehoud }} {{ toolNagekeken }}</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -1241,7 +1259,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isZorg }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="margin:14px 14px 0;background:#8A1414;border-radius:17px;padding:17px 18px">
-    <div style="font:800 11px Mulish;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.72)">Direct gevaar?</div>
+    <div style="font:800 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.72)">Direct gevaar?</div>
     <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:21px;line-height:1.2;color:#fff;margin-top:6px">Bel 15 of 112. Zeg eerst uw adres.</div>
     <div style="display:flex;flex-direction:column;gap:7px;margin-top:13px">
       <sc-for list="{{ zoNummers }}" as="n" hint-placeholder-count="4">
@@ -1278,7 +1296,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="margin:12px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
     <sc-for list="{{ zoLijst }}" as="l" hint-placeholder-count="5">
     <div style="display:flex;gap:12px;padding:13px 15px;border-top:1px solid rgba(21,24,26,.07)">
-      <span style="font:800 11px Mulish;color:#8A1414;flex:none;width:18px;padding-top:2px">{{ l.n }}</span>
+      <span style="font:800 12px Mulish;color:#8A1414;flex:none;width:18px;padding-top:2px">{{ l.n }}</span>
       <span style="font:600 13.5px/1.65 Mulish;color:#15181A;text-wrap:pretty">{{ l.tekst }}</span>
     </div>
     </sc-for>
@@ -1291,9 +1309,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="font:700 15px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ p.kop }}</div>
       <div style="font-size:13.5px;line-height:1.8;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ p.tekst }}</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;padding:4px 8px;border-radius:999px;background:rgba(21,24,26,.05);color:#3D4346">{{ p.bron }}</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:rgba(21,24,26,.05);color:#3D4346">{{ p.bron }}</span>
         <sc-if value="{{ p.let }}" hint-placeholder-val="{{ false }}">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;padding:4px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">STAND VAN ZAKEN</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">STAND VAN ZAKEN</span>
         </sc-if>
       </div>
     </div>
@@ -1340,11 +1358,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-for list="{{ zoBronnen }}" as="b" hint-placeholder-count="4">
     <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
       <div style="font:700 12.5px/1.5 Mulish;color:#15181A;text-wrap:pretty">{{ b.wat }}</div>
-      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.welke }}</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.welke }}</div>
     </div>
     </sc-for>
   </div>
-  <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ zoVoorbehoud }} {{ toolNagekeken }}</div>
+  <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ zoVoorbehoud }} {{ toolNagekeken }}</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -1353,7 +1371,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isVastgoed }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · vrij toegankelijk</div>
+    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · vrij toegankelijk</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Een huis kopen</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies de fase waarin u zit. Per fase staat wat er wettelijk geldt en wat alleen gebruik is — dat onderscheid is precies waar het misgaat.</p>
   </div>
@@ -1361,7 +1379,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:flex;flex-direction:column;gap:8px;padding:16px 14px 0">
     <sc-for list="{{ vgMarkt }}" as="k" hint-placeholder-count="4">
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:13px;padding:12px 14px">
-      <div style="font:700 10.5px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000;overflow-wrap:anywhere">{{ k.kop }}</div>
+      <div style="font:700 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000;overflow-wrap:anywhere">{{ k.kop }}</div>
       <div style="font:500 12.5px/1.65 Mulish;color:#3D4346;margin-top:4px;text-wrap:pretty">{{ k.tekst }}</div>
     </div>
     </sc-for>
@@ -1384,9 +1402,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="font:700 15px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ p.kop }}</div>
       <div style="font-size:13.5px;line-height:1.8;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ p.tekst }}</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;padding:4px 8px;border-radius:999px;background:rgba(21,24,26,.05);color:#3D4346">{{ p.bron }}</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:rgba(21,24,26,.05);color:#3D4346">{{ p.bron }}</span>
         <sc-if value="{{ p.let }}" hint-placeholder-val="{{ false }}">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;padding:4px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">NOG NIET GECONTROLEERD</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">NOG NIET GECONTROLEERD</span>
         </sc-if>
       </div>
     </div>
@@ -1397,7 +1415,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:flex;flex-direction:column;gap:9px;padding:0 14px">
     <sc-for list="{{ vgDoen }}" as="d" hint-placeholder-count="4">
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px 15px">
-      <div style="font:800 10px Mulish;letter-spacing:.09em;color:#A8AEB1">{{ d.n }}</div>
+      <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#71787C">{{ d.n }}</div>
       <div style="display:flex;gap:9px;margin-top:7px">
         <span style="font:800 13px Mulish;color:#2E7D5B;flex:none">✓</span>
         <span style="font:600 13px/1.65 Mulish;color:#15181A;text-wrap:pretty">{{ d.doen }}</span>
@@ -1417,9 +1435,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="background:#fff;border:1px solid rgba(128,0,0,.20);border-radius:15px;padding:15px 16px">
       <div style="font:700 15px/1.35 Mulish;color:#15181A;text-wrap:pretty">{{ g.naam }}</div>
       <div style="font-size:13px;line-height:1.8;color:#3D4346;margin-top:5px;text-wrap:pretty">{{ g.wat }}</div>
-      <div style="font:600 11px/1.6 Mulish;color:#71787C;margin-top:8px;text-wrap:pretty">{{ g.bron }}</div>
+      <div style="font:600 12px/1.6 Mulish;color:#71787C;margin-top:8px;text-wrap:pretty">{{ g.bron }}</div>
       <sc-if value="{{ g.heeftLet }}" hint-placeholder-val="{{ false }}">
-      <div style="margin-top:9px;padding:10px 12px;border-radius:11px;background:rgba(226,129,47,.12);font:500 11.5px/1.7 Mulish;color:#8A4E14;text-wrap:pretty">{{ g.let }}</div>
+      <div style="margin-top:9px;padding:10px 12px;border-radius:11px;background:rgba(226,129,47,.12);font:500 12px/1.7 Mulish;color:#8A4E14;text-wrap:pretty">{{ g.let }}</div>
       </sc-if>
       <button onClick="{{ g.open }}" style="width:100%;min-height:48px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">Openen</button>
     </div>
@@ -1429,7 +1447,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
   <sc-if value="{{ vgHeeftReken }}" hint-placeholder-val="{{ true }}">
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(128,0,0,.20);border-radius:16px;padding:16px 17px">
-    <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Wat gaat het u kosten</div>
+    <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Wat gaat het u kosten</div>
     <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">De rekentool Vastgoed transactiekosten rekent met de overdrachtsbelasting van úw departement en het wettelijke notaristarief, en toont per post het toegepaste wetsartikel met bron en peildatum.</div>
     <button onClick="{{ vgReken }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14.5px Mulish;cursor:pointer;margin-top:13px">Naar de rekentool</button>
   </div>
@@ -1450,11 +1468,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-for list="{{ vgBronnen }}" as="b" hint-placeholder-count="3">
     <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
       <div style="font:700 12.5px/1.5 Mulish;color:#15181A;text-wrap:pretty">{{ b.wat }}</div>
-      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.welke }}</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.welke }}</div>
     </div>
     </sc-for>
   </div>
-  <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ vgVoorbehoud }} {{ toolNagekeken }}</div>
+  <div style="margin:14px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ vgVoorbehoud }} {{ toolNagekeken }}</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -1463,7 +1481,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isEnergie }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · rekenmotor</div>
+    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · rekenmotor</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Energie &amp; verwarming</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ enOver }}</p>
   </div>
@@ -1472,7 +1490,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12px/1.7 Mulish;color:#3D4346">Rekenmotor laden…</div>
   </sc-if>
   <sc-if value="{{ enEngineFout }}" hint-placeholder-val="{{ false }}">
-  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 11.5px/1.7 Mulish">De rekenmotor (engine/) kon niet worden geladen. Geen uitkomst te tonen — probeer het later opnieuw.</div>
+  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De rekenmotor (engine/) kon niet worden geladen. Geen uitkomst te tonen — probeer het later opnieuw.</div>
   </sc-if>
 
   <sc-if value="{{ enEngineKlaar }}" hint-placeholder-val="{{ false }}">
@@ -1485,12 +1503,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="margin:12px 14px 0;display:flex;gap:12px;align-items:stretch">
         <div style="{{ enVbLabelStyle }}">
           <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:42px;line-height:1">{{ enVbLetter }}</div>
-          <div style="font:800 9px Mulish;letter-spacing:.10em;margin-top:2px">DPE</div>
+          <div style="font:800 11.5px Mulish;letter-spacing:.04em;margin-top:2px">DPE</div>
         </div>
         <div style="flex:1;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:13px 15px;display:flex;flex-direction:column;justify-content:center">
-          <div style="font:600 10.5px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#71787C">Jaarkosten</div>
+          <div style="font:600 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#71787C">Jaarkosten</div>
           <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:22px;line-height:1.15;margin-top:2px">{{ enVbKostenJaar }}</div>
-          <div style="font:600 11.5px Mulish;color:#71787C;margin-top:2px">{{ enVbKostenMaand }} per maand</div>
+          <div style="font:600 12px Mulish;color:#71787C;margin-top:2px">{{ enVbKostenMaand }} per maand</div>
         </div>
       </div>
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:12px 14px 0;padding:2px 15px">
@@ -1526,10 +1544,10 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-for list="{{ enGroepen }}" as="g" hint-placeholder-count="6">
     <div style="margin:18px 14px 0">
       <div style="display:flex;align-items:baseline;gap:8px">
-        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 11px Mulish">{{ g.n }}</div>
+        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 12px Mulish">{{ g.n }}</div>
         <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15.5px;line-height:1.3">{{ g.label }}</div>
       </div>
-      <div style="font:500 11.5px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">{{ g.hint }}</div>
+      <div style="font:500 12px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">{{ g.hint }}</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0 30px">
         <sc-for list="{{ g.opties }}" as="o" hint-placeholder-count="4">
         <button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
@@ -1540,10 +1558,10 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
     <div style="margin:18px 14px 0">
       <div style="display:flex;align-items:baseline;gap:8px">
-        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 11px Mulish">7</div>
+        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 12px Mulish">7</div>
         <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15.5px;line-height:1.3">Woonoppervlak</div>
       </div>
-      <div style="font:500 11.5px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">Surface habitable, zoals op uw acte of taxe foncière.</div>
+      <div style="font:500 12px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">Surface habitable, zoals op uw acte of taxe foncière.</div>
       <div style="display:flex;align-items:center;gap:12px;margin:10px 0 0 30px">
         <button onClick="{{ enM2Min }}" aria-label="Minder" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(128,0,0,.20);background:#fff;color:#800000;font:700 22px Mulish;cursor:pointer">−</button>
         <div style="flex:1;text-align:center;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:24px">{{ enM2 }} m²</div>
@@ -1558,7 +1576,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ enEigenKlaar }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="margin:20px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px">
-        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">De richting van uw uitkomst</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">De richting van uw uitkomst</div>
         <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ enEigenRichting }}</div>
       </div>
 
@@ -1566,7 +1584,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="margin:12px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
         <div style="padding:14px 16px;font:700 12px Mulish;letter-spacing:.06em;text-transform:uppercase;color:#800000;background:rgba(128,0,0,.05)">{{ knipKop }}</div>
         <div style="padding:14px 16px">
-          <div style="font:800 10px Mulish;letter-spacing:.1em;color:#2E7D5B">GRATIS</div>
+          <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#2E7D5B">GRATIS</div>
           <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
             <sc-for list="{{ knipGratis }}" as="g" hint-placeholder-count="4">
             <div style="display:flex;gap:9px">
@@ -1577,7 +1595,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           </div>
         </div>
         <div style="padding:14px 16px;border-top:1px solid rgba(21,24,26,.08);background:rgba(128,0,0,.03)">
-          <div style="font:800 10px Mulish;letter-spacing:.1em;color:#800000">MET ABONNEMENT</div>
+          <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">MET ABONNEMENT</div>
           <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
             <sc-for list="{{ knipAbo }}" as="a" hint-placeholder-count="4">
             <div style="display:flex;gap:9px">
@@ -1587,7 +1605,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
             </sc-for>
           </div>
         </div>
-        <div style="padding:13px 16px;border-top:1px solid rgba(21,24,26,.08);font:500 11.5px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ knipRegel }}</div>
+        <div style="padding:13px 16px;border-top:1px solid rgba(21,24,26,.08);font:500 12px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ knipRegel }}</div>
         <div style="padding:0 16px 16px">
           <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">Word abonnee en bekijk mijn bedragen →</a>
         </div>
@@ -1602,9 +1620,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   </sc-if>
 
-  <div style="margin:20px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ enLet }} {{ toolNagekeken }}</div>
+  <div style="margin:20px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 12px/1.7 Mulish;color:#3D4346">{{ enLet }} {{ toolNagekeken }}</div>
   <sc-if value="{{ enEngineKlaar }}" hint-placeholder-val="{{ false }}">
-  <div style="margin:10px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346;text-wrap:pretty"><strong>Waar deze bedragen op steunen.</strong> {{ enAannames }}</div>
+  <div style="margin:10px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346;text-wrap:pretty"><strong>Waar deze bedragen op steunen.</strong> {{ enAannames }}</div>
   </sc-if>
   <sc-if value="{{ peilAan }}" hint-placeholder-val="{{ false }}">
   <div style="margin:12px 14px 0;display:flex;justify-content:flex-end">
@@ -1627,7 +1645,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ nwOverzicht }}" hint-placeholder-val="{{ true }}">
   <div>
     <div style="padding:18px 18px 0">
-      <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nieuws en wijzigingen</div>
+      <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nieuws en wijzigingen</div>
       <div style="{{ accentStijl }}"></div>
       <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Nieuws</h1>
       <p style="font-size:13.5px;line-height:1.8em;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ themaOmschr }}</p>
@@ -1646,7 +1664,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <button onClick="{{ nwHero.open }}" style="display:block;width:calc(100% - 28px);margin:12px 14px 0;padding:0;text-align:left;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);overflow:hidden;cursor:pointer;color:#15181A">
         <div role="img" aria-label="{{ nwHero.alt }}" style="display:block;width:100%;aspect-ratio:358/168;background:{{ nwHero.bgGroot }} center/100% 100% no-repeat"></div>
         <span style="display:block;padding:14px 16px 16px">
-          <span style="display:block;font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ nwHero.kleur }}">{{ nwHero.kicker }}</span>
+          <span style="display:block;font:600 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ nwHero.kleur }}">{{ nwHero.kicker }}</span>
           <span style="display:block;margin-top:6px;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25;overflow-wrap:anywhere">{{ nwHero.titel }}</span>
           <span style="display:block;margin-top:8px;font:500 13px Mulish;color:#71787C">{{ nwHero.meta }}</span>
         </span>
@@ -1658,7 +1676,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <sc-for list="{{ nwRijen }}" as="r" hint-placeholder-count="4">
           <button onClick="{{ r.open }}" style="display:flex;gap:12px;width:100%;padding:12px;margin:0;border:0;border-bottom:1px solid rgba(21,24,26,.08);background:none;text-align:left;cursor:pointer;color:#15181A;min-height:100px">
             <div role="img" aria-label="{{ r.alt }}" style="flex:none;width:76px;height:76px;border-radius:12px;background:{{ r.bgKlein }} center/100% 100% no-repeat"></div>
-            <span style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:0"><span style="font:600 11px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ r.kleur }}">{{ r.kicker }}</span><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.3;overflow-wrap:anywhere">{{ r.titel }}</span><span style="font:500 12.5px Mulish;color:#71787C">{{ r.meta }}</span></span>
+            <span style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:0"><span style="font:600 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:{{ r.kleur }}">{{ r.kicker }}</span><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.3;overflow-wrap:anywhere">{{ r.titel }}</span><span style="font:500 12.5px Mulish;color:#71787C">{{ r.meta }}</span></span>
           </button>
           </sc-for>
         </div>
@@ -1676,19 +1694,19 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-if>
     <sc-if value="{{ nwVoorbeeld }}" hint-placeholder-val="{{ false }}">
     <div>
-      <div style="padding:20px 18px 8px;font:700 11.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Voorbeelden</div>
+      <div style="padding:20px 18px 8px;font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Voorbeelden</div>
       <div style="margin:0 14px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
         <sc-for list="{{ nwVoorbeeldItems }}" as="a" hint-placeholder-count="3">
         <div style="padding:14px 15px;border-top:1px solid rgba(21,24,26,.06);color:#15181A">
           <div style="font:700 14.5px/1.35 Mulish;text-wrap:pretty">{{ a.titel }}</div>
-          <div style="font:600 11px Mulish;color:#71787C;margin-top:6px">{{ a.meta }}</div>
+          <div style="font:600 12px Mulish;color:#71787C;margin-top:6px">{{ a.meta }}</div>
         </div>
         </sc-for>
       </div>
       <button onClick="{{ nwOpnieuw }}" style="margin:12px 14px 0;min-height:48px;padding:0 18px;border-radius:13px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Opnieuw proberen</button>
     </div>
     </sc-if>
-    <div style="margin:16px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ nwNote }}</div>
+    <div style="margin:16px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">{{ nwNote }}</div>
     <div style="height:26px"></div>
   </div>
   </sc-if>
@@ -1711,9 +1729,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-for list="{{ nwBerichten }}" as="b" hint-placeholder-count="2">
     <div data-nwb="{{ b.idx }}" style="scroll-margin-top:52px">
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
-        <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ b.kicker }}</div>
+        <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">{{ b.kicker }}</div>
         <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:20px;line-height:1.25;margin:7px 0 0;text-wrap:pretty;overflow-wrap:anywhere">{{ b.titel }}</h2>
-        <div style="font:600 11.5px/1.5 Mulish;color:#71787C;margin-top:6px">{{ b.meta }}</div>
+        <div style="font:600 12px/1.5 Mulish;color:#71787C;margin-top:6px">{{ b.meta }}</div>
         <div style="margin-top:12px">
           <sc-for list="{{ b.alineas }}" as="p" hint-placeholder-count="2">
           <p style="font-size:14.5px;line-height:1.8em;color:#3D4346;margin:0 0 12px;text-wrap:pretty">{{ p.tekst }}</p>
@@ -1734,7 +1752,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           </div>
           </sc-if>
           <sc-if value="{{ b.melding }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346;text-wrap:pretty">De volledige tekst is nu niet beschikbaar. U leest de samenvatting; de bronnen staan hieronder.</div>
+          <div style="padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346;text-wrap:pretty">De volledige tekst is nu niet beschikbaar. U leest de samenvatting; de bronnen staan hieronder.</div>
           </sc-if>
         </div>
         <sc-if value="{{ b.klaar }}" hint-placeholder-val="{{ false }}">
@@ -1743,9 +1761,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <div style="display:flex;flex-direction:column;gap:9px">
             <sc-for list="{{ b.bronnen }}" as="r" hint-placeholder-count="2">
             <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:13px 15px">
-              <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ r.naam }}</div>
+              <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">{{ r.naam }}</div>
               <div style="font:700 13.5px/1.4 Mulish;color:#15181A;margin-top:4px;text-wrap:pretty">{{ r.titel }}</div>
-              <div style="font:600 11px Mulish;color:#71787C;margin-top:4px">{{ r.datum }}</div>
+              <div style="font:600 12px Mulish;color:#71787C;margin-top:4px">{{ r.datum }}</div>
               <sc-if value="{{ r.heeftLink }}" hint-placeholder-val="{{ false }}">
               <a href="{{ r.href }}" data-art="1" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;margin-top:4px;font:700 12.5px Mulish;color:#800000">{{ r.leesLabel }} &rarr;</a>
               </sc-if>
@@ -1774,9 +1792,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isDraad }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
-    <div style="font:800 9px Mulish;letter-spacing:.09em;color:#800000">{{ draadKicker }}</div>
+    <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">{{ draadKicker }}</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:22px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ draadTitel }}</h1>
-    <div style="font:600 11.5px Mulish;color:#71787C;margin-top:6px">{{ draadMeta }}</div>
+    <div style="font:600 12px Mulish;color:#71787C;margin-top:6px">{{ draadMeta }}</div>
   </div>
 
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
@@ -1794,7 +1812,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-for>
     </sc-if>
     <sc-if value="{{ draadIsSamenvatting }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-top:6px;padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit is de samenvatting uit de feed; het volledige bericht kon niet worden opgehaald. De reacties hieronder zijn wel compleet.</div>
+    <div style="margin-top:6px;padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit is de samenvatting uit de feed; het volledige bericht kon niet worden opgehaald. De reacties hieronder zijn wel compleet.</div>
     </sc-if>
   </div>
 
@@ -1810,7 +1828,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px 15px">
         <div style="display:flex;align-items:baseline;gap:8px">
           <b style="font:700 13px Mulish;color:#15181A">{{ r.auteur }}</b>
-          <span style="font:600 10.5px Mulish;color:#A2A7A9;margin-left:auto">{{ r.datum }}</span>
+          <span style="font:600 12px Mulish;color:#71787C;margin-left:auto">{{ r.datum }}</span>
         </div>
         <sc-if value="{{ r.metHtml }}" hint-placeholder-val="{{ false }}">
         <div data-rijk="{{ r.sleutel }}" style="margin-top:7px"></div>
@@ -1827,7 +1845,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </sc-for>
     </div>
     <sc-if value="{{ draadOnvolledig }}" hint-placeholder-val="{{ false }}">
-    <div style="margin:12px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(226,129,47,.12);font:500 11.5px/1.7 Mulish;color:#8A4E14;text-wrap:pretty">{{ draadOnvolledigTekst }}</div>
+    <div style="margin:12px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(226,129,47,.12);font:500 12px/1.7 Mulish;color:#8A4E14;text-wrap:pretty">{{ draadOnvolledigTekst }}</div>
     </sc-if>
   </div>
   </sc-if>
@@ -1842,7 +1860,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ draadHeeftHref }}" hint-placeholder-val="{{ true }}">
   <div style="margin:18px 14px 0">
     <a href="{{ draadHref }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:13px;background:#800000;color:#fff;font:700 14.5px Mulish;text-decoration:none">{{ draadUitLabel }}</a>
-    <div style="font:500 11px/1.7 Mulish;color:#71787C;margin-top:8px;text-align:center;text-wrap:pretty">Reageren gebeurt op de site zelf, met uw eigen account. De app plaatst nooit iets namens u.</div>
+    <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:8px;text-align:center;text-wrap:pretty">Reageren gebeurt op de site zelf, met uw eigen account. De app plaatst nooit iets namens u.</div>
   </div>
   </sc-if>
   <div style="height:26px"></div>
@@ -1923,7 +1941,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isNedergids }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wegwijzer · gratis te lezen</div>
+    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wegwijzer · gratis te lezen</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Nedergids</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Loketten, registers en de sites die u echt nodig heeft — per categorie. {{ pcRegel }}</p>
   </div>
@@ -1936,19 +1954,19 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
   <div style="margin:14px 14px 0;border-radius:16px;border:1px solid rgba(128,0,0,.18);background:rgba(128,0,0,.05);padding:14px 15px">
     <div style="display:flex;align-items:baseline;gap:8px">
-      <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">{{ uitKop }}</div>
-      <div style="font:800 8px Mulish;letter-spacing:.10em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000;margin-left:auto">BETAALD</div>
+      <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">{{ uitKop }}</div>
+      <div style="font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000;margin-left:auto">BETAALD</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
       <sc-for list="{{ uitPlekken }}" as="p" hint-placeholder-count="2">
       <div style="background:#fff;border:1px dashed rgba(128,0,0,.30);border-radius:12px;padding:12px 13px;min-height:56px">
         <b style="font:700 13.5px Mulish;color:#5C0000">{{ p.naam }}</b>
-        <div style="font:500 11.5px/1.6 Mulish;color:#3D4346;margin-top:3px;text-wrap:pretty">{{ p.wat }}</div>
+        <div style="font:500 12px/1.6 Mulish;color:#3D4346;margin-top:3px;text-wrap:pretty">{{ p.wat }}</div>
       </div>
       </sc-for>
     </div>
-    <div style="font:500 11px/1.7 Mulish;color:#5C0000;opacity:.85;margin-top:9px;text-wrap:pretty">{{ uitTekst }}</div>
-    <div style="font:600 10.5px/1.6 Mulish;color:#5C0000;margin-top:6px;text-wrap:pretty">{{ uitVoorwaarde }}</div>
+    <div style="font:500 12px/1.7 Mulish;color:#5C0000;opacity:.85;margin-top:9px;text-wrap:pretty">{{ uitTekst }}</div>
+    <div style="font:600 12px/1.6 Mulish;color:#5C0000;margin-top:6px;text-wrap:pretty">{{ uitVoorwaarde }}</div>
   </div>
 
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;overflow:hidden">
@@ -1959,12 +1977,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <span style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap">
           <b style="font:700 14px Mulish;color:#15181A">{{ s.naam }}</b>
           <sc-if value="{{ s.eigen }}" hint-placeholder-val="{{ false }}">
-          <span style="font:800 8px Mulish;letter-spacing:.10em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.09);color:#800000">{{ s.label }}</span>
+          <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.09);color:#800000">{{ s.label }}</span>
           </sc-if>
         </span>
         <span style="font:500 12px/1.6 Mulish;color:#71787C;text-wrap:pretty">{{ s.wat }}</span>
       </span>
-      <span style="font:700 13px Mulish;color:#A2A7A9;margin-top:4px">↗</span>
+      <span style="font:700 13px Mulish;color:#71787C;margin-top:4px">↗</span>
     </a>
     </sc-for>
   </div>
@@ -1981,8 +1999,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     <div style="margin-top:13px;padding:13px 15px;border-radius:12px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Aanmelden kan zodra Nedergids v2 online staat — de vermelding en de betaling gebeuren daar, niet in deze app.</div>
   </div>
-  <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">De kaart met vermeldingen komt uit Nedergids v2, dat nog in bouw is. Wat u hier ziet is de lijstkant: de sites en loketten per categorie. {{ toolNagekeken }}</div>
-  <div style="margin:10px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ ngArchief }}</div>
+  <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">De kaart met vermeldingen komt uit Nedergids v2, dat nog in bouw is. Wat u hier ziet is de lijstkant: de sites en loketten per categorie. {{ toolNagekeken }}</div>
+  <div style="margin:10px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ ngArchief }}</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -1992,8 +2010,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div>
   <sc-if value="{{ toonIntro }}" hint-placeholder-val="{{ true }}">
   <div style="padding:20px 18px 0">
-    <div style="font:700 10.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ toolGroup }}</div>
-    <sc-if value="{{ toolOntw }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:8px;font:700 11px Mulish;padding:4px 9px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</div></sc-if>
+    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">{{ toolGroup }}</div>
+    <sc-if value="{{ toolOntw }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:8px;font:700 12px Mulish;padding:4px 9px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</div></sc-if>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:8px 0 0">{{ toolName }}</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:10px 0 0;text-wrap:pretty">{{ toolDesc }}</p>
   </div>
@@ -2003,11 +2021,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ isSafety }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="margin:18px 14px 0;padding:16px 17px;border-radius:16px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18)">
-        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Altijd gratis</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Altijd gratis</div>
         <div style="font:500 13px/1.8 Mulish;color:#5C0000;margin-top:5px;text-wrap:pretty">Alles onder Veiligheid &amp; natuur is en blijft vrij toegankelijk, ook zonder abonnement en zonder account.</div>
       </div>
       <div style="margin:12px 14px 0;padding:15px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#71787C">Uw omgeving</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#71787C">Uw omgeving</div>
         <div style="font:700 15px/1.3 Mulish;color:#15181A;margin-top:5px">{{ veiligDep }}</div>
         <div style="font:500 12.5px/1.75 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">{{ veiligUitleg }}</div>
         <sc-if value="{{ veiligGeenPc }}" hint-placeholder-val="{{ true }}">
@@ -2033,7 +2051,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ isKnop }}" hint-placeholder-val="{{ false }}">
     <div style="margin:18px 14px 0">
       <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:54px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">{{ knopLabel }}</a>
-      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin:8px 2px 0;text-align:center;text-wrap:pretty">Opent in een nieuw tabblad van uw browser; sluit dat om terug te keren naar de app.</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin:8px 2px 0;text-align:center;text-wrap:pretty">Opent in een nieuw tabblad van uw browser; sluit dat om terug te keren naar de app.</div>
     </div>
     </sc-if>
     <sc-if value="{{ isVoorvertoning }}" hint-placeholder-val="{{ true }}">
@@ -2044,7 +2062,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <span style="font:700 12px Mulish;color:#15181A;background:rgba(255,255,255,.94);border:1px solid rgba(21,24,26,.12);border-radius:999px;padding:10px 15px;min-height:40px;display:flex;align-items:center">Tik om te openen</span>
         </a>
       </div>
-      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin:8px 16px 0;text-wrap:pretty">De module opent in een nieuw tabblad van uw browser; sluit dat om terug te keren.</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin:8px 16px 0;text-wrap:pretty">De module opent in een nieuw tabblad van uw browser; sluit dat om terug te keren.</div>
     </div>
     </sc-if>
     <sc-if value="{{ geenUrl }}" hint-placeholder-val="{{ false }}">
@@ -2057,7 +2075,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
       <div style="padding:14px 16px;font:700 12px Mulish;letter-spacing:.06em;text-transform:uppercase;color:#800000;background:rgba(128,0,0,.05)">{{ knipKop }}</div>
       <div style="padding:14px 16px">
-        <div style="font:800 10px Mulish;letter-spacing:.1em;color:#2E7D5B">GRATIS</div>
+        <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#2E7D5B">GRATIS</div>
         <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
           <sc-for list="{{ knipGratis }}" as="g" hint-placeholder-count="4">
           <div style="display:flex;gap:9px">
@@ -2068,7 +2086,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         </div>
       </div>
       <div style="padding:14px 16px;border-top:1px solid rgba(21,24,26,.08);background:rgba(128,0,0,.03)">
-        <div style="font:800 10px Mulish;letter-spacing:.1em;color:#800000">MET ABONNEMENT</div>
+        <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">MET ABONNEMENT</div>
         <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
           <sc-for list="{{ knipAbo }}" as="a" hint-placeholder-count="4">
           <div style="display:flex;gap:9px">
@@ -2078,11 +2096,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           </sc-for>
         </div>
       </div>
-      <div style="padding:13px 16px;border-top:1px solid rgba(21,24,26,.08);font:500 11.5px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ knipRegel }}</div>
+      <div style="padding:13px 16px;border-top:1px solid rgba(21,24,26,.08);font:500 12px/1.7 Mulish;color:#71787C;text-wrap:pretty">{{ knipRegel }}</div>
     </div>
     </sc-if>
     <sc-if value="{{ toonDatumHier }}" hint-placeholder-val="{{ true }}">
-    <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ toolNagekeken }}</div>
+    <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">{{ toolNagekeken }}</div>
     </sc-if>
     <div style="height:26px"></div>
   </div>
@@ -2094,7 +2112,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="margin:0 14px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 16px 6px">
       <sc-if value="{{ vbOngeverifieerd }}" hint-placeholder-val="{{ false }}">
       <div style="margin:0 0 10px">
-        <span style="font:800 9px Mulish;letter-spacing:.09em;padding:4px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">NOG NIET GECONTROLEERD</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">NOG NIET GECONTROLEERD</span>
         <div style="font:500 12px/1.75 Mulish;color:#8A4E14;margin-top:7px;text-wrap:pretty">{{ vbNoot }}</div>
       </div>
       </sc-if>
@@ -2113,7 +2131,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-for list="{{ intake }}" as="q" hint-placeholder-count="3">
     <div style="margin:14px 16px 0">
       <div style="display:flex;align-items:baseline;gap:9px">
-        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 11px Mulish">{{ q.n }}</div>
+        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 12px Mulish">{{ q.n }}</div>
         <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15.5px;line-height:1.3">{{ q.vraag }}</div>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin:11px 0 0 31px">
@@ -2127,27 +2145,27 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ muurOpen }}" hint-placeholder-val="{{ false }}">
     <div style="margin:20px 14px 0;background:#fff;border:1px solid rgba(128,0,0,.22);border-radius:16px;overflow:hidden">
       <div style="padding:15px 16px;background:rgba(128,0,0,.06)">
-        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Uw uitkomst is berekend</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Uw uitkomst is berekend</div>
         <div style="font:500 12.5px/1.7 Mulish;color:#5C0000;margin-top:4px;text-wrap:pretty">Uw antwoorden blijven bewaard. Word abonnee en u ziet deze getallen meteen — u hoeft niets opnieuw in te vullen.</div>
       </div>
       <sc-for list="{{ uitRows }}" as="r" hint-placeholder-count="3">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid rgba(21,24,26,.06);font:500 13.5px Mulish;color:#3D4346">
         <span>{{ r.k }}</span>
-        <b style="font-family:Poppins,system-ui,sans-serif;font-size:17px;letter-spacing:.06em;color:#A2A7A9">{{ r.v }}</b>
+        <b style="font-family:Poppins,system-ui,sans-serif;font-size:17px;letter-spacing:.06em;color:#71787C">{{ r.v }}</b>
       </div>
       </sc-for>
       <div style="padding:14px 16px;border-top:1px solid rgba(21,24,26,.06)">
         <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">Word abonnee en bekijk mijn uitkomst →</a>
         <button onClick="{{ goTaal }}" style="width:100%;min-height:46px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:9px">Later — naar de gratis onderdelen</button>
-        <div style="font:500 11px/1.7 Mulish;color:#71787C;margin-top:9px;text-align:center;text-wrap:pretty">Het abonnement geeft toegang tot alle rekenmodules, uw dossier en de artikelen op infofrankrijk.com.</div>
+        <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:9px;text-align:center;text-wrap:pretty">Het abonnement geeft toegang tot alle rekenmodules, uw dossier en de artikelen op infofrankrijk.com.</div>
       </div>
     </div>
     </sc-if>
-    <div style="margin:16px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">{{ toolNagekeken }}</div>
+    <div style="margin:16px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">{{ toolNagekeken }}</div>
     <sc-if value="{{ muurDicht }}" hint-placeholder-val="{{ true }}">
     <div style="margin:20px 14px 0">
       <button onClick="{{ bereken }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:{{ berekenBg }};color:{{ berekenFg }};font:800 15px Mulish;cursor:pointer">Bereken mijn uitkomst</button>
-      <div style="font:500 11.5px/1.7 Mulish;color:#71787C;margin-top:8px;text-align:center">{{ berekenHint }}</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:8px;text-align:center">{{ berekenHint }}</div>
     </div>
     </sc-if>
     <div style="height:26px"></div>
@@ -2158,11 +2176,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div>
     <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px">
       <div style="display:flex;align-items:baseline;gap:8px">
-        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Stand van zaken</div>
-        <div style="font:800 9px Mulish;letter-spacing:.10em;padding:4px 7px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14;margin-left:auto">{{ statusLabel }}</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Stand van zaken</div>
+        <div style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 7px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14;margin-left:auto">{{ statusLabel }}</div>
       </div>
       <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ statusUitleg }}</div>
-      <div style="font:600 11.5px/1.6 Mulish;color:#71787C;margin-top:9px">{{ toolNagekeken }}</div>
+      <div style="font:600 12px/1.6 Mulish;color:#71787C;margin-top:9px">{{ toolNagekeken }}</div>
     </div>
     <sc-if value="{{ klaarVoorAbo }}" hint-placeholder-val="{{ false }}">
     <div style="margin:12px 14px 0">
@@ -2183,17 +2201,17 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div>
     <sc-if value="{{ isSafety }}" hint-placeholder-val="{{ false }}">
     <div style="margin:18px 14px 0;padding:16px 17px;border-radius:16px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18)">
-      <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Altijd gratis</div>
+      <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Altijd gratis</div>
       <div style="font:500 13px/1.8 Mulish;color:#5C0000;margin-top:5px;text-wrap:pretty">Alles onder Veiligheid &amp; natuur is en blijft vrij toegankelijk, ook zonder abonnement en zonder account. Met veiligheid spelen wij geen spelletjes.</div>
     </div>
     </sc-if>
     <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px">
       <div style="display:flex;align-items:baseline;gap:8px">
-        <div style="font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Stand van zaken</div>
-        <div style="font:800 9px Mulish;letter-spacing:.10em;padding:4px 7px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14;margin-left:auto">{{ statusLabel }}</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Stand van zaken</div>
+        <div style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 7px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14;margin-left:auto">{{ statusLabel }}</div>
       </div>
       <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ statusUitleg }}</div>
-      <div style="font:600 11.5px/1.6 Mulish;color:#71787C;margin-top:9px">{{ toolNagekeken }}</div>
+      <div style="font:600 12px/1.6 Mulish;color:#71787C;margin-top:9px">{{ toolNagekeken }}</div>
     </div>
     <sc-if value="{{ nogNiet }}" hint-placeholder-val="{{ true }}">
     <div style="margin:12px 14px 0">
@@ -2238,9 +2256,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Alle modules →</button>
     <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
-    <div style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.6 Mulish;color:#3D4346">Op het beginscherm zetten doet u via het deelmenu van uw browser</div>
+    <div id="ifm-installeer" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.6 Mulish;color:#3D4346">Op het beginscherm zetten doet u via het deelmenu van uw browser</div>
   </div>
-  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 11.5px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
+  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
   <div style="margin:12px 14px 0">
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
@@ -2264,7 +2282,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <span style="flex:1;min-width:0;line-height:1.3">
         <b style="display:block;font:700 14px Mulish;color:#15181A">{{ r.naam }}</b>
         <span style="display:block;font:500 12.5px/1.4 Mulish;color:#3D4346;margin-top:2px">{{ r.uitleg }}</span>
-        <sc-if value="{{ r.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 10.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+        <sc-if value="{{ r.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
       </span>
       <span style="font:700 13px Mulish;color:#800000">→</span>
     </button>
@@ -2357,7 +2375,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-for list="{{ g.mods }}" as="t" hint-placeholder-count="3">
       <button role="switch" aria-checked="{{ t.ariaAan }}" onClick="{{ t.zet }}" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:56px;background:none;border:0;border-top:1px solid rgba(21,24,26,.07);text-align:left;cursor:pointer;font-family:Mulish,sans-serif">
         <span style="flex:1;min-width:0;line-height:1.25">
-          <b style="display:block;font:700 15px/1.25 Mulish;color:#15181A">{{ t.naam }}<sc-if value="{{ t.abonnee }}" hint-placeholder-val="{{ false }}"><span style="font:700 10px Mulish;padding:3px 7px;border-radius:999px;background:rgba(128,0,0,.08);color:#800000;margin-left:6px;vertical-align:2px">ABONNEE</span></sc-if></b>
+          <b style="display:block;font:700 15px/1.25 Mulish;color:#15181A">{{ t.naam }}<sc-if value="{{ t.abonnee }}" hint-placeholder-val="{{ false }}"><span style="font:700 11.5px Mulish;padding:3px 7px;border-radius:999px;background:rgba(128,0,0,.08);color:#800000;margin-left:6px;vertical-align:2px">ABONNEE</span></sc-if></b>
           <span style="display:block;font:500 13px/1.35 Mulish;color:#71787C;margin-top:2px">{{ t.meta }}</span>
         </span>
         <span style="position:relative;width:48px;height:28px;border-radius:999px;flex:none;background:{{ t.swBg }}"><span style="position:absolute;top:3px;left:{{ t.knopLinks }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span>
@@ -2399,7 +2417,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   <button onClick="{{ openPiramide }}" style="width:100%;text-align:left;margin:14px 0 0;border:0;background:none;padding:0 14px;cursor:pointer">
     <span style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(128,0,0,.20);background:#F1EDE8;padding:16px 17px">
-      <span style="display:block;font:700 10.5px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Het model erachter</span>
+      <span style="display:block;font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Het model erachter</span>
       <span style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:19px;line-height:1.2;color:#15181A;margin-top:6px">Kennispiramide</span>
       <span style="display:block;font-size:13px;line-height:1.8;color:#3D4346;margin-top:5px;text-wrap:pretty">Vier zijden — migreren, wonen, werken en leren, leven — en drie lagen die op elkaar rusten. Draai eraan en tik een laag aan om te zien waar een antwoord vandaan komt.</span>
       <span style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;font:800 14px Mulish;margin-top:13px">Model openen →</span>
@@ -2410,13 +2428,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
       <div style="display:flex;align-items:baseline;gap:8px">
         <b style="font:700 13.5px Mulish;color:#15181A">{{ b.naam }}</b>
-        <span style="font:800 8.5px Mulish;letter-spacing:.10em;color:#A2A7A9;margin-left:auto">{{ b.rol }}</span>
+        <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#71787C;margin-left:auto">{{ b.rol }}</span>
       </div>
       <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.wat }}</div>
     </div>
     </sc-for>
   </div>
-  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 11.5px/1.7 Mulish;color:#5C0000;text-wrap:pretty">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Het abonnement bekostigt de redactie en het onderhoud van dit werk; het geeft geen voorrang bij veiligheidsinformatie en bepaalt niet wat u kunt gebruiken.</div>
+  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Het abonnement bekostigt de redactie en het onderhoud van dit werk; het geeft geen voorrang bij veiligheidsinformatie en bepaalt niet wat u kunt gebruiken.</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -2433,7 +2451,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
-<div style="{{ zoomCss }}view-transition-name:ifm-tabs;flex:none;min-height:70px;padding-bottom:env(safe-area-inset-bottom);background:rgba(244,241,240,.96);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(5,1fr)">
+<div style="{{ zoomCss }}view-transition-name:ifm-tabs;flex:none;min-height:74px;padding-bottom:env(safe-area-inset-bottom);background:rgba(244,241,240,.96);border-top:1px solid rgba(21,24,26,.10);display:grid;grid-template-columns:repeat(5,1fr)">
   <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
   <button onClick="{{ t.go }}" aria-label="{{ t.label }}" style="{{ t.style }}"><span style="{{ t.iconStyle }}"></span>{{ t.label }}</button>
   </sc-for>
@@ -2445,7 +2463,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 16px"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
       <div style="min-width:0">
-        <div style="font:700 10.5px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Eén vraag</div>
+        <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Eén vraag</div>
         <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woont u?</h2>
       </div>
       <button onClick="{{ pcInfoWissel }}" aria-label="Waarvoor dient de postcode?" aria-expanded="{{ pcInfoAria }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:1px solid rgba(128,0,0,.30);background:rgba(128,0,0,.08);color:#800000;font:700 15px 'Source Serif 4',Georgia,serif;cursor:pointer">i</button>
@@ -2528,7 +2546,7 @@ const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
 // Interne schermnaam van het artikelscherm (besluit 7).
 const SCHERM_ART = "artikel";
 // Schermen met een pijl linksboven (zie ook showBack).
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|mod|artikel)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
@@ -2692,7 +2710,12 @@ const ICONS = {
   act:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a1 1 0 0 1 1 1v14H6a2 2 0 0 1-2-2V5a1 1 0 0 1 1-1z"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1"/><path d="M8 8h6M8 12h6M8 15.5h4"/></svg>',
   taal: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h9M7.5 3v3M11 6c-1.2 4.2-4 7.2-8 9"/><path d="M6 9c1 3 3.5 5.2 6.5 6.5"/><path d="m12.5 21 4-10 4 10M14 17.5h5"/></svg>',
   mod:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>',
-  acc:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>'
+  acc:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>',
+  keuze: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>',
+  over: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.2"/></svg>',
+  tekst: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 8 6l5 13M4.8 15h6.4"/><path d="M15 19l3-8 3 8M16 17h4"/></svg>',
+  pc: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.400-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  inst: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 8v6M9.500 11.500 12 14l2.500-2.500"/></svg>'
 };
 
 // Eenvoudige lijniconen voor de themategels, als SVG-masker (zelfde techniek als ICONS).
@@ -2911,7 +2934,7 @@ function peilVoetTekst() {
 // PEIL-BLOK-EIND
 
 class Component extends DCLogic {
-  state = { screen:"hub", q:"", copied:null,
+  state = { screen:"hub", menu:false, q:"", copied:null,
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -2988,7 +3011,7 @@ class Component extends DCLogic {
     const ookRijen = (st.onStatus === "klaar" && window.ondernemenOok ? window.ondernemenOok(st.onStappen, "wonen") : [])
       .filter(it => it.soort === "artikel" && !it.later)
       .map(it => ({titel:it.titel, href:window.ondernemenUrl(onSite, it), hoort:"hoort bij " + onNaam}));
-    const tools = ["klussen","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
+    const tools = ["klussen","lijstjes","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
       .map(id => this.mods().find(m => m.id === id)).filter(Boolean);
     return {
       isLamaison: is,
@@ -3563,6 +3586,8 @@ class Component extends DCLogic {
     document.addEventListener("click", this._klikTool);
     this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
     document.addEventListener("keydown", this._toetsOproep);
+    this._toetsMenu = ev => this.menuToets(ev);
+    document.addEventListener("keydown", this._toetsMenu);
     this.loadCatalogus();
     let groteTekst = false, lv = null, favs = [], pc = null, pcLater = null, plaats = "", keuze = {aan:[], uit:[]};
     try {
@@ -3980,7 +4005,36 @@ class Component extends DCLogic {
     }, 1800);
   }
   oproepSluit(){ this._opFocus = false; this.setState({oproep:false}); }
-  openMods(){ this.setState({screen:"mod", from:"acc", q:"", tool:null}); }
+  openMods(){ this.setState({screen:"mod", from:"hub", q:"", tool:null}); }
+  // ---- Hamburgermenu in de kopbalk ------------------------------------------------------------------
+  // Een paneel onder de kopbalk met verduisterde achtergrond. Het telt als blad in de geschiedenis (blad "menu"):
+  // het terug-gebaar sluit het. Focus blijft in het paneel (Tab loopt rond), Escape sluit, de achtergrond scrolt niet.
+  alGeinstalleerd(){
+    try { if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true; } catch(e){}
+    try { return window.navigator.standalone === true; } catch(e){ return false; }
+  }
+  menuSchakel(){ if (this.state.menu) this.menuSluit(); else this.menuOpen(); }
+  menuOpen(){
+    this.setState({menu:true});
+    setTimeout(() => { const b = document.querySelector("[data-menu] button"); if (b && b.focus) b.focus(); }, 30);
+  }
+  menuSluit(){
+    this.setState({menu:false});
+    setTimeout(() => { const k = document.getElementById("ifm-menuknop"); if (k && k.focus) k.focus(); }, 30);
+  }
+  // Tik op een menu-item: menu dicht, daarna de bestemming.
+  menuNaar(update){ this.setState({menu:false, q:"", tool:null, ...update}); }
+  menuToets(ev){
+    if (!this.state.menu) return;
+    if (ev.key === "Escape") { ev.preventDefault(); this.menuSluit(); return; }
+    if (ev.key !== "Tab") return;
+    const paneel = document.querySelector("[data-menu]"), knop = document.getElementById("ifm-menuknop");
+    if (!paneel || !knop) return;
+    const rij = [knop].concat(Array.prototype.slice.call(paneel.querySelectorAll("button")));
+    const i = rij.indexOf(document.activeElement);
+    const vol = ev.shiftKey ? (i <= 0 ? rij[rij.length - 1] : rij[i - 1]) : (i < 0 || i >= rij.length - 1 ? rij[0] : rij[i + 1]);
+    ev.preventDefault(); vol.focus();
+  }
   regioVals(){
     const st = this.state, L = HubLib, pc = st.postcode || "";
     const deps = (st.cat && st.cat.departementen) || {};
@@ -4013,6 +4067,7 @@ class Component extends DCLogic {
   // iets veranderd is. Bladen (forum, oproep, groot tonen, postcode) sluiten eerst.
   terugStap(){
     const st = this.state;
+    if (st.menu) { this.setState({menu:false}); return true; }
     if (st.forumBlad) { this.forumBladSluit(); return true; }
     if (st.oproep) { this.oproepSluit(); return true; }
     if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
@@ -4050,7 +4105,7 @@ class Component extends DCLogic {
   }
   histToestand(){
     const st = this.state;
-    const blad = st.forumBlad ? "forum" : st.oproep ? "oproep" : st.vraagPostcode ? "pc" : "";
+    const blad = st.menu ? "menu" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.vraagPostcode ? "pc" : "";
     return {screen:st.screen, artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
       nwTegel:st.nwTegel, nwTerug:st.nwTerug, blad,
       themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
@@ -4113,7 +4168,7 @@ class Component extends DCLogic {
     if (r.soort === "artikel" && A) { this.openInfoArtikel(A.BASIS + "/" + r.slug + "/"); return; }
     if (r.soort === "scherm") { this.go(r.scherm); return; }
     this.stopPiramide();
-    this.setState({screen:"hub", q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, vraagPostcode:false,
+    this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, vraagPostcode:false,
       gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false});
   }
   histPop(e){
@@ -4178,7 +4233,7 @@ class Component extends DCLogic {
   // prijsbadge in de kopbalk op de vorige module hangen.
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
   go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); if (s === "act") s = "nieuws";
-    this.setState({screen:s, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
+    this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
   route(m){
@@ -4374,14 +4429,15 @@ class Component extends DCLogic {
       (on ? "#800000;background:#800000;color:#fff" : "rgba(21,24,26,.12);background:#fff;color:#3D4346");
   }
   navStyle(on){
-    return "border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:70px;cursor:pointer;font:700 11px Mulish;line-height:1.1;color:" + (on ? "#800000" : "#71787C");
+    return "border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:48px;padding:6px 0;cursor:pointer;font:" + (on ? "700" : "600") + " 12.5px Mulish;line-height:1.1;color:" + (on ? "#800000" : "#5B6266");
   }
   // Tabbalk-iconen als SVG-masker: zien er op elk toestel hetzelfde uit, in
   // tegenstelling tot Unicode-glyphs die uit het systeemlettertype komen.
-  iconStyle(name){
+  iconStyle(name, maat){
     const svg = ICONS[name] || ICONS.hub;
     const url = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
-    return "display:block;width:22px;height:22px;background-color:currentColor;-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
+    const m = (maat || 22) + "px";
+    return "display:block;flex:none;width:" + m + ";height:" + m + ";background-color:currentColor;-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
   }
 
   prijsLabel(prijs){
@@ -4603,7 +4659,7 @@ class Component extends DCLogic {
     const klusMod = this.vindModule("klussen");
     if (klusMod) (((this.state.cat || {}).klusonderwerpen) || []).forEach(k => {
       if (norm(k.titel + " " + k.wat).includes(q))
-        out.push({kind:"KLUSSEN", fr:k.titel, nl:k.wat, where:k.secties + " secties · Klussen & verbouwen",
+        out.push({kind:"KLUSSEN", fr:k.titel, nl:k.wat, where:k.secties + " secties · Klussen in Frankrijk",
           open:() => this.route(klusMod && {...klusMod, url: k.url || klusMod.url})});
     });
     this.state.posts.forEach(p => {
@@ -4770,12 +4826,13 @@ class Component extends DCLogic {
     const pc = st.postcode || "";
     const depCode = /^97|^98/.test(pc) ? pc.slice(0, 3) : pc.slice(0, 2);
     const depNaam = deps[depCode] || "";
-    const depLabel = depNaam ? depNaam + " (" + depCode + ")" : (pc ? pc : "geen postcode ingesteld");
+    // Kopbalk op de hub: met postcode "Departement NN, plaatsnaam" (alleen wat de data al kent), zonder de tagline.
+    const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
     const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:depLabel + " · " + (st.live ? "berichten bijgewerkt" : "berichten niet bijgewerkt"),
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub,
       mod:this.mods().length + " modules",
       over:"Profiel",
       nedergids:"wegwijzer · gratis te lezen",
@@ -4831,6 +4888,19 @@ class Component extends DCLogic {
       ...this.lmVals(),
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
+      subStijl: st.screen === "hub" ? "white-space:normal;overflow-wrap:anywhere" : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
+      menuOpen: !!st.menu, menuDicht: !st.menu,
+      menuSchakel: () => this.menuSchakel(),
+      menuSluit: () => this.menuSluit(),
+      mnIcoProfiel: this.iconStyle("acc", 24) + ";color:#800000", mnIcoKeuze: this.iconStyle("keuze", 24) + ";color:#800000",
+      mnIcoOver: this.iconStyle("over", 24) + ";color:#800000", mnIcoTekst: this.iconStyle("tekst", 24) + ";color:#800000",
+      mnIcoPostcode: this.iconStyle("pc", 24) + ";color:#800000", mnIcoInstalleer: this.iconStyle("inst", 24) + ";color:#800000",
+      mnProfiel: () => this.menuNaar({screen:"acc"}),
+      mnKeuze: () => this.menuNaar({screen:"keuze", from:"hub"}),
+      mnOver: () => this.menuNaar({screen:"over", from:"hub"}),
+      mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),
+      mnInstalleer: !this.alGeinstalleerd(),
+      mnBeginscherm: () => { this.menuNaar({screen:"acc"}); setTimeout(() => { const e = document.getElementById("ifm-installeer"); if (e && e.scrollIntoView) e.scrollIntoView({block:"center"}); }, 60); },
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
       showBack: SHOWBACK.test(st.screen),
@@ -5122,8 +5192,8 @@ class Component extends DCLogic {
       isVolledig: !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       kopDeel: st.screen === "artikel" && !!st.art && st.art.status === "klaar",
       kopLink: st.screen === "tool" && !!(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
-      kopBadge: st.screen !== "aitools" && st.screen !== "artikel" && st.screen !== "keuze" && st.screen !== "lamaison" && st.screen !== "ondernemen" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
-      scrollOverflow: (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig") ? "hidden" : "auto",
+      kopBadge: (st.screen === "dossierdemo" || locked) && st.screen !== "aitools" && st.screen !== "artikel" && st.screen !== "keuze" && st.screen !== "lamaison" && st.screen !== "ondernemen" && !tv.isThema && !(st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
+      scrollOverflow: (st.menu || (st.screen === "tool" && T && T.kind === "iframe" && T.url && T.weergave === "volledig")) ? "hidden" : "auto",
       isKnop: !!(T && T.kind === "iframe" && T.url && T.weergave === "knop"),
       isVoorvertoning: !!(T && T.kind === "iframe" && T.url && T.weergave !== "volledig" && T.weergave !== "knop"),
       heeftToolArtikel: !!(T && this.toolArtikel(T)) && T.weergave === "volledig",
@@ -5207,7 +5277,7 @@ class Component extends DCLogic {
 
 
       tabs: HubLib.TABS.map(t => ({
-        label:t.label, iconStyle:this.iconStyle(t.icon),
+        label:t.label, iconStyle:this.iconStyle(t.icon, 24),
         style:this.navStyle((st.screen !== "artikel" && HubLib.tabVan(st.screen) === t.id) || (st.screen === "artikel" && HubLib.tabVan(((st.artStack || [])[0] || {}).screen) === t.id)),
         go:() => this.go(t.id)})),
       accentStijl: (() => { const tid = st.screen === "nieuws" ? "nieuws" : st.screen === "lamaison" ? "wonen" : st.screen === "gezondheid" ? "gezondheid" : st.themaId;
