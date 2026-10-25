@@ -59,7 +59,7 @@ Open: merge zorg-thema; Dossier DossierFrankrijk-repo is privé en niet geraadpl
 | AI-tools-scherm, forum-leeslink, Klussen-zoekindex, demodossier Zorg | if-mobiel | 46d5f26, 0991805 | klaar, live |
 | Thema door het model, zorg, reviewtool | nlfr-menu | PR 59, d486804 | gemerged; branches zorg-thema en thema-door-model niet te verwijderen (403) |
 
-Open: branches in nlfr-menu handmatig verwijderen; Klussen-zoekindex wacht op CORS-header aan de WordPress-kant; zzpplatform roept Gemini vanuit de browser aan met een sleutel (nakijken); de gouden vector is dezelfde geometrie als de bronzen.
+Open: branches in nlfr-menu handmatig verwijderen; Klussen-zoekindex wacht op CORS-header aan de WordPress-kant; de gouden vector is dezelfde geometrie als de bronzen.
 
 ## Ronde 23-10-2026
 
@@ -227,3 +227,6 @@ Afwijkingen: (a) de opdracht zegt voor geinstalleerd zowel "het hamburgerkaartje
 | 8 Kleine dingen | Wis-kruisje en bladkruisjes 44x44; balk blijft onder open blad | klaar |
 
 Service worker VERSIE 2026-10-25-3.
+
+## 25-10-2026: ZZP-boekhoudplatform verwijderd (derde partij)
+De module `zzpplatform` (financieel-kompas.vercel.app) is volledig uit de catalogus, tests en notities gehaald. Die site is niet van Anton: de code zegt "Onderdeel van Spectux IT Solutions" (spectux.com) en Anton heeft er geen rechten op. Regel voor de catalogus: een module komt er alleen in als Anton bevestigt dat de tool van hem is of dat hij een licentie heeft; de URL of de naam van een Vercel-project is daarvoor geen bewijs.

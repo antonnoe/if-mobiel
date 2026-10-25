@@ -63,7 +63,7 @@ test("modules.json: Ondernemen opent het eigen scherm met bron", () => {
 });
 
 test("de drie tools uit de route bestaan in de catalogus en staan onder Ondernemen", () => {
-  for (const id of ["gitekompas", "efacturatie", "zzpplatform"]) {
+  for (const id of ["gitekompas", "efacturatie"]) {
     const m = cat.modules.find(x => x.id === id);
     assert.ok(m, id);
     assert.equal(m.thema, "ondernemen", id);

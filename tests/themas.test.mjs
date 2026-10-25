@@ -19,7 +19,7 @@ const INDELING = {
   adressen: ["nedergids", "verenigingen"],
   nieuws: [],
   ervaring: ["forum", "nlfrzoek", "klusforum"],
-  ondernemen: ["efacturatie", "gitekompas", "zzpplatform", "beroepenchecker"],
+  ondernemen: ["efacturatie", "gitekompas", "beroepenchecker"],
   wonen: ["klussen", "lijstjes", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
   taal: ["correspondentie", "taalhulp", "woordenboek"]
 };
@@ -81,7 +81,7 @@ test("nieuwe modules en Klussen", () => {
 });
 
 test("modules die standaard uit staan blijven uit", () => {
-  const uit = ["moestuin", "efacturatie", "palliatief", "frankrijklegal", "plusvalue", "bouwgrond", "devisdossier", "huizenchecker", "gitekompas", "woningzoeker", "nlfrzoek", "dossierelektra", "zzpplatform"];
+  const uit = ["moestuin", "efacturatie", "palliatief", "frankrijklegal", "plusvalue", "bouwgrond", "devisdossier", "huizenchecker", "gitekompas", "woningzoeker", "nlfrzoek", "dossierelektra"];
   uit.filter(id => vind(id)).forEach(id => assert.equal(vind(id).standaard, "uit", id));
   assert.ok(mods.filter(m => m.standaard === "uit").length >= 12);
 });

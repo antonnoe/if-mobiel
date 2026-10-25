@@ -812,26 +812,6 @@
       "standaard": "uit"
     },
     {
-      "id": "zzpplatform",
-      "ai": "ondersteuning",
-      "ai_uitleg": "Boekhoudplatform voor zzp’ers met AI-hulp bij analyse en het inlezen van bonnetjes. De tool zegt zelf dat AI fouten kan maken.",
-      "groep": "geld",
-      "thema": "ondernemen",
-      "naam": "ZZP-boekhoudplatform",
-      "meta": "boekhouding en facturen voor zzp'ers",
-      "prijs": "gratis",
-      "schil": "keuzeschil",
-      "houdbaar": "per jaar",
-      "status": "af",
-      "kind": "iframe",
-      "url": "https://financieel-kompas.vercel.app",
-      "nagekeken": "2026-10-21",
-      "over": "Een platform voor Nederlandse zzp'ers met boekhouding, facturen, offertes en klantenbeheer. Na een proefperiode van veertien dagen is het betaald.",
-      "weergave": "volledig",
-      "zichtbaar": false,
-      "standaard": "uit"
-    },
-    {
       "id": "zoekers",
       "groep": "leven",
       "thema": "gezondheid",

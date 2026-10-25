@@ -26,11 +26,6 @@ Regel: alleen vastgesteld AI komt erin. Kon het niet worden vastgesteld, dan sta
 - Bewijs: titel "AI Zoek, Nederlanders.fr & Infofrankrijk.com"; bundel bevat `/api/search` en de tekst "Deze AI-zoek doorzoekt het forum van Nederlanders.fr en de kennisbank van Infofrankrijk.com en vat de best passende bronnen samen. Controleer bij geld- en overheidszaken altijd de datum van de bron." en "De AI-samenvatting is een voordeel voor leden van Nederlanders.fr".
 - Indeling: ondersteuning.
 
-### zzpplatform (ondersteuning, analyse en bonnetjes; staat standaard uit)
-- URL: https://financieel-kompas.vercel.app
-- Bewijs: de bundel bevat de Google GenAI SDK en een aanroep `models.generateContent({model:"gemini-2.5-flash", ...})` voor "AI Analyse" en "AI Auto-Category"; pagina-tekst "Maak een foto en onze AI herkent direct de datum, het bedrag en de categorie" en "AI kan fouten maken. Controleer belangrijke beslissingen altijd."
-- Indeling: ondersteuning. Opmerking voor de beheerder: de aanroep gebeurt in de browser met een API-sleutel (`new GoogleGenAI({apiKey})`); controleer dat die sleutel niet openbaar is.
-
 ### Nieuws (thema `nieuws`, ondersteuning, samenvatten)
 - Bron: /api/actueel van nlfr-menu; code in `lib/synthese.js` van nlfr-menu ("AI-synthese van een hot cluster via de Anthropic API"); het label is "Redactie NLFR, automatisch samengesteld, bronnen onderaan" (`REDACTIE_LABEL` in `lib/config.js`). De bronnenlijst wordt uit de echte clusterdata gebouwd, niet uit de modeltekst. Een synthese is eerst een concept in een reviewtool.
 - Indeling: ondersteuning (samenvatten). De uitleg zegt "deels met AI samengevat", dat het erbij staat en dat de bronnen onderaan staan; er wordt geen onfeilbaarheid of menselijke controle per bericht beloofd. Dit staat op het thema, niet op een module, omdat Nieuws geen module is.
