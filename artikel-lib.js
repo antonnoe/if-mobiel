@@ -288,6 +288,8 @@
       if (href && !/^\s*#/.test(href)) { var u = geldigeUrl(href); abs = u ? u.href : null; }
       var ok = abs && /^(https?:|mailto:|tel:)/i.test(abs) && !/^\s*javascript:/i.test(href);
       if (!ok) { ontvouw(a); return; }
+      // Een link zonder tekst of beeld (bv. alleen een <br>, een restje uit de WordPress-editor) is niet aan te tikken: weg ermee, inhoud blijft.
+      if (!a.textContent.replace(/[\s\u00a0]+/g, "") && !a.querySelector("img")) { ontvouw(a); return; }
       a.setAttribute("href", abs);
       if (/^https?:/i.test(abs)) {
         if (isInApp(abs)) { a.setAttribute("data-art", "1"); }

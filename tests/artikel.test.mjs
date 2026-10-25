@@ -203,3 +203,16 @@ test("haalOp: standaard tijdgrens 15 s; artikelzoeken en postcodeblad in index.h
   assert.match(html, /if \(t\.blad\) \{\s*try \{\s*history\.replaceState\(\{ifm:1, id:0, key:base[\s\S]{0,200}history\.pushState\(\{ifm:1, id:1, key, base, sheet:true\}/);
   assert.ok(!/<path d="\{\{/.test(html), "geen <path d> met een hole: dat geeft consolefouten bij het parseren");
 });
+
+test("sanering: een lege link (alleen een regeleinde) verdwijnt, de inhoud blijft (25-10-2026)", async (t) => {
+  const bron = '<p><a href="https://infofrankrijk.com/a/">Een</a><a href="https://infofrankrijk.com/b/"><br /></a><a href="https://infofrankrijk.com/c/">Twee</a> <a href="https://infofrankrijk.com/d/"><img src="https://infofrankrijk.com/x.png"></a></p>';
+  const uit = await inBrowser(h => { const b = window.IfArtikel.schoon(h); return { links: [...b.querySelectorAll("a")].map(a => a.textContent || "img"), br: b.querySelectorAll("br").length }; }, bron);
+  if (!uit) return t.skip("geen headless browser beschikbaar");
+  assert.deepEqual(uit.links, ["Een", "Twee", "img"], "alleen links met tekst of beeld blijven");
+  assert.equal(uit.br, 1, "het regeleinde zelf blijft staan");
+});
+
+test("artikelknoppen Delen en Op infofrankrijk.com zijn even breed (25-10-2026)", () => {
+  assert.match(html, /onClick="\{\{ artDelen \}\}" style="flex:1 1 0;min-width:0;/);
+  assert.match(html, /href="\{\{ artSiteUrl \}\}" target="_blank" rel="noopener" style="flex:1 1 0;min-width:0;/);
+});
