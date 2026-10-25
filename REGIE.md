@@ -194,3 +194,21 @@ Besluiten van Anton (elk is een eis):
 Stand: alle negen punten gebouwd en getest met headless Chromium op 390x844 en 320x640 (hub, menu open, Profiel, Alle modules, Mijn modules, Taal, thema's, tool met Terug en In browser); `node --test tests/*.test.mjs` 150 van 150 (nieuw: `tests/ronde6.test.mjs`). Opslagtest Klussen en Mijn lijstjes: zie terugmelding in de bouwlog (zelfde partitie bevestigd). Service worker `VERSIE` 2026-10-25-1.
 
 Afwijkingen: (a) `mod` heeft geen Terug-knop meer maar het logo, omdat het nu een tab is; (b) `piramide` (via Over ons) markeert geen tab meer; (c) hash-route `#/modules` erbij; (d) de iframe-inhoud van Mijn lijstjes toont zelf nog "KIF-lijstjes" (site infofrankrijk.com, buiten de app); (e) op 320 px wordt de titel bij tools met "In browser" afgekapt met ellipsis ("Mijn lijs...").
+
+## Ronde 25-10-2026 (2): sterk aansporen om te installeren
+
+Besluit van Anton (optie B): sterk, ja, "heel sterk", maar nooit blokkerend; de lezer kan altijd doorgaan in de browser. Kern: geinstalleerd = standalone, dan verschijnt niets van de aansporingen.
+
+| Punt | Besluit | Status |
+|---|---|---|
+| 1 Startscherm | Landing bij elke nieuwe browsersessie (sessionStorage `ifm_landing_sessie`), niet meer 14 dagen weg; "Verder in de browser" is een kleine tekstlink; oude `ifm_landing_tot` genegeerd | klaar |
+| 2 Gedeelde links | Route-hash naar inhoud: geen landing, wel de balk | klaar |
+| 3 Balk | Bordeaux balk onder de kopbalk met "Hoe?" en sluitknop 44 px (`ifm_install_balk_weg`) | klaar |
+| 4 Installatieblad | Per toestel, een gedeelde bron in `landing-lib.js` (`blokHtml`), `window.__ifmInstallEv` vroeg gevangen | klaar |
+| 5 Automatisch | Eenmaal per sessie na het eerste nuttige resultaat (`ifm_install_blad_getoond`), gaat voor het abonneeblad | klaar |
+| 6 Hamburger | Kaart bovenaan, opent het blad; geinstalleerd: regel "App is geïnstalleerd" | klaar |
+| 7 Iframe | `allow="clipboard-write; web-share"` | klaar |
+| 8 Geen blokkade | Alles sluitbaar | klaar |
+| 9 Service worker | VERSIE 2026-10-25-2 | klaar |
+
+Afwijkingen: (a) de opdracht zegt voor geinstalleerd zowel "het hamburgerkaartje wordt App is geïnstalleerd" als "geen kaart"; gekozen is een rustige regel zonder kaartopmaak; (b) de bordeaux balk is een groot volvlak, een bewuste uitzondering op de huisstijlregel; (c) het voorvertoning-iframe heeft geen `allow` en is niet aangepast.

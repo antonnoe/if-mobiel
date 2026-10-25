@@ -51,18 +51,54 @@ test('desktop Chrome', () => {
   assert.equal(env({ ua: UA.desktop, platform: 'Win32', maxTouchPoints: 0, breedte: 1280 }), 'desktop');
 });
 
-test('14-dagenregel', () => {
-  const nu = Date.UTC(2026, 9, 22);
-  const dag = 86400000;
-  assert.equal(L.toonLanding(null, nu), true);
-  assert.equal(L.toonLanding('', nu), true);
-  assert.equal(L.toonLanding('kapot', nu), true);
-  assert.equal(L.toonLanding('0', nu), true);
-  assert.equal(L.toonLanding(String(nu - dag), nu), true);
-  assert.equal(L.toonLanding(String(L.uitstelTot(nu)), nu), false);
-  assert.equal(L.toonLanding(String(nu + 13 * dag), nu), false);
-  assert.equal(L.toonLanding(String(nu + 15 * dag), nu), true); // toekomst buiten bereik: kapotte klok
-  assert.equal(L.toonLanding(String(L.uitstelTot(nu)), nu + 15 * dag), true); // na 15 dagen terug
+test('toonLanding: sessie in plaats van 14 dagen', () => {
+  assert.equal(L.toonLanding({}), true);
+  assert.equal(L.toonLanding(), true);
+  assert.equal(L.toonLanding({ sessie: null, hash: '' }), true);
+  assert.equal(L.toonLanding({ sessie: '1' }), false); // na "Verder in de browser" tot het einde van de sessie
+  assert.equal(L.toonLanding({ sessie: 'kapot' }), true);
+  assert.equal(L.SLEUTEL_LANDING, 'ifm_landing_sessie');
+  assert.equal(L.uitstelTot, undefined);
+  assert.equal(L.DAGEN, undefined);
+});
+test('toonLanding: een gedeelde link met route-hash krijgt geen landing', () => {
+  for (const h of ['#/artikel/dubbele-nationaliteit', '#/forum', '#/draad', '#/modules', '#iets'])
+    assert.equal(L.toonLanding({ hash: h }), false, h);
+  for (const h of ['', '#', '#/', undefined, null])
+    assert.equal(L.toonLanding({ hash: h }), true, String(h));
+});
+test('standalone onderdrukt alles', () => {
+  assert.equal(L.toonLanding({ standalone: true }), false);
+  assert.equal(L.toonBalk({ standalone: true }), false);
+  assert.equal(L.toonAutoBlad({ standalone: true, nuttig: true }), false);
+  assert.equal(L.toonBalk({}), true);
+});
+test('installatiebalk: weg per sessie en niet onder de landing', () => {
+  assert.equal(L.toonBalk({ weg: '1' }), false);
+  assert.equal(L.toonBalk({ landingOpen: true }), false);
+  assert.equal(L.SLEUTEL_BALK, 'ifm_install_balk_weg');
+});
+test('automatisch installatieblad: eenmaal per sessie, na een nuttig resultaat, nooit over een ander blad', () => {
+  assert.equal(L.toonAutoBlad({ nuttig: true }), true);
+  assert.equal(L.toonAutoBlad({ nuttig: false }), false);
+  assert.equal(L.toonAutoBlad({ nuttig: true, getoond: '1' }), false);
+  assert.equal(L.toonAutoBlad({ nuttig: true, bladOpen: true }), false);
+  assert.equal(L.toonAutoBlad({ nuttig: true, ander: true }), false);
+  assert.equal(L.toonAutoBlad({ nuttig: true, landingOpen: true }), false);
+  assert.equal(L.SLEUTEL_BLAD, 'ifm_install_blad_getoond');
+});
+test('blokHtml: een bron voor alle omgevingen, geen em-dash of en-dash', () => {
+  const ios = L.blokHtml({ omgeving: 'ios', browser: 'safari', palet: 'licht' });
+  assert.match(ios, /Zet op beginscherm/); assert.match(ios, /de deelknop/);
+  assert.match(L.blokHtml({ omgeving: 'ios', browser: 'chrome' }), /Open deze pagina dan in Safari/);
+  const inapp = L.blokHtml({ omgeving: 'inapp' });
+  assert.match(inapp, /Open Infopoche in Safari of Chrome/); assert.match(inapp, /data-ifm-actie="kopieer"/);
+  assert.match(L.blokHtml({ omgeving: 'android', heeftEvent: true }), /data-ifm-actie="installeer"[^>]*>Installeer</);
+  const man = L.blokHtml({ omgeving: 'android', heeftEvent: false });
+  assert.ok(!/data-ifm-actie="installeer"/.test(man)); assert.match(man, /App installeren/); assert.match(man, /Toevoegen aan startscherm/);
+  assert.match(L.blokHtml({ omgeving: 'desktop' }), /qr-infopoche\.svg/);
+  for (const o of ['ios', 'inapp', 'android', 'desktop'])
+    assert.ok(!/[\u2014\u2013]/.test(L.blokHtml({ omgeving: o })), o);
 });
 
 test('sw.js: VERSIE, geen cross-origin interceptie, geen offline-belofte', () => {

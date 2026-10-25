@@ -35,9 +35,9 @@ test("kopbalk: hamburgerknop 46 px, aria, geen badge GRATIS, logo", () => {
 test("menu-items in volgorde en de sluituitleg", () => {
   const a = html.indexOf('data-menu="1"'), z = html.indexOf("recente apps.") + 20;
   const stuk = html.slice(a, z);
-  const volg = ["mnProfiel", "mnKeuze", "mnOver", "groteTekstSchakel", "mnPostcode", "mnBeginscherm"].map(k => stuk.indexOf("{{ " + k + " }}"));
+  const volg = ["mnBeginscherm", "mnProfiel", "mnKeuze", "mnOver", "groteTekstSchakel", "mnPostcode"].map(k => stuk.indexOf("{{ " + k + " }}"));
   assert.ok(volg.every(i => i > 0) && volg.every((v, i) => i === 0 || v > volg[i - 1]), String(volg));
-  assert.ok(stuk.includes("iPhone: tik op de deelknop, dan Zet op beginscherm.") && stuk.includes("Android: tik op Installeren."));
+  assert.ok(stuk.includes("Zet op uw beginscherm") && stuk.includes("App is geïnstalleerd")); // kaart bovenaan, opent het installatieblad
   assert.ok(stuk.includes("App sluiten: iPhone, veeg omhoog vanaf de onderkant. Android, tik op Terug of op recente apps."));
   assert.ok(stuk.includes("min-height:56px"));
 });

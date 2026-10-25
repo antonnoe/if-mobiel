@@ -15,6 +15,11 @@
 <!-- React en ReactDOM staan lokaal in vendor/ (versie 18.3.1, byte voor byte gelijk aan de
      unpkg-bestanden waar support.js om vraagt). support.js kijkt eerst in window.__resources
      en pakt dan de lokale kopie; zonder deze regel hangt de hele app aan unpkg.com. -->
+<script>
+// Het installatievenster van Android (beforeinstallprompt) vroeg vangen, voor het landingsscherm en de app; beide gebruiken window.__ifmInstallEv.
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__ifmInstallEv=e;try{window.dispatchEvent(new CustomEvent("ifm-installevent"))}catch(x){}});
+window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;window.__ifmGeinstalleerd=true});
+</script>
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./lamaison-lib.js"></script>
 <script src="./ondernemen-lib.js"></script>
@@ -28,104 +33,60 @@
 <script src="./abonnee-lib.js"></script>
 </head>
 <body>
-<!-- Landingsscherm voor wie infopoche.fr in een gewone browser opent: nooit in de geïnstalleerde app,
-     en na "Verder in de browser" 14 dagen niet (localStorage ifm_landing_tot). Draait synchroon voor de
-     eerste render van de app, zodat er geen flits van de hub is. Pure logica staat in landing-lib.js. -->
+<!-- Landingsscherm voor wie infopoche.fr in een gewone browser opent: nooit in de geïnstalleerde app, nooit bij een
+     gedeelde link naar inhoud (hash anders dan leeg of #/), en na "Verder in de browser" niet meer tot de browsersessie
+     eindigt (sessionStorage ifm_landing_sessie; de oude localStorage-sleutel ifm_landing_tot wordt niet meer gelezen).
+     Draait synchroon voor de eerste render van de app, zodat er geen flits van de hub is. De installatiestappen komen
+     uit LandingLib.blokHtml (dezelfde bron als het installatieblad in de app). -->
 <script>
 (function(){
   var L=window.LandingLib;if(!L)return;
-  var KEY="ifm_landing_tot";
-  function lees(){try{return localStorage.getItem(KEY)}catch(e){return null}}
-  function bewaar(v){try{localStorage.setItem(KEY,String(v));return true}catch(e){return false}}
+  function lees(){try{return sessionStorage.getItem(L.SLEUTEL_LANDING)}catch(e){return null}}
+  function bewaar(){try{sessionStorage.setItem(L.SLEUTEL_LANDING,"1");return true}catch(e){return false}}
   function isStandalone(){
     try{if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)return true}catch(e){}
     return window.navigator.standalone===true;
   }
-  if(isStandalone())return;
-  if(!L.toonLanding(lees()))return;
-  var nav=window.navigator,ev=null,afgebroken=false,status="",klaar=false;
+  if(!L.toonLanding({standalone:isStandalone(),hash:window.location.hash,sessie:lees()}))return;
+  var nav=window.navigator,afgebroken=false,status="",klaar=false;
   var GOUD="#E8B04B",NAVY="#0E1A2E",LICHT="#F6F1E7",DEMP="#B9C2D0";
-  var ST={ico:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="'+GOUD+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="de deelknop" role="img" style="vertical-align:-5px;margin:0 2px"><path d="M12 15V3"/><path d="M7.5 7.5L12 3l4.5 4.5"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>'};
   var el=document.createElement("div");
   el.id="ifm-landing";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-label","Welkom bij InfoPoche");
   el.style.cssText="position:fixed;left:0;top:0;right:0;bottom:0;height:100vh;height:100dvh;z-index:2147483000;background:"+NAVY+";color:"+LICHT+";overflow-y:auto;-webkit-overflow-scrolling:touch;font:500 16px/1.5 Mulish,system-ui,sans-serif";
+  window.__ifmLandingOpen=true;
   function omgeving(){
-    return L.detecteerOmgeving({ua:nav.userAgent,platform:nav.platform,maxTouchPoints:nav.maxTouchPoints,standalone:false,breedte:window.innerWidth,heeftInstallEvent:!!ev});
+    return L.detecteerOmgeving({ua:nav.userAgent,platform:nav.platform,maxTouchPoints:nav.maxTouchPoints,standalone:false,breedte:window.innerWidth,heeftInstallEvent:!!window.__ifmInstallEv});
   }
   var P='margin:0;font:500 15px/1.6 Mulish,system-ui,sans-serif;color:'+DEMP;
-  var KNOP='display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;padding:0 20px;border-radius:14px;font:800 16px/1.2 Mulish,system-ui,sans-serif;cursor:pointer;text-align:center;';
-  function stap(n,html){return '<li style="display:flex;gap:12px;align-items:flex-start;margin:0 0 14px;text-align:left"><span aria-hidden="true" style="flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid '+GOUD+';color:'+GOUD+';font:800 15px/27px Mulish,system-ui,sans-serif;text-align:center">'+n+'</span><span style="font:500 16px/1.5 Mulish,system-ui,sans-serif;color:'+LICHT+';padding-top:3px">'+html+'</span></li>'}
-  function blok(){
-    var o=omgeving();
-    if(o==="inapp"){
-      return '<div style="text-align:left;border:1px solid rgba(232,176,75,.45);border-radius:16px;padding:18px">'
-        +'<div style="font:600 17px/1.35 Mulish,system-ui,sans-serif;color:'+GOUD+'">Installeren kan hier niet</div>'
-        +'<p style="'+P+';margin-top:8px">Open deze pagina in Chrome of Safari.</p>'
-        +'<button type="button" id="ifm-l-kopieer" style="'+KNOP+'margin-top:14px;border:1.5px solid '+GOUD+';background:transparent;color:'+GOUD+'">Kopieer de link</button>'
-        +'<p id="ifm-l-status" role="status" aria-live="polite" style="'+P+';margin-top:10px;color:'+LICHT+'">'+status+'</p></div>';
-    }
-    if(o==="ios"){
-      var b=L.iosBrowser(nav.userAgent),s=b==="safari";
-      return '<ol style="list-style:none;margin:0;padding:0">'
-        +stap(1,s?'Tik op '+ST.ico+' onderaan in Safari':'Tik op '+ST.ico+' (Delen) in de balk van uw browser')
-        +stap(2,"Kies 'Zet op beginscherm'")
-        +stap(3,"Tik op 'Voeg toe'")+'</ol>'
-        +(s?'':'<p style="'+P+';text-align:left">Ziet u \'Zet op beginscherm\' niet in het menu? Open deze pagina dan in Safari.</p>');
-    }
-    if(o==="android"){
-      if(ev)return '<button type="button" id="ifm-l-install" style="'+KNOP+'border:0;background:'+GOUD+';color:'+NAVY+'">Installeer de app</button><p style="'+P+';margin-top:10px">Eén tik, het systeem vraagt om bevestiging</p>';
-      return '<p style="'+P+';text-align:left">'+(afgebroken?'Installeren is afgebroken. U kunt het later opnieuw proberen via het menu van uw browser.':"Uw browser biedt installeren hier niet aan; open het menu van de browser en kies 'App installeren' of 'Toevoegen aan startscherm', als die er staat.")+'</p>';
-    }
-    return '<div style="display:inline-block;background:#fff;border-radius:14px;padding:10px"><img src="./icons/qr-infopoche.svg" width="176" height="176" alt="QR-code naar '+L.URL_APP+'" style="display:block"></div><p style="'+P+';margin-top:12px;color:'+LICHT+'">Scan met uw telefoon</p>';
-  }
   function teken(){
-    el.innerHTML='<div style="box-sizing:border-box;min-height:100%;max-width:440px;margin:0 auto;padding:max(32px,env(safe-area-inset-top)) 24px max(28px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;text-align:center">'
+    el.innerHTML='<div style="box-sizing:border-box;min-height:100%;max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 24px max(20px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;text-align:center">'
       +'<img src="./icons/logo-goud.svg" alt="" width="84" height="82" style="display:block;margin:0 auto;width:84px;height:auto">'
-      +'<h1 style="margin:18px 0 0;font:500 40px/1.15 \'Source Serif 4\',Georgia,serif;color:'+LICHT+'">InfoPoche</h1>'
+      +'<h1 style="margin:16px 0 0;font:500 40px/1.15 \'Source Serif 4\',Georgia,serif;color:'+LICHT+'">InfoPoche</h1>'
       +'<p style="margin:10px 0 0;font:600 18px/1.4 Mulish,system-ui,sans-serif;color:'+GOUD+'">Kennis en ervaring dans la poche</p>'
       +'<p style="'+P+';margin-top:8px">Gratis · geen account nodig · geen app store</p>'
-      +'<div style="margin-top:28px">'+blok()+'</div>'
-      +'<button type="button" id="ifm-l-verder" style="'+KNOP+'margin-top:22px;border:0;background:transparent;color:'+LICHT+';text-decoration:underline;text-underline-offset:4px;min-height:48px">Verder in de browser</button>'
+      +'<p style="margin:22px 0 12px;font:700 19px/1.35 Mulish,system-ui,sans-serif;color:'+LICHT+'">Zet Infopoche op uw beginscherm</p>'
+      +'<div>'+L.blokHtml({omgeving:omgeving(),browser:L.iosBrowser(nav.userAgent),heeftEvent:!!window.__ifmInstallEv,afgebroken:afgebroken,status:status,palet:"donker"})+'</div>'
+      +'<button type="button" id="ifm-l-verder" style="display:block;margin:14px auto 0;min-height:48px;padding:0 16px;border:0;background:transparent;color:'+DEMP+';text-decoration:underline;text-underline-offset:4px;font:600 14px/1.2 Mulish,system-ui,sans-serif;cursor:pointer">Verder in de browser</button>'
       +'</div>';
     var v=el.querySelector("#ifm-l-verder");if(v)v.onclick=verder;
-    var i=el.querySelector("#ifm-l-install");if(i)i.onclick=installeer;
-    var k=el.querySelector("#ifm-l-kopieer");if(k)k.onclick=kopieer;
+    var i=el.querySelector('[data-ifm-actie="installeer"]');if(i)i.onclick=installeer;
+    var k=el.querySelector('[data-ifm-actie="kopieer"]');if(k)k.onclick=kopieer;
   }
-  function sluit(){klaar=true;if(el.parentNode)el.parentNode.removeChild(el)}
-  function verder(){bewaar(L.uitstelTot());sluit()}
+  function sluit(){
+    klaar=true;window.__ifmLandingOpen=false;
+    if(el.parentNode)el.parentNode.removeChild(el);
+    try{window.dispatchEvent(new CustomEvent("ifm-landing-weg"))}catch(e){}
+  }
+  function verder(){bewaar();sluit()}
   function installeer(){
-    var e=ev;if(!e||typeof e.prompt!=="function")return;
-    ev=null;
-    try{
-      var r=e.prompt();
-      Promise.resolve(e.userChoice).then(function(c){
-        if(c&&c.outcome==="accepted")sluit();else{afgebroken=true;if(!klaar)teken()}
-      },function(){afgebroken=true;if(!klaar)teken()});
-      void r;
-    }catch(x){afgebroken=true;teken()}
-  }
-  function kopieerTerugval(){
-    var ta=document.createElement("textarea"),ok=false;
-    ta.value=L.URL_APP;ta.setAttribute("readonly","");
-    ta.style.cssText="position:fixed;left:0;top:0;opacity:0;font-size:16px";
-    document.body.appendChild(ta);
-    try{ta.focus();ta.select();ta.setSelectionRange(0,ta.value.length);ok=!!document.execCommand("copy")}catch(e){ok=false}
-    document.body.removeChild(ta);return ok;
+    var e=window.__ifmInstallEv;if(!e||typeof e.prompt!=="function")return;
+    window.__ifmInstallEv=null;
+    L.installeer(e,function(r){if(r==="accepted")sluit();else{afgebroken=true;if(!klaar)teken()}});
   }
   function kopieer(){
-    function klaarMet(ok){
-      status=ok?"Gekopieerd":'Kopiëren lukte niet, houd de link ingedrukt: <span style="color:'+GOUD+';user-select:all;-webkit-user-select:all;word-break:break-all">'+L.URL_APP+'</span>';
-      if(!klaar)teken();
-    }
-    try{
-      if(nav.clipboard&&nav.clipboard.writeText){
-        nav.clipboard.writeText(L.URL_APP).then(function(){klaarMet(true)},function(){klaarMet(kopieerTerugval())});
-        return;
-      }
-    }catch(e){}
-    klaarMet(kopieerTerugval());
+    L.kopieer(nav,document,function(ok){status=L.kopieerStatus(ok);if(!klaar)teken()});
   }
-  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();ev=e;afgebroken=false;if(!klaar&&el.parentNode)teken()});
+  window.addEventListener("ifm-installevent",function(){afgebroken=false;if(!klaar&&el.parentNode)teken()});
   window.addEventListener("appinstalled",sluit);
   teken();
   document.body.appendChild(el);
@@ -204,18 +165,28 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
   <div data-menuscrim="1" onClick="{{ menuSluit }}" style="position:absolute;left:0;right:0;top:100%;height:100dvh;background:rgba(21,24,26,.42)"></div>
   <div role="dialog" aria-modal="true" aria-label="Menu" data-menu="1" style="position:absolute;left:0;right:0;top:100%;background:#fff;border-radius:0 0 18px 18px;box-shadow:0 14px 30px rgba(21,24,26,.18);max-height:calc(100dvh - 150px);overflow-y:auto;overscroll-behavior:contain">
+    <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ mnBeginscherm }}" style="display:flex;align-items:flex-start;gap:14px;width:calc(100% - 28px);margin:14px 14px 8px;padding:14px 14px;border:1.5px solid rgba(128,0,0,.35);border-radius:14px;background:rgba(128,0,0,.06);text-align:left;cursor:pointer;color:#15181A;min-height:56px"><span style="{{ mnIcoInstalleer }};margin-top:1px"></span><span style="flex:1;min-width:0"><b style="display:block;font:700 16px Mulish">Zet op uw beginscherm</b><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">Dan opent Infopoche als een gewone app. Tik hier voor de stappen op uw toestel.</span></span></button>
+    </sc-if>
+    <sc-if value="{{ mnGeinstalleerd }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;gap:14px;min-height:48px;padding:0 18px;font:600 14px Mulish;color:#3D4346"><span aria-hidden="true" style="flex:none;width:24px;text-align:center;color:#800000;font-weight:800">&#10003;</span><span>App is geïnstalleerd</span></div>
+    </sc-if>
     <button onClick="{{ mnProfiel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoProfiel }}"></span><span style="flex:1;min-width:0">Profiel</span></button>
     <button onClick="{{ mnKeuze }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoKeuze }}"></span><span style="flex:1;min-width:0">Mijn modules</span></button>
     <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
     <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
     <button onClick="{{ mnPostcode }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoPostcode }}"></span><span style="flex:1;min-width:0">Postcode</span><span style="flex:0 1 auto;min-width:0;font:600 16px Mulish;color:#3D4346;text-align:right;overflow-wrap:anywhere">{{ pcLabel }}</span></button>
-    <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
-    <button onClick="{{ mnBeginscherm }}" style="display:flex;align-items:flex-start;gap:14px;width:calc(100% - 28px);margin:6px 14px 0;padding:14px 14px;border:1px solid rgba(128,0,0,.18);border-radius:14px;background:rgba(128,0,0,.05);text-align:left;cursor:pointer;color:#15181A;min-height:56px"><span style="{{ mnIcoInstalleer }};margin-top:1px"></span><span style="flex:1;min-width:0"><b style="display:block;font:700 16px Mulish">Zet op uw beginscherm</b><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">iPhone: tik op de deelknop, dan Zet op beginscherm.</span><span style="display:block;margin-top:2px;font:500 13.5px/1.5 Mulish;color:#3D4346">Android: tik op Installeren.</span></span></button>
-    </sc-if>
     <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">App sluiten: iPhone, veeg omhoog vanaf de onderkant. Android, tik op Terug of op recente apps.</div>
   </div>
   </sc-if>
 </div>
+
+<sc-if value="{{ balkOpen }}" hint-placeholder-val="{{ false }}">
+<div data-installbalk="1" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff">
+  <button onClick="{{ installOpenBalk }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 4px 6px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="flex:1 1 auto;min-width:0;font:700 14px/1.3 Mulish">Installeer Infopoche op uw beginscherm</span><span style="flex:none;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:56px;padding:0 14px;border-radius:12px;background:#fff;color:#800000;font:800 14px Mulish">Hoe?</span></button>
+  <button onClick="{{ installBalkSluit }}" aria-label="Balk sluiten" style="flex:none;width:44px;min-height:48px;border:0;background:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px">&#10005;</button>
+</div>
+</sc-if>
 
 <div id="ifm-scroll" style="{{ zoomCss }}view-transition-name:ifm-inhoud;flex:1;min-height:0;position:relative;overflow-y:{{ scrollOverflow }};-webkit-overflow-scrolling:touch">
 
@@ -2042,7 +2013,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <!-- De site zelf, exact de ruimte tussen kopbalk en tabbalk: de schermcontainer scrolt hier
            niet (overflow hidden), het iframe scrolt zelf. Alleen voor sites die framing toestaan
            (weergave: "volledig" in modules.json). De knop "In browser" staat in de kopbalk. -->
-      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
+      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write; web-share" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
     </div>
     </sc-if>
     <sc-if value="{{ toonUitlegRij }}" hint-placeholder-val="{{ false }}">
@@ -2256,7 +2227,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Alle modules →</button>
     <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
-    <div id="ifm-installeer" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border-radius:13px;background:rgba(21,24,26,.05);font:600 12.5px/1.6 Mulish;color:#3D4346">Op het beginscherm zetten doet u via het deelmenu van uw browser</div>
+    <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
+    <button id="ifm-installeer" onClick="{{ installOpenProfiel }}" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:rgba(128,0,0,.05);color:#800000;font:700 14px Mulish;cursor:pointer">Zet Infopoche op uw beginscherm →</button>
+    </sc-if>
   </div>
   <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app — u ziet altijd welke van de twee gevraagd wordt.</div>
   <div style="margin:12px 14px 0">
@@ -2527,6 +2500,22 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <a href="{{ abonneeUrl }}" onClick="{{ oproepSluit }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14.5px Mulish">Bekijk het abonnement</a>
     <button onClick="{{ oproepSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:700 14px Mulish">Niet nu</button>
     <p style="margin:0;text-align:center;font:500 12.5px Mulish;color:#71787C">U ziet deze vraag hooguit eens per week.</p>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ installBladOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:70">
+  <div onClick="{{ installBladSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.5)"></div>
+  <section role="dialog" aria-modal="true" aria-label="Zet Infopoche op uw beginscherm" data-installblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:85%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.22)">
+    <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+      <h2 style="margin:6px 0 0;font:500 25px 'Source Serif 4',Georgia,serif;line-height:1.25">{{ installBladKop }}</h2>
+      <button onClick="{{ installBladSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
+    </div>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.7em">Dan staat Infopoche tussen uw andere apps en opent hij in één tik, zonder app store en zonder account.</p>
+    <div data-installinhoud="1"></div>
+    <button onClick="{{ installBladSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:600 14px Mulish;text-decoration:underline;text-underline-offset:4px">Verder in de browser</button>
   </section>
 </div>
 </sc-if>
@@ -2943,7 +2932,7 @@ class Component extends DCLogic {
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
-    art:null, artStack:[], forumBlad:null, pcGewist:null, zaq:{q:"", status:"leeg", items:[]}, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false,
+    art:null, artStack:[], forumBlad:null, pcGewist:null, zaq:{q:"", status:"leeg", items:[]}, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false, installBlad:null, installAf:false, installStatus:"", balkWeg:false, landingOpen:!!window.__ifmLandingOpen, installTik:0,
     gzStatus:"leeg", gzTitels:{}, gzOpen:[], gzOnd:null, gzArtTitels:{}, gzLijst:null, onStap:null, gzHfd:null, gzHfdFout:false,
     themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null, onStatus:"leeg", onStappen:null, onDicht:[] };
 
@@ -3544,7 +3533,7 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(){
-    this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkOproep(); this.histSync();
+    this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkInstallAuto(); this.checkOproep(); this.vulInstall(); this.histSync();
     if (this.state.oproep && !this._opFocus) {
       this._opFocus = true;
       const b = document.querySelector('[data-oproep] button[aria-label="Sluiten"]');
@@ -3565,6 +3554,14 @@ class Component extends DCLogic {
   }
 
   componentDidMount(){
+    // Installatie-aansporing: balk, installatieblad en het gedeelde installatievenster (window.__ifmInstallEv, vroeg gevangen in <head>).
+    try { if (sessionStorage.getItem((window.LandingLib || {}).SLEUTEL_BALK || "ifm_install_balk_weg") === "1") this.setState({balkWeg:true}); } catch(e){}
+    this._ibEvent = () => this.setState(s => ({installTik:(s.installTik || 0) + 1, installAf:false}));
+    window.addEventListener("ifm-installevent", this._ibEvent);
+    this._ibLanding = () => this.setState({landingOpen:false});
+    window.addEventListener("ifm-landing-weg", this._ibLanding);
+    this._ibKlaar = () => this.setState(s => ({installBlad:null, installTik:(s.installTik || 0) + 1}));
+    window.addEventListener("appinstalled", this._ibKlaar);
     // Links met data-art (rijen in Ondernemen, La Maison, nieuwsbronnen en links in artikelen) openen in de app
     // als ze naar een artikel van infofrankrijk.com wijzen; anders blijft het gewone nieuwe tabblad.
     this._klikArt = ev => {
@@ -3584,7 +3581,7 @@ class Component extends DCLogic {
       ev.preventDefault(); this.route(m);
     };
     document.addEventListener("click", this._klikTool);
-    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
+    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
     document.addEventListener("keydown", this._toetsOproep);
     this._toetsMenu = ev => this.menuToets(ev);
     document.addEventListener("keydown", this._toetsMenu);
@@ -3992,24 +3989,95 @@ class Component extends DCLogic {
   checkOproep(){
     const st = this.state, A = window.IfAbonnee;
     if (!A || st.oproep || this._opTimer) return;
+    if (st.installBlad || this._ibTimer) return; // het installatieblad gaat voor; daarna komt dit blad vanzelf
     const soort = this.opSoort();
     if (!soort) return;
     let opslag = null; try { opslag = window.localStorage; } catch(e){}
     if (!A.moetOproep({soort, laatst: opslag ? A.leesLaatst(opslag) : null, nu: Date.now(), sessieGetoond: !!this._opSessie})) return;
     this._opTimer = setTimeout(() => {
       this._opTimer = null;
-      if (this.opSoort() !== soort || this.state.oproep || this._opSessie) return;
+      if (this.opSoort() !== soort || this.state.oproep || this.state.installBlad || this._ibTimer || this._opSessie) return;
       this._opSessie = true;
       if (opslag) A.schrijfLaatst(opslag, Date.now());
       this.setState({oproep:true});
     }, 1800);
   }
   oproepSluit(){ this._opFocus = false; this.setState({oproep:false}); }
+
+  // ---- Installatie-aansporing: balk, installatieblad, automatisch blad na het eerste nuttige resultaat -------------
+  // Sterk, maar nooit blokkerend: alles is sluitbaar en niets verbergt inhoud. Niets hiervan verschijnt in de geinstalleerde app.
+  // Sleutels (sessionStorage): ifm_install_balk_weg, ifm_install_blad_getoond (en ifm_landing_sessie in het landingsscript).
+  ibSleutel(naam){ return (window.LandingLib && window.LandingLib[naam]) || ""; }
+  ibLees(naam){ try { return sessionStorage.getItem(this.ibSleutel(naam)); } catch(e){ return this["_ib" + naam] || null; } }
+  ibSchrijf(naam){ try { sessionStorage.setItem(this.ibSleutel(naam), "1"); } catch(e){} this["_ib" + naam] = "1"; }
+  installOpen(kop){
+    if (this.alGeinstalleerd()) return;
+    this.setState({installBlad:{kop: kop || "Zet Infopoche op uw beginscherm"}, installStatus:"", installAf:false, menu:false});
+  }
+  installBladSluit(){ this._ibFocus = false; this.setState({installBlad:null}); }
+  installBalkSluit(){ this.ibSchrijf("SLEUTEL_BALK"); this.setState({balkWeg:true}); }
+  // Eerste nuttige resultaat in de browser: een tooluitkomst (zelfde moment als het abonneeblad) of een geladen artikel.
+  checkInstallAuto(){
+    const st = this.state, L = window.LandingLib;
+    if (!L || this._ibTimer) return;
+    const nuttig = !!this.opSoort() || (st.screen === "artikel" && !!st.art && st.art.status === "klaar");
+    if (!L.toonAutoBlad({standalone:this.alGeinstalleerd(), landingOpen:!!window.__ifmLandingOpen, bladOpen:!!st.installBlad,
+      ander:!!(st.oproep || st.forumBlad || st.vraagPostcode || st.menu), getoond:this.ibLees("SLEUTEL_BLAD"), nuttig})) return;
+    this._ibTimer = setTimeout(() => {
+      this._ibTimer = null;
+      const s2 = this.state;
+      const nog = !!this.opSoort() || (s2.screen === "artikel" && !!s2.art && s2.art.status === "klaar");
+      if (!nog || s2.installBlad || s2.oproep || s2.forumBlad || s2.vraagPostcode || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
+      this.ibSchrijf("SLEUTEL_BLAD");
+      this.installOpen("Fijn dat Infopoche u helpt. Zet hem op uw beginscherm.");
+    }, 1800);
+  }
+  // Vult de inhoud van het installatieblad uit LandingLib.blokHtml (dezelfde bron als het landingsscherm).
+  vulInstall(){
+    const st = this.state, L = window.LandingLib;
+    const el = document.querySelector("[data-installinhoud]");
+    if (!el || !L || !st.installBlad) return;
+    const nav = window.navigator;
+    const omg = L.detecteerOmgeving({ua:nav.userAgent, platform:nav.platform, maxTouchPoints:nav.maxTouchPoints, standalone:false, breedte:window.innerWidth, heeftInstallEvent:!!window.__ifmInstallEv});
+    const html = L.blokHtml({omgeving:omg, browser:L.iosBrowser(nav.userAgent), heeftEvent:!!window.__ifmInstallEv, afgebroken:!!st.installAf, status:st.installStatus || "", palet:"licht"});
+    if (el.__ibHtml !== html) { el.innerHTML = html; el.__ibHtml = html; }
+    if (!el.__ibKlik) {
+      el.__ibKlik = true;
+      el.addEventListener("click", ev => {
+        const b = ev.target && ev.target.closest ? ev.target.closest("[data-ifm-actie]") : null;
+        if (!b) return;
+        const a = b.getAttribute("data-ifm-actie");
+        if (a === "kopieer") L.kopieer(window.navigator, document, ok => this.setState({installStatus:L.kopieerStatus(ok)}));
+        else if (a === "installeer") {
+          const e = window.__ifmInstallEv; if (!e) return;
+          window.__ifmInstallEv = null;
+          L.installeer(e, r => { if (r === "accepted") this.setState({installBlad:null}); else this.setState(s => ({installAf:true, installTik:(s.installTik || 0) + 1})); });
+        }
+      });
+    }
+    if (!this._ibFocus) {
+      this._ibFocus = true;
+      const b = document.querySelector('[data-installblad] button[aria-label="Sluiten"]');
+      if (b && b.focus) b.focus();
+    }
+  }
+  installVals(){
+    const st = this.state, L = window.LandingLib, geinst = this.alGeinstalleerd();
+    const landing = !!window.__ifmLandingOpen;
+    return {
+      balkOpen: !!L && L.toonBalk({standalone:geinst, landingOpen:landing, weg:st.balkWeg ? "1" : ""}) && !st.installBlad,
+      installOpenBalk: () => this.installOpen(), installBalkSluit: () => this.installBalkSluit(),
+      installBladOpen: !!st.installBlad && !geinst, installBladKop: st.installBlad ? st.installBlad.kop : "",
+      installBladSluit: () => this.installBladSluit(), installOpenProfiel: () => this.installOpen(),
+      mnGeinstalleerd: geinst
+    };
+  }
   openMods(){ this.setState({screen:"mod", from:"hub", q:"", tool:null}); }
   // ---- Hamburgermenu in de kopbalk ------------------------------------------------------------------
   // Een paneel onder de kopbalk met verduisterde achtergrond. Het telt als blad in de geschiedenis (blad "menu"):
   // het terug-gebaar sluit het. Focus blijft in het paneel (Tab loopt rond), Escape sluit, de achtergrond scrolt niet.
   alGeinstalleerd(){
+    if (window.__ifmGeinstalleerd) return true;
     try { if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true; } catch(e){}
     try { return window.navigator.standalone === true; } catch(e){ return false; }
   }
@@ -4068,6 +4136,7 @@ class Component extends DCLogic {
   terugStap(){
     const st = this.state;
     if (st.menu) { this.setState({menu:false}); return true; }
+    if (st.installBlad) { this.installBladSluit(); return true; }
     if (st.forumBlad) { this.forumBladSluit(); return true; }
     if (st.oproep) { this.oproepSluit(); return true; }
     if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
@@ -4105,7 +4174,7 @@ class Component extends DCLogic {
   }
   histToestand(){
     const st = this.state;
-    const blad = st.menu ? "menu" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.vraagPostcode ? "pc" : "";
+    const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.vraagPostcode ? "pc" : "";
     return {screen:st.screen, artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
       nwTegel:st.nwTegel, nwTerug:st.nwTerug, blad,
       themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
@@ -4889,6 +4958,7 @@ class Component extends DCLogic {
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       subStijl: st.screen === "hub" ? "white-space:normal;overflow-wrap:anywhere" : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
+      ...this.installVals(),
       menuOpen: !!st.menu, menuDicht: !st.menu,
       menuSchakel: () => this.menuSchakel(),
       menuSluit: () => this.menuSluit(),
@@ -4900,7 +4970,7 @@ class Component extends DCLogic {
       mnOver: () => this.menuNaar({screen:"over", from:"hub"}),
       mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),
       mnInstalleer: !this.alGeinstalleerd(),
-      mnBeginscherm: () => { this.menuNaar({screen:"acc"}); setTimeout(() => { const e = document.getElementById("ifm-installeer"); if (e && e.scrollIntoView) e.scrollIntoView({block:"center"}); }, 60); },
+      mnBeginscherm: () => this.installOpen(),
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
       badgeFg: locked ? "#800000" : "#3D4346",
       showBack: SHOWBACK.test(st.screen),
