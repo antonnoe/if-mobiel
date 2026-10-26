@@ -24,27 +24,54 @@ const PEIL_WAARDEN_STAND = '2026-10-24';
 const PRIJS_INFO = {
   elec:      { waarde: 0.2001, status: 'vastgesteld', peilId: 'p.fr.energie.prijs_elektriciteit_trve',
                bron: 'CRE, tarief réglementé Bleu optie Base, 3 en 6 kVA, TTC, geldig sinds 1 augustus 2026',
+               periode: 'geldig sinds 1 augustus 2026', periodeEinde: null,
                toelichting: 'Het abonnement (145,76 euro per jaar bij 3 kVA, 190,81 euro bij 6 kVA) komt er los bij; de tool rekent het niet mee.' },
-  gas:       { waarde: 0.1414, status: 'aanname', peilId: 'p.fr.energie.prijs_gas_prix_repere',
-               bron: 'SDES/DGEC, gemiddelde huishoudprijs 2025, ongeveer 0,14 euro per kWh',
-               toelichting: 'Een landelijk gemiddelde, geen tarief: vul de kWh-prijs van uw eigen contract in. Gas wordt in Frankrijk per kWh afgerekend; de meterstand in m³ zet de netbeheerder met een eigen omrekenfactor om in kWh.' },
-  fioul:     { waarde: 1.13, status: 'aanname', peilId: 'p.fr.energie.prijs_fioul',
-               bron: 'SDES/DGEC, gemiddelde huishoudprijs 2025' },
-  pellet:    { waarde: 0.38, status: 'aanname', peilId: 'p.fr.energie.prijs_pellets',
-               bron: 'ADEME, prijzen 2025, geleverd los gestort, 83 euro per MWh PCI, omgerekend met 4,6 kWh per kg (DPE-waarde)' },
-  wood:      { waarde: 90, status: 'aanname', peilId: 'p.fr.energie.prijs_hout',
-               bron: 'ADEME, prijzen 2025, ongeveer 0,05 euro per kWh',
+  // Bron: CRE, open data prix repère de vente de gaz (OPEN_DATA_GRDF.xlsx), profiel verwarming (P012), part variable moyenne TTC
+  // september 0,13474, oktober 0,14557, november 0,15760 euro per kWh: gemiddelde 0,146. Per gefactureerde kWh (PCS).
+  gas:       { waarde: 0.146, status: 'aanname', peilId: 'p.fr.energie.prijs_gas_prix_repere',
+               bron: 'CRE, prix repère gas voor het verwarmingsprofiel, gemiddelde van september tot en met november 2026, per gefactureerde kWh (PCS), TTC',
+               periode: 'september tot en met november 2026', periodeEinde: '2026-11-30',
+               toelichting: 'Een gemiddelde, geen tarief: vul de kWh-prijs van uw eigen contract in. Het abonnement (bij het prix repère 360,79 euro per jaar) komt er los bij; de tool rekent het niet mee. Gas wordt in Frankrijk per kWh afgerekend; de meterstand in m³ zet de netbeheerder met een eigen omrekenfactor om in kWh. De tool rekent de gefactureerde kWh (PCS) om naar de kWh die de ketel benut (PCI), met de factor 1,11 uit de DPE-methode.' },
+  // Bron: DGEC, Prix HTT et TTC depuis janvier 2020, fioul domestique 2.000 tot 4.999 liter TTC, maandgemiddelden
+  // juli 1,58704, augustus 1,68475, september 1,880175 euro per liter: gemiddelde 1,7173.
+  fioul:     { waarde: 1.72, status: 'aanname', peilId: 'p.fr.energie.prijs_fioul',
+               bron: 'DGEC, gemiddelde huishoudprijs stookolie (levering 2.000 tot 4.999 liter), juli tot en met september 2026, TTC',
+               periode: 'juli tot en met september 2026', periodeEinde: '2026-09-30' },
+  // Bron: SDES DiDo, Conjoncture mensuelle de l'énergie, prix ménages bois, granulés en vrac, tweede kwartaal 2026:
+  // 387,68 euro per ton en 8,4278 euro per 100 kWh PCI (0,0843 euro per kWh PCI); 4,6 kWh PCI per kg.
+  pellet:    { waarde: 0.388, status: 'aanname', peilId: 'p.fr.energie.prijs_pellets',
+               bron: 'SDES, houtpellets los gestort, tweede kwartaal 2026: 387,68 euro per ton, dat is 0,0843 euro per kWh PCI bij 4,6 kWh per kg',
+               periode: 'tweede kwartaal 2026', periodeEinde: '2026-06-30' },
+  // Bron: ADEME open data, prix des combustibles bois, blokken geleverd 2025 (gemiddeld 45,6 euro per MWh PCI), geïndexeerd met
+  // Eurostat HICP Frankrijk vaste brandstoffen (CP0454) oktober 2025 tot en met september 2026 (+2,15 procent): 0,047 euro per kWh PCI.
+  wood:      { waarde: 85, status: 'aanname', peilId: 'p.fr.energie.prijs_hout',
+               bron: 'ADEME, brandhout in blokken geleverd, prijs 2025 geïndexeerd naar oktober 2025 tot en met september 2026: circa 0,047 euro per kWh PCI',
+               periode: 'oktober 2025 tot en met september 2026, raming', periodeEinde: '2026-09-30',
                toelichting: 'De omrekening naar euro per stère (1.800 kWh per stère) is een aanname van de tool.' },
-  propaan:   { waarde: 1.80, status: 'aanname', peilId: 'p.fr.energie.prijs_propaan',
-               bron: 'eigen schatting van de tool, geen overheidsbron' },
+  // Bron: SDES DiDo, Conjoncture mensuelle de l'énergie, prix ménages pétrole, propaan, juni tot en met augustus 2026:
+  // gemiddeld 0,1802 euro per kWh PCI (2.303 euro per ton). Per liter bij 0,51 kg per liter en 12,78 kWh PCI per kg: circa 1,17 euro.
+  propaan:   { waarde: 1.17, status: 'aanname', peilId: 'p.fr.energie.prijs_propaan',
+               bron: 'SDES, propaan in tank, juni tot en met augustus 2026: 0,1802 euro per kWh PCI, omgerekend met 0,51 kg per liter (aanname van de tool)',
+               periode: 'juni tot en met augustus 2026', periodeEinde: '2026-08-31' },
   petroleum: { waarde: 2.00, status: 'aanname', peilId: 'p.fr.energie.prijs_petroleum',
-               bron: 'eigen schatting van de tool, geen overheidsbron' }
+               bron: 'eigen schatting van de tool, geen overheidsbron', periode: null, periodeEinde: null }
 };
 const PRICE_DEFAULTS_USER = { elec: PRIJS_INFO.elec.waarde, gas: PRIJS_INFO.gas.waarde, fioul: PRIJS_INFO.fioul.waarde, pellet: PRIJS_INFO.pellet.waarde, wood: PRIJS_INFO.wood.waarde, propaan: PRIJS_INFO.propaan.waarde, petroleum: PRIJS_INFO.petroleum.waarde };
 const ENERGY_UNITS        = { elec: '€/kWh', gas: '€/kWh', fioul: '€/L', pellet: '€/kg', wood: '€/stère', propaan: '€/L', petroleum: '€/L' };
-const KWH_CONVERSION      = { elec: 1, gas: 1, fioul: 10, pellet: 4.6, wood: 1800, propaan: 7.1, petroleum: 10 };
+// kWh die het toestel benut (PCI) per eenheid van de prijs. Bronnen: SDES DiDo (pellets 4,6 kWh PCI per kg, propaan 12,78 kWh PCI per kg;
+// fioul rekent de tool met afgerond 10 kWh per liter, SDES geeft 9,912); aardgas: de prijs geldt per gefactureerde kWh (PCS), PCS = 1,11 x PCI (méthode 3CL-DPE 2021, par. 13.2.1.4),
+// dus 1 kWh PCS levert 1/1,11 kWh PCI. Propaan per liter: 12,78 x 0,51 kg per liter (dichtheid: aanname van de tool). Hout en petroleum: aannames.
+const GAS_PCS_PER_PCI     = 1.11;
+const PROPAAN_KG_PER_LITER = 0.51;
+const KWH_CONVERSION      = { elec: 1, gas: 1 / GAS_PCS_PER_PCI, fioul: 10, pellet: 4.6, wood: 1800, propaan: 12.78 * PROPAAN_KG_PER_LITER, petroleum: 10 };
 // Tekst bij de prijzen, in gewone taal.
-const PRIJS_UITLEG = 'Dit zijn standaardprijzen: pas ze aan naar uw factuur. Elektriciteit volgt het officiële gereguleerde tarief (tarif réglementé, CRE, sinds 1 augustus 2026); de overige prijzen zijn gemiddelden uit 2024 of 2025 en dus een aanname. Een abonnement rekent de tool niet mee: dat komt er los bij.';
+const PRIJS_UITLEG = 'Dit zijn standaardprijzen: pas ze aan naar uw factuur. Elektriciteit volgt het officiële gereguleerde tarief (tarif réglementé, CRE, sinds 1 augustus 2026). De overige prijzen zijn gemiddelden van een recente periode en dus een aanname: aardgas september tot en met november 2026 (CRE), stookolie juli tot en met september 2026 (DGEC), pellets het tweede kwartaal van 2026 (SDES), propaan juni tot en met augustus 2026 (SDES), hout oktober 2025 tot en met september 2026 (raming op basis van ADEME). Een abonnement rekent de tool niet mee: dat komt er los bij.';
+
+// Terugleververgoeding voor het overschot van zonnepanelen (vente du surplus), tot en met 100 kWc.
+// Bron: arrêté du 1er juin 2026 (NOR ECOR2609281A, JO n° 129 van 4 juni 2026): "Le montant de ce tarif d'achat TPa est égal à 1,1c€/kWh hors TVA";
+// injectie boven 1.600 uur maal het vermogen krijgt geen tarief. Geldt voor contracten op aanvragen vanaf 5 juni 2026.
+const TERUGLEVER_TARIEF        = 0.011;
+const TERUGLEVER_PLAFOND_UREN  = 1600;
 
 // Apparaatverbruik per jaar: raming, gemiddelde volgens ADEME. Het verbruik van uw eigen apparaten kan afwijken.
 // bron A: ADEME, "Électricité: quels appareils consomment le plus", bijgewerkt 7 mei 2026.
@@ -65,6 +92,7 @@ const HEAT_MAIN_DEF = [
   { key: 'elec',   label: 'Elektrisch (direct)',   priceKey: 'elec'   },
   { key: 'hp',     label: 'Warmtepomp (SCOP)',     priceKey: 'elec'   },
   { key: 'gas',    label: 'Aardgas (ketel η)',     priceKey: 'gas'    },
+  { key: 'propaan', label: 'Propaan (ketel η)',    priceKey: 'propaan' },
   { key: 'fioul',  label: 'Fioul/mazout (η)',      priceKey: 'fioul'  },
   { key: 'pellet', label: 'Houtpellets‑CV (η)',    priceKey: 'pellet' },
   { key: 'wood',   label: 'Hout‑CV (η)',           priceKey: 'wood'   }
@@ -218,10 +246,11 @@ function computeResults(s) {
   const pvSelf    = Math.min(pvSelfMax, elecTotalGross);
   const pvExport  = Math.max(0, pvYield - pvSelf);
 
-  // Exportvergoeding
+  // Exportvergoeding: bij vente du surplus het wettelijke tarief, en alleen tot 1.600 uur maal het vermogen (zie TERUGLEVER_PLAFOND_UREN).
   let exportTariff = 0;
-  if (s.pvExportMode === 'vente')  exportTariff = 0.04;
+  if (s.pvExportMode === 'vente')  exportTariff = TERUGLEVER_TARIEF;
   if (s.pvExportMode === 'custom') exportTariff = Math.max(0, s.pvExportTariff || 0);
+  const pvExportBetaald = s.pvExportMode === 'vente' ? Math.min(pvExport, TERUGLEVER_PLAFOND_UREN * Math.max(0, s.pvKwp || 0)) : pvExport;
 
   const elecNet = Math.max(0, elecTotalGross - pvSelf);
 
@@ -233,7 +262,7 @@ function computeResults(s) {
   const nonElecMain = mainDef?.priceKey !== 'elec' ? mainCost : 0;
   const nonElecAux  = auxDef?.priceKey  !== 'elec' ? auxCost  : 0;
   const nonElecDhw  = dhwDef?.priceKey  !== 'elec' ? dhwCost  : 0;
-  const elecCost    = elecNet * (pricesKwh.elec || 0) - pvExport * exportTariff;
+  const elecCost    = elecNet * (pricesKwh.elec || 0) - pvExportBetaald * exportTariff;
   const totalCost   = elecCost + nonElecMain + nonElecAux + nonElecDhw + (pool.gas * (pricesKwh.gas || 0));
 
   const costs = {
@@ -244,7 +273,7 @@ function computeResults(s) {
     ev:                evKwhYear * (pricesKwh.elec || 0),
     zwembad:           pool.cost,
     pvWaarde:          -(pvSelf * (pricesKwh.elec || 0)),
-    pvExportOpbrengst: pvExport * exportTariff * -1
+    pvExportOpbrengst: pvExportBetaald * exportTariff * -1
   };
 
   // Audit elektra
@@ -276,7 +305,7 @@ function computeResults(s) {
       mainFrac, auxFrac,
       mainEff, auxEff,
       mainInput, auxInput,
-      elecTotalGross, pvYield, pvSelf, pvExport, elecNet, exportTariff,
+      elecTotalGross, pvYield, pvSelf, pvExport, pvExportBetaald, elecNet, exportTariff,
       totalCost, elecParts, elecPartsSum, mismatch
     }
   };

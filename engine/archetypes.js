@@ -17,9 +17,10 @@
 
   /* ── Bouwperiodes met forfaitaire startwaarden (ongerenoveerd) ── */
   var PERIODS = {
-    // 3CL: ongeïsoleerde mur vóór 1975 → U=2,5 (notice DPE 2021). Enkel glas dominant.
-    pre1948:  { label: 'Vóór 1948',        wallU: 2.5,  roofU: 2.5,  floorU: 2.0, winU: 4.5, ach: 1.0, ceiling: 2.7 },
-    y48_74:   { label: '1948–1974',        wallU: 2.5,  roofU: 2.5,  floorU: 1.6, winU: 4.5, ach: 0.9, ceiling: 2.5 },
+    // 3CL: ongeïsoleerde mur vóór 1975 → U=2,5 (notice DPE 2021). Enkel glas dominant: Uw 4,9 (zelfde waarde als U_PRESETS in engine.js).
+    // Vloer bij onbekende isolatie vóór 1975: Upb0 = 2,0 (méthode 3CL-DPE 2021, par. 3.2).
+    pre1948:  { label: 'Vóór 1948',        wallU: 2.5,  roofU: 2.5,  floorU: 2.0, winU: 4.9, ach: 1.0, ceiling: 2.7 },
+    y48_74:   { label: '1948–1974',        wallU: 2.5,  roofU: 2.5,  floorU: 2.0, winU: 4.9, ach: 0.9, ceiling: 2.5 },
     // ≥1975: 3CL beschouwt wanden als (binnen)geïsoleerd; niveau per RT-generatie.
     y75_89:   { label: '1975–1989',        wallU: 1.0,  roofU: 0.8,  floorU: 1.0, winU: 3.5, ach: 0.7, ceiling: 2.5 },
     y90_05:   { label: '1990–2005',        wallU: 0.5,  roofU: 0.35, floorU: 0.5, winU: 2.6, ach: 0.6, ceiling: 2.5 },
@@ -49,6 +50,7 @@
     hp:     { mainType: 'hp',    mainScop: 3.2, mainEta: 0.9  },
     elec:   { mainType: 'elec',  mainScop: 3.2, mainEta: 1.0  },
     gas:    { mainType: 'gas',   mainScop: 3.2, mainEta: 0.9  },
+    propaan:{ mainType: 'propaan', mainScop: 3.2, mainEta: 0.9 },
     fioul:  { mainType: 'fioul', mainScop: 3.2, mainEta: 0.85 },
     wood:   { mainType: 'wood',  mainScop: 3.2, mainEta: 0.6  },
     pellet: { mainType: 'pellet',mainScop: 3.2, mainEta: 0.85 }
