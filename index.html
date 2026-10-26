@@ -1511,11 +1511,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="margin:12px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 12px/1.75 Mulish;color:#5C0000;text-wrap:pretty">{{ enVbMismatchTekst }}</div>
     </sc-if>
 
-    <!-- Eigen situatie: zeven vragen -->
+    <!-- Eigen situatie: acht vragen -->
     <div style="padding:26px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Nu uw eigen situatie</div>
-    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 18px 0;text-wrap:pretty">Zeven vragen, met dezelfde rekenmotor als hierboven. Gratis in te vullen, met uw eigen bedragen als uitkomst.</p>
+    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 18px 0;text-wrap:pretty">Acht vragen, met dezelfde rekenmotor als hierboven. Gratis in te vullen, met uw eigen bedragen als uitkomst.</p>
 
-    <sc-for list="{{ enGroepen }}" as="g" hint-placeholder-count="6">
+    <sc-for list="{{ enGroepen }}" as="g" hint-placeholder-count="7">
     <div style="margin:18px 14px 0">
       <div style="display:flex;align-items:baseline;gap:8px">
         <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 12px Mulish">{{ g.n }}</div>
@@ -1532,7 +1532,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
     <div style="margin:18px 14px 0">
       <div style="display:flex;align-items:baseline;gap:8px">
-        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 12px Mulish">7</div>
+        <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 12px Mulish">8</div>
         <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15.5px;line-height:1.3">Woonoppervlak</div>
       </div>
       <div style="font:500 12px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">Surface habitable, zoals op uw acte of taxe foncière.</div>
@@ -3041,7 +3041,7 @@ class Component extends DCLogic {
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
     cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", ngCat:"alles", vgFase:"voorbereiding", zoSectie:"nu",
-    en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
+    en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
@@ -4659,7 +4659,7 @@ class Component extends DCLogic {
     };
     next();
   }
-  // Vult de zeven intake-antwoorden aan met UI-standaardwaarden voor de overige
+  // Vult de acht intake-antwoorden aan met UI-standaardwaarden voor de overige
   // motorvelden (apparatenmix, geen EV/zwembad/zon) en rekent via engine/ — geen
   // eigen formule hier, alleen de invoer voor applyArchetype/computeResults/computeDPE.
   enCompute(answers){
@@ -4683,6 +4683,9 @@ class Component extends DCLogic {
         acOn:false, seer:4,
         pvKwp:0, pvSelfUse:60, pvExportMode:"nvt", pvExportTariff:0.04
       }, pack.fields);
+      // Hoogte boven 800 m: de motor (engine/dpe.js, dpeDrempels) gebruikt dan in H1b, H1c en H2d de ruimere grenzen voor E en F,
+      // net als de desktopschil van energieportaal (app.js, gatherState: boven800m). Niet beantwoord = onder 800 m.
+      s.boven800m = answers.boven800m === "ja";
       const dpe = window.computeDPE(s);
       const res = window.computeResults(s);
       return { dpe, res };
@@ -4880,15 +4883,17 @@ class Component extends DCLogic {
     const enGroepen = [
       grp(1, "zone", "Klimaatzone", "Waar staat de woning?",
         [["med","Méditerranée"],["ouest","Zuid-West / Atlantisch"],["paris","Noord / Parijs"],["centre","Centraal / Bourgogne"],["est","Oost / Elzas"],["mont","Bergen"]]),
-      grp(2, "houseType", "Type woning", "Bepaalt bouwlagen en gedeelde muren.",
+      grp(2, "boven800m", "Hoogte", "Ligt de woning hoger dan 800 meter? Alleen van belang voor het DPE-label: boven 800 meter gelden in de klimaatzones H1b, H1c en H2d (onder meer Alpen, Jura, Vogezen en Massif central) ruimere grenzen voor de klassen E en F. In de Pyreneeën gelden ze niet; kies dan Nee.",
+        [["nee","Nee"],["ja","Ja"]]),
+      grp(3, "houseType", "Type woning", "Bepaalt bouwlagen en gedeelde muren.",
         [["longere","Longère / fermette"],["village","Dorpswoning"],["maitre","Maison de maître"],["pavillon","Pavillon"],["modern","Moderne woning"],["appartement","Appartement"]]),
-      grp(3, "period", "Bouwperiode", "Bepaalt de forfaitaire isolatiewaarden.",
+      grp(4, "period", "Bouwperiode", "Bepaalt de forfaitaire isolatiewaarden.",
         [["pre1948","Vóór 1948"],["y48_74","1948–1974"],["y75_89","1975–1989"],["y90_05","1990–2005"],["post2005","Na 2005"]]),
-      grp(4, "reno", "Al gerenoveerd?", "Meerdere antwoorden mogelijk. Niets aanvinken mag ook.",
+      grp(5, "reno", "Al gerenoveerd?", "Meerdere antwoorden mogelijk. Niets aanvinken mag ook.",
         [["roof","Dak"],["walls","Muren"],["windows","Ramen"],["floor","Vloer"]]),
-      grp(5, "heating", "Verwarming", "Uw hoofdsysteem.",
+      grp(6, "heating", "Verwarming", "Uw hoofdsysteem.",
         [["hp","Warmtepomp"],["elec","Elektrisch"],["gas","Aardgas"],["fioul","Fioul"],["wood","Hout"],["pellet","Pellets"]]),
-      grp(6, "usage", "Gebruik", "Hoe vaak bent u er?",
+      grp(7, "usage", "Gebruik", "Hoe vaak bent u er?",
         [["permanent","Permanent"],["halftijds","Halftijds"],["zomer","Zomervakantie"],["winter","Winterverblijf"]])
     ];
 
@@ -4915,7 +4920,7 @@ class Component extends DCLogic {
       enM2Min: () => this.setState(s => ({en:Object.assign({}, s.en, {m2:Math.max(20, s.en.m2 - 10)}), enBerekend:false})),
       enM2Plus: () => this.setState(s => ({en:Object.assign({}, s.en, {m2:Math.min(600, s.en.m2 + 10)}), enBerekend:false})),
       enCalc: () => this.setState({enBerekend:true}),
-      enReset: () => this.setState({en:{zone:"med", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"}, enBerekend:false}),
+      enReset: () => this.setState({en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"}, enBerekend:false}),
       enEigenKlaar: eigenOk || (st.enBerekend && eigenMismatch), enEigenRichting: eigenRichting,
       enMuurOpen: eigenOk && T.prijs !== "gratis", // idem: de muur om de eigen uitkomst komt terug zodra prijs weer abonnee is
       enAannames: this.enAannames(engineKlaar),
