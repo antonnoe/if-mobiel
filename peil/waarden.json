@@ -1,6 +1,6 @@
 {
   "stand": "2026-10-26",
-  "registerversie": "1.12.0",
+  "registerversie": "1.12.1",
   "toelichting": "Kopie van de waarden uit Peil, het parameterregister van Communities Abroad. Waarde null met status te_verifieren: het register heeft daar nog geen vastgestelde waarde; de tool toont die als standaard of aanname. tests/peil.test.mjs vergelijkt de tool hiermee.",
   "parameters": [
     {
