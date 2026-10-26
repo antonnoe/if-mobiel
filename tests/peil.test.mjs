@@ -106,14 +106,10 @@ const param = (id) => { const p = perId.get(id); if (!p) fout(`${id} staat niet 
   // Gas wordt in Frankrijk per kWh afgerekend. Een prijs per m3 vraagt een omrekenfactor die per netgebied en per maand verschilt; die factor hoort niet in de tool.
   // De prijs is per gefactureerde kWh (PCS); het verbruik rekent de motor in kWh PCI, dus 1 kWh PCS = 1/1,11 kWh PCI (3CL par. 13.2.1.4).
   if (W.ENERGY_UNITS.gas !== "€/kWh" || Math.abs(W.KWH_CONVERSION.gas - 1 / 1.11) > 1e-12) fout(`Gasprijs moet per kWh PCS zijn met omrekening 1/1,11 naar PCI (eenheid ${W.ENERGY_UNITS.gas}, omrekening ${W.KWH_CONVERSION.gas}).`);
-  // Herstel 26-10-2026: de motor rekent met de door de keurder gecorrigeerde prijzen (all_p.json). peil/waarden.json wordt pas bij
-  // de volgende Peil-export bijgewerkt. Tot die tijd vergelijkt de test de motor met deze verwachte waarden en meldt hij (zonder te falen)
-  // dat de kopie nog de oude prijs heeft. Na de export is de kopie gelijk aan de verwachte waarde en geldt weer de gewone vergelijking.
-  var NIEUW_NA_KEURING = { "p.fr.energie.prijs_gas_prix_repere": 0.146, "p.fr.energie.prijs_fioul": 1.72, "p.fr.energie.prijs_pellets": 0.0843, "p.fr.energie.prijs_hout": 0.047 };
   const soorten = {
     gas:    { id: "p.fr.energie.prijs_gas_prix_repere", status: undefined, eenheid: "per kWh PCS, tool ook per kWh", direct: true },
     fioul:  { id: "p.fr.energie.prijs_fioul",           status: undefined, eenheid: "per liter, tool per liter", direct: true },
-    pellet: { id: "p.fr.energie.prijs_pellets",         status: "raming",   eenheid: "per kWh PCI, tool per kg" },
+    pellet: { id: "p.fr.energie.prijs_pellets",         status: undefined,   eenheid: "per kWh PCI, tool per kg" },
     wood:   { id: "p.fr.energie.prijs_hout",            status: "raming",   eenheid: "per kWh PCI, tool per stère" }
   };
   for (const [k, s] of Object.entries(soorten)) {
@@ -125,20 +121,34 @@ const param = (id) => { const p = perId.get(id); if (!p) fout(`${id} staat niet 
     if (!i.bron) fout(`PRIJS_INFO.${k} heeft geen bron.`);
     const inh = s.direct ? 1 : W.KWH_CONVERSION[k];
     const perKwh = i.waarde / inh;
-    const ref = Math.abs(perKwh - p.waarde) > MARGE && NIEUW_NA_KEURING[s.id] != null && p.waarde !== NIEUW_NA_KEURING[s.id] ? NIEUW_NA_KEURING[s.id] : p.waarde;
-    if (ref !== p.waarde) console.log(`MELDING ${s.id}: peil/waarden.json heeft nog ${p.waarde}; de motor volgt de keuring van 26-10-2026 (${ref}). Wordt gelijk bij de Peil-export.`);
+    const ref = p.waarde;
     if (Math.abs(perKwh - ref) > MARGE) fout(`${s.id}: tool ${i.waarde} (= ${perKwh.toFixed(4)} ${s.direct ? "per liter" : "per kWh"} bij ${inh} ${s.direct ? "" : "kWh per eenheid"}), Peil ${ref} ${s.eenheid}; verschil groter dan de afrondingsmarge van 0,005.`);
   }
-  // Propaan en petroleum: in Peil nog geen waarde (te_verifieren); de tool toont eigen schattingen als aanname.
-  for (const [k, id] of Object.entries({ propaan: "p.fr.energie.prijs_propaan", petroleum: "p.fr.energie.prijs_petroleum" })) {
-    const p = param(id), i = W.PRIJS_INFO[k];
-    if (i.peilId !== id) fout(`PRIJS_INFO.${k}.peilId is ${i.peilId}, verwacht ${id}.`);
-    if (p.status !== "te_verifieren" || p.waarde !== null) fout(`${id}: Peil heeft nu status ${p.status} en waarde ${p.waarde}; vergelijk de tool (${i.waarde}) met die waarde en pas deze test aan.`);
-    if (i.status !== "aanname" || !i.bron) fout(`PRIJS_INFO.${k} moet een aanname met bron zijn.`);
+  // Propaan: in Peil vastgesteld per kWh PCI; de tool rekent per liter met 12,78 kWh PCI per kg en 0,51 kg per liter (aanname van de tool).
+  {
+    const id = "p.fr.energie.prijs_propaan", p = param(id), i = W.PRIJS_INFO.propaan;
+    if (i.peilId !== id) fout(`PRIJS_INFO.propaan.peilId is ${i.peilId}, verwacht ${id}.`);
+    if (p.status) fout(`${id}: Peil heeft status ${p.status}, verwacht vastgesteld.`);
+    const perKwh = i.waarde / W.KWH_CONVERSION.propaan;
+    if (Math.abs(perKwh - p.waarde) > MARGE) fout(`${id}: tool ${i.waarde} per liter (= ${perKwh.toFixed(4)} per kWh PCI), Peil ${p.waarde}; verschil groter dan 0,005.`);
+    if (i.status !== "aanname" || !i.bron) fout("PRIJS_INFO.propaan moet een aanname met bron zijn.");
   }
-  if (!/aanname/.test(W.PRIJS_UITLEG)) fout("PRIJS_UITLEG zegt niet dat de overige prijzen aannames zijn.");
-  const st = param("p.fr.energie.standaardprijzen_invoer");
-  if (st.status !== "te_verifieren" || st.waarde !== null) fout("standaardprijzen_invoer: Peil heeft nu status " + st.status + " en waarde " + st.waarde + "; pas deze test aan.");
+  // Petroleum: in Peil een raming met bandbreedte (waarde_weergave "bandbreedte 1,75 tot 2,75 euro per liter"); de tool moet daarbinnen liggen.
+  {
+    const id = "p.fr.energie.prijs_petroleum", p = param(id), i = W.PRIJS_INFO.petroleum;
+    if (i.peilId !== id) fout(`PRIJS_INFO.petroleum.peilId is ${i.peilId}, verwacht ${id}.`);
+    if (p.status !== "raming") fout(`${id}: Peil heeft status ${p.status}, verwacht raming.`);
+    const band = /bandbreedte ([\d,]+) tot ([\d,]+) euro per liter/.exec(p.waarde_weergave || "");
+    if (!band) fout(`${id}: waarde_weergave noemt geen bandbreedte per liter.`);
+    else { const lo = parseFloat(band[1].replace(",", ".")), hi = parseFloat(band[2].replace(",", ".")); if (i.waarde < lo || i.waarde > hi) fout(`${id}: tool ${i.waarde} per liter ligt buiten de bandbreedte ${lo} tot ${hi} van Peil.`); }
+    if (i.status !== "aanname" || !i.bron) fout("PRIJS_INFO.petroleum moet een aanname met bron zijn.");
+  }
+  // Terugleververgoeding (vente du surplus), arrêté du 1er juin 2026.
+  {
+    const p = param("p.fr.elec.tarief_teruglevering_surplus");
+    const eng = engineCode.match(/const TERUGLEVER_TARIEF\s*=\s*([0-9.]+)/);
+    if (!eng || parseFloat(eng[1]) !== p.waarde) fout(`Terugleververgoeding: tool ${eng && eng[1]}, Peil ${p.waarde}.`);
+  }
 }
 
 // ---- 6. U-waarden per bouwperiode (3CL), apparaatverbruik (ADEME)

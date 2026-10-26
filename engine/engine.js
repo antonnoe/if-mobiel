@@ -17,7 +17,7 @@ const PV_YIELD = { med: 1450, ouest: 1250, paris: 1150, centre: 1200, est: 1150,
 // Alle standaardwaarden hieronder komen uit Peil (het parameterregister van Communities Abroad) of zijn
 // als aanname gemarkeerd. Per waarde staan bron en jaar erbij. Peil-id's verwijzen naar peil/waarden.json;
 // tests/peil.test.mjs bewaakt dat beide overeenkomen. Stand van de controle: PEIL_WAARDEN_STAND.
-const PEIL_WAARDEN_STAND = '2026-10-24';
+const PEIL_WAARDEN_STAND = '2026-10-26';
 
 // Status: 'vastgesteld' = officiële bron, 'raming' = gemeten gemiddelde van een overheidsinstantie,
 // 'aanname' = keuze van de tool (marktprijs of eigen koppeling), zichtbaar als standaard die de gebruiker kan aanpassen.

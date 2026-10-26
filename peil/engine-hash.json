@@ -2,7 +2,7 @@
   "toelichting": "Vastgelegde sha256 van de byte-identieke engine-bestanden. In energieportaal en if-mobiel moet dit bestand gelijk zijn; wijzig de engine in beide repo's en werk de hashes in beide bij. Het waardenblok (engine.js van '// ===== Waarden uit Peil' tot '// ===== Helpers') is ook gelijk in warmteverlies-calculator.",
   "bestanden": {
     "archetypes.js": "0e1e1bb1491cbd553d0654a1c6b21cbf0b864e9bdfbc53f92851a79b11c74eca",
-    "engine.js": "65dcbed8d0b19512ec1394cb7503ec6d2858fe47f50b6c83b27fcee7fdec90f3",
+    "engine.js": "1e16ed869d6232729ecf6c964cdb0940bbd51767cf3c1179761152ee25d0e33d",
     "dpe.js": "535694e5429687e74fc8338cefc1b3bc83d155f37f90695c838f073bc9ab7843"
   },
   "waardenblok": "b050202e6679e4c3d463de1aaedbd2f4ed1a567cb8341495974d917bf7af029b"

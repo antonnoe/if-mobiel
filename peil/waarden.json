@@ -1,16 +1,49 @@
 {
-  "stand": "2026-10-24",
-  "registerversie": "1.7.0",
+  "stand": "2026-10-26",
+  "registerversie": "1.12.0",
   "toelichting": "Kopie van de waarden uit Peil, het parameterregister van Communities Abroad. Waarde null met status te_verifieren: het register heeft daar nog geen vastgestelde waarde; de tool toont die als standaard of aanname. tests/peil.test.mjs vergelijkt de tool hiermee.",
   "parameters": [
     {
       "id": "p.fr.dpe.co2_emissiefactoren",
       "naam": "CO2-emissiefactoren per energiedrager",
-      "status": "te_verifieren",
-      "waarde": null,
-      "waarde_weergave": null,
-      "bron_url": "https://www.legifrance.gouv.fr/eli/arrete/2021/3/31/LOGL2033917A/jo/texte",
-      "verificatiedatum": null
+      "waarde": {
+        "eenheid": "kg CO2-eq per kWh eindenergie (PCI)",
+        "hout_buches": 0.03,
+        "hout_granules_briketten": 0.03,
+        "hout_plaquettes_bos": 0.024,
+        "hout_plaquettes_industrie": 0.024,
+        "aardgas": 0.227,
+        "stookolie_fioul": 0.324,
+        "steenkool": 0.385,
+        "propaan_butaan": 0.272,
+        "overige_fossiele_brandstoffen": 0.324,
+        "elektriciteit_eigen_hernieuwbaar_zelfverbruik": 0,
+        "elektriciteit_verwarming": 0.079,
+        "elektriciteit_warm_water": 0.065,
+        "elektriciteit_koeling": 0.064,
+        "elektriciteit_verlichting": 0.069,
+        "elektriciteit_hulpapparatuur": 0.064,
+        "elektriciteit_op_basis_van_facturen_alle_gebruiken": 0.064
+      },
+      "waarde_weergave": "Hout (blokken, pellets) 0,030; houtsnippers 0,024; aardgas 0,227; stookolie 0,324; steenkool 0,385; propaan en butaan 0,272; overige fossiele brandstoffen 0,324; elektriciteit: verwarming 0,079, warm water 0,065, koeling 0,064, verlichting 0,069, hulpapparatuur 0,064 (op basis van facturen 0,064 voor alle gebruiken); eigen hernieuwbare stroom 0 kg CO2-eq per kWh",
+      "bron_url": "https://www.legifrance.gouv.fr/eli/arrete/2021/3/31/LOGL2107220A/jo/texte",
+      "verificatiedatum": "2026-10-26"
+    },
+    {
+      "id": "p.fr.dpe.ecs_conventie",
+      "naam": "Conventioneel warmwaterverbruik in de DPE",
+      "waarde": {
+        "liter_per_adulte_equivalent_per_dag_40_graden": 56,
+        "wh_per_liter_per_kelvin": 1.163,
+        "bezette_dagen": 358,
+        "nmax_individueel": "Sh < 30: 1; 30 tot 70: 1,75 - 0,01875 x (70 - Sh); vanaf 70: 0,025 x Sh",
+        "nmax_collectief": "Sh < 10: 1; 10 tot 50: 1,75 - 0,01875 x (50 - Sh); vanaf 50: 0,035 x Sh",
+        "nadeq": "Nmax < 1,75: Nmax; anders 1,75 + 0,3 x (Nmax - 1,75)",
+        "koudwater": "maandwaarde per klimaatzone (par. 18.2)"
+      },
+      "waarde_weergave": "56 liter warm water van 40 graden per adulte équivalent per dag, 1,163 Wh per liter per graad, 358 bewoonde dagen; aantal adultes équivalents uit de oppervlakte (Nmax, daarna afgevlakt boven 1,75)",
+      "bron_url": "https://rt-re-batiment.developpement-durable.gouv.fr/IMG/pdf/consolide_annexe_1_arrete_du_31_03_2021_relatif_aux_methodes_et_procedures_applicables.pdf",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.dpe.klassegrenzen",
@@ -40,12 +73,104 @@
       "verificatiedatum": "2026-10-19"
     },
     {
+      "id": "p.fr.dpe.klassegrenzen_klein_en_hoog",
+      "naam": "DPE-klassegrenzen voor woningen tot en met 40 m2 en boven 800 m",
+      "waarde": {
+        "afronding": "CEP en EGES afgerond naar beneden op een geheel getal",
+        "boven_800m_H1b_H1c_H2d_groter_dan_40m2": {
+          "CEP_e": 390,
+          "EGES_e": 80,
+          "CEP_f": 500,
+          "EGES_f": 110
+        },
+        "tot_en_met_40m2_onder_800m": {
+          "tabel": "per m2 van 8 tot 40 m2, lineair geïnterpoleerd",
+          "voorbeeld_8m2": {
+            "CEP_a": 146,
+            "EGES_a": 11,
+            "CEP_b": 186,
+            "EGES_b": 16,
+            "CEP_c": 386,
+            "EGES_c": 44,
+            "CEP_d": 505,
+            "EGES_d": 68,
+            "CEP_e": 622,
+            "EGES_e": 90,
+            "CEP_f": 739,
+            "EGES_f": 122
+          },
+          "voorbeeld_20m2": {
+            "CEP_a": 88,
+            "EGES_a": 8,
+            "CEP_b": 128,
+            "EGES_b": 13,
+            "CEP_c": 230,
+            "EGES_c": 34,
+            "CEP_d": 300,
+            "EGES_d": 54,
+            "CEP_e": 385,
+            "EGES_e": 74,
+            "CEP_f": 476,
+            "EGES_f": 104
+          },
+          "voorbeeld_30m2": {
+            "CEP_a": 76,
+            "EGES_a": 7,
+            "CEP_b": 116,
+            "EGES_b": 12,
+            "CEP_c": 197,
+            "EGES_c": 32,
+            "CEP_d": 267,
+            "EGES_d": 52,
+            "CEP_e": 349,
+            "EGES_e": 72,
+            "CEP_f": 439,
+            "EGES_f": 102
+          },
+          "40m2": "gelijk aan de gewone grenzen"
+        },
+        "tot_en_met_40m2_boven_800m_H1b_H1c_H2d": {
+          "tabel": "per m2 van 8 tot 40 m2, lineair geïnterpoleerd, alleen E en F",
+          "voorbeeld_8m2": {
+            "CEP_e": 682,
+            "EGES_e": 100,
+            "CEP_f": 819,
+            "EGES_f": 132
+          },
+          "voorbeeld_20m2": {
+            "CEP_e": 445,
+            "EGES_e": 84,
+            "CEP_f": 556,
+            "EGES_f": 114
+          },
+          "voorbeeld_30m2": {
+            "CEP_e": 409,
+            "EGES_e": 82,
+            "CEP_f": 519,
+            "EGES_f": 112
+          },
+          "40m2": "gelijk aan de grenzen boven 800 m voor meer dan 40 m2"
+        }
+      },
+      "waarde_weergave": "Woningen tot en met 40 m2: hogere grenzen per m2 (bij 20 m2: A tot 88, B 128, C 230, D 300, E 385, F 476 kWh per m2; CO2 8, 13, 34, 54, 74, 104), lineair geïnterpoleerd; boven 800 m in H1b, H1c en H2d: E tot 390 en F tot 500 kWh, CO2 E tot 80 en F tot 110; voor woningen tot en met 40 m2 boven 800 m een eigen tabel voor E en F (bij 20 m2: E tot 445 kWh en 84 kg, F tot 556 kWh en 114 kg); waarden eerst naar beneden afgerond",
+      "bron_url": "https://www.legifrance.gouv.fr/eli/arrete/2024/3/25/TREL2330369A/jo/texte",
+      "verificatiedatum": "2026-10-26"
+    },
+    {
       "id": "p.fr.dpe.primaire_energiefactor_elektriciteit",
       "naam": "Primaire-energiefactor elektriciteit",
       "waarde": 1.9,
       "waarde_weergave": "1,9 (eindenergie naar primaire energie, elektriciteit)",
       "bron_url": "https://www.legifrance.gouv.fr/eli/arrete/2025/8/13/ATDL2519132A/jo/texte",
       "verificatiedatum": "2026-10-20"
+    },
+    {
+      "id": "p.fr.elec.tarief_teruglevering_surplus",
+      "naam": "Terugleververgoeding zonnestroom, verkoop van het overschot (S21)",
+      "waarde": 0.011,
+      "waarde_weergave": "1,1 c euro per kWh HT (0,011 euro), voor installaties tot en met 100 kWc in verkoop van het overschot, contracten op grond van aanvragen vanaf de inwerkingtreding van de arrêté du 1er juin 2026; 2 procent indexatie per jaar op de verjaardag van het contract; injectie boven 1.600 uur maal het vermogen krijgt geen tarief",
+      "bron_url": "https://www.legifrance.gouv.fr/eli/arrete/2026/6/1/ECOR2609281A/jo/texte",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.apparaatverbruik_per_jaar",
@@ -66,20 +191,64 @@
     {
       "id": "p.fr.energie.graaddagen_per_klimaatzone",
       "naam": "Graaddagen en referentietemperatuur per klimaatzone",
-      "status": "te_verifieren",
-      "waarde": null,
-      "waarde_weergave": null,
-      "bron_url": null,
-      "verificatiedatum": null
+      "status": "raming",
+      "waarde": {
+        "basis": "graaddagen bij 18 graden binnen, met de referentietemperatuur Tref per zone",
+        "med": {
+          "hdd": 1400,
+          "tref": 12
+        },
+        "ouest": {
+          "hdd": 1900,
+          "tref": 10
+        },
+        "paris": {
+          "hdd": 2200,
+          "tref": 7
+        },
+        "centre": {
+          "hdd": 2500,
+          "tref": 6
+        },
+        "est": {
+          "hdd": 2800,
+          "tref": 5
+        },
+        "mont": {
+          "hdd": 3400,
+          "tref": 2
+        },
+        "vergelijking_3cl_dh19_kd": {
+          "H1a": 2524,
+          "H1b": 2504,
+          "H1c": 2403,
+          "H2a": 2391,
+          "H2b": 2329,
+          "H2c": 2069,
+          "H2d": 2297,
+          "H3": 1645
+        }
+      },
+      "waarde_weergave": "Middellandse Zee 1.400, Zuid-West 1.900, Parijs 2.200, Centraal 2.500, Oost 2.800, Bergen 3.400 graaddagen (basis 18 graden); ter vergelijking de DPE-methode: 1.645 (H3) tot 2.524 (H1a) graaddagen bij 19 graden onder 400 m",
+      "bron_url": "https://rt-re-batiment.developpement-durable.gouv.fr/IMG/pdf/consolide_annexe_1_arrete_du_31_03_2021_relatif_aux_methodes_et_procedures_applicables.pdf",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.omrekenfactoren_kwh",
       "naam": "Omrekenfactoren naar kWh per eenheid",
-      "status": "te_verifieren",
-      "waarde": null,
-      "waarde_weergave": null,
-      "bron_url": "https://www.legifrance.gouv.fr/eli/arrete/2006/9/15/SOCU0611881A/jo/texte",
-      "verificatiedatum": null
+      "status": "raming",
+      "waarde": {
+        "fioul_kwh_pci_per_liter": 9.912,
+        "pellets_kwh_pci_per_kg": 4.6,
+        "propaan_kwh_pci_per_kg": 12.78,
+        "propaan_kwh_pcs_per_kg": 13.8,
+        "gas_pcs_per_pci": 1.11,
+        "hout_kwh_per_stere_raming": 1800,
+        "petroleum_kwh_per_liter_raming": 10
+      },
+      "waarde_weergave": "stookolie 9,912 kWh PCI per liter; pellets 4,6 kWh PCI per kg; propaan 12,78 kWh PCI (13,8 kWh PCS) per kg; aardgas PCS = 1,11 x PCI; hout circa 1.800 kWh per stère (raming); petroleum circa 10 kWh per liter (raming)",
+      "bron_url": "https://data.statistiques.developpement-durable.gouv.fr/dido/api/v1/datafiles/daf4715a-0795-4098-bdb1-d90b6e6a568d/csv?millesime=2026-10&withColumnName=true",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.prijs_elektriciteit_trve",
@@ -92,63 +261,69 @@
     {
       "id": "p.fr.energie.prijs_fioul",
       "naam": "Stookolieprijs (fioul)",
-      "waarde": 1.13,
-      "waarde_weergave": "1,13 euro per liter TTC (1,1325 euro; 113,25 euro per MWh PCI), gemiddelde huishoudprijs 2025, levering 2.000 tot 4.999 liter",
-      "bron_url": "https://www.statistiques.developpement-durable.gouv.fr/media/9425/download?inline",
-      "verificatiedatum": "2026-10-20"
+      "waarde": 1.72,
+      "waarde_weergave": "1,72 euro per liter TTC (1,7173 euro, gemiddelde van juli, augustus en september 2026: 1,58704, 1,68475 en 1,880175), levering 2.000 tot 4.999 liter",
+      "bron_url": "https://www.ecologie.gouv.fr/sites/default/files/documents/Prix%20HTT%20et%20TTC%20depuis%20janvier%202020_0.xlsx",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.prijs_gas_prix_repere",
-      "naam": "Gasprijs, gemiddelde huishoudprijs (SDES)",
-      "waarde": 0.1414,
-      "waarde_weergave": "0,1414 euro per kWh PCS TTC (141,4 euro per MWh PCS, circa 157 euro per MWh PCI), gemiddelde huishoudprijs 2025",
-      "bron_url": "https://www.statistiques.developpement-durable.gouv.fr/media/9748/download?inline",
-      "verificatiedatum": "2026-10-20"
+      "naam": "Gasprijs, prix repère van de CRE (variabel deel, verwarmingsprofiel)",
+      "waarde": 0.146,
+      "waarde_weergave": "0,146 euro per kWh TTC (gemiddelde van september, oktober en november 2026: 0,13474, 0,14557 en 0,15760), variabel deel voor het verwarmingsprofiel in het GRDF-gebied; het abonnement van 360,79 euro per jaar TTC komt er los bij",
+      "bron_url": "https://www.cre.fr/fileadmin/Documents/Open_data/Marches_de_detail/OPEN_DATA_GRDF.xlsx",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.prijs_hout",
       "naam": "Brandhoutprijs",
       "status": "raming",
-      "waarde": 0.05,
-      "waarde_weergave": "circa 0,05 euro per kWh PCI (39 tot 49 euro per MWh naar lengte van de blokken), geleverd, gemiddelde 2025",
+      "waarde": 0.047,
+      "waarde_weergave": "circa 0,047 euro per kWh PCI (46,6 euro per MWh), geleverde blokken, raming voor oktober 2025 tot en met september 2026",
       "bron_url": "https://data.ademe.fr/datasets/cs96hfhstex57-iurc8jdqu5",
-      "verificatiedatum": "2026-10-24"
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.prijs_pellets",
       "naam": "Pelletprijs",
-      "status": "raming",
-      "waarde": 0.083,
-      "waarde_weergave": "0,083 euro per kWh PCI (83 euro per MWh), geleverd los gestort, gemiddelde 2025; circa 0,38 euro per kg bij 4,6 kWh per kg",
-      "bron_url": "https://data.ademe.fr/datasets/cs96hfhstex57-iurc8jdqu5",
-      "verificatiedatum": "2026-10-24"
+      "waarde": 0.0843,
+      "waarde_weergave": "0,0843 euro per kWh PCI TTC (8,4278 euro per 100 kWh; 387,68 euro per ton, circa 0,388 euro per kg), granulés in bulk, tweede kwartaal 2026",
+      "bron_url": "https://data.statistiques.developpement-durable.gouv.fr/dido/api/v1/datafiles/0bf930dc-bfac-4e6f-a063-ec1774c6d029/csv?millesime=2026-10&withColumnName=true",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.prijs_petroleum",
       "naam": "Lampolieprijs (pétrole lampant)",
-      "status": "te_verifieren",
-      "waarde": null,
-      "waarde_weergave": null,
-      "bron_url": null,
-      "verificatiedatum": null
+      "status": "raming",
+      "waarde": 2.25,
+      "waarde_weergave": "circa 2,25 euro per liter TTC (bandbreedte 1,75 tot 2,75 euro per liter, bussen van 20 liter in bouwmarkten, september en oktober 2026)",
+      "bron_url": "https://selectra.info/energie/actualites/marche/poele-a-petrole-prix-combustible-radiateur",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.prijs_propaan",
       "naam": "Propaanprijs",
-      "status": "te_verifieren",
-      "waarde": null,
-      "waarde_weergave": null,
-      "bron_url": null,
-      "verificatiedatum": null
+      "waarde": 0.1802,
+      "waarde_weergave": "0,1802 euro per kWh PCI TTC (gemiddelde van juni, juli en augustus 2026: 17,9157, 18,1846 en 17,9718 euro per 100 kWh PCI; per ton 2.303 euro, circa 1,17 euro per liter bij 0,51 kg per liter)",
+      "bron_url": "https://data.statistiques.developpement-durable.gouv.fr/dido/api/v1/datafiles/daf4715a-0795-4098-bdb1-d90b6e6a568d/csv?millesime=2026-10&withColumnName=true",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.pv_opbrengst_per_klimaatzone",
       "naam": "PV-opbrengst per klimaatzone",
-      "status": "te_verifieren",
-      "waarde": null,
-      "waarde_weergave": null,
-      "bron_url": null,
-      "verificatiedatum": null
+      "status": "raming",
+      "waarde": {
+        "methode": "PVGIS 5.3, SARAH3, 1 kWp, systeemverlies 14 procent, optimale helling en oriëntatie",
+        "med_marseille": 1627,
+        "ouest_bordeaux": 1278,
+        "paris_parijs": 1149,
+        "centre_dijon": 1199,
+        "est_straatsburg": 1141,
+        "mont_pontarlier": 1166
+      },
+      "waarde_weergave": "Middellandse Zee circa 1.630, Zuid-West 1.280, Parijs 1.150, Centraal 1.200, Oost 1.140, Bergen (Jura) 1.170 kWh per kWp per jaar (PVGIS, optimale stand)",
+      "bron_url": "https://re.jrc.ec.europa.eu/api/v5_3/PVcalc?lat=43.30&lon=5.37&peakpower=1&loss=14&optimalangles=1&outputformat=json",
+      "verificatiedatum": "2026-10-26"
     },
     {
       "id": "p.fr.energie.standaardprijzen_invoer",
@@ -176,7 +351,7 @@
           0.14
         ],
         "vloer": [
-          2.0,
+          2,
           0.74,
           0.27,
           0.23
