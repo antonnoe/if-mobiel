@@ -1,4 +1,4 @@
-// Pure functies van het landingsscherm van Infopoche. Geen DOM, geen netwerk.
+// Pure functies van het landingsscherm van InfoPoche. Geen DOM, geen netwerk.
 // Werkt in de browser (window.LandingLib, gewone <script>) en in node (require/import).
 (function (root, fabriek) {
   if (typeof module === "object" && module.exports) module.exports = fabriek();
@@ -113,7 +113,7 @@
     var kaart = 'text-align:left;border:1px solid ' + p.rand + ';border-radius:16px;padding:18px;background:' + p.kaart;
     if (omg === "inapp") {
       return '<div style="' + kaart + '">'
-        + '<div style="font:700 20px/1.3 ' + FONT + ';color:' + p.accent + '">Open Infopoche in Safari of Chrome</div>'
+        + '<div style="font:700 20px/1.3 ' + FONT + ';color:' + p.accent + '">Open InfoPoche in Safari of Chrome</div>'
         + '<p style="' + P + ';margin-top:8px">Op het beginscherm zetten kan niet vanuit deze app. Kopieer de link en plak hem in Safari of Chrome.</p>'
         + '<button type="button" data-ifm-actie="kopieer" style="' + knopStijl(p, true) + ';margin-top:14px">Kopieer de link</button>'
         + '<p role="status" aria-live="polite" style="' + P + ';margin-top:10px;color:' + p.tekst + '">' + (o.status || "") + '</p></div>';

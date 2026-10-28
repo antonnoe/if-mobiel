@@ -92,7 +92,7 @@ test('blokHtml: een bron voor alle omgevingen, geen em-dash of en-dash', () => {
   assert.match(ios, /Zet op beginscherm/); assert.match(ios, /de deelknop/);
   assert.match(L.blokHtml({ omgeving: 'ios', browser: 'chrome' }), /Open deze pagina dan in Safari/);
   const inapp = L.blokHtml({ omgeving: 'inapp' });
-  assert.match(inapp, /Open Infopoche in Safari of Chrome/); assert.match(inapp, /data-ifm-actie="kopieer"/);
+  assert.match(inapp, /Open InfoPoche in Safari of Chrome/); assert.match(inapp, /data-ifm-actie="kopieer"/);
   assert.match(L.blokHtml({ omgeving: 'android', heeftEvent: true }), /data-ifm-actie="installeer"[^>]*>Installeer</);
   const man = L.blokHtml({ omgeving: 'android', heeftEvent: false });
   assert.ok(!/data-ifm-actie="installeer"/.test(man)); assert.match(man, /App installeren/); assert.match(man, /Toevoegen aan startscherm/);

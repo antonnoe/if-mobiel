@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "Infopoche",
-  "short_name": "Infopoche",
+  "name": "InfoPoche",
+  "short_name": "InfoPoche",
   "description": "De web-app van Infofrankrijk en Nederlanders.fr voor Nederlandstaligen in Frankrijk.",
   "lang": "nl",
   "start_url": "./",

@@ -1,5 +1,5 @@
 {
-  "_uitleg": "De modulecatalogus van Infopoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel, voor de hubtegel), omschrijving (één zin, getoond onder de schermtitel van het themascherm en van de eigen schermen Wonen, Ondernemen, Gezondheid en Nieuws), scherm (optioneel: gezondheid | nieuws | lamaison | ondernemen, een eigen scherm; bij ondernemen horen ook bron (ondernemen.json op if-plek.vercel.app), site en terugval, het adres van het artikel dat in de foutstaat staat), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld Klussen. ai (optioneel, ook op een thema): 'tool' (geeft zelf antwoord of advies) of 'ondersteuning' (helpt zoeken, samenvatten of schrijven); alleen invullen als in docs/ai-onderzoek.md bewijs staat dat er echt AI in zit; ai_uitleg (verplicht bij ai): één regel die de tool niet te veel belooft. Het scherm AI-tools leest deze velden. zoekindex_wacht (Klussen): het adres van een zoekindex die nog geen CORS-header voor infopoche.fr heeft; de app leest het veld niet, hernoem het naar zoekindex zodra de header er staat. ook (optioneel, per module en per item in ondernemen.json: lijst thema-id's, bijvoorbeeld ['geld']): een tweede domein. De module staat dan ook in dat thema, met de regel 'hoort bij [eigen thema]', en opent op zijn vaste plek; het eigen thema in `thema` blijft het enige thema van Mijn modules en van de zoekresultaten, dus geen dubbele rijen. Zichtbaarheidsregels gelden ook in het tweede thema. Een item in ondernemen.json met ook ['wonen'] (een artikel) staat vast bij Ondernemen en verschijnt als rij 'Ook bij Wonen' onder de hulpmiddelen van La Maison. artikel (optioneel, bij een module waarvan de kern een eigen tool is): het adres van het Infofrankrijk-artikel dat de tool uitlegt, bijvoorbeeld 'https://infofrankrijk.com/financieel-kompas/'. Een tegel of rij in de app die naar dat artikel wijst opent de tool direct, en in de tool staat een rij 'Lees de uitleg op Infofrankrijk' die het artikel in de app opent. Een iframe in een artikel waarvan de url bij een module hoort, wordt in het artikel een toolkaart die die module opent. drempel (optioneel, voorlopig leeg): plek voor de latere regel waar de grens tussen gratis en premium voor deze tool komt te liggen; er hangt nog geen logica aan. `prijs` staat voorlopig overal op gratis (alle betaalmuren op Infofrankrijk zijn eruit), maar het veld en de knip-haken in de code blijven bestaan.",
+  "_uitleg": "De modulecatalogus van InfoPoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel, voor de hubtegel), omschrijving (één zin, getoond onder de schermtitel van het themascherm en van de eigen schermen Wonen, Ondernemen, Gezondheid en Nieuws), scherm (optioneel: gezondheid | nieuws | lamaison | ondernemen, een eigen scherm; bij ondernemen horen ook bron (ondernemen.json op if-plek.vercel.app), site en terugval, het adres van het artikel dat in de foutstaat staat), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld Klussen. ai (optioneel, ook op een thema): 'tool' (geeft zelf antwoord of advies) of 'ondersteuning' (helpt zoeken, samenvatten of schrijven); alleen invullen als in docs/ai-onderzoek.md bewijs staat dat er echt AI in zit; ai_uitleg (verplicht bij ai): één regel die de tool niet te veel belooft. Het scherm AI-tools leest deze velden. zoekindex_wacht (Klussen): het adres van een zoekindex die nog geen CORS-header voor infopoche.fr heeft; de app leest het veld niet, hernoem het naar zoekindex zodra de header er staat. ook (optioneel, per module en per item in ondernemen.json: lijst thema-id's, bijvoorbeeld ['geld']): een tweede domein. De module staat dan ook in dat thema, met de regel 'hoort bij [eigen thema]', en opent op zijn vaste plek; het eigen thema in `thema` blijft het enige thema van Mijn modules en van de zoekresultaten, dus geen dubbele rijen. Zichtbaarheidsregels gelden ook in het tweede thema. Een item in ondernemen.json met ook ['wonen'] (een artikel) staat vast bij Ondernemen en verschijnt als rij 'Ook bij Wonen' onder de hulpmiddelen van La Maison. artikel (optioneel, bij een module waarvan de kern een eigen tool is): het adres van het Infofrankrijk-artikel dat de tool uitlegt, bijvoorbeeld 'https://infofrankrijk.com/financieel-kompas/'. Een tegel of rij in de app die naar dat artikel wijst opent de tool direct, en in de tool staat een rij 'Lees de uitleg op Infofrankrijk' die het artikel in de app opent. Een iframe in een artikel waarvan de url bij een module hoort, wordt in het artikel een toolkaart die die module opent. drempel (optioneel, voorlopig leeg): plek voor de latere regel waar de grens tussen gratis en premium voor deze tool komt te liggen; er hangt nog geen logica aan. `prijs` staat voorlopig overal op gratis (alle betaalmuren op Infofrankrijk zijn eruit), maar het veld en de knip-haken in de code blijven bestaan.",
   "bijgewerkt": "2026-10-22",
   "abonnement": {"_uitleg": "De ene bestemming van elke abonnee-knop in de app (vaste abonneeblok, onderblad, muren). Een betere bestemming later is één wijziging hier.", "url": "https://infofrankrijk.com/abonnement/"},
   "groepen": [
@@ -47,20 +47,22 @@
   "modules": [
     {
       "id": "nedergids",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "aankomen",
       "thema": "adressen",
       "naam": "Nedergids",
-      "meta": "loketten, registers, adressen en nuttige websites",
+      "meta": "Vind particulieren en dienstverleners in Frankrijk.",
       "prijs": "gratis-lezen",
       "schil": "kaartschil",
       "houdbaar": "weken",
       "status": "in bouw",
       "kind": "nedergids",
       "nagekeken": "2026-08-23",
-      "over": "De wegwijzer: officiële loketten, registers, adressen en nuttige websites, per categorie, met de postcode als ingang. Lezen is altijd gratis. Een nieuwe vermelding aanvragen kost eenmalig €1 om bots tegen te houden; bedrijven betalen daarnaast een jaarbedrag voor goede zichtbaarheid. Bestaande vermeldingen blijven staan."
+      "over": "Vind particulieren en dienstverleners in Frankrijk. (in de komende maanden zal een V2 worden uitgerold) Lezen is altijd gratis. Een nieuwe vermelding aanvragen kost eenmalig €1 om bots tegen te houden; bedrijven betalen daarnaast een jaarbedrag voor goede zichtbaarheid. Bestaande vermeldingen blijven staan."
     },
     {
       "id": "cafeclaude",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "ai": "tool",
       "ai_uitleg": "Stel uw vraag in gewone taal; Café Claude schrijft zelf het antwoord, met bronvermelding. Het blijft een AI-antwoord en geen advies van een deskundige.",
       "groep": "aankomen",
@@ -94,6 +96,7 @@
     },
     {
       "id": "emigreren",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "aankomen",
       "thema": "overheid",
       "naam": "Emigreren naar Frankrijk",
@@ -110,6 +113,7 @@
     },
     {
       "id": "veiligheid",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "weergave": "volledig",
       "groep": "wonen",
       "thema": "wonen",
@@ -127,6 +131,7 @@
     },
     {
       "id": "klussen",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Klussen in Frankrijk",
@@ -145,6 +150,7 @@
     },
     {
       "id": "lijstjes",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Mijn lijstjes",
@@ -161,6 +167,7 @@
     },
     {
       "id": "tekoop",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Te koop in Frankrijk",
@@ -178,6 +185,7 @@
     },
     {
       "id": "vastgoed",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Vastgoed & huis kopen",
@@ -192,6 +200,7 @@
     },
     {
       "id": "energie",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/energieportaal",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Energie & verwarming",
@@ -236,6 +245,7 @@
     },
     {
       "id": "woonplan",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Mijn woonplan Frankrijk",
@@ -252,6 +262,7 @@
     },
     {
       "id": "internet",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/internet-internetverbinding/",
       "groep": "wonen",
       "thema": "wonen",
@@ -269,6 +280,7 @@
     },
     {
       "id": "subsidieroute",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/subsidie-routeplanner-energierenovatie",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Subsidieroute energierenovatie",
@@ -285,6 +297,7 @@
     },
     {
       "id": "moestuin",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/de-moestuin-in-frankrijk-van-begin-januari-tot-eind-december/",
       "groep": "wonen",
       "thema": "wonen",
@@ -303,6 +316,7 @@
     },
     {
       "id": "kompas",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/financieel-kompas",
       "artikel": "https://infofrankrijk.com/financieel-kompas/",
       "ai": "ondersteuning",
       "ai_uitleg": "Het kompas rekent zelf; de AI-Toelichter legt uw uitkomst uit. Het blijft een toelichting, geen financieel advies.",
@@ -340,6 +354,7 @@
     },
     {
       "id": "ruyter",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "geld",
       "thema": "geld",
       "naam": "Sociale heffingen · De Ruyter",
@@ -354,6 +369,7 @@
     },
     {
       "id": "erfrecht",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/erfrechtgids-frankrijk",
       "groep": "geld",
       "thema": "geld",
       "naam": "Erfrecht en testament",
@@ -371,6 +387,7 @@
     },
     {
       "id": "transactiekosten",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/vastgoedtransacties-in-frankrijk",
       "groep": "geld",
       "thema": "geld",
       "naam": "Vastgoed transactiekosten",
@@ -390,6 +407,7 @@
     },
     {
       "id": "efacturatie",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "geld",
       "thema": "ondernemen",
       "naam": "E-facturatie Frankrijk",
@@ -407,6 +425,7 @@
     },
     {
       "id": "correspondentie",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/briefhulp-fr",
       "ai": "ondersteuning",
       "ai_uitleg": "Helpt bij het schrijven van een Franstalige brief; een AI vult uw gegevens in een vaste opzet in. Lees de brief na voordat u hem verstuurt.",
       "groep": "leven",
@@ -427,6 +446,7 @@
     },
     {
       "id": "taalhulp",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "taal",
       "naam": "TaalHulp",
@@ -443,6 +463,7 @@
     },
     {
       "id": "woordenboek",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "taal",
       "naam": "Woordenboek met uitleg",
@@ -460,6 +481,7 @@
     },
     {
       "id": "zorg",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "gezondheid",
       "naam": "Ouder worden & zorg",
@@ -474,6 +496,7 @@
     },
     {
       "id": "verenigingen",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "adressen",
       "naam": "Verenigingen & evenementen",
@@ -491,6 +514,7 @@
     },
     {
       "id": "dossierfrankrijk",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "dossier",
       "naam": "DossierFrankrijk",
@@ -508,6 +532,7 @@
     },
     {
       "id": "auto",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/auto-importeren-in-frankrijk-stappenplan-en-kostenraming/",
       "groep": "leven",
       "thema": "overheid",
@@ -526,6 +551,7 @@
     },
     {
       "id": "zorgkompas",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/zorgkompas-frankrijk",
       "groep": "leven",
       "thema": "gezondheid",
       "naam": "Zorgkompas Frankrijk",
@@ -542,6 +568,7 @@
     },
     {
       "id": "palliatief",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "gezondheid",
       "naam": "Palliatieve zorg per departement",
@@ -559,6 +586,7 @@
     },
     {
       "id": "frankrijklegal",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "overheid",
       "naam": "Frankrijk legal",
@@ -576,6 +604,7 @@
     },
     {
       "id": "plusvalue",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/franse-meerwaarde-calculator",
       "artikel": "https://infofrankrijk.com/plus-value-calculator/",
       "groep": "geld",
       "thema": "geld",
@@ -594,6 +623,7 @@
     },
     {
       "id": "beroepenchecker",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/beroepenchecker-werken-of-ondernemen-in-frankrijk/",
       "groep": "aankomen",
       "thema": "ondernemen",
@@ -612,6 +642,7 @@
     },
     {
       "id": "energieportaal",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/energieportaal",
       "artikel": "https://infofrankrijk.com/energieportaal-bereken-de-energieprestatie-van-uw-franse-woning/",
       "groep": "wonen",
       "thema": "wonen",
@@ -631,6 +662,7 @@
     },
     {
       "id": "vastgoedanalyse",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu/",
       "groep": "wonen",
       "thema": "wonen",
@@ -649,6 +681,7 @@
     },
     {
       "id": "klusforum",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/uit-het-klusforum-van-infofrankrijk-com/",
       "groep": "wonen",
       "thema": "ervaring",
@@ -668,6 +701,7 @@
     },
     {
       "id": "controletechnique",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/de-controle-technique-de-franse-apk/",
       "groep": "leven",
       "thema": "overheid",
@@ -686,6 +720,7 @@
     },
     {
       "id": "overhedenbuurt",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt/",
       "groep": "leven",
       "thema": "overheid",
@@ -704,6 +739,7 @@
     },
     {
       "id": "bouwgrond",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/locatie-en-omgevingsanalyse/",
       "groep": "wonen",
       "thema": "wonen",
@@ -722,6 +758,7 @@
     },
     {
       "id": "devisdossier",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/zakelijke-transactie-van-offerte-tot-incasso/",
       "groep": "wonen",
       "thema": "wonen",
@@ -740,6 +777,7 @@
     },
     {
       "id": "huizenchecker",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Franse huizen checker",
@@ -757,6 +795,7 @@
     },
     {
       "id": "gitekompas",
+      "peilkaart": "https://communitiesabroad.com/manifest/tool/gitekompas-fr",
       "groep": "geld",
       "thema": "ondernemen",
       "naam": "Gîtekompas",
@@ -777,6 +816,7 @@
     },
     {
       "id": "woningzoeker",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Woningzoeker Frankrijk",
@@ -794,6 +834,7 @@
     },
     {
       "id": "nlfrzoek",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "ai": "ondersteuning",
       "ai_uitleg": "Zoekt in forum en artikelen en vat de best passende bronnen samen in lopende tekst. Controleer bij geld en overheid de datum van de bron.",
       "groep": "leven",
@@ -813,6 +854,7 @@
     },
     {
       "id": "dossierelektra",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Dossier elektriciteit",
@@ -830,6 +872,7 @@
     },
     {
       "id": "zoekers",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "gezondheid",
       "naam": "Zoekers per departement",
@@ -846,6 +889,7 @@
     },
     {
       "id": "forum",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "ervaring",
       "naam": "Forum",

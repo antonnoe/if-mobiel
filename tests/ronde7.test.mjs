@@ -138,7 +138,7 @@ test("Te koop: scherm met de afgesproken teksten, contract en foutafhandeling", 
 
 test("service worker kent de nieuwe bestanden en de versie is opgehoogd", () => {
   const sw = lees("sw.js");
-  assert.match(sw, /VERSIE = "2026-10-25-8"/);
+  assert.match(sw, /VERSIE = "2026-10-28-1"/);
   ["./sponsors.json", "./sponsors-lib.js", "./advertenties-lib.js"].forEach(f => assert.ok(sw.includes('"' + f + '"'), f));
   spons.forEach(s => s.beelden.forEach(b => assert.ok(sw.includes('"./sponsors/' + b + '"'), b)));
   assert.match(html, /<script src="\.\/sponsors-lib\.js"><\/script>/); assert.match(html, /<script src="\.\/advertenties-lib\.js"><\/script>/);

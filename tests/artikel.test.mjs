@@ -134,7 +134,7 @@ test("voorbeeldtools komen uit de catalogus (nu leeg: alle prijzen staan voorlop
 
 test("onderblad: tekst letterlijk uit de opdracht", () => {
   [
-    "Fijn dat Infopoche u helpt",
+    "Fijn dat InfoPoche u helpt",
     "Wat u net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.",
     "Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
     "Bekijk het abonnement", "Niet nu", "U ziet deze vraag hooguit eens per week."

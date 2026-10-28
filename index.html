@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Infopoche</title>
-<meta name="description" content="Infopoche: de web-app van Infofrankrijk en Nederlanders.fr voor Nederlandstaligen in Frankrijk. Dossiers, rekenmodules, taalhulp en het forum, op de telefoon.">
+<title>InfoPoche</title>
+<meta name="description" content="InfoPoche: de web-app van Infofrankrijk en Nederlanders.fr voor Nederlandstaligen in Frankrijk. Dossiers, rekenmodules, taalhulp en het forum, op de telefoon.">
 <meta name="theme-color" content="#800000">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Infopoche">
+<meta name="apple-mobile-web-app-title" content="InfoPoche">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <!-- React en ReactDOM staan lokaal in vendor/ (versie 18.3.1, byte voor byte gelijk aan de
      unpkg-bestanden waar support.js om vraagt). support.js kijkt eerst in window.__resources
@@ -61,14 +61,17 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
   }
   var P='margin:0;font:500 15px/1.6 Mulish,system-ui,sans-serif;color:'+DEMP;
   function teken(){
-    el.innerHTML='<div style="box-sizing:border-box;min-height:100%;max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 24px max(20px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;text-align:center">'
+    var pc=omgeving()==="desktop";
+    el.innerHTML='<div style="box-sizing:border-box;min-height:100%;max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 24px max(20px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:'+(pc?'center':'flex-start')+';text-align:center">'
+      +(pc?'':'<div style="min-height:calc(100vh - 48px);min-height:calc(100dvh - 48px);display:flex;flex-direction:column;justify-content:center">')
       +'<img src="./icons/logo-goud.svg" alt="" width="84" height="82" style="display:block;margin:0 auto;width:84px;height:auto">'
       +'<h1 style="margin:16px 0 0;font:500 40px/1.15 \'Source Serif 4\',Georgia,serif;color:'+LICHT+'">InfoPoche</h1>'
       +'<p style="margin:10px 0 0;font:600 18px/1.4 Mulish,system-ui,sans-serif;color:'+GOUD+'">Kennis en ervaring dans la poche</p>'
       +'<p style="'+P+';margin-top:8px">Gratis · geen account nodig · geen app store</p>'
-      +'<p style="margin:22px 0 12px;font:700 19px/1.35 Mulish,system-ui,sans-serif;color:'+LICHT+'">Zet Infopoche op uw beginscherm</p>'
+      +'<p style="margin:22px 0 12px;font:700 19px/1.35 Mulish,system-ui,sans-serif;color:'+LICHT+'">Zet InfoPoche op uw beginscherm</p>'
       +'<div>'+L.blokHtml({omgeving:omgeving(),browser:L.iosBrowser(nav.userAgent),heeftEvent:!!window.__ifmInstallEv,afgebroken:afgebroken,status:status,palet:"donker"})+'</div>'
-      +'<button type="button" id="ifm-l-verder" style="display:block;margin:14px auto 0;min-height:48px;padding:0 16px;border:0;background:transparent;color:'+DEMP+';text-decoration:underline;text-underline-offset:4px;font:600 14px/1.2 Mulish,system-ui,sans-serif;cursor:pointer">Verder in de browser</button>'
+      +(pc?'':'</div>')
+      +'<button type="button" id="ifm-l-verder" style="display:block;margin:'+(pc?'18px':'36px')+' auto 0;min-height:44px;padding:0 16px;border:0;background:transparent;color:'+DEMP+';text-decoration:underline;text-underline-offset:4px;font:500 13px/1.2 Mulish,system-ui,sans-serif;cursor:pointer">'+(pc?'Toch hier rondkijken':'Eerst even rondkijken')+'</button>'
       +'</div>';
     var v=el.querySelector("#ifm-l-verder");if(v)v.onclick=verder;
     var i=el.querySelector('[data-ifm-actie="installeer"]');if(i)i.onclick=installeer;
@@ -98,7 +101,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
      laadfout. Zodra de app draait vervangt support.js <x-dc> door #dc-root en verdwijnt dit. -->
 <div id="ifm-start" hidden style="max-width:412px;margin:0 auto;padding:40px 24px;font:500 15px/1.8 Mulish,system-ui,sans-serif;color:#15181A;background:#F4F1F0;min-height:100vh;box-sizing:border-box">
   <div style="width:44px;height:44px;border-radius:12px;background:#800000;color:#fff;display:grid;place-items:center;font:800 15px Mulish,system-ui,sans-serif">IP</div>
-  <div style="font:600 22px/1.2 Poppins,system-ui,sans-serif;margin-top:18px">Infopoche kon niet starten</div>
+  <div style="font:600 22px/1.2 Poppins,system-ui,sans-serif;margin-top:18px">InfoPoche kon niet starten</div>
   <p style="margin:10px 0 0">De app is niet volledig geladen. Controleer uw verbinding en ververs de pagina. Blijft dit staan, dan is er iets mis aan onze kant en horen we het graag op nederlanders.fr.</p>
   <button onclick="location.reload()" style="margin-top:18px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish,system-ui,sans-serif;cursor:pointer">Opnieuw laden</button>
 </div>
@@ -168,7 +171,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div data-menuscrim="1" onClick="{{ menuSluit }}" style="position:absolute;left:0;right:0;top:100%;height:100dvh;background:rgba(21,24,26,.42)"></div>
   <div role="dialog" aria-modal="true" aria-label="Menu" data-menu="1" style="position:absolute;left:0;right:0;top:100%;background:#fff;border-radius:0 0 18px 18px;box-shadow:0 14px 30px rgba(21,24,26,.18);max-height:calc(100dvh - 150px);overflow-y:auto;overscroll-behavior:contain">
     <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
-    <button onClick="{{ mnBeginscherm }}" style="display:flex;align-items:flex-start;gap:14px;width:calc(100% - 28px);margin:14px 14px 8px;padding:14px 14px;border:1.5px solid rgba(128,0,0,.35);border-radius:14px;background:rgba(128,0,0,.06);text-align:left;cursor:pointer;color:#15181A;min-height:56px"><span style="{{ mnIcoInstalleer }};margin-top:1px"></span><span style="flex:1;min-width:0"><b style="display:block;font:700 16px Mulish">Zet op uw beginscherm</b><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">Dan opent Infopoche als een gewone app. Tik hier voor de stappen op uw toestel.</span></span></button>
+    <button onClick="{{ mnBeginscherm }}" style="display:flex;align-items:flex-start;gap:14px;width:calc(100% - 28px);margin:14px 14px 8px;padding:14px 14px;border:1.5px solid rgba(128,0,0,.35);border-radius:14px;background:rgba(128,0,0,.06);text-align:left;cursor:pointer;color:#15181A;min-height:56px"><span style="{{ mnIcoInstalleer }};margin-top:1px"></span><span style="flex:1;min-width:0"><b style="display:block;font:700 16px Mulish">Zet op uw beginscherm</b><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">Dan opent InfoPoche als een gewone app. Tik hier voor de stappen op uw toestel.</span></span></button>
     </sc-if>
     <sc-if value="{{ mnGeinstalleerd }}" hint-placeholder-val="{{ false }}">
     <div style="display:flex;align-items:center;gap:14px;min-height:48px;padding:0 18px;font:600 14px Mulish;color:#3D4346"><span aria-hidden="true" style="flex:none;width:24px;text-align:center;color:#800000;font-weight:800">&#10003;</span><span>App is geïnstalleerd</span></div>
@@ -179,14 +182,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
     <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
     <button onClick="{{ mnPostcode }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoPostcode }}"></span><span style="flex:1;min-width:0">Postcode</span><span style="flex:0 1 auto;min-width:0;font:600 16px Mulish;color:#3D4346;text-align:right;overflow-wrap:anywhere">{{ pcLabel }}</span></button>
-    <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van Infopoche omhoog. Op Android opent u de recente apps en veegt u Infopoche weg.</div>
+    <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android opent u de recente apps en veegt u InfoPoche weg.</div>
   </div>
   </sc-if>
 </div>
 
 <sc-if value="{{ balkOpen }}" hint-placeholder-val="{{ false }}">
 <div data-installbalk="1" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff">
-  <button onClick="{{ installOpenBalk }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 4px 6px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="flex:1 1 auto;min-width:0;font:700 14px/1.3 Mulish">Installeer Infopoche op uw beginscherm</span><span style="flex:none;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:56px;padding:0 14px;border-radius:12px;background:#fff;color:#800000;font:800 14px Mulish">Hoe?</span></button>
+  <button onClick="{{ installOpenBalk }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 4px 6px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="flex:1 1 auto;min-width:0;font:700 14px/1.3 Mulish">Installeer InfoPoche op uw beginscherm</span><span style="flex:none;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:56px;padding:0 14px;border-radius:12px;background:#fff;color:#800000;font:800 14px Mulish">Hoe?</span></button>
   <button onClick="{{ installBalkSluit }}" aria-label="Balk sluiten" style="flex:none;width:44px;min-height:48px;border:0;background:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px">&#10005;</button>
 </div>
 </sc-if>
@@ -1917,7 +1920,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:18px 18px 0">
     <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wegwijzer · gratis te lezen</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Nedergids</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Loketten, registers en de sites die u echt nodig heeft, per categorie. {{ pcRegel }}</p>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Vind particulieren en dienstverleners in Frankrijk. (in de komende maanden zal een V2 worden uitgerold) {{ pcRegel }}</p>
   </div>
 
   <div style="display:flex;gap:7px;overflow-x:auto;padding:14px 16px 2px">
@@ -1971,9 +1974,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </div>
       </sc-for>
     </div>
-    <div style="margin-top:13px;padding:13px 15px;border-radius:12px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">Aanmelden kan zodra Nedergids v2 online staat. De vermelding en de betaling gebeuren daar, niet in deze app.</div>
+    <div style="margin-top:13px;padding:13px 15px;border-radius:12px;background:rgba(21,24,26,.05);font:600 12.5px/1.7 Mulish;color:#3D4346;text-align:center">(in de komende maanden zal een V2 worden uitgerold)</div>
   </div>
-  <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">De kaart met vermeldingen komt uit Nedergids v2, dat nog in bouw is. Wat u hier ziet is de lijstkant: de sites en loketten per categorie. {{ toolNagekeken }}</div>
+  <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">(in de komende maanden zal een V2 worden uitgerold) {{ toolNagekeken }}</div>
   <div style="margin:10px 14px 0;padding:13px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">{{ ngArchief }}</div>
   <div style="height:26px"></div>
 </div>
@@ -2231,11 +2234,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
     <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
-    <button id="ifm-installeer" onClick="{{ installOpenProfiel }}" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:rgba(128,0,0,.05);color:#800000;font:700 14px Mulish;cursor:pointer">Zet Infopoche op uw beginscherm →</button>
+    <button id="ifm-installeer" onClick="{{ installOpenProfiel }}" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:rgba(128,0,0,.05);color:#800000;font:700 14px Mulish;cursor:pointer">Zet InfoPoche op uw beginscherm →</button>
     </sc-if>
   </div>
   <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app: u ziet altijd welke van de twee gevraagd wordt.</div>
-  <div style="margin:12px 18px 0;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van Infopoche omhoog. Op Android opent u de recente apps en veegt u Infopoche weg.</div>
+  <div style="margin:12px 18px 0;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android opent u de recente apps en veegt u InfoPoche weg.</div>
   <div style="margin:12px 14px 0">
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
@@ -2483,25 +2486,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <!-- ============ OVER ONS ============ -->
 <sc-if value="{{ isOver }}" hint-placeholder-val="{{ false }}">
 <div>
-  <div style="padding:22px 16px 0">
-    <div style="width:36px;height:4px;border-radius:2px;background:#800000"></div>
-    <h1 style="margin:12px 0 0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">Over Infopoche</h1>
-    <p style="margin:10px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Infopoche brengt Infofrankrijk.com, Nederlanders.fr, Café Claude en de tools van Communities Abroad samen op uw telefoon, voor Nederlandstaligen die in Frankrijk wonen, werken of dat van plan zijn.</p>
-  </div>
-  <div style="padding:22px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Hoe wij werken</div>
-  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px">
-    <div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif">Officiële bronnen</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Wij gaan uit van wetteksten en erkende instanties. Commerciële sites met vaak verouderde inhoud gebruiken wij niet als bron.</p></div>
-    <div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif">Bedragen met een datum</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Tarieven en drempels komen uit ons eigen register, met de datum waarop ze zijn gecontroleerd. De bronnen worden regelmatig nagelopen en alle bedragen twee keer per jaar opnieuw gecontroleerd.</p></div>
-    <div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif">Landen niet door elkaar</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Wie in Frankrijk woont, krijgt Frans recht. Nederlandse regels alleen bij een vraag over de grens heen, en dan duidelijk gelabeld.</p></div>
-    <div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif">AI met kaders</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">AI helpt ons zoeken en formuleren, maar een fout antwoord klinkt even overtuigend als een goed. Daarom staan er controles omheen.</p></div>
-  </div>
-  <button onClick="{{ openManifest }}" style="margin:14px 16px 0;width:calc(100% - 32px);display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;cursor:pointer">Lees het volledige manifest</button>
-  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Wie zit erachter</div>
-  <div style="margin:0 16px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-    <p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Infopoche is een uitgave van Communities Abroad, het netwerk van platforms achter Infofrankrijk.com en Nederlanders.fr.</p>
-    <a href="https://www.communitiesabroad.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;font:700 13.5px Mulish;color:#800000;text-decoration:none">communitiesabroad.com ↗</a>
-  </div>
-
+  <div style="padding:22px 16px 0;text-align:center"><img src="./icons/logo-brons.svg" alt="" width="84" height="84" style="display:block;margin:0 auto;width:84px;height:auto"><h1 style="margin:14px 0 0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">Over InfoPoche</h1><p style="margin:8px 0 0;font:400 15.5px Mulish;line-height:1.6;color:#3D4346;text-wrap:pretty">Ons netwerk in uw broekzak</p></div>
+  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Wie zijn we</div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Infofrankrijk.com</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Kennishub, sinds 2001.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlanders.fr</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Het forum, sinds 2002, met ruim 25.000 leden. Het bestaat dankzij de mensen die eraan bijdragen: vragenstellers, bijdragers en discussiedeelnemers, soms honderden bijdragen per persoon over vele jaren.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Een gemodereerde gemeenschap</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Met toelating, huisregels en optreden tegen spam en misbruik.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Café Claude</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">U klikt uw vraag aan en krijgt een kort, duidelijk antwoord. Daaronder staat de volledige onderbouwing: de uitgebreide analyse waarop dat antwoord rust. U krijgt dus niet alleen het antwoord, maar ook hoe we eraan komen.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Vind particulieren en dienstverleners in Frankrijk.</p></div></div>
   <div style="padding:26px 18px 8px">
     <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Hoe wij naar kennis kijken</div>
     <p style="font-size:13.5px;line-height:1.8;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Onderaan staan data en zoek-agents. Daarboven kennis: een gevalideerd antwoord op een gestelde vraag. Bovenaan, het grootst, staat ervaring — want één melding is een anekdote en twintig meldingen zijn een patroon. In de punt de handeling zelf: uitwisseling.</p>
@@ -2514,18 +2501,22 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <span style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;font:800 14px Mulish;margin-top:13px">Model openen →</span>
     </span>
   </button>
-  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
-    <sc-for list="{{ bronnen }}" as="b" hint-placeholder-count="4">
-    <div style="padding:13px 15px;border-top:1px solid rgba(21,24,26,.06)">
-      <div style="display:flex;align-items:baseline;gap:8px">
-        <b style="font:700 13.5px Mulish;color:#15181A">{{ b.naam }}</b>
-        <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#71787C;margin-left:auto">{{ b.rol }}</span>
-      </div>
-      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:3px;text-wrap:pretty">{{ b.wat }}</div>
-    </div>
-    </sc-for>
-  </div>
-  <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18);font:500 12px/1.7 Mulish;color:#5C0000;text-wrap:pretty">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Het abonnement bekostigt de redactie en het onderhoud van dit werk; het geeft geen voorrang bij veiligheidsinformatie en bepaalt niet wat u kunt gebruiken.</div>
+  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Peil</div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Ons register van financiële parameters en berekeningsgrondslagen voor Nederland en Frankrijk, waarmee de tools en Café Claude rekenen. Elk met bron en datum van controle.</p><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Peil-stempel</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Bij elke uitkomst die met Peil rekent, staat de controledatum en een link.</p></div></div>
+  <a href="https://communitiesabroad.com/manifest/tools" target="_blank" rel="noopener" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Bekijk wat we per tool controleren &#8599;</a>
+  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Cockpit</div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Toezicht op de techniek: werkt elke tool, zijn de koppelingen en API's in orde, zijn er storingen. Cockpit signaleert voordat iets breekt: verloopdata, sleutels en koppelingen, met diagnose en herstelroute.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Peil bewaakt de integriteit van de data. Dat is een continu proces van updaten en controleren, niet alleen van de parameters maar ook van de berekeningsgrondslagen.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Officiële bronnen wegen zwaar. Facebook telt niet als bron.</p></div>
+  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Kansen en valkuilen</div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:rgba(31,122,58,.08);border:1px solid rgba(31,122,58,.30)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;color:#1B5E2F">Kansen</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#2B3A2F;text-wrap:pretty;overflow-wrap:anywhere">AI helpt om te zoeken en formuleren. Het maakt een vraag sneller beantwoordbaar. Nauwgezette protocollen, geautoriseerde bronnen en betrouwbare API's (koppelingen) met bronnen van officiële instanties helpen ons om de inzet van AI in onze media nauwgezet te auditen.</p></div><div style="padding:16px;border-radius:16px;background:rgba(176,32,32,.07);border:1px solid rgba(176,32,32,.30)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;color:#9B1C1C">Valkuilen</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Een valkuil is een verkeerde veronderstelling van een AI-agent of tool, waardoor het hele antwoord onjuist is. De oorzaak is bijna altijd dat de context onvoldoende duidelijk was.</p><p style="margin:8px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Voorbeeld: u stelt een vraag in het Nederlands over de Franse inkomstenbelasting, en de AI antwoordt met Nederlandse regels.</p><p style="margin:8px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Een vraag stellen aan een AI-tool zonder context is een recept voor mogelijk onjuiste informatie. Daarom vraagt de app uw postcode: die legt de context vooraf vast.</p></div></div>
+  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Waarom dit zorgvuld moet</div>
+  <blockquote style="margin:0 16px;padding:14px 16px;border-left:4px solid #800000;border-radius:0 12px 12px 0;background:rgba(128,0,0,.05);font:italic 500 16px 'Source Serif 4',Georgia,serif;line-height:1.6;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">Als ChatGPT, Claude enz. iets fout doen wordt het afgedaan als 'typisch AI'; als een van onze tools niet werkt komt het met de onversneden directheid van de Nederlandse cultuur direct terug in het forum.</blockquote>
+  <div style="padding:12px 16px 0;display:flex;flex-direction:column;gap:10px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Na anderhalf jaar werk aan betrouwbare AI weten we: een fout antwoord klinkt even overtuigend als een goed. Controles verkleinen risico's, maar garanderen niets.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Het abonnement op Infofrankrijk houdt de kennisbank en het forum in stand.</p></div>
+  <button onClick="{{ openManifest }}" style="margin:14px 16px 0;width:calc(100% - 32px);display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;cursor:pointer">Lees het volledige manifest</button>
+  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Contact</div>
+  <div style="margin:0 16px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><a href="mailto:info@communitiesabroad.com" style="display:inline-flex;align-items:center;min-height:44px;font:700 14.5px Mulish;color:#800000;text-decoration:none;overflow-wrap:anywhere">info@communitiesabroad.com</a><p style="margin:2px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Communities Abroad, Oirschot, KvK 55741509</p></div>
+  <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Disclaimer</div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Een forumreactie, AI-antwoord of rekentool vervangt niet automatisch professioneel advies voor uw specifieke situatie.</p></div>
+  <a href="https://infofrankrijk.com/disclaimer/" target="_blank" rel="noopener" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Volledige disclaimer &#8599;</a>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -2603,7 +2594,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <section role="dialog" aria-modal="true" aria-label="Abonnement" data-oproep="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(30px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.18)">
     <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-      <h2 style="margin:6px 0 0;font:500 24px 'Source Serif 4',Georgia,serif;line-height:1.25">Fijn dat Infopoche u helpt</h2>
+      <h2 style="margin:6px 0 0;font:500 24px 'Source Serif 4',Georgia,serif;line-height:1.25">Fijn dat InfoPoche u helpt</h2>
       <button onClick="{{ oproepSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
     </div>
     <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Wat u net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.</p>
@@ -2618,13 +2609,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ installBladOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:70">
   <div onClick="{{ installBladSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.5)"></div>
-  <section role="dialog" aria-modal="true" aria-label="Zet Infopoche op uw beginscherm" data-installblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:85%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.22)">
+  <section role="dialog" aria-modal="true" aria-label="Zet InfoPoche op uw beginscherm" data-installblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:85%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.22)">
     <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
       <h2 style="margin:6px 0 0;font:500 25px 'Source Serif 4',Georgia,serif;line-height:1.25">{{ installBladKop }}</h2>
       <button onClick="{{ installBladSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
     </div>
-    <p style="margin:0;font:400 15px Mulish;line-height:1.7em">Dan staat Infopoche tussen uw andere apps en opent hij in één tik, zonder app store en zonder account.</p>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.7em">Dan staat InfoPoche tussen uw andere apps en opent hij in één tik, zonder app store en zonder account.</p>
     <div data-installinhoud="1"></div>
     <button onClick="{{ installBladSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:600 14px Mulish;text-decoration:underline;text-underline-offset:4px">Verder in de browser</button>
   </section>
@@ -4083,7 +4074,7 @@ class Component extends DCLogic {
       abForum: "Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
       abRuyterTekst: "Deze keuzehulp is gratis." + lees,
       abArtikelTekst: "Dit artikel las u gratis." + lees,
-      abMuurTekst: "Het vervolg van dit artikel is voor abonnees van Infofrankrijk. Zij maken de bekostiging en instandhouding van Infopoche mogelijk.",
+      abMuurTekst: "Het vervolg van dit artikel is voor abonnees van Infofrankrijk. Zij maken de bekostiging en instandhouding van InfoPoche mogelijk.",
       abArtikel: klaar && !a.muur, abMuur: klaar && !!a.muur,
       oproepOpen: !!st.oproep, oproepSluit: () => this.oproepSluit()
     };
@@ -4125,7 +4116,7 @@ class Component extends DCLogic {
   ibSchrijf(naam){ try { sessionStorage.setItem(this.ibSleutel(naam), "1"); } catch(e){} this["_ib" + naam] = "1"; }
   installOpen(kop){
     if (this.alGeinstalleerd()) return;
-    this.setState({installBlad:{kop: kop || "Zet Infopoche op uw beginscherm"}, installStatus:"", installAf:false, menu:false});
+    this.setState({installBlad:{kop: kop || "Zet InfoPoche op uw beginscherm"}, installStatus:"", installAf:false, menu:false});
   }
   installBladSluit(){ this._ibFocus = false; this.setState({installBlad:null}); }
   // Brede, niet-touch weergave: geen installatiebalk en geen automatisch installatieblad.
@@ -4151,7 +4142,7 @@ class Component extends DCLogic {
       const nog = !!this.opSoort() || (s2.screen === "artikel" && !!s2.art && s2.art.status === "klaar");
       if (!nog || this.isDesktop() || s2.installBlad || s2.oproep || s2.forumBlad || s2.vraagPostcode || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
       this.ibSchrijf("SLEUTEL_BLAD");
-      this.installOpen("Fijn dat Infopoche u helpt. Zet hem op uw beginscherm.");
+      this.installOpen("Fijn dat InfoPoche u helpt. Zet hem op uw beginscherm.");
     }, 1800);
   }
   // Vult de inhoud van het installatieblad uit LandingLib.blokHtml (dezelfde bron als het landingsscherm).
@@ -4924,7 +4915,7 @@ class Component extends DCLogic {
       enEigenKlaar: eigenOk || (st.enBerekend && eigenMismatch), enEigenRichting: eigenRichting,
       enMuurOpen: eigenOk && T.prijs !== "gratis", // idem: de muur om de eigen uitkomst komt terug zodra prijs weer abonnee is
       enAannames: this.enAannames(engineKlaar),
-      peilAan: PEIL_LABEL_AAN, peilHref: PEIL_UITLEG_URL, peilAria: peilAria(), peilKort: peilStandKort(), peilVoetTekst: peilVoetTekst()
+      peilAan: PEIL_LABEL_AAN, peilHref: ((this.vindModule("energie") || {}).peilkaart || PEIL_UITLEG_URL), peilAria: peilAria(), peilKort: peilStandKort(), peilVoetTekst: peilVoetTekst()
     };
   }
 
@@ -5152,7 +5143,7 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {artikel:"Artikel", hub:"Infopoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk",
+    const titles = {artikel:"Artikel", hub:"InfoPoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
     const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen",
       mod:this.mods().length + " modules",
@@ -5201,7 +5192,7 @@ class Component extends DCLogic {
     const en = this.enVals(T, st);
     this._opEn = !!en.enEigenKlaar && st.screen === "energie";
     return {
-      title: tv.isThema ? tv.themaNaam : st.screen === "dossierdemo" ? "Mijn dossier" : titles[st.screen] || "Infopoche",
+      title: tv.isThema ? tv.themaNaam : st.screen === "dossierdemo" ? "Mijn dossier" : titles[st.screen] || "InfoPoche",
       subtitle: tv.isThema ? (tv.themaStub ? "In ontwikkeling" : "Onderwerp") : st.screen === "dossierdemo" ? "Voorbeeld · DossierFrankrijk" : subs[st.screen] || "",
       ...tv,
       ...this.gzVals(),
@@ -5362,13 +5353,6 @@ class Component extends DCLogic {
       openManifest: () => this.openInfoArtikel("https://infofrankrijk.com/ons-manifest-hoe-wij-werken/"),
       goKeuze: () => this.setState({screen:"keuze", from: st.screen === "keuze" ? (st.from || "acc") : st.screen, q:""}),
       ...this.keuzeVals(),
-      bronnen: [
-        {naam:"Nederlanders.fr", rol:"GEMEENSCHAP", wat:"Berichten en reactiedraden van leden, sinds 2002. Gratis te lezen in deze app; reageren gebeurt op de site zelf."},
-        {naam:"Infofrankrijk.com", rol:"REDACTIE", wat:"Dossiers, artikelen en de rekenmodules. De redactie actualiseert; het abonnement betaalt dat werk."},
-        {naam:"Overheid en pers", rol:"ACTUEEL", wat:"Officiële bronnen en persberichten, samengevoegd in de nieuwsroute, met redactiesyntheses die altijd eerst door een mens worden nagelezen."},
-        {naam:"Météo-France en FR-Alert", rol:"VEILIGHEID", wat:"Brandgevaar, weeralarm en officiële waarschuwingen. Altijd gratis, ook zonder account."},
-        {naam:"Talen voor Talent", rol:"TAAL", wat:"Taalcoaching van Sylvain Lelarge, achtergrond bij TaalHulp."}
-      ],
       ...this.regioVals(),
       isAiTools: st.screen === "aitools",
       begroetingTekst: HubLib.begroeting(new Date()),
