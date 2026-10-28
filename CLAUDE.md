@@ -289,3 +289,7 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 - Adverteren: geen knop "Hoe werkt dat?" meer maar twee zinnen uitleg en de knop naar https://www.nederlanders.fr/page/onroerend-goed. "Toon meer (nog N)". Prijs "k.k." wordt in de weergave "k.k. (kosten koper)" (`IfAdv.prijsWeergave`, bron ongewijzigd).
 - Eén naam "Te koop in Frankrijk" (ook `kort`). De kopbalktitel breekt af op twee regels, nooit een ellipsis.
 - Sponsors: label "SPONSOR · NAAM" op 12 px; veld `vertraging` (ms) in `sponsors.json`: NVLR start 2750 ms later zodat NVLR (5000) en Caderonne (5500) nooit gelijk wisselen (bij 2500 vallen ze elke 27,5 s samen). Voettekst "Volgorde wisselt bij elke opening. Tik op een sponsor om de site te openen." Service worker 2026-10-25-7.
+
+## Nedergids-scherm vereenvoudigd (28-10-2026)
+
+- Het scherm `nedergids` toont alleen label, kop, intro, de V2-regel, vier kaarten naar externe pagina's en een slotregel (alles in `index.html`, geen data in `modules.json`; het blok `nedergids` met categorieën, sites, aanmelden, uitgelicht en archiefnoot is weg). De kopbalk herhaalt de kop niet. Tests: `tests/nedergids.test.mjs`. Het Peil-label in Energie (`PEIL_LABEL_AAN`) blijft uit: zes parameters zijn raming en `standaardprijzen_invoer` heeft geen verificatiedatum.
