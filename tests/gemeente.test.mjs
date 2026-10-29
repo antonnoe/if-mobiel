@@ -104,3 +104,67 @@ test("tfIndicatie: de helft van de cadastrale huurwaarde maal het tarief, geen b
   for (const v of ["", "abc", 0, -5, 5000000]) assert.equal(G.tfIndicatie(v, 64.88), null);
   assert.equal(G.tfIndicatie(3000, null), null);
 });
+
+// ---- tussenlaag (api/gemeente.js), met een nagebootste fetch
+const maak = createRequire(import.meta.url)("../api/gemeente.js").maak;
+function aanroep(handler, url, method = "GET") {
+  return new Promise(klaar => {
+    const h = {}; const res = { statusCode: 0, setHeader: (k, v) => { h[k.toLowerCase()] = v; }, end: b => klaar({ status: res.statusCode, h, body: JSON.parse(b) }) };
+    handler({ method, url }, res);
+  });
+}
+const ok = body => ({ ok: true, status: 200, json: async () => body });
+
+test("tussenlaag: alleen GET, alleen bekende bronnen, parameters gecontroleerd, nooit een vrije URL", async () => {
+  const urls = []; const h = maak(async u => { urls.push(u); return ok({ data: [] }); });
+  assert.equal((await aanroep(h, "/api/gemeente?bron=radon&code=24037", "POST")).status, 405);
+  assert.equal((await aanroep(h, "/api/gemeente?bron=https://evil.example/&code=24037")).status, 400);
+  assert.equal((await aanroep(h, "/api/gemeente?bron=constructor&code=24037")).status, 400);
+  assert.equal((await aanroep(h, "/api/gemeente?bron=radon&code=24037%22%20or")).status, 400);
+  assert.equal((await aanroep(h, "/api/gemeente?bron=dvf&code=24037&jaar=abc")).status, 400);
+  assert.equal(urls.length, 0, "geen enkele upstream-aanvraag bij ongeldige invoer");
+});
+
+test("tussenlaag: radon gaat naar Géorisques met een eerlijke User-Agent en wordt gecachet", async () => {
+  let kop; const h = maak(async (u, o) => { kop = [u, o.headers["User-Agent"]]; return ok({ data: [{ classe_potentiel: "1" }] }); });
+  const r = await aanroep(h, "/api/gemeente?bron=radon&code=62610");
+  assert.equal(r.status, 200); assert.deepEqual(r.body.data, [{ classe_potentiel: "1" }]);
+  assert.equal(kop[0], "https://georisques.gouv.fr/api/v1/radon?code_insee=62610"); assert.match(kop[1], /^Infopoche\/1\.0/); assert.ok(!/Mozilla/.test(kop[1]));
+  assert.match(r.h["cache-control"], /s-maxage=86400/);
+});
+
+test("tussenlaag: catnat voegt pagina's samen en houdt alleen de gebruikte velden", async () => {
+  const pag = n => ({ results: 3, total_pages: 2, data: n === 1 ? [{ libelle_risque_jo: "Inondations et/ou Coulées de Boue", date_debut_evt: "01/01/2023", date_fin_evt: "02/01/2023", geheim: "x" }, { libelle_risque_jo: "Mouvement de Terrain", date_debut_evt: "05/05/1999" }] : [{ libelle_risque_jo: "Inondations et/ou Coulées de Boue", date_debut_evt: "01/11/2024" }] });
+  const h = maak(async u => ok(pag(new URL(u).searchParams.get("page") === "2" ? 2 : 1)));
+  const r = await aanroep(h, "/api/gemeente?bron=catnat&code=62610");
+  assert.equal(r.body.results, 3); assert.equal(r.body.data.length, 3); assert.ok(!("geheim" in r.body.data[0]));
+  const per = G.catnatPerRisico(r.body.data);
+  assert.deepEqual(per, [{ risico: "Inondations et/ou Coulées de Boue", aantal: 2, laatsteJaar: 2024 }, { risico: "Mouvement de Terrain", aantal: 1, laatsteJaar: 1999 }]);
+});
+
+test("tussenlaag: DVF alle pagina's in één antwoord, onvolledig als een pagina mislukt, 502 als de bron wegvalt", async () => {
+  const rec = i => ({ libnatmut: "Vente", codtypbien: "111", valeurfonc: "100000.00", sbati: "100.00", anneemut: 2024, datemut: "2024-01-01", extra: i });
+  const h = maak(async u => { const p = Number(new URL(u).searchParams.get("page")); return ok({ count: 1100, results: [rec(p)] }); });
+  const r = await aanroep(h, "/api/gemeente?bron=dvf&code=84054&jaar=2026");
+  assert.equal(r.body.count, 1100); assert.equal(r.body.results.length, 3); assert.equal(r.body.onvolledig, false); assert.ok(!("extra" in r.body.results[0]));
+  const h2 = maak(async u => { const p = Number(new URL(u).searchParams.get("page")); if (p === 2) throw new Error("x"); return ok({ count: 1100, results: [rec(p)] }); });
+  assert.equal((await aanroep(h2, "/api/gemeente?bron=dvf&code=84054&jaar=2026")).body.onvolledig, true);
+  const h3 = maak(async () => { throw new Error("down"); });
+  const r3 = await aanroep(h3, "/api/gemeente?bron=dvf&code=84054&jaar=2026"); assert.equal(r3.status, 502); assert.equal(r3.h["cache-control"], "no-store");
+});
+
+test("leesRisico: overstroming uit de natuurrampbesluiten, ook als de lijst van de gemeente hem niet noemt", () => {
+  const r = G.leesRisico({ risques: { data: [{ risques_detail: [{ libelle_risque_long: "Mouvement de terrain" }] }] },
+    catnat: { results: 15, data: [{ libelle_risque_jo: "Inondations et/ou Coulées de Boue", date_debut_evt: "01/01/2023" }, { libelle_risque_jo: "Inondations et/ou Coulées de Boue", date_debut_evt: "01/01/2024" }] } });
+  assert.equal(r.vloedOntbreekt, true); assert.equal(r.vloed.aantal, 2); assert.equal(r.vloed.laatsteJaar, 2024); assert.equal(r.catnat, 15);
+  const r2 = G.leesRisico({ risques: { data: [{ risques_detail: [{ libelle_risque_long: "Inondation" }] }] }, catnat: { results: 1, data: [{ libelle_risque_jo: "Inondations", date_debut_evt: "01/01/2023" }] } });
+  assert.equal(r2.vloedOntbreekt, false);
+  assert.equal(G.proxyUrl("dvf", { code: "84054", jaar: 2026 }), "/api/gemeente?bron=dvf&code=84054&jaar=2026");
+});
+
+test("tussenlaag: een mislukte poging (503) wordt herhaald, en na drie mislukkingen volgt 502 binnen het budget", async () => {
+  let n = 0; const h = maak(async () => { n++; if (n < 3) return { ok: false, status: 503, json: async () => ({}) }; return ok({ data: [{ classe_potentiel: "2" }] }); });
+  const r = await aanroep(h, "/api/gemeente?bron=radon&code=62610"); assert.equal(r.status, 200); assert.equal(n, 3);
+  let m = 0; const h2 = maak(async () => { m++; return { ok: false, status: 503, json: async () => ({}) }; });
+  const t0 = Date.now(); const r2 = await aanroep(h2, "/api/gemeente?bron=radon&code=62610"); assert.equal(r2.status, 502); assert.equal(m, 3); assert.ok(Date.now() - t0 < 3000);
+});

@@ -1,6 +1,6 @@
 // Service worker van Infopoche: netwerk eerst, de cache is alleen een terugval als het netwerk haperkt.
 // Verhoog VERSIE bij een wijziging van deze lijst; bij activate gaan oude caches weg.
-const VERSIE = "2026-10-29-15";
+const VERSIE = "2026-10-29-16";
 const CACHE = "infopoche-" + VERSIE;
 const SCHIL = [
   "./", "./index.html", "./support.js", "./dossier.js", "./nav-lib.js", "./artikel-lib.js", "./abonnee-lib.js", "./landing-lib.js", "./lamaison-lib.js", "./nieuws-lib.js", "./sponsors-lib.js", "./advertenties-lib.js", "./hygiene-lib.js", "./gemeente-lib.js", "./sponsors.json",
@@ -33,6 +33,7 @@ self.addEventListener("fetch", (e) => {
   // Alles van andere herkomst (nlfr-menu, nlfr-berichten, if-plek, WordPress, fonts) gaat ongemoeid door.
   if (url.origin !== self.location.origin) return;
   if (url.pathname === "/sw.js") return;
+  if (url.pathname.indexOf("/api/") === 0) return; // tussenlaag: nooit uit de cache, een verouderd antwoord is erger dan een melding
   if (req.headers.has("range")) return;
   e.respondWith(
     fetch(req)

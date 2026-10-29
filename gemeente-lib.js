@@ -43,6 +43,19 @@
     return json.map(gemeente).filter(Boolean).sort(function (a, b) { return b.pop - a.pop; });
   }
 
+  // ---- eigen tussenlaag (api/gemeente.js, Vercel-functie op hetzelfde adres): voor wat een browser niet zelf kan opvragen.
+  // Géorisques weigert `catnat` en `radon` bij een browser-User-Agent; een server stuurt een eigen, eerlijke User-Agent.
+  var PROXY = "/api/gemeente";
+  function proxyUrl(bron, p) {
+    var qs = ["bron=" + q(bron)];
+    Object.keys(p || {}).forEach(function (k) { qs.push(q(k) + "=" + q(String(p[k]))); });
+    return PROXY + "?" + qs.join("&");
+  }
+  function catnatUrl(code, pagina, grootte) {
+    return codeOk(code) ? GEORISQUES + "/gaspar/catnat?code_insee=" + q(code) + "&page_size=" + (grootte || 100) + "&page=" + Math.max(1, pagina | 0 || 1) : "";
+  }
+  function radonUrl(code) { return codeOk(code) ? GEORISQUES + "/radon?code_insee=" + q(code) : ""; }
+
   // ---- Géorisques: vier aparte aanvragen, elk mag mislukken
   function risicoUrls(code) {
     if (!codeOk(code)) return null;
@@ -51,10 +64,21 @@
       radon: GEORISQUES + "/radon?" + c, sismique: GEORISQUES + "/zonage_sismique?" + c };
   }
   function eerste(json) { return json && Array.isArray(json.data) && json.data.length ? json.data[0] : null; }
+  // Natuurrampbesluiten per soort risico: aantal en het laatste jaar (datum is dd/mm/jjjj).
+  function catnatPerRisico(data) {
+    var per = {};
+    (Array.isArray(data) ? data : []).forEach(function (d) {
+      var t = d && tekst(d.libelle_risque_jo); if (!t) return;
+      var m = /(\d{4})\s*$/.exec(tekst(d.date_debut_evt)), jaar = m ? parseInt(m[1], 10) : null;
+      var x = per[t] || (per[t] = { risico: t, aantal: 0, laatsteJaar: null });
+      x.aantal++; if (jaar !== null && (x.laatsteJaar === null || jaar > x.laatsteJaar)) x.laatsteJaar = jaar;
+    });
+    return Object.keys(per).map(function (k) { return per[k]; }).sort(function (a, b) { return b.aantal - a.aantal; });
+  }
   // r = {risques, catnat, radon, sismique}: de ruwe antwoorden, null waar de aanvraag mislukte. ok is waar als er iets uit kwam.
   function leesRisico(r) {
     r = r || {};
-    var uit = { lijst: [], catnat: null, radon: null, zone: "", ok: false };
+    var uit = { lijst: [], catnat: null, catnatPer: [], vloed: null, vloedOntbreekt: false, radon: null, zone: "", ok: false };
     var g = eerste(r.risques);
     if (g && Array.isArray(g.risques_detail)) {
       var gezien = {};
@@ -67,7 +91,12 @@
     if (r.catnat && typeof r.catnat === "object") {
       var n = typeof r.catnat.results === "number" ? r.catnat.results : (Array.isArray(r.catnat.data) ? r.catnat.data.length : null);
       uit.catnat = n;
+      uit.catnatPer = catnatPerRisico(r.catnat.data);
     }
+    // overstroming staat in de natuurrampbesluiten, ook als de lijst van de gemeente hem niet noemt (Neuville-sous-Montreuil: 14 besluiten)
+    var vloed = uit.catnatPer.filter(function (x) { return /inondation/i.test(x.risico); })[0];
+    uit.vloedOntbreekt = !!(vloed && uit.lijst.length && !uit.lijst.some(function (t) { return /inondation/i.test(t); }));
+    uit.vloed = vloed || null;
     var rd = eerste(r.radon), kl = rd ? getal(rd.classe_potentiel) : null;
     if (kl !== null && kl >= 1 && kl <= 3) uit.radon = kl;
     var zs = eerste(r.sismique);
@@ -225,9 +254,9 @@
     return Math.round(v * 0.5 * t / 100);
   }
 
-  var api = { LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
+  var api = { PROXY: PROXY, proxyUrl: proxyUrl, catnatUrl: catnatUrl, radonUrl: radonUrl, catnatPerRisico: catnatPerRisico, LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
-    leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl };
+    leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, DVF_JAREN: DVF_JAREN, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl };
   root.IfGem = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

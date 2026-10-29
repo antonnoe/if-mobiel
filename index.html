@@ -2568,7 +2568,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-for>
   </div>
-  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit zijn gegevens van de Franse overheid per gemeente, zonder oordeel van Infopoche. Een ingevuld adres gaat naar de Franse adreszoeker (data.geopf.fr) en daarna naar Géorisques. Uw locatie wordt alleen gebruikt als u op de knop tikt, eenmalig om een gemeente te vinden (via geo.api.gouv.fr) en de risico's op die plek op te vragen. Niets wordt bewaard.</p>
+  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit zijn gegevens van de Franse overheid per gemeente, zonder oordeel van Infopoche. Een ingevuld adres gaat naar de Franse adreszoeker (data.geopf.fr) en daarna naar Géorisques. Natuurrampbesluiten, radon en verkochte huizen vraagt de app op via de server van Infopoche; die ziet alleen de gemeentecode en slaat niets op (de hostingdienst bewaart technische logbestanden). Uw locatie wordt alleen gebruikt als u op de knop tikt, eenmalig om een gemeente te vinden (via geo.api.gouv.fr) en de risico's op die plek op te vragen. Niets wordt bewaard.</p>
   </sc-if>
   <div style="height:26px"></div>
 </div>
@@ -4652,7 +4652,7 @@ class Component extends DCLogic {
     this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dvf:{s:"laden"}}});
     const zet = (sleutel, d) => { if (this._gmTeller.actueel(tok)) this.setState(prev => ({gm: Object.assign({}, prev.gm, {kaarten: Object.assign({}, prev.gm.kaarten, {[sleutel]: d})})})); };
     const u = G.risicoUrls(c.code), au = c.adres ? G.adresRisicoUrls(c.lat, c.lon) : null;
-    const urls = [u.risques, u.catnat, u.radon, u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
+    const urls = [u.risques, G.proxyUrl("catnat", {code:c.code}), G.proxyUrl("radon", {code:c.code}), u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
     Promise.all(urls.map((x, i) => this.gmHaal(x, i === 1 || i === 2 ? {herhaal:false} : undefined))).then(r => {
       if (r.every(x => x === null)) return zet("risico", {s:"fout"});
       const l = G.leesRisico({risques:r[0], catnat:r[1], radon:r[2], sismique:r[3],
@@ -4664,18 +4664,21 @@ class Component extends DCLogic {
     });
     this.gmHaal(G.belastingUrl(c.code)).then(d => { const l = d ? G.leesBelasting(d) : null; zet("belasting", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
     this.gmHaal(G.mairieUrl(c.code)).then(d => { const l = d ? G.leesMairie(d) : null; zet("mairie", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
-    // DVF: alle pagina's (de eerste bevat niet de nieuwste jaren), maximaal DVF_MAX_PAGINA; lukt een latere pagina niet, dan staat "onvolledig" erbij.
+    // DVF: eerst via de tussenlaag (alle pagina's in één antwoord, een dag gecachet); lukt dat niet, dan rechtstreeks bij de bron.
     const jaar = new Date().getFullYear();
-    this.gmHaal(G.dvfUrl(c.code, jaar, 1)).then(d1 => {
-      const p1 = d1 ? G.leesDvfPagina(d1) : null;
-      if (!p1) return zet("dvf", {s:"fout"});
-      const paginas = Math.min(G.DVF_MAX_PAGINA, Math.ceil(p1.count / G.DVF_PAGE));
-      const rest = []; for (let i = 2; i <= paginas; i++) rest.push(this.gmHaal(G.dvfUrl(c.code, jaar, i)));
-      return Promise.all(rest).then(meer => {
-        const pagina = meer.map(m => m ? G.leesDvfPagina(m) : null);
-        const alles = p1.results.concat(...pagina.map(x => x ? x.results : []));
-        const sam = G.dvfSamenvatting(alles, pagina.some(x => !x) || p1.count > paginas * G.DVF_PAGE);
-        zet("dvf", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"});
+    const klaarDvf = (records, onvolledig) => { const sam = G.dvfSamenvatting(records, onvolledig); zet("dvf", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"}); };
+    this.gmHaal(G.proxyUrl("dvf", {code:c.code, jaar}), {herhaal:false}).then(d => {
+      const p = d ? G.leesDvfPagina(d) : null;
+      if (p) return klaarDvf(p.results, !!d.onvolledig);
+      return this.gmHaal(G.dvfUrl(c.code, jaar, 1)).then(d1 => {
+        const p1 = d1 ? G.leesDvfPagina(d1) : null;
+        if (!p1) return zet("dvf", {s:"fout"});
+        const paginas = Math.min(G.DVF_MAX_PAGINA, Math.ceil(p1.count / G.DVF_PAGE));
+        const rest = []; for (let i = 2; i <= paginas; i++) rest.push(this.gmHaal(G.dvfUrl(c.code, jaar, i)));
+        return Promise.all(rest).then(meer => {
+          const pagina = meer.map(m => m ? G.leesDvfPagina(m) : null);
+          klaarDvf(p1.results.concat(...pagina.map(x => x ? x.results : [])), pagina.some(x => !x) || p1.count > paginas * G.DVF_PAGE);
+        });
       });
     });
   }
@@ -4710,8 +4713,10 @@ class Component extends DCLogic {
       typeof a.cavites === "number" ? {label:"Bekende holle ruimten (cavités), binnen " + km, waarde:a.cavites === 0 ? "Geen bekend" : String(a.cavites)} : null,
       a.zone ? {label:"Aardbevingszone op " + (c.adres === "Uw locatie" ? "uw locatie" : "uw adres"), waarde:a.zone} : null
     ].filter(Boolean);
-    const gemRegels = [r.lijst && r.lijst.length ? {label:"Risico's volgens de lijst van de gemeente", waarde:r.lijst.join(" · ")} : null,
-      typeof r.catnat === "number" ? {label:"Natuurrampbesluiten (catastrophe naturelle)", waarde:String(r.catnat)} : null,
+    const vloedRegel = r.vloedOntbreekt && r.vloed ? {label:"Let op: overstroming",
+      waarde:"De lijst van de gemeente noemt overstroming niet, maar er zijn " + r.vloed.aantal + " natuurrampbesluiten voor overstroming en modderstroom" + (r.vloed.laatsteJaar ? " (laatste " + r.vloed.laatsteJaar + ")" : "") + ". Een ontbrekende regel in de lijst betekent dus niet dat er geen risico is."} : null;
+    const gemRegels = [vloedRegel, r.lijst && r.lijst.length ? {label:"Risico's volgens de lijst van de gemeente", waarde:r.lijst.join(" · ")} : null,
+      typeof r.catnat === "number" ? {label:"Natuurrampbesluiten (catastrophe naturelle)", waarde:String(r.catnat) + (r.catnatPer && r.catnatPer.length ? " · " + r.catnatPer.slice(0, 3).map(x => x.risico + ": " + x.aantal + (x.laatsteJaar ? " (laatste " + x.laatsteJaar + ")" : "")).join("; ") : "")} : null,
       r.radon ? {label:"Radonpotentiaal", waarde:"klasse " + r.radon + " (schaal 1 tot 3, 3 is het hoogst)"} : null,
       !(a && a.zone) && r.zone ? {label:"Aardbevingszone", waarde:r.zone} : null].filter(Boolean);
     // Belasting: tarief, en met de cadastrale huurwaarde van de lezer een indicatie in euro.
@@ -4725,7 +4730,7 @@ class Component extends DCLogic {
         regels: adresRegels.concat(gemRegels),
         notitie: (a ? "Overstroming, bodembeweging en holle ruimten gelden binnen " + km + " van het punt: dat betekent niet dat het pand zelf getroffen wordt. Kleigrond en aardbevingszone gelden voor het punt zelf. De volledige kaart staat op Géorisques."
           : "Dit is de lijst van de gemeente. Vul hierboven uw adres in voor kleigrond, overstroming en meer op uw eigen adres.")
-          + (r.ontbreekt && r.ontbreekt.length ? " Niet opgehaald: " + r.ontbreekt.join(", ") + ". Géorisques weigert sommige aanvragen vanuit een browser (natuurrampbesluiten en radon); die staan wel op de Géorisques-kaart." : ""),
+          + (r.ontbreekt && r.ontbreekt.length ? " Niet opgehaald (de bron reageerde niet): " + r.ontbreekt.join(", ") + ". Probeer het later opnieuw of kijk op de Géorisques-kaart." : ""),
         links:[link(L.georisques, "Volledige risicokaart (Géorisques) ↗")], bron:"Bron: Géorisques, Licence Ouverte (Etalab 2.0)"}),
       kaart("belasting", "Belasting op uw huis", val("belasting"), {
         fout:"Belastingtarieven momenteel niet beschikbaar.", leeg:"Geen tarieven gevonden voor deze gemeente in het bestand.",

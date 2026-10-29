@@ -116,7 +116,7 @@ test('vercel.json: sw.js nooit lang gecachet', () => {
   const h = v.headers.find((x) => x.source === '/sw.js');
   assert.ok(h);
   assert.match(h.headers.find((x) => x.key === 'Cache-Control').value, /no-cache/);
-  assert.ok(v.headers.find((x) => x.source === '/(.*)'));
+  assert.ok(v.headers.find((x) => x.source === '/((?!api/).*)'), 'alles behalve /api blijft must-revalidate; de functie in /api zet zijn eigen cache-regels');
 });
 
 test('manifest: id en bestaande screenshots', () => {
