@@ -4657,6 +4657,9 @@ class Component extends DCLogic {
       if (r.every(x => x === null)) return zet("risico", {s:"fout"});
       const l = G.leesRisico({risques:r[0], catnat:r[1], radon:r[2], sismique:r[3],
         adres: au ? {rga:r[4], azi:r[5], tri:r[6], mvt:r[7], cavites:r[8], sismique:r[9]} : null});
+      // wat niet is opgehaald, melden we bij de kaart: nooit een stil gat
+      l.ontbreekt = [r[0] === null ? "de risicolijst van de gemeente" : "", r[1] === null ? "natuurrampbesluiten" : "", r[2] === null ? "radonpotentiaal" : "",
+        au && r.slice(4).some(x => x === null) ? "een deel van de gegevens voor uw adres" : ""].filter(Boolean);
       zet("risico", l.ok ? {s:"ok", d:l} : {s:"leeg"});
     });
     this.gmHaal(G.belastingUrl(c.code)).then(d => { const l = d ? G.leesBelasting(d) : null; zet("belasting", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
@@ -4704,8 +4707,9 @@ class Component extends DCLogic {
       kaart("risico", "Risico's", val("risico"), {
         fout:"Risicodata momenteel niet beschikbaar.", leeg:"Geen risicogegevens gevonden voor deze gemeente.",
         regels: adresRegels.concat(gemRegels),
-        notitie: a ? "Overstroming, bodembeweging en holle ruimten gelden binnen " + km + " van het punt: dat betekent niet dat het pand zelf getroffen wordt. Kleigrond en aardbevingszone gelden voor het punt zelf. De volledige kaart staat op Géorisques."
-          : "Dit is de lijst van de gemeente. Vul hierboven uw adres in voor kleigrond, overstroming en meer op uw eigen adres.",
+        notitie: (a ? "Overstroming, bodembeweging en holle ruimten gelden binnen " + km + " van het punt: dat betekent niet dat het pand zelf getroffen wordt. Kleigrond en aardbevingszone gelden voor het punt zelf. De volledige kaart staat op Géorisques."
+          : "Dit is de lijst van de gemeente. Vul hierboven uw adres in voor kleigrond, overstroming en meer op uw eigen adres.")
+          + (r.ontbreekt && r.ontbreekt.length ? " Niet opgehaald (bron tijdelijk niet bereikbaar): " + r.ontbreekt.join(", ") + "." : ""),
         links:[link(L.georisques, "Volledige risicokaart (Géorisques) ↗")], bron:"Bron: Géorisques, Licence Ouverte (Etalab 2.0)"}),
       kaart("belasting", "Belasting op uw huis", val("belasting"), {
         fout:"Belastingtarieven momenteel niet beschikbaar.", leeg:"Geen tarieven gevonden voor deze gemeente in het bestand.",
