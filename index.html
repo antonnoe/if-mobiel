@@ -4591,7 +4591,7 @@ class Component extends DCLogic {
   // Mijn gemeente (gemeente-lib.js): één zoekveld voor een postcode of een exact adres, of de locatie. Elke kaart haalt zijn eigen bron
   // op en meldt zijn eigen uitval ("... momenteel niet beschikbaar"), de rest blijft werken. Met een adres of locatie krijgen de risico's
   // een tweede laag: kleigrond, overstroming, bodembeweging en holle ruimten op dat punt (Géorisques, per coördinaat).
-  gmHaal(url){
+  gmHaal(url, opt){
     this._gmCache = this._gmCache || {};
     if (this._gmCache[url]) return this._gmCache[url];
     // Eén poging met eigen time-out; een mislukte aanvraag wordt na een korte pauze één keer herhaald (Géorisques is wisselvallig).
@@ -4602,7 +4602,7 @@ class Component extends DCLogic {
         .then(r => r.ok ? r.json() : null).catch(() => null)
         .then(d => { if (timer) clearTimeout(timer); return d; });
     };
-    const p = poging().then(d => d !== null ? d : new Promise(klaar => setTimeout(klaar, 1200)).then(poging));
+    const p = poging().then(d => d !== null || (opt && opt.herhaal === false) ? d : new Promise(klaar => setTimeout(klaar, 1200)).then(poging));
     this._gmCache[url] = p;
     p.then(d => { if (d === null) delete this._gmCache[url]; });
     return p;
@@ -4653,7 +4653,7 @@ class Component extends DCLogic {
     const zet = (sleutel, d) => { if (this._gmTeller.actueel(tok)) this.setState(prev => ({gm: Object.assign({}, prev.gm, {kaarten: Object.assign({}, prev.gm.kaarten, {[sleutel]: d})})})); };
     const u = G.risicoUrls(c.code), au = c.adres ? G.adresRisicoUrls(c.lat, c.lon) : null;
     const urls = [u.risques, u.catnat, u.radon, u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
-    Promise.all(urls.map(x => this.gmHaal(x))).then(r => {
+    Promise.all(urls.map((x, i) => this.gmHaal(x, i === 1 || i === 2 ? {herhaal:false} : undefined))).then(r => {
       if (r.every(x => x === null)) return zet("risico", {s:"fout"});
       const l = G.leesRisico({risques:r[0], catnat:r[1], radon:r[2], sismique:r[3],
         adres: au ? {rga:r[4], azi:r[5], tri:r[6], mvt:r[7], cavites:r[8], sismique:r[9]} : null});
@@ -4725,7 +4725,7 @@ class Component extends DCLogic {
         regels: adresRegels.concat(gemRegels),
         notitie: (a ? "Overstroming, bodembeweging en holle ruimten gelden binnen " + km + " van het punt: dat betekent niet dat het pand zelf getroffen wordt. Kleigrond en aardbevingszone gelden voor het punt zelf. De volledige kaart staat op Géorisques."
           : "Dit is de lijst van de gemeente. Vul hierboven uw adres in voor kleigrond, overstroming en meer op uw eigen adres.")
-          + (r.ontbreekt && r.ontbreekt.length ? " Niet opgehaald (bron tijdelijk niet bereikbaar): " + r.ontbreekt.join(", ") + "." : ""),
+          + (r.ontbreekt && r.ontbreekt.length ? " Niet opgehaald: " + r.ontbreekt.join(", ") + ". Géorisques weigert sommige aanvragen vanuit een browser (natuurrampbesluiten en radon); die staan wel op de Géorisques-kaart." : ""),
         links:[link(L.georisques, "Volledige risicokaart (Géorisques) ↗")], bron:"Bron: Géorisques, Licence Ouverte (Etalab 2.0)"}),
       kaart("belasting", "Belasting op uw huis", val("belasting"), {
         fout:"Belastingtarieven momenteel niet beschikbaar.", leeg:"Geen tarieven gevonden voor deze gemeente in het bestand.",
