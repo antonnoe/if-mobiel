@@ -259,7 +259,10 @@ export function startPiramide(wortel, C) {
       }
       if (extra && bron) {
         g.font = `600 ${fsm}px ${TEKSTFONT}`;
-        const bl = wrap(g, bron, wAt(H * 0.86) * 0.60).slice(0, 2);
+        // tot drie regels; past de bron daar niet in, dan geeft deze poging op
+        // (kleinere letters of minder uitleg) in plaats van het slot af te kappen
+        const bl = wrap(g, bron, wAt(H * 0.86) * 0.60);
+        if (bl.length > 3) return null;
         if (bl.length) rij.push({ soort: 'lucht', fs: 0, h: fsm * 0.9 });
         bl.forEach(ln => rij.push({ soort: 'bron', fs: fsm, h: fsm * 1.4, txt: ln }));
       }
@@ -395,7 +398,7 @@ export function startPiramide(wortel, C) {
       m.name = 'vlak_' + 'ABCD'[i] + (vak.idx + 1);
       m.rotation.y = i * Math.PI / 2;
       m.userData = {
-        naam: z.naam + ' — ' + b.naam,
+        naam: z.naam + ': ' + b.naam,
         tekst: b.omschrijving,
         detail: (b.waarom ? b.waarom + '\n\n' : '') + b.omschrijving,
         soort: (b.merk ? b.merk + ' · ' : '') + 'band op zijvlak ' + z.naam,
@@ -846,7 +849,7 @@ export function startPiramide(wortel, C) {
     naar(0.42, 1.46, P_RING(v), fracY((v.fTop + v.fBot) / 2));
     opendetail({
       naam: b.naam,
-      soort: 'Stap ' + (opbouwStap + 1) + ' van ' + OPBOUW_ORDE.length + ' — ' + (OPB.kop || 'opbouw'),
+      soort: 'Stap ' + (opbouwStap + 1) + ' van ' + OPBOUW_ORDE.length + ': ' + (OPB.kop || 'opbouw'),
       detail: (b.waarom || '') + (b.omschrijving ? '\n\n' + b.omschrijving : ''),
       kleur: BORDEAUX
     });
@@ -856,6 +859,10 @@ export function startPiramide(wortel, C) {
 
   /* ---------- knoppen ---------- */
   const balk = wortel.querySelector('#pir-balk');
+  // vervagende rechterrand zolang de knoppenrij nog verder scrolt (zie opmaak.js, data-meer)
+  const zetMeer = () => balk.setAttribute('data-meer', balk.scrollLeft + balk.clientWidth < balk.scrollWidth - 4 ? '1' : '0');
+  balk.addEventListener('scroll', zetMeer, { passive: true });
+  window.addEventListener('resize', zetMeer);
   function knop(tekst, fn, klasse) {
     const b = document.createElement('button');
     b.textContent = tekst; if (klasse) b.className = klasse;
@@ -901,6 +908,7 @@ export function startPiramide(wortel, C) {
     a.click();
   });
 
+  requestAnimationFrame(zetMeer); setTimeout(zetMeer, 600);
   wortel.querySelector('#pir-kop-titel').textContent = C.TITEL;
   wortel.querySelector('#pir-kop-onder').textContent = C.ONDERTITEL;
   wortel.querySelector('#pir-kop-regel').textContent = C.PUNT.regel || '';

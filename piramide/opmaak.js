@@ -55,6 +55,12 @@ export const OPMAAK = `
     background: linear-gradient(to top, rgba(241,237,232,.96), rgba(241,237,232,0));
   }
 #pir-wrap #pir-balk::-webkit-scrollbar { display: none; }
+/* Scrolt de rij nog door naar rechts (data-meer, gezet in scene.js), dan vervaagt de rechterrand
+   zodat zichtbaar is dat er meer knoppen komen. */
+#pir-wrap #pir-balk[data-meer="1"] {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 44px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 44px), transparent);
+  }
 #pir-wrap button {
     font-family: "Mulish", system-ui, sans-serif; font-size: 12px; font-weight: 600;
     letter-spacing: .06em; text-transform: uppercase; line-height: 1;

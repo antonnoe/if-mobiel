@@ -1,6 +1,6 @@
 {
   "TITEL": "Kennispiramide",
-  "ONDERTITEL": "ordeningsmodel — werkversie",
+  "ONDERTITEL": "ordeningsmodel, werkversie",
   "ZIJDEN": [
     {
       "naam": "MIGREREN",
@@ -31,7 +31,7 @@
       "merk": "MENSENWERK",
       "bron": "Uitwisseling in het forum van Nederlanders.fr: kennis, ervaring, gevoel, instinct.",
       "waarom": "Wie het zelf heeft gedaan weet wat er niet in de wettekst staat. Ervaring rust op de kennis eronder, corrigeert haar waar de praktijk afwijkt, en is de enige laag die geen techniek kan namaken. Daarom is dit de grootste band, en staat hij bovenaan.",
-      "omschrijving": "Het meest waardevolle: ervaring, en de uitwisseling daarvan tussen mensen. Dat gebeurt in het forum van Nederlanders.fr, waar sinds 2002 duizenden Frankrijkgangers een veilige omgeving vinden om kennis en ervaring te delen. Validatie ontstaat door herhaling: één melding is een anekdote, twintig meldingen zijn een patroon. AI, strak gekaderde zoek- en filteralgoritmen, API-koppelingen en gedisciplineerde bronselectie brengen de feiten boven tafel — deze laag maken ze niet na."
+      "omschrijving": "Het meest waardevolle: ervaring, en de uitwisseling daarvan tussen mensen. Dat gebeurt in het forum van Nederlanders.fr, waar sinds 2002 duizenden Frankrijkgangers een veilige omgeving vinden om kennis en ervaring te delen. Validatie ontstaat door herhaling: één melding is een anekdote, twintig meldingen zijn een patroon. AI, strak gekaderde zoek- en filteralgoritmen, API-koppelingen en gedisciplineerde bronselectie brengen de feiten boven tafel, deze laag maken ze niet na."
     },
     {
       "naam": "KENNIS",
@@ -40,16 +40,16 @@
       "merk": "MENS MET AI-ONDERSTEUNING",
       "bron": "Gevalideerde dossiers als input, de mens als eindredactie.",
       "waarom": "Een vraag maakt van data kennis. Hier komt de context erbij: voor wie geldt dit, per wanneer, en met welke uitzondering. Deze laag kan niet bestaan zonder de data eronder, en blijft leeg zolang niemand iets vraagt.",
-      "omschrijving": "Een gevalideerd en contextgerelateerd antwoord op een gestelde vraag, niet minder en zeker niet meer. Hier wonen de AI-agents en de zware geactualiseerde dossiers met AI-modules — altijd op gevalideerde bronnen, nooit AI-only."
+      "omschrijving": "Een gevalideerd en contextgerelateerd antwoord op een gestelde vraag, niet minder en zeker niet meer. Hier wonen de AI-agents en de zware geactualiseerde dossiers met AI-modules, altijd op gevalideerde bronnen, nooit AI-only."
     },
     {
       "naam": "DATA",
       "procent": 20,
       "verzadiging": 40,
       "merk": "TECHNIEK, DOOR MENS GEVALIDEERD",
-      "bron": "Data verzinnen we niet zelf: rang AAA, AA, A — anders niet.",
+      "bron": "Data verzinnen we niet zelf: alleen rang AAA, AA of A.",
       "waarom": "Zonder feiten is er niets om over te praten. Data is de bodem: navolgbaar, herleidbaar tot een bron met een rang. Smal van betekenis, maar draagt alles wat erboven staat. Wie hier iets verzint, laat de hele piramide verzakken.",
-      "omschrijving": "Zoek-agents die uitsluitend in gevalideerde bronnen zoeken, en registers met gevalideerde adresgegevens. Elke bron heeft een rang, van AAA (de wettekst zelf) tot A (redactioneel betrouwbaar); wat geen rang heeft komt er niet in. Levert informatie, geen kennis: de vraag en de context ontbreken."
+      "omschrijving": "Zoek-agents die uitsluitend in gevalideerde bronnen zoeken, en registers met gevalideerde adresgegevens. Elke bron heeft een rang, van AAA (de wettekst zelf) tot A (redactioneel betrouwbaar); wat geen rang heeft komt er niet in. Data levert informatie, nog geen kennis: pas met een vraag en de juiste context wordt het bruikbaar."
     }
   ],
   "PUNT": {
@@ -135,7 +135,7 @@
       "linktekst": ""
     },
     "Ondernemen": {
-      "tekst": "Eigen zaak: rechtsvorm, inschrijving, afdrachten en administratie. Hieronder valt ook de toerismesector — gasten ontvangen als beroep, met eigen verplichtingen en een eigen belastingregime.",
+      "tekst": "Eigen zaak: rechtsvorm, inschrijving, afdrachten en administratie. Hieronder valt ook de toerismesector, gasten ontvangen als beroep, met eigen verplichtingen en een eigen belastingregime.",
       "link": "",
       "linktekst": ""
     },
@@ -209,5 +209,5 @@
   ],
   "BRONNEN_NAAM": "BRONNEN",
   "BRONNEN_KOP": "Rangorde van bronnen",
-  "BRONNEN_INTRO": "Data verzinnen we niet zelf; die komt uit geselecteerde bronnen. De rang bepaalt wat een bron mag dragen: hoe hoger, hoe zwaarder hij weegt. Wat geen rang heeft — fora elders, sociale media, AI-uitvoer zonder bron — komt er niet in."
+  "BRONNEN_INTRO": "Data verzinnen we niet zelf; die komt uit geselecteerde bronnen. De rang bepaalt wat een bron mag dragen: hoe hoger, hoe zwaarder hij weegt. Wat geen rang heeft, zoals fora elders, sociale media en AI-uitvoer zonder bron, komt er niet in."
 }

@@ -214,28 +214,37 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <span style="font:600 14.5px Mulish;color:#71787C">Zoek in modules, berichten en woorden</span>
       </button>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:18px 16px 0">
-      <sc-for list="{{ hubTegels }}" as="t" hint-placeholder-count="9">
-      <button onClick="{{ t.open }}" aria-label="{{ t.naam }}" style="min-height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:12px 6px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;cursor:pointer">
-        <span style="{{ t.cirkelStyle }}"><span style="{{ t.icoStyle }}"></span></span>
-        <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:14px;line-height:1.15;color:#15181A">{{ t.naam }}</span>
+    <div style="padding:20px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Onze vier</div>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:8px 16px 0">
+      <sc-for list="{{ hubVier }}" as="v" hint-placeholder-count="4">
+      <button onClick="{{ v.open }}" aria-label="{{ v.aria }}" style="min-height:112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:9px;text-align:left;background:#fff;border:1.5px solid #800000;border-radius:16px;padding:13px;cursor:pointer">
+        <span style="{{ vierCirkelStyle }}"><span style="{{ v.icoStyle }}"></span></span>
+        <span style="line-height:1.25;min-width:0;overflow-wrap:anywhere">
+          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">{{ v.naam }}</b>
+          <span style="display:block;font:500 12px/1.35 Mulish;color:#3D4346;margin-top:2px">{{ v.regel }}</span>
+        </span>
       </button>
       </sc-for>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px 16px 0">
-      <button onClick="{{ openAiTools }}" style="min-height:112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:13px;cursor:pointer">
-        <span style="{{ aiCirkelStyle }}"><span style="{{ aiIcoStyle }}"></span></span>
-        <span style="line-height:1.25">
-          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">AI-tools</b>
-          <span style="display:block;font:500 12px/1.35 Mulish;color:#3D4346;margin-top:2px">Hulp bij uw vragen</span>
-        </span>
+    <div style="padding:20px 18px 0;font:600 12px Mulish;letter-spacing:.10em;color:#71787C">Of kies een onderwerp</div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:8px 16px 0">
+      <sc-for list="{{ hubTegels }}" as="t" hint-placeholder-count="9">
+      <button onClick="{{ t.open }}" aria-label="{{ t.naam }}" style="min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px 4px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;cursor:pointer">
+        <span style="{{ t.cirkelStyle }}"><span style="{{ t.icoStyle }}"></span></span>
+        <span style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:11.5px;line-height:1.15;color:#15181A;overflow-wrap:anywhere">{{ t.naam }}</span>
       </button>
-      <button onClick="{{ openDossierDemo }}" style="min-height:112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:13px;cursor:pointer">
-        <span style="{{ aiCirkelStyle }}"><span style="{{ slotIcoStyle }}"></span></span>
-        <span style="line-height:1.25">
-          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">Mijn dossier</b>
-          <span style="display:block;font:500 12px/1.35 Mulish;color:#3D4346;margin-top:2px">Voor abonnees, bekijk het voorbeeld</span>
-        </span>
+      </sc-for>
+    </div>
+    <div style="padding:14px 16px 0;display:grid;gap:8px">
+      <button onClick="{{ openDossierDemo }}" style="width:100%;min-height:48px;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:.5px solid rgba(21,24,26,.25);border-radius:12px;padding:8px 14px;cursor:pointer">
+        <span style="{{ rijIcoStyleNavy }}"></span>
+        <span style="flex:1;min-width:0;font:600 13px/1.3 Mulish;color:#15181A;overflow-wrap:anywhere">DossierFrankrijk, uw eigen dossier voor abonnees</span>
+        <span aria-hidden="true" style="font:700 14px Mulish;color:#15213A">→</span>
+      </button>
+      <button onClick="{{ openAiTools }}" style="width:100%;min-height:48px;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:.5px solid rgba(21,24,26,.25);border-radius:12px;padding:8px 14px;cursor:pointer">
+        <span style="{{ rijIcoStyleAi }}"></span>
+        <span style="flex:1;min-width:0;font:600 13px/1.3 Mulish;color:#15181A;overflow-wrap:anywhere">AI-tools, hulp bij uw vragen</span>
+        <span aria-hidden="true" style="font:700 14px Mulish;color:#15213A">→</span>
       </button>
     </div>
     <div style="padding:10px 16px 0">
@@ -2781,12 +2790,14 @@ const THEMA_ICONS = {
   gzapotheek: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M12 8v8M8 12h8"/>',
   gzouder: '<circle cx="12" cy="7" r="3"/><path d="M6 21v-3a6 6 0 0 1 12 0v3M17 11l2 2"/>',
   gzwoorden: '<path d="M4 5h9a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M16 8h4v11h-4"/>',
+  infofr: '<path d="M4 5h9a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M16 8h4v11h-4M7 9h5M7 12h5"/>',
+  cafe: '<path d="M5 9h11v6a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><path d="M16 10h1.500a2.500 2.500 0 0 1 0 5H16M8 3v3M12 3v3"/>',
   slot: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
 };
-function themaIcoStijl(id, kleur){
+function themaIcoStijl(id, kleur, maat){
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (THEMA_ICONS[id] || THEMA_ICONS.wonen) + '</svg>';
   const url = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
-  return "display:block;flex:none;width:26px;height:26px;background-color:" + (kleur || "#800000") + ";-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
+  return "display:block;flex:none;width:" + (maat || 26) + "px;height:" + (maat || 26) + "px;background-color:" + (kleur || "#800000") + ";-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat";
 }
 
 function cirkelStijl(tint, maat){
@@ -3849,6 +3860,17 @@ class Component extends DCLogic {
     this.setState({screen:"regio", from:"hub", q:"", tool:null});
   }
   // KOPPELVLAK AI-TOOLS: state.screen "aitools"; de AI-tools-bouwer vervangt het stub-blok in de template.
+  // "Onze vier" op de hub. Bestemmingen: forum (scherm gem), Café Claude en Nedergids (hun module),
+  // Infofrankrijk: het Nieuws-scherm gefilterd op de tegel infofrankrijk (artikelen openen in de app).
+  hubVierLijst(){
+    const vier = [
+      {naam:"Nederlanders.fr", regel:"Het forum, sinds 2002", icoon:"ervaring", open:() => this.go("gem")},
+      {naam:"Infofrankrijk", regel:"Dossiers en gidsen, sinds 2001", icoon:"infofr", open:() => { this.go("nieuws"); this.setState({nwFilter:"infofrankrijk"}); }},
+      {naam:"Café Claude", regel:"Kort antwoord, volledige onderbouwing", icoon:"cafe", open:() => this.route(this.vindModule("cafeclaude"))},
+      {naam:"Nedergids", regel:"Particulieren en dienstverleners", icoon:"adressen", open:() => this.route(this.vindModule("nedergids"))}
+    ];
+    return vier.map(v => ({naam:v.naam, regel:v.regel, aria:v.naam + ", " + v.regel, icoStyle:themaIcoStijl(v.icoon, "#fff", 26), open:v.open}));
+  }
   openAiTools(){ this.setState({screen:"aitools", from:"hub", q:"", tool:null}); }
   // ---- Artikelscherm (besluit 7): Infofrankrijk-artikelen in de app --------------------------------
   // openInfoArtikel(url) is de ene ingang. Een URL die geen artikel van infofrankrijk.com is
@@ -5301,7 +5323,10 @@ class Component extends DCLogic {
       hubToontTegels: st.screen === "hub",
       isModScreen: st.screen === "mod",
       hubTegels: this.themaList().map(t => { const k = HubLib.themaKleur(t);
-        return {naam:t.naam, icoStyle:themaIcoStijl(t.id, k.kleur), cirkelStyle:cirkelStijl(k.tint), open:() => this.openThema(t)}; }),
+        return {naam:t.naam, icoStyle:themaIcoStijl(t.id, k.kleur, 28), cirkelStyle:cirkelStijl(k.tint, 40), open:() => this.openThema(t)}; }),
+      hubVier: this.hubVierLijst(),
+      vierCirkelStyle: cirkelStijl("#800000", 44),
+      rijIcoStyleNavy: themaIcoStijl("slot", "#15213A", 20), rijIcoStyleAi: themaIcoStijl("ai", "#15213A", 20),
       openAiTools: () => this.openAiTools(),
       openDossierDemo: () => this.openDossierDemo(),
       aiCirkelStyle: cirkelStijl("rgba(128,0,0,.08)", 44),
