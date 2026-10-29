@@ -73,7 +73,8 @@
     if (kl !== null && kl >= 1 && kl <= 3) uit.radon = kl;
     var zs = eerste(r.sismique);
     if (zs && tekst(zs.zone_sismicite)) uit.zone = tekst(zs.zone_sismicite);
-    uit.ok = uit.lijst.length > 0 || uit.catnat !== null || uit.radon !== null || !!uit.zone;
+    uit.adres = r.adres ? leesAdresRisico(r.adres) : null;
+    uit.ok = uit.lijst.length > 0 || uit.catnat !== null || uit.radon !== null || !!uit.zone || !!(uit.adres && uit.adres.ok);
     return uit;
   }
 
@@ -129,7 +130,66 @@
   function dvfKaartUrl(lat, lon) { return kaartLink(LINKS.dvfKaart, lat, lon, function (a, o) { return "onglet=carte&lat=" + a + "&lon=" + o + "&zoom=14"; }); }
   function arcepUrl(lat, lon) { return kaartLink(LINKS.arcepFix, lat, lon, function (a, o) { return "lat=" + a + "&lng=" + o + "&zoom=14"; }); }
 
-  var api = { LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes,
+
+  // ---- zoeken op exact adres (Géoplateforme, CORS *) en Géorisques per punt (coördinaten als lon,lat)
+  var GEOCODE = "https://data.geopf.fr/geocodage/search";
+  var RAYON = 500; // meter rondom het adres voor overstroming, bodembeweging en holle ruimten
+  function adresUrl(zoek) {
+    zoek = tekst(zoek);
+    return zoek.length >= 4 ? GEOCODE + "?q=" + q(zoek) + "&limit=5" : "";
+  }
+  function leesAdressen(data) {
+    if (!data || !Array.isArray(data.features)) return [];
+    var uit = [];
+    data.features.forEach(function (f) {
+      var p = f && f.properties, g = f && f.geometry && Array.isArray(f.geometry.coordinates) ? f.geometry.coordinates : [];
+      var code = p ? tekst(p.citycode) : "", lon = getal(g[0]), lat = getal(g[1]);
+      if (!p || !tekst(p.label) || !codeOk(code) || lon === null || lat === null) return;
+      var dep = tekst(p.context).split(",")[0].trim() || (/^9[78]/.test(code) ? code.slice(0, 3) : code.slice(0, 2));
+      uit.push({ label: tekst(p.label), code: code, nom: tekst(p.city) || tekst(p.label), dep: dep, pc: tekst(p.postcode), lon: lon, lat: lat });
+    });
+    return uit;
+  }
+  function adresRisicoUrls(lat, lon) {
+    if (typeof lat !== "number" || typeof lon !== "number" || !isFinite(lat) || !isFinite(lon)) return null;
+    var ll = "latlon=" + q(lon.toFixed(5) + "," + lat.toFixed(5)), r = "&rayon=" + RAYON;
+    return { rga: GEORISQUES + "/rga?" + ll, azi: GEORISQUES + "/gaspar/azi?" + ll + r, tri: GEORISQUES + "/gaspar/tri?" + ll + r,
+      mvt: GEORISQUES + "/mvt?" + ll + r, cavites: GEORISQUES + "/cavites?" + ll + r, sismique: GEORISQUES + "/zonage_sismique?" + ll };
+  }
+  function namen(json, veld) {
+    var gezien = {}, uit = [];
+    ((json && Array.isArray(json.data)) ? json.data : []).forEach(function (d) {
+      var t = d && tekst(d[veld]); if (t && !gezien[t]) { gezien[t] = 1; uit.push(t); }
+    });
+    return uit;
+  }
+  var KLEIGROND = { 1: "Laag", 2: "Matig", 3: "Hoog" };
+  // r = {rga, azi, tri, mvt, cavites, sismique}: de ruwe antwoorden, null waar de aanvraag mislukte of leeg was.
+  function leesAdresRisico(r) {
+    r = r || {};
+    var uit = { kleigrond: null, azi: [], tri: [], mvt: [], cavites: null, zone: "", ok: false, aziOk: false, triOk: false, mvtOk: false };
+    var cx = r.rga ? getal(r.rga.codeExposition) : null, ex = r.rga ? tekst(r.rga.exposition) : "";
+    if (cx !== null && KLEIGROND[cx]) uit.kleigrond = KLEIGROND[cx] + (ex ? " (" + ex + ")" : "");
+    else if (ex) uit.kleigrond = ex;
+    uit.azi = namen(r.azi, "libelle_azi"); uit.tri = namen(r.tri, "libelle_tri");
+    uit.aziOk = !!(r.azi && Array.isArray(r.azi.data)); uit.triOk = !!(r.tri && Array.isArray(r.tri.data)); uit.mvtOk = !!(r.mvt && Array.isArray(r.mvt.data));
+    var mv = r.mvt && Array.isArray(r.mvt.data) ? r.mvt.data : [];
+    mv.forEach(function (m) { if (m && tekst(m.type)) uit.mvt.push({ type: tekst(m.type), lieu: tekst(m.lieu), jaar: /^\d{4}/.test(tekst(m.date_debut)) ? tekst(m.date_debut).slice(0, 4) : "" }); });
+    if (r.cavites && typeof r.cavites.results === "number") uit.cavites = r.cavites.results;
+    var zs = eerste(r.sismique); if (zs && tekst(zs.zone_sismicite)) uit.zone = tekst(zs.zone_sismicite);
+    uit.ok = !!(uit.kleigrond || uit.azi.length || uit.tri.length || uit.mvt.length || uit.cavites !== null || uit.zone);
+    return uit;
+  }
+
+  // Indicatie taxe foncière: de grondslag is de helft van de cadastrale huurwaarde (service-public.fr, F59), maal het tarief
+  // van de gemeente. Geen bedrag zonder die waarde: die staat op de aanslag, er is geen open bron per woning.
+  function tfIndicatie(vlc, tarief) {
+    var v = getal(String(vlc).replace(/\s/g, "").replace(",", ".")), t = getal(tarief);
+    if (v === null || t === null || v <= 0 || v > 1000000 || t <= 0) return null;
+    return Math.round(v * 0.5 * t / 100);
+  }
+
+  var api = { LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
     leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvf: leesDvf, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl };
   root.IfGem = api;

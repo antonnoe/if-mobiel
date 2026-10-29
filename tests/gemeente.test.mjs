@@ -62,3 +62,37 @@ test("DVF: alleen een telling uit count, anders null (de kaart meldt dan dat DVF
   assert.equal(G.dvfKaartUrl(null, null), "https://explore.data.gouv.fr/immobilier");
   assert.equal(G.arcepUrl(44.8584, 1.2155), "https://maconnexioninternet.arcep.fr/?lat=44.85840&lng=1.21550&zoom=14");
 });
+
+test("adres: Géoplateforme-zoek, coördinaten lon,lat, onbruikbare treffers vallen af", () => {
+  assert.equal(G.adresUrl("ab"), ""); const u = new URL(G.adresUrl("16 rue rose goudard 84800"));
+  assert.equal(u.origin + u.pathname, "https://data.geopf.fr/geocodage/search"); assert.equal(u.searchParams.get("limit"), "5");
+  const l = G.leesAdressen({ features: [{ geometry: { coordinates: [5.053056, 43.918798] }, properties: { label: "16 Rue Rose Goudard 84800 L'Isle-sur-la-Sorgue", citycode: "84054", city: "L'Isle-sur-la-Sorgue", postcode: "84800", context: "84, Vaucluse, Provence-Alpes-Côte d'Azur" } },
+    { geometry: { coordinates: [1, 2] }, properties: { label: "Zonder code" } }, null] });
+  assert.equal(l.length, 1); assert.deepEqual([l[0].code, l[0].dep, l[0].lat, l[0].lon, l[0].pc], ["84054", "84", 43.918798, 5.053056, "84800"]);
+  assert.deepEqual(G.leesAdressen({}), []);
+});
+
+test("adresRisicoUrls: lon,lat, rayon 500 m, zes eindpunten", () => {
+  const u = G.adresRisicoUrls(44.8517, 0.4833);
+  assert.equal(u.rga, "https://georisques.gouv.fr/api/v1/rga?latlon=0.48330%2C44.85170");
+  assert.ok(u.azi.endsWith("&rayon=500") && u.tri.includes("/gaspar/tri?") && u.mvt.includes("/mvt?") && u.cavites.includes("/cavites?") && u.sismique.includes("/zonage_sismique?latlon="));
+  assert.equal(G.adresRisicoUrls(NaN, 1), null);
+});
+
+test("leesAdresRisico: kleigrond, overstromingsgebieden, bodembeweging, holle ruimten en zone op het adres (vormen van Bergerac)", () => {
+  const a = G.leesAdresRisico({ rga: { codeExposition: "2", exposition: "Exposition moyenne" },
+    azi: { data: [{ libelle_azi: "La Dordogne du conflent du Couzeau au confluent du Caudeau" }, { libelle_azi: "Le Caudeau de sa source au confluent de la Dordogne" }] },
+    tri: { data: [{ libelle_tri: "BERGERAC" }] }, mvt: { results: 1, data: [{ type: "Erosion de berges", lieu: "Ile de la Pelouse", date_debut: "2006-06-01" }] },
+    cavites: { results: 0, data: [] }, sismique: { data: [{ zone_sismicite: "1 - TRES FAIBLE" }] } });
+  assert.equal(a.kleigrond, "Matig (Exposition moyenne)"); assert.equal(a.azi.length, 2); assert.deepEqual(a.tri, ["BERGERAC"]);
+  assert.deepEqual(a.mvt, [{ type: "Erosion de berges", lieu: "Ile de la Pelouse", jaar: "2006" }]); assert.equal(a.cavites, 0); assert.equal(a.zone, "1 - TRES FAIBLE"); assert.equal(a.ok, true);
+  assert.equal(G.leesAdresRisico({}).ok, false); assert.equal(G.leesAdresRisico({ rga: {} }).kleigrond, null);
+  const r = G.leesRisico({ risques: null, catnat: { results: 3 }, adres: { rga: { codeExposition: "3", exposition: "Exposition forte" } } });
+  assert.equal(r.ok, true); assert.equal(r.adres.kleigrond, "Hoog (Exposition forte)");
+});
+
+test("tfIndicatie: de helft van de cadastrale huurwaarde maal het tarief, geen bedrag zonder waarde", () => {
+  assert.equal(G.tfIndicatie(3000, 64.88), 973); assert.equal(G.tfIndicatie("3 000,50", 64.88), 973);
+  for (const v of ["", "abc", 0, -5, 5000000]) assert.equal(G.tfIndicatie(v, 64.88), null);
+  assert.equal(G.tfIndicatie(3000, null), null);
+});

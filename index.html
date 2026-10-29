@@ -2505,14 +2505,15 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isGemeente }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:16px 16px 0">
-    <p style="margin:0;font:400 15.5px Mulish;line-height:1.6;color:#15181A;text-wrap:pretty">Wat de Franse overheid openbaar publiceert over uw gemeente: risico's, belasting, de mairie en meer. Elke kaart noemt zijn bron. Valt een bron uit, dan staat dat erbij.</p>
+    <p style="margin:0;font:400 15.5px Mulish;line-height:1.6;color:#15181A;text-wrap:pretty">Wat de Franse overheid openbaar publiceert over uw gemeente en uw adres: risico's, belasting, de mairie en meer. Elke kaart noemt zijn bron. Valt een bron uit, dan staat dat erbij.</p>
     <form onSubmit="{{ gmVerstuur }}" style="margin-top:14px;display:flex;gap:8px">
-      <input value="{{ gmPc }}" onInput="{{ gmOnPc }}" inputmode="numeric" autocomplete="postal-code" placeholder="Postcode, bijv. 24100" aria-label="Postcode" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:700 17px Mulish;color:#15181A;background:#fff">
+      <input value="{{ gmPc }}" onInput="{{ gmOnPc }}" autocomplete="street-address" placeholder="Adres of postcode" aria-label="Adres of postcode" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#fff">
       <button type="submit" style="flex:none;min-height:52px;padding:0 18px;border:0;border-radius:13px;background:{{ gmKnopBg }};color:{{ gmKnopFg }};font:700 15px Mulish;cursor:pointer">Zoek</button>
     </form>
     <button onClick="{{ gmGeoKlik }}" style="margin-top:8px;width:100%;min-height:48px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14.5px Mulish;cursor:pointer">{{ gmGeoTekst }}</button>
     <sc-if value="{{ gmHeeftGeoMelding }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0;font:600 13px/1.6 Mulish;color:#3D4346">{{ gmGeoMelding }}</p></sc-if>
   </div>
+  <sc-if value="{{ gmKort }}" hint-placeholder-val="{{ false }}"><div style="margin:14px 16px 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Vul een postcode of een adres in (minstens 4 tekens).</div></sc-if>
   <sc-if value="{{ gmZoekt }}" hint-placeholder-val="{{ false }}"><div style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#71787C">Gemeente wordt opgezocht...</div></sc-if>
   <sc-if value="{{ gmGeen }}" hint-placeholder-val="{{ false }}"><div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);font:600 14.5px/1.6 Mulish;color:#15181A">{{ gmGeenTekst }}</div></sc-if>
   <sc-if value="{{ gmFout }}" hint-placeholder-val="{{ false }}">
@@ -2523,7 +2524,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </sc-if>
   <sc-if value="{{ gmKiezen }}" hint-placeholder-val="{{ false }}">
   <div style="padding:16px 16px 0">
-    <div style="font:600 14.5px/1.5 Mulish;color:#15181A">Bij deze postcode horen meerdere gemeenten. Welke bedoelt u?</div>
+    <div style="font:600 14.5px/1.5 Mulish;color:#15181A">{{ gmKiesTekst }}</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
       <sc-for list="{{ gmKeuzes }}" as="x" hint-placeholder-count="2">
       <button onClick="{{ x.open }}" style="text-align:left;min-height:56px;padding:10px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:14px;cursor:pointer"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;color:#15181A">{{ x.naam }}</span><span style="display:block;margin-top:2px;font:400 13px/1.4 Mulish;color:#71787C">{{ x.regel }}</span></button>
@@ -2532,7 +2533,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   </sc-if>
   <sc-if value="{{ gmKlaar }}" hint-placeholder-val="{{ false }}">
-  <div style="padding:18px 18px 0"><h2 style="margin:0;font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:24px;line-height:1.15;color:#15181A">{{ gmKop }}</h2></div>
+  <div style="padding:18px 18px 0"><h2 style="margin:0;font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:24px;line-height:1.15;color:#15181A">{{ gmKop }}</h2>
+    <sc-if value="{{ gmHeeftAdres }}" hint-placeholder-val="{{ false }}"><div style="margin-top:4px;font:600 13.5px/1.5 Mulish;color:#800000;overflow-wrap:anywhere">{{ gmAdresRegel }}</div></sc-if></div>
   <div style="display:flex;flex-direction:column;gap:12px;padding:12px 16px 0">
     <sc-for list="{{ gmKaarten }}" as="k" hint-placeholder-count="4">
     <div style="padding:15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px">
@@ -2548,6 +2550,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </div>
       </sc-if>
       <sc-if value="{{ k.heeftNotitie }}" hint-placeholder-val="{{ false }}"><p style="margin:10px 0 0;font:400 13px/1.6 Mulish;color:#3D4346;text-wrap:pretty">{{ k.notitie }}</p></sc-if>
+      <sc-if value="{{ k.heeftInvoer }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:10px">
+        <label style="display:block;font:700 13px/1.4 Mulish;color:#15181A">{{ k.invoerLabel }}</label>
+        <input value="{{ k.invoerWaarde }}" onInput="{{ k.onInvoer }}" inputmode="decimal" placeholder="bijv. 3000" aria-label="Cadastrale huurwaarde in euro" style="margin-top:6px;width:100%;box-sizing:border-box;min-height:48px;border:1px solid rgba(128,0,0,.25);border-radius:12px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#fff">
+        <sc-if value="{{ k.heeftUitkomst }}" hint-placeholder-val="{{ false }}"><div style="margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(21,24,26,.06);font:600 13.5px/1.55 Mulish;color:#15181A">{{ k.uitkomst }}</div></sc-if>
+      </div>
+      </sc-if>
       <sc-if value="{{ k.heeftLinks }}" hint-placeholder-val="{{ false }}">
       <div style="margin-top:6px;display:flex;flex-direction:column">
         <sc-for list="{{ k.links }}" as="l" hint-placeholder-count="1">
@@ -2559,7 +2568,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-for>
   </div>
-  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit zijn gegevens van de Franse overheid per gemeente, zonder oordeel van Infopoche. Uw locatie wordt alleen gebruikt als u op de knop tikt, eenmalig om een gemeente te vinden (via geo.api.gouv.fr), en wordt niet bewaard.</p>
+  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit zijn gegevens van de Franse overheid per gemeente, zonder oordeel van Infopoche. Een ingevuld adres gaat naar de Franse adreszoeker (data.geopf.fr) en daarna naar Géorisques. Uw locatie wordt alleen gebruikt als u op de knop tikt, eenmalig om een gemeente te vinden (via geo.api.gouv.fr) en de risico's op die plek op te vragen. Niets wordt bewaard.</p>
   </sc-if>
   <div style="height:26px"></div>
 </div>
@@ -3116,7 +3125,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, geoStatus:"", geoWaar:"", gm:{pc:"", status:"", communes:[], gemeente:null, kaarten:{}, zocht:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, geoStatus:"", geoWaar:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -4565,7 +4574,7 @@ class Component extends DCLogic {
           const g = HubLib.postcodeUitGeo(d);
           if (!g) return stop("nietfr");
           this.setState({geoStatus:"klaar", geoWaar:waar});
-          klaar(g.postcode, g.plaats, g);
+          klaar(g.postcode, g.plaats, g, pos.coords);
         })
         .catch(() => stop("fout"))
         .then(() => { if (timer) clearTimeout(timer); });
@@ -4579,8 +4588,9 @@ class Component extends DCLogic {
       nietfr:"Op uw locatie is geen Franse postcode gevonden. Vul de postcode zelf in.", tijd:"De locatie bepalen duurde te lang. Probeer het opnieuw of vul de postcode in.",
       fout:"De locatie kon niet worden omgezet in een postcode. Vul de postcode zelf in.", nietbeschikbaar:"Dit apparaat of deze browser geeft de locatie niet vrij. Vul de postcode zelf in."}[st.geoStatus] || "";
   }
-  // Mijn gemeente (gemeente-lib.js): de gemeente komt uit een postcode of uit de locatie, daarna haalt elke kaart zijn eigen bron
-  // op. Een bron die uitvalt meldt dat bij zijn eigen kaart ("... momenteel niet beschikbaar"), de rest blijft werken.
+  // Mijn gemeente (gemeente-lib.js): één zoekveld voor een postcode of een exact adres, of de locatie. Elke kaart haalt zijn eigen bron
+  // op en meldt zijn eigen uitval ("... momenteel niet beschikbaar"), de rest blijft werken. Met een adres of locatie krijgen de risico's
+  // een tweede laag: kleigrond, overstroming, bodembeweging en holle ruimten op dat punt (Géorisques, per coördinaat).
   gmHaal(url){
     this._gmCache = this._gmCache || {};
     if (this._gmCache[url]) return this._gmCache[url];
@@ -4599,32 +4609,50 @@ class Component extends DCLogic {
     this.setState({screen:"gemeente", menu:false, q:"", copied:null, tool:null, from:"nedergids", gm: Object.assign({}, gm, {pc: ok ? pc : (gm.pc || "")})});
     if (ok && !(gm.gemeente && gm.zocht === pc)) this.gmZoek(pc);
   }
-  gmZoek(pcArg){
-    const G = window.IfGem, Nv = window.IfNav, pc = pcArg || this.state.gm.pc;
-    if (!G || !Nv || !G.postcodeOk(pc)) return;
+  gmZoek(inv){
+    const G = window.IfGem, Nv = window.IfNav, zoek = String(inv != null ? inv : this.state.gm.pc || "").trim();
+    if (!G || !Nv) return;
     this._gmTeller = this._gmTeller || Nv.maakTeller();
     const tok = this._gmTeller.volgende();
-    this.gmSet({pc, status:"zoek", communes:[], gemeente:null, kaarten:{}, zocht:""});
-    this.gmHaal(G.communesUrl(pc)).then(d => {
+    const nul = {status:"zoek", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:zoek};
+    if (G.postcodeOk(zoek)) {
+      this.gmSet(Object.assign({pc:zoek}, nul));
+      this.gmHaal(G.communesUrl(zoek)).then(d => {
+        if (!this._gmTeller.actueel(tok)) return;
+        if (!d) return this.gmSet({status:"fout"});
+        const l = G.leesCommunes(d);
+        if (!l.length) return this.gmSet({status:"geen"});
+        if (l.length === 1) return this.gmKies(l[0], zoek);
+        this.gmSet({status:"kies", communes:l});
+      });
+      return;
+    }
+    const url = G.adresUrl(zoek);
+    if (!url) return this.gmSet(Object.assign({}, nul, {status:"kort"}));
+    this.gmSet(nul);
+    this.gmHaal(url).then(d => {
       if (!this._gmTeller.actueel(tok)) return;
       if (!d) return this.gmSet({status:"fout"});
-      const l = G.leesCommunes(d);
+      const l = G.leesAdressen(d);
       if (!l.length) return this.gmSet({status:"geen"});
-      if (l.length === 1) return this.gmKies(l[0], pc);
-      this.gmSet({status:"kies", communes:l, zocht:pc});
+      if (l.length === 1) return this.gmKiesAdres(l[0]);
+      this.gmSet({status:"adres", adressen:l});
     });
   }
+  gmKiesAdres(a){ this.gmKies({code:a.code, nom:a.nom, dep:a.dep, lat:a.lat, lon:a.lon, pop:0, adres:a.label}, a.pc); }
   gmKies(c, pc){
     const G = window.IfGem, Nv = window.IfNav;
     if (!G || !Nv || !c || !G.codeOk(c.code)) return;
     this._gmTeller = this._gmTeller || Nv.maakTeller();
     const tok = this._gmTeller.volgende();
-    this.gmSet({gemeente:c, status:"klaar", zocht: pc || this.state.gm.pc, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dvf:{s:"laden"}}});
+    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dvf:{s:"laden"}}});
     const zet = (sleutel, d) => { if (this._gmTeller.actueel(tok)) this.setState(prev => ({gm: Object.assign({}, prev.gm, {kaarten: Object.assign({}, prev.gm.kaarten, {[sleutel]: d})})})); };
-    const u = G.risicoUrls(c.code);
-    Promise.all([u.risques, u.catnat, u.radon, u.sismique].map(x => this.gmHaal(x))).then(r => {
+    const u = G.risicoUrls(c.code), au = c.adres ? G.adresRisicoUrls(c.lat, c.lon) : null;
+    const urls = [u.risques, u.catnat, u.radon, u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
+    Promise.all(urls.map(x => this.gmHaal(x))).then(r => {
       if (r.every(x => x === null)) return zet("risico", {s:"fout"});
-      const l = G.leesRisico({risques:r[0], catnat:r[1], radon:r[2], sismique:r[3]});
+      const l = G.leesRisico({risques:r[0], catnat:r[1], radon:r[2], sismique:r[3],
+        adres: au ? {rga:r[4], azi:r[5], tri:r[6], mvt:r[7], cavites:r[8], sismique:r[9]} : null});
       zet("risico", l.ok ? {s:"ok", d:l} : {s:"leeg"});
     });
     this.gmHaal(G.belastingUrl(c.code)).then(d => { const l = d ? G.leesBelasting(d) : null; zet("belasting", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
@@ -4638,27 +4666,48 @@ class Component extends DCLogic {
     const kaart = (id, titel, st, o) => {
       const regels = st === "ok" && o.regels ? o.regels : [];
       const links = st === "laden" ? [] : (o.links || []);
+      const notitie = st === "ok" || st === "statisch" ? (o.notitie || "") : "";
+      const inv = st === "ok" && o.invoer ? o.invoer : null;
       return {id, titel, laadt: st === "laden", fout: st === "fout", foutTekst: o.fout || "", leeg: st === "leeg", leegTekst: o.leeg || "",
-        ok: st === "ok" || st === "statisch", regels, heeftRegels: regels.length > 0, notitie: st === "ok" || st === "statisch" ? (o.notitie || "") : "",
-        heeftNotitie: !!((st === "ok" || st === "statisch") && o.notitie), links, heeftLinks: links.length > 0, bron: o.bron || ""};
+        regels, heeftRegels: regels.length > 0, notitie, heeftNotitie: !!notitie, links, heeftLinks: links.length > 0, bron: o.bron || "",
+        heeftInvoer: !!inv, invoerLabel: inv ? inv.label : "", invoerWaarde: inv ? inv.waarde : "", onInvoer: inv ? inv.op : () => {},
+        heeftUitkomst: !!(inv && inv.uitkomst), uitkomst: inv ? inv.uitkomst : ""};
     };
     const val = x => (k[x] && k[x].s) || "laden", d = x => (k[x] && k[x].d) || {};
-    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf");
+    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), a = r.adres || null;
     const pj = (x, label) => x ? {label, waarde: G.pct(x.waarde) + " (" + x.jaar + ")"} : null;
+    const km = G.RAYON + " m";
+    // Risico's: eerst wat voor uw adres of locatie geldt, dan de lijst van de gemeente.
+    const adresRegels = !a ? [] : [
+      a.kleigrond ? {label:"Kleigrond op " + (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") + " (retrait-gonflement des argiles)", waarde:a.kleigrond} : null,
+      a.azi.length || a.tri.length ? {label:"Overstroming, binnen " + km, waarde:[a.azi.length ? "Overstromingsatlas (AZI): " + a.azi.join("; ") : "", a.tri.length ? "Gebied met verhoogd overstromingsrisico (TRI): " + a.tri.join("; ") : ""].filter(Boolean).join(" · ")}
+        : (a.aziOk && a.triOk ? {label:"Overstroming, binnen " + km, waarde:"Geen overstromingsatlas (AZI) of risicogebied (TRI) gevonden"} : null),
+      a.mvt.length ? {label:"Bodembewegingen gemeld, binnen " + km, waarde:a.mvt.length + " gemeld: " + a.mvt.slice(0, 3).map(x => x.type + (x.lieu || x.jaar ? " (" + [x.lieu, x.jaar].filter(Boolean).join(", ") + ")" : "")).join("; ") + (a.mvt.length > 3 ? " en meer" : "")}
+        : (a.mvtOk ? {label:"Bodembewegingen gemeld, binnen " + km, waarde:"Geen gemeld"} : null),
+      typeof a.cavites === "number" ? {label:"Bekende holle ruimten (cavités), binnen " + km, waarde:a.cavites === 0 ? "Geen bekend" : String(a.cavites)} : null,
+      a.zone ? {label:"Aardbevingszone op " + (c.adres === "Uw locatie" ? "uw locatie" : "uw adres"), waarde:a.zone} : null
+    ].filter(Boolean);
+    const gemRegels = [r.lijst && r.lijst.length ? {label:"Risico's volgens de lijst van de gemeente", waarde:r.lijst.join(" · ")} : null,
+      typeof r.catnat === "number" ? {label:"Natuurrampbesluiten (catastrophe naturelle)", waarde:String(r.catnat)} : null,
+      r.radon ? {label:"Radonpotentiaal", waarde:"klasse " + r.radon + " (schaal 1 tot 3, 3 is het hoogst)"} : null,
+      !(a && a.zone) && r.zone ? {label:"Aardbevingszone", waarde:r.zone} : null].filter(Boolean);
+    // Belasting: tarief, en met de cadastrale huurwaarde van de lezer een indicatie in euro.
+    const tarief = b.bebouwd ? b.bebouwd.waarde : null, ind = G.tfIndicatie(gm.vlc || "", tarief);
+    const invoerBel = b.bebouwd ? {label:"Cadastrale huurwaarde in euro (valeur locative cadastrale, staat op de aanslag van de taxe foncière)", waarde:gm.vlc || "",
+      op: e => this.gmSet({vlc: e.target.value.replace(/[^0-9 ,.]/g, "").slice(0, 12)}),
+      uitkomst: ind !== null ? "Indicatie taxe foncière: € " + ind.toLocaleString("nl-NL") + " per jaar (tarief " + G.pct(tarief) + ", " + b.bebouwd.jaar + "). De grondslag is de helft van de cadastrale huurwaarde (service-public.fr). Vrijstellingen, toeslagen en de huisvuilheffing (TEOM) zijn niet meegerekend, de werkelijke aanslag kan afwijken." : ""} : null;
     return [
       kaart("risico", "Risico's", val("risico"), {
         fout:"Risicodata momenteel niet beschikbaar.", leeg:"Geen risicogegevens gevonden voor deze gemeente.",
-        regels:[r.lijst && r.lijst.length ? {label:"Risico's volgens de lijst van de gemeente", waarde:r.lijst.join(" · ")} : null,
-          typeof r.catnat === "number" ? {label:"Natuurrampbesluiten (catastrophe naturelle)", waarde:String(r.catnat)} : null,
-          r.radon ? {label:"Radonpotentiaal", waarde:"klasse " + r.radon + " (schaal 1 tot 3, 3 is het hoogst)"} : null,
-          r.zone ? {label:"Aardbevingszone", waarde:r.zone} : null].filter(Boolean),
-        notitie:"Dit is de lijst van de gemeente, niet van uw adres. Overstroming en kleigrond staan er alleen bij als de bron ze noemt; controleer uw adres op Géorisques.",
-        links:[link(L.georisques, "Risico's op uw adres bekijken (Géorisques) ↗")], bron:"Bron: Géorisques, Licence Ouverte (Etalab 2.0)"}),
+        regels: adresRegels.concat(gemRegels),
+        notitie: a ? "Overstroming, bodembeweging en holle ruimten gelden binnen " + km + " van het punt: dat betekent niet dat het pand zelf getroffen wordt. Kleigrond en aardbevingszone gelden voor het punt zelf. De volledige kaart staat op Géorisques."
+          : "Dit is de lijst van de gemeente. Vul hierboven uw adres in voor kleigrond, overstroming en meer op uw eigen adres.",
+        links:[link(L.georisques, "Volledige risicokaart (Géorisques) ↗")], bron:"Bron: Géorisques, Licence Ouverte (Etalab 2.0)"}),
       kaart("belasting", "Belasting op uw huis", val("belasting"), {
         fout:"Belastingtarieven momenteel niet beschikbaar.", leeg:"Geen tarieven gevonden voor deze gemeente in het bestand.",
         regels:[pj(b.bebouwd, "Bebouwd (taxe foncière)"), pj(b.onbebouwd, "Onbebouwd (taxe foncière non bâti)"), pj(b.afval, "Huisvuilheffing (TEOM)"), pj(b.wonen, "Taxe d'habitation (alleen tweede woningen)")].filter(Boolean),
-        notitie:"Dit zijn tarieven, geen bedragen. Wat u betaalt hangt af van de cadastrale waarde van uw woning.",
-        bron:"Bron: DGFiP via data.economie.gouv.fr, Licence Ouverte 2.0"}),
+        notitie:"Dit zijn tarieven, geen bedragen. Wat u betaalt hangt af van de cadastrale waarde van de woning, en die is niet openbaar per woning: vul hem hieronder in als u hem kent (staat op de aanslag van de huidige eigenaar).",
+        invoer:invoerBel, bron:"Bron: DGFiP via data.economie.gouv.fr, Licence Ouverte 2.0"}),
       kaart("mairie", "Mairie", val("mairie"), {
         fout:"Mairie-gegevens momenteel niet beschikbaar.", leeg:"Geen mairie gevonden in de Annuaire.",
         regels:[m.nom ? {label:m.nom, waarde:m.adres || ""} : null, m.tel ? {label:"Telefoon", waarde:m.tel} : null].filter(Boolean),
@@ -4670,32 +4719,37 @@ class Component extends DCLogic {
         notitie:"Dit is een telling in het DVF-register (woningen, grond en andere onroerende zaken), geen prijsindicatie. Prijzen en details staan op de officiële kaart.",
         links:[link(G.dvfKaartUrl(c.lat, c.lon), "Verkochte huizen op de officiële kaart ↗")], bron:"Bron: DVF via Cerema, Licence Ouverte"}),
       kaart("internet", "Internet en mobiel bereik", "statisch", {
-        notitie:"De app toont hier geen eigen cijfers: de overheid biedt deze gegevens niet aan in een vorm die de app kan opvragen. Bekijk uw gemeente op de officiële kaarten.",
-        links:[link(G.arcepUrl(c.lat, c.lon), "Glasvezel en internet (ARCEP) ↗"), link(L.arcepMobiel, "Mobiel bereik (ARCEP) ↗")], bron:"Bron: ARCEP"}),
-      kaart("huisarts", "Huisartsen (medische woestijn)", "statisch", {
-        notitie:"De app toont hier geen eigen cijfers: de overheid (DREES) publiceert de bereikbaarheid van huisartsen per gemeente alleen als bestand.",
-        links:[link(L.drees, "Bekijk de gegevens (DREES) ↗")], bron:"Bron: DREES"})
+        notitie:"De app toont hier geen eigen cijfers: de overheid biedt deze gegevens niet aan in een vorm die de app kan opvragen. De officiële kaart opent op " + (c.adres ? "uw " + (c.adres === "Uw locatie" ? "locatie" : "adres") : "uw gemeente") + ".",
+        links:[link(G.arcepUrl(c.lat, c.lon), "Glasvezel en internet (ARCEP) ↗"), link(L.arcepMobiel, "Mobiel bereik (ARCEP) ↗")], bron:"Bron: ARCEP"})
     ];
   }
   gmVals(){
-    const st = this.state, G = window.IfGem, gm = st.gm, pcOk = !!G && G.postcodeOk(gm.pc), c = gm.gemeente;
+    const st = this.state, G = window.IfGem, gm = st.gm, c = gm.gemeente, zoekOk = String(gm.pc || "").trim().length >= 4;
+    const lijst = gm.status === "adres" ? (gm.adressen || []).map(x => ({naam:x.label, regel:"", open: () => this.gmKiesAdres(x)}))
+      : (gm.communes || []).map(x => ({naam:x.nom, regel:"Departement " + x.dep, open: () => this.gmKies(x, gm.zocht)}));
     return {
       isGemeente: st.screen === "gemeente",
-      gmPc: gm.pc, gmKnopBg: pcOk ? "#800000" : "rgba(128,0,0,.18)", gmKnopFg: pcOk ? "#fff" : "#5C0000",
-      gmOnPc: e => this.gmSet({pc: e.target.value.replace(/[^0-9]/g, "").slice(0, 5)}),
-      gmVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); if (pcOk) this.gmZoek(gm.pc); },
-      gmGeoKlik: () => this.geoVraag("gm", (pc, plaats, g) => {
+      gmPc: gm.pc, gmKnopBg: zoekOk ? "#800000" : "rgba(128,0,0,.18)", gmKnopFg: zoekOk ? "#fff" : "#5C0000",
+      gmOnPc: e => this.gmSet({pc: e.target.value.slice(0, 120)}),
+      gmVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); this.gmZoek(gm.pc); },
+      gmGeoKlik: () => this.geoVraag("gm", (pc, plaats, g, pos) => {
         const GG = window.IfGem;
-        if (GG && g && GG.codeOk(g.code)) { this.gmSet({pc}); this.gmKies({code:g.code, nom:g.plaats || plaats, dep:g.dep, lat:g.lat, lon:g.lon, pop:0}, pc); }
-        else this.gmZoek(pc);
+        if (GG && g && GG.codeOk(g.code)) {
+          const exact = pos && typeof pos.latitude === "number" && typeof pos.longitude === "number";
+          this.gmSet({pc});
+          this.gmKies({code:g.code, nom:g.plaats || plaats, dep:g.dep, lat: exact ? pos.latitude : g.lat, lon: exact ? pos.longitude : g.lon, pop:0, adres: exact ? "Uw locatie" : ""}, pc);
+        } else this.gmZoek(pc);
       }),
       gmGeoTekst: st.geoStatus === "zoekt" && st.geoWaar === "gm" ? "Locatie bepalen..." : "Gebruik mijn locatie",
       gmGeoMelding: this.geoMelding("gm"), gmHeeftGeoMelding: !!this.geoMelding("gm"),
-      gmZoekt: gm.status === "zoek", gmFout: gm.status === "fout", gmGeen: gm.status === "geen", gmKiezen: gm.status === "kies",
-      gmGeenTekst: "Geen gemeente gevonden bij postcode " + gm.pc + ".",
-      gmKeuzes: (gm.communes || []).map(x => ({naam:x.nom, regel:"Departement " + x.dep, open: () => this.gmKies(x, gm.zocht)})),
+      gmZoekt: gm.status === "zoek", gmFout: gm.status === "fout", gmGeen: gm.status === "geen", gmKort: gm.status === "kort",
+      gmGeenTekst: "Geen gemeente of adres gevonden bij “" + (gm.zocht || "") + "”. Probeer een postcode, of een adres met huisnummer en plaats.",
+      gmKiezen: gm.status === "kies" || gm.status === "adres",
+      gmKiesTekst: gm.status === "adres" ? "Welk adres bedoelt u?" : "Bij deze postcode horen meerdere gemeenten. Welke bedoelt u?",
+      gmKeuzes: lijst,
       gmKlaar: gm.status === "klaar" && !!c,
       gmKop: c ? c.nom + (c.dep ? " (" + c.dep + ")" : "") : "",
+      gmAdresRegel: c && c.adres ? (c.adres === "Uw locatie" ? "Uw locatie, bij benadering" : c.adres) : "", gmHeeftAdres: !!(c && c.adres),
       gmKaarten: this.gmKaartenLijst(),
       gmOpnieuw: () => this.gmZoek(gm.pc)
     };
