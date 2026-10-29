@@ -26,6 +26,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./advertenties-lib.js"></script>
 <script src="./hygiene-lib.js"></script>
 <script src="./gemeente-lib.js"></script>
+<script src="./feedback-lib.js"></script>
 <script src="./ondernemen-lib.js"></script>
 <script src="./nieuws-lib.js"></script>
 <script src="./hub-lib.js"></script>
@@ -181,6 +182,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ mnProfiel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoProfiel }}"></span><span style="flex:1;min-width:0">Profiel</span></button>
     <button onClick="{{ mnKeuze }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoKeuze }}"></span><span style="flex:1;min-width:0">Mijn modules</span></button>
     <button onClick="{{ mnSponsors }}" data-menu-sponsors="1" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoSponsors }}"></span><span style="flex:1;min-width:0">Onze sponsors</span></button>
+    <button onClick="{{ mnFeedback }}" data-menu-feedback="1" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoFeedback }}"></span><span style="flex:1;min-width:0">Feedback</span></button>
     <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
     <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
     <button onClick="{{ mnPostcode }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoPostcode }}"></span><span style="flex:1;min-width:0">Postcode</span><span style="flex:0 1 auto;min-width:0;font:600 16px Mulish;color:#3D4346;text-align:right;overflow-wrap:anywhere">{{ pcLabel }}</span></button>
@@ -2667,6 +2669,50 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
+<sc-if value="{{ fbOpen }}" hint-placeholder-val="{{ false }}">
+<div data-fbblad="1" style="position:absolute;inset:0;z-index:52;background:rgba(21,24,26,.42);display:flex;flex-direction:column;justify-content:flex-end">
+  <div onClick="{{ fbSluit }}" style="flex:1 1 auto;min-height:0"></div>
+  <div role="dialog" aria-modal="true" aria-label="Feedback op Infopoche" style="{{ zoomCss }}flex:none;background:#fff;border-radius:22px 22px 0 0;padding:20px 20px max(20px,env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(21,24,26,.22);max-height:92%;overflow-y:auto;box-sizing:border-box">
+    <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 14px"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+      <div style="min-width:0">
+        <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Pilot</div>
+        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Wat vindt u van Infopoche?</h2>
+      </div>
+      <button onClick="{{ fbSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
+    </div>
+    <sc-if value="{{ fbKlaar }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="margin-top:16px;padding:16px;border-radius:12px;background:rgba(128,0,0,.05)">
+      <p style="margin:0;font:600 15px/1.6 Mulish;color:#15181A">Bedankt, uw reactie is ontvangen.</p>
+      <p style="margin:8px 0 0;font:500 13.5px/1.6 Mulish;color:#3D4346">Nog iets gezien? Dan kunt u hieronder een volgende reactie schrijven.</p>
+    </div>
+    </sc-if>
+    <p style="font:500 13.5px/1.7 Mulish;color:#3D4346;margin:10px 0 0;text-wrap:pretty">Zag u iets dat niet werkt, onduidelijk is of ontbreekt? Schrijf het hier op.</p>
+    <label for="fb-naam" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Uw naam</label>
+    <input id="fb-naam" value="{{ fbNaam }}" onInput="{{ fbOnNaam }}" maxlength="80" autocomplete="name" style="width:100%;min-height:48px;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box">
+    <div id="fb-onderdeel" style="margin-top:14px;font:700 13px Mulish;color:#15181A">Waar gaat het over?</div>
+    <div role="group" aria-labelledby="fb-onderdeel" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <sc-for list="{{ fbOnderdelen }}" as="o">
+      <button onClick="{{ o.go }}" aria-pressed="{{ o.aan }}" style="{{ o.style }}">{{ o.label }}</button>
+      </sc-for>
+    </div>
+    <label for="fb-bericht" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Wat zag u?</label>
+    <textarea id="fb-bericht" value="{{ fbBericht }}" onInput="{{ fbOnBericht }}" maxlength="2000" rows="5" style="width:100%;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:12px 14px;font:500 16px/1.5 Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box;resize:vertical"></textarea>
+    <label for="fb-toestel" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Toestel en browser</label>
+    <input id="fb-toestel" value="{{ fbToestelWaarde }}" onInput="{{ fbOnToestel }}" maxlength="120" style="width:100%;min-height:48px;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:0 14px;font:500 15px Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box">
+    <input value="{{ fbWeb }}" onInput="{{ fbOnWeb }}" tabindex="-1" autocomplete="off" aria-hidden="true" name="website" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <label style="display:flex;align-items:flex-start;gap:12px;margin-top:16px;cursor:pointer">
+      <input type="checkbox" checked="{{ fbAkkoord }}" onChange="{{ fbOnAkkoord }}" style="flex:none;width:24px;height:24px;margin:2px 0 0;accent-color:#800000">
+      <span style="font:500 13.5px/1.6 Mulish;color:#15181A">Ik geef toestemming dat mijn naam en opmerkingen worden bewaard om Infopoche te verbeteren.</span>
+    </label>
+    <p style="margin:8px 0 0 36px;font:500 12.5px/1.6 Mulish;color:#71787C;text-wrap:pretty">{{ fbPrivacy }}</p>
+    <sc-if value="{{ fbHeeftFout }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:12px 0 0;font:700 13.5px/1.6 Mulish;color:#800000">{{ fbFoutTekst }}</p></sc-if>
+    <button onClick="{{ fbVerzend }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer;margin-top:14px;opacity:{{ fbKnopOpa }}">{{ fbKnopTekst }}</button>
+    <button onClick="{{ fbSluit }}" style="width:100%;min-height:46px;border:0;background:none;color:#71787C;font:600 13px Mulish;cursor:pointer;margin-top:4px">Sluiten</button>
+  </div>
+</div>
+</sc-if>
+
 <sc-if value="{{ forumBladOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:55">
   <div onClick="{{ forumBladSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.45)"></div>
@@ -2906,6 +2952,7 @@ const ICONS = {
   mod:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>',
   acc:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>',
   keuze: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>',
+  feedback: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
   ster: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.7l-5.2 2.9 1-5.9-4.3-4.1 5.9-.8z"/></svg>',
   over: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.2"/></svg>',
   tekst: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 8 6l5 13M4.8 15h6.4"/><path d="M15 19l3-8 3 8M16 17h4"/></svg>',
@@ -3136,7 +3183,7 @@ class Component extends DCLogic {
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
-    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", vgFase:"voorbereiding", zoSectie:"nu",
+    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", fbOpen:false, fbNaam:"", fbOnderdeel:"", fbBericht:"", fbToestel:null, fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
@@ -3792,7 +3839,7 @@ class Component extends DCLogic {
       ev.preventDefault(); this.route(m);
     };
     document.addEventListener("click", this._klikTool);
-    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.vraagPostcode) this.setState({vraagPostcode:false, pcInfo:false}); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
+    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.fbOpen) this.fbSluit(); else if (ev.key === "Escape" && this.state.vraagPostcode) this.setState({vraagPostcode:false, pcInfo:false}); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
     document.addEventListener("keydown", this._toetsOproep);
     this._toetsMenu = ev => this.menuToets(ev);
     document.addEventListener("keydown", this._toetsMenu);
@@ -4253,12 +4300,12 @@ class Component extends DCLogic {
     if (!L || this._ibTimer) return;
     const nuttig = !!this.opSoort() || (st.screen === "artikel" && !!st.art && st.art.status === "klaar");
     if (!L.toonAutoBlad({standalone:this.alGeinstalleerd(), desktop:this.isDesktop(), landingOpen:!!window.__ifmLandingOpen, bladOpen:!!st.installBlad,
-      ander:!!(st.oproep || st.forumBlad || st.vraagPostcode || st.menu), getoond:this.ibLees("SLEUTEL_BLAD"), nuttig})) return;
+      ander:!!(st.oproep || st.forumBlad || st.vraagPostcode || st.fbOpen || st.menu), getoond:this.ibLees("SLEUTEL_BLAD"), nuttig})) return;
     this._ibTimer = setTimeout(() => {
       this._ibTimer = null;
       const s2 = this.state;
       const nog = !!this.opSoort() || (s2.screen === "artikel" && !!s2.art && s2.art.status === "klaar");
-      if (!nog || this.isDesktop() || s2.installBlad || s2.oproep || s2.forumBlad || s2.vraagPostcode || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
+      if (!nog || this.isDesktop() || s2.installBlad || s2.oproep || s2.forumBlad || s2.vraagPostcode || s2.fbOpen || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
       this.ibSchrijf("SLEUTEL_BLAD");
       this.installOpen("Fijn dat InfoPoche u helpt. Zet hem op uw beginscherm.");
     }, 1800);
@@ -4322,6 +4369,57 @@ class Component extends DCLogic {
     setTimeout(() => { const k = document.getElementById("ifm-menuknop"); if (k && k.focus) k.focus(); }, 30);
   }
   // Tik op een menu-item: menu dicht, daarna de bestemming.
+  // ---- Feedback van testers (feedback-lib.js; Edge Function in Supabase, tabel infopoche_feedback) ----------------------------------
+  // De tekst blijft in het geheugen staan als het blad sluit of het verzenden mislukt, en gaat nooit naar localStorage (er staat een naam in).
+  fbOpenen(){
+    const st = this.state;
+    const F = window.IfFb;
+    const toestel = st.fbToestel === null && F ? F.toestelTekst(navigator.userAgent, navigator.platform) : st.fbToestel;
+    this.setState({menu:false, q:"", fbOpen:true, fbStatus: st.fbStatus === "klaar" ? "" : st.fbStatus, fbToestel: toestel === null ? "" : toestel});
+  }
+  fbSluit(){ this.setState({fbOpen:false}); }
+  fbVelden(){
+    const st = this.state;
+    return {naam:st.fbNaam, onderdeel:st.fbOnderdeel, bericht:st.fbBericht, toestel:st.fbToestel || "", toestemming:st.fbAkkoord === true, web:st.fbWeb};
+  }
+  fbVerzend(){
+    const st = this.state, F = window.IfFb;
+    if (!F || st.fbStatus === "bezig") return;
+    const v = this.fbVelden(), fout = F.valideer(v);
+    if (fout) { this.setState({fbStatus:"fout", fbFout:fout}); return; }
+    this.setState({fbStatus:"bezig", fbFout:""});
+    F.zend((u, o) => fetch(u, o), v).then(r => {
+      if (r.ok) { this.setState({fbStatus:"klaar", fbFout:"", fbOnderdeel:"", fbBericht:"", fbAkkoord:false, fbWeb:""}); try { const d = document.querySelector("[data-fbblad] [role=dialog]"); if (d) d.scrollTop = 0; } catch(e){} }
+      else this.setState({fbStatus:"fout", fbFout:r.fout});
+    });
+  }
+  fbVals(){
+    const st = this.state, F = window.IfFb;
+    const fouten = F ? F.foutTekst(st.fbFout) : "";
+    const bezig = st.fbStatus === "bezig";
+    return {
+      mnIcoFeedback: this.iconStyle("feedback", 24) + ";color:#800000",
+      mnFeedback: () => this.fbOpenen(),
+      fbOpen: !!st.fbOpen, fbSluit: () => this.fbSluit(),
+      fbKlaar: st.fbStatus === "klaar",
+      fbNaam: st.fbNaam, fbBericht: st.fbBericht, fbToestelWaarde: st.fbToestel || "", fbWeb: st.fbWeb, fbAkkoord: st.fbAkkoord,
+      fbOnNaam: e => this.setState({fbNaam:e.target.value, fbStatus: st.fbStatus === "klaar" ? "" : st.fbStatus}),
+      fbOnBericht: e => this.setState({fbBericht:e.target.value, fbStatus: st.fbStatus === "klaar" ? "" : st.fbStatus}),
+      fbOnToestel: e => this.setState({fbToestel:e.target.value}),
+      fbOnWeb: e => this.setState({fbWeb:e.target.value}),
+      fbOnAkkoord: e => this.setState({fbAkkoord: !!e.target.checked}),
+      fbOnderdelen: (F ? F.ONDERDELEN : []).map(o => {
+        const aan = st.fbOnderdeel === o.id;
+        return {label:o.label, aan: aan ? "true" : "false", go: () => this.setState({fbOnderdeel:o.id}),
+          style:"min-height:44px;padding:0 14px;border-radius:22px;cursor:pointer;font:700 13.5px Mulish;border:1.5px solid " + (aan ? "#800000" : "rgba(128,0,0,.30)") + ";background:" + (aan ? "rgba(128,0,0,.12)" : "#fff") + ";color:" + (aan ? "#800000" : "#3D4346")};
+      }),
+      fbPrivacy: F ? "Wij (Communities Abroad, Infofrankrijk) bewaren dit uiterlijk " + F.MAANDEN + " maanden en wissen het daarna. Het wordt niet gedeeld. Vul geen gegevens van anderen in. Inzage, wissen of toestemming intrekken: " + F.CONTACT + "." : "",
+      fbHeeftFout: st.fbStatus === "fout" && !!st.fbFout, fbFoutTekst: fouten,
+      fbKnopTekst: bezig ? "Bezig met verzenden…" : "Verstuur", fbKnopOpa: bezig ? "0.6" : "1",
+      fbVerzend: () => this.fbVerzend()
+    };
+  }
+
   menuNaar(update){ this.setState({menu:false, q:"", tool:null, ...update}); }
   menuToets(ev){
     if (!this.state.menu) return;
@@ -4370,6 +4468,7 @@ class Component extends DCLogic {
     if (st.installBlad) { this.installBladSluit(); return true; }
     if (st.forumBlad) { this.forumBladSluit(); return true; }
     if (st.oproep) { this.oproepSluit(); return true; }
+    if (st.fbOpen) { this.fbSluit(); return true; }
     if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
     if (st.screen === "artikel") { this.artTerug(); return true; }
     if (st.screen === "nieuws") { this.nwTerugKnop(); return true; }
@@ -4405,7 +4504,7 @@ class Component extends DCLogic {
   }
   histToestand(){
     const st = this.state;
-    const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.vraagPostcode ? "pc" : "";
+    const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.fbOpen ? "feedback" : st.vraagPostcode ? "pc" : "";
     return {screen:st.screen, artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
       nwTegel:st.nwTegel, nwTerug:st.nwTerug, blad,
       themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
@@ -4468,7 +4567,7 @@ class Component extends DCLogic {
     if (r.soort === "artikel" && A) { this.openInfoArtikel(A.BASIS + "/" + r.slug + "/"); return; }
     if (r.soort === "scherm") { this.go(r.scherm); return; }
     this.stopPiramide();
-    this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, vraagPostcode:false,
+    this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, vraagPostcode:false, fbOpen:false,
       gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false});
   }
   histPop(e){
@@ -5609,6 +5708,7 @@ class Component extends DCLogic {
       ...this.tkVals(),
       ...this.hyVals(),
       ...this.gmVals(),
+      ...this.fbVals(),
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       subStijl: st.screen === "hub" ? "white-space:normal;overflow-wrap:anywhere" : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis",

@@ -1,9 +1,9 @@
 // Service worker van Infopoche: netwerk eerst, de cache is alleen een terugval als het netwerk haperkt.
 // Verhoog VERSIE bij een wijziging van deze lijst; bij activate gaan oude caches weg.
-const VERSIE = "2026-10-29-19";
+const VERSIE = "2026-10-29-20";
 const CACHE = "infopoche-" + VERSIE;
 const SCHIL = [
-  "./", "./index.html", "./support.js", "./dossier.js", "./nav-lib.js", "./artikel-lib.js", "./abonnee-lib.js", "./landing-lib.js", "./lamaison-lib.js", "./nieuws-lib.js", "./sponsors-lib.js", "./advertenties-lib.js", "./hygiene-lib.js", "./gemeente-lib.js", "./sponsors.json",
+  "./", "./index.html", "./support.js", "./dossier.js", "./nav-lib.js", "./artikel-lib.js", "./abonnee-lib.js", "./landing-lib.js", "./lamaison-lib.js", "./nieuws-lib.js", "./sponsors-lib.js", "./advertenties-lib.js", "./hygiene-lib.js", "./gemeente-lib.js", "./feedback-lib.js", "./sponsors.json",
   "./modules.json", "./manifest.webmanifest",
   "./vendor/react.production.min.js", "./vendor/react-dom.production.min.js",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/logo-goud.svg", "./icons/qr-infopoche.svg",
