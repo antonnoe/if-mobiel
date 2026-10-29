@@ -177,3 +177,11 @@ test("Mijn gemeente: de internetkaart opent het bestaande hulpmiddel Internetver
   const cat = JSON.parse(readFileSync(new URL("../modules.json", import.meta.url), "utf8"));
   const m = cat.modules.find(x => x.id === "internet"); assert.ok(m && m.kind === "iframe" && m.zichtbaar !== false);
 });
+
+test("internetQuery: alleen met een gekozen adres of locatie, met coördinaten, nooit voor alleen een gemeente", () => {
+  assert.equal(G.internetQuery({ adres: "5 Rue de Boulogne 62170 Neuville-sous-Montreuil", lat: 50.474505, lon: 1.780041 }), "adres=5%20Rue%20de%20Boulogne%2062170%20Neuville-sous-Montreuil&lat=50.474505&lon=1.780041");
+  assert.equal(G.internetQuery({ adres: "Uw locatie", lat: 50.4, lon: 1.7 }), "adres=Uw%20locatie%2C%20bij%20benadering&lat=50.400000&lon=1.700000");
+  for (const c of [null, {}, { adres: "", lat: 1, lon: 1 }, { adres: "x", lat: NaN, lon: 1 }, { nom: "Neuville", lat: 50, lon: 1 }]) assert.equal(G.internetQuery(c), "");
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(html, /T\.id === "internet" && st\.toolQuery/); assert.match(html, /if \(this\.state\.toolQuery\) this\.setState\(\{toolQuery:""\}\)/);
+});

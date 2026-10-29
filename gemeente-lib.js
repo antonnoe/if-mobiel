@@ -51,6 +51,13 @@
     Object.keys(p || {}).forEach(function (k) { qs.push(q(k) + "=" + q(String(p[k]))); });
     return PROXY + "?" + qs.join("&");
   }
+  // Vraagstuk voor het hulpmiddel Internetverbinding (leest ?adres=, optioneel &lat=&lon=): alleen met een gekozen adres of locatie,
+  // niet met alleen een gemeente (het middelpunt van een gemeente is geen adres). Leeg = niets voorinvullen.
+  function internetQuery(c) {
+    if (!c || !tekst(c.adres) || typeof c.lat !== "number" || typeof c.lon !== "number" || !isFinite(c.lat) || !isFinite(c.lon)) return "";
+    var naam = c.adres === "Uw locatie" ? "Uw locatie, bij benadering" : tekst(c.adres);
+    return "adres=" + q(naam.slice(0, 200)) + "&lat=" + c.lat.toFixed(6) + "&lon=" + c.lon.toFixed(6);
+  }
   function catnatUrl(code, pagina, grootte) {
     return codeOk(code) ? GEORISQUES + "/gaspar/catnat?code_insee=" + q(code) + "&page_size=" + (grootte || 100) + "&page=" + Math.max(1, pagina | 0 || 1) : "";
   }
@@ -254,7 +261,7 @@
     return Math.round(v * 0.5 * t / 100);
   }
 
-  var api = { PROXY: PROXY, proxyUrl: proxyUrl, catnatUrl: catnatUrl, radonUrl: radonUrl, catnatPerRisico: catnatPerRisico, LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
+  var api = { internetQuery: internetQuery, PROXY: PROXY, proxyUrl: proxyUrl, catnatUrl: catnatUrl, radonUrl: radonUrl, catnatPerRisico: catnatPerRisico, LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
     leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, DVF_JAREN: DVF_JAREN, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl };
   root.IfGem = api;

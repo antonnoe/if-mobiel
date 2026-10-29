@@ -3132,7 +3132,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, geoStatus:"", geoWaar:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -4759,9 +4759,9 @@ class Component extends DCLogic {
           + (v.onvolledig ? " Op basis van een deel van de transacties." : "") : "",
         links:[link(G.dvfKaartUrl(c.lat, c.lon), "Verkochte huizen op de officiële kaart ↗")], bron:"Bron: DVF via Cerema, Licence Ouverte"}),
       kaart("internet", "Internet en mobiel bereik", "statisch", {
-        notitie: inetMod ? "Het hulpmiddel Internetverbinding vertaalt de officiële ARCEP-kaart naar een duidelijk overzicht; u vult daar uw adres nog eens in. De app toont hier zelf geen cijfers: de overheid biedt ze niet aan in een vorm die de app kan opvragen."
+        notitie: inetMod ? "Het hulpmiddel Internetverbinding vertaalt de officiële ARCEP-kaart naar een duidelijk overzicht" + (c.adres ? " en opent met uw adres al ingevuld" : "; u vult daar uw adres in") + ". De app toont hier zelf geen cijfers: de overheid biedt ze niet aan in een vorm die de app kan opvragen."
           : "De app toont hier geen eigen cijfers: de overheid biedt deze gegevens niet aan in een vorm die de app kan opvragen. De officiële kaart opent op " + (c.adres ? "uw " + (c.adres === "Uw locatie" ? "locatie" : "adres") : "uw gemeente") + ".",
-        acties: inetMod ? [{label:"Open het hulpmiddel Internetverbinding", open: () => this.route(inetMod)}] : [],
+        acties: inetMod ? [{label:"Open het hulpmiddel Internetverbinding", open: () => { this.route(inetMod); const qs = G.internetQuery(c); if (qs) this.setState({toolQuery: qs}); }}] : [],
         links:[link(G.arcepUrl(c.lat, c.lon), "Glasvezel en internet, officiële kaart (ARCEP) ↗"), link(L.arcepMobiel, "Mobiel bereik, officiële kaart (ARCEP) ↗")], bron:"Bron: ARCEP"})
     ];
   }
@@ -4952,6 +4952,7 @@ class Component extends DCLogic {
 
   route(m){
     if (!m) return;
+    if (this.state.toolQuery) this.setState({toolQuery:""}); // een voorinvulling geldt alleen voor de keer dat Mijn gemeente hem zet
     const from = this.state.screen;
     if (m.kind === "forum") return this.setState({screen:"gem", gemTab:"ber", q:""});
     if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
@@ -5909,7 +5910,7 @@ class Component extends DCLogic {
       toonIntro: !(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       knopLabel: T ? "Open " + T.naam + " ↗" : "Openen",
       geenUrl: !!(T && T.kind === "iframe" && !T.url),
-      toolUrl: T && T.url ? T.url : "",
+      toolUrl: T && T.url ? T.url + (T.id === "internet" && st.toolQuery ? (T.url.indexOf("?") < 0 ? "?" : "&") + st.toolQuery : "") : "",
       // Rechten van het tool-iframe: altijd klembord en delen; extra alleen als de module ze in `rechten` vraagt (nu alleen geolocation voor het adressen-dashboard).
       toolAllow: "clipboard-write; web-share" + (T && IFRAME_RECHTEN.indexOf(T.rechten) >= 0 ? "; " + T.rechten : ""),
       catFout: st.catFout,
