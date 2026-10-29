@@ -4594,11 +4594,15 @@ class Component extends DCLogic {
   gmHaal(url){
     this._gmCache = this._gmCache || {};
     if (this._gmCache[url]) return this._gmCache[url];
-    let ctl = null, timer = null;
-    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 12000); } catch(e){ ctl = null; }
-    const p = fetch(url, ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"})
-      .then(r => r.ok ? r.json() : null).catch(() => null)
-      .then(d => { if (timer) clearTimeout(timer); return d; });
+    // Eén poging met eigen time-out; een mislukte aanvraag wordt na een korte pauze één keer herhaald (Géorisques is wisselvallig).
+    const poging = () => {
+      let ctl = null, timer = null;
+      try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 12000); } catch(e){ ctl = null; }
+      return fetch(url, ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"})
+        .then(r => r.ok ? r.json() : null).catch(() => null)
+        .then(d => { if (timer) clearTimeout(timer); return d; });
+    };
+    const p = poging().then(d => d !== null ? d : new Promise(klaar => setTimeout(klaar, 1200)).then(poging));
     this._gmCache[url] = p;
     p.then(d => { if (d === null) delete this._gmCache[url]; });
     return p;
