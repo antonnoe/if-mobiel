@@ -2160,9 +2160,10 @@
       "id": "adressen",
       "kleur": "#6B3FA0",
       "tint": "#E9E0F5",
-      "naam": "Adressen",
-      "wat": "Loketten, sites en verenigingen.",
-      "omschrijving": "Loketten, websites en verenigingen waar u in Frankrijk terechtkunt.",
+      "naam": "Verenigingen",
+      "wat": "Verenigingen en evenementen.",
+      "omschrijving": "Nederlandse verenigingen in Frankrijk: wie waar zit en wat er wanneer is.",
+      "uitsluiten": ["nedergids"],
       "nieuws": [
         "verenigingen"
       ]

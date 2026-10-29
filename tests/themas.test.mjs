@@ -26,7 +26,7 @@ const INDELING = {
 
 test("negen thema's in de juiste volgorde", () => {
   assert.deepEqual(cat.themas.map(t => t.id), VOLGORDE);
-  assert.deepEqual(cat.themas.map(t => t.naam), ["Geld", "Overheid", "Gezondheid", "Adressen", "Nieuws", "Ervaring", "Ondernemen", "Wonen", "Taal"]);
+  assert.deepEqual(cat.themas.map(t => t.naam), ["Geld", "Overheid", "Gezondheid", "Verenigingen", "Nieuws", "Ervaring", "Ondernemen", "Wonen", "Taal"]);
   cat.themas.forEach(t => assert.ok(t.wat && t.wat.length > 3, "wat ontbreekt bij " + t.id));
 });
 
@@ -108,4 +108,11 @@ test("demodossier is geldig en bevat geen echte gegevens", () => {
   assert.ok(!/(\+|00)\d{2}[ \d]{8,}|\b0\d([ .]?\d{2}){4}\b/.test(ruw), "telefoonnummer");
   assert.ok(!/\b\d{9}\b/.test(ruw), "BSN-patroon");
   assert.ok(/Voorbeeld/.test(d.naam));
+});
+
+test("thema Verenigingen (voorheen Adressen): id en kleur blijven, Nedergids staat er niet dubbel", () => {
+  const th = cat.themas.find(x => x.id === "adressen");
+  assert.equal(th.naam, "Verenigingen"); assert.deepEqual(th.uitsluiten, ["nedergids"]);
+  assert.ok(cat.modules.some(m => m.id === "nedergids" && m.thema === "adressen"), "de module zelf blijft vindbaar in Alle modules en bij zoeken");
+  assert.match(fs.readFileSync(new URL("../index.html", import.meta.url), "utf8"), /weg\.indexOf\(m\.id\) < 0/);
 });

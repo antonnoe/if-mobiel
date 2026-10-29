@@ -3585,7 +3585,9 @@ class Component extends DCLogic {
     const eigen = this.themaList().find(x => x.id === eigenId) || t;
     const ookAlle = m => m.thema !== t.id && Array.isArray(m.ook) && m.ook.includes(t.id);
     const alle = this.zoekMods().filter(m => m.thema === t.id || ookAlle(m));
-    const zichtbaar = this.mods().filter(m => m.thema === t.id).concat(this.ookMods(t.id));
+    // Een thema kan modules weglaten die elders al een eigen ingang hebben (veld `uitsluiten` in modules.json), zoals Nedergids bij Verenigingen.
+    const weg = Array.isArray(t.uitsluiten) ? t.uitsluiten : [];
+    const zichtbaar = this.mods().filter(m => m.thema === t.id && weg.indexOf(m.id) < 0).concat(this.ookMods(t.id));
     const cafe = this.cafeUrl(t);
     const metStrook = st.screen === "thema" || st.screen === "lamaison" || st.screen === "gezondheid" || st.screen === "ondernemen";
     const strook = metStrook && t.id ? this.strookVals(t.id) : {strookZichtbaar:false, strookItems:[], strookTitel:"", strookAlle:() => {}};
