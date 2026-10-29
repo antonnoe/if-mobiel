@@ -102,10 +102,26 @@
     } catch (e) { return ""; }
   }
 
+  // Locatie naar postcode: geo.api.gouv.fr/communes?lat=..&lon=.. geeft de gemeente(n) op dat punt, met codesPostaux.
+  // Buiten Frankrijk of bij een onverwachte vorm geeft postcodeUitGeo null.
+  function geoUrl(lat, lon) {
+    if (typeof lat !== "number" || typeof lon !== "number" || !isFinite(lat) || !isFinite(lon)) return "";
+    return "https://geo.api.gouv.fr/communes?lat=" + encodeURIComponent(lat.toFixed(5)) + "&lon=" + encodeURIComponent(lon.toFixed(5)) +
+      "&fields=nom,codesPostaux,codeDepartement&format=json";
+  }
+  function postcodeUitGeo(json) {
+    if (!Array.isArray(json)) return null;
+    for (var i = 0; i < json.length; i++) {
+      var c = json[i], lijst = c && Array.isArray(c.codesPostaux) ? c.codesPostaux : [];
+      for (var j = 0; j < lijst.length; j++) if (postcodeOk(lijst[j])) return { postcode: lijst[j], plaats: typeof c.nom === "string" ? c.nom.trim() : "" };
+    }
+    return null;
+  }
+
   var api = {
     begroeting: begroeting, THEMA_KLEUREN: THEMA_KLEUREN, themaKleur: themaKleur, luminantie: luminantie,
     contrast: contrast, TABS: TABS, tabVan: tabVan, postcodeOk: postcodeOk, regioLabel: regioLabel,
-    departementCode: departementCode, plaatsUitApi: plaatsUitApi, plaatsUrl: plaatsUrl, plaatsUitOpslag: plaatsUitOpslag
+    departementCode: departementCode, geoUrl: geoUrl, postcodeUitGeo: postcodeUitGeo, plaatsUitApi: plaatsUitApi, plaatsUrl: plaatsUrl, plaatsUitOpslag: plaatsUitOpslag
   };
   root.HubLib = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;

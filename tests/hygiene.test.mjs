@@ -24,7 +24,8 @@ test("lees: record wordt een kaart met naam, soort, adres, uitkomst en datum", (
   const l = H.lees({ total_count: 71472, results: [REC] });
   assert.equal(l.totaal, 71472);
   assert.deepEqual(l.items[0], { sleutel: "10249045500015_00001", naam: "L'Isle Divine", soort: "Restaurants",
-    adres: "16 Rue Rose Goudard, 84800 L'Isle-sur-la-Sorgue", uitkomst: "Très satisfaisant", datum: "28-10-2026" });
+    adres: "16 Rue Rose Goudard, 84800 L'Isle-sur-la-Sorgue", uitkomst: "Très satisfaisant", datum: "28-10-2026", kaart: l.items[0].kaart });
+  assert.ok(l.items[0].kaart.startsWith("https://www.google.com/maps/search/?api=1&query="));
 });
 
 test("lees: onverwachte vorm geeft null, record zonder naam valt af, ontbrekende velden geven lege tekst", () => {

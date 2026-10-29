@@ -30,6 +30,15 @@
     return m ? m[3] + "-" + m[2] + "-" + m[1] : "";
   }
 
+  // Kaartlink: de coördinaten van de bron (geores) als ze er zijn, anders naam en adres als zoektekst.
+  function kaartUrl(r, naam, adres) {
+    var g = r && r.geores, q;
+    if (g && typeof g.lat === "number" && typeof g.lon === "number" && isFinite(g.lat) && isFinite(g.lon)) q = g.lat + "," + g.lon;
+    else if (adres) q = naam + ", " + adres;
+    else return "";
+    return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+  }
+
   // Een record uit `results`; zonder naam valt het af.
   function item(r) {
     if (!r || typeof r !== "object") return null;
@@ -38,11 +47,13 @@
     var pc = tekst(r.code_postal), plaats = tekst(r.libelle_commune) || tekst(r.com_name) || tekst(r.localite);
     var straat = tekst(r.adresse_activite) || tekst(r.adresse_2_ua);
     var sleutel = tekst(r.code_ua) || (tekst(r.siret) + "|" + straat);
+    var adres = [titelCase(straat), [pc, titelCase(plaats)].filter(Boolean).join(" ")].filter(Boolean).join(", ");
     return {
       sleutel: sleutel || (naam + "|" + straat),
       naam: titelCase(naam),
       soort: eerste(r.app_libelle_activite_etablissement) || tekst(r.type_activite),
-      adres: [titelCase(straat), [pc, titelCase(plaats)].filter(Boolean).join(" ")].filter(Boolean).join(", "),
+      adres: adres,
+      kaart: kaartUrl(r, titelCase(naam), adres),
       uitkomst: tekst(r.synthese_eval_sanit),
       datum: datumNl(r.date_inspection)
     };
