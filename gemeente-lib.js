@@ -8,7 +8,6 @@
   var GEORISQUES = "https://georisques.gouv.fr/api/v1";
   var REI = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/fiscalite-locale-des-particuliers/records";
   var ANNUAIRE = "https://api-lannuaire.service-public.fr/api/explore/v2.1/catalog/datasets/api-lannuaire-administration/records";
-  var DVF = "https://apidf-preprod.cerema.fr/dvf_opendata/mutations/"; // preprod: kan zonder aankondiging wegvallen, de kaart meldt dat dan
   var LINKS = {
     georisques: "https://www.georisques.gouv.fr/",
     dvfKaart: "https://explore.data.gouv.fr/immobilier",
@@ -120,9 +119,46 @@
       tel: t ? tekst(t.valeur) : "", site: s ? httpUrl(s.valeur) : "" };
   }
 
-  // ---- DVF (alleen via de Cerema-preprod-API met CORS; een stabiel eindpunt is er niet)
-  function dvfUrl(code) { return codeOk(code) ? DVF + "?code_insee=" + q(code) + "&page_size=1" : ""; }
-  function leesDvf(data) { return data && typeof data.count === "number" && isFinite(data.count) ? { aantal: data.count } : null; }
+  // ---- DVF via de Cerema-preprod-API (CORS *, geen stabiel productie-eindpunt). Getest 29-10-2026: filters code_insee, anneemut_min,
+  // anneemut_max, codtypbien (beginwaarde: 111 maison, 121 appartement), page_size maximaal 500, page. Sorteren op datum werkt niet
+  // (we sorteren zelf), libnatmut en libtypbien als filter worden genegeerd (we filteren zelf op "Vente"). De `next`-link van de bron
+  // is http en wordt niet gebruikt.
+  var DVF = "https://apidf-preprod.cerema.fr/dvf_opendata/mutations/";
+  var DVF_PAGE = 500, DVF_MAX_PAGINA = 6, DVF_JAREN = 3, DVF_MIN = 5;
+  function dvfUrl(code, jaar, pagina) {
+    if (!codeOk(code) || !isFinite(jaar)) return "";
+    return DVF + "?code_insee=" + q(code) + "&anneemut_min=" + (jaar - DVF_JAREN) + "&anneemut_max=" + jaar + "&codtypbien=111,121&page_size=" + DVF_PAGE + "&page=" + Math.max(1, pagina | 0 || 1);
+  }
+  function leesDvfPagina(data) {
+    if (!data || typeof data.count !== "number" || !isFinite(data.count) || !Array.isArray(data.results)) return null;
+    return { count: data.count, results: data.results };
+  }
+  function mediaan(lijst, p) {
+    if (!lijst.length) return null;
+    var s = lijst.slice().sort(function (a, b) { return a - b; }), i = (s.length - 1) * (p === undefined ? 0.5 : p), lo = Math.floor(i), hi = Math.ceil(i);
+    return s[lo] + (s[hi] - s[lo]) * (i - lo);
+  }
+  function groep(records, code) {
+    var verkopen = records.filter(function (r) { return r && r.libnatmut === "Vente" && tekst(r.codtypbien) === code; });
+    var prijzen = [], perM2 = [];
+    verkopen.forEach(function (r) {
+      var v = getal(r.valeurfonc), m = getal(r.sbati);
+      if (v === null || v <= 0) return;
+      prijzen.push(v);
+      if (m !== null && m >= 20) perM2.push(v / m);
+    });
+    var n = prijzen.length;
+    return { n: n, genoeg: n >= DVF_MIN, prijs: n ? Math.round(mediaan(prijzen)) : null, perM2: perM2.length >= DVF_MIN ? Math.round(mediaan(perM2)) : null,
+      perM2Laag: perM2.length >= DVF_MIN ? Math.round(mediaan(perM2, 0.25)) : null, perM2Hoog: perM2.length >= DVF_MIN ? Math.round(mediaan(perM2, 0.75)) : null };
+  }
+  // Mediaan, niet gemiddelde: een paar uitschieters (kasteel, krot) vertekenen een gemiddelde. onvolledig = niet alle pagina's gelukt of afgekapt.
+  function dvfSamenvatting(records, onvolledig) {
+    if (!Array.isArray(records)) return null;
+    var jaren = records.filter(function (r) { return r && getal(r.anneemut) !== null; }).map(function (r) { return getal(r.anneemut); });
+    var uit = { huis: groep(records, "111"), app: groep(records, "121"), van: jaren.length ? Math.min.apply(null, jaren) : null, tot: jaren.length ? Math.max.apply(null, jaren) : null, onvolledig: !!onvolledig };
+    uit.ok = uit.huis.n > 0 || uit.app.n > 0;
+    return uit;
+  }
   function kaartLink(basis, lat, lon, extra) {
     if (lat === null || lon === null || typeof lat !== "number" || typeof lon !== "number") return basis;
     return basis + "?" + extra(lat.toFixed(5), lon.toFixed(5));
@@ -191,7 +227,7 @@
 
   var api = { LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
-    leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvf: leesDvf, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl };
+    leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl };
   root.IfGem = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

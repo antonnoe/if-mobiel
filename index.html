@@ -4664,7 +4664,20 @@ class Component extends DCLogic {
     });
     this.gmHaal(G.belastingUrl(c.code)).then(d => { const l = d ? G.leesBelasting(d) : null; zet("belasting", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
     this.gmHaal(G.mairieUrl(c.code)).then(d => { const l = d ? G.leesMairie(d) : null; zet("mairie", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
-    this.gmHaal(G.dvfUrl(c.code)).then(d => { const l = d ? G.leesDvf(d) : null; zet("dvf", l ? {s:"ok", d:l} : {s:"fout"}); });
+    // DVF: alle pagina's (de eerste bevat niet de nieuwste jaren), maximaal DVF_MAX_PAGINA; lukt een latere pagina niet, dan staat "onvolledig" erbij.
+    const jaar = new Date().getFullYear();
+    this.gmHaal(G.dvfUrl(c.code, jaar, 1)).then(d1 => {
+      const p1 = d1 ? G.leesDvfPagina(d1) : null;
+      if (!p1) return zet("dvf", {s:"fout"});
+      const paginas = Math.min(G.DVF_MAX_PAGINA, Math.ceil(p1.count / G.DVF_PAGE));
+      const rest = []; for (let i = 2; i <= paginas; i++) rest.push(this.gmHaal(G.dvfUrl(c.code, jaar, i)));
+      return Promise.all(rest).then(meer => {
+        const pagina = meer.map(m => m ? G.leesDvfPagina(m) : null);
+        const alles = p1.results.concat(...pagina.map(x => x ? x.results : []));
+        const sam = G.dvfSamenvatting(alles, pagina.some(x => !x) || p1.count > paginas * G.DVF_PAGE);
+        zet("dvf", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"});
+      });
+    });
   }
   gmKaartenLijst(){
     const G = window.IfGem, gm = this.state.gm, c = gm.gemeente, k = gm.kaarten || {};
@@ -4682,6 +4695,9 @@ class Component extends DCLogic {
     };
     const val = x => (k[x] && k[x].s) || "laden", d = x => (k[x] && k[x].d) || {};
     const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), a = r.adres || null;
+    const euro = n => "€ " + n.toLocaleString("nl-NL");
+    const dvfRegel = (label, g) => !g || !g.n ? null : {label, waarde: !g.genoeg ? "Te weinig verkopen voor een betrouwbare mediaan (" + g.n + ")"
+      : g.n + " verkopen, mediaan " + euro(g.prijs) + (g.perM2 ? " · " + euro(g.perM2) + " per m² bebouwd (middelste helft " + euro(g.perM2Laag) + " tot " + euro(g.perM2Hoog) + ")" : "")};
     const pj = (x, label) => x ? {label, waarde: G.pct(x.waarde) + " (" + x.jaar + ")"} : null;
     const km = G.RAYON + " m";
     // Risico's: eerst wat voor uw adres of locatie geldt, dan de lijst van de gemeente.
@@ -4722,9 +4738,10 @@ class Component extends DCLogic {
         links:(m.site ? [link(m.site, "Website van de mairie ↗")] : []).concat([link(L.mairies, "Zoeken in de Annuaire ↗")]),
         bron:"Bron: Annuaire de l'administration (service-public.fr)"}),
       kaart("dvf", "Verkochte huizen (DVF)", val("dvf"), {
-        fout:"DVF-data momenteel niet beschikbaar.",
-        regels:[typeof v.aantal === "number" ? {label:"Geregistreerde vastgoedtransacties", waarde:v.aantal.toLocaleString("nl-NL")} : null].filter(Boolean),
-        notitie:"Dit is een telling in het DVF-register (woningen, grond en andere onroerende zaken), geen prijsindicatie. Prijzen en details staan op de officiële kaart.",
+        fout:"DVF-data momenteel niet beschikbaar.", leeg:"Geen verkopen van huizen of appartementen gevonden in het DVF-register voor deze gemeente.",
+        regels:[dvfRegel("Huizen (maison)", v.huis), dvfRegel("Appartementen", v.app)].filter(Boolean),
+        notitie: v.ok ? "Verkopen van één huis of één appartement" + (v.van ? ", " + (v.van === v.tot ? v.van : v.van + " tot " + v.tot) : "") + ", volgens het DVF-register. De prijs is de verkoopprijs in de akte, inclusief eventueel bijbehorend terrein. De mediaan is de middelste verkoop, dus niet vertekend door uitschieters. Dit is geen taxatie en recente verkopen kunnen nog ontbreken."
+          + (v.onvolledig ? " Op basis van een deel van de transacties." : "") : "",
         links:[link(G.dvfKaartUrl(c.lat, c.lon), "Verkochte huizen op de officiële kaart ↗")], bron:"Bron: DVF via Cerema, Licence Ouverte"}),
       kaart("internet", "Internet en mobiel bereik", "statisch", {
         notitie:"De app toont hier geen eigen cijfers: de overheid biedt deze gegevens niet aan in een vorm die de app kan opvragen. De officiële kaart opent op " + (c.adres ? "uw " + (c.adres === "Uw locatie" ? "locatie" : "adres") : "uw gemeente") + ".",

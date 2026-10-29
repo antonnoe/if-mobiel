@@ -10,13 +10,13 @@ test("urls: alleen geldige code en postcode, juiste eindpunten, geen eigen heade
   assert.equal(u.catnat, "https://georisques.gouv.fr/api/v1/gaspar/catnat?code_insee=24037&page_size=1");
   assert.equal(u.radon, "https://georisques.gouv.fr/api/v1/radon?code_insee=24037");
   assert.equal(u.sismique, "https://georisques.gouv.fr/api/v1/zonage_sismique?code_insee=24037");
-  assert.equal(G.risicoUrls("24037\" or 1=1"), null); assert.equal(G.belastingUrl("x"), ""); assert.equal(G.mairieUrl(""), ""); assert.equal(G.dvfUrl("1"), "");
+  assert.equal(G.risicoUrls("24037\" or 1=1"), null); assert.equal(G.belastingUrl("x"), ""); assert.equal(G.mairieUrl(""), ""); assert.equal(G.dvfUrl("1", 2026, 1), "");
   assert.ok(G.risicoUrls("2A004")); // Corsica
   const b = new URL(G.belastingUrl("24037")).searchParams;
   assert.equal(b.get("where"), 'insee_com="24037"'); assert.equal(b.get("order_by"), "exercice desc");
   assert.equal(b.get("select"), "exercice,libcom,taux_global_tfb,taux_global_tfnb,taux_plein_teom,taux_global_th");
   assert.equal(new URL(G.mairieUrl("24037")).searchParams.get("where"), 'pivot LIKE "mairie" AND code_insee_commune="24037"');
-  assert.equal(G.dvfUrl("24037"), "https://apidf-preprod.cerema.fr/dvf_opendata/mutations/?code_insee=24037&page_size=1");
+  assert.equal(G.dvfUrl("84054", 2026, 2), "https://apidf-preprod.cerema.fr/dvf_opendata/mutations/?code_insee=84054&anneemut_min=2023&anneemut_max=2026&codtypbien=111,121&page_size=500&page=2");
   assert.equal(G.communesUrl("8480"), ""); assert.ok(G.communesUrl("84800").includes("codePostal=84800"));
 });
 
@@ -56,8 +56,16 @@ test("leesMairie: naam, adres, telefoon en site uit de JSON-teksten van de Annua
   assert.equal(G.leesMairie({ results: [{ nom: "Hotel", pivot: JSON.stringify([{ type_service_local: "cpam" }]) }] }).ok, false);
 });
 
-test("DVF: alleen een telling uit count, anders null (de kaart meldt dan dat DVF niet beschikbaar is); kaartlinks", () => {
-  assert.deepEqual(G.leesDvf({ count: 8016, results: [] }), { aantal: 8016 }); assert.equal(G.leesDvf({}), null); assert.equal(G.leesDvf(null), null);
+test("DVF: pagina, mediaan per type woning, alleen verkopen, te weinig verkopen, onvolledig; kaartlinks", () => {
+  assert.equal(G.leesDvfPagina({}), null); assert.equal(G.leesDvfPagina({ count: 3, results: "x" }), null); assert.deepEqual(G.leesDvfPagina({ count: 2, results: [1, 2] }), { count: 2, results: [1, 2] });
+  const rec = (typ, prijs, m2, nat = "Vente", jaar = 2024) => ({ libnatmut: nat, codtypbien: typ, valeurfonc: String(prijs) + ".00", sbati: String(m2) + ".00", anneemut: jaar });
+  const huizen = [100000, 200000, 300000, 400000, 5000000].map(p => rec("111", p, 100)).concat([rec("111", 999999, 100, "Echange"), rec("111", 0, 100)]);
+  const s = G.dvfSamenvatting(huizen.concat([rec("121", 100000, 50, "Vente", 2022), rec("121", 150000, 50)]), false);
+  assert.equal(s.huis.n, 5); assert.equal(s.huis.prijs, 300000); assert.equal(s.huis.perM2, 3000); assert.equal(s.huis.genoeg, true);
+  assert.equal(s.huis.perM2Laag, 2000); assert.equal(s.huis.perM2Hoog, 4000);
+  assert.equal(s.app.n, 2); assert.equal(s.app.genoeg, false); assert.equal(s.app.prijs, 125000); assert.equal(s.app.perM2, null);
+  assert.equal(s.van, 2022); assert.equal(s.tot, 2024); assert.equal(s.ok, true); assert.equal(G.dvfSamenvatting([], false).ok, false); assert.equal(G.dvfSamenvatting(null), null);
+  assert.equal(G.dvfSamenvatting(huizen, true).onvolledig, true);
   assert.equal(G.dvfKaartUrl(44.8584, 1.2155), "https://explore.data.gouv.fr/immobilier?onglet=carte&lat=44.85840&lon=1.21550&zoom=14");
   assert.equal(G.dvfKaartUrl(null, null), "https://explore.data.gouv.fr/immobilier");
   assert.equal(G.arcepUrl(44.8584, 1.2155), "https://maconnexioninternet.arcep.fr/?lat=44.85840&lng=1.21550&zoom=14");
