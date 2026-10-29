@@ -168,3 +168,12 @@ test("tussenlaag: een mislukte poging (503) wordt herhaald, en na drie mislukkin
   let m = 0; const h2 = maak(async () => { m++; return { ok: false, status: 503, json: async () => ({}) }; });
   const t0 = Date.now(); const r2 = await aanroep(h2, "/api/gemeente?bron=radon&code=62610"); assert.equal(r2.status, 502); assert.equal(m, 3); assert.ok(Date.now() - t0 < 3000);
 });
+
+import { readFileSync } from "node:fs";
+test("Mijn gemeente: de internetkaart opent het bestaande hulpmiddel Internetverbinding in de app", () => {
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(html, /this\.vindModule\("internet"\)/); assert.match(html, /this\.route\(inetMod\)/);
+  assert.match(html, /Open het hulpmiddel Internetverbinding/); assert.match(html, /list="\{\{ k\.acties \}\}"/);
+  const cat = JSON.parse(readFileSync(new URL("../modules.json", import.meta.url), "utf8"));
+  const m = cat.modules.find(x => x.id === "internet"); assert.ok(m && m.kind === "iframe" && m.zichtbaar !== false);
+});
