@@ -720,6 +720,7 @@
     },
     {
       "id": "overhedenbuurt",
+      "rechten": "geolocation",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt/",
       "groep": "leven",

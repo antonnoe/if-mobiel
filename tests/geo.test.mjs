@@ -34,3 +34,11 @@ test("app: locatie alleen op een tik, op twee plekken, zonder te bewaren", () =>
   assert.ok(m.includes("getCurrentPosition") && !/localStorage/.test(m));
   assert.equal((html.match(/getCurrentPosition/g) || []).length, 1);
 });
+
+test("iframe-rechten: geolocation alleen voor de module die erom vraagt", () => {
+  const cat = JSON.parse(readFileSync(new URL("../modules.json", import.meta.url), "utf8"));
+  const met = cat.modules.filter(m => m.rechten).map(m => m.id + ":" + m.rechten);
+  assert.deepEqual(met, ["overhedenbuurt:geolocation"]);
+  assert.match(html, /allow="\{\{ toolAllow \}\}"/);
+  assert.match(html, /toolAllow: "clipboard-write; web-share" \+ \(T && \/\^\[a-z-\]\+\$\/\.test\(T\.rechten/);
+});

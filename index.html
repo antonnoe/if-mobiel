@@ -1981,7 +1981,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <!-- De site zelf, exact de ruimte tussen kopbalk en tabbalk: de schermcontainer scrolt hier
            niet (overflow hidden), het iframe scrolt zelf. Alleen voor sites die framing toestaan
            (weergave: "volledig" in modules.json). De knop "In browser" staat in de kopbalk. -->
-      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write; web-share" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
+      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="{{ toolAllow }}" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
     </div>
     </sc-if>
     <sc-if value="{{ toonUitlegRij }}" hint-placeholder-val="{{ false }}">
@@ -5622,6 +5622,8 @@ class Component extends DCLogic {
       knopLabel: T ? "Open " + T.naam + " ↗" : "Openen",
       geenUrl: !!(T && T.kind === "iframe" && !T.url),
       toolUrl: T && T.url ? T.url : "",
+      // Rechten van het tool-iframe: altijd klembord en delen; extra alleen als de module ze in `rechten` vraagt (nu alleen geolocation voor het adressen-dashboard).
+      toolAllow: "clipboard-write; web-share" + (T && /^[a-z-]+$/.test(T.rechten || "") ? "; " + T.rechten : ""),
       catFout: st.catFout,
       pcLabel: st.postcode ? (st.postcode + (st.plaats ? " " + st.plaats : "")) : "niet ingesteld",
       vraagPostcode: st.vraagPostcode,
