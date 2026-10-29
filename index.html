@@ -2655,6 +2655,9 @@ const DRAAD_API = "https://nlfr-berichten.vercel.app/api/reacties";
 // Interne schermnaam van het artikelscherm (besluit 7).
 const SCHERM_ART = "artikel";
 // Schermen met een pijl linksboven (zie ook showBack).
+// Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
+// nooit een vrije tekst uit de JSON.
+const IFRAME_RECHTEN = ["geolocation"];
 const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|hygiene)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
@@ -5623,7 +5626,7 @@ class Component extends DCLogic {
       geenUrl: !!(T && T.kind === "iframe" && !T.url),
       toolUrl: T && T.url ? T.url : "",
       // Rechten van het tool-iframe: altijd klembord en delen; extra alleen als de module ze in `rechten` vraagt (nu alleen geolocation voor het adressen-dashboard).
-      toolAllow: "clipboard-write; web-share" + (T && /^[a-z-]+$/.test(T.rechten || "") ? "; " + T.rechten : ""),
+      toolAllow: "clipboard-write; web-share" + (T && IFRAME_RECHTEN.indexOf(T.rechten) >= 0 ? "; " + T.rechten : ""),
       catFout: st.catFout,
       pcLabel: st.postcode ? (st.postcode + (st.plaats ? " " + st.plaats : "")) : "niet ingesteld",
       vraagPostcode: st.vraagPostcode,
