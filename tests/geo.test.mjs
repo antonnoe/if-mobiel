@@ -14,7 +14,9 @@ test("geoUrl: alleen getallen, vijf decimalen, naar geo.api.gouv.fr", () => {
 });
 
 test("postcodeUitGeo: eerste geldige postcode, onverwachte vorm of lege lijst geeft null", () => {
-  assert.deepEqual(Hub.postcodeUitGeo([{ nom: "L'Isle-sur-la-Sorgue", codesPostaux: ["84800"] }]), { postcode: "84800", plaats: "L'Isle-sur-la-Sorgue" });
+  assert.deepEqual(Hub.postcodeUitGeo([{ nom: "L'Isle-sur-la-Sorgue", codesPostaux: ["84800"] }]), { postcode: "84800", plaats: "L'Isle-sur-la-Sorgue", code: "", dep: "", lon: null, lat: null });
+  const m = Hub.postcodeUitGeo([{ nom: "Bergerac", code: "24037", codeDepartement: "24", codesPostaux: ["24100"], centre: { coordinates: [0.48, 44.85] } }]);
+  assert.equal(m.code, "24037"); assert.equal(m.lat, 44.85); assert.equal(m.lon, 0.48);
   assert.deepEqual(Hub.postcodeUitGeo([{ nom: "X", codesPostaux: ["ab", "75001"] }]).postcode, "75001");
   for (const v of [[], {}, null, [{ nom: "X" }], [{ codesPostaux: [] }]]) assert.equal(Hub.postcodeUitGeo(v), null);
 });

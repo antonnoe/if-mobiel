@@ -14,14 +14,14 @@ test("scherm: label, kop, intro, V2-regel en slotregel precies één keer", () =
   assert.ok(!/wegwijzer · gratis te lezen/.test(html.slice(html.indexOf("const subs ="), html.indexOf("const subs =") + 1500)), "kopbalk herhaalt het label niet");
 });
 
-test("scherm: vier kaarten, alleen nedergids.nl gaat naar buiten, de rest opent in de app, de rest opent in de app", () => {
+test("scherm: vijf kaarten, alleen nedergids.nl gaat naar buiten, de rest opent in de app, de rest opent in de app", () => {
   const kaarten = [...scherm.matchAll(/<a href="([^"]+)" target="_blank" rel="noopener"/g)].map(m => m[1]);
   assert.deepEqual(kaarten, ["https://www.nedergids.nl"]);
   assert.ok(scherm.includes("Wat u bij Gault &amp; Millau en Michelin niet leest") && scherm.includes("fris, fruitig en hygiënisch"));
-  for (const h of ["ngVerenigingen", "ngOverheden", "ngHygiene"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
+  for (const h of ["ngGemeente", "ngVerenigingen", "ngOverheden", "ngHygiene"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
   assert.match(html, /ngVerenigingen: \(\) => this\.route\(this\.vindModule\("verenigingen"\)\)/);
   assert.match(html, /ngOverheden: \(\) => this\.route\(this\.vindModule\("overhedenbuurt"\)\)/);
-  assert.equal((scherm.match(/min-height:64px/g) || []).length, 4);
+  assert.equal((scherm.match(/min-height:64px/g) || []).length, 5);
   assert.ok(!scherm.includes("Adressenboek"), "Adressenboek en overheden zijn één kaart");
 });
 

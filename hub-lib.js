@@ -107,13 +107,17 @@
   function geoUrl(lat, lon) {
     if (typeof lat !== "number" || typeof lon !== "number" || !isFinite(lat) || !isFinite(lon)) return "";
     return "https://geo.api.gouv.fr/communes?lat=" + encodeURIComponent(lat.toFixed(5)) + "&lon=" + encodeURIComponent(lon.toFixed(5)) +
-      "&fields=nom,codesPostaux,codeDepartement&format=json";
+      "&fields=nom,code,codesPostaux,codeDepartement,centre&format=json";
   }
   function postcodeUitGeo(json) {
     if (!Array.isArray(json)) return null;
     for (var i = 0; i < json.length; i++) {
       var c = json[i], lijst = c && Array.isArray(c.codesPostaux) ? c.codesPostaux : [];
-      for (var j = 0; j < lijst.length; j++) if (postcodeOk(lijst[j])) return { postcode: lijst[j], plaats: typeof c.nom === "string" ? c.nom.trim() : "" };
+      for (var j = 0; j < lijst.length; j++) if (postcodeOk(lijst[j])) {
+        var co = c.centre && Array.isArray(c.centre.coordinates) ? c.centre.coordinates : [];
+        return { postcode: lijst[j], plaats: typeof c.nom === "string" ? c.nom.trim() : "", code: typeof c.code === "string" ? c.code : "",
+          dep: typeof c.codeDepartement === "string" ? c.codeDepartement : "", lon: typeof co[0] === "number" ? co[0] : null, lat: typeof co[1] === "number" ? co[1] : null };
+      }
     }
     return null;
   }
