@@ -14,11 +14,13 @@ test("scherm: label, kop, intro, V2-regel en slotregel precies één keer", () =
   assert.ok(!/wegwijzer · gratis te lezen/.test(html.slice(html.indexOf("const subs ="), html.indexOf("const subs =") + 1500)), "kopbalk herhaalt het label niet");
 });
 
-test("scherm: vier kaarten met de juiste links, nieuw tabblad, noopener", () => {
+test("scherm: vier kaarten, alleen nedergids.nl gaat naar buiten, de rest opent in de app", () => {
   const kaarten = [...scherm.matchAll(/<a href="([^"]+)" target="_blank" rel="noopener"/g)].map(m => m[1]);
-  assert.deepEqual(kaarten, ["https://www.nedergids.nl", "https://infofrankrijk.com/nederlandse-verenigingen-in-frankrijk/",
-    "https://infofrankrijk.com/uitgebreid-adressenboek-voor-nederlanders-in-frankrijk/",
-    "https://infofrankrijk.com/vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt/"]);
+  assert.deepEqual(kaarten, ["https://www.nedergids.nl"]);
+  for (const h of ["ngVerenigingen", "ngAdressen", "ngOverheden"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
+  assert.match(html, /ngVerenigingen: \(\) => this\.route\(this\.vindModule\("verenigingen"\)\)/);
+  assert.match(html, /ngOverheden: \(\) => this\.route\(this\.vindModule\("overhedenbuurt"\)\)/);
+  assert.match(html, /ngAdressen: \(\) => this\.openInfoArtikel\("https:\/\/infofrankrijk\.com\/uitgebreid-adressenboek/);
   assert.equal((scherm.match(/min-height:64px/g) || []).length, 4);
 });
 
