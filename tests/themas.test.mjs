@@ -20,7 +20,7 @@ const INDELING = {
   nieuws: [],
   ervaring: ["forum", "nlfrzoek", "klusforum"],
   ondernemen: ["efacturatie", "gitekompas", "beroepenchecker"],
-  wonen: ["klussen", "lijstjes", "tekoop", "dossierelektra", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
+  wonen: ["klussen", "lijstjes", "tekoop", "dossierelektra", "elektrabuiten", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
   taal: ["correspondentie", "taalhulp", "woordenboek"]
 };
 
@@ -33,8 +33,9 @@ test("negen thema's in de juiste volgorde", () => {
 test("eigen schermen en nieuwsstroken per thema", () => {
   const scherm = Object.fromEntries(cat.themas.filter(t => t.scherm).map(t => [t.id, t.scherm]));
   assert.deepEqual(scherm, {gezondheid: "gezondheid", nieuws: "nieuws", ondernemen: "ondernemen", wonen: "lamaison"});
+  // 29-10-2026: geen nieuwsstroken meer op de themaschermen, de berichten uit de stromen hadden niets met het thema te maken. Nieuws heeft zijn eigen tab.
   const nieuws = Object.fromEntries(cat.themas.filter(t => t.nieuws).map(t => [t.id, t.nieuws]));
-  assert.deepEqual(nieuws, {geld: ["geld-belasting", "economie"], overheid: ["wetgeving", "nl-overheid", "douane"], adressen: ["verenigingen"], wonen: ["natuur-milieu"], gezondheid: ["zorg"]});
+  assert.deepEqual(nieuws, {});
 });
 
 test("elke module heeft een geldig thema", () => {
@@ -81,7 +82,7 @@ test("nieuwe modules en Klussen", () => {
 });
 
 test("modules die standaard uit staan blijven uit", () => {
-  const uit = ["moestuin", "efacturatie", "palliatief", "frankrijklegal", "plusvalue", "bouwgrond", "devisdossier", "huizenchecker", "gitekompas", "woningzoeker", "nlfrzoek", "dossierelektra"];
+  const uit = ["moestuin", "efacturatie", "palliatief", "frankrijklegal", "plusvalue", "bouwgrond", "devisdossier", "huizenchecker", "gitekompas", "woningzoeker", "nlfrzoek"];
   uit.filter(id => vind(id)).forEach(id => assert.equal(vind(id).standaard, "uit", id));
   assert.ok(mods.filter(m => m.standaard === "uit").length >= 12);
 });

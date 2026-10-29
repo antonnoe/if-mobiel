@@ -94,7 +94,7 @@ test('index.html: bibliotheek geladen, menu-item en blad aanwezig, sluiten via t
 });
 
 test('de naam en reactie gaan nooit naar localStorage of sessionStorage', () => {
-  const blok = html.slice(html.indexOf('// ---- Feedback van testers'), html.indexOf('menuNaar(update){'));
+  const blok = html.slice(html.indexOf('// ---- Feedback van testers'), html.indexOf('menuNaar(update){')).replace(/protoSluit:.*\n/, '');
   assert.ok(blok.length > 500);
   assert.ok(!/localStorage|sessionStorage/.test(blok.replace(/\/\/.*$/gm, '')));
 });

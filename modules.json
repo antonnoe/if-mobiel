@@ -135,15 +135,15 @@
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Klussen in Frankrijk",
-      "meta": "107 praktijkartikelen en het elektriciteitsdossier",
+      "meta": "107 praktijkartikelen en de dossiers over de elektrische installatie",
       "prijs": "gratis",
       "schil": "zoekschil",
       "houdbaar": "jaren",
       "status": "inhoud af",
       "kind": "iframe",
-      "url": "https://infofrankrijk.com/klussen/#onderwerpen",
+      "url": "https://infofrankrijk.com/klussen/",
       "nagekeken": "2026-09-02",
-      "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus het elektriciteitsdossier. De site opent volledig in de app.",
+      "over": "De praktijkkennis van Christian von Klösterlein over het verbouwen van Franse huizen, in acht onderwerpen en 25 secties, plus de dossiers over de elektrische installatie. De site opent volledig in de app.",
       "weergave": "volledig",
       "zoekindex_wacht": "https://infofrankrijk.com/klussen/zoekindex.json",
       "kort": "Klussen"
@@ -154,7 +154,7 @@
       "groep": "wonen",
       "thema": "wonen",
       "naam": "Mijn lijstjes",
-      "meta": "Uw lijstjes met Franse bouwtermen en hun vertaling, voor mee naar de winkel",
+      "meta": "Uw eigen woordenlijstjes met Franse bouwtermen, voor mee naar de bouwmarkt",
       "prijs": "gratis",
       "schil": "zoekschil",
       "houdbaar": "jaren",
@@ -162,7 +162,7 @@
       "kind": "iframe",
       "url": "https://infofrankrijk.com/klussen/lijstjes/",
       "nagekeken": "2026-10-25",
-      "over": "Uw eigen lijstjes met Franse bouwtermen en de vertaling ernaast, zodat u in de bouwmarkt kunt laten zien wat u zoekt. U voegt termen toe in de artikelen van Klussen in Frankrijk. De lijstjes staan alleen op dit toestel en nergens anders.",
+      "over": "Mijn lijstjes is uw persoonlijke woordenlijst voor het klussen. Terwijl u de artikelen van Klussen in Frankrijk leest, zet u Franse bouwtermen met de Nederlandse vertaling op een lijstje. In de bouwmarkt laat u zo zien wat u zoekt als u het woord niet weet. De lijstjes staan alleen op dit toestel. Het heeft niets te maken met DossierFrankrijk of Mijn dossier.",
       "weergave": "volledig"
     },
     {
@@ -568,6 +568,7 @@
     },
     {
       "id": "palliatief",
+      "ookNedergids": true,
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "gezondheid",
@@ -701,6 +702,7 @@
     },
     {
       "id": "controletechnique",
+      "ookNedergids": true,
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/de-controle-technique-de-franse-apk/",
       "groep": "leven",
@@ -858,21 +860,39 @@
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
-      "naam": "Dossier elektriciteit",
-      "meta": "de Franse elektrische installatie",
+      "naam": "De Franse elektrische installatie",
+      "meta": "aansluiting, meter en groepenkast, het dossier is nog in toetsing",
+      "prijs": "gratis",
+      "schil": "keuzeschil",
+      "houdbaar": "per jaar",
+      "status": "in ontwikkeling",
+      "kind": "iframe",
+      "url": "https://infofrankrijk.com/klussen/dossiers/de-franse-elektrische-installatie/",
+      "nagekeken": "2026-10-29",
+      "over": "Een technisch dossier over de Franse elektrische installatie in huis, van aansluiting, meter en contract tot de groepenkast. Het dossier is nog in toetsing voor publicatie. Het hoort bij Klussen in Frankrijk op Infofrankrijk.",
+      "weergave": "volledig",
+      "kort": "Franse elektrische installatie"
+    },
+    {
+      "id": "elektrabuiten",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
+      "groep": "wonen",
+      "thema": "wonen",
+      "naam": "Elektra buiten het huis",
+      "meta": "tuin, bijgebouwen, poort, zwembad en storing",
       "prijs": "gratis",
       "schil": "keuzeschil",
       "houdbaar": "per jaar",
       "status": "af",
       "kind": "iframe",
-      "url": "https://dossier-elektriciteit-if.vercel.app",
-      "nagekeken": "2026-10-21",
-      "over": "Het handboek over de Franse elektrische installatie, van meter en groepenkast tot normen en keuring. Dit is nog een redactie-exemplaar: opmerkingen kunnen tot 1 november 2026 worden gestuurd.",
-      "weergave": "volledig",
-      "standaard": "uit"
+      "url": "https://infofrankrijk.com/klussen/dossiers/elektra-buiten-het-huis/",
+      "nagekeken": "2026-10-29",
+      "over": "Een klus-voor-klus dossier over elektra buiten het huis: tuin, bijgebouwen, poort, zwembad en storing, met een eigen normverantwoording en open punten. Het hoort bij Klussen in Frankrijk op Infofrankrijk.",
+      "weergave": "volledig"
     },
     {
       "id": "zoekers",
+      "ookNedergids": true,
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "gezondheid",
@@ -2114,10 +2134,6 @@
       "naam": "Geld",
       "wat": "Belasting, erfenis en vermogen.",
       "omschrijving": "Uw eigen financiën als particulier: inkomen, belasting, sociale heffingen, erfenis en de kosten van uw huis.",
-      "nieuws": [
-        "geld-belasting",
-        "economie"
-      ],
       "cafe": {
         "domein": "geld",
         "tekst": "Vraag het Café Claude over belasting, pensioen en vermogen"
@@ -2130,11 +2146,6 @@
       "naam": "Overheid",
       "wat": "Emigreren, auto en wetgeving.",
       "omschrijving": "Papieren en regels voor wie naar Frankrijk emigreert of er woont: registratie, auto en wetgeving.",
-      "nieuws": [
-        "wetgeving",
-        "nl-overheid",
-        "douane"
-      ],
       "cafe": {
         "domein": "bureaucratie",
         "tekst": "Vraag het Café Claude over papieren, loketten en registratie"
@@ -2148,9 +2159,6 @@
       "wat": "Ouder worden, zorg en zorgwoorden.",
       "omschrijving": "Ouder worden en zorg in Frankrijk: het dossier daarover, wat u vooraf kunt regelen en de hulpmiddelen erbij.",
       "scherm": "gezondheid",
-      "nieuws": [
-        "zorg"
-      ],
       "cafe": {
         "domein": "zorg",
         "tekst": "Vraag het Café Claude over zorg en verzekeren"
@@ -2163,10 +2171,7 @@
       "naam": "Verenigingen",
       "wat": "Verenigingen en evenementen.",
       "omschrijving": "Nederlandse verenigingen in Frankrijk: wie waar zit en wat er wanneer is.",
-      "uitsluiten": ["nedergids"],
-      "nieuws": [
-        "verenigingen"
-      ]
+      "uitsluiten": ["nedergids"]
     },
     {
       "id": "nieuws",
@@ -2210,9 +2215,6 @@
       "bron": "https://if-plek.vercel.app/la-maison.json",
       "site": "https://infofrankrijk.com",
       "gids": "https://infofrankrijk.com/la-maison/",
-      "nieuws": [
-        "natuur-milieu"
-      ],
       "cafe": {
         "domein": "wonen",
         "tekst": "Vraag het Café Claude over wonen, kopen en verbouwen"

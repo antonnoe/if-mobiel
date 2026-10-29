@@ -66,15 +66,8 @@ test("strook 'alle nieuws': een bestaand API-thema gaat direct naar die tegel", 
 });
 
 test("themakoppeling uit modules.json: de vijf koppelingen exact", () => {
-  const verwacht = {
-    geld: ["geld-belasting", "economie"],
-    overheid: ["wetgeving", "nl-overheid", "douane"],
-    adressen: ["verenigingen"],
-    wonen: ["natuur-milieu"],
-    gezondheid: ["zorg"]
-  };
-  Object.entries(verwacht).forEach(([id, lijst]) => assert.deepEqual(L.nieuwsIdsVoorThema(cat.themas, id), lijst, id));
-  ["ervaring", "ondernemen", "taal", "nieuws"].forEach(id => assert.deepEqual(L.nieuwsIdsVoorThema(cat.themas, id), [], id));
+  // 29-10-2026: geen enkel thema heeft nog een nieuwsstrook (de stromen pasten niet bij de thema's).
+  ["geld", "overheid", "adressen", "wonen", "gezondheid", "ervaring", "ondernemen", "taal", "nieuws"].forEach(id => assert.deepEqual(L.nieuwsIdsVoorThema(cat.themas, id), [], id));
   assert.deepEqual(L.nieuwsIdsVoorThema(cat.themas, "onbekend"), []);
 });
 

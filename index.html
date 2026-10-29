@@ -218,6 +218,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <span style="font:600 14.5px Mulish;color:#71787C">Zoek in modules, berichten en woorden</span>
       </button>
     </div>
+    <sc-if value="{{ protoOpen }}" hint-placeholder-val="{{ true }}">
+    <div data-proto="1" style="margin:14px 16px 0;padding:12px 6px 14px 14px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);display:flex;align-items:flex-start;gap:6px">
+      <div style="flex:1;min-width:0">
+        <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Prototype</div>
+        <p style="margin:6px 0 0;font:500 14px/1.65 Mulish;color:#15181A;text-wrap:pretty">InfoPoche is nog een prototype. U bent van harte welkom om uw feedback, verbetervoorstellen en suggesties met ons te delen.</p>
+        <button onClick="{{ protoFeedback }}" style="margin-top:10px;min-height:44px;padding:0 16px;border:1.5px solid rgba(128,0,0,.35);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Geef uw feedback</button>
+      </div>
+      <button onClick="{{ protoSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
+    </div>
+    </sc-if>
     <div style="padding:20px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Onze vier</div>
     <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:8px 16px 0">
       <sc-for list="{{ hubVier }}" as="v" hint-placeholder-count="4">
@@ -421,6 +431,21 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-for>
   </div>
   </sc-if>
+  </sc-if>
+  <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Klussen in Frankrijk</div>
+  <sc-if value="{{ lmHeeftKlus }}" hint-placeholder-val="{{ true }}">
+  <div data-klusblok="1" style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+    <sc-for list="{{ lmKlus }}" as="k" hint-placeholder-count="4">
+    <button onClick="{{ k.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:11px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
+      <span style="flex:1;min-width:0">
+        <b style="display:block;font:700 14px/1.35 Mulish;color:#15181A;overflow-wrap:anywhere">{{ k.label }}</b>
+        <span style="display:block;margin-top:2px;font:500 13px/1.45 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ k.meta }}</span>
+        <sc-if value="{{ k.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
+      </span>
+      <span style="font:700 14px Mulish;color:#800000;flex:none">&#8594;</span>
+    </button>
+    </sc-for>
+  </div>
   </sc-if>
   <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Tools bij wonen</div>
   <sc-if value="{{ lmHeeftTools }}" hint-placeholder-val="{{ true }}">
@@ -1941,6 +1966,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ ngGemeente }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Mijn gemeente</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Risico's, belasting, mairie en meer voor uw gemeente</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     <button onClick="{{ ngVerenigingen }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlandse verenigingen</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Welke verenigingen kunt u in Frankrijk vinden</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     <button onClick="{{ ngOverheden }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Franse overheden bij u in de buurt</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Loketten en instellingen op postcode</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    <sc-for list="{{ ngExtra }}" as="x" hint-placeholder-count="3">
+    <button onClick="{{ x.open }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">{{ x.naam }}</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">{{ x.meta }}</span><sc-if value="{{ x.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    </sc-for>
     <button onClick="{{ ngHygiene }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Wat u bij Gault &amp; Millau en Michelin niet leest</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">We laten niet zien of het lekker is, wel of het fris, fruitig en hygiënisch is</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
   <p style="margin:16px 18px 0;font:500 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Deze functies komen samen in Nedergids V2.</p>
@@ -2588,7 +2616,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div>
   <div style="padding:22px 16px 0;text-align:center"><img src="./icons/logo-brons.svg" alt="" width="84" height="84" style="display:block;margin:0 auto;width:84px;height:auto"><h1 style="margin:14px 0 0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">Over InfoPoche</h1><p style="margin:8px 0 0;font:400 15.5px Mulish;line-height:1.6;color:#3D4346;text-wrap:pretty">Ons netwerk in uw broekzak</p></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Wie zijn we</div>
-  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Infofrankrijk.com</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Kennishub, sinds 2001.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlanders.fr</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Het forum, sinds 2002, met ruim 25.000 leden. Het bestaat dankzij de mensen die eraan bijdragen: vragenstellers, bijdragers en discussiedeelnemers, soms honderden bijdragen per persoon over vele jaren.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Een gemodereerde gemeenschap</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Met toelating, huisregels en optreden tegen spam en misbruik.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Café Claude</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">U klikt uw vraag aan en krijgt een kort, duidelijk antwoord. Daaronder staat de volledige onderbouwing: de uitgebreide analyse waarop dat antwoord rust. U krijgt dus niet alleen het antwoord, maar ook hoe we eraan komen.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Vind particulieren en dienstverleners in Frankrijk.</p></div></div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Infofrankrijk.com</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Kennishub, sinds 2001.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlanders.fr</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Het forum, sinds 2002, met ruim 25.000 leden. Het bestaat dankzij de mensen die eraan bijdragen: vragenstellers, bijdragers en discussiedeelnemers, soms honderden bijdragen per persoon over vele jaren. Het is een gemodereerde gemeenschap, met toelating, huisregels en optreden tegen spam en misbruik.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Café Claude</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">U klikt uw vraag aan en krijgt een kort, duidelijk antwoord. Daaronder staat de volledige onderbouwing: de uitgebreide analyse waarop dat antwoord rust. U krijgt dus niet alleen het antwoord, maar ook hoe we eraan komen.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Vind particulieren en dienstverleners in Frankrijk.</p></div></div>
   <div style="padding:26px 18px 8px">
     <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Hoe wij naar kennis kijken</div>
     <p style="font-size:13.5px;line-height:1.8;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Onderaan staan data en zoek-agents. Daarboven kennis: een gevalideerd antwoord op een gestelde vraag. Bovenaan, het grootst, staat ervaring, want één melding is een anekdote en twintig meldingen zijn een patroon. In de punt de handeling zelf: uitwisseling.</p>
@@ -2603,7 +2631,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </button>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Peil</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Ons register van financiële parameters en berekeningsgrondslagen voor Nederland en Frankrijk, waarmee de tools en Café Claude rekenen. Elk met bron en datum van controle.</p><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Peil-stempel</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Bij elke uitkomst die met Peil rekent, staat de controledatum en een link.</p></div></div>
-  <a href="https://communitiesabroad.com/manifest/tools" target="_blank" rel="noopener" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Bekijk wat we per tool controleren &#8599;</a>
+  <a href="https://communitiesabroad.com/manifest/tools" target="_blank" rel="noopener" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Peil: bekijk wat we per tool controleren &#8599;</a>
+  <a href="https://infofrankrijk.com/ons-manifest-hoe-wij-werken/" target="_blank" rel="noopener" style="margin:10px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Lees hoe wij werken &#8599;</a>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Cockpit</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Toezicht op de techniek: werkt elke tool, zijn de koppelingen en API's in orde, zijn er storingen. Cockpit signaleert voordat iets breekt: verloopdata, sleutels en koppelingen, met diagnose en herstelroute.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Peil bewaakt de integriteit van de data. Dat is een continu proces van updaten en controleren, niet alleen van de parameters maar ook van de berekeningsgrondslagen.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Officiële bronnen wegen zwaar. Facebook telt niet als bron.</p></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Kansen en valkuilen</div>
@@ -3183,7 +3212,7 @@ class Component extends DCLogic {
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
-    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", fbOpen:false, fbNaam:"", fbOnderdeel:"", fbBericht:"", fbToestel:null, fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
+    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", protoWeg:(() => { try { return sessionStorage.getItem("ifm_proto_weg") === "1"; } catch(e){ return false; } })(), fbOpen:false, fbNaam:"", fbOnderdeel:"", fbBericht:"", fbToestel:null, fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
@@ -3256,8 +3285,11 @@ class Component extends DCLogic {
     const ookRijen = (st.onStatus === "klaar" && window.ondernemenOok ? window.ondernemenOok(st.onStappen, "wonen") : [])
       .filter(it => it.soort === "artikel" && !it.later)
       .map(it => ({titel:it.titel, href:window.ondernemenUrl(onSite, it), hoort:"hoort bij " + onNaam}));
+    // Klussen in Frankrijk heeft een eigen blok, met de dossiers en de lijstjes eronder; de rest staat in Tools bij wonen.
+    const klusIds = ["klussen","dossierelektra","elektrabuiten","lijstjes"];
+    const klus = klusIds.map(id => this.mods().find(m => m.id === id)).filter(Boolean);
     const tools = ["klussen","lijstjes","tekoop","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
-      .map(id => this.mods().find(m => m.id === id)).filter(Boolean);
+      .map(id => this.mods().find(m => m.id === id)).filter(Boolean).filter(m => !klusIds.includes(m.id));
     return {
       isLamaison: is,
       lmLaden: st.lmStatus === "laden" || st.lmStatus === "leeg",
@@ -3268,6 +3300,8 @@ class Component extends DCLogic {
         pick: () => this.setState({lmTab:x.id})})),
       lmIsKopen: !!del.fasen, lmIsLijst: !!del.artikelen,
       lmFasen: fasen, lmArts: (del.artikelen || []).map(art),
+      lmKlus: klus.map(m => ({label: m.naam, meta: m.meta || "", ontw: this.inOntw(m), open: () => this.route(m)})),
+      lmHeeftKlus: klus.length > 0,
       lmTools: tools.map(m => ({label: m.kort || m.naam, ontw: this.inOntw(m), open: () => this.route(m)})),
       lmHeeftTools: tools.length > 0, lmGeenTools: tools.length === 0,
       lmOok: ookRijen, lmHeeftOok: ookRijen.length > 0
@@ -4400,6 +4434,8 @@ class Component extends DCLogic {
     return {
       mnIcoFeedback: this.iconStyle("feedback", 24) + ";color:#800000",
       mnFeedback: () => this.fbOpenen(),
+      protoOpen: !st.protoWeg, protoFeedback: () => this.fbOpenen(),
+      protoSluit: () => { try { sessionStorage.setItem("ifm_proto_weg", "1"); } catch(e){} this.setState({protoWeg:true}); },
       fbOpen: !!st.fbOpen, fbSluit: () => this.fbSluit(),
       fbKlaar: st.fbStatus === "klaar",
       fbNaam: st.fbNaam, fbBericht: st.fbBericht, fbToestelWaarde: st.fbToestel || "", fbWeb: st.fbWeb, fbAkkoord: st.fbAkkoord,
@@ -5842,6 +5878,7 @@ class Component extends DCLogic {
       ngHygiene: () => this.hyOpen(),
       ngGemeente: () => this.gmOpen(),
       ngOverheden: () => this.route(this.vindModule("overhedenbuurt")),
+      ngExtra: this.alleMods().filter(m => m.ookNedergids === true && m.zichtbaar !== false).map(m => ({naam: m.naam, meta: m.meta || "", ontw: this.inOntw(m), open: () => this.route(m)})),
       isOver: st.screen === "over",
       ...this.artVals(),
       ...this.abVals(),

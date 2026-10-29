@@ -21,7 +21,7 @@ test("scherm: vijf kaarten, alleen nedergids.nl gaat naar buiten, de rest opent 
   for (const h of ["ngGemeente", "ngVerenigingen", "ngOverheden", "ngHygiene"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
   assert.match(html, /ngVerenigingen: \(\) => this\.route\(this\.vindModule\("verenigingen"\)\)/);
   assert.match(html, /ngOverheden: \(\) => this\.route\(this\.vindModule\("overhedenbuurt"\)\)/);
-  assert.equal((scherm.match(/min-height:64px/g) || []).length, 5);
+  assert.equal((scherm.match(/min-height:64px/g) || []).length, 6, "vijf vaste kaarten plus de herhaalde kaart uit ngExtra");
   assert.ok(!scherm.includes("Adressenboek"), "Adressenboek en overheden zijn één kaart");
 });
 
@@ -35,4 +35,11 @@ test("scherm en data: geen filters, Uitgelicht, sitelijst, aanmeldblok, archiefn
 
 test("kopbalk herhaalt de kop Nedergids niet", () => {
   assert.match(html, /st\.screen === "nedergids" \? "" : titles\[st\.screen\]/);
+});
+
+test("Nedergids toont ook de zoekers per buurt of departement, uit de data (ookNedergids)", () => {
+  const extra = cat.modules.filter(m => m.ookNedergids === true).map(m => m.id).sort();
+  assert.deepEqual(extra, ["controletechnique", "palliatief", "zoekers"]);
+  assert.ok(scherm.includes('<sc-for list="{{ ngExtra }}"'));
+  assert.match(html, /ngExtra: this\.alleMods\(\)\.filter\(m => m\.ookNedergids === true/);
 });
