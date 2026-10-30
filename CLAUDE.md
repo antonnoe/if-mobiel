@@ -362,3 +362,9 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 - **Themascherm** (`data-themategels`, `themaMods`): de modules staan als tegels naast elkaar (raster van twee kolommen, `minmax(0,1fr)`, 10 px tussenruimte) in plaats van rijen in één kaart: naam in Poppins 600, de korte regel eronder, onderin het prijslabel en de favorietenster (48x48 tikvlak, de tegel zelf is de knop naar de module; het label heeft `pointer-events:none`). "In ontwikkeling" en "hoort bij" staan in de tegel. De Café Claude-regel is een eigen kaart onder het raster.
 - **Wonen** (La Maison): de blokken "Klussen in Frankrijk" (`data-klusblok`) en "Tools bij wonen" (`data-toolsblok`) hebben dezelfde tegels, met de `meta` van de module als regel. Nog rijen: Alle modules, Mijn modules, Gezondheid (Hulpmiddelen) en de lijsten bij Ondernemen.
 - Service worker `VERSIE` 2026-10-30-4.
+
+## Mijn modules bovenaan, stand en terug naar de standaard (30-10-2026)
+
+- Op Alle modules staat "Mijn modules: kies wat u hier ziet" nu **bovenaan** (`data-modkeuze`), met eronder de stand ("U ziet N van M modules", plus "Dat volgt uit uw keuzes in Mijn modules" zodra er eigen keuzes zijn) en de knop "Terug naar de standaard". Onderaan blijft alleen de gratis-regel.
+- `resetKeuze()` wist alle eigen keuzes (`ifm_modules` wordt `{aan:[], uit:[]}`), waarna `standaard` in `modules.json` weer geldt. De knop staat ook in Mijn modules, onder Alles aan en Alleen favorieten. Reden: wie veel modules uit zette ziet lege onderwerpen (bv. Ervaring zonder Forum) en een korte lijst Alle modules, en had geen directe weg terug naar wat de catalogus als standaard heeft.
+- Let op: "Alles aan" zet ook de modules aan die `standaard: "uit"` hebben; "Terug naar de standaard" doet dat niet. Service worker `VERSIE` 2026-10-30-5.
