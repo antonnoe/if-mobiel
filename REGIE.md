@@ -245,3 +245,15 @@ Service worker VERSIE 2026-10-25-6.
 ## Herstelronde 1 na reiskeuring: sponsors en Te koop (25-10-2026)
 
 Opgelost: zichtbare externe links, uitleg bij adverteren, één naam, "Toon meer (nog N)", k.k. voluit, sponsorlabel met naam en uit de pas lopende banners (NVLR vertraging 2750 ms). Getest op 390x844 en 320x640, ook met Grotere tekst, geen horizontale scroll. Tests 176 groen.
+
+## Klusarchief, besluiten van Anton (30-10-2026)
+
+Dit is de vaste regie voor het Klusarchief (module `klusforum`, scherm `klusarchief`). Er wordt niet van afgeweken zonder nieuw besluit van Anton.
+
+1. Alle namen in het archief zijn fictief en dat staat zichtbaar: op het zoekscherm en bovenaan elke draad: "Om privacyredenen zijn alle namen in dit archief verzonnen."
+2. Elke draad toont duidelijk het jaar en de waarschuwing: "Advies uit 2012 tot 2020. Regels, bedragen en normen kunnen verouderd zijn, controleer ze bij de officiële bron."
+3. Geen AI en geen nepchat: alleen zoeken en lezen. De app belooft niets wat hij niet doet.
+4. Een lezer kan een draad melden ("Dit bericht bevat een naam of persoonsgegeven"): kleine knop onderaan de draad, eerst een bevestiging in het scherm (geen browser-confirm), dan een POST; daarna "Gemeld, het bericht is uit het archief gehaald" en terug naar de resultaten. Mislukt het melden, dan een eerlijke melding en de uitweg info@communitiesabroad.com.
+5. Geen account, niets bewaren van de zoekterm op het toestel.
+
+Techniek en herstel van een gemelde draad: zie het hoofdstuk "Klusarchief (30-10-2026)" in CLAUDE.md.

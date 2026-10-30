@@ -184,6 +184,25 @@
       "over": "Advertenties van particulieren en makelaars, geplaatst op Nederlanders.fr. Nieuwste bovenaan. Een tik opent de advertentie op Nederlanders.fr."
     },
     {
+      "id": "klusforum",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
+      "artikel": "https://infofrankrijk.com/uit-het-klusforum-van-infofrankrijk-com/",
+      "groep": "wonen",
+      "thema": "wonen",
+      "naam": "Klusarchief",
+      "kort": "Klusarchief",
+      "meta": "Oude klusdraden van het Infofrankrijk-forum, doorzoekbaar",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "klusarchief",
+      "nagekeken": "2026-10-30",
+      "over": "Zoek in de klusdraden van het oude Infofrankrijk-forum (2012 tot 2020) over bouwen, verbouwen, tuin, water, septic tank en elektra, en lees wat anderen toen ervoeren. Alle namen zijn om privacyredenen verzonnen.",
+      "zoekwoorden": "septic afvoer riool dak houtkachel elektra water tuin bouwen verbouwen klussen forum archief",
+      "standaard": "aan"
+    },
+    {
       "id": "vastgoed",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
@@ -700,26 +719,6 @@
       "nagekeken": "2026-10-24",
       "over": "Zoek een adres en zie officiële Franse data (DVF, GéoRisques, IGN, GPU, ADEME/ARCEP) over prijzen, risico's en bestemming rond dat adres.",
       "weergave": "volledig",
-      "standaard": "uit"
-    },
-    {
-      "id": "klusforum",
-      "peilkaart": "https://communitiesabroad.com/manifest/tools",
-      "artikel": "https://infofrankrijk.com/uit-het-klusforum-van-infofrankrijk-com/",
-      "groep": "wonen",
-      "thema": "ervaring",
-      "naam": "Uit het klusforum",
-      "meta": "12 jaar klusdiscussies, doorzoekbaar",
-      "prijs": "gratis",
-      "schil": "zoekschil",
-      "houdbaar": "jaren",
-      "status": "af",
-      "kind": "iframe",
-      "url": "https://infofrankrijk-klussen-archief.vercel.app",
-      "nagekeken": "2026-10-24",
-      "over": "Het klus- en forumarchief van Infofrankrijk: 12 jaar forumdiscussies, veiliggesteld en doorzoekbaar, met vragen over onder meer elektra, loodgieterswerk, renovatie en vergunningen.",
-      "let": "De tool vraagt om in te loggen met Google en opent daarom in een nieuw tabblad.",
-      "weergave": "knop",
       "standaard": "uit"
     },
     {

@@ -24,6 +24,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./lamaison-lib.js"></script>
 <script src="./sponsors-lib.js"></script>
 <script src="./advertenties-lib.js"></script>
+<script src="./klusarchief-lib.js"></script>
 <script src="./hygiene-lib.js"></script>
 <script src="./gemeente-lib.js"></script>
 <script src="./feedback-lib.js"></script>
@@ -140,6 +141,7 @@ input,button{font-family:Mulish,system-ui,sans-serif}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 ::-webkit-scrollbar{width:0;height:0}
 input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
+[data-klusarchief] :focus-visible{outline:3px solid #800000;outline-offset:2px}
 </style>
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#800000"/><rect x="72" y="46" width="56" height="108" rx="10" fill="#F4F1F0"/><text x="100" y="112" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="600" font-size="30" fill="#800000">IF</text></svg></template>
 </helmet>
@@ -2426,6 +2428,152 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
+<!-- ============ KLUSARCHIEF (oud klusforum van Infofrankrijk, alleen zoeken en lezen) ============ -->
+<sc-if value="{{ isKa }}" hint-placeholder-val="{{ false }}">
+<div data-klusarchief="1">
+  <sc-if value="{{ kaZoekScherm }}" hint-placeholder-val="{{ true }}">
+  <div data-ka-zoek="1">
+    <div style="padding:22px 16px 0">
+      <h1 style="margin:0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2;overflow-wrap:anywhere">Klusarchief</h1>
+      <p style="margin:10px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">{{ kaIntro }}</p>
+      <div data-ka-privacy="1" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 14px/1.6 Mulish;color:#15181A;overflow-wrap:anywhere">{{ kaPrivacy }}</div>
+      <sc-if value="{{ kaGemeld }}" hint-placeholder-val="{{ false }}">
+      <div role="status" data-ka-gemeld="1" style="margin-top:12px;padding:12px 14px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10);font:700 14px/1.6 Mulish;color:#15181A">Gemeld, het bericht is uit het archief gehaald</div>
+      </sc-if>
+      <form onSubmit="{{ kaVerstuur }}" style="margin-top:14px;display:flex;gap:8px">
+        <input value="{{ kaQ }}" onInput="{{ kaOnQ }}" type="text" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120" placeholder="Bijv. septic tank" aria-label="Zoek in het Klusarchief" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#fff">
+        <button type="submit" style="flex:none;min-height:52px;min-width:72px;padding:0 18px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
+      </form>
+      <sc-if value="{{ kaKort }}" hint-placeholder-val="{{ false }}">
+      <p role="alert" style="margin:8px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Typ minstens 2 tekens.</p>
+      </sc-if>
+      <div style="margin-top:12px;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Probeer bijvoorbeeld</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+        <sc-for list="{{ kaVoorbeelden }}" as="v" hint-placeholder-count="4">
+        <button onClick="{{ v.klik }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(128,0,0,.28);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">{{ v.woord }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <sc-if value="{{ kaLaadt }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#3D4346">Het archief wordt doorzocht...</div>
+    </sc-if>
+    <sc-if value="{{ kaFoutMelding }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">{{ kaFoutTekst }}</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+        <button onClick="{{ kaOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+        <a href="{{ kaTerugvalUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-align:center;text-decoration:none">Klussen in Frankrijk op infofrankrijk.com &#8599;</a>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ kaLeeg }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="padding:18px 16px 0;font:600 14.5px/1.6 Mulish;color:#3D4346">Niets gevonden. Probeer een ander woord, of een kortere zoekterm.</div>
+    </sc-if>
+    <sc-if value="{{ kaLijst }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:18px 16px 0;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">{{ kaTelling }}</div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding:10px 16px 0">
+      <sc-for list="{{ kaKaarten }}" as="k" hint-placeholder-count="3">
+      <button onClick="{{ k.open }}" aria-label="{{ k.label }}" style="display:block;width:100%;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;cursor:pointer">
+        <span style="display:block;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
+        <span style="display:block;margin-top:5px;font:600 12.5px/1.4 Poppins,system-ui,sans-serif;color:#3D4346">{{ k.meta }}</span>
+        <sc-if value="{{ k.heeftFragment }}" hint-placeholder-val="{{ true }}">
+        <span style="display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;margin-top:8px;font:400 14.5px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere"><sc-for list="{{ k.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.vet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800;color:#15181A;background:rgba(128,0,0,.10);border-radius:3px">{{ s.t }}</b></sc-if><sc-if value="{{ s.gewoon }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if></sc-for></span>
+        </sc-if>
+      </button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ kaMeerZichtbaar }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:14px 16px 0">
+      <sc-if value="{{ kaMeerFout }}" hint-placeholder-val="{{ false }}">
+      <p role="alert" style="margin:0 0 8px;font:600 13.5px/1.6 Mulish;color:#3D4346">Meer laden lukte niet.</p>
+      </sc-if>
+      <button onClick="{{ kaMeer }}" style="width:100%;min-height:50px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14.5px Mulish;cursor:pointer">{{ kaMeerTekst }}</button>
+    </div>
+    </sc-if>
+    </sc-if>
+    <div style="height:28px"></div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ kaDraadScherm }}" hint-placeholder-val="{{ false }}">
+  <div data-ka-draad="1">
+    <div style="padding:22px 16px 0">
+      <h1 style="margin:0;font:500 26px 'Source Serif 4',Georgia,serif;line-height:1.25;overflow-wrap:anywhere">{{ kdTitel }}</h1>
+      <sc-if value="{{ kdHeeftMeta }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:8px;font:600 13px/1.5 Poppins,system-ui,sans-serif;color:#3D4346;overflow-wrap:anywhere">{{ kdMeta }}</div>
+      </sc-if>
+      <div data-ka-waarschuwing="1" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:500 14px/1.6 Mulish;color:#15181A;overflow-wrap:anywhere">
+        <div style="font-weight:700">{{ kaPrivacy }}</div>
+        <div style="margin-top:6px">{{ kaWaarschuwing }}</div>
+      </div>
+    </div>
+    <sc-if value="{{ kdLaadt }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#3D4346">Het bericht wordt opgehaald...</div>
+    </sc-if>
+    <sc-if value="{{ kdFout }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">Dit bericht is nu niet te laden.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+        <button onClick="{{ kdOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+        <a href="{{ kaTerugvalUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-align:center;text-decoration:none">Klussen in Frankrijk op infofrankrijk.com &#8599;</a>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ kdWeg }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">Dit bericht staat niet meer in het archief.</p>
+      <button onClick="{{ kdTerug }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Terug naar de resultaten</button>
+    </div>
+    </sc-if>
+    <sc-if value="{{ kdKlaar }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:14px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <sc-for list="{{ kdAlineas }}" as="a" hint-placeholder-count="2">
+      <p style="margin:0 0 .9em;font:400 15px Mulish;line-height:1.8em;color:#15181A;white-space:pre-line;overflow-wrap:anywhere">{{ a.t }}</p>
+      </sc-for>
+    </div>
+    <sc-if value="{{ kdHeeftReacties }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px 18px 8px;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#3D4346">{{ kdReactiesKop }}</div>
+    <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px">
+      <sc-for list="{{ kdReacties }}" as="r" hint-placeholder-count="2">
+      <div style="padding:14px 15px 6px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+        <sc-if value="{{ r.heeftDatum }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-bottom:6px;font:600 12.5px Poppins,system-ui,sans-serif;color:#3D4346">{{ r.datum }}</div>
+        </sc-if>
+        <sc-for list="{{ r.alineas }}" as="a" hint-placeholder-count="2">
+        <p style="margin:0 0 .9em;font:400 15px Mulish;line-height:1.8em;color:#15181A;white-space:pre-line;overflow-wrap:anywhere">{{ a.t }}</p>
+        </sc-for>
+      </div>
+      </sc-for>
+    </div>
+    </sc-if>
+    <div style="padding:18px 16px 0;display:flex;flex-direction:column;gap:12px">
+      <button onClick="{{ kdTerug }}" style="min-height:48px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14.5px Mulish;cursor:pointer">Terug naar de resultaten</button>
+      <sc-if value="{{ kdMeldKnop }}" hint-placeholder-val="{{ true }}">
+      <button data-ka-meld="1" onClick="{{ kdMeldVraag }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(21,24,26,.20);background:#fff;color:#3D4346;font:600 13.5px Mulish;cursor:pointer">Meld dit bericht</button>
+      </sc-if>
+      <sc-if value="{{ kdMeldPaneel }}" hint-placeholder-val="{{ false }}">
+      <div data-ka-meldpaneel="1" role="group" aria-label="Bericht melden" style="padding:14px 15px;border-radius:16px;background:#fff;border:1px solid rgba(128,0,0,.25)">
+        <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">Bevat dit bericht een naam of persoonsgegeven? Dan halen wij het meteen uit het archief.</p>
+        <sc-if value="{{ kdMeldFout }}" hint-placeholder-val="{{ false }}">
+        <p role="alert" style="margin:10px 0 0;font:600 13.5px/1.6 Mulish;color:#8A1C1C">Melden is niet gelukt. Probeer het later opnieuw, of stuur een mail naar <a href="{{ kdMailto }}" style="color:#800000;font-weight:700;text-decoration:underline">{{ kdMail }}</a>.</p>
+        </sc-if>
+        <sc-if value="{{ kdMeldBezig }}" hint-placeholder-val="{{ false }}">
+        <p role="status" style="margin:10px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Bezig met melden...</p>
+        </sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
+          <button onClick="{{ kdMeldDoe }}" style="min-height:46px;padding:0 18px;border:0;border-radius:12px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer;opacity:{{ kdMeldOpac }}">{{ kdMeldDoeTekst }}</button>
+          <button onClick="{{ kdMeldAf }}" style="min-height:46px;padding:0 18px;border-radius:12px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Annuleren</button>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+    <div style="height:30px"></div>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
 <!-- ============ TE KOOP IN FRANKRIJK (advertenties, alleen lezen) ============ -->
 <sc-if value="{{ isTekoop }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -2840,7 +2988,7 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|hygiene|gemeente|linklijst)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|klusarchief|hygiene|gemeente|linklijst)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
@@ -3233,7 +3381,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -3311,7 +3459,7 @@ class Component extends DCLogic {
       .filter(it => it.soort === "artikel" && !it.later)
       .map(it => ({titel:it.titel, href:window.ondernemenUrl(onSite, it), hoort:"hoort bij " + onNaam}));
     // Klussen in Frankrijk heeft een eigen blok, met de dossiers en de lijstjes eronder; de rest staat in Tools bij wonen.
-    const klusIds = ["klussen","dossierelektra","elektrabuiten","lijstjes"];
+    const klusIds = ["klussen","klusforum","dossierelektra","elektrabuiten","lijstjes"];
     const klus = klusIds.map(id => this.mods().find(m => m.id === id)).filter(Boolean);
     const tools = ["klussen","lijstjes","tekoop","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
       .map(id => this.mods().find(m => m.id === id)).filter(Boolean).filter(m => !klusIds.includes(m.id));
@@ -4550,6 +4698,8 @@ class Component extends DCLogic {
     if (st.oproep) { this.oproepSluit(); return true; }
     if (st.fbOpen) { this.fbSluit(); return true; }
     if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
+    if (st.screen === "klusarchief" && st.kaMeld) { if (st.kaMeld !== "bezig") this.setState({kaMeld:""}); return true; }
+    if (st.screen === "klusarchief" && st.kaDraad) { this.kaDraadSluit(); return true; }
     if (st.screen === "artikel") { this.artTerug(); return true; }
     if (st.screen === "nieuws") { this.nwTerugKnop(); return true; }
     if (st.screen === "gezondheid" && st.gzHfd) { this.gzTerug(); return true; }
@@ -4584,8 +4734,8 @@ class Component extends DCLogic {
   }
   histToestand(){
     const st = this.state;
-    const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.fbOpen ? "feedback" : st.vraagPostcode ? "pc" : "";
-    return {screen:st.screen, artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
+    const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.fbOpen ? "feedback" : st.vraagPostcode ? "pc" : (st.screen === "klusarchief" && st.kaMeld) ? "melden" : "";
+    return {screen:st.screen, kaDraad: st.screen === "klusarchief" && st.kaDraad ? String(st.kaDraad.id) : "", artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
       nwTegel:st.nwTegel, nwTerug:st.nwTerug, blad,
       themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
   }
@@ -5083,6 +5233,131 @@ class Component extends DCLogic {
     };
   }
 
+  // ---- Klusarchief: het oude klusforum van Infofrankrijk, alleen zoeken en lezen (klusarchief-lib.js) ----
+  // Niets van de zoekterm gaat naar het toestel: alles staat in het geheugen. Elke aanvraag heeft een laadtoken (IfNav.maakTeller).
+  kaOpen(m, from){
+    this.setState({screen:"klusarchief", menu:false, q:"", copied:null, tool:m || this.vindModule("klusforum"), from: from || "hub", kaDraad:null, kaMeld:"", kaKort:false});
+  }
+  kaFetch(url, body){
+    const K = window.IfKa;
+    let ctl = null, timer = null;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), K.TIMEOUT_MS); } catch(e){ ctl = null; }
+    const opts = {credentials:"omit"};
+    if (ctl) opts.signal = ctl.signal;
+    if (body) { opts.method = "POST"; opts.headers = {"Content-Type":"application/json"}; opts.body = body; }
+    let f;
+    try { f = fetch(url, opts); } catch(e){ clearTimeout(timer); return Promise.resolve({status:0, data:null}); }
+    return f.then(r => r.json().catch(() => null).then(d => ({status:r.status, data:d})))
+      .catch(() => ({status:0, data:null}))
+      .then(x => { if (timer) clearTimeout(timer); return x; });
+  }
+  kaZoek(meer, termArg){
+    const K = window.IfKa, Nv = window.IfNav, st = this.state;
+    if (!K || !Nv) { this.setState({kaStatus:"fout", kaSoort:"fout"}); return; }
+    const term = meer ? st.kaZocht : K.termSchoon(termArg != null ? termArg : st.kaQ);
+    if (!term) { this.setState({kaKort:true}); return; }
+    const p = meer ? st.kaPagina + 1 : 0;
+    this._kaTeller = this._kaTeller || Nv.maakTeller();
+    const tok = this._kaTeller.volgende();
+    if (meer) this.setState({kaMeerStatus:"laden"});
+    else this.setState({kaKort:false, kaGemeld:false, kaStatus:"laden", kaSoort:"", kaZocht:term, kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", ...(termArg != null ? {kaQ:termArg} : {})});
+    this.kaFetch(K.zoekUrl(term, p)).then(({status, data}) => {
+      const soort = K.soortAntwoord(status, data), l = soort === "ok" ? K.leesZoek(data) : null;
+      this.setState(prev => {
+        if (!this._kaTeller.actueel(tok)) return null;
+        if (meer) {
+          if (!l) return {kaMeerStatus:"fout"};
+          const items = K.voegToe(prev.kaItems, l.resultaten);
+          // Geeft een pagina niets nieuws, dan houdt "Toon meer" op in plaats van te blijven lopen.
+          return {kaItems:items, kaTotaal: items.length > prev.kaItems.length ? l.totaal : items.length, kaPagina:p, kaMeerStatus:""};
+        }
+        if (!l) return {kaStatus:"fout", kaSoort: soort === "druk" || soort === "kort" ? soort : "fout"};
+        return {kaStatus:"klaar", kaItems:l.resultaten, kaTotaal:l.totaal, kaPagina:0};
+      });
+    });
+  }
+  kaOpenDraad(r){
+    const K = window.IfKa, Nv = window.IfNav;
+    if (!K || !Nv || !r) return;
+    if (!this.state.kaDraad) this._kaY = this._scrNow || 0;
+    this._kaDTeller = this._kaDTeller || Nv.maakTeller();
+    const tok = this._kaDTeller.volgende();
+    this.setState({kaDraad:{id:r.id, titel:r.titel, jaar:r.jaar, forum:r.forum, status:"laden", data:null}, kaMeld:""});
+    setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0);
+    this.kaFetch(K.draadUrl(r.id)).then(({status, data}) => {
+      const soort = K.soortAntwoord(status, data), d = soort === "ok" ? K.leesDraad(data) : null;
+      this.setState(prev => (this._kaDTeller.actueel(tok) && prev.kaDraad && prev.kaDraad.id === r.id)
+        ? {kaDraad:{...prev.kaDraad, status: d ? "klaar" : (soort === "weg" ? "weg" : "fout"), data:d}} : null);
+    });
+  }
+  kaScrollTerug(){
+    const y = this._kaY || 0;
+    const zet = () => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = y; };
+    setTimeout(zet, 0); setTimeout(zet, 150); setTimeout(zet, 400);
+  }
+  kaDraadSluit(){
+    if (this._kaDTeller) this._kaDTeller.volgende();
+    this.setState({kaDraad:null, kaMeld:""});
+    this.kaScrollTerug();
+  }
+  kaMeldDoe(){
+    const K = window.IfKa, Nv = window.IfNav, d = this.state.kaDraad;
+    if (!K || !Nv || !d || this.state.kaMeld === "bezig") return;
+    const body = K.meldBody(d.id);
+    if (!body) return;
+    this.setState({kaMeld:"bezig"});
+    this.kaFetch(K.BASIS, body).then(({status, data}) => {
+      const ok = status >= 200 && status < 300 && !!data && data.ok === true;
+      if (!ok) { this.setState(prev => prev.kaDraad && prev.kaDraad.id === d.id ? {kaMeld:"fout"} : null); return; }
+      if (this._kaDTeller) this._kaDTeller.volgende();
+      this.setState(prev => {
+        const items = (prev.kaItems || []).filter(x => x.id !== d.id);
+        return {kaDraad:null, kaMeld:"", kaGemeld:true, kaItems:items, kaTotaal: items.length < (prev.kaItems || []).length ? Math.max(0, prev.kaTotaal - 1) : prev.kaTotaal};
+      });
+      this.kaScrollTerug();
+    });
+  }
+  kaVals(){
+    const st = this.state, K = window.IfKa, is = st.screen === "klusarchief" && !!K;
+    const d = st.kaDraad, dd = d && d.data ? d.data : null;
+    const kaarten = is ? (st.kaItems || []).map(r => ({
+      titel: r.titel, meta: K.metaRegel(r),
+      segs: K.segmenten(r.fragment).map(s => ({t:s.t, vet:s.vet, gewoon:!s.vet})), heeftFragment: !!K.segmenten(r.fragment).length,
+      label: r.titel + ", " + K.metaRegel(r),
+      open: () => this.kaOpenDraad(r)
+    })) : [];
+    const foutTekst = st.kaSoort === "druk" ? "Het archief is nu druk. Probeer het over een minuut opnieuw."
+      : st.kaSoort === "kort" ? "Typ minstens 2 tekens." : "Het archief is nu niet te bereiken.";
+    const bezig = st.kaMeld === "bezig";
+    const reacties = dd ? dd.antwoorden.map(a => ({datum:a.datum, heeftDatum:!!a.datum, alineas:K.alineas(a.tekst).map(t => ({t}))})) : [];
+    return {
+      isKa: is, kaZoekScherm: !d, kaDraadScherm: !!d,
+      kaIntro: "Dit is het oude klusforum van Infofrankrijk, met draden uit 2012 tot 2020 over bouwen, verbouwen, tuin, water en elektra. Zoek op een woord en lees wat anderen toen ervoeren.",
+      kaPrivacy: K ? K.PRIVACY : "", kaWaarschuwing: K ? K.WAARSCHUWING : "", kaTerugvalUrl: K ? K.TERUGVAL_URL : "https://infofrankrijk.com/klussen/",
+      kaQ: st.kaQ, kaOnQ: e => this.setState({kaQ: e.target.value.slice(0, 120), kaKort:false}),
+      kaVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); this.kaZoek(false); },
+      kaKort: !!st.kaKort, kaGemeld: !!st.kaGemeld,
+      kaVoorbeelden: (K ? K.VOORBEELDEN : []).map(w => ({woord:w, klik: () => this.kaZoek(false, w)})),
+      kaLaadt: st.kaStatus === "laden", kaFoutMelding: st.kaStatus === "fout", kaFoutTekst: foutTekst,
+      kaOpnieuw: () => this.kaZoek(false, st.kaZocht || null),
+      kaLeeg: st.kaStatus === "klaar" && kaarten.length === 0, kaLijst: st.kaStatus === "klaar" && kaarten.length > 0,
+      kaKaarten: kaarten, kaTelling: K ? K.telTekst(st.kaTotaal) : "",
+      kaMeerZichtbaar: !!K && st.kaTotaal > (st.kaItems || []).length, kaMeerFout: st.kaMeerStatus === "fout",
+      kaMeerTekst: st.kaMeerStatus === "laden" ? "Laden..." : (K ? K.meerTekst(st.kaTotaal, (st.kaItems || []).length) : ""),
+      kaMeer: () => { if (st.kaMeerStatus !== "laden") this.kaZoek(true); },
+      kdTitel: d ? d.titel : "",
+      kdMeta: K ? K.jaarForum(dd || d || {}) : "", kdHeeftMeta: !!(K && K.jaarForum(dd || d || {})),
+      kdLaadt: !!d && d.status === "laden", kdFout: !!d && d.status === "fout", kdWeg: !!d && d.status === "weg", kdKlaar: !!d && d.status === "klaar" && !!dd,
+      kdOpnieuw: () => this.kaOpenDraad(d), kdTerug: () => this.terugKnop(),
+      kdAlineas: dd ? K.alineas(dd.tekst).map(t => ({t})) : [],
+      kdHeeftReacties: reacties.length > 0, kdReacties: reacties, kdReactiesKop: K ? K.reactiesTekst(reacties.length) : "",
+      kdMeldKnop: !st.kaMeld, kdMeldPaneel: !!st.kaMeld, kdMeldBezig: bezig, kdMeldFout: st.kaMeld === "fout",
+      kdMeldVraag: () => this.setState({kaMeld:"vraag"}), kdMeldAf: () => { if (!bezig) this.setState({kaMeld:""}); },
+      kdMeldDoe: () => this.kaMeldDoe(), kdMeldOpac: bezig ? ".6" : "1", kdMeldDoeTekst: st.kaMeld === "fout" ? "Opnieuw proberen" : "Ja, meld dit bericht",
+      kdMail: K ? K.MAIL : "", kdMailto: K ? "mailto:" + K.MAIL : ""
+    };
+  }
+
   // ---- Zoeken in de artikelen van Infofrankrijk (WordPress zoek-API, anoniem, zacht falend) -----------
   zoekArtikelen(q){
     const Nv = window.IfNav;
@@ -5127,6 +5402,7 @@ class Component extends DCLogic {
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
   go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); if (s === "act") s = "nieuws";
     if (s === "sponsors") return this.sponsorsOpen();
+    if (s === "klusarchief") return this.kaOpen(this.vindModule("klusforum"), "hub");
     if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
@@ -5139,6 +5415,7 @@ class Component extends DCLogic {
     if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
     if (m.kind === "nedergids") return this.setState({screen:"nedergids", tool:m, q:"", from});
     if (m.kind === "linklijst") return this.setState({screen:"linklijst", tool:m, q:"", from});
+    if (m.kind === "klusarchief") return this.kaOpen(m, from);
     if (m.kind === "advertenties") { this.setState({screen:"tekoop", tool:m, q:"", from, tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     if (m.kind === "vastgoed") return this.setState({screen:"vastgoed", tool:m, q:"", from});
     if (m.kind === "zorg") return this.setState({screen:"zorg", tool:m, q:"", from});
@@ -5730,9 +6007,9 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", linklijst: st.tool ? this.themaVan(st.tool) : "",
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
       over:"Profiel",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
@@ -5791,6 +6068,7 @@ class Component extends DCLogic {
       ...this.gmVals(),
       ...this.fbVals(),
       ...this.llVals(),
+      ...this.kaVals(),
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       subStijl: st.screen === "hub" ? "white-space:normal;overflow-wrap:anywhere" : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis",

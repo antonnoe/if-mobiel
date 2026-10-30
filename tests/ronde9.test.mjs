@@ -23,7 +23,7 @@ test("Over ons: Nederlanders.fr en de moderatie zijn één kaart, Peil heeft zij
 
 test("Klussen: eigen blok in Wonen met de drie klus-modules en de lijstjes", () => {
   assert.match(html, /data-klusblok="1"/);
-  assert.match(html, /const klusIds = \["klussen","dossierelektra","elektrabuiten","lijstjes"\]/);
+  assert.match(html, /const klusIds = \["klussen","klusforum","dossierelektra","elektrabuiten","lijstjes"\]/);
   assert.equal(mod("klussen").url, "https://infofrankrijk.com/klussen/");
   assert.equal(mod("dossierelektra").url, "https://infofrankrijk.com/klussen/dossiers/de-franse-elektrische-installatie/");
   assert.equal(mod("elektrabuiten").url, "https://infofrankrijk.com/klussen/dossiers/elektra-buiten-het-huis/");

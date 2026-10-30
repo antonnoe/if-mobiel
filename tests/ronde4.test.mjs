@@ -19,17 +19,16 @@ const NIEUW = {
   beroepenchecker: ["https://werk-in-frankrijk-platform-v02.vercel.app", "https://infofrankrijk.com/beroepenchecker-werken-of-ondernemen-in-frankrijk/"],
   energieportaal: ["https://energieportaal-pbuv.vercel.app", "https://infofrankrijk.com/energieportaal-bereken-de-energieprestatie-van-uw-franse-woning/"],
   vastgoedanalyse: ["https://vastgoed-analyse-v84x.vercel.app", "https://infofrankrijk.com/vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu/"],
-  klusforum: ["https://infofrankrijk-klussen-archief.vercel.app", "https://infofrankrijk.com/uit-het-klusforum-van-infofrankrijk-com/"],
   controletechnique: ["https://controle-technique-zoeker.vercel.app", "https://infofrankrijk.com/de-controle-technique-de-franse-apk/"],
   overhedenbuurt: ["https://dashboard-admin-beige-ten.vercel.app", "https://infofrankrijk.com/vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt/"],
 };
 
-test("zes nieuwe modules: velden, standaard uit, gratis, artikel-URL", () => {
+test("vijf nieuwe modules (klusforum is sinds 30-10-2026 het Klusarchief, tests/klusarchief.test.mjs): velden, standaard uit, gratis, artikel-URL", () => {
   for (const [id, [url, artikel]] of Object.entries(NIEUW)) {
     const m = mod(id);
     assert.ok(m, id + " bestaat");
     assert.equal(m.kind, "iframe"); assert.equal(m.url, url); assert.equal(m.artikel, artikel);
-    assert.equal(m.standaard, "uit"); assert.equal(m.prijs, "gratis"); assert.equal(m.weergave, m.id === "klusforum" ? "knop" : "volledig");
+    assert.equal(m.standaard, "uit"); assert.equal(m.prijs, "gratis"); assert.equal(m.weergave, "volledig");
     assert.ok(thema.includes(m.thema), id + " thema");
     assert.ok(m.naam && m.meta && m.over && m.over.length > 40, id + " teksten");
     assert.ok(A.isInApp(m.artikel), id + " artikel opent in de app");
@@ -43,7 +42,7 @@ test("EnergiePortaal: volledige site naast de ongewijzigde eigen schil", () => {
   assert.equal(e.kind, "energie"); assert.equal(e.naam, "Energie & verwarming"); assert.ok(!e.url);
 });
 
-test("toolkaart in het artikel wordt Tool in de app voor alle zes", () => {
+test("toolkaart in het artikel wordt Tool in de app voor alle vijf", () => {
   for (const [id, [url]] of Object.entries(NIEUW)) {
     const k = A.toolKaartVoor(url, cat.modules);
     assert.equal(k.soort, "module", id); assert.equal(k.module, id); assert.equal(k.label, "Tool in de app");

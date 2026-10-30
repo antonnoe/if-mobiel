@@ -2,8 +2,8 @@
 // Hash-routes (geen server nodig): #/artikel/<slug> opent een artikel, #/nieuws, #/forum, #/profiel en #/zoek
 // openen een hoofdscherm. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
 (function (root) {
-  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", tekoop: "tekoop" };
-  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", tekoop: "tekoop" };
+  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief" };
+  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief" };
   var SLUG = /^[a-z0-9%][a-z0-9%_-]*$/;  // % voor procent-gecodeerde WordPress-slugs (%e2%87%84)
 
   // "#/artikel/mijn-slug" -> {soort:"artikel", slug}; "#/nieuws" -> {soort:"scherm", scherm:"nieuws"}; anders {soort:"hub"}.
@@ -42,7 +42,7 @@
   function navKey(t) {
     t = t || {};
     return [t.screen, t.artSlug || "", t.gzHfd || "", t.gzOnd || "", t.gzLijst == null ? "" : t.gzLijst, t.onStap == null ? "" : t.onStap, t.nwTegel || "",
-      t.sc || "", t.themaId || "", t.toolId || "", t.blad || ""].join("|");
+      t.sc || "", t.themaId || "", t.toolId || "", t.blad || "", t.kaDraad || ""].join("|");
   }
 
   // Laadtoken: elke nieuwe aanvraag krijgt een nummer; alleen het laatste nummer mag het scherm nog bijwerken.
