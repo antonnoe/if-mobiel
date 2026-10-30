@@ -591,7 +591,7 @@
       "groep": "leven",
       "thema": "overheid",
       "naam": "Frankrijk legal",
-      "meta": "juridische voorwaarden van Franse diensten",
+      "meta": "privacy en voorwaarden van Franse diensten",
       "prijs": "gratis",
       "schil": "keuzeschil",
       "houdbaar": "per jaar",
@@ -599,7 +599,7 @@
       "kind": "iframe",
       "url": "https://frankrijk-legal.vercel.app",
       "nagekeken": "2026-10-21",
-      "over": "Per Franse dienstverlener (zorg, vervoer, bank) de juridische gegevens op een rij: privacyverklaring, algemene voorwaarden en wettelijke vermeldingen, in gewoon Nederlands uitgelegd.",
+      "over": "Per Franse dienstverlener (zorg, vervoer, bank, telecom) de links naar de privacyverklaring en de algemene voorwaarden, met uitleg bij de wettelijke kaders. Het is een korte lijst en de tool geeft geen oordeel over de voorwaarden zelf.",
       "weergave": "volledig",
       "standaard": "uit"
     },
