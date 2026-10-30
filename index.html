@@ -2445,7 +2445,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:22px 16px 0">
       <h1 style="margin:0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2;overflow-wrap:anywhere">Klusarchief</h1>
       <p style="margin:10px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">{{ kaIntro }}</p>
-      <div data-ka-privacy="1" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 14px/1.6 Mulish;color:#15181A;overflow-wrap:anywhere">{{ kaPrivacy }}</div>
+      <div data-ka-privacy="1" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 14px/1.6 Mulish;color:#15181A;overflow-wrap:anywhere">Oud forum: {{ kaPrivacy }}</div>
       <sc-if value="{{ kaGemeld }}" hint-placeholder-val="{{ false }}">
       <div role="status" data-ka-gemeld="1" style="margin-top:12px;padding:12px 14px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10);font:700 14px/1.6 Mulish;color:#15181A">Gemeld, het bericht is uit het archief gehaald</div>
       </sc-if>
@@ -2453,6 +2453,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <input value="{{ kaQ }}" onInput="{{ kaOnQ }}" type="text" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120" placeholder="Bijv. septic tank" aria-label="Zoek in het Klusarchief" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#fff">
         <button type="submit" style="flex:none;min-height:52px;min-width:72px;padding:0 18px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
       </form>
+      <div role="group" aria-label="Waar zoekt u" data-ka-chips="1" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <sc-for list="{{ kaChips }}" as="c" hint-placeholder-count="3">
+        <button onClick="{{ c.klik }}" aria-pressed="{{ c.actief }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(128,0,0,.35);background:{{ c.vlak }};color:{{ c.kleur }};font:700 14px Mulish;cursor:pointer">{{ c.tekst }}</button>
+        </sc-for>
+      </div>
       <sc-if value="{{ kaKort }}" hint-placeholder-val="{{ false }}">
       <p role="alert" style="margin:8px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Typ minstens 2 letters.</p>
       </sc-if>
@@ -2488,13 +2493,24 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:18px 16px 0;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">{{ kaTelling }}</div>
     <div style="display:flex;flex-direction:column;gap:12px;padding:10px 16px 0">
       <sc-for list="{{ kaKaarten }}" as="k" hint-placeholder-count="3">
+      <sc-if value="{{ k.isNlfr }}" hint-placeholder-val="{{ false }}">
+      <a href="{{ k.url }}" target="_blank" rel="noopener" data-ka-nlfr="1" aria-label="{{ k.label }}" style="display:block;width:100%;box-sizing:border-box;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
+        <span style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#800000">Nederlanders.fr</span>
+        <span style="display:block;margin-top:5px;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
+        <span style="display:block;margin-top:5px;font:600 12.5px/1.4 Poppins,system-ui,sans-serif;color:#3D4346">{{ k.meta }}</span>
+        <span style="display:block;margin-top:8px;font:700 13.5px/1.4 Mulish;color:#800000">Opent op Nederlanders.fr &#8599;</span>
+      </a>
+      </sc-if>
+      <sc-if value="{{ k.isForum }}" hint-placeholder-val="{{ true }}">
       <button onClick="{{ k.open }}" aria-label="{{ k.label }}" style="display:block;width:100%;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;cursor:pointer">
-        <span style="display:block;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
+        <span style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Oud forum</span>
+        <span style="display:block;margin-top:5px;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
         <span style="display:block;margin-top:5px;font:600 12.5px/1.4 Poppins,system-ui,sans-serif;color:#3D4346">{{ k.meta }}</span>
         <sc-if value="{{ k.heeftFragment }}" hint-placeholder-val="{{ true }}">
         <span style="display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;margin-top:8px;font:400 14.5px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere"><sc-for list="{{ k.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.vet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800;color:#15181A;background:rgba(128,0,0,.10);border-radius:3px">{{ s.t }}</b></sc-if><sc-if value="{{ s.gewoon }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if></sc-for></span>
         </sc-if>
       </button>
+      </sc-if>
       </sc-for>
     </div>
     <sc-if value="{{ kaMeerZichtbaar }}" hint-placeholder-val="{{ false }}">
@@ -3399,7 +3415,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -5288,17 +5304,18 @@ class Component extends DCLogic {
       .catch(() => ({status:0, data:null}))
       .then(x => { if (timer) clearTimeout(timer); return x; });
   }
-  kaZoek(meer, termArg){
+  kaZoek(meer, termArg, bronArg){
     const K = window.IfKa, Nv = window.IfNav, st = this.state;
     if (!K || !Nv) { this.setState({kaStatus:"fout", kaSoort:"fout"}); return; }
     const term = meer ? st.kaZocht : K.termSchoon(termArg != null ? termArg : st.kaQ);
     if (!term) { this.setState({kaKort:true}); return; }
+    const bron = K.bronSchoon(bronArg != null ? bronArg : st.kaBron);
     const p = meer ? st.kaPagina + 1 : 0;
     this._kaTeller = this._kaTeller || Nv.maakTeller();
     const tok = this._kaTeller.volgende();
     if (meer) this.setState({kaMeerStatus:"laden"});
-    else this.setState({kaKort:false, kaGemeld:false, kaStatus:"laden", kaSoort:"", kaZocht:term, kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", ...(termArg != null ? {kaQ:termArg} : {})});
-    this.kaFetch(K.zoekUrl(term, p)).then(({status, data}) => {
+    else this.setState({kaBron:bron, kaKort:false, kaGemeld:false, kaStatus:"laden", kaSoort:"", kaZocht:term, kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", ...(termArg != null ? {kaQ:termArg} : {})});
+    this.kaFetch(K.zoekUrl(term, p, bron)).then(({status, data}) => {
       const soort = K.soortAntwoord(status, data), l = soort === "ok" ? K.leesZoek(data) : null;
       this.setState(prev => {
         if (!this._kaTeller.actueel(tok)) return null;
@@ -5357,19 +5374,28 @@ class Component extends DCLogic {
   kaVals(){
     const st = this.state, K = window.IfKa, is = st.screen === "klusarchief" && !!K;
     const d = st.kaDraad, dd = d && d.data ? d.data : null;
-    const kaarten = is ? (st.kaItems || []).map(r => ({
+    const kaarten = is ? (st.kaItems || []).map(r => r.bron === "nlfr" ? ({
+      isNlfr: true, isForum: false, titel: r.titel, meta: K.nlfrMeta(r), url: r.url, segs: [], heeftFragment: false,
+      label: r.titel + (K.nlfrMeta(r) ? ", " + K.nlfrMeta(r) : "") + ", Nederlanders.fr, opent in een nieuw tabblad",
+      open: () => {}
+    }) : ({
+      isNlfr: false, isForum: true,
       titel: r.titel, meta: K.metaRegel(r),
       segs: K.segmenten(r.fragment).map(s => ({t:s.t, vet:s.vet, gewoon:!s.vet})), heeftFragment: !!K.segmenten(r.fragment).length,
       label: r.titel + ", " + K.metaRegel(r),
       open: () => this.kaOpenDraad(r)
     })) : [];
+    const chip = (id, tekst) => ({tekst, actief: st.kaBron === id, opac: st.kaBron === id ? "1" : ".95",
+      kleur: st.kaBron === id ? "#fff" : "#800000", vlak: st.kaBron === id ? "#800000" : "#fff",
+      klik: () => { if (st.kaBron === id) return; if (st.kaZocht) this.kaZoek(false, st.kaZocht, id); else this.setState({kaBron:id}); }});
     const foutTekst = st.kaSoort === "druk" ? "Het archief is nu druk. Probeer het over een minuut opnieuw."
       : st.kaSoort === "kort" ? "Typ minstens 2 letters." : "Het archief is nu niet te bereiken.";
     const bezig = st.kaMeld === "bezig";
     const reacties = dd ? dd.antwoorden.map(a => ({datum:a.datum, heeftDatum:!!a.datum, alineas:K.alineas(a.tekst).map(t => ({t}))})) : [];
     return {
+      kaChips: [chip("alles","Alles"), chip("forum","Oud forum"), chip("nlfr","Nederlanders.fr")],
       isKa: is, kaZoekScherm: !d, kaDraadScherm: !!d,
-      kaIntro: "Dit is het oude klusforum van Infofrankrijk, met draden uit 2012 tot 2020 over bouwen, verbouwen, tuin, water en elektra. Zoek op een woord en lees wat anderen toen ervoeren.",
+      kaIntro: "Dit archief bevat de draden van het oude klusforum van Infofrankrijk (2012 tot 2020), die u hier zelf leest, en verwijzingen naar berichten over bouwen en verbouwen op Nederlanders.fr (2013 tot 2026), die u op die site zelf leest. Zoek op een woord en kies waar u in zoekt.",
       kaPrivacy: K ? K.PRIVACY : "", kaWaarschuwing: K ? K.WAARSCHUWING : "", kaTerugvalUrl: K ? K.TERUGVAL_URL : "https://infofrankrijk.com/klussen/",
       kaQ: st.kaQ, kaOnQ: e => this.setState({kaQ: e.target.value.slice(0, 120), kaKort:false}),
       kaVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); this.kaZoek(false); },

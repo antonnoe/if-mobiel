@@ -17,11 +17,11 @@ const lib = readFileSync(join(root, "klusarchief-lib.js"), "utf8");
 test("URL's: een basis op een plek, term gevalideerd en gecodeerd", () => {
   assert.equal((lib.match(/supabase\.co/g) || []).length, 1);
   assert.equal(html.includes("supabase.co/functions/v1/klusarchief"), false, "de URL staat niet in de schil");
-  assert.equal(K.zoekUrl("septic tank", 0), K.BASIS + "?q=septic%20tank&p=0");
-  assert.equal(K.zoekUrl("  septic   tank ", 2), K.BASIS + "?q=septic%20tank&p=2");
+  assert.equal(K.zoekUrl("septic tank", 0), K.BASIS + "?q=septic%20tank&p=0&bron=alles");
+  assert.equal(K.zoekUrl("  septic   tank ", 2), K.BASIS + "?q=septic%20tank&p=2&bron=alles");
   assert.equal(K.zoekUrl("a", 0), null);
   assert.equal(K.zoekUrl("  ", 0), null);
-  assert.equal(K.zoekUrl("é&=#", -3), K.BASIS + "?q=%C3%A9%26%3D%23&p=0");
+  assert.equal(K.zoekUrl("é&=#", -3), K.BASIS + "?q=%C3%A9%26%3D%23&p=0&bron=alles");
   assert.equal(decodeURIComponent(K.zoekUrl("x".repeat(300), 0).split("q=")[1].split("&")[0]).length, 120);
   assert.equal(K.draadUrl(199356), K.BASIS + "?id=199356");
   assert.equal(K.draadUrl("../x"), null);
@@ -108,7 +108,7 @@ test("alineas: witregels splitsen, HTML blijft tekst", () => {
 test("Toon meer en telling komen uit de data", () => {
   assert.equal(K.meerTekst(13, 10), "Toon meer (nog 3)");
   assert.equal(K.nogOver(5, 9), 0);
-  assert.equal(K.telTekst(1), "1 draad gevonden"); assert.equal(K.telTekst(13), "13 draden gevonden");
+  assert.equal(K.telTekst(1), "1 resultaat gevonden"); assert.equal(K.telTekst(13), "13 resultaten gevonden");
   assert.deepEqual(K.voegToe([{ id: "1" }], [{ id: "1" }, { id: "2" }]).map(x => x.id), ["1", "2"]);
 });
 
@@ -159,12 +159,39 @@ test("herstelronde 1: deep link per draad, teller, tips, kopje reacties", () => 
   assert.equal(N.bouwHash({ screen: "klusarchief", kaDraad: "abc" }), "#/klusarchief");
   assert.equal(N.bouwHash({ screen: "klusarchief", kaDraad: "" }), "#/klusarchief");
   assert.equal(K.draadHashId("42"), "42"); assert.equal(K.draadHashId("x1"), null);
-  assert.equal(K.telTekst(20, 10), "20 draden gevonden, de eerste 10 hieronder");
-  assert.equal(K.telTekst(8, 8), "8 draden gevonden"); assert.equal(K.telTekst(1, 1), "1 draad gevonden");
+  assert.equal(K.telTekst(20, 10), "20 resultaten gevonden, de eerste 10 hieronder");
+  assert.equal(K.telTekst(8, 8), "8 resultaten gevonden"); assert.equal(K.telTekst(1, 1), "1 resultaat gevonden");
   assert.equal(K.reactiesKop(7), "Reacties (7)");
   assert.equal(K.LEEG_TIPS.length, 3); assert.match(K.TIP_FRANS, /fosse septique/);
   assert.match(html, /Typ minstens 2 letters\./);
   assert.match(html, /Meld deze draad/); assert.ok(!/Meld dit bericht/.test(html));
   assert.match(html, /data-ka-meld-boven/); assert.match(html, /scrollIntoView\(\{block:"center"\}\)/);
   assert.match(html, /Zoek ook in het Klusarchief: /); assert.match(html, /zoekKlusAan\(\)\{ return this\.mods\(\)/);
+});
+
+test("bron: URL-bouw met bron, onbekende waarde wordt alles", () => {
+  assert.equal(K.zoekUrl("dak", 1, "nlfr"), K.BASIS + "?q=dak&p=1&bron=nlfr");
+  assert.equal(K.zoekUrl("dak", 0, "forum"), K.BASIS + "?q=dak&p=0&bron=forum");
+  assert.equal(K.zoekUrl("dak", 0, "x&y"), K.BASIS + "?q=dak&p=0&bron=alles");
+});
+test("gemengde resultaten: forum en nlfr valideren, rest valt af", () => {
+  const l = K.leesZoek({ ok: true, totaal: 9, resultaten: [
+    { bron: "forum", id: 5, titel: "Dak", jaar: 2014, antwoorden: 3, fragment: "[[dak]]" },
+    { bron: "nlfr", titel: " Dakrenovatie ", jaar: 2023, antwoorden: 14, url: "https://www.nederlanders.fr/profiles/blogs/dakrenovatie" },
+    { bron: "nlfr", titel: "Buiten", url: "https://evil.example/profiles/blogs/x" },
+    { bron: "nlfr", titel: "Http", url: "http://www.nederlanders.fr/x" },
+    { bron: "nlfr", titel: "", url: "https://www.nederlanders.fr/profiles/blogs/y" },
+    { bron: "nlfr", titel: "Zonder url" },
+    { bron: "nlfr", titel: "Valse host", url: "https://www.nederlanders.fr.evil.com/x" }] });
+  assert.deepEqual(l.resultaten.map(r => r.bron), ["forum", "nlfr"]);
+  assert.equal(l.resultaten[1].titel, "Dakrenovatie");
+  assert.equal(l.resultaten[1].fragment, "");
+  assert.equal(l.resultaten[1].forum, "Nederlanders.fr");
+  assert.equal(l.resultaten[1].url, "https://www.nederlanders.fr/profiles/blogs/dakrenovatie");
+  assert.equal(l.totaal, 9);
+});
+test("nlfrMeta: enkelvoud en nul reacties", () => {
+  assert.equal(K.nlfrMeta({ jaar: 2023, antwoorden: 14 }), "2023 · 14 reacties");
+  assert.equal(K.nlfrMeta({ jaar: 2020, antwoorden: 1 }), "2020 · 1 reactie");
+  assert.equal(K.nlfrMeta({ jaar: 2019, antwoorden: 0 }), "2019");
 });

@@ -23,10 +23,13 @@
   }
   function pagina(p) { var n = Math.floor(Number(p)); return isFinite(n) && n > 0 ? n : 0; }
 
-  function zoekUrl(q, p) {
+  var BRONNEN = ["alles", "forum", "nlfr"];
+  var NLFR_VOOR = "https://www.nederlanders.fr/";
+  function bronSchoon(b) { return BRONNEN.indexOf(b) >= 0 ? b : "alles"; }
+  function zoekUrl(q, p, bron) {
     var t = termSchoon(q);
     if (!t) return null;
-    return BASIS + "?q=" + encodeURIComponent(t) + "&p=" + pagina(p);
+    return BASIS + "?q=" + encodeURIComponent(t) + "&p=" + pagina(p) + "&bron=" + bronSchoon(bron);
   }
   // Een id is een getal of een korte veilige tekst; alles anders geeft null (nooit een vrije URL).
   function idSchoon(id) {
@@ -67,9 +70,17 @@
     var res = [];
     data.resultaten.forEach(function (x) {
       if (!x || typeof x !== "object") return;
-      var id = idSchoon(x.id), titel = schoon(x.titel);
+      var titel = schoon(x.titel);
+      if (x.bron === "nlfr") {
+        var url = tekst(x.url).trim();
+        if (!titel || url.indexOf(NLFR_VOOR) !== 0 || url.length <= NLFR_VOOR.length || /\s/.test(url)) return;
+        res.push({ bron: "nlfr", id: "nlfr:" + url, url: url, titel: titel, jaar: jaarVan(x.jaar, x.datum), forum: "Nederlanders.fr",
+          antwoorden: geheel(x.antwoorden, 0), fragment: "" });
+        return;
+      }
+      var id = idSchoon(x.id);
       if (id === null || !titel) return;
-      res.push({ id: id, titel: titel, jaar: jaarVan(x.jaar, x.datum), forum: schoon(x.forum),
+      res.push({ bron: "forum", id: id, titel: titel, jaar: jaarVan(x.jaar, x.datum), forum: schoon(x.forum),
         antwoorden: geheel(x.antwoorden, 0), fragment: tekst(x.fragment) });
     });
     var perPagina = geheel(data.perPagina, PER_PAGINA) || PER_PAGINA;
@@ -116,6 +127,13 @@
     var x = geheel(n, 0);
     return x === 1 ? "1 reactie" : x + " reacties";
   }
+  // Regel van een Nederlanders.fr-kaart: "2023 · 14 reacties"; bij 0 reacties alleen het jaar (of niets).
+  function nlfrMeta(r) {
+    var delen = [];
+    if (r && r.jaar) delen.push(String(r.jaar));
+    if (r && geheel(r.antwoorden, 0) > 0) delen.push(reactiesTekst(r.antwoorden));
+    return delen.join(" · ");
+  }
   // "2014 · 7 reacties" ("2014 · 1 reactie"); zonder jaar alleen het aantal.
   function metaRegel(r) {
     var delen = [];
@@ -141,7 +159,7 @@
   // Met `getoond` (aantal kaarten onder de regel) en meer treffers dan kaarten: "35 draden gevonden, de eerste 10 hieronder".
   function telTekst(totaal, getoond) {
     var n = geheel(totaal, 0), g = getoond == null ? n : geheel(getoond, 0);
-    var basis = n === 1 ? "1 draad gevonden" : n + " draden gevonden";
+    var basis = n === 1 ? "1 resultaat gevonden" : n + " resultaten gevonden";
     return g > 0 && g < n ? basis + ", de eerste " + g + " hieronder" : basis;
   }
   // Kopje boven de reacties van een draad: "Reacties (7)".
@@ -158,6 +176,7 @@
 
   var api = { BASIS: BASIS, TERUGVAL_URL: TERUGVAL_URL, MAIL: MAIL, MIN_TEKENS: MIN_TEKENS, MAX_TEKENS: MAX_TEKENS, PER_PAGINA: PER_PAGINA, TIMEOUT_MS: TIMEOUT_MS,
     PRIVACY: PRIVACY, TIP_FRANS: TIP_FRANS, LEEG_TIPS: LEEG_TIPS, reactiesKop: reactiesKop, draadHashId: draadHashId, WAARSCHUWING: WAARSCHUWING, VOORBEELDEN: VOORBEELDEN,
+    BRONNEN: BRONNEN, bronSchoon: bronSchoon, nlfrMeta: nlfrMeta, NLFR_LABEL: "Nederlanders.fr", FORUM_LABEL: "Oud forum",
     termSchoon: termSchoon, zoekUrl: zoekUrl, idSchoon: idSchoon, draadUrl: draadUrl, meldBody: meldBody, soortAntwoord: soortAntwoord,
     leesZoek: leesZoek, leesDraad: leesDraad, segmenten: segmenten, datumTekst: datumTekst, reactiesTekst: reactiesTekst, metaRegel: metaRegel,
     jaarForum: jaarForum, alineas: alineas, nogOver: nogOver, meerTekst: meerTekst, telTekst: telTekst, voegToe: voegToe };
