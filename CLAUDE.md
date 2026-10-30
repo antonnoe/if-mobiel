@@ -41,7 +41,7 @@ Frankrijk).
 7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; losse `*Vals()`-
    helpers leveren hun deel toe (bv. `enVals()` voor het energiescherm).
 8. `kind` in `modules.json` bepaalt het scherm: `iframe`, `voorbeeld`, `info`,
-   `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`, `advertenties`. Een nieuw type
+   `forum`, `actueel`, `nedergids`, `vastgoed`, `zorg`, `ruyter`, `energie`, `advertenties`, `linklijst`. Een nieuw type
    toevoegen is: een `kind` verzinnen, een blok in de JSON, en één `sc-if`-scherm in de
    template — bestaande modules van vorm veranderen gaat zonder code. Bij `iframe` kiest
    `weergave` de vorm: `voorvertoning` (standaard), `volledig` (de site op volle hoogte in
@@ -349,3 +349,8 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 
 - **Kaartjes in artikelen worden tegels** (`artikel-lib.js`, `vindKaartDivs`, `maakKaartTegels`): een `div` met eigen rand, afronding en opvulling in de inline stijl van het artikel (zoals de vijf regelingen in het subsidie-artikel op Infofrankrijk) verloor bij het opschonen al zijn opmaak en werd een kale regel tekst zonder ruimte. Nu krijgt hij de tegelstijl van de app (wit, 1px rand, 16px afronding, titel in Poppins 600, tekst Mulish 14px) en staan aaneengesloten kaartjes in één raster van twee kolommen (`data-tegels`); een oneven laatste tegel loopt over beide kolommen. De eerste kind-div met vetgedrukte stijl is de titel. De oorspronkelijke stijl wordt voor het wissen onthouden (`__stijlOrigineel`). Test: `tests/artikel.test.mjs` (draait in headless Chromium).
 - **Feedbackblad: keuzelijst "Gaat het over een bepaalde tool?"** (`fbTool`, `fbTools` uit `modules.json`, alle zichtbare modules op naam, de eerste optie is "Nee, over de app in het algemeen"). Het veld `tool` (module-id, alleen `[a-z0-9_-]`, anders leeg) gaat mee naar de Edge Function en staat in de nieuwe kolom `public.infopoche_feedback.tool` (optioneel; de tabel heeft een check op de vorm). De functie negeert een ongeldige waarde zonder fout. Service worker `VERSIE` 2026-10-30-1.
+
+## Linklijst en Verenigingsbeheer (30-10-2026)
+
+- **Nieuw kind `linklijst`** (`screen: linklijst`, `llVals()` in `index.html`): een module met `links: [{titel, regel, url, extern}]` toont een rij tegels zoals de Nedergids-kaarten. Een link naar een artikel van Infofrankrijk (`IfArtikel.isInApp`) opent in de app (`openInfoArtikel`); `extern: true` of een andere site is een gewone `<a target="_blank" rel="noopener">` met de regel "Opent op de site zelf". Alleen https-links met titel komen mee. Terugknop via `SHOWBACK`, tab Modules (`HubLib.tabVan`), kop en subkop uit de module en het thema. Een nieuwe lijst is een blok in `modules.json`, geen code.
+- **Verenigingsbeheer** (`verenigingsbeheer`, thema Verenigingen): vier tegels, in deze volgorde: Vereniging oprichten in Frankrijk, Een vereniging besturen in Frankrijk, Enquête NL Verenigingen 2021 (alle drie artikelen op Infofrankrijk, titels en regels uit de WordPress-gegevens van die artikelen) en vereniging.fr (extern, de regel komt uit de metabeschrijving van die site). Tests: `tests/ronde10.test.mjs`. Service worker `VERSIE` 2026-10-30-2.

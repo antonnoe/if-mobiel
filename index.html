@@ -2364,6 +2364,27 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </sc-if>
 
 <!-- ============ ONZE SPONSORS ============ -->
+<!-- ============ LINKLIJST (kind linklijst: een rij links uit modules.json, bv. Verenigingsbeheer) ============ -->
+<sc-if value="{{ isLinklijst }}" hint-placeholder-val="{{ false }}">
+<div data-linklijst="1">
+  <div style="padding:22px 18px 0">
+    <h1 style="margin:0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2;overflow-wrap:anywhere">{{ llNaam }}</h1>
+    <p style="margin:10px 0 0;font:400 15px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">{{ llOver }}</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:16px 14px 0">
+    <sc-for list="{{ llLinks }}" as="k" hint-placeholder-count="4">
+    <sc-if value="{{ k.binnen }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ k.open }}" style="text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;width:100%;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">{{ k.titel }}</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">{{ k.regel }}</span><sc-if value="{{ k.extern }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:5px;font:700 12px Mulish;color:#800000">Opent op de site zelf &#8599;</span></sc-if></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    </sc-if>
+    <sc-if value="{{ k.extern }}" hint-placeholder-val="{{ false }}">
+    <a href="{{ k.url }}" target="_blank" rel="noopener" style="text-decoration:none;display:flex;align-items:center;gap:12px;box-sizing:border-box;width:100%;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">{{ k.titel }}</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">{{ k.regel }}</span><sc-if value="{{ k.extern }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:5px;font:700 12px Mulish;color:#800000">Opent op de site zelf &#8599;</span></sc-if></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></a>
+    </sc-if>
+    </sc-for>
+  </div>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
 <sc-if value="{{ isSponsors }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:22px 16px 0">
@@ -2821,7 +2842,7 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|hygiene|gemeente)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|hygiene|gemeente|linklijst)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
@@ -4411,6 +4432,19 @@ class Component extends DCLogic {
   // Tik op een menu-item: menu dicht, daarna de bestemming.
   // ---- Feedback van testers (feedback-lib.js; Edge Function in Supabase, tabel infopoche_feedback) ----------------------------------
   // De tekst blijft in het geheugen staan als het blad sluit of het verzenden mislukt, en gaat nooit naar localStorage (er staat een naam in).
+  // Linklijst: een module met kind "linklijst" en links:[{titel, regel, url, extern}]. Een artikel van Infofrankrijk opent in de app,
+  // een externe link opent in een nieuw tabblad (en zegt dat).
+  llVals(){
+    const st = this.state, T = st.tool, is = st.screen === "linklijst" && !!T && T.kind === "linklijst";
+    const links = is && Array.isArray(T.links) ? T.links.filter(k => k && k.titel && /^https:\/\//.test(k.url || "")) : [];
+    return {
+      isLinklijst: is, llNaam: is ? T.naam : "", llOver: is ? (T.over || "") : "",
+      llLinks: links.map(k => {
+        const binnen = k.extern !== true && !!window.IfArtikel && window.IfArtikel.isInApp(k.url);
+        return {titel:k.titel, regel:k.regel || "", url:k.url, binnen, extern: !binnen, open: () => { if (binnen) this.openInfoArtikel(k.url); }};
+      })
+    };
+  }
   fbOpenen(){
     const st = this.state;
     const F = window.IfFb;
@@ -5103,6 +5137,7 @@ class Component extends DCLogic {
     if (m.kind === "forum") return this.setState({screen:"gem", gemTab:"ber", q:""});
     if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
     if (m.kind === "nedergids") return this.setState({screen:"nedergids", tool:m, q:"", from});
+    if (m.kind === "linklijst") return this.setState({screen:"linklijst", tool:m, q:"", from});
     if (m.kind === "advertenties") { this.setState({screen:"tekoop", tool:m, q:"", from, tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     if (m.kind === "vastgoed") return this.setState({screen:"vastgoed", tool:m, q:"", from});
     if (m.kind === "zorg") return this.setState({screen:"zorg", tool:m, q:"", from});
@@ -5694,9 +5729,9 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen",
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
       over:"Profiel",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
@@ -5754,6 +5789,7 @@ class Component extends DCLogic {
       ...this.hyVals(),
       ...this.gmVals(),
       ...this.fbVals(),
+      ...this.llVals(),
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       subStijl: st.screen === "hub" ? "white-space:normal;overflow-wrap:anywhere" : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis",

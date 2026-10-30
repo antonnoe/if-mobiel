@@ -16,7 +16,7 @@ const INDELING = {
   geld: ["kompas", "ruyter", "erfrecht", "transactiekosten", "plusvalue"],
   overheid: ["emigreren", "auto", "frankrijklegal", "controletechnique", "overhedenbuurt"],
   gezondheid: ["zorg", "zorgkompas", "palliatief", "zoekers"],
-  adressen: ["nedergids", "verenigingen"],
+  adressen: ["nedergids", "verenigingen", "verenigingsbeheer"],
   nieuws: [],
   ervaring: ["forum", "nlfrzoek", "klusforum"],
   ondernemen: ["efacturatie", "gitekompas", "beroepenchecker"],

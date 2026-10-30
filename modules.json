@@ -495,6 +495,28 @@
       "over": "Het IF-dossier voor wie alleen woont en achteruitgaat, als telefoonmodule: eerst wat nú moet gebeuren, dan de aanvragen binnen 24 uur, 7 dagen en 30 dagen, en daarna het geld, het wonen en wat er vastgelegd moet worden."
     },
     {
+      "id": "verenigingsbeheer",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
+      "groep": "leven",
+      "thema": "adressen",
+      "naam": "Verenigingsbeheer",
+      "meta": "een vereniging oprichten en besturen",
+      "prijs": "gratis",
+      "schil": "keuzeschil",
+      "houdbaar": "jaren",
+      "status": "inhoud af",
+      "kind": "linklijst",
+      "nagekeken": "2026-10-30",
+      "over": "Voor wie een Nederlandse vereniging in Frankrijk begint of bestuurt: eerst de vraag of u een officiële vereniging nodig hebt, dan wat het bestuur moet regelen, de enquête onder Nederlandse verenigingen en een eigen website en nieuwsbrief.",
+      "zoekwoorden": "vereniging oprichten besturen bestuur association loi 1901 secretaris penningmeester",
+      "links": [
+        {"titel": "Vereniging oprichten in Frankrijk", "regel": "Wanneer een officiële vereniging nodig is en wanneer een informele groep volstaat, met een stappenplan voor oprichting.", "url": "https://infofrankrijk.com/vereniging-oprichten-in-frankrijk/"},
+        {"titel": "Een vereniging besturen in Frankrijk", "regel": "Wat het bestuur moet regelen: wijzigingen melden, geld en giften, bar en loterij, aansprakelijkheid en privacy van leden.", "url": "https://infofrankrijk.com/vereniging-besturen-in-frankrijk/"},
+        {"titel": "Enquête NL Verenigingen 2021", "regel": "De volledige analyse van de enquête van Nederlanders.fr uit 2021 onder Nederlandse verenigingen in Frankrijk.", "url": "https://infofrankrijk.com/enquete-nl-verenigingen-2021/"},
+        {"titel": "vereniging.fr", "regel": "Een eigen website en nieuwsbrief voor Nederlandse verenigingen in Frankrijk, zonder dat iemand in het bestuur programmeur hoeft te zijn.", "url": "https://www.vereniging.fr/", "extern": true}
+      ]
+    },
+    {
       "id": "verenigingen",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
