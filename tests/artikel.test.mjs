@@ -239,3 +239,26 @@ test("kaartjes in een artikel worden tegels in twee kolommen met de app-stijl (s
   assert.equal(uit.losse, 1, "het losse kaartje krijgt dezelfde tegelstijl buiten een raster");
   assert.equal(uit.oud, false, "de oorspronkelijke opmaak is gewist");
 });
+
+test("een opmaaktabel met kaartcellen (waardekwadrant) wordt een raster van vier tegels, de aslabels worden chips", async (t) => {
+  const cel = (naam, a, b) => '<td style="background: #fff; border: 3px solid #ecf0f1; padding: 30px; border-radius: 15px; width: 45%; vertical-align: top;"><div style="font-size: 2.5em; text-align: center;">E</div><div style="color: #800000; font-size: 1.5em; font-weight: bold; text-align: center;">' + naam + '</div><p style="margin: 8px 0;">✓ ' + a + '</p><p style="margin: 8px 0;">✓ ' + b + '</p></td>';
+  const bron = '<div style="text-align: center;"><span style="background: white; padding: 10px 20px; border-radius: 25px; border: 3px solid #800000; display: inline-block;">⬆ INTERREGIONAAL</span></div>' +
+    '<table style="width: 100%;"><tbody><tr><td style="width: 50px; text-align: center;">PARTICULIER ⬅</td>' + cel("SOCIAAL NETWERK", "Hulp aan ouderen", "Praktische hulp") + cel("BELANGEN BEHARTIGING", "Fiscale zaken", "Mutuelle") + '<td>➡ ZAKELIJK</td></tr>' +
+    '<tr><td></td>' + cel("GEZELLIGHEID", "Borrels", "Wandeltochten") + cel("BUSINESS NETWERK", "Zakelijke netwerken", "Klusplatform") + '<td></td></tr></tbody></table>';
+  const uit = await inBrowser(h => {
+    const b = window.IfArtikel.schoon(h);
+    const r = b.querySelector("[data-tegels]");
+    return { tabel: b.querySelectorAll("table").length, aantal: r ? r.children.length : 0, kolommen: r ? r.getAttribute("style") : "",
+      volgorde: r ? [...r.children].map(c => c.children[1] ? c.children[1].textContent : "") : [],
+      chip: (b.querySelector("span") || {getAttribute: () => ""}).getAttribute("style"), uitgelijnd: /text-align:center/.test(b.firstElementChild.getAttribute("style") || ""),
+      zijlabel: /PARTICULIER|ZAKELIJK/.test(b.textContent) };
+  }, bron);
+  if (!uit) { t.skip("geen headless Chromium"); return; }
+  assert.equal(uit.tabel, 0, "geen kolommentabel meer");
+  assert.equal(uit.aantal, 4);
+  assert.match(uit.kolommen, /repeat\(2,minmax\(0,1fr\)\)/);
+  assert.deepEqual(uit.volgorde, ["SOCIAAL NETWERK", "BELANGEN BEHARTIGING", "GEZELLIGHEID", "BUSINESS NETWERK"], "rij voor rij: links boven, rechts boven, links onder, rechts onder");
+  assert.match(uit.chip, /border-radius:999px/);
+  assert.equal(uit.uitgelijnd, true);
+  assert.equal(uit.zijlabel, false, "de zijlabels van de assen vervallen");
+});

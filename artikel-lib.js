@@ -251,13 +251,49 @@
     cel: "box-sizing:border-box;min-width:0;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)",
     titel: "margin:0 0 6px;font:600 14.5px/1.35 Poppins,system-ui,sans-serif;color:" + KLEUR + ";overflow-wrap:anywhere",
     tekst: "margin:0 0 8px;font:400 14px/1.7 Mulish,system-ui,sans-serif;color:#3D4346;overflow-wrap:anywhere",
+    item: "margin:6px 0 0;font:400 13.5px/1.5 Mulish,system-ui,sans-serif;color:#3D4346;overflow-wrap:anywhere",
     raster: "display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 0"
   };
   function stijlVan(el) { return String(el.getAttribute("style") || "").toLowerCase().replace(/\s+/g, ""); }
+  function isKaartStijl(el) {
+    var st = stijlVan(el);
+    return /border(-width)?:/.test(st) && /border-radius:/.test(st) && /padding:/.test(st);
+  }
+  // Een tabel die als opmaak dient (twee of meer cellen met een eigen kaartstijl, zoals het waardekwadrant in de enquête) wordt
+  // een rij kaartjes in dezelfde volgorde (rij voor rij), die daarna als raster van twee kolommen naast elkaar staan. Overige
+  // cellen (zoals de zijlabels van de assen) vervallen: de tekst van de assen staat in het artikel zelf.
+  function zetKaartTabellenOm(doc, body) {
+    Array.prototype.slice.call(body.querySelectorAll("table")).forEach(function (tb) {
+      var cellen = Array.prototype.slice.call(tb.querySelectorAll("td")).filter(isKaartStijl);
+      if (cellen.length < 2 || !tb.parentNode) return;
+      cellen.forEach(function (td) {
+        var d = doc.createElement("div");
+        d.setAttribute("style", td.getAttribute("style"));
+        while (td.firstChild) d.appendChild(td.firstChild);
+        tb.parentNode.insertBefore(d, tb);
+      });
+      tb.parentNode.removeChild(tb);
+    });
+  }
+  // Uitlijning blijft: alleen text-align (midden of rechts), want de rest van de opmaak van het artikel wordt gewist.
+  // Een label met rand, afronding en inline-block (een "pil", zoals de aslabels in het waardekwadrant) krijgt de chipstijl van de app.
+  var CHIP = "display:inline-block;padding:6px 14px;border-radius:999px;border:1.5px solid #800000;color:#800000;font:700 13px/1.3 Mulish,system-ui,sans-serif";
+  function onthoudOpmaak(body) {
+    Array.prototype.slice.call(body.querySelectorAll("[style]")).forEach(function (el) {
+      var st = stijlVan(el), m = /text-align:(center|right)/.exec(st);
+      if (m) el.__uitlijn = m[1];
+      if (el.tagName === "SPAN" && /border(-width)?:/.test(st) && /border-radius:/.test(st) && /inline-block/.test(st)) el.__chip = true;
+    });
+  }
+  function pasOpmaakToe(body) {
+    Array.prototype.slice.call(body.querySelectorAll("*")).forEach(function (el) {
+      if (el.__chip) el.setAttribute("style", CHIP);
+      if (el.__uitlijn) el.setAttribute("style", (el.getAttribute("style") ? el.getAttribute("style").replace(/;?\s*$/, ";") : "") + "text-align:" + el.__uitlijn);
+    });
+  }
   function vindKaartDivs(body) {
     var kand = Array.prototype.slice.call(body.querySelectorAll("div")).filter(function (d) {
-      var st = stijlVan(d);
-      return /border(-width)?:/.test(st) && /border-radius:/.test(st) && /padding:/.test(st) && !d.querySelector("table, iframe, form");
+      return isKaartStijl(d) && !d.querySelector("table, iframe, form");
     });
     // Alleen de buitenste: een kaartje in een kaartje is gewoon inhoud.
     var buiten = kand.filter(function (d) { return !kand.some(function (o) { return o !== d && o.contains(d); }); });
@@ -270,10 +306,12 @@
       if (!d.parentNode) return;
       d.setAttribute("style", TEGEL.cel);
       var kids = Array.prototype.slice.call(d.children).filter(function (c) { return c.tagName === "DIV"; });
-      kids.forEach(function (c, i) {
-        var vet = i === 0 && /font-weight:(bold|[6-9]00)/.test(c.__stijlOrigineel || "");
+      kids.forEach(function (c) {
+        var vet = /font-weight:(bold|[6-9]00)/.test(c.__stijlOrigineel || "");
         c.setAttribute("style", vet ? TEGEL.titel : TEGEL.tekst);
       });
+      // Regels in een tegel (de punten in het waardekwadrant) zijn compact, niet de ruime lopende tekst van het artikel.
+      Array.prototype.slice.call(d.querySelectorAll("p")).forEach(function (pp) { pp.setAttribute("style", TEGEL.item); });
     });
     // Aaneengesloten kaartjes (broers) komen samen in één raster; een oneven laatste kaartje loopt over beide kolommen.
     var klaar = [];
@@ -357,6 +395,8 @@
       img.setAttribute("referrerpolicy", "no-referrer");
     });
 
+    zetKaartTabellenOm(doc, body);
+    onthoudOpmaak(body);
     var kaartDivs = vindKaartDivs(body);
     Array.prototype.slice.call(body.querySelectorAll("*")).forEach(function (el) {
       Array.prototype.slice.call(el.attributes).forEach(function (at) {
@@ -382,6 +422,7 @@
       if (s) el.setAttribute("style", s);
     });
     maakKaartTegels(doc, kaartDivs);
+    pasOpmaakToe(body);
     kaarten.forEach(function (x) {
       if (x.plek.parentNode && body.contains(x.plek)) x.plek.parentNode.replaceChild(maakKaart(doc, x.kaart), x.plek);
     });
