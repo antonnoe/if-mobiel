@@ -434,29 +434,24 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </sc-if>
   <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Klussen in Frankrijk</div>
   <sc-if value="{{ lmHeeftKlus }}" hint-placeholder-val="{{ true }}">
-  <div data-klusblok="1" style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+  <div data-klusblok="1" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 14px">
     <sc-for list="{{ lmKlus }}" as="k" hint-placeholder-count="4">
-    <button onClick="{{ k.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:11px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:56px">
-      <span style="flex:1;min-width:0">
-        <b style="display:block;font:700 14px/1.35 Mulish;color:#15181A;overflow-wrap:anywhere">{{ k.label }}</b>
-        <span style="display:block;margin-top:2px;font:500 13px/1.45 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ k.meta }}</span>
-        <sc-if value="{{ k.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
-      </span>
-      <span style="font:700 14px Mulish;color:#800000;flex:none">&#8594;</span>
+    <button onClick="{{ k.open }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:5px;box-sizing:border-box;width:100%;min-width:0;min-height:104px;padding:14px 13px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;text-align:left;cursor:pointer">
+      <b style="display:block;font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ k.label }}</b>
+      <span style="display:block;font:500 13px/1.5 Mulish;color:#3D4346;overflow-wrap:anywhere;text-wrap:pretty">{{ k.meta }}</span>
+      <sc-if value="{{ k.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
     </button>
     </sc-for>
   </div>
   </sc-if>
   <div style="padding:22px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Tools bij wonen</div>
   <sc-if value="{{ lmHeeftTools }}" hint-placeholder-val="{{ true }}">
-  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
-    <sc-for list="{{ lmTools }}" as="t" hint-placeholder-count="3">
-    <button onClick="{{ t.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 15px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;min-height:52px">
-      <span style="flex:1;min-width:0">
-        <b style="display:block;font:700 13.5px/1.35 Mulish;color:#15181A">{{ t.label }}</b>
-        <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
-      </span>
-      <span style="font:700 14px Mulish;color:#800000;flex:none">→</span>
+  <div data-toolsblok="1" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 14px">
+    <sc-for list="{{ lmTools }}" as="k" hint-placeholder-count="4">
+    <button onClick="{{ k.open }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:5px;box-sizing:border-box;width:100%;min-width:0;min-height:104px;padding:14px 13px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;text-align:left;cursor:pointer">
+      <b style="display:block;font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ k.label }}</b>
+      <span style="display:block;font:500 13px/1.5 Mulish;color:#3D4346;overflow-wrap:anywhere;text-wrap:pretty">{{ k.meta }}</span>
+      <sc-if value="{{ k.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
     </button>
     </sc-for>
   </div>
@@ -607,29 +602,27 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   </sc-if>
   <sc-if value="{{ themaHeeftMods }}" hint-placeholder-val="{{ true }}">
-  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;overflow:hidden">
-    <sc-for list="{{ themaMods }}" as="t" hint-placeholder-count="3">
-    <div style="display:flex;align-items:stretch;border-top:1px solid rgba(21,24,26,.06)">
-      <button onClick="{{ t.open }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:11px;padding:13px 4px 13px 15px;background:none;border:0;text-align:left;cursor:pointer;min-height:56px">
-        <span style="flex:1;min-width:0">
-          <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
-          <span style="font:600 12px Mulish;color:#71787C">{{ t.meta }}</span>
-          <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:700 12px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
-          <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
-        </span>
-        <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
+  <div data-themategels="1" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 14px 0">
+    <sc-for list="{{ themaMods }}" as="t" hint-placeholder-count="4">
+    <div style="position:relative;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;min-width:0">
+      <button onClick="{{ t.open }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:5px;box-sizing:border-box;width:100%;min-height:132px;padding:14px 13px 52px;background:none;border:0;border-radius:16px;text-align:left;cursor:pointer">
+        <b style="display:block;font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ t.name }}</b>
+        <span style="display:block;font:500 13px/1.5 Mulish;color:#3D4346;overflow-wrap:anywhere;text-wrap:pretty">{{ t.meta }}</span>
+        <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;font:700 12px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
+        <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
       </button>
-      <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="width:46px;flex:none;border:0;background:none;cursor:pointer;font-size:17px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
+      <span style="position:absolute;left:13px;bottom:14px;pointer-events:none;font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span>
+      <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="position:absolute;right:0;bottom:0;width:48px;height:48px;border:0;background:none;cursor:pointer;font-size:18px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
     </div>
     </sc-for>
-    <sc-if value="{{ themaHeeftCafe }}" hint-placeholder-val="{{ false }}">
-    <a href="{{ themaCafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
-      <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 12px Mulish">CC</span>
-      <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ themaCafeTekst }}</span>
-      <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
-    </a>
-    </sc-if>
   </div>
+  <sc-if value="{{ themaHeeftCafe }}" hint-placeholder-val="{{ false }}">
+  <a href="{{ themaCafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;margin:10px 14px 0;padding:12px 15px;border:1px solid rgba(128,0,0,.14);border-radius:16px;background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
+    <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 12px Mulish">CC</span>
+    <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ themaCafeTekst }}</span>
+    <span style="font:700 13px Mulish;color:#800000;flex:none">&#8599;</span>
+  </a>
+  </sc-if>
   </sc-if>
   <sc-if value="{{ themaLeeg }}" hint-placeholder-val="{{ false }}">
   <div style="margin:16px 14px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
@@ -3329,7 +3322,7 @@ class Component extends DCLogic {
       lmFasen: fasen, lmArts: (del.artikelen || []).map(art),
       lmKlus: klus.map(m => ({label: m.naam, meta: m.meta || "", ontw: this.inOntw(m), open: () => this.route(m)})),
       lmHeeftKlus: klus.length > 0,
-      lmTools: tools.map(m => ({label: m.kort || m.naam, ontw: this.inOntw(m), open: () => this.route(m)})),
+      lmTools: tools.map(m => ({label: m.kort || m.naam, meta: m.meta || "", ontw: this.inOntw(m), open: () => this.route(m)})),
       lmHeeftTools: tools.length > 0, lmGeenTools: tools.length === 0,
       lmOok: ookRijen, lmHeeftOok: ookRijen.length > 0
     };
