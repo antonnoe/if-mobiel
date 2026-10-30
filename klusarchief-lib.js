@@ -8,6 +8,8 @@
   var MIN_TEKENS = 2, MAX_TEKENS = 120, PER_PAGINA = 10, TIMEOUT_MS = 10000;
   var PRIVACY = "Om privacyredenen zijn alle namen in dit archief verzonnen.";
   var WAARSCHUWING = "Advies uit 2012 tot 2020. Regels, bedragen en normen kunnen verouderd zijn, controleer ze bij de officiële bron.";
+  var TIP_FRANS = "Tip: zoek ook op Franse woorden, bijvoorbeeld fosse septique of assainissement.";
+  var LEEG_TIPS = ["Controleer de spelling.", "Probeer een korter of ander woord.", "Zoek ook op het Franse woord, bijvoorbeeld fosse septique."];
   var VOORBEELDEN = ["septic tank", "afvoer", "dak", "houtkachel", "elektra", "tuin"];
 
   function tekst(x) { return typeof x === "string" ? x : ""; }
@@ -136,7 +138,16 @@
   function nogOver(totaal, getoond) { return Math.max(0, geheel(totaal, 0) - geheel(getoond, 0)); }
   function meerTekst(totaal, getoond) { return "Toon meer (nog " + nogOver(totaal, getoond) + ")"; }
   // Regel boven de resultaten; alleen uit de data van het antwoord.
-  function telTekst(totaal) { var n = geheel(totaal, 0); return n === 1 ? "1 draad gevonden" : n + " draden gevonden"; }
+  // Met `getoond` (aantal kaarten onder de regel) en meer treffers dan kaarten: "35 draden gevonden, de eerste 10 hieronder".
+  function telTekst(totaal, getoond) {
+    var n = geheel(totaal, 0), g = getoond == null ? n : geheel(getoond, 0);
+    var basis = n === 1 ? "1 draad gevonden" : n + " draden gevonden";
+    return g > 0 && g < n ? basis + ", de eerste " + g + " hieronder" : basis;
+  }
+  // Kopje boven de reacties van een draad: "Reacties (7)".
+  function reactiesKop(n) { return "Reacties (" + geheel(n, 0) + ")"; }
+  // Hash van een geopende draad: alleen cijfers, anders null.
+  function draadHashId(id) { var i = idSchoon(id); return i !== null && /^\d+$/.test(i) ? i : null; }
 
   // Voeg een volgende pagina aan de lijst toe; een id dat er al staat wordt overgeslagen.
   function voegToe(lijst, extra) {
@@ -146,7 +157,7 @@
   }
 
   var api = { BASIS: BASIS, TERUGVAL_URL: TERUGVAL_URL, MAIL: MAIL, MIN_TEKENS: MIN_TEKENS, MAX_TEKENS: MAX_TEKENS, PER_PAGINA: PER_PAGINA, TIMEOUT_MS: TIMEOUT_MS,
-    PRIVACY: PRIVACY, WAARSCHUWING: WAARSCHUWING, VOORBEELDEN: VOORBEELDEN,
+    PRIVACY: PRIVACY, TIP_FRANS: TIP_FRANS, LEEG_TIPS: LEEG_TIPS, reactiesKop: reactiesKop, draadHashId: draadHashId, WAARSCHUWING: WAARSCHUWING, VOORBEELDEN: VOORBEELDEN,
     termSchoon: termSchoon, zoekUrl: zoekUrl, idSchoon: idSchoon, draadUrl: draadUrl, meldBody: meldBody, soortAntwoord: soortAntwoord,
     leesZoek: leesZoek, leesDraad: leesDraad, segmenten: segmenten, datumTekst: datumTekst, reactiesTekst: reactiesTekst, metaRegel: metaRegel,
     jaarForum: jaarForum, alineas: alineas, nogOver: nogOver, meerTekst: meerTekst, telTekst: telTekst, voegToe: voegToe };

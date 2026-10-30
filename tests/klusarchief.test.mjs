@@ -150,3 +150,21 @@ test("schil: geen innerHTML voor archieftekst, geen opslag van de zoekterm, geen
   assert.ok(!/NotebookLM|chatbox/i.test(JSON.stringify(cat.modules.find(x => x.id === "klusforum"))));
   assert.match(blok, /credentials:"omit"/);
 });
+
+test("herstelronde 1: deep link per draad, teller, tips, kopje reacties", () => {
+  assert.deepEqual(N.parseHash("#/klusarchief/123"), { soort: "klusdraad", id: "123" });
+  assert.deepEqual(N.parseHash("#/klusarchief/12a"), { soort: "hub" });
+  assert.deepEqual(N.parseHash("#/klusarchief/1/2"), { soort: "hub" });
+  assert.equal(N.bouwHash({ screen: "klusarchief", kaDraad: "123" }), "#/klusarchief/123");
+  assert.equal(N.bouwHash({ screen: "klusarchief", kaDraad: "abc" }), "#/klusarchief");
+  assert.equal(N.bouwHash({ screen: "klusarchief", kaDraad: "" }), "#/klusarchief");
+  assert.equal(K.draadHashId("42"), "42"); assert.equal(K.draadHashId("x1"), null);
+  assert.equal(K.telTekst(20, 10), "20 draden gevonden, de eerste 10 hieronder");
+  assert.equal(K.telTekst(8, 8), "8 draden gevonden"); assert.equal(K.telTekst(1, 1), "1 draad gevonden");
+  assert.equal(K.reactiesKop(7), "Reacties (7)");
+  assert.equal(K.LEEG_TIPS.length, 3); assert.match(K.TIP_FRANS, /fosse septique/);
+  assert.match(html, /Typ minstens 2 letters\./);
+  assert.match(html, /Meld deze draad/); assert.ok(!/Meld dit bericht/.test(html));
+  assert.match(html, /data-ka-meld-boven/); assert.match(html, /scrollIntoView\(\{block:"center"\}\)/);
+  assert.match(html, /Zoek ook in het Klusarchief: /); assert.match(html, /zoekKlusAan\(\)\{ return this\.mods\(\)/);
+});

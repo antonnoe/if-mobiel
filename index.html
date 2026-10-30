@@ -1048,6 +1048,15 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
   </div>
   </sc-if>
+  <sc-if value="{{ zoekKlusToon }}" hint-placeholder-val="{{ false }}">
+  <div data-zoek-klusarchief="1" style="margin:16px 14px 0">
+    <button onClick="{{ zoekKlusOpen }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 15px;background:#fff;border:1px solid rgba(128,0,0,.28);border-radius:16px;text-align:left;cursor:pointer;min-height:56px">
+      <span style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000;flex:none;width:56px">ARCHIEF</span>
+      <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;overflow-wrap:anywhere">{{ zoekKlusTekst }}</b>
+      <span aria-hidden="true" style="color:#800000;font:700 16px Mulish;flex:none">&rsaquo;</span>
+    </button>
+  </div>
+  </sc-if>
   <sc-if value="{{ zaToon }}" hint-placeholder-val="{{ false }}">
   <div>
     <div style="padding:16px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Artikelen op Infofrankrijk</div>
@@ -2445,8 +2454,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <button type="submit" style="flex:none;min-height:52px;min-width:72px;padding:0 18px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
       </form>
       <sc-if value="{{ kaKort }}" hint-placeholder-val="{{ false }}">
-      <p role="alert" style="margin:8px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Typ minstens 2 tekens.</p>
+      <p role="alert" style="margin:8px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Typ minstens 2 letters.</p>
       </sc-if>
+      <p data-ka-tip="1" style="margin:10px 0 0;font:500 13.5px/1.6 Mulish;color:#3D4346">{{ kaTipFrans }}</p>
       <div style="margin-top:12px;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Probeer bijvoorbeeld</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
         <sc-for list="{{ kaVoorbeelden }}" as="v" hint-placeholder-count="4">
@@ -2467,7 +2477,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-if>
     <sc-if value="{{ kaLeeg }}" hint-placeholder-val="{{ false }}">
-    <div role="status" style="padding:18px 16px 0;font:600 14.5px/1.6 Mulish;color:#3D4346">Niets gevonden. Probeer een ander woord, of een kortere zoekterm.</div>
+    <div role="status" data-ka-leeg="1" style="margin:18px 16px 0;padding:14px 15px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10);font:500 14.5px/1.6 Mulish;color:#3D4346">
+      <div style="font-weight:700;color:#15181A">Niets gevonden.</div>
+      <ul style="margin:6px 0 0;padding-left:20px">
+        <sc-for list="{{ kaLeegTips }}" as="t" hint-placeholder-count="3"><li style="margin:2px 0">{{ t.t }}</li></sc-for>
+      </ul>
+    </div>
     </sc-if>
     <sc-if value="{{ kaLijst }}" hint-placeholder-val="{{ false }}">
     <div style="padding:18px 16px 0;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">{{ kaTelling }}</div>
@@ -2505,7 +2520,25 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div data-ka-waarschuwing="1" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:500 14px/1.6 Mulish;color:#15181A;overflow-wrap:anywhere">
         <div style="font-weight:700">{{ kaPrivacy }}</div>
         <div style="margin-top:6px">{{ kaWaarschuwing }}</div>
+        <sc-if value="{{ kdMeldBoven }}" hint-placeholder-val="{{ false }}">
+        <button data-ka-meld-boven="1" onClick="{{ kdMeldVraag }}" style="display:block;margin-top:8px;min-height:44px;padding:0;border:0;background:none;color:#800000;font:700 14px/1.4 Mulish;text-decoration:underline;text-align:left;cursor:pointer">Staat hier een naam of persoonsgegeven? Meld deze draad</button>
+        </sc-if>
       </div>
+      <sc-if value="{{ kdMeldPaneel }}" hint-placeholder-val="{{ false }}">
+      <div data-ka-meldpaneel="1" tabindex="-1" role="group" aria-label="Draad melden" style="margin-top:12px;padding:14px 15px;border-radius:16px;background:#fff;border:2px solid rgba(128,0,0,.35);scroll-margin-top:12px;outline:none">
+        <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">Bevat deze draad een naam of persoonsgegeven? Dan halen wij de draad meteen uit het archief.</p>
+        <sc-if value="{{ kdMeldFout }}" hint-placeholder-val="{{ false }}">
+        <p role="alert" style="margin:10px 0 0;font:600 13.5px/1.6 Mulish;color:#8A1C1C">Melden is niet gelukt. Probeer het later opnieuw, of stuur een mail naar <a href="{{ kdMailto }}" style="color:#800000;font-weight:700;text-decoration:underline">{{ kdMail }}</a>.</p>
+        </sc-if>
+        <sc-if value="{{ kdMeldBezig }}" hint-placeholder-val="{{ false }}">
+        <p role="status" style="margin:10px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Bezig met melden...</p>
+        </sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
+          <button onClick="{{ kdMeldDoe }}" style="min-height:46px;padding:0 18px;border:0;border-radius:12px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer;opacity:{{ kdMeldOpac }}">{{ kdMeldDoeTekst }}</button>
+          <button onClick="{{ kdMeldAf }}" style="min-height:46px;padding:0 18px;border-radius:12px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Annuleren</button>
+        </div>
+      </div>
+      </sc-if>
     </div>
     <sc-if value="{{ kdLaadt }}" hint-placeholder-val="{{ false }}">
     <div role="status" style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#3D4346">Het bericht wordt opgehaald...</div>
@@ -2522,7 +2555,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ kdWeg }}" hint-placeholder-val="{{ false }}">
     <div role="status" style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
       <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">Dit bericht staat niet meer in het archief.</p>
-      <button onClick="{{ kdTerug }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Terug naar de resultaten</button>
+      <button onClick="{{ kdTerug }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Naar het zoekscherm</button>
     </div>
     </sc-if>
     <sc-if value="{{ kdKlaar }}" hint-placeholder-val="{{ false }}">
@@ -2532,12 +2565,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </sc-for>
     </div>
     <sc-if value="{{ kdHeeftReacties }}" hint-placeholder-val="{{ false }}">
-    <div style="padding:20px 18px 8px;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#3D4346">{{ kdReactiesKop }}</div>
-    <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px">
+    <h2 data-ka-reactieskop="1" style="margin:0;padding:22px 18px 10px;font:600 17px Poppins,system-ui,sans-serif;color:#15181A">{{ kdReactiesKop }}</h2>
+    <div style="display:flex;flex-direction:column;gap:16px;padding:0 16px">
       <sc-for list="{{ kdReacties }}" as="r" hint-placeholder-count="2">
-      <div style="padding:14px 15px 6px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <div data-ka-reactie="1" style="padding:12px 15px 6px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.14);border-left:5px solid rgba(128,0,0,.35)">
         <sc-if value="{{ r.heeftDatum }}" hint-placeholder-val="{{ true }}">
-        <div style="margin-bottom:6px;font:600 12.5px Poppins,system-ui,sans-serif;color:#3D4346">{{ r.datum }}</div>
+        <div style="margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(21,24,26,.10);font:500 13px Poppins,system-ui,sans-serif;color:#3D4346">{{ r.datum }}</div>
         </sc-if>
         <sc-for list="{{ r.alineas }}" as="a" hint-placeholder-count="2">
         <p style="margin:0 0 .9em;font:400 15px Mulish;line-height:1.8em;color:#15181A;white-space:pre-line;overflow-wrap:anywhere">{{ a.t }}</p>
@@ -2549,22 +2582,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:18px 16px 0;display:flex;flex-direction:column;gap:12px">
       <button onClick="{{ kdTerug }}" style="min-height:48px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14.5px Mulish;cursor:pointer">Terug naar de resultaten</button>
       <sc-if value="{{ kdMeldKnop }}" hint-placeholder-val="{{ true }}">
-      <button data-ka-meld="1" onClick="{{ kdMeldVraag }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(21,24,26,.20);background:#fff;color:#3D4346;font:600 13.5px Mulish;cursor:pointer">Meld dit bericht</button>
-      </sc-if>
-      <sc-if value="{{ kdMeldPaneel }}" hint-placeholder-val="{{ false }}">
-      <div data-ka-meldpaneel="1" role="group" aria-label="Bericht melden" style="padding:14px 15px;border-radius:16px;background:#fff;border:1px solid rgba(128,0,0,.25)">
-        <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">Bevat dit bericht een naam of persoonsgegeven? Dan halen wij het meteen uit het archief.</p>
-        <sc-if value="{{ kdMeldFout }}" hint-placeholder-val="{{ false }}">
-        <p role="alert" style="margin:10px 0 0;font:600 13.5px/1.6 Mulish;color:#8A1C1C">Melden is niet gelukt. Probeer het later opnieuw, of stuur een mail naar <a href="{{ kdMailto }}" style="color:#800000;font-weight:700;text-decoration:underline">{{ kdMail }}</a>.</p>
-        </sc-if>
-        <sc-if value="{{ kdMeldBezig }}" hint-placeholder-val="{{ false }}">
-        <p role="status" style="margin:10px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Bezig met melden...</p>
-        </sc-if>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
-          <button onClick="{{ kdMeldDoe }}" style="min-height:46px;padding:0 18px;border:0;border-radius:12px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer;opacity:{{ kdMeldOpac }}">{{ kdMeldDoeTekst }}</button>
-          <button onClick="{{ kdMeldAf }}" style="min-height:46px;padding:0 18px;border-radius:12px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Annuleren</button>
-        </div>
-      </div>
+      <button data-ka-meld="1" onClick="{{ kdMeldVraag }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(21,24,26,.20);background:#fff;color:#3D4346;font:600 13.5px Mulish;cursor:pointer">Meld deze draad</button>
       </sc-if>
     </div>
     </sc-if>
@@ -4796,6 +4814,7 @@ class Component extends DCLogic {
     const A = window.IfArtikel;
     if (r.soort === "artikel" && A) { this.openInfoArtikel(A.BASIS + "/" + r.slug + "/"); return; }
     if (r.soort === "scherm") { this.go(r.scherm); return; }
+    if (r.soort === "klusdraad") { this.kaOpenId(r.id); return; }
     this.stopPiramide();
     this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, vraagPostcode:false, fbOpen:false,
       gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false});
@@ -5235,6 +5254,24 @@ class Component extends DCLogic {
 
   // ---- Klusarchief: het oude klusforum van Infofrankrijk, alleen zoeken en lezen (klusarchief-lib.js) ----
   // Niets van de zoekterm gaat naar het toestel: alles staat in het geheugen. Elke aanvraag heeft een laadtoken (IfNav.maakTeller).
+  // Vanuit het zoekscherm: open het archief met de term vooringevuld en zoek direct. De term blijft in het geheugen.
+  kaOpenMet(term){
+    const K = window.IfKa, t = K ? K.termSchoon(term) : "";
+    this.kaOpen(this.vindModule("klusforum"), "zoek");
+    if (t) this.kaZoek(false, t);
+  }
+  // Rechtstreeks naar een draad (hash #/klusarchief/<id>); terug gaat naar het zoekscherm.
+  kaOpenId(id){
+    const K = window.IfKa, i = K ? K.draadHashId(id) : null;
+    if (i === null) return;
+    this.kaOpen(this.vindModule("klusforum"), "hub");
+    this.kaOpenDraad({id:i, titel:"", jaar:null, forum:""});
+  }
+  kaMeldOpen(){
+    this.setState({kaMeld:"vraag"});
+    const naar = () => { const e = document.querySelector("[data-ka-meldpaneel]"); if (e) { try { e.scrollIntoView({block:"center"}); } catch(x){ e.scrollIntoView(); } try { e.focus({preventScroll:true}); } catch(x){ e.focus(); } return true; } return false; };
+    setTimeout(() => { if (!naar()) setTimeout(naar, 150); }, 60);
+  }
   kaOpen(m, from){
     this.setState({screen:"klusarchief", menu:false, q:"", copied:null, tool:m || this.vindModule("klusforum"), from: from || "hub", kaDraad:null, kaMeld:"", kaKort:false});
   }
@@ -5327,7 +5364,7 @@ class Component extends DCLogic {
       open: () => this.kaOpenDraad(r)
     })) : [];
     const foutTekst = st.kaSoort === "druk" ? "Het archief is nu druk. Probeer het over een minuut opnieuw."
-      : st.kaSoort === "kort" ? "Typ minstens 2 tekens." : "Het archief is nu niet te bereiken.";
+      : st.kaSoort === "kort" ? "Typ minstens 2 letters." : "Het archief is nu niet te bereiken.";
     const bezig = st.kaMeld === "bezig";
     const reacties = dd ? dd.antwoorden.map(a => ({datum:a.datum, heeftDatum:!!a.datum, alineas:K.alineas(a.tekst).map(t => ({t}))})) : [];
     return {
@@ -5341,19 +5378,19 @@ class Component extends DCLogic {
       kaLaadt: st.kaStatus === "laden", kaFoutMelding: st.kaStatus === "fout", kaFoutTekst: foutTekst,
       kaOpnieuw: () => this.kaZoek(false, st.kaZocht || null),
       kaLeeg: st.kaStatus === "klaar" && kaarten.length === 0, kaLijst: st.kaStatus === "klaar" && kaarten.length > 0,
-      kaKaarten: kaarten, kaTelling: K ? K.telTekst(st.kaTotaal) : "",
+      kaKaarten: kaarten, kaTelling: K ? K.telTekst(st.kaTotaal, (st.kaItems || []).length) : "", kaTipFrans: K ? K.TIP_FRANS : "", kaLeegTips: (K ? K.LEEG_TIPS : []).map(t => ({t})),
       kaMeerZichtbaar: !!K && st.kaTotaal > (st.kaItems || []).length, kaMeerFout: st.kaMeerStatus === "fout",
       kaMeerTekst: st.kaMeerStatus === "laden" ? "Laden..." : (K ? K.meerTekst(st.kaTotaal, (st.kaItems || []).length) : ""),
       kaMeer: () => { if (st.kaMeerStatus !== "laden") this.kaZoek(true); },
-      kdTitel: d ? d.titel : "",
+      kdTitel: dd ? dd.titel : (d ? d.titel : ""),
       kdMeta: K ? K.jaarForum(dd || d || {}) : "", kdHeeftMeta: !!(K && K.jaarForum(dd || d || {})),
       kdLaadt: !!d && d.status === "laden", kdFout: !!d && d.status === "fout", kdWeg: !!d && d.status === "weg", kdKlaar: !!d && d.status === "klaar" && !!dd,
       kdOpnieuw: () => this.kaOpenDraad(d), kdTerug: () => this.terugKnop(),
       kdAlineas: dd ? K.alineas(dd.tekst).map(t => ({t})) : [],
-      kdHeeftReacties: reacties.length > 0, kdReacties: reacties, kdReactiesKop: K ? K.reactiesTekst(reacties.length) : "",
+      kdHeeftReacties: reacties.length > 0, kdReacties: reacties, kdReactiesKop: K ? K.reactiesKop(reacties.length) : "",
       kdMeldKnop: !st.kaMeld, kdMeldPaneel: !!st.kaMeld, kdMeldBezig: bezig, kdMeldFout: st.kaMeld === "fout",
-      kdMeldVraag: () => this.setState({kaMeld:"vraag"}), kdMeldAf: () => { if (!bezig) this.setState({kaMeld:""}); },
-      kdMeldDoe: () => this.kaMeldDoe(), kdMeldOpac: bezig ? ".6" : "1", kdMeldDoeTekst: st.kaMeld === "fout" ? "Opnieuw proberen" : "Ja, meld dit bericht",
+      kdMeldVraag: () => this.kaMeldOpen(), kdMeldBoven: !!d && d.status === "klaar" && !!dd, kdMeldAf: () => { if (!bezig) this.setState({kaMeld:""}); },
+      kdMeldDoe: () => this.kaMeldDoe(), kdMeldOpac: bezig ? ".6" : "1", kdMeldDoeTekst: st.kaMeld === "fout" ? "Opnieuw proberen" : "Ja, meld deze draad",
       kdMail: K ? K.MAIL : "", kdMailto: K ? "mailto:" + K.MAIL : ""
     };
   }
@@ -5382,6 +5419,8 @@ class Component extends DCLogic {
         .then(() => { if (timer) clearTimeout(timer); });
     }, 350);
   }
+  // Het Klusarchief staat in de zoekresultaten als de module aan staat (zelfde regel als hub en modulelijst, Mijn modules telt mee).
+  zoekKlusAan(){ return this.mods().some(m => m.id === "klusforum"); }
   zaVals(){
     const st = this.state, qn = st.q.trim().replace(/\s+/g, " ").slice(0, 80), toon = qn.length >= 3, zq = st.zaq || {};
     const status = !toon ? "" : (zq.q !== qn ? "laden" : zq.status);
@@ -6282,6 +6321,9 @@ class Component extends DCLogic {
       onQ: e => { const v = e.target.value; this.setState({q:v}); this.zoekArtikelen(v); },
       clearQ: () => { this.setState({q:""}); this.zoekArtikelen(""); },
       ...this.zaVals(),
+      zoekKlusToon: this.zoekKlusAan() && st.q.trim().replace(/\s+/g, " ").length >= 3,
+      zoekKlusTekst: "Zoek ook in het Klusarchief: " + st.q.trim().replace(/\s+/g, " ").slice(0, 60),
+      zoekKlusOpen: () => this.kaOpenMet(st.q),
       results, hasResults: results.length > 0, resultsTaal, hasResultsTaal: resultsTaal.length > 0,
       resultCount: "Modules en tools", resultCountTaal: "Woorden en berichten",
       zoekEmpty: st.q.trim().length < 2,

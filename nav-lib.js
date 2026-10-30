@@ -1,6 +1,6 @@
 // Navigatie en laadtokens: pure logica, zonder DOM. Browser: window.IfNav; tests: require.
 // Hash-routes (geen server nodig): #/artikel/<slug> opent een artikel, #/nieuws, #/forum, #/profiel en #/zoek
-// openen een hoofdscherm. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
+// openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
 (function (root) {
   var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief" };
   var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief" };
@@ -16,6 +16,7 @@
       s = s.toLowerCase();
       return SLUG.test(s) && !/%(?![0-9a-f]{2})/.test(s) ? { soort: "artikel", slug: s } : { soort: "hub" };
     }
+    if (delen[0] === "klusarchief" && delen.length === 2) return /^\d{1,12}$/.test(delen[1]) ? { soort: "klusdraad", id: delen[1] } : { soort: "hub" };
     if (delen.length === 1 && Object.prototype.hasOwnProperty.call(TOP, delen[0])) return { soort: "scherm", scherm: TOP[delen[0]] };
     return { soort: "hub" };
   }
@@ -23,6 +24,7 @@
   // Hash voor een toestand: {screen, artSlug}. Hub en diepe schermen zonder eigen route: lege hash (de hub).
   function bouwHash(t) {
     if (t && t.screen === "artikel" && t.artSlug && SLUG.test(t.artSlug)) return "#/artikel/" + t.artSlug;
+    if (t && t.screen === "klusarchief" && t.kaDraad && /^\d{1,12}$/.test(String(t.kaDraad))) return "#/klusarchief/" + t.kaDraad;
     if (t && Object.prototype.hasOwnProperty.call(NAAR_HASH, t.screen)) return "#/" + NAAR_HASH[t.screen];
     return "";
   }
