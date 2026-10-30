@@ -252,7 +252,7 @@ Dit is de vaste regie voor het Klusarchief (module `klusforum`, scherm `klusarch
 
 1. Alle namen in het archief zijn fictief en dat staat zichtbaar: op het zoekscherm en bovenaan elke draad: "Om privacyredenen zijn alle namen in dit archief verzonnen."
 2. Elke draad toont duidelijk het jaar en de waarschuwing: "Advies uit 2012 tot 2020. Regels, bedragen en normen kunnen verouderd zijn, controleer ze bij de officiële bron."
-3. Geen AI en geen nepchat: alleen zoeken en lezen. De app belooft niets wat hij niet doet.
+3. Chat "Vraag het archief" (besluit van Anton 30-10-2026, vervangt het eerdere "geen AI en geen nepchat"): de chat antwoordt uitsluitend uit gevonden draden van het oude forum, met bronvermelding, en verwijst voor Nederlanders.fr naar de berichten daar. Zonder bron geen antwoord. Er wordt niets van vraag of antwoord bewaard (geen localStorage, geen sessionStorage, niet in de URL). De server gebruikt model Sonnet. Is de chat niet ingeschakeld (`aan:false`), dan is hij in de app onzichtbaar. De app belooft niets wat hij niet doet.
 4. Een lezer kan een draad melden ("Dit bericht bevat een naam of persoonsgegeven"): kleine knop onderaan de draad, eerst een bevestiging in het scherm (geen browser-confirm), dan een POST; daarna "Gemeld, het bericht is uit het archief gehaald" en terug naar de resultaten. Mislukt het melden, dan een eerlijke melding en de uitweg info@communitiesabroad.com.
 5. Geen account, niets bewaren van de zoekterm op het toestel.
 

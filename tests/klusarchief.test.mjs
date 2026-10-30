@@ -195,3 +195,73 @@ test("nlfrMeta: enkelvoud en nul reacties", () => {
   assert.equal(K.nlfrMeta({ jaar: 2020, antwoorden: 1 }), "2020 · 1 reactie");
   assert.equal(K.nlfrMeta({ jaar: 2019, antwoorden: 0 }), "2019");
 });
+
+// ---- Vraag het archief (chat) ----
+test("chat: URL een keer, vraag 5 tot 300 tekens, lichaam met vorige en leeg vulveld", () => {
+  assert.equal(K.CHAT_URL, "https://mqkhfyvrizgmmmcbdkxh.supabase.co/functions/v1/klusarchief-chat");
+  assert.equal(html.includes("klusarchief-chat"), false);
+  assert.equal(K.chatBody("abc"), null);
+  assert.equal(K.chatBody("   "), null);
+  assert.deepEqual(JSON.parse(K.chatBody("  mag ik  zelf een septic tank vervangen? ")), { vraag: "mag ik zelf een septic tank vervangen?", web: "" });
+  assert.equal(JSON.parse(K.chatBody("x".repeat(400))).vraag.length, 300);
+  const b = JSON.parse(K.chatBody("en de kosten?", { vraag: "septic tank", antwoord: "a".repeat(2000) }));
+  assert.equal(b.vorige.antwoord.length, 1500);
+  assert.equal(b.vorige.vraag, "septic tank");
+  assert.equal(JSON.parse(K.chatBody("en de kosten?", { vraag: "x", antwoord: "a" })).vorige, undefined);
+});
+
+test("chat: status en foutsoorten", () => {
+  assert.equal(K.chatAan({ ok: true, aan: true }), true);
+  assert.equal(K.chatAan({ ok: true, aan: false }), false);
+  assert.equal(K.chatAan(null), false);
+  assert.equal(K.chatAan({ aan: true }), false);
+  assert.equal(K.chatSoort(200, { ok: true }), "ok");
+  assert.equal(K.chatSoort(429, { fout: "druk" }), "druk");
+  assert.equal(K.chatSoort(503, { fout: "druk" }), "druk");
+  assert.equal(K.chatSoort(503, { fout: "uit" }), "uit");
+  assert.equal(K.chatSoort(403, { fout: "herkomst" }), "uit");
+  assert.equal(K.chatSoort(502, { fout: "model" }), "fout");
+  assert.equal(K.chatSoort(500, null), "fout");
+  assert.equal(K.chatSoort(0, null), "fout");
+});
+
+test("chat: leesChat valideert bronnen en nlfr, lege lijst mag", () => {
+  const l = K.leesChat({ ok: true, antwoord: " Ja [1]. ", bronnen: [
+    { n: 1, id: 12, titel: "Septic tank", jaar: 2014 }, { n: 2, titel: "zonder id" }, { n: 3, id: 5 }, { n: 1, id: 9, titel: "dubbel" }, null, { n: 0, id: 1, titel: "nul" } ],
+    nlfr: [ { titel: "Goed", jaar: 2020, antwoorden: 3, url: "https://www.nederlanders.fr/forum/topics/x" },
+      { titel: "Elders", url: "https://evil.example/www.nederlanders.fr/" }, { titel: "Http", url: "http://www.nederlanders.fr/x" },
+      { titel: "Leeg", url: "https://www.nederlanders.fr/" }, { titel: "Spatie", url: "https://www.nederlanders.fr/a b" } ] });
+  assert.equal(l.antwoord, "Ja [1].");
+  assert.deepEqual(l.bronnen, [{ n: 1, id: "12", titel: "Septic tank", jaar: 2014 }]);
+  assert.deepEqual(l.nlfr.map(x => x.titel), ["Goed"]);
+  assert.deepEqual(K.leesChat({ ok: true, antwoord: "x", bronnen: [] }).bronnen, []);
+  assert.equal(K.leesChat({ ok: true, antwoord: "  " }), null);
+  assert.equal(K.leesChat({ ok: false, antwoord: "x" }), null);
+  assert.equal(K.leesChat(null), null);
+  assert.equal(K.leesChat({ ok: true, antwoord: "x", bronnen: "nee", nlfr: 3 }).nlfr.length, 0);
+});
+
+test("chat: segmenten, onbekend nummer blijft tekst, HTML blijft tekst", () => {
+  const bron = [{ n: 1, id: "12", titel: "A" }, { n: 2, id: "13", titel: "B" }];
+  const s = K.chatSegmenten("Kan [1][2], maar [7] niet <img src=x onerror=alert(1)> en <b>vet</b>.", bron);
+  assert.deepEqual(s.filter(x => x.bron).map(x => x.n), [1, 2]);
+  const tekst = s.filter(x => !x.bron).map(x => x.t).join("");
+  assert.ok(tekst.includes("[7]"));
+  assert.ok(tekst.includes("<img src=x onerror=alert(1)>"));
+  assert.ok(s.every(x => x.bron ? !("t" in x) : typeof x.t === "string"));
+  assert.deepEqual(K.chatSegmenten("zie [1]", []), [{ t: "zie [1]" }]);
+  assert.equal(K.chatAlineas("een [1]\n\ntwee", bron).length, 2);
+});
+
+test("chat: schil gebruikt geen innerHTML, geen opslag, geen hash; teksten kloppen", () => {
+  const stuk = html.slice(html.indexOf("Vraag het archief (chat)"), html.indexOf("  kaOpen(m, from){"));
+  assert.ok(stuk.length > 500);
+  assert.equal(/innerHTML|localStorage|sessionStorage|pushState|location\.hash/.test(stuk), false);
+  assert.ok(html.includes("data-ka-chat-waarschuwing"));
+  assert.equal(K.CHAT_PRIVACY, "Uw vraag gaat naar Claude van Anthropic om het antwoord te schrijven. Vul geen namen of adressen in.");
+  assert.equal(K.CHAT_DRUK, "Het archief krijgt nu veel vragen. Probeer het later opnieuw of zoek zelf hieronder.");
+  assert.equal(K.CHAT_FOUT, "Het antwoord lukte niet. Zoek zelf hieronder of probeer het opnieuw.");
+  assert.equal(K.CHAT_MAX_VRAGEN, 4);
+  assert.equal(K.CHAT_TIMEOUT_MS, 45000);
+  assert.equal(K.CHAT_STATUS_MS, 5000);
+});

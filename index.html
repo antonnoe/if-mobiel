@@ -2449,6 +2449,69 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-if value="{{ kaGemeld }}" hint-placeholder-val="{{ false }}">
       <div role="status" data-ka-gemeld="1" style="margin-top:12px;padding:12px 14px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10);font:700 14px/1.6 Mulish;color:#15181A">Gemeld, het bericht is uit het archief gehaald</div>
       </sc-if>
+      <sc-if value="{{ kaChatAan }}" hint-placeholder-val="{{ false }}">
+      <section data-ka-chat="1" aria-label="Vraag het archief" style="margin-top:16px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+        <h2 style="margin:0;font:600 18px/1.3 Poppins,system-ui,sans-serif;color:#15181A">Vraag het archief</h2>
+        <p style="margin:8px 0 0;font:400 15px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">{{ kaChatUitleg }}</p>
+        <sc-if value="{{ kaChatVraagZichtbaar }}" hint-placeholder-val="{{ false }}">
+        <p data-ka-chat-vraag="1" style="margin:10px 0 0;padding:10px 12px;border-radius:12px;background:rgba(128,0,0,.06);font:600 14px/1.5 Mulish;color:#15181A;overflow-wrap:anywhere">{{ kaChatVraag }}</p>
+        </sc-if>
+        <sc-if value="{{ kaChatLaadt }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="margin-top:12px;font:600 14px/1.6 Mulish;color:#3D4346">Zoeken in het archief...</div>
+        </sc-if>
+        <sc-if value="{{ kaChatFout }}" hint-placeholder-val="{{ false }}">
+        <div role="alert" data-ka-chat-fout="1" style="margin-top:12px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 14px/1.6 Mulish;color:#15181A">{{ kaChatFoutTekst }}</div>
+        <button onClick="{{ kaChatOpnieuw }}" style="margin-top:10px;min-height:44px;padding:0 18px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+        </sc-if>
+        <sc-if value="{{ kaChatKlaar }}" hint-placeholder-val="{{ false }}">
+        <div data-ka-chat-antwoord="1" style="margin-top:12px">
+          <sc-for list="{{ kaChatAlineas }}" as="a" hint-placeholder-count="2">
+          <p style="margin:0 0 10px;font:400 16px Mulish;line-height:1.8em;color:#15181A;white-space:pre-line;overflow-wrap:anywhere"><sc-for list="{{ a.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.isTekst }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if><sc-if value="{{ s.isBron }}" hint-placeholder-val="{{ false }}"><button data-ka-bronnr="1" onClick="{{ s.open }}" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;border:0;background:none;vertical-align:middle;cursor:pointer"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></button></sc-if></sc-for></p>
+          </sc-for>
+        </div>
+        <sc-if value="{{ kaChatHeeftBronnen }}" hint-placeholder-val="{{ false }}">
+        <div data-ka-chat-bronnen="1" style="margin-top:6px">
+          <div style="font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Bronnen</div>
+          <sc-for list="{{ kaChatBronnen }}" as="b" hint-placeholder-count="2">
+          <button onClick="{{ b.open }}" aria-label="{{ b.label }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:48px;margin-top:6px;padding:8px 12px;box-sizing:border-box;text-align:left;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#fff;cursor:pointer">
+            <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ b.n }}</span>
+            <span style="flex:1;min-width:0;font:600 14px/1.4 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.titel }}<span style="font-weight:500;color:#3D4346">{{ b.jaar }}</span></span>
+          </button>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ kaChatHeeftNlfr }}" hint-placeholder-val="{{ false }}">
+        <div data-ka-chat-nlfr="1" style="margin-top:14px">
+          <div style="font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Ook op Nederlanders.fr</div>
+          <sc-for list="{{ kaChatNlfr }}" as="n" hint-placeholder-count="2">
+          <a href="{{ n.url }}" target="_blank" rel="noopener" style="display:block;margin-top:6px;min-height:44px;padding:10px 12px;box-sizing:border-box;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#fff;text-decoration:none">
+            <span style="display:block;font:600 14px/1.4 Mulish;color:#15181A;overflow-wrap:anywhere">{{ n.titel }}</span>
+            <span style="display:block;margin-top:2px;font:600 12.5px/1.4 Mulish;color:#800000">{{ n.meta }}Opent op Nederlanders.fr ↗</span>
+          </a>
+          </sc-for>
+        </div>
+        </sc-if>
+        <div data-ka-chat-waarschuwing="1" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 13.5px/1.6 Mulish;color:#15181A">{{ kaWaarschuwing }}</div>
+        </sc-if>
+        <sc-if value="{{ kaChatInvoer }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ kaChatVerstuur }}" style="margin-top:14px">
+          <label for="ifm-ka-chat-invoer" style="display:block;font:600 14px/1.4 Mulish;color:#15181A">{{ kaChatLabel }}</label>
+          <textarea id="ifm-ka-chat-invoer" value="{{ kaChatV }}" onInput="{{ kaChatOnV }}" rows="3" maxlength="300" placeholder="{{ kaChatPlaatshouder }}" autocomplete="off" spellcheck="true" style="display:block;width:100%;box-sizing:border-box;margin-top:6px;min-height:84px;padding:12px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;font:500 16px/1.5 Mulish;color:#15181A;background:#fff;resize:vertical"></textarea>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;flex-wrap:wrap">
+            <span aria-live="off" style="font:500 12.5px Mulish;color:#3D4346">{{ kaChatTeller }}</span>
+            <button type="submit" style="min-height:44px;min-width:88px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer;opacity:{{ kaChatOpac }}">Vraag</button>
+          </div>
+          <sc-if value="{{ kaChatKort }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="margin:8px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Typ minstens 5 tekens.</p>
+          </sc-if>
+          <p style="margin:10px 0 0;font:500 13px/1.6 Mulish;color:#3D4346">{{ kaChatPrivacy }}</p>
+        </form>
+        </sc-if>
+        <sc-if value="{{ kaChatNieuwKnop }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ kaChatNieuw }}" style="margin-top:12px;min-height:44px;padding:0 18px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">{{ kaChatNieuwTekst }}</button>
+        </sc-if>
+      </section>
+      </sc-if>
       <form onSubmit="{{ kaVerstuur }}" style="margin-top:14px;display:flex;gap:8px">
         <input value="{{ kaQ }}" onInput="{{ kaOnQ }}" type="text" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120" placeholder="Bijv. septic tank" aria-label="Zoek in het Klusarchief" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#fff">
         <button type="submit" style="flex:none;min-height:52px;min-width:72px;padding:0 18px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
@@ -3415,7 +3478,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -5288,13 +5351,57 @@ class Component extends DCLogic {
     const naar = () => { const e = document.querySelector("[data-ka-meldpaneel]"); if (e) { try { e.scrollIntoView({block:"center"}); } catch(x){ e.scrollIntoView(); } try { e.focus({preventScroll:true}); } catch(x){ e.focus(); } return true; } return false; };
     setTimeout(() => { if (!naar()) setTimeout(naar, 150); }, 60);
   }
-  kaOpen(m, from){
-    this.setState({screen:"klusarchief", menu:false, q:"", copied:null, tool:m || this.vindModule("klusforum"), from: from || "hub", kaDraad:null, kaMeld:"", kaKort:false});
+  // ---- Vraag het archief (chat). Alles blijft in het geheugen: geen storage, geen URL, geen geschiedenisregel. ----
+  // De status (aan of uit) wordt een keer per sessie opgevraagd; bij fout of time-out blijft de chat verborgen.
+  kaChatCheck(){
+    const K = window.IfKa;
+    if (!K) return;
+    if (this._kaChatAan !== undefined) { if (this.state.kaChatAan !== this._kaChatAan) this.setState({kaChatAan:this._kaChatAan}); return; }
+    if (this._kaChatBezig) return;
+    this._kaChatBezig = true;
+    this.kaFetch(K.CHAT_URL, null, K.CHAT_STATUS_MS).then(({data}) => {
+      this._kaChatBezig = false;
+      this._kaChatAan = K.chatAan(data);
+      this.setState({kaChatAan:this._kaChatAan});
+    });
   }
-  kaFetch(url, body){
+  kaChatVerstuur(){
+    const K = window.IfKa, Nv = window.IfNav, st = this.state;
+    if (!K || !Nv || st.kaChatStatus === "laden") return;
+    const vraag = K.chatVraagSchoon(st.kaChatV);
+    if (!vraag) { this.setState({kaChatKort:true}); return; }
+    if (st.kaChatN >= K.CHAT_MAX_VRAGEN) return;
+    const vorige = st.kaChatStatus === "klaar" && st.kaChatData ? {vraag:st.kaChatVraag, antwoord:st.kaChatData.antwoord} : (st.kaChatStatus === "fout" ? st.kaChatPrev : null);
+    const body = K.chatBody(vraag, vorige);
+    this._kaCTeller = this._kaCTeller || Nv.maakTeller();
+    const tok = this._kaCTeller.volgende();
+    this.setState({kaChatStatus:"laden", kaChatSoort:"", kaChatKort:false, kaChatVraag:vraag, kaChatV:"", kaChatN: st.kaChatN + 1, kaChatPrev: vorige, kaChatData: null});
+    this.kaFetch(K.CHAT_URL, body, K.CHAT_TIMEOUT_MS).then(({status, data}) => {
+      const soort = K.chatSoort(status, data), l = soort === "ok" ? K.leesChat(data) : null;
+      this.setState(prev => {
+        if (!this._kaCTeller.actueel(tok)) return null;
+        if (soort === "uit") { this._kaChatAan = false; return {kaChatAan:false, kaChatStatus:"", kaChatData:null, kaChatN:0, kaChatV:""}; }
+        if (!l) return {kaChatStatus:"fout", kaChatSoort: soort === "druk" ? "druk" : "fout", kaChatV: prev.kaChatVraag, kaChatN: Math.max(0, prev.kaChatN - 1)};
+        return {kaChatStatus:"klaar", kaChatData:l};
+      });
+    });
+  }
+  kaChatNieuw(){
+    if (this._kaCTeller) this._kaCTeller.volgende();
+    this.setState({kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatV:"", kaChatVraag:"", kaChatKort:false});
+  }
+  kaChatBron(b){
+    this.kaOpenDraad({id:b.id, titel:b.titel, jaar:b.jaar, forum:""});
+  }
+  kaOpen(m, from){
+    this.setState({screen:"klusarchief", menu:false, q:"", copied:null, tool:m || this.vindModule("klusforum"), from: from || "hub", kaDraad:null, kaMeld:"", kaKort:false, kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatV:"", kaChatVraag:"", kaChatKort:false});
+    if (this._kaCTeller) this._kaCTeller.volgende();
+    this.kaChatCheck();
+  }
+  kaFetch(url, body, ms){
     const K = window.IfKa;
     let ctl = null, timer = null;
-    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), K.TIMEOUT_MS); } catch(e){ ctl = null; }
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), ms || K.TIMEOUT_MS); } catch(e){ ctl = null; }
     const opts = {credentials:"omit"};
     if (ctl) opts.signal = ctl.signal;
     if (body) { opts.method = "POST"; opts.headers = {"Content-Type":"application/json"}; opts.body = body; }
@@ -5390,9 +5497,31 @@ class Component extends DCLogic {
       klik: () => { if (st.kaBron === id) return; if (st.kaZocht) this.kaZoek(false, st.kaZocht, id); else this.setState({kaBron:id}); }});
     const foutTekst = st.kaSoort === "druk" ? "Het archief is nu druk. Probeer het over een minuut opnieuw."
       : st.kaSoort === "kort" ? "Typ minstens 2 letters." : "Het archief is nu niet te bereiken.";
+    const cs = st.kaChatStatus, cd = st.kaChatData, cK = is && !!K;
+    const chatAl = cK && cd ? K.chatAlineas(cd.antwoord, cd.bronnen).map(segs => ({segs: segs.map(x => x.bron
+      ? ({isTekst:false, isBron:true, t:"", n:String(x.n), label:"Bron " + x.n + ": " + x.titel, open: () => this.kaChatBron(x)})
+      : ({isTekst:true, isBron:false, t:x.t, n:"", label:"", open: () => {}}))})) : [];
+    const chatKlaar = cs === "klaar" && !!cd, chatLaadt = cs === "laden";
+    const chatVol = cK && st.kaChatN >= K.CHAT_MAX_VRAGEN && chatKlaar;
+    const chatFoutT = st.kaChatSoort === "druk" ? K.CHAT_DRUK : K.CHAT_FOUT;
     const bezig = st.kaMeld === "bezig";
     const reacties = dd ? dd.antwoorden.map(a => ({datum:a.datum, heeftDatum:!!a.datum, alineas:K.alineas(a.tekst).map(t => ({t}))})) : [];
     return {
+      kaChatAan: cK && !!st.kaChatAan, kaChatUitleg: cK ? K.CHAT_UITLEG : "", kaChatPrivacy: cK ? K.CHAT_PRIVACY : "", kaChatPlaatshouder: cK ? K.CHAT_PLAATSHOUDER : "",
+      kaChatV: st.kaChatV, kaChatOnV: e => this.setState({kaChatV: e.target.value.slice(0, 300), kaChatKort:false}),
+      kaChatTeller: cK ? K.chatTeller((st.kaChatV || "").length) : "", kaChatKort: !!st.kaChatKort,
+      kaChatVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); this.kaChatVerstuur(); },
+      kaChatOpac: chatLaadt ? ".6" : "1",
+      kaChatLaadt: chatLaadt, kaChatFout: cs === "fout", kaChatFoutTekst: cK ? chatFoutT : "",
+      kaChatOpnieuw: () => this.kaChatVerstuur(),
+      kaChatKlaar: chatKlaar, kaChatAlineas: chatAl, kaChatVraag: st.kaChatVraag, kaChatVraagZichtbaar: !!st.kaChatVraag && (chatKlaar || chatLaadt || cs === "fout"),
+      kaChatHeeftBronnen: chatKlaar && cd.bronnen.length > 0,
+      kaChatBronnen: chatKlaar ? cd.bronnen.map(b => ({n:String(b.n), titel:b.titel, jaar: b.jaar ? ", " + b.jaar : "", label:"Bron " + b.n + ": " + b.titel + (b.jaar ? ", " + b.jaar : ""), open: () => this.kaChatBron(b)})) : [],
+      kaChatHeeftNlfr: chatKlaar && cd.nlfr.length > 0,
+      kaChatNlfr: chatKlaar ? cd.nlfr.map(x => ({titel:x.titel, url:x.url, meta: K.nlfrMeta(x) ? K.nlfrMeta(x) + " · " : ""})) : [],
+      kaChatInvoer: cK && !chatLaadt && !chatVol && cs !== "fout",
+      kaChatLabel: chatKlaar ? "Stel een vervolgvraag" : "Uw vraag",
+      kaChatNieuwKnop: chatKlaar || cs === "fout", kaChatNieuwTekst: chatVol ? "Begin een nieuwe vraag" : "Nieuwe vraag", kaChatNieuw: () => this.kaChatNieuw(),
       kaChips: [chip("alles","Alles"), chip("forum","Oud forum"), chip("nlfr","Nederlanders.fr")],
       isKa: is, kaZoekScherm: !d, kaDraadScherm: !!d,
       kaIntro: "Dit archief bevat de draden van het oude klusforum van Infofrankrijk (2012 tot 2020), die u hier zelf leest, en verwijzingen naar berichten over bouwen en verbouwen op Nederlanders.fr (2013 tot 2026), die u op die site zelf leest. Zoek op een woord en kies waar u in zoekt.",
