@@ -2725,6 +2725,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <button onClick="{{ o.go }}" aria-pressed="{{ o.aan }}" style="{{ o.style }}">{{ o.label }}</button>
       </sc-for>
     </div>
+    <label for="fb-tool" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Gaat het over een bepaalde tool? <span style="font-weight:500;color:#71787C">(niet verplicht)</span></label>
+    <select id="fb-tool" value="{{ fbTool }}" onChange="{{ fbOnTool }}" style="width:100%;min-height:48px;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:0 12px;font:600 15px Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box">
+      <sc-for list="{{ fbTools }}" as="t">
+      <option value="{{ t.id }}">{{ t.naam }}</option>
+      </sc-for>
+    </select>
     <label for="fb-bericht" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Wat zag u?</label>
     <textarea id="fb-bericht" value="{{ fbBericht }}" onInput="{{ fbOnBericht }}" maxlength="2000" rows="5" style="width:100%;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:12px 14px;font:500 16px/1.5 Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box;resize:vertical"></textarea>
     <label for="fb-toestel" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Toestel en browser</label>
@@ -3212,7 +3218,7 @@ class Component extends DCLogic {
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
-    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", protoWeg:(() => { try { return sessionStorage.getItem("ifm_proto_weg") === "1"; } catch(e){ return false; } })(), fbOpen:false, fbNaam:"", fbOnderdeel:"", fbBericht:"", fbToestel:null, fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
+    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", protoWeg:(() => { try { return sessionStorage.getItem("ifm_proto_weg") === "1"; } catch(e){ return false; } })(), fbOpen:false, fbNaam:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbToestel:null, fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
@@ -4414,7 +4420,7 @@ class Component extends DCLogic {
   fbSluit(){ this.setState({fbOpen:false}); }
   fbVelden(){
     const st = this.state;
-    return {naam:st.fbNaam, onderdeel:st.fbOnderdeel, bericht:st.fbBericht, toestel:st.fbToestel || "", toestemming:st.fbAkkoord === true, web:st.fbWeb};
+    return {naam:st.fbNaam, onderdeel:st.fbOnderdeel, tool:st.fbTool, bericht:st.fbBericht, toestel:st.fbToestel || "", toestemming:st.fbAkkoord === true, web:st.fbWeb};
   }
   fbVerzend(){
     const st = this.state, F = window.IfFb;
@@ -4423,7 +4429,7 @@ class Component extends DCLogic {
     if (fout) { this.setState({fbStatus:"fout", fbFout:fout}); return; }
     this.setState({fbStatus:"bezig", fbFout:""});
     F.zend((u, o) => fetch(u, o), v).then(r => {
-      if (r.ok) { this.setState({fbStatus:"klaar", fbFout:"", fbOnderdeel:"", fbBericht:"", fbAkkoord:false, fbWeb:""}); try { const d = document.querySelector("[data-fbblad] [role=dialog]"); if (d) d.scrollTop = 0; } catch(e){} }
+      if (r.ok) { this.setState({fbStatus:"klaar", fbFout:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbAkkoord:false, fbWeb:""}); try { const d = document.querySelector("[data-fbblad] [role=dialog]"); if (d) d.scrollTop = 0; } catch(e){} }
       else this.setState({fbStatus:"fout", fbFout:r.fout});
     });
   }
@@ -4442,6 +4448,9 @@ class Component extends DCLogic {
       fbOnNaam: e => this.setState({fbNaam:e.target.value, fbStatus: st.fbStatus === "klaar" ? "" : st.fbStatus}),
       fbOnBericht: e => this.setState({fbBericht:e.target.value, fbStatus: st.fbStatus === "klaar" ? "" : st.fbStatus}),
       fbOnToestel: e => this.setState({fbToestel:e.target.value}),
+      fbTool: st.fbTool, fbOnTool: e => this.setState({fbTool:e.target.value}),
+      fbTools: [{id:"", naam:"Nee, over de app in het algemeen"}].concat(this.alleMods().filter(m => m.zichtbaar !== false && m.thema !== "ai")
+        .map(m => ({id:m.id, naam:m.naam})).sort((a, b) => a.naam.localeCompare(b.naam, "nl"))),
       fbOnWeb: e => this.setState({fbWeb:e.target.value}),
       fbOnAkkoord: e => this.setState({fbAkkoord: !!e.target.checked}),
       fbOnderdelen: (F ? F.ONDERDELEN : []).map(o => {

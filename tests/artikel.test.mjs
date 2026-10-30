@@ -216,3 +216,26 @@ test("artikelknoppen Delen en Op infofrankrijk.com zijn even breed (25-10-2026)"
   assert.match(html, /onClick="\{\{ artDelen \}\}" style="flex:1 1 0;min-width:0;/);
   assert.match(html, /href="\{\{ artSiteUrl \}\}" target="_blank" rel="noopener" style="flex:1 1 0;min-width:0;/);
 });
+
+test("kaartjes in een artikel worden tegels in twee kolommen met de app-stijl (subsidie-artikel)", async (t) => {
+  const kaart = (titel, tekst, link) => '<div style="border: 1px solid rgba(128,0,0,.18); border-radius: 14px; padding: 14px 16px; margin: 12px 0; background: #fff;"><div style="font-family: Poppins,Arial,sans-serif; color: #800000; font-weight: bold; margin: 0 0 6px 0;">' + titel + '</div><div style="margin: 0 0 10px 0;">' + tekst + '</div><div><a href="https://infofrankrijk.com/x/">' + link + '</a></div></div>';
+  const bron = "<h2>De 5 hoofdregelingen</h2><p><!-- x --></p>" + kaart("MaPrimeRénov’", "Subsidie voor renovatiewerken.", "Lees verder: één") + kaart("CEE", "Premies.", "Lees verder: twee") + kaart("Éco-PTZ", "Renteloze lening.", "Lees verder: drie") + "<p>Daarna gewone tekst.</p>" + kaart("Alleen", "Een los kaartje.", "Lees verder: vier");
+  const uit = await inBrowser(h => {
+    const b = window.IfArtikel.schoon(h);
+    const r = b.querySelector("[data-tegels]");
+    return { aantal: r ? r.getAttribute("data-tegels") : null, raster: r ? r.getAttribute("style") : "", kolommen: r ? r.children.length : 0,
+      laatsteLoopt: r ? r.lastElementChild.getAttribute("style").includes("grid-column:1/-1") : null,
+      titel: r ? r.firstElementChild.firstElementChild.getAttribute("style") : "", titelTekst: r ? r.firstElementChild.firstElementChild.textContent : "",
+      losse: b.querySelectorAll(":scope > div[style*='border:1px solid rgba(21,24,26,.10)']").length, grid: b.querySelectorAll("[data-tegels]").length,
+      oud: /rgba\(128,0,0,\.18\)|font-family: Poppins,Arial/.test(b.innerHTML) };
+  }, bron);
+  if (!uit) { t.skip("geen headless Chromium"); return; }
+  assert.equal(uit.aantal, "3");
+  assert.equal(uit.grid, 1, "de drie kaartjes op een rij staan in één raster, het losse kaartje apart");
+  assert.match(uit.raster, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.equal(uit.laatsteLoopt, true, "een oneven laatste tegel loopt over beide kolommen");
+  assert.equal(uit.titelTekst, "MaPrimeRénov’");
+  assert.match(uit.titel, /Poppins/);
+  assert.equal(uit.losse, 1, "het losse kaartje krijgt dezelfde tegelstijl buiten een raster");
+  assert.equal(uit.oud, false, "de oorspronkelijke opmaak is gewist");
+});

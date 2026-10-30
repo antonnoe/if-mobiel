@@ -244,6 +244,56 @@
     });
   }
 
+  // Kaartjes in een artikel (een div met eigen rand, afronding en opvulling, zoals de vijf regelingen in het subsidie-artikel):
+  // de eigen inline opmaak wordt altijd gewist, dus zonder dit zijn het kale regels tekst zonder ruimte ertussen. Ze krijgen de
+  // tegelstijl van de app en staan, als er meer dan één op een rij staan, naast elkaar in twee kolommen.
+  var TEGEL = {
+    cel: "box-sizing:border-box;min-width:0;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)",
+    titel: "margin:0 0 6px;font:600 14.5px/1.35 Poppins,system-ui,sans-serif;color:" + KLEUR + ";overflow-wrap:anywhere",
+    tekst: "margin:0 0 8px;font:400 14px/1.7 Mulish,system-ui,sans-serif;color:#3D4346;overflow-wrap:anywhere",
+    raster: "display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 0"
+  };
+  function stijlVan(el) { return String(el.getAttribute("style") || "").toLowerCase().replace(/\s+/g, ""); }
+  function vindKaartDivs(body) {
+    var kand = Array.prototype.slice.call(body.querySelectorAll("div")).filter(function (d) {
+      var st = stijlVan(d);
+      return /border(-width)?:/.test(st) && /border-radius:/.test(st) && /padding:/.test(st) && !d.querySelector("table, iframe, form");
+    });
+    // Alleen de buitenste: een kaartje in een kaartje is gewoon inhoud.
+    var buiten = kand.filter(function (d) { return !kand.some(function (o) { return o !== d && o.contains(d); }); });
+    // De oorspronkelijke opmaak van de kindjes wordt straks gewist; onthoud nu welk kind de titel is (vetgedrukt).
+    buiten.forEach(function (d) { Array.prototype.slice.call(d.children).forEach(function (c) { c.__stijlOrigineel = stijlVan(c); }); });
+    return buiten;
+  }
+  function maakKaartTegels(doc, kaartDivs) {
+    kaartDivs.forEach(function (d) {
+      if (!d.parentNode) return;
+      d.setAttribute("style", TEGEL.cel);
+      var kids = Array.prototype.slice.call(d.children).filter(function (c) { return c.tagName === "DIV"; });
+      kids.forEach(function (c, i) {
+        var vet = i === 0 && /font-weight:(bold|[6-9]00)/.test(c.__stijlOrigineel || "");
+        c.setAttribute("style", vet ? TEGEL.titel : TEGEL.tekst);
+      });
+    });
+    // Aaneengesloten kaartjes (broers) komen samen in één raster; een oneven laatste kaartje loopt over beide kolommen.
+    var klaar = [];
+    kaartDivs.forEach(function (d) {
+      if (klaar.indexOf(d) !== -1 || !d.parentNode) return;
+      var rij = [d], n = d.nextSibling;
+      while (n) {
+        if (n.nodeType === 3 && !n.nodeValue.replace(/\s+/g, "")) { n = n.nextSibling; continue; }
+        if (n.nodeType === 1 && kaartDivs.indexOf(n) !== -1) { rij.push(n); n = n.nextSibling; continue; }
+        break;
+      }
+      rij.forEach(function (x) { klaar.push(x); });
+      if (rij.length < 2) { d.setAttribute("style", TEGEL.cel + ";margin:16px 0 0"); return; }
+      var raster = doc.createElement("div"); raster.setAttribute("style", TEGEL.raster); raster.setAttribute("data-tegels", String(rij.length));
+      d.parentNode.insertBefore(raster, d);
+      rij.forEach(function (x) { raster.appendChild(x); });
+      if (rij.length % 2 === 1) rij[rij.length - 1].setAttribute("style", TEGEL.cel + ";grid-column:1/-1");
+    });
+  }
+
   // Geeft een <body>-element uit een inert document. Scripts, styles, iframes, formulieren en alle
   // on*-attributen verdwijnen; alleen de lijst ATTR blijft over. Eigen inline opmaak (huisstijl).
   function schoon(html, opt) {
@@ -307,6 +357,7 @@
       img.setAttribute("referrerpolicy", "no-referrer");
     });
 
+    var kaartDivs = vindKaartDivs(body);
     Array.prototype.slice.call(body.querySelectorAll("*")).forEach(function (el) {
       Array.prototype.slice.call(el.attributes).forEach(function (at) {
         var naam = at.name.toLowerCase();
@@ -330,6 +381,7 @@
       if (el.tagName === "TD" || el.tagName === "TH") s = STIJL[el.tagName.toLowerCase()];
       if (s) el.setAttribute("style", s);
     });
+    maakKaartTegels(doc, kaartDivs);
     kaarten.forEach(function (x) {
       if (x.plek.parentNode && body.contains(x.plek)) x.plek.parentNode.replaceChild(maakKaart(doc, x.kaart), x.plek);
     });

@@ -49,6 +49,7 @@
       onderdeel: v.onderdeel,
       bericht: tekst(v.bericht).slice(0, MAX.bericht),
       toestel: tekst(v.toestel).slice(0, MAX.toestel),
+      tool: /^[a-z0-9_-]{1,40}$/.test(tekst(v.tool)) ? tekst(v.tool) : "",
       toestemming: v.toestemming === true,
       web: typeof v.web === "string" ? v.web : ""
     };

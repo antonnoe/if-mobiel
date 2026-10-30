@@ -108,3 +108,16 @@ test('het blad vraagt expliciet toestemming en noemt contact en bewaartermijn', 
 test('service worker kent het nieuwe bestand', () => {
   assert.match(sw, /"\.\/feedback-lib\.js"/);
 });
+
+test("tool (optioneel): alleen een geldige module-id gaat mee, anders leeg", () => {
+  assert.equal(F.body({ ...geldig, tool: "klussen" }).tool, "klussen");
+  assert.equal(F.body({ ...geldig, tool: "controletechnique" }).tool, "controletechnique");
+  assert.equal(F.body({ ...geldig, tool: "Evil Tool!" }).tool, "");
+  assert.equal(F.body({ ...geldig }).tool, "");
+  assert.equal(F.valideer({ ...geldig, tool: "" }), null, "een tool kiezen is niet verplicht");
+});
+
+test("het blad heeft een keuzelijst met alle tools uit de catalogus", () => {
+  assert.match(html, /<select id="fb-tool" value="\{\{ fbTool \}\}" onChange="\{\{ fbOnTool \}\}"/);
+  assert.match(html, /fbTools: \[\{id:"", naam:"Nee, over de app in het algemeen"\}\]\.concat\(this\.alleMods\(\)/);
+});
