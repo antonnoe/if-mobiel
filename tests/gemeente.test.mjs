@@ -185,3 +185,20 @@ test("internetQuery: alleen met een gekozen adres of locatie, met coördinaten, 
   const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   assert.match(html, /T\.id === "internet" && st\.toolQuery/); assert.match(html, /if \(this\.state\.toolQuery\) this\.setState\(\{toolQuery:""\}\)/);
 });
+
+test("déchèteries: url, validatie, afstand en sortering", () => {
+  assert.equal(G.dechUrl("x", 2026, 1), "");
+  assert.match(G.dechUrl("2a", 2026, 2), /ANNEE__exact=2026&C_DEPT__exact=2A&page_size=100&page=2$/);
+  assert.equal(G.leesDechPagina({}), null);
+  assert.equal(G.leesDechPagina({ data: [], meta: { total: 0 } }).totaal, 0);
+  const rij = (n, lat, lon, extra) => Object.assign({ C_SERVICE: n, N_SERVICE: "Déchèterie " + n, AD1_SITE: "Rue 1", CP_SITE: "24200", L_VILLE_SITE: "Sarlat", C_COMM: "24520", TEL_SERVICE: "0553298647", GPS_LAT: lat, GPS_LONG: lon, N_ACTEUR: "SICTOM", ORIGINE_DECHET_ACC: "DMA" }, extra || {});
+  const s = G.dechSamenvatting([rij("ver", 45.5, 1.5), rij("dichtbij", 44.89, 1.22), rij("dubbel", 44.89, 1.22, { C_SERVICE: "dichtbij" }), rij("zonder", null, null), rij("pro", 44.95, 1.3, { ORIGINE_DECHET_ACC: "DMA/PRO" })], 44.89, 1.22, "24520");
+  assert.equal(s.ok, true);
+  assert.deepEqual(s.lijst.map(x => x.naam), ["Déchèterie dichtbij", "Déchèterie pro", "Déchèterie ver"]);
+  assert.equal(s.lijst[0].tel, "05 53 29 86 47");
+  assert.equal(s.lijst[1].ook_bedrijven, true);
+  assert.ok(s.lijst[0].km < 0.1);
+  const z = G.dechSamenvatting([rij("a", 44, 1, { C_COMM: "99999" })], null, null, "24520");
+  assert.equal(z.ok, false);
+  assert.match(G.dechKaartUrl(s.lijst[0]), /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=44\.89,1\.22$/);
+});

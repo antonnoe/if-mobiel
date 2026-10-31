@@ -5123,7 +5123,7 @@ class Component extends DCLogic {
     if (!G || !Nv || !c || !G.codeOk(c.code)) return;
     this._gmTeller = this._gmTeller || Nv.maakTeller();
     const tok = this._gmTeller.volgende();
-    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dvf:{s:"laden"}}});
+    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dech:{s:"laden"}, dvf:{s:"laden"}}});
     const zet = (sleutel, d) => { if (this._gmTeller.actueel(tok)) this.setState(prev => ({gm: Object.assign({}, prev.gm, {kaarten: Object.assign({}, prev.gm.kaarten, {[sleutel]: d})})})); };
     const u = G.risicoUrls(c.code), au = c.adres ? G.adresRisicoUrls(c.lat, c.lon) : null;
     const urls = [u.risques, G.proxyUrl("catnat", {code:c.code}), G.proxyUrl("radon", {code:c.code}), u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
@@ -5138,6 +5138,24 @@ class Component extends DCLogic {
     });
     this.gmHaal(G.belastingUrl(c.code)).then(d => { const l = d ? G.leesBelasting(d) : null; zet("belasting", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
     this.gmHaal(G.mairieUrl(c.code)).then(d => { const l = d ? G.leesMairie(d) : null; zet("mairie", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
+    // Déchèteries (ADEME SINOE): het departement ophalen (nieuwste jaar met gegevens), de dichtstbijzijnde locaties berekenen we zelf.
+    const dechJaar = (jr) => this.gmHaal(G.dechUrl(c.dep, jr, 1)).then(d1 => {
+      const p1 = d1 ? G.leesDechPagina(d1) : null;
+      if (!p1) return {fout:true};
+      if (!p1.totaal) return {leeg:true, jaar:jr};
+      const rest = []; for (let i = 2; i <= Math.min(G.DECH_MAX_PAGINA, p1.paginas); i++) rest.push(this.gmHaal(G.dechUrl(c.dep, jr, i)));
+      return Promise.all(rest).then(meer => {
+        if (meer.some(m => !m || !G.leesDechPagina(m))) return {fout:true};
+        return {rijen: p1.rijen.concat(...meer.map(m => G.leesDechPagina(m).rijen)), jaar:jr};
+      });
+    });
+    const jr0 = new Date().getFullYear();
+    dechJaar(jr0).then(r => r.leeg ? dechJaar(jr0 - 1) : r).then(r => {
+      if (r.fout) return zet("dech", {s:"fout"});
+      if (r.leeg) return zet("dech", {s:"leeg"});
+      const sam = G.dechSamenvatting(r.rijen, c.lat, c.lon, c.code);
+      zet("dech", sam && sam.ok ? {s:"ok", d:Object.assign({jaar:r.jaar}, sam)} : {s:"leeg"});
+    });
     // DVF: eerst via de tussenlaag (alle pagina's in één antwoord, een dag gecachet); lukt dat niet, dan rechtstreeks bij de bron.
     const jaar = new Date().getFullYear();
     const klaarDvf = (records, onvolledig) => { const sam = G.dvfSamenvatting(records, onvolledig); zet("dvf", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"}); };
@@ -5172,7 +5190,7 @@ class Component extends DCLogic {
         heeftUitkomst: !!(inv && inv.uitkomst), uitkomst: inv ? inv.uitkomst : ""};
     };
     const val = x => (k[x] && k[x].s) || "laden", d = x => (k[x] && k[x].d) || {};
-    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), a = r.adres || null;
+    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), dc = d("dech"), a = r.adres || null;
     const euro = n => "€ " + n.toLocaleString("nl-NL");
     const dvfRegel = (label, g) => !g || !g.n ? null : {label, waarde: !g.genoeg ? "Te weinig verkopen voor een betrouwbare mediaan (" + g.n + ")"
       : g.n + " verkopen, mediaan " + euro(g.prijs) + (g.perM2 ? " · " + euro(g.perM2) + " per m² bebouwd (middelste helft " + euro(g.perM2Laag) + " tot " + euro(g.perM2Hoog) + ")" : "")};
@@ -5219,6 +5237,14 @@ class Component extends DCLogic {
         regels:[m.nom ? {label:m.nom, waarde:m.adres || ""} : null, m.tel ? {label:"Telefoon", waarde:m.tel} : null].filter(Boolean),
         links:(m.site ? [link(m.site, "Website van de mairie ↗")] : []).concat([link(L.mairies, "Zoeken in de Annuaire ↗")]),
         bron:"Bron: Annuaire de l'administration (service-public.fr)"}),
+      kaart("dech", "Afvalbrengplaatsen (déchèteries)", val("dech"), {
+        fout:"Gegevens over déchèteries momenteel niet beschikbaar.", leeg:"Geen déchèteries gevonden in het bestand voor dit departement.",
+        regels:(dc.lijst || []).map(x => ({label:x.naam + (x.km !== null ? " · " + (x.km < 10 ? x.km.toFixed(1).replace(".", ",") : Math.round(x.km)) + " km hemelsbreed" : ""),
+          waarde:[x.adres, x.tel ? "Telefoon " + x.tel : "", x.beheer ? "Beheer: " + x.beheer : "", x.ook_bedrijven ? "Ook voor bedrijven (professionals)" : ""].filter(Boolean).join(" · ")})),
+        notitie: dc.ok ? (dc.heeftAfstand ? "De " + dc.lijst.length + " dichtstbijzijnde locaties in uw departement, in hemelsbreed gemeten vanaf " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + ": de werkelijke rijafstand is langer, en een locatie net over de departementsgrens staat er niet bij."
+          : "Locaties in uw gemeente.") + " Openingstijden en toegangsregels (pas, bewijs van woonplaats, tarieven voor tweede woningen) staan niet in de bron: vraag ze na bij de mairie of de beheerder. Jaargang van het bestand: " + dc.jaar + "." : "",
+        links:(dc.lijst && dc.lijst[0] ? [{url:G.dechKaartUrl(dc.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
+        bron:"Bron: ADEME, SINOE (via data.gouv.fr), Licence Ouverte 2.0"}),
       kaart("dvf", "Verkochte huizen (DVF)", val("dvf"), {
         fout:"DVF-data momenteel niet beschikbaar.", leeg:"Geen verkopen van huizen of appartementen gevonden in het DVF-register voor deze gemeente.",
         regels:[dvfRegel("Huizen (maison)", v.huis), dvfRegel("Appartementen", v.app)].filter(Boolean),

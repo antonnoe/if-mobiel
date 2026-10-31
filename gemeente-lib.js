@@ -261,9 +261,57 @@
     return Math.round(v * 0.5 * t / 100);
   }
 
+
+  // ---- Déchèteries: ADEME SINOE via de Tabular API van data.gouv.fr (Licence Ouverte 2.0, CORS *, getest 31-10-2026 vanuit infopoche.fr).
+  // Filters: ANNEE__exact, C_DEPT__exact; page_size 100 werkt. Geen openingstijden in de bron. Per jaar een eigen rij per locatie.
+  var DECH = "https://tabular-api.data.gouv.fr/api/resources/137251d6-443e-426e-8a22-0a5d4eb3312e/data/";
+  var DECH_PAGE = 100, DECH_MAX_PAGINA = 3, DECH_AANTAL = 5;
+  function dechUrl(dep, jaar, pagina) {
+    dep = tekst(dep);
+    if (!/^(\d{2,3}|2[AB])$/i.test(dep) || !isFinite(jaar)) return "";
+    return DECH + "?ANNEE__exact=" + (jaar | 0) + "&C_DEPT__exact=" + q(dep.toUpperCase()) + "&page_size=" + DECH_PAGE + "&page=" + Math.max(1, pagina | 0 || 1);
+  }
+  function afstandKm(lat1, lon1, lat2, lon2) {
+    var r = Math.PI / 180, dl = (lat2 - lat1) * r, dn = (lon2 - lon1) * r;
+    var a = Math.sin(dl / 2) * Math.sin(dl / 2) + Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin(dn / 2) * Math.sin(dn / 2);
+    return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+  // Geeft { totaal, paginas } of null bij een onverwachte vorm; de rijen komen mee in `rijen`.
+  function leesDechPagina(data) {
+    if (!data || !Array.isArray(data.data) || !data.meta || typeof data.meta.total !== "number") return null;
+    return { totaal: data.meta.total, rijen: data.data, paginas: Math.ceil(data.meta.total / DECH_PAGE) };
+  }
+  function ontdubbel(rijen) {
+    var gezien = {};
+    return rijen.filter(function (r) { var k = tekst(r.C_SERVICE) || tekst(r.N_SERVICE) + tekst(r.CP_SITE); if (gezien[k]) return false; gezien[k] = 1; return true; });
+  }
+  // De dichtstbijzijnde locaties binnen het departement. Zonder bruikbare coördinaten van de gemeente: alle locaties van die gemeente zelf.
+  function dechSamenvatting(rijen, lat, lon, code) {
+    if (!Array.isArray(rijen)) return null;
+    var heeft = typeof lat === "number" && typeof lon === "number" && isFinite(lat) && isFinite(lon);
+    var l = ontdubbel(rijen).map(function (r) {
+      var la = getal(r.GPS_LAT), lo = getal(r.GPS_LONG), n = tekst(r.N_SERVICE);
+      if (!n) return null;
+      var tel = tekst(r.TEL_SERVICE).replace(/\D/g, "");
+      return { naam: n, adres: [tekst(r.AD1_SITE), [tekst(r.CP_SITE), tekst(r.L_VILLE_SITE)].filter(Boolean).join(" ")].filter(Boolean).join(", "),
+        tel: tel.length === 10 ? tel.replace(/(\d{2})(?=\d)/g, "$1 ") : "", beheer: tekst(r.N_ACTEUR),
+        ook_bedrijven: /PRO/.test(tekst(r.ORIGINE_DECHET_ACC)), eigen: !!code && tekst(r.C_COMM) === code,
+        lat: la, lon: lo, km: heeft && la !== null && lo !== null ? afstandKm(lat, lon, la, lo) : null };
+    }).filter(Boolean);
+    if (heeft) l = l.filter(function (x) { return x.km !== null; }).sort(function (a, b) { return a.km - b.km; });
+    else l = l.filter(function (x) { return x.eigen; });
+    return { ok: l.length > 0, lijst: l.slice(0, DECH_AANTAL), heeftAfstand: heeft };
+  }
+  function dechKaartUrl(x) {
+    if (!x) return "";
+    if (typeof x.lat === "number" && typeof x.lon === "number") return "https://www.google.com/maps/search/?api=1&query=" + x.lat + "," + x.lon;
+    return "https://www.google.com/maps/search/?api=1&query=" + q(x.naam + " " + x.adres);
+  }
+
   var api = { internetQuery: internetQuery, PROXY: PROXY, proxyUrl: proxyUrl, catnatUrl: catnatUrl, radonUrl: radonUrl, catnatPerRisico: catnatPerRisico, LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
-    leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, DVF_JAREN: DVF_JAREN, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl };
+    leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, DVF_JAREN: DVF_JAREN, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl,
+    dechUrl: dechUrl, leesDechPagina: leesDechPagina, dechSamenvatting: dechSamenvatting, afstandKm: afstandKm, dechKaartUrl: dechKaartUrl, DECH_PAGE: DECH_PAGE, DECH_MAX_PAGINA: DECH_MAX_PAGINA };
   root.IfGem = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);
