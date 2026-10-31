@@ -2465,18 +2465,30 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         </sc-if>
         <sc-if value="{{ kaChatKlaar }}" hint-placeholder-val="{{ false }}">
         <div data-ka-chat-antwoord="1" style="margin-top:12px">
-          <sc-for list="{{ kaChatAlineas }}" as="a" hint-placeholder-count="2">
-          <p style="margin:0 0 10px;font:400 16px Mulish;line-height:1.8em;color:#15181A;white-space:pre-line;overflow-wrap:anywhere"><sc-for list="{{ a.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.isTekst }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if><sc-if value="{{ s.isBron }}" hint-placeholder-val="{{ false }}"><button data-ka-bronnr="1" onClick="{{ s.open }}" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;border:0;background:none;vertical-align:middle;cursor:pointer"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></button></sc-if></sc-for></p>
+          <sc-for list="{{ kaChatBlokken }}" as="a" hint-placeholder-count="2">
+          <sc-if value="{{ a.isKop }}" hint-placeholder-val="{{ false }}"><h3 data-ka-chat-kop="1" style="margin:16px 0 6px;font:600 16px/1.35 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ a.t }}</h3></sc-if>
+          <sc-if value="{{ a.isAlinea }}" hint-placeholder-val="{{ true }}"><p style="margin:0 0 10px;font:400 16px Mulish;line-height:1.8em;color:#15181A;white-space:pre-line;overflow-wrap:anywhere"><sc-for list="{{ a.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.isTekst }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if><sc-if value="{{ s.isVet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800">{{ s.t }}</b></sc-if><sc-if value="{{ s.isBron }}" hint-placeholder-val="{{ false }}"><sc-if value="{{ s.isExtern }}" hint-placeholder-val="{{ false }}"><a data-ka-bronnr="1" href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;vertical-align:middle;text-decoration:none"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></a></sc-if><sc-if value="{{ s.isKnop }}" hint-placeholder-val="{{ false }}"><button data-ka-bronnr="1" onClick="{{ s.open }}" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;border:0;background:none;vertical-align:middle;cursor:pointer"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></button></sc-if></sc-if></sc-for></p></sc-if>
+          <sc-if value="{{ a.isLijst }}" hint-placeholder-val="{{ false }}"><ul style="margin:0 0 10px;padding-left:22px;font:400 16px Mulish;line-height:1.8em;color:#15181A"><sc-for list="{{ a.items }}" as="i" hint-placeholder-count="2"><li style="overflow-wrap:anywhere"><sc-for list="{{ i.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.isTekst }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if><sc-if value="{{ s.isVet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800">{{ s.t }}</b></sc-if><sc-if value="{{ s.isBron }}" hint-placeholder-val="{{ false }}"><sc-if value="{{ s.isExtern }}" hint-placeholder-val="{{ false }}"><a data-ka-bronnr="1" href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;vertical-align:middle;text-decoration:none"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></a></sc-if><sc-if value="{{ s.isKnop }}" hint-placeholder-val="{{ false }}"><button data-ka-bronnr="1" onClick="{{ s.open }}" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;border:0;background:none;vertical-align:middle;cursor:pointer"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></button></sc-if></sc-if></sc-for></li></sc-for></ul></sc-if>
           </sc-for>
         </div>
         <sc-if value="{{ kaChatHeeftBronnen }}" hint-placeholder-val="{{ false }}">
         <div data-ka-chat-bronnen="1" style="margin-top:6px">
-          <div style="font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Bronnen</div>
-          <sc-for list="{{ kaChatBronnen }}" as="b" hint-placeholder-count="2">
+          <sc-for list="{{ kaChatGroepen }}" as="g" hint-placeholder-count="2">
+          <div style="margin-top:10px;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">{{ g.kop }}</div>
+          <sc-for list="{{ g.bronnen }}" as="b" hint-placeholder-count="2">
+          <sc-if value="{{ b.isExtern }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ b.url }}" target="_blank" rel="noopener" aria-label="{{ b.label }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:48px;margin-top:6px;padding:8px 12px;box-sizing:border-box;text-align:left;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#fff;text-decoration:none">
+            <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ b.n }}</span>
+            <span style="flex:1;min-width:0;display:block"><span style="display:block;font:600 14px/1.4 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.titel }}</span><span style="display:block;margin-top:2px;font:600 12.5px/1.4 Mulish;color:#3D4346">{{ b.meta }}</span><sc-if value="{{ b.verouderd }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:2px;font:500 12.5px/1.4 Mulish;color:#3D4346">{{ b.verouderdTekst }}</span></sc-if><sc-if value="{{ b.isExtern }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:2px;font:700 12.5px/1.4 Mulish;color:#800000">Opent op de site zelf &#8599;</span></sc-if></span>
+          </a>
+          </sc-if>
+          <sc-if value="{{ b.isKnop }}" hint-placeholder-val="{{ true }}">
           <button onClick="{{ b.open }}" aria-label="{{ b.label }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:48px;margin-top:6px;padding:8px 12px;box-sizing:border-box;text-align:left;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#fff;cursor:pointer">
             <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ b.n }}</span>
-            <span style="flex:1;min-width:0;font:600 14px/1.4 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.titel }}<span style="font-weight:500;color:#3D4346">{{ b.jaar }}</span></span>
+            <span style="flex:1;min-width:0;display:block"><span style="display:block;font:600 14px/1.4 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.titel }}</span><span style="display:block;margin-top:2px;font:600 12.5px/1.4 Mulish;color:#3D4346">{{ b.meta }}</span><sc-if value="{{ b.verouderd }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:2px;font:500 12.5px/1.4 Mulish;color:#3D4346">{{ b.verouderdTekst }}</span></sc-if><sc-if value="{{ b.isExtern }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:2px;font:700 12.5px/1.4 Mulish;color:#800000">Opent op de site zelf &#8599;</span></sc-if></span>
           </button>
+          </sc-if>
+          </sc-for>
           </sc-for>
         </div>
         </sc-if>
@@ -2491,7 +2503,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           </sc-for>
         </div>
         </sc-if>
-        <div data-ka-chat-waarschuwing="1" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 13.5px/1.6 Mulish;color:#15181A">{{ kaWaarschuwing }}</div>
+        <p data-ka-chat-samenvatting="1" style="margin:14px 0 0;font:500 13.5px/1.6 Mulish;color:#3D4346">{{ kaChatSamenvatting }}</p>
+        <div data-ka-chat-waarschuwing="1" style="margin-top:10px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 13.5px/1.6 Mulish;color:#15181A">{{ kaChatWaarschuwing }}</div>
         </sc-if>
         <sc-if value="{{ kaChatInvoer }}" hint-placeholder-val="{{ true }}">
         <form onSubmit="{{ kaChatVerstuur }}" style="margin-top:14px">
@@ -2558,15 +2571,38 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-for list="{{ kaKaarten }}" as="k" hint-placeholder-count="3">
       <sc-if value="{{ k.isNlfr }}" hint-placeholder-val="{{ false }}">
       <a href="{{ k.url }}" target="_blank" rel="noopener" data-ka-nlfr="1" aria-label="{{ k.label }}" style="display:block;width:100%;box-sizing:border-box;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
-        <span style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#800000">Nederlanders.fr</span>
+        <span data-ka-label="1" style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:{{ k.labelKleur }}">{{ k.kaartLabel }}</span>
         <span style="display:block;margin-top:5px;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
         <span style="display:block;margin-top:5px;font:600 12.5px/1.4 Poppins,system-ui,sans-serif;color:#3D4346">{{ k.meta }}</span>
         <span style="display:block;margin-top:8px;font:700 13.5px/1.4 Mulish;color:#800000">Opent op Nederlanders.fr &#8599;</span>
       </a>
       </sc-if>
+      <sc-if value="{{ k.isOff }}" hint-placeholder-val="{{ false }}">
+      <a href="{{ k.url }}" target="_blank" rel="noopener" data-ka-officieel="1" aria-label="{{ k.label }}" style="display:block;width:100%;box-sizing:border-box;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
+        <span data-ka-label="1" style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:{{ k.labelKleur }}">{{ k.kaartLabel }}</span>
+        <span style="display:block;margin-top:5px;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
+        <span style="display:inline-block;margin-top:6px;padding:3px 10px;border-radius:999px;background:rgba(128,0,0,.08);font:600 11.5px/1.3 Poppins,system-ui,sans-serif;color:#800000">Franse tekst</span>
+        <sc-if value="{{ k.heeftMeta }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font:600 12.5px/1.4 Poppins,system-ui,sans-serif;color:#3D4346">{{ k.meta }}</span></sc-if>
+        <sc-if value="{{ k.heeftFragment }}" hint-placeholder-val="{{ true }}">
+        <span style="display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;margin-top:8px;font:400 14.5px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere"><sc-for list="{{ k.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.vet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800;color:#15181A;background:rgba(128,0,0,.10);border-radius:3px">{{ s.t }}</b></sc-if><sc-if value="{{ s.gewoon }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if></sc-for></span>
+        </sc-if>
+        <span style="display:block;margin-top:8px;font:700 13.5px/1.4 Mulish;color:#800000;overflow-wrap:anywhere">{{ k.bronRegel }}</span>
+      </a>
+      </sc-if>
+      <sc-if value="{{ k.isArtikel }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ k.open }}" data-ka-artikel="1" aria-label="{{ k.label }}" style="display:block;width:100%;box-sizing:border-box;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;cursor:pointer">
+        <span data-ka-label="1" style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:{{ k.labelKleur }}">{{ k.kaartLabel }}</span>
+        <span style="display:block;margin-top:5px;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
+        <span style="display:block;margin-top:5px;font:600 12.5px/1.4 Poppins,system-ui,sans-serif;color:#3D4346">{{ k.meta }}</span>
+        <sc-if value="{{ k.verouderd }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">{{ k.verouderdTekst }}</span></sc-if>
+        <sc-if value="{{ k.heeftFragment }}" hint-placeholder-val="{{ true }}">
+        <span style="display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;margin-top:8px;font:400 14.5px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere"><sc-for list="{{ k.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.vet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800;color:#15181A;background:rgba(128,0,0,.10);border-radius:3px">{{ s.t }}</b></sc-if><sc-if value="{{ s.gewoon }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if></sc-for></span>
+        </sc-if>
+      </button>
+      </sc-if>
       <sc-if value="{{ k.isForum }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ k.open }}" aria-label="{{ k.label }}" style="display:block;width:100%;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;cursor:pointer">
-        <span style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Oud forum</span>
+      <button onClick="{{ k.open }}" aria-label="{{ k.label }}" style="display:block;width:100%;box-sizing:border-box;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;cursor:pointer">
+        <span data-ka-label="1" style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:{{ k.labelKleur }}">{{ k.kaartLabel }}</span>
         <span style="display:block;margin-top:5px;font:500 19px/1.3 'Source Serif 4',Georgia,serif;overflow-wrap:anywhere">{{ k.titel }}</span>
         <span style="display:block;margin-top:5px;font:600 12.5px/1.4 Poppins,system-ui,sans-serif;color:#3D4346">{{ k.meta }}</span>
         <sc-if value="{{ k.heeftFragment }}" hint-placeholder-val="{{ true }}">
@@ -2585,6 +2621,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-if>
     </sc-if>
+    <p data-ka-bronregel="1" style="margin:22px 16px 0;font:500 13px/1.6 Mulish;color:#3D4346">{{ kaBronRegel }}</p>
     <div style="height:28px"></div>
   </div>
   </sc-if>
@@ -5481,26 +5518,34 @@ class Component extends DCLogic {
   kaVals(){
     const st = this.state, K = window.IfKa, is = st.screen === "klusarchief" && !!K;
     const d = st.kaDraad, dd = d && d.data ? d.data : null;
-    const kaarten = is ? (st.kaItems || []).map(r => r.bron === "nlfr" ? ({
-      isNlfr: true, isForum: false, titel: r.titel, meta: K.nlfrMeta(r), url: r.url, segs: [], heeftFragment: false,
-      label: r.titel + (K.nlfrMeta(r) ? ", " + K.nlfrMeta(r) : "") + ", Nederlanders.fr, opent in een nieuw tabblad",
-      open: () => {}
-    }) : ({
-      isNlfr: false, isForum: true,
-      titel: r.titel, meta: K.metaRegel(r),
-      segs: K.segmenten(r.fragment).map(s => ({t:s.t, vet:s.vet, gewoon:!s.vet})), heeftFragment: !!K.segmenten(r.fragment).length,
-      label: r.titel + ", " + K.metaRegel(r),
-      open: () => this.kaOpenDraad(r)
-    })) : [];
+    const kaarten = is ? (st.kaItems || []).map(r => {
+      const sg = K.segmenten(r.fragment).map(x => ({t:x.t, vet:x.vet, gewoon:!x.vet}));
+      const nlfr = r.bron === "nlfr", art = r.bron === "artikel", off = r.bron === "officieel", forum = !nlfr && !art && !off;
+      const kLabel = K.kaartLabel(r);
+      const meta = nlfr ? K.nlfrMeta(r) : forum ? K.metaRegel(r) : art ? (r.jaar ? "Gepubliceerd " + r.jaar : "") : (r.datum ? "Bijgewerkt: " + r.datum : "");
+      const bronRegel = off ? "Bron: " + r.bronnaam + (r.datum ? ", bijgewerkt " + r.datum : "") + " \u2197" : "";
+      return {
+        isNlfr:nlfr, isForum:forum, isArtikel:art, isOff:off, kaartLabel:kLabel, labelKleur: nlfr || off ? "#800000" : "#3D4346",
+        titel:r.titel, meta, heeftMeta:!!meta, url:r.url || "", segs:sg, heeftFragment: !nlfr && sg.length > 0,
+        verouderd: !!r.verouderd, verouderdTekst: r.verouderd ? K.verouderdTekst(r.jaar) : "", bronRegel,
+        label: kLabel + ", " + r.titel + (meta ? ", " + meta : "") + (art && r.verouderd ? ", " + K.verouderdTekst(r.jaar) : "") + (off ? ", Franse tekst" : "") + (nlfr || off ? ", opent in een nieuw tabblad" : ""),
+        open: () => { if (art) this.openInfoArtikel(r.url); else if (forum) this.kaOpenDraad(r); }
+      };
+    }) : [];
     const chip = (id, tekst) => ({tekst, actief: st.kaBron === id, opac: st.kaBron === id ? "1" : ".95",
       kleur: st.kaBron === id ? "#fff" : "#800000", vlak: st.kaBron === id ? "#800000" : "#fff",
       klik: () => { if (st.kaBron === id) return; if (st.kaZocht) this.kaZoek(false, st.kaZocht, id); else this.setState({kaBron:id}); }});
+    const bronOpen = b => { if (b.soort === "forum") this.kaChatBron(b); else if (b.soort === "artikel") this.openInfoArtikel(b.url); };
+    const bronLabel = b => "Bron " + b.n + ": " + b.titel + ", " + K.bronMeta(b) + (b.verouderd ? ", " + K.verouderdTekst(b.jaar) : "") + (b.soort === "officieel" ? ", opent in een nieuw tabblad" : "");
     const foutTekst = st.kaSoort === "druk" ? "Het archief is nu druk. Probeer het over een minuut opnieuw."
       : st.kaSoort === "kort" ? "Typ minstens 2 letters." : "Het archief is nu niet te bereiken.";
     const cs = st.kaChatStatus, cd = st.kaChatData, cK = is && !!K;
-    const chatAl = cK && cd ? K.chatAlineas(cd.antwoord, cd.bronnen).map(segs => ({segs: segs.map(x => x.bron
-      ? ({isTekst:false, isBron:true, t:"", n:String(x.n), label:"Bron " + x.n + ": " + x.titel, open: () => this.kaChatBron(x)})
-      : ({isTekst:true, isBron:false, t:x.t, n:"", label:"", open: () => {}}))})) : [];
+    const zetSeg = x => x.bron
+      ? ({isTekst:false, isVet:false, isBron:true, isExtern: x.soort === "officieel", isKnop: x.soort !== "officieel", t:"", n:String(x.n), url:x.url || "", label:"Bron " + x.n + ": " + x.titel, open: () => bronOpen(x)})
+      : ({isTekst:!x.vet, isVet:!!x.vet, isBron:false, isExtern:false, isKnop:false, t:x.t, n:"", url:"", label:"", open: () => {}});
+    const chatBl = cK && cd ? K.chatBlokken(cd.antwoord, cd.bronnen).map(b => ({
+      isKop: b.soort === "kop", isAlinea: b.soort === "alinea", isLijst: b.soort === "lijst", t: b.t || "",
+      segs: (b.segs || []).map(zetSeg), items: (b.items || []).map(it => ({segs: it.map(zetSeg)}))})) : [];
     const chatKlaar = cs === "klaar" && !!cd, chatLaadt = cs === "laden";
     const chatVol = cK && st.kaChatN >= K.CHAT_MAX_VRAGEN && chatKlaar;
     const chatFoutT = st.kaChatSoort === "druk" ? K.CHAT_DRUK : K.CHAT_FOUT;
@@ -5514,17 +5559,17 @@ class Component extends DCLogic {
       kaChatOpac: chatLaadt ? ".6" : "1",
       kaChatLaadt: chatLaadt, kaChatFout: cs === "fout", kaChatFoutTekst: cK ? chatFoutT : "",
       kaChatOpnieuw: () => this.kaChatVerstuur(),
-      kaChatKlaar: chatKlaar, kaChatAlineas: chatAl, kaChatVraag: st.kaChatVraag, kaChatVraagZichtbaar: !!st.kaChatVraag && (chatKlaar || chatLaadt || cs === "fout"),
+      kaChatKlaar: chatKlaar, kaChatBlokken: chatBl, kaChatSamenvatting: cK ? K.CHAT_SAMENVATTING : "", kaChatWaarschuwing: cK ? K.CHAT_WAARSCHUWING : "", kaChatVraag: st.kaChatVraag, kaChatVraagZichtbaar: !!st.kaChatVraag && (chatKlaar || chatLaadt || cs === "fout"),
       kaChatHeeftBronnen: chatKlaar && cd.bronnen.length > 0,
-      kaChatBronnen: chatKlaar ? cd.bronnen.map(b => ({n:String(b.n), titel:b.titel, jaar: b.jaar ? ", " + b.jaar : "", label:"Bron " + b.n + ": " + b.titel + (b.jaar ? ", " + b.jaar : ""), open: () => this.kaChatBron(b)})) : [],
+      kaChatGroepen: chatKlaar ? K.chatGroepen(cd.bronnen).map(g => ({kop:g.kop, bronnen: g.bronnen.map(b => ({n:String(b.n), titel:b.titel, meta:K.bronMeta(b), verouderd:b.verouderd, verouderdTekst: b.verouderd ? K.verouderdTekst(b.jaar) : "", isExtern: b.soort === "officieel", isKnop: b.soort !== "officieel", url:b.url, label:bronLabel(b), open: () => bronOpen(b)}))})) : [],
       kaChatHeeftNlfr: chatKlaar && cd.nlfr.length > 0,
       kaChatNlfr: chatKlaar ? cd.nlfr.map(x => ({titel:x.titel, url:x.url, meta: K.nlfrMeta(x) ? K.nlfrMeta(x) + " · " : ""})) : [],
       kaChatInvoer: cK && !chatLaadt && !chatVol && cs !== "fout",
       kaChatLabel: chatKlaar ? "Stel een vervolgvraag" : "Uw vraag",
       kaChatNieuwKnop: chatKlaar || cs === "fout", kaChatNieuwTekst: chatVol ? "Begin een nieuwe vraag" : "Nieuwe vraag", kaChatNieuw: () => this.kaChatNieuw(),
-      kaChips: [chip("alles","Alles"), chip("forum","Oud forum"), chip("nlfr","Nederlanders.fr")],
+      kaChips: [chip("alles","Alles"), chip("fora","Uit de fora"), chip("kennis","Kennis van nu")], kaBronRegel: K ? K.BRON_REGEL : "",
       isKa: is, kaZoekScherm: !d, kaDraadScherm: !!d,
-      kaIntro: "Dit archief bevat de draden van het oude klusforum van Infofrankrijk (2012 tot 2020), die u hier zelf leest, en verwijzingen naar berichten over bouwen en verbouwen op Nederlanders.fr (2013 tot 2026), die u op die site zelf leest. Zoek op een woord en kies waar u in zoekt.",
+      kaIntro: "Dit archief bundelt ervaringen uit oude forums en kennis van nu: artikelen van Infofrankrijk en officiële Franse bronnen. Draden van het oude klusforum leest u hier zelf; berichten op Nederlanders.fr leest u op die site. Zoek op een woord en kies waar u in zoekt.",
       kaPrivacy: K ? K.PRIVACY : "", kaWaarschuwing: K ? K.WAARSCHUWING : "", kaTerugvalUrl: K ? K.TERUGVAL_URL : "https://infofrankrijk.com/klussen/",
       kaQ: st.kaQ, kaOnQ: e => this.setState({kaQ: e.target.value.slice(0, 120), kaKort:false}),
       kaVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); this.kaZoek(false); },

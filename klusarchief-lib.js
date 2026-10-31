@@ -23,13 +23,25 @@
   }
   function pagina(p) { var n = Math.floor(Number(p)); return isFinite(n) && n > 0 ? n : 0; }
 
-  var BRONNEN = ["alles", "forum", "nlfr"];
+  // Zoekdelen: alles, "Uit de fora" (oud forum en Nederlanders.fr), "Kennis van nu" (artikelen en officiële Franse bronnen).
+  var BRONNEN = ["alles", "fora", "kennis"];
   var NLFR_VOOR = "https://www.nederlanders.fr/";
+  var ARTIKEL_HOSTS = ["infofrankrijk.com", "www.infofrankrijk.com"];
+  var OFFICIEEL_HOSTS = ["service-public.gouv.fr", "www.service-public.gouv.fr", "service-public.fr", "www.service-public.fr",
+    "www.ecologie.gouv.fr", "www.eaufrance.fr", "www.georisques.gouv.fr"];
+  var BRON_REGEL = "Bronnen van Kennis van nu: Infofrankrijk.com en Service Public / DILA (Licence Ouverte 2.0).";
+  // https-adres zonder spaties, zonder inloggegevens, op een van de toegestane hosts; anders "".
+  function urlOpHost(u, hosts) {
+    var url = tekst(u).trim();
+    var m = /^https:\/\/([^\/?#:@\s]+)([\/?#]\S*)?$/i.exec(url);
+    if (!m || /\s/.test(url)) return "";
+    return hosts.indexOf(m[1].toLowerCase()) >= 0 ? url : "";
+  }
   function bronSchoon(b) { return BRONNEN.indexOf(b) >= 0 ? b : "alles"; }
   function zoekUrl(q, p, bron) {
     var t = termSchoon(q);
     if (!t) return null;
-    return BASIS + "?q=" + encodeURIComponent(t) + "&p=" + pagina(p) + "&bron=" + bronSchoon(bron);
+    return BASIS + "?q=" + encodeURIComponent(t) + "&p=" + pagina(p) + "&v=2&bron=" + bronSchoon(bron);
   }
   // Een id is een getal of een korte veilige tekst; alles anders geeft null (nooit een vrije URL).
   function idSchoon(id) {
@@ -64,7 +76,17 @@
     return m ? Number(m[1]) : null;
   }
 
-  // Antwoord van de zoekactie naar {totaal, pagina, perPagina, resultaten} of null. Een resultaat zonder id of titel valt af.
+  // Label bovenaan een kaart: "Uit de fora · Oud forum", "Kennis van nu · Service Public / DILA".
+  function kaartLabel(r) {
+    if (!r) return "";
+    if (r.bron === "nlfr") return "Uit de fora \u00b7 Nederlanders.fr";
+    if (r.bron === "artikel" || r.bron === "officieel") return "Kennis van nu \u00b7 " + (r.bronnaam || (r.bron === "artikel" ? "Infofrankrijk" : "Officiële bron"));
+    return "Uit de fora \u00b7 Oud forum";
+  }
+  function verouderdTekst(jaar) { return "Dit artikel is van " + jaar + " en kan verouderde informatie bevatten."; }
+
+  // Antwoord van de zoekactie naar {totaal, pagina, perPagina, resultaten} of null.
+  // Vier soorten: forum, nlfr, artikel, officieel. Een resultaat zonder titel, id of toegestane url, of met een onbekende bron, valt af.
   function leesZoek(data) {
     if (!data || typeof data !== "object" || data.ok !== true || !Array.isArray(data.resultaten)) return null;
     var res = [];
@@ -78,6 +100,16 @@
           antwoorden: geheel(x.antwoorden, 0), fragment: "" });
         return;
       }
+      if (x.bron === "artikel" || x.bron === "officieel") {
+        var art = x.bron === "artikel", u = urlOpHost(x.url, art ? ARTIKEL_HOSTS : OFFICIEEL_HOSTS);
+        if (!titel || !u) return;
+        var jaar = jaarVan(x.jaar, x.datum);
+        res.push({ bron: x.bron, id: x.bron + ":" + u, url: u, titel: titel, jaar: jaar, datum: datumTekst(x.datum),
+          bronnaam: schoon(x.bronnaam) || (art ? "Infofrankrijk" : "Officiële bron"), fragment: tekst(x.fragment),
+          verouderd: art && x.verouderd === true && !!jaar, taal: x.bron === "officieel" ? "fr" : "nl" });
+        return;
+      }
+      if (x.bron !== undefined && x.bron !== "forum") return;
       var id = idSchoon(x.id);
       if (id === null || !titel) return;
       res.push({ bron: "forum", id: id, titel: titel, jaar: jaarVan(x.jaar, x.datum), forum: schoon(x.forum),
@@ -177,10 +209,12 @@
   // ---- Vraag het archief (chat): antwoord uitsluitend uit gevonden draden, met bron. Niets wordt bewaard. ----
   var CHAT_URL = BASIS + "-chat";
   var CHAT_MIN = 5, CHAT_MAX = 300, CHAT_ANTW_MAX = 1500, CHAT_MAX_VRAGEN = 4, CHAT_TIMEOUT_MS = 45000, CHAT_STATUS_MS = 5000;
-  var CHAT_UITLEG = "Stel een vraag over klussen of verbouwen. Het antwoord komt alleen uit oude forumdraden van 2012 tot 2020, met bron, en kan verouderd zijn.";
+  var CHAT_UITLEG = "Stel een vraag over klussen of verbouwen. Het antwoord combineert artikelen van Infofrankrijk, officiële Franse bronnen en oude forumdraden, met bron en datum, en kan verouderd zijn.";
   var CHAT_PRIVACY = "Uw vraag gaat naar Claude van Anthropic om het antwoord te schrijven. Vul geen namen of adressen in.";
   var CHAT_PLAATSHOUDER = "Bijvoorbeeld: mag ik zelf mijn septic tank vervangen?";
   var CHAT_DRUK = "Het archief krijgt nu veel vragen. Probeer het later opnieuw of zoek zelf hieronder.";
+  var CHAT_SAMENVATTING = "Samenvatting door de app op basis van de bronnen hierboven. Franse bronnen zijn vertaald.";
+  var CHAT_WAARSCHUWING = "Forumadvies komt uit 2012 tot 2020 en kan verouderd zijn. Controleer regels en bedragen altijd bij de officiële bron.";
   var CHAT_FOUT = "Het antwoord lukte niet. Zoek zelf hieronder of probeer het opnieuw.";
 
   // Vraag voor de aanvraag: spaties samengevoegd, op 300 tekens afgekapt; korter dan 5 tekens geeft "".
@@ -216,8 +250,9 @@
     var url = tekst(u).trim();
     return url.indexOf(NLFR_VOOR) === 0 && url.length > NLFR_VOOR.length && !/\s/.test(url) ? url : "";
   }
-  // Antwoord (POST) naar {antwoord, bronnen:[{n,id,titel,jaar}], nlfr:[{titel,jaar,antwoorden,url}]} of null.
-  // Bronnen zonder bruikbaar id of titel vallen af, nlfr alleen met een https-adres op www.nederlanders.fr.
+  // Antwoord (POST) naar {antwoord, bronnen, nlfr} of null. Een bron heeft {n, soort, titel, jaar, datum, bronnaam, verouderd} plus
+  // id (forum) of url (artikel, officieel). Forum vereist id en titel; artikel en officieel een titel en een url op een toegestane host;
+  // anders valt de bron af (het bolletje wordt dan kale tekst). nlfr alleen met een https-adres op www.nederlanders.fr.
   function leesChat(data) {
     if (!data || typeof data !== "object" || data.ok !== true) return null;
     var antwoord = tekst(data.antwoord).trim();
@@ -225,10 +260,21 @@
     var bronnen = [], gezien = {};
     (Array.isArray(data.bronnen) ? data.bronnen : []).forEach(function (b) {
       if (!b || typeof b !== "object") return;
-      var n = Number(b.n), id = idSchoon(b.id), titel = schoon(b.titel);
-      if (!isFinite(n) || n < 1 || Math.floor(n) !== n || id === null || !titel || gezien[n]) return;
-      gezien[n] = true;
-      bronnen.push({ n: n, id: id, titel: titel, jaar: jaarVan(b.jaar, "") });
+      var n = Number(b.n), titel = schoon(b.titel), soort = b.soort === undefined ? "forum" : b.soort;
+      if (!isFinite(n) || n < 1 || Math.floor(n) !== n || !titel || gezien[n]) return;
+      var datum = datumTekst(b.datum), jaar = jaarVan(b.jaar, b.datum);
+      if (soort === "forum") {
+        var id = idSchoon(b.id);
+        if (id === null) return;
+        gezien[n] = true;
+        bronnen.push({ n: n, soort: "forum", id: id, url: "", titel: titel, jaar: jaar, datum: datum, bronnaam: "Oud forum", verouderd: false });
+      } else if (soort === "artikel" || soort === "officieel") {
+        var u = urlOpHost(b.url, soort === "artikel" ? ARTIKEL_HOSTS : OFFICIEEL_HOSTS);
+        if (!u) return;
+        gezien[n] = true;
+        bronnen.push({ n: n, soort: soort, id: "", url: u, titel: titel, jaar: jaar, datum: datum,
+          bronnaam: schoon(b.bronnaam) || (soort === "artikel" ? "Infofrankrijk" : "Officiële bron"), verouderd: soort === "artikel" && b.verouderd === true && !!jaar });
+      }
     });
     var nlfr = [];
     (Array.isArray(data.nlfr) ? data.nlfr : []).forEach(function (x) {
@@ -239,23 +285,67 @@
     });
     return { antwoord: antwoord, bronnen: bronnen, nlfr: nlfr };
   }
-  // Tekst naar segmenten [{t}] en [{bron:true, n, id, titel}]. Een [n] zonder bron blijft kale tekst. Nooit HTML.
-  function chatSegmenten(t, bronnen) {
-    var per = {};
+  // Regel onder een bron in de lijst: "Infofrankrijk · 03-05-2021" of "Oud forum · 2014".
+  function bronMeta(b) {
+    var delen = [b.bronnaam];
+    if (b.datum) delen.push(b.datum); else if (b.jaar) delen.push(String(b.jaar));
+    return delen.filter(Boolean).join(" \u00b7 ");
+  }
+  // Bronnen gegroepeerd voor onder het antwoord: [{kop:"Kennis van nu", bronnen:[...]}, {kop:"Uit de fora", ...}]; lege groepen ontbreken.
+  function chatGroepen(bronnen) {
+    var kennis = [], fora = [];
+    (bronnen || []).forEach(function (b) { (b.soort === "forum" ? fora : kennis).push(b); });
+    var uit = [];
+    if (kennis.length) uit.push({ kop: "Kennis van nu", bronnen: kennis });
+    if (fora.length) uit.push({ kop: "Uit de fora", bronnen: fora });
+    return uit;
+  }
+  // Tekst met **vet** en [n] naar segmenten: {t, vet} of {bron:true, vet, n, soort, id, url, titel}. Een [n] zonder bron blijft kale tekst. Nooit HTML.
+  function inlineSegmenten(t, bronnen) {
+    var per = {}, uit = [];
     (bronnen || []).forEach(function (b) { per[b.n] = b; });
-    var delen = tekst(t).split(/(\[\d{1,3}\])/), uit = [];
+    function voeg(s, vet) {
+      tekst(s).split(/(\[\d{1,3}\])/).forEach(function (d) {
+        if (!d) return;
+        var m = /^\[(\d{1,3})\]$/.exec(d), b = m ? per[Number(m[1])] : null;
+        if (b) { uit.push({ bron: true, vet: vet, n: b.n, soort: b.soort, id: b.id, url: b.url, titel: b.titel }); return; }
+        var l = uit[uit.length - 1];
+        if (l && !l.bron && l.vet === vet) l.t += d; else uit.push({ t: d, vet: vet });
+      });
+    }
+    var delen = tekst(t).split(/(\*\*[^*\n]+\*\*)/);
     delen.forEach(function (d) {
       if (!d) return;
-      var m = /^\[(\d{1,3})\]$/.exec(d), b = m ? per[Number(m[1])] : null;
-      if (b) { uit.push({ bron: true, n: b.n, id: b.id, titel: b.titel }); return; }
-      var l = uit[uit.length - 1];
-      if (l && !l.bron) l.t += d; else uit.push({ t: d });
+      var m = /^\*\*([^*\n]+)\*\*$/.exec(d);
+      if (m) voeg(m[1], true); else voeg(d, false);
     });
     return uit;
   }
-  // Antwoord in alinea's, elke alinea in segmenten.
-  function chatAlineas(t, bronnen) {
-    return alineas(t).map(function (a) { return chatSegmenten(a, bronnen); });
+  // Antwoordtekst naar blokken: {soort:"kop", t}, {soort:"alinea", segs}, {soort:"lijst", items:[segs]}.
+  // Een kop is een regel met ## (of #, ###) of een regel die geheel **...** is; "- " begint een lijstitem. Nooit HTML.
+  function chatBlokken(t, bronnen) {
+    var regels = tekst(t).replace(/\r\n?/g, "\n").split("\n"), blokken = [], alinea = [];
+    function sluit() {
+      if (!alinea.length) return;
+      blokken.push({ soort: "alinea", segs: inlineSegmenten(alinea.join("\n"), bronnen) });
+      alinea = [];
+    }
+    regels.forEach(function (r) {
+      var z = r.trim(), m;
+      if (!z) { sluit(); return; }
+      if ((m = /^#{1,4}\s+(.+)$/.exec(z))) { sluit(); blokken.push({ soort: "kop", t: m[1].replace(/\*\*/g, "").trim() }); return; }
+      if ((m = /^\*\*([^*]+)\*\*:?$/.exec(z))) { sluit(); blokken.push({ soort: "kop", t: m[1].trim() }); return; }
+      if ((m = /^[-\u2022]\s+(.+)$/.exec(z))) {
+        sluit();
+        var l = blokken[blokken.length - 1];
+        if (!l || l.soort !== "lijst") { l = { soort: "lijst", items: [] }; blokken.push(l); }
+        l.items.push(inlineSegmenten(m[1], bronnen));
+        return;
+      }
+      alinea.push(z);
+    });
+    sluit();
+    return blokken;
   }
   function chatTeller(n) { return geheel(n, 0) + " van " + CHAT_MAX; }
 
@@ -266,7 +356,8 @@
     leesZoek: leesZoek, leesDraad: leesDraad, segmenten: segmenten, datumTekst: datumTekst, reactiesTekst: reactiesTekst, metaRegel: metaRegel,
     CHAT_URL: CHAT_URL, CHAT_MIN: CHAT_MIN, CHAT_MAX: CHAT_MAX, CHAT_ANTW_MAX: CHAT_ANTW_MAX, CHAT_MAX_VRAGEN: CHAT_MAX_VRAGEN, CHAT_TIMEOUT_MS: CHAT_TIMEOUT_MS, CHAT_STATUS_MS: CHAT_STATUS_MS,
     CHAT_UITLEG: CHAT_UITLEG, CHAT_PRIVACY: CHAT_PRIVACY, CHAT_PLAATSHOUDER: CHAT_PLAATSHOUDER, CHAT_DRUK: CHAT_DRUK, CHAT_FOUT: CHAT_FOUT,
-    chatVraagSchoon: chatVraagSchoon, chatBody: chatBody, chatAan: chatAan, chatSoort: chatSoort, leesChat: leesChat, chatSegmenten: chatSegmenten, chatAlineas: chatAlineas, chatTeller: chatTeller,
+    chatVraagSchoon: chatVraagSchoon, chatBody: chatBody, chatAan: chatAan, chatSoort: chatSoort, leesChat: leesChat, chatBlokken: chatBlokken, inlineSegmenten: inlineSegmenten, chatGroepen: chatGroepen, bronMeta: bronMeta, kaartLabel: kaartLabel, verouderdTekst: verouderdTekst, urlOpHost: urlOpHost,
+    CHAT_SAMENVATTING: CHAT_SAMENVATTING, CHAT_WAARSCHUWING: CHAT_WAARSCHUWING, BRON_REGEL: BRON_REGEL, ARTIKEL_HOSTS: ARTIKEL_HOSTS, OFFICIEEL_HOSTS: OFFICIEEL_HOSTS, chatTeller: chatTeller,
     jaarForum: jaarForum, alineas: alineas, nogOver: nogOver, meerTekst: meerTekst, telTekst: telTekst, voegToe: voegToe };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfKa = api;

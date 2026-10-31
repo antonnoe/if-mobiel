@@ -257,3 +257,14 @@ Dit is de vaste regie voor het Klusarchief (module `klusforum`, scherm `klusarch
 5. Geen account, niets bewaren van de zoekterm op het toestel.
 
 Techniek en herstel van een gemelde draad: zie het hoofdstuk "Klusarchief (30-10-2026)" in CLAUDE.md.
+
+## Klusarchief, nieuwe besluiten van Anton (31-10-2026)
+
+Het besluit "alleen oud forum" vervalt. Nieuw vast kader:
+
+1. Het Klusarchief bundelt twee delen: "Uit de fora" (oud Infofrankrijk-forum en Nederlanders.fr, de laatste alleen als index met link) en "Kennis van nu" (eigen artikelen van Infofrankrijk.com en officiële Franse bronnen met open licentie, nu Service Public / DILA). De keuzeknoppen Oud forum en Nederlanders.fr vervallen; de kaart toont zelf de herkomst.
+2. Artikelen van voor 2025 mogen mee, met de vermelding "Dit artikel is van [jaar] en kan verouderde informatie bevatten."
+3. De chat combineert meerdere bronnen tot een samenhangend antwoord en noemt per gebruikte bron: bronnaam, datum, link. Officiële Franse bronnen worden vertaald en samengevat; de app zegt dat het een samenvatting is. De besluiten 1, 2 en 4 hierboven (namen verzonnen, draadwaarschuwing, melden) blijven gelden voor het oude forum; besluit 3 (alleen forumdraden in de chat) is vervangen door dit besluit.
+4. Bronvermelding Service Public: "Source : Service Public / DILA" (in de app "Bron: Service Public / DILA") met datum van bijwerking en link naar de fiche; geen logo's, nooit suggereren dat de overheid de app goedkeurt.
+
+Techniek: zie "Klusarchief, twee delen" in CLAUDE.md.
