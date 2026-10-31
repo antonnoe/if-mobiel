@@ -2622,6 +2622,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-if>
     </sc-if>
     <p data-ka-bronregel="1" style="margin:22px 16px 0;font:500 13px/1.6 Mulish;color:#3D4346">{{ kaBronRegel }}</p>
+    <a data-ka-bronnenlink="1" href="{{ kaBronnenUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;margin:4px 16px 0;font:600 13px/1.35 Poppins;color:#800000;text-decoration:underline;text-underline-offset:3px">{{ kaBronnenTekst }}</a>
     <div style="height:28px"></div>
   </div>
   </sc-if>
@@ -5567,7 +5568,7 @@ class Component extends DCLogic {
       kaChatInvoer: cK && !chatLaadt && !chatVol && cs !== "fout",
       kaChatLabel: chatKlaar ? "Stel een vervolgvraag" : "Uw vraag",
       kaChatNieuwKnop: chatKlaar || cs === "fout", kaChatNieuwTekst: chatVol ? "Begin een nieuwe vraag" : "Nieuwe vraag", kaChatNieuw: () => this.kaChatNieuw(),
-      kaChips: [chip("alles","Alles"), chip("fora","Uit de fora"), chip("kennis","Kennis van nu")], kaBronRegel: K ? K.BRON_REGEL : "",
+      kaChips: [chip("alles","Alles"), chip("fora","Uit de fora"), chip("kennis","Kennis van nu")], kaBronRegel: K ? K.BRON_REGEL : "", kaBronnenUrl: K ? K.BRONNEN_URL : "#", kaBronnenTekst: K ? K.BRONNEN_TEKST : "",
       isKa: is, kaZoekScherm: !d, kaDraadScherm: !!d,
       kaIntro: "Dit archief bundelt ervaringen uit oude forums en kennis van nu: artikelen van Infofrankrijk en officiële Franse bronnen. Draden van het oude klusforum leest u hier zelf; berichten op Nederlanders.fr leest u op die site. Zoek op een woord en kies waar u in zoekt.",
       kaPrivacy: K ? K.PRIVACY : "", kaWaarschuwing: K ? K.WAARSCHUWING : "", kaTerugvalUrl: K ? K.TERUGVAL_URL : "https://infofrankrijk.com/klussen/",

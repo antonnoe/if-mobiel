@@ -29,6 +29,8 @@
   var ARTIKEL_HOSTS = ["infofrankrijk.com", "www.infofrankrijk.com"];
   var OFFICIEEL_HOSTS = ["service-public.gouv.fr", "www.service-public.gouv.fr", "service-public.fr", "www.service-public.fr",
     "www.ecologie.gouv.fr", "www.eaufrance.fr", "www.georisques.gouv.fr"];
+  var BRONNEN_URL = "https://infofrankrijk.com/uit-het-klusforum-van-infofrankrijk-com/#bronnen";
+  var BRONNEN_TEKST = "Waar komt dit vandaan? Bekijk de bronnen en verder zoeken \u2197";
   var BRON_REGEL = "Bronnen van Kennis van nu: Infofrankrijk.com en Service Public / DILA (Licence Ouverte 2.0).";
   // https-adres zonder spaties, zonder inloggegevens, op een van de toegestane hosts; anders "".
   function urlOpHost(u, hosts) {
@@ -357,7 +359,7 @@
     CHAT_URL: CHAT_URL, CHAT_MIN: CHAT_MIN, CHAT_MAX: CHAT_MAX, CHAT_ANTW_MAX: CHAT_ANTW_MAX, CHAT_MAX_VRAGEN: CHAT_MAX_VRAGEN, CHAT_TIMEOUT_MS: CHAT_TIMEOUT_MS, CHAT_STATUS_MS: CHAT_STATUS_MS,
     CHAT_UITLEG: CHAT_UITLEG, CHAT_PRIVACY: CHAT_PRIVACY, CHAT_PLAATSHOUDER: CHAT_PLAATSHOUDER, CHAT_DRUK: CHAT_DRUK, CHAT_FOUT: CHAT_FOUT,
     chatVraagSchoon: chatVraagSchoon, chatBody: chatBody, chatAan: chatAan, chatSoort: chatSoort, leesChat: leesChat, chatBlokken: chatBlokken, inlineSegmenten: inlineSegmenten, chatGroepen: chatGroepen, bronMeta: bronMeta, kaartLabel: kaartLabel, verouderdTekst: verouderdTekst, urlOpHost: urlOpHost,
-    CHAT_SAMENVATTING: CHAT_SAMENVATTING, CHAT_WAARSCHUWING: CHAT_WAARSCHUWING, BRON_REGEL: BRON_REGEL, ARTIKEL_HOSTS: ARTIKEL_HOSTS, OFFICIEEL_HOSTS: OFFICIEEL_HOSTS, chatTeller: chatTeller,
+    CHAT_SAMENVATTING: CHAT_SAMENVATTING, CHAT_WAARSCHUWING: CHAT_WAARSCHUWING, BRON_REGEL: BRON_REGEL, BRONNEN_URL: BRONNEN_URL, BRONNEN_TEKST: BRONNEN_TEKST, ARTIKEL_HOSTS: ARTIKEL_HOSTS, OFFICIEEL_HOSTS: OFFICIEEL_HOSTS, chatTeller: chatTeller,
     jaarForum: jaarForum, alineas: alineas, nogOver: nogOver, meerTekst: meerTekst, telTekst: telTekst, voegToe: voegToe };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfKa = api;

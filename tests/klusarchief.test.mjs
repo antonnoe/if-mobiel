@@ -324,3 +324,12 @@ test("chat: schil gebruikt geen innerHTML, geen opslag, geen hash; teksten klopp
   assert.equal(K.CHAT_TIMEOUT_MS, 45000);
   assert.equal(K.CHAT_STATUS_MS, 5000);
 });
+
+test("link naar de bronnenpagina: https, infofrankrijk.com, nieuw tabblad", () => {
+  const u = new URL(K.BRONNEN_URL);
+  assert.equal(u.protocol, "https:");
+  assert.equal(u.hostname, "infofrankrijk.com");
+  assert.equal(u.hash, "#bronnen");
+  assert.equal(K.BRONNEN_TEKST, "Waar komt dit vandaan? Bekijk de bronnen en verder zoeken \u2197");
+  assert.match(html, /data-ka-bronnenlink="1" href="\{\{ kaBronnenUrl \}\}" target="_blank" rel="noopener"/);
+});
