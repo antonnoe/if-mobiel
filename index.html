@@ -5264,7 +5264,7 @@ class Component extends DCLogic {
       kaart("eau", "Kwaliteit van het kraanwater", val("eau"), {
         fout:"Gegevens over het drinkwater momenteel niet beschikbaar.", leeg:"Geen controlegegevens over drinkwater gevonden voor deze gemeente.",
         regels:(ew.netten || []).reduce((acc, nt) => {
-          acc.push({label:nt.naam + (nt.distributeur ? " (" + nt.distributeur + ")" : "") + (nt.datum ? " · monster van " + nt.datum : ""),
+          acc.push({label:nt.naam + (nt.distributeur && nt.naam.toUpperCase().indexOf(nt.distributeur.toUpperCase()) < 0 ? " (" + nt.distributeur + ")" : "") + (nt.datum ? " · monster van " + nt.datum : ""),
             waarde: nt.conclusie ? (nt.conform ? "Conform de eisen voor alle gemeten stoffen. " : nt.niet ? "Let op, niet conform: " : "") + "Officiële conclusie (Frans): " + nt.conclusie : "Geen conclusie in de bron."});
           nt.params.forEach(p => acc.push({label:p.label, waarde:p.waarde + (p.grens ? " (norm " + p.grens + ")" : "")}));
           return acc;
