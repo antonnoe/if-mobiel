@@ -113,7 +113,7 @@ test("Toon meer en telling komen uit de data", () => {
 });
 
 test("besluiten van Anton staan letterlijk in de lib", () => {
-  assert.equal(K.PRIVACY, "Om privacyredenen zijn alle namen in dit archief verzonnen.");
+  assert.equal(K.PRIVACY, "Om privacyredenen zijn de namen in dit archief verzonnen. Alleen bekende auteurs en bijdragers staan met hun eigen naam.");
   assert.equal(K.WAARSCHUWING, "Advies uit 2012 tot 2020. Regels, bedragen en normen kunnen verouderd zijn, controleer ze bij de officiële bron.");
   assert.equal(K.MAIL, "info@communitiesabroad.com");
   assert.ok(K.TERUGVAL_URL.startsWith("https://infofrankrijk.com/klussen"));

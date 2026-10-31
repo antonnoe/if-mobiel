@@ -1,12 +1,12 @@
 // Klusarchief: pure logica zonder DOM (browser: window.IfKa; tests: require).
-// Bron: het oude klusforum van Infofrankrijk (2012 tot 2020, alle namen verzonnen), alleen lezen via een Supabase-functie.
+// Bron: het oude klusforum van Infofrankrijk (2012 tot 2020, namen verzonnen, behalve bekende auteurs en bijdragers), alleen lezen via een Supabase-functie.
 // De basis-URL staat op één plek: BASIS. Alles hieronder bouwt daarop.
 (function (root) {
   var BASIS = "https://mqkhfyvrizgmmmcbdkxh.supabase.co/functions/v1/klusarchief";
   var TERUGVAL_URL = "https://infofrankrijk.com/klussen/";
   var MAIL = "info@communitiesabroad.com";
   var MIN_TEKENS = 2, MAX_TEKENS = 120, PER_PAGINA = 10, TIMEOUT_MS = 10000;
-  var PRIVACY = "Om privacyredenen zijn alle namen in dit archief verzonnen.";
+  var PRIVACY = "Om privacyredenen zijn de namen in dit archief verzonnen. Alleen bekende auteurs en bijdragers staan met hun eigen naam.";
   var WAARSCHUWING = "Advies uit 2012 tot 2020. Regels, bedragen en normen kunnen verouderd zijn, controleer ze bij de officiële bron.";
   var TIP_FRANS = "Tip: zoek ook op Franse woorden, bijvoorbeeld fosse septique of assainissement.";
   var LEEG_TIPS = ["Controleer de spelling.", "Probeer een korter of ander woord.", "Zoek ook op het Franse woord, bijvoorbeeld fosse septique."];
