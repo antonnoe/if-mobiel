@@ -186,6 +186,13 @@ const param = (id) => { const p = perId.get(id); if (!p) fout(`${id} staat niet 
   for (const f of ["archetypes.js", "engine.js", "dpe.js"]) {
     if (sha(f) !== PIN.bestanden[f]) fout(`engine/${f} wijkt af van de vastgelegde versie in peil/engine-hash.json. Deze kopie moet byte-identiek blijven aan antonnoe/energieportaal: pas beide repo's samen aan en werk de hashes in beide bij.`);
   }
+  // Het waardenblok (van "// ===== Waarden uit Peil" tot "// ===== Helpers") is vastgelegd; zo is de bewering in engine-hash.json toetsbaar.
+  {
+    const e = fs.readFileSync(path.join(root, "engine", "engine.js"), "utf8");
+    const a = e.indexOf("// ===== Waarden uit Peil"), z = e.indexOf("// ===== Helpers");
+    if (a < 0 || z < a) fout("engine.js mist de markeringen van het waardenblok.");
+    else if (crypto.createHash("sha256").update(e.slice(a, z)).digest("hex") !== PIN.waardenblok) fout("Het waardenblok in engine/engine.js wijkt af van PIN.waardenblok in peil/engine-hash.json; werk de hash in beide repo's bij.");
+  }
   // Lokaal ook rechtstreeks vergelijken met de zusterrepo als die ernaast staat
   const zus = path.join(root, "..", "if-mobiel", "engine");
   if (fs.existsSync(zus)) for (const f of ["archetypes.js", "engine.js", "dpe.js"]) if (!fs.readFileSync(path.join(zus, f)).equals(fs.readFileSync(path.join(root, "engine", f)))) fout(`engine/${f} verschilt van ../energieportaal/engine/${f}.`);
