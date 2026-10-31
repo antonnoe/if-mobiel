@@ -5123,7 +5123,7 @@ class Component extends DCLogic {
     if (!G || !Nv || !c || !G.codeOk(c.code)) return;
     this._gmTeller = this._gmTeller || Nv.maakTeller();
     const tok = this._gmTeller.volgende();
-    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dech:{s:"laden"}, dvf:{s:"laden"}}});
+    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dech:{s:"laden"}, eau:{s:"laden"}, dae:{s:"laden"}, dvf:{s:"laden"}}});
     const zet = (sleutel, d) => { if (this._gmTeller.actueel(tok)) this.setState(prev => ({gm: Object.assign({}, prev.gm, {kaarten: Object.assign({}, prev.gm.kaarten, {[sleutel]: d})})})); };
     const u = G.risicoUrls(c.code), au = c.adres ? G.adresRisicoUrls(c.lat, c.lon) : null;
     const urls = [u.risques, G.proxyUrl("catnat", {code:c.code}), G.proxyUrl("radon", {code:c.code}), u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
@@ -5156,6 +5156,22 @@ class Component extends DCLogic {
       const sam = G.dechSamenvatting(r.rijen, c.lat, c.lon, c.code);
       zet("dech", sam && sam.ok ? {s:"ok", d:Object.assign({jaar:r.jaar}, sam)} : {s:"leeg"});
     });
+    // Drinkwater (Hub'Eau): de laatste monsters per waternetwerk van de gemeente.
+    this.gmHaal(G.eauUrl(c.code)).then(d => { const l = d ? G.leesEau(d) : null; zet("eau", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
+    // Defibrillatoren (Géo'DAE): alles binnen een vierkant om het punt (tot 3 pagina's), afstand en filtering rekenen we zelf.
+    (() => {
+      if (typeof c.lat !== "number" || typeof c.lon !== "number") return zet("dae", {s:"leeg"});
+      this.gmHaal(G.daeUrl(c.lat, c.lon, 1)).then(d1 => {
+        const p1 = d1 ? G.leesDaePagina(d1) : null;
+        if (!p1) return zet("dae", {s:"fout"});
+        const n = Math.min(G.DAE_MAX_PAGINA, p1.paginas), rest = []; for (let i = 2; i <= n; i++) rest.push(this.gmHaal(G.daeUrl(c.lat, c.lon, i)));
+        return Promise.all(rest).then(meer => {
+          const pag = meer.map(m => m ? G.leesDaePagina(m) : null);
+          const sam = G.daeSamenvatting(p1.rijen.concat(...pag.map(x => x ? x.rijen : [])), c.lat, c.lon, pag.some(x => !x) || p1.paginas > n);
+          zet("dae", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"});
+        });
+      });
+    })();
     // DVF: eerst via de tussenlaag (alle pagina's in één antwoord, een dag gecachet); lukt dat niet, dan rechtstreeks bij de bron.
     const jaar = new Date().getFullYear();
     const klaarDvf = (records, onvolledig) => { const sam = G.dvfSamenvatting(records, onvolledig); zet("dvf", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"}); };
@@ -5190,7 +5206,7 @@ class Component extends DCLogic {
         heeftUitkomst: !!(inv && inv.uitkomst), uitkomst: inv ? inv.uitkomst : ""};
     };
     const val = x => (k[x] && k[x].s) || "laden", d = x => (k[x] && k[x].d) || {};
-    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), dc = d("dech"), a = r.adres || null;
+    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), dc = d("dech"), ew = d("eau"), da = d("dae"), a = r.adres || null;
     const euro = n => "€ " + n.toLocaleString("nl-NL");
     const dvfRegel = (label, g) => !g || !g.n ? null : {label, waarde: !g.genoeg ? "Te weinig verkopen voor een betrouwbare mediaan (" + g.n + ")"
       : g.n + " verkopen, mediaan " + euro(g.prijs) + (g.perM2 ? " · " + euro(g.perM2) + " per m² bebouwd (middelste helft " + euro(g.perM2Laag) + " tot " + euro(g.perM2Hoog) + ")" : "")};
@@ -5245,6 +5261,23 @@ class Component extends DCLogic {
           : "Locaties in uw gemeente.") + " Openingstijden en toegangsregels (pas, bewijs van woonplaats, tarieven voor tweede woningen) staan niet in de bron: vraag ze na bij de mairie of de beheerder. Jaargang van het bestand: " + dc.jaar + "." : "",
         links:(dc.lijst && dc.lijst[0] ? [{url:G.dechKaartUrl(dc.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
         bron:"Bron: ADEME, SINOE (via data.gouv.fr), Licence Ouverte 2.0"}),
+      kaart("eau", "Kwaliteit van het kraanwater", val("eau"), {
+        fout:"Gegevens over het drinkwater momenteel niet beschikbaar.", leeg:"Geen controlegegevens over drinkwater gevonden voor deze gemeente.",
+        regels:(ew.netten || []).reduce((acc, nt) => {
+          acc.push({label:nt.naam + (nt.distributeur ? " (" + nt.distributeur + ")" : "") + (nt.datum ? " · monster van " + nt.datum : ""),
+            waarde: nt.conclusie ? (nt.conform ? "Conform de eisen voor alle gemeten stoffen. " : nt.niet ? "Let op, niet conform: " : "") + "Officiële conclusie (Frans): " + nt.conclusie : "Geen conclusie in de bron."});
+          nt.params.forEach(p => acc.push({label:p.label, waarde:p.waarde + (p.grens ? " (norm " + p.grens + ")" : "")}));
+          return acc;
+        }, []),
+        notitie: ew.ok ? "Resultaten van het officiële controleprogramma voor de waternetwerken die deze gemeente bedienen; per netwerk het laatste monster. Een gemeente kan meerdere netwerken hebben en uw eigen leiding kan afwijken: vraag bij twijfel uw waterleverancier. Hardheid heeft geen norm: een hoger getal betekent kalkrijker water." : "",
+        bron:"Bron: Hub'Eau (eaufrance), controlegegevens drinkwater"}),
+      kaart("dae", "Defibrillatoren in de buurt (AED)", val("dae"), {
+        fout:"Gegevens over defibrillatoren momenteel niet beschikbaar.", leeg:"Geen defibrillator geregistreerd binnen " + String(G.DAE_STRAAL).replace(".", ",") + " km. De bron is niet volledig: dat zegt niet dat er geen toestel hangt.",
+        regels:(da.lijst || []).map(x => ({label:x.naam + " · " + G.kmTekst(x.km) + " hemelsbreed",
+          waarde:[x.adres, x.altijd ? "Dag en nacht bereikbaar" : x.binnen ? "Binnen, mogelijk alleen tijdens openingstijden" : x.buiten ? "Buiten" : "", x.plek, x.opm].filter(Boolean).join(" · ")})),
+        notitie: da.ok ? "De " + da.lijst.length + " dichtstbijzijnde van " + da.aantal + " geregistreerde toestellen binnen " + String(G.DAE_STRAAL).replace(".", ",") + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + (da.onvolledig ? " (op basis van een deel van de gegevens)" : "") + ". Bij een noodgeval belt u eerst 15 of 112: zij helpen u verder. Geregistreerd betekent niet dat het toestel op dit moment bereikbaar of in orde is, en veel toestellen hangen in winkels en zijn dan alleen open als die open zijn." : "",
+        links:(da.lijst && da.lijst[0] ? [{url:G.dechKaartUrl(da.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
+        bron:"Bron: Géo'DAE, Base nationale des défibrillateurs (data.gouv.fr), Licence Ouverte 2.0"}),
       kaart("dvf", "Verkochte huizen (DVF)", val("dvf"), {
         fout:"DVF-data momenteel niet beschikbaar.", leeg:"Geen verkopen van huizen of appartementen gevonden in het DVF-register voor deze gemeente.",
         regels:[dvfRegel("Huizen (maison)", v.huis), dvfRegel("Appartementen", v.app)].filter(Boolean),

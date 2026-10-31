@@ -202,3 +202,41 @@ test("déchèteries: url, validatie, afstand en sortering", () => {
   assert.equal(z.ok, false);
   assert.match(G.dechKaartUrl(s.lijst[0]), /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=44\.89,1\.22$/);
 });
+
+test("drinkwater: url, laatste monster per netwerk, officiële conclusie, parameters", async () => {
+  const { readFileSync } = await import("node:fs");
+  assert.equal(G.eauUrl("x"), "");
+  assert.match(G.eauUrl("24037"), /resultats_dis\?code_commune=24037&size=200&sort=desc&fields=/);
+  assert.equal(G.leesEau({}), null);
+  assert.equal(G.leesEau({ data: [] }).ok, false);
+  const e = G.leesEau(JSON.parse(readFileSync(new URL("./fixture-eau.json", import.meta.url), "utf8")));
+  assert.equal(e.ok, true);
+  const n = e.netten[0];
+  assert.equal(n.datum, "31-08-2026");
+  assert.equal(n.conform, true);
+  assert.equal(n.niet, false);
+  assert.match(n.conclusie, /conforme aux exigences/);
+  assert.deepEqual(n.params.map(p => p.label), ["Zuurgraad (pH)", "Nitraat", "Hardheid (titre hydrotimétrique)"]);
+  assert.equal(n.params.find(p => p.label === "Nitraat").waarde, "6,6 mg/L");
+  assert.equal(n.params.find(p => p.label === "Nitraat").grens, "≤ 50 mg/L");
+  const slecht = G.leesEau({ data: [{ date_prelevement: "2026-05-01T08:00:00Z", nom_uge: "A", conclusion_conformite_prelevement: "Eau d'alimentation non conforme aux limites de qualité", code_parametre: 1340, resultat_numerique: 61, libelle_unite: "mg/L", limite_qualite_parametre: "<=50 mg/L" }] });
+  assert.equal(slecht.netten[0].niet, true);
+  assert.equal(slecht.netten[0].conform, false);
+});
+
+test("defibrillatoren: url, filtering van dubbelen, mobiele toestellen en twijfelgevallen, sortering", () => {
+  assert.equal(G.daeUrl(null, 1, 1), "");
+  assert.match(G.daeUrl(44.85, 0.48, 2), /c_lat_coor1__greater=44\.83018&c_lat_coor1__less=44\.86982&.*page_size=100&page=2$/);
+  assert.equal(G.leesDaePagina({}), null);
+  assert.equal(G.leesDaePagina({ data: [], meta: { total: 250 } }).paginas, 3);
+  const rij = (gid, lat, lon, extra) => Object.assign({ gid, c_nom: "Toestel " + gid, c_adr_num: "1", c_adr_voie: "Rue X", c_com_cp: "24100", c_com_nom: "Bergerac", c_etat_fonct: "En fonctionnement", c_etat_valid: "validées", c_doublon: "f", c_dae_mobile: "f", c_acc: "Extérieur", c_dispo_horaires: "24/7", c_lat_coor1: lat, c_long_coor1: lon }, extra || {});
+  const s = G.daeSamenvatting([rij("ver", 44.86, 0.48), rij("dichtbij", 44.851, 0.481), rij("dubbel", 44.851, 0.481, { c_doublon: "t" }), rij("mobiel", 44.851, 0.481, { c_dae_mobile: "t" }),
+    rij("twijfel", 44.852, 0.48, { c_etat_valid: "mises en doute" }), rij("uit", 44.852, 0.48, { c_etat_fonct: "Hors service" }), rij("binnen", 44.855, 0.48, { c_acc: "Intérieur", c_dispo_horaires: "Mo-Su off" }),
+    rij("weg", 45.5, 0.48), rij("dichtbij", 44.851, 0.481)], 44.85, 0.48, false);
+  assert.deepEqual(s.lijst.map(x => x.naam), ["Toestel dichtbij", "Toestel binnen", "Toestel ver"]);
+  assert.equal(s.aantal, 3);
+  assert.equal(s.lijst[0].altijd, true);
+  assert.equal(s.lijst[1].binnen, true);
+  assert.equal(s.lijst[1].altijd, false);
+  assert.equal(G.daeSamenvatting([], 44.85, 0.48).ok, false);
+});

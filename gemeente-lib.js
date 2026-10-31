@@ -308,10 +308,78 @@
     return "https://www.google.com/maps/search/?api=1&query=" + q(x.naam + " " + x.adres);
   }
 
+  // ---- Drinkwater via Hub'Eau (resultats_dis, CORS *, getest 31-10-2026 vanuit infopoche.fr, Bergerac 24037). Eén aanvraag per gemeente:
+  // de laatste 200 resultaten, nieuwste eerst. Per netwerk (nom_uge) nemen we het laatste monster en daaruit de officiële conclusie.
+  var HUBEAU = "https://hubeau.eaufrance.fr/api/v1/qualite_eau_potable/resultats_dis";
+  var EAU_VELDEN = "date_prelevement,code_parametre,libelle_parametre,resultat_numerique,libelle_unite,limite_qualite_parametre,reference_qualite_parametre,conclusion_conformite_prelevement,nom_uge,nom_distributeur";
+  var EAU_PARAMS = { "1340": "Nitraat", "7972": "Hardheid (titre hydrotimétrique)", "1302": "Zuurgraad (pH)" };
+  function eauUrl(code) { return codeOk(code) ? HUBEAU + "?code_commune=" + q(code) + "&size=200&sort=desc&fields=" + EAU_VELDEN : ""; }
+  function datumNl(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(tekst(iso)); return m ? m[3] + "-" + m[2] + "-" + m[1] : ""; }
+  function leesEau(json) {
+    if (!json || !Array.isArray(json.data)) return null;
+    var netten = [], index = {};
+    json.data.forEach(function (r) {
+      if (!r) return;
+      var naam = tekst(r.nom_uge) || "Waternetwerk", dag = tekst(r.date_prelevement).slice(0, 10);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(dag)) return;
+      var n = index[naam];
+      if (!n) { if (netten.length >= 3) return; n = index[naam] = { naam: naam, distributeur: tekst(r.nom_distributeur), dag: dag, conclusie: "", params: {} }; netten.push(n); }
+      if (dag > n.dag) return; // alleen het nieuwste monster per netwerk (de bron staat nieuwste eerst)
+      var c = tekst(r.conclusion_conformite_prelevement);
+      if (c && !n.conclusie && dag === n.dag) n.conclusie = c;
+      var code = tekst(String(r.code_parametre));
+      if (EAU_PARAMS[code] && getal(r.resultat_numerique) !== null && !n.params[code]) {
+        var grens = tekst(r.limite_qualite_parametre) || tekst(r.reference_qualite_parametre);
+        n.params[code] = { label: EAU_PARAMS[code], waarde: (String(getal(r.resultat_numerique)).replace(".", ",") + " " + tekst(r.libelle_unite).replace("unité pH", "")).trim(),
+          grens: grens ? grens.replace(/<=/g, "\u2264 ").replace(/>=/g, "\u2265 ").replace("unité pH", "").replace(/ et /g, " en ").trim() : "", dag: dag };
+      }
+    });
+    var lijst = netten.map(function (n) {
+      var ps = Object.keys(EAU_PARAMS).map(function (k) { return n.params[k]; }).filter(function (p) { return p && p.dag === n.dag; });
+      return { naam: n.naam, distributeur: n.distributeur, datum: datumNl(n.dag), conclusie: n.conclusie,
+        niet: /non[ -]conforme/i.test(n.conclusie), conform: /^eau d'alimentation conforme/i.test(n.conclusie), params: ps };
+    }).filter(function (n) { return n.conclusie || n.params.length; });
+    return { ok: lijst.length > 0, netten: lijst };
+  }
+
+  // ---- Defibrillatoren: Géo'DAE via de Tabular API van data.gouv.fr (Licence Ouverte 2.0, CORS *, getest 31-10-2026: 190.234 rijen).
+  // Zoeken in een vierkant om het punt (kolommen c_lat_coor1 en c_long_coor1 zijn getallen); de afstand rekenen we zelf.
+  var DAE = "https://tabular-api.data.gouv.fr/api/resources/edb6a9e1-2f16-4bbf-99e7-c3eb6b90794c/data/";
+  var DAE_STRAAL = 2.2, DAE_PAGE = 100, DAE_MAX_PAGINA = 3, DAE_AANTAL = 5;
+  function daeUrl(lat, lon, pagina) {
+    if (typeof lat !== "number" || typeof lon !== "number" || !isFinite(lat) || !isFinite(lon)) return "";
+    var dl = DAE_STRAAL / 111, dn = DAE_STRAAL / (111 * Math.max(0.2, Math.cos(lat * Math.PI / 180)));
+    return DAE + "?c_lat_coor1__greater=" + (lat - dl).toFixed(5) + "&c_lat_coor1__less=" + (lat + dl).toFixed(5) +
+      "&c_long_coor1__greater=" + (lon - dn).toFixed(5) + "&c_long_coor1__less=" + (lon + dn).toFixed(5) + "&page_size=" + DAE_PAGE + "&page=" + Math.max(1, pagina | 0 || 1);
+  }
+  function leesDaePagina(data) {
+    if (!data || !Array.isArray(data.data) || !data.meta || typeof data.meta.total !== "number") return null;
+    return { totaal: data.meta.total, rijen: data.data, paginas: Math.ceil(data.meta.total / DAE_PAGE) };
+  }
+  function daeSamenvatting(rijen, lat, lon, onvolledig) {
+    if (!Array.isArray(rijen)) return null;
+    var gezien = {};
+    var l = rijen.map(function (r) {
+      if (!r || tekst(r.c_doublon) === "t" || tekst(r.c_dae_mobile) === "t" || !/fonctionnement/i.test(tekst(r.c_etat_fonct)) || /doute/i.test(tekst(r.c_etat_valid))) return null;
+      var la = getal(r.c_lat_coor1), lo = getal(r.c_long_coor1);
+      if (la === null || lo === null) return null;
+      var km = afstandKm(lat, lon, la, lo);
+      if (km > DAE_STRAAL) return null;
+      var id = tekst(r.gid) || la + "," + lo; if (gezien[id]) return null; gezien[id] = 1;
+      var adres = [[tekst(r.c_adr_num), tekst(r.c_adr_voie)].filter(Boolean).join(" "), [tekst(r.c_com_cp), tekst(r.c_com_nom)].filter(Boolean).join(" ")].filter(Boolean).join(", ");
+      var binnen = /int/i.test(tekst(r.c_acc));
+      return { naam: tekst(r.c_nom) || "Defibrillator", adres: adres, km: km, binnen: binnen, buiten: /ext/i.test(tekst(r.c_acc)),
+        altijd: tekst(r.c_dispo_horaires) === "24/7", plek: tekst(r.c_acc_complt).slice(0, 120), opm: tekst(r.c_disp_complt).slice(0, 160), lat: la, lon: lo };
+    }).filter(Boolean).sort(function (a, b) { return a.km - b.km; });
+    return { ok: l.length > 0, lijst: l.slice(0, DAE_AANTAL), aantal: l.length, onvolledig: !!onvolledig };
+  }
+  function kmTekst(km) { return km < 1 ? Math.max(10, Math.round(km * 100) * 10) + " m" : (km < 10 ? km.toFixed(1).replace(".", ",") : String(Math.round(km))) + " km"; }
+
   var api = { internetQuery: internetQuery, PROXY: PROXY, proxyUrl: proxyUrl, catnatUrl: catnatUrl, radonUrl: radonUrl, catnatPerRisico: catnatPerRisico, LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
     leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, DVF_JAREN: DVF_JAREN, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl,
-    dechUrl: dechUrl, leesDechPagina: leesDechPagina, dechSamenvatting: dechSamenvatting, afstandKm: afstandKm, dechKaartUrl: dechKaartUrl, DECH_PAGE: DECH_PAGE, DECH_MAX_PAGINA: DECH_MAX_PAGINA };
+    dechUrl: dechUrl, leesDechPagina: leesDechPagina, dechSamenvatting: dechSamenvatting, afstandKm: afstandKm, dechKaartUrl: dechKaartUrl, DECH_PAGE: DECH_PAGE, DECH_MAX_PAGINA: DECH_MAX_PAGINA,
+    eauUrl: eauUrl, leesEau: leesEau, daeUrl: daeUrl, leesDaePagina: leesDaePagina, daeSamenvatting: daeSamenvatting, kmTekst: kmTekst, DAE_STRAAL: DAE_STRAAL, DAE_PAGE: DAE_PAGE, DAE_MAX_PAGINA: DAE_MAX_PAGINA };
   root.IfGem = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);
