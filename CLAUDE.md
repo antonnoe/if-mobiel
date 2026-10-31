@@ -411,3 +411,5 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 - Service worker `VERSIE` 2026-10-31-2. Tests: `tests/klusarchief.test.mjs`.
 
 - **Namen in het Klusarchief (31-10-2026):** zie besluit (1) hierboven. Servicewerker `VERSIE` 2026-10-31-3. Test: `tests/klusarchief.test.mjs` (`K.PRIVACY`).
+
+- **Palliatieve zorg (31-10-2026):** de module `palliatief` (repo `antonnoe/Soins-Palliatifs-USP-beschikbaar`, GitHub Pages) is geen ja/nee-controle per departement meer maar een kaart met één link naar de annuaire van het Centre national des soins palliatifs et de la fin de vie (parlons-fin-de-vie.fr, nieuw tabblad). Reden: de oude lijsten (inclusief een "KRITIEK"-melding voor 21 departementen) hadden geen bron, en de mentions légales van het Centre verbieden reproductie en framing zonder schriftelijke toestemming; alleen een link met de volledige naam is toegestaan. Adressen per eenheid in de app mogen pas na schriftelijke toestemming van het Centre. Service worker `VERSIE` 2026-10-31-4.
