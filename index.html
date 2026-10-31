@@ -5123,7 +5123,7 @@ class Component extends DCLogic {
     if (!G || !Nv || !c || !G.codeOk(c.code)) return;
     this._gmTeller = this._gmTeller || Nv.maakTeller();
     const tok = this._gmTeller.volgende();
-    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dech:{s:"laden"}, eau:{s:"laden"}, dae:{s:"laden"}, carb:{s:"laden"}, dvf:{s:"laden"}}});
+    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dech:{s:"laden"}, eau:{s:"laden"}, dae:{s:"laden"}, carb:{s:"laden"}, agr:{s:"laden"}, dvf:{s:"laden"}}});
     const zet = (sleutel, d) => { if (this._gmTeller.actueel(tok)) this.setState(prev => ({gm: Object.assign({}, prev.gm, {kaarten: Object.assign({}, prev.gm.kaarten, {[sleutel]: d})})})); };
     const u = G.risicoUrls(c.code), au = c.adres ? G.adresRisicoUrls(c.lat, c.lon) : null;
     const urls = [u.risques, G.proxyUrl("catnat", {code:c.code}), G.proxyUrl("radon", {code:c.code}), u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
@@ -5187,6 +5187,15 @@ class Component extends DCLogic {
         });
       });
     })();
+    // Lokaal kopen bij de boer (Agence Bio, alleen bio): live opgehaald, niets bewaard, filter en afstand rekenen we zelf.
+    (() => {
+      if (typeof c.lat !== "number" || typeof c.lon !== "number") return zet("agr", {s:"leeg"});
+      this.gmHaal(G.agrUrl(c.lat, c.lon), {herhaal:false}).then(d => {
+        const sam = d ? G.agrSamenvatting(d, c.lat, c.lon) : null;
+        if (!sam) return zet("agr", {s:"fout"});
+        zet("agr", sam.ok ? {s:"ok", d:sam} : {s:"leeg"});
+      });
+    })();
     // DVF: eerst via de tussenlaag (alle pagina's in één antwoord, een dag gecachet); lukt dat niet, dan rechtstreeks bij de bron.
     const jaar = new Date().getFullYear();
     const klaarDvf = (records, onvolledig) => { const sam = G.dvfSamenvatting(records, onvolledig); zet("dvf", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"}); };
@@ -5221,7 +5230,7 @@ class Component extends DCLogic {
         heeftUitkomst: !!(inv && inv.uitkomst), uitkomst: inv ? inv.uitkomst : ""};
     };
     const val = x => (k[x] && k[x].s) || "laden", d = x => (k[x] && k[x].d) || {};
-    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), dc = d("dech"), ew = d("eau"), da = d("dae"), cb = d("carb"), a = r.adres || null;
+    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), dc = d("dech"), ew = d("eau"), da = d("dae"), cb = d("carb"), ag = d("agr"), a = r.adres || null;
     const euro = n => "€ " + n.toLocaleString("nl-NL");
     const dvfRegel = (label, g) => !g || !g.n ? null : {label, waarde: !g.genoeg ? "Te weinig verkopen voor een betrouwbare mediaan (" + g.n + ")"
       : g.n + " verkopen, mediaan " + euro(g.prijs) + (g.perM2 ? " · " + euro(g.perM2) + " per m² bebouwd (middelste helft " + euro(g.perM2Laag) + " tot " + euro(g.perM2Hoog) + ")" : "")};
@@ -5300,6 +5309,16 @@ class Component extends DCLogic {
         notitie: cb.ok ? "Per brandstof het goedkoopste station binnen " + cb.straal + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + ", uit " + cb.stations + " stations met een recente prijs. Prijzen die ouder zijn dan " + cb.dagen + " dagen en brandstoffen die op raken tellen niet mee. De stations geven hun prijzen zelf door: wat aan de pomp staat kan afwijken." : "",
         links:(cb.soorten && cb.soorten[0] && cb.soorten[0].lat !== null ? [{url:G.dechKaartUrl(cb.soorten[0]), label:"Goedkoopste " + cb.soorten[0].label.toLowerCase() + " op de kaart ↗"}] : []),
         bron:"Bron: Ministère de l'Économie (prix des carburants), via data.economie.gouv.fr"}),
+      kaart("agr", "Lokaal kopen bij de boer (bio)", val("agr"), {
+        fout:"Gegevens over bio-producenten momenteel niet beschikbaar.", leeg:"Geen bio-producenten die aan particulieren verkopen gevonden binnen " + G.AGR_STRAAL + " km. Dat zegt niet dat er geen boeren zijn: deze lijst bevat alleen bio.",
+        regels:(ag.lijst || []).map(x => ({label:x.naam + " · " + G.kmTekst(x.km) + " hemelsbreed",
+          waarde:[x.adres, x.wat.length ? "Onder meer: " + x.wat.join(", ") : ""].filter(Boolean).join(" · ")})),
+        notitie: ag.ok ? (ag.aantal > ag.lijst.length ? "De " + ag.lijst.length + " dichtstbijzijnde van " + ag.aantal : ag.aantal) + " bio-bedrijven binnen " + ag.straal + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + " die zeggen aan particulieren te verkopen. Alleen bio, dus niet elke boer in de buurt staat hier. De app toont geen telefoonnummers en geen contactpersonen; zoek het bedrijf op voor de openingstijden. Of een bedrijf aan huis verkoopt of alleen op de markt, staat niet in de bron." : "",
+        links:(ag.lijst || []).filter(x => x.web).slice(0, 3).map(x => ({url:x.web, label:"Site van " + x.naam + " ↗"})).concat(ag.lijst && ag.lijst[0] ? [{url:G.dechKaartUrl(ag.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
+        bron:"Bron: Agence Bio, annuaire des opérateurs bio (opendata.agencebio.org)"}),
+      kaart("boer", "Ook niet-bio: boeren in uw regio", "statisch", {
+        notitie:"Veel boeren verkopen aan huis zonder bio-label en staan dus niet in de lijst hierboven. Bienvenue à la ferme is een landelijk netwerk van boerderijproducten, boerderijwinkels en lokale boerenmarkten, doorzoekbaar op de site zelf. Veel gemeenten en regio's hebben daarnaast een eigen gids: vraag de mairie of kijk op de website van uw gemeente. De app kopieert die gegevens niet en kan niet zeggen wat er in uw buurt staat.",
+        links:[{url:"https://www.bienvenue-a-la-ferme.com/", label:"Bienvenue à la ferme: zoek een boer ↗"}], bron:""}),
       kaart("dvf", "Verkochte huizen (DVF)", val("dvf"), {
         fout:"DVF-data momenteel niet beschikbaar.", leeg:"Geen verkopen van huizen of appartementen gevonden in het DVF-register voor deze gemeente.",
         regels:[dvfRegel("Huizen (maison)", v.huis), dvfRegel("Appartementen", v.app)].filter(Boolean),

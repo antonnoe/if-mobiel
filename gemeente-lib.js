@@ -413,12 +413,69 @@
     return { ok: uit.length > 0, soorten: uit, stations: stations, straal: CARB_STRAAL, dagen: CARB_MAX_DAGEN };
   }
 
+  // ---- Lokaal kopen bij de boer: Agence Bio, annuaire des operateurs bio (opendata.agencebio.org, open, CORS ok, getest 31-10-2026 vanuit infopoche.fr).
+  // Alleen bio. Alleen bedrijven die aan particulieren verkopen (`venteAnnuaire.venteParticuliers`) en in de categorie Vente aux consommateurs (1),
+  // Magasins specialises (4) of Artisans/commercants (5); grote winkels (6) en restaurants (2) vallen af, evenals bedrijven met de activiteit Grande surface (46).
+  // Bewust NIET gebruikt: naam van de beheerder (`gerant`) en telefoonnummers: dat zijn gegevens van personen. Er wordt niets bewaard.
+  var AGR = "https://opendata.agencebio.org/api/gouv/operateurs/";
+  var AGR_STRAAL = 15, AGR_NB = 300, AGR_AANTAL = 8;
+  var AGR_ACT = { 1: "honing", 16: "fruit", 18: "groenten", 34: "wijn", 11: "rundvlees", 12: "geitenproducten", 20: "eieren", 35: "pluimvee", 27: "varkensvlees", 17: "granen", 133: "oliehoudende gewassen", 26: "kruiden en planten", 8: "zelfpluk", 31: "planten (kwekerij)", 44: "producentenwinkel", 57: "markt", 41: "kaas", 36: "brood en gebak", 37: "vlees en charcuterie", 45: "biowinkel" };
+  function agrUrl(lat, lon) {
+    if (typeof lat !== "number" || typeof lon !== "number" || !isFinite(lat) || !isFinite(lon)) return "";
+    return AGR + "?lat=" + lat.toFixed(5) + "&lng=" + lon.toFixed(5) + "&dist=" + AGR_STRAAL + "&nb=" + AGR_NB;
+  }
+  function leesAgr(data) {
+    if (!data || !Array.isArray(data.items)) return null;
+    return { totaal: getal(data.nbTotal), items: data.items };
+  }
+  function agrWeb(o) {
+    var lijst = Array.isArray(o.siteWebs) ? o.siteWebs : [];
+    for (var i = 0; i < lijst.length; i++) {
+      var w = lijst[i], u = w && typeof w.url === "string" ? w.url.trim() : "";
+      if (w && w.typeSiteWeb && w.typeSiteWeb.nom === "Site Officiel" && /^https:\/\/[^\s]+\.[^\s]+$/i.test(u)) return u;
+    }
+    return "";
+  }
+  function agrSamenvatting(data, lat, lon) {
+    var l = leesAgr(data);
+    if (!l) return null;
+    var uit = [], gezien = {};
+    l.items.forEach(function (o) {
+      if (!o || !o.venteAnnuaire || o.venteAnnuaire.venteParticuliers !== true) return;
+      var cats = (Array.isArray(o.categories) ? o.categories : []).map(function (c) { return c && c.id; });
+      if (cats.indexOf(2) >= 0 || cats.indexOf(6) >= 0) return;
+      if (!(cats.indexOf(1) >= 0 || cats.indexOf(4) >= 0 || cats.indexOf(5) >= 0)) return;
+      var acts = (Array.isArray(o.annuaireActivites) ? o.annuaireActivites : []);
+      if (acts.some(function (a) { return a && a.id === 46; })) return;
+      var naam = tekst(o.denominationcourante) || tekst(o.raisonSociale);
+      if (!naam) return;
+      var beste = null;
+      (Array.isArray(o.adressesOperateurs) ? o.adressesOperateurs : []).forEach(function (a) {
+        if (!a || a.active === false || getal(a.lat) === null || getal(a.long) === null) return;
+        var km = afstandKm(lat, lon, a.lat, a.long);
+        if (km <= AGR_STRAAL && (!beste || km < beste.km)) beste = { km: km, a: a };
+      });
+      if (!beste) return;
+      var sleutel = String(o.id || o.siret || naam) + "|" + beste.a.lieu;
+      if (gezien[sleutel]) return; gezien[sleutel] = true;
+      var wat = [];
+      acts.forEach(function (a) { if (a && AGR_ACT[a.id] && wat.indexOf(AGR_ACT[a.id]) < 0) wat.push(AGR_ACT[a.id]); });
+      // Een regel die met een persoonlijke aanhef begint ("Mr et Mme ...") laten we weg: alleen postcode en plaats.
+      var lieu = tekst(beste.a.lieu); if (/^(m|mr|mme|mlle|monsieur|madame|messieurs)\b\.?\s/i.test(lieu)) lieu = "";
+      uit.push({ naam: naam, adres: [lieu, [tekst(beste.a.codePostal), tekst(beste.a.ville)].filter(Boolean).join(" ")].filter(Boolean).join(", "),
+        km: beste.km, wat: wat.slice(0, 4), web: agrWeb(o), lat: beste.a.lat, lon: beste.a.long });
+    });
+    uit.sort(function (a, b) { return a.km - b.km; });
+    return { ok: uit.length > 0, aantal: uit.length, lijst: uit.slice(0, AGR_AANTAL), straal: AGR_STRAAL, afgekapt: l.totaal !== null && l.totaal > l.items.length };
+  }
+
   var api = { internetQuery: internetQuery, PROXY: PROXY, proxyUrl: proxyUrl, catnatUrl: catnatUrl, radonUrl: radonUrl, catnatPerRisico: catnatPerRisico, LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
     leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, DVF_JAREN: DVF_JAREN, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl,
     dechUrl: dechUrl, leesDechPagina: leesDechPagina, dechSamenvatting: dechSamenvatting, afstandKm: afstandKm, dechKaartUrl: dechKaartUrl, DECH_PAGE: DECH_PAGE, DECH_MAX_PAGINA: DECH_MAX_PAGINA,
     eauUrl: eauUrl, leesEau: leesEau, daeUrl: daeUrl, leesDaePagina: leesDaePagina, daeSamenvatting: daeSamenvatting, kmTekst: kmTekst, DAE_STRAAL: DAE_STRAAL, DAE_PAGE: DAE_PAGE, DAE_MAX_PAGINA: DAE_MAX_PAGINA,
-    carbUrl: carbUrl, leesCarbPagina: leesCarbPagina, carbSamenvatting: carbSamenvatting, CARB_MAX_PAGINA: CARB_MAX_PAGINA, CARB_STRAAL_TEKST: String(CARB_STRAAL) };
+    carbUrl: carbUrl, leesCarbPagina: leesCarbPagina, carbSamenvatting: carbSamenvatting, CARB_MAX_PAGINA: CARB_MAX_PAGINA, CARB_STRAAL_TEKST: String(CARB_STRAAL),
+    agrUrl: agrUrl, leesAgr: leesAgr, agrSamenvatting: agrSamenvatting, AGR_STRAAL: AGR_STRAAL };
   root.IfGem = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

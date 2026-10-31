@@ -271,3 +271,36 @@ test("brandstofprijzen: url, goedkoopste per soort, verse prijzen, tekort en onz
   assert.equal(echt.ok, true);
   assert.ok(echt.soorten.every(x => x.prijs > 0.3 && x.prijs < 5));
 });
+
+test("lokaal kopen bij de boer (Agence Bio): url, filter, afstand, geen persoonsgegevens", () => {
+  assert.equal(G.agrUrl(44.85, 0.48), "https://opendata.agencebio.org/api/gouv/operateurs/?lat=44.85000&lng=0.48000&dist=15&nb=300");
+  assert.equal(G.agrUrl(NaN, 0.48), "");
+  assert.equal(G.leesAgr({}), null);
+  assert.equal(G.agrSamenvatting(null, 44.85, 0.48), null);
+  const adres = { lat: 44.85, long: 0.48, lieu: "1 rue A", codePostal: "24100", ville: "Bergerac", active: true };
+  const basis = { id: 1, denominationcourante: "Boerderij A", categories: [{ id: 1 }], annuaireActivites: [{ id: 18 }, { id: 99 }], adressesOperateurs: [adres], venteAnnuaire: { venteParticuliers: true }, siteWebs: [{ url: " https://a.fr ", typeSiteWeb: { nom: "Site Officiel" } }], gerant: "NIET TONEN", telephone: "0600000000" };
+  const maak = (x) => Object.assign({}, basis, x);
+  const data = { nbTotal: "9", items: [
+    basis,
+    maak({ id: 2, denominationcourante: "Supermarkt", categories: [{ id: 6 }] }),
+    maak({ id: 3, denominationcourante: "Restaurant", categories: [{ id: 1 }, { id: 2 }] }),
+    maak({ id: 4, denominationcourante: "Groothandel", categories: [{ id: 7 }] }),
+    maak({ id: 5, denominationcourante: "Alleen pro", venteAnnuaire: { venteParticuliers: false } }),
+    maak({ id: 6, denominationcourante: "Grote winkel", annuaireActivites: [{ id: 46 }] }),
+    maak({ id: 7, denominationcourante: "Te ver", adressesOperateurs: [Object.assign({}, adres, { lat: 45.5 })] }),
+    maak({ id: 8, denominationcourante: "Persoonlijke aanhef", adressesOperateurs: [Object.assign({}, adres, { lat: 44.86, lieu: "Mr et Mme DUPONT Jean La Conne" })], siteWebs: [{ url: "http://x.fr", typeSiteWeb: { nom: "Site Officiel" } }, { url: "https://facebook.com/x", typeSiteWeb: { nom: "Facebook" } }] }),
+  ] };
+  const s = G.agrSamenvatting(data, 44.85, 0.48);
+  assert.equal(s.ok, true);
+  assert.deepEqual(s.lijst.map(x => x.naam), ["Boerderij A", "Persoonlijke aanhef"]);
+  assert.deepEqual(s.lijst[0].wat, ["groenten"]);
+  assert.equal(s.lijst[0].web, "https://a.fr");
+  assert.equal(s.lijst[1].web, "");
+  assert.equal(s.lijst[1].adres, "24100 Bergerac");
+  assert.ok(!JSON.stringify(s).includes("NIET TONEN") && !JSON.stringify(s).includes("0600000000"));
+  assert.equal(s.afgekapt, true);
+  assert.equal(G.agrSamenvatting({ items: [] }, 44.85, 0.48).ok, false);
+  const echt = G.agrSamenvatting(JSON.parse(readFileSync(new URL("./fixture-agencebio.json", import.meta.url), "utf8")), 44.85, 0.48);
+  assert.equal(echt.ok, true);
+  assert.ok(echt.lijst.every(x => x.km <= 15 && x.naam));
+});
