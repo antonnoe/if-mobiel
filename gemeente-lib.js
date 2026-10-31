@@ -375,11 +375,50 @@
   }
   function kmTekst(km) { return km < 1 ? Math.max(10, Math.round(km * 100) * 10) + " m" : (km < 10 ? km.toFixed(1).replace(".", ",") : String(Math.round(km))) + " km"; }
 
+  // ---- Brandstofprijzen: data.economie.gouv.fr (Opendatasoft Explore v2.1), dataset prix-des-carburants-en-france-flux-instantane-v2.
+  // CORS *, anoniem, getest 31-10-2026 vanuit infopoche.fr. Zoeken met within_distance op `geom`; `latitude` en `longitude` in de bron
+  // zijn geschaalde tekstwaarden en worden niet gebruikt. Een brandstof met `*_rupture_debut` is niet beschikbaar en telt niet mee.
+  var CARB = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records";
+  var CARB_SOORTEN = [["gazole", "Diesel (gazole)"], ["e10", "Benzine SP95-E10"], ["sp95", "Benzine SP95"], ["sp98", "Benzine SP98"], ["e85", "Superethanol E85"], ["gplc", "Autogas (GPL)"]];
+  var CARB_STRAAL = 10, CARB_PAGE = 100, CARB_MAX_PAGINA = 3, CARB_MAX_DAGEN = 7;
+  function carbUrl(lat, lon, pagina) {
+    if (typeof lat !== "number" || typeof lon !== "number" || !isFinite(lat) || !isFinite(lon)) return "";
+    var velden = ["id", "adresse", "ville", "cp", "geom", "horaires_automate_24_24"];
+    CARB_SOORTEN.forEach(function (k) { velden.push(k[0] + "_prix", k[0] + "_maj", k[0] + "_rupture_debut"); });
+    var where = "within_distance(geom, geom'POINT(" + lon.toFixed(5) + " " + lat.toFixed(5) + ")', " + CARB_STRAAL + "km)";
+    return CARB + "?where=" + q(where) + "&select=" + q(velden.join(",")) + "&limit=" + CARB_PAGE + "&offset=" + (Math.max(1, pagina | 0 || 1) - 1) * CARB_PAGE;
+  }
+  function leesCarbPagina(data) {
+    if (!data || !Array.isArray(data.results) || typeof data.total_count !== "number") return null;
+    return { totaal: data.total_count, rijen: data.results, paginas: Math.ceil(data.total_count / CARB_PAGE) };
+  }
+  // De goedkoopste per brandstof onder de stations met een verse prijs (niet ouder dan CARB_MAX_DAGEN dagen) en zonder tekort.
+  function carbSamenvatting(rijen, lat, lon, nu) {
+    if (!Array.isArray(rijen)) return null;
+    var nuMs = typeof nu === "number" ? nu : Date.now(), uit = [], stations = 0;
+    CARB_SOORTEN.forEach(function (k) {
+      var beste = null, n = 0;
+      rijen.forEach(function (r) {
+        if (!r || r[k[0] + "_rupture_debut"]) return;
+        var pr = getal(r[k[0] + "_prix"]), maj = Date.parse(tekst(r[k[0] + "_maj"]));
+        if (pr === null || pr < 0.3 || pr > 5 || !isFinite(maj) || nuMs - maj > CARB_MAX_DAGEN * 86400000 || maj > nuMs + 86400000) return;
+        var g = r.geom && getal(r.geom.lat) !== null && getal(r.geom.lon) !== null ? r.geom : null;
+        n++;
+        if (!beste || pr < beste.prijs) beste = { prijs: pr, maj: tekst(r[k[0] + "_maj"]), ville: tekst(r.ville), adres: tekst(r.adresse), cp: tekst(r.cp),
+          lat: g ? g.lat : null, lon: g ? g.lon : null, km: g ? afstandKm(lat, lon, g.lat, g.lon) : null, naam: "" };
+      });
+      if (beste) { stations = Math.max(stations, n); uit.push({ id: k[0], label: k[1], prijs: beste.prijs, prijsTekst: "\u20ac " + beste.prijs.toFixed(3).replace(".", ","),
+        datum: datumNl(beste.maj), plaats: [beste.adres, [beste.cp, beste.ville].filter(Boolean).join(" ")].filter(Boolean).join(", "), km: beste.km, lat: beste.lat, lon: beste.lon, n: n }); }
+    });
+    return { ok: uit.length > 0, soorten: uit, stations: stations, straal: CARB_STRAAL, dagen: CARB_MAX_DAGEN };
+  }
+
   var api = { internetQuery: internetQuery, PROXY: PROXY, proxyUrl: proxyUrl, catnatUrl: catnatUrl, radonUrl: radonUrl, catnatPerRisico: catnatPerRisico, LINKS: LINKS, postcodeOk: postcodeOk, codeOk: codeOk, pct: pct, communesUrl: communesUrl, leesCommunes: leesCommunes, adresUrl: adresUrl, leesAdressen: leesAdressen, adresRisicoUrls: adresRisicoUrls, leesAdresRisico: leesAdresRisico, tfIndicatie: tfIndicatie, RAYON: RAYON,
     risicoUrls: risicoUrls, leesRisico: leesRisico, belastingUrl: belastingUrl, leesBelasting: leesBelasting, mairieUrl: mairieUrl,
     leesMairie: leesMairie, dvfUrl: dvfUrl, leesDvfPagina: leesDvfPagina, dvfSamenvatting: dvfSamenvatting, DVF_PAGE: DVF_PAGE, DVF_MAX_PAGINA: DVF_MAX_PAGINA, DVF_JAREN: DVF_JAREN, dvfKaartUrl: dvfKaartUrl, arcepUrl: arcepUrl,
     dechUrl: dechUrl, leesDechPagina: leesDechPagina, dechSamenvatting: dechSamenvatting, afstandKm: afstandKm, dechKaartUrl: dechKaartUrl, DECH_PAGE: DECH_PAGE, DECH_MAX_PAGINA: DECH_MAX_PAGINA,
-    eauUrl: eauUrl, leesEau: leesEau, daeUrl: daeUrl, leesDaePagina: leesDaePagina, daeSamenvatting: daeSamenvatting, kmTekst: kmTekst, DAE_STRAAL: DAE_STRAAL, DAE_PAGE: DAE_PAGE, DAE_MAX_PAGINA: DAE_MAX_PAGINA };
+    eauUrl: eauUrl, leesEau: leesEau, daeUrl: daeUrl, leesDaePagina: leesDaePagina, daeSamenvatting: daeSamenvatting, kmTekst: kmTekst, DAE_STRAAL: DAE_STRAAL, DAE_PAGE: DAE_PAGE, DAE_MAX_PAGINA: DAE_MAX_PAGINA,
+    carbUrl: carbUrl, leesCarbPagina: leesCarbPagina, carbSamenvatting: carbSamenvatting, CARB_MAX_PAGINA: CARB_MAX_PAGINA, CARB_STRAAL_TEKST: String(CARB_STRAAL) };
   root.IfGem = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

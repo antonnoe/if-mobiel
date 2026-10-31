@@ -240,3 +240,34 @@ test("defibrillatoren: url, filtering van dubbelen, mobiele toestellen en twijfe
   assert.equal(s.lijst[1].altijd, false);
   assert.equal(G.daeSamenvatting([], 44.85, 0.48).ok, false);
 });
+
+test("brandstofprijzen: url, goedkoopste per soort, verse prijzen, tekort en onzin vallen af", async () => {
+  const { readFileSync } = await import("node:fs");
+  assert.equal(G.carbUrl(null, 0, 1), "");
+  assert.match(G.carbUrl(44.85, 0.48, 2), /within_distance\(geom%2C%20geom'POINT\(0\.48000%2044\.85000\)'%2C%2010km\).*&limit=100&offset=100$/);
+  assert.equal(G.leesCarbPagina({}), null);
+  assert.equal(G.leesCarbPagina({ results: [], total_count: 250 }).paginas, 3);
+  const nu = Date.parse("2026-10-31T12:00:00Z");
+  const st = (ville, lat, lon, x) => Object.assign({ ville, adresse: "Rue 1", cp: "24100", geom: { lat, lon } }, x);
+  const rijen = [
+    st("A", 44.851, 0.481, { gazole_prix: 2.3, gazole_maj: "2026-10-30T10:00:00+00:00", e10_prix: 2.0, e10_maj: "2026-10-30T10:00:00+00:00" }),
+    st("B", 44.86, 0.49, { gazole_prix: 2.2, gazole_maj: "2026-10-20T10:00:00+00:00" }),
+    st("C", 44.86, 0.49, { gazole_prix: 2.25, gazole_maj: "2026-10-29T10:00:00+00:00", gazole_rupture_debut: "2026-10-28 08:00:00" }),
+    st("D", 44.87, 0.5, { gazole_prix: 0.01, gazole_maj: "2026-10-30T10:00:00+00:00", e85_prix: 0.85, e85_maj: "2026-10-31T08:00:00+00:00" }),
+    st("E", 44.87, 0.5, { gazole_prix: 2.28, gazole_maj: "2026-10-30T10:00:00+00:00" })
+  ];
+  const s = G.carbSamenvatting(rijen, 44.85, 0.48, nu);
+  assert.equal(s.ok, true);
+  const gaz = s.soorten.find(x => x.id === "gazole");
+  assert.equal(gaz.prijsTekst, "€ 2,280");
+  assert.equal(gaz.plaats, "Rue 1, 24100 E");
+  assert.equal(gaz.datum, "30-10-2026");
+  assert.equal(gaz.n, 2);
+  assert.equal(s.soorten.find(x => x.id === "e10").prijsTekst, "€ 2,000");
+  assert.equal(s.soorten.find(x => x.id === "e85").prijsTekst, "€ 0,850");
+  assert.equal(s.soorten.find(x => x.id === "sp98"), undefined);
+  assert.equal(G.carbSamenvatting([], 44.85, 0.48, nu).ok, false);
+  const echt = G.carbSamenvatting(G.leesCarbPagina(JSON.parse(readFileSync(new URL("./fixture-carburants.json", import.meta.url), "utf8"))).rijen, 44.85, 0.48, Date.parse("2026-10-31T12:00:00Z"));
+  assert.equal(echt.ok, true);
+  assert.ok(echt.soorten.every(x => x.prijs > 0.3 && x.prijs < 5));
+});

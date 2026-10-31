@@ -5123,7 +5123,7 @@ class Component extends DCLogic {
     if (!G || !Nv || !c || !G.codeOk(c.code)) return;
     this._gmTeller = this._gmTeller || Nv.maakTeller();
     const tok = this._gmTeller.volgende();
-    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dech:{s:"laden"}, eau:{s:"laden"}, dae:{s:"laden"}, dvf:{s:"laden"}}});
+    this.gmSet({gemeente:c, status:"klaar", communes:[], adressen:[], zocht: pc || this.state.gm.zocht, kaarten:{risico:{s:"laden"}, belasting:{s:"laden"}, mairie:{s:"laden"}, dech:{s:"laden"}, eau:{s:"laden"}, dae:{s:"laden"}, carb:{s:"laden"}, dvf:{s:"laden"}}});
     const zet = (sleutel, d) => { if (this._gmTeller.actueel(tok)) this.setState(prev => ({gm: Object.assign({}, prev.gm, {kaarten: Object.assign({}, prev.gm.kaarten, {[sleutel]: d})})})); };
     const u = G.risicoUrls(c.code), au = c.adres ? G.adresRisicoUrls(c.lat, c.lon) : null;
     const urls = [u.risques, G.proxyUrl("catnat", {code:c.code}), G.proxyUrl("radon", {code:c.code}), u.sismique].concat(au ? [au.rga, au.azi, au.tri, au.mvt, au.cavites, au.sismique] : []);
@@ -5172,6 +5172,21 @@ class Component extends DCLogic {
         });
       });
     })();
+    // Brandstofprijzen (data.economie.gouv.fr): stations binnen 10 km, de goedkoopste per brandstof berekenen we zelf.
+    (() => {
+      if (typeof c.lat !== "number" || typeof c.lon !== "number") return zet("carb", {s:"leeg"});
+      this.gmHaal(G.carbUrl(c.lat, c.lon, 1), {herhaal:false}).then(d1 => {
+        const p1 = d1 ? G.leesCarbPagina(d1) : null;
+        if (!p1) return zet("carb", {s:"fout"});
+        const n = Math.min(G.CARB_MAX_PAGINA, p1.paginas), rest = []; for (let i = 2; i <= n; i++) rest.push(this.gmHaal(G.carbUrl(c.lat, c.lon, i), {herhaal:false}));
+        return Promise.all(rest).then(meer => {
+          const pag = meer.map(m => m ? G.leesCarbPagina(m) : null);
+          if (pag.some(x => !x)) return zet("carb", {s:"fout"});
+          const sam = G.carbSamenvatting(p1.rijen.concat(...pag.map(x => x.rijen)), c.lat, c.lon);
+          zet("carb", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"});
+        });
+      });
+    })();
     // DVF: eerst via de tussenlaag (alle pagina's in één antwoord, een dag gecachet); lukt dat niet, dan rechtstreeks bij de bron.
     const jaar = new Date().getFullYear();
     const klaarDvf = (records, onvolledig) => { const sam = G.dvfSamenvatting(records, onvolledig); zet("dvf", sam && sam.ok ? {s:"ok", d:sam} : {s:"leeg"}); };
@@ -5206,7 +5221,7 @@ class Component extends DCLogic {
         heeftUitkomst: !!(inv && inv.uitkomst), uitkomst: inv ? inv.uitkomst : ""};
     };
     const val = x => (k[x] && k[x].s) || "laden", d = x => (k[x] && k[x].d) || {};
-    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), dc = d("dech"), ew = d("eau"), da = d("dae"), a = r.adres || null;
+    const r = d("risico"), b = d("belasting"), m = d("mairie"), v = d("dvf"), dc = d("dech"), ew = d("eau"), da = d("dae"), cb = d("carb"), a = r.adres || null;
     const euro = n => "€ " + n.toLocaleString("nl-NL");
     const dvfRegel = (label, g) => !g || !g.n ? null : {label, waarde: !g.genoeg ? "Te weinig verkopen voor een betrouwbare mediaan (" + g.n + ")"
       : g.n + " verkopen, mediaan " + euro(g.prijs) + (g.perM2 ? " · " + euro(g.perM2) + " per m² bebouwd (middelste helft " + euro(g.perM2Laag) + " tot " + euro(g.perM2Hoog) + ")" : "")};
@@ -5278,6 +5293,13 @@ class Component extends DCLogic {
         notitie: da.ok ? "De " + da.lijst.length + " dichtstbijzijnde van " + da.aantal + " geregistreerde toestellen binnen " + String(G.DAE_STRAAL).replace(".", ",") + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + (da.onvolledig ? " (op basis van een deel van de gegevens)" : "") + ". Bij een noodgeval belt u eerst 15 of 112: zij helpen u verder. Geregistreerd betekent niet dat het toestel op dit moment bereikbaar of in orde is, en veel toestellen hangen in winkels en zijn dan alleen open als die open zijn." : "",
         links:(da.lijst && da.lijst[0] ? [{url:G.dechKaartUrl(da.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
         bron:"Bron: Géo'DAE, Base nationale des défibrillateurs (data.gouv.fr), Licence Ouverte 2.0"}),
+      kaart("carb", "Brandstofprijzen in de buurt", val("carb"), {
+        fout:"Brandstofprijzen momenteel niet beschikbaar.", leeg:"Geen recente brandstofprijzen gevonden binnen " + G.CARB_STRAAL_TEKST + " km.",
+        regels:(cb.soorten || []).map(x => ({label:x.label + " · " + x.prijsTekst + " per liter",
+          waarde:[x.plaats, x.km !== null ? G.kmTekst(x.km) + " hemelsbreed" : "", "prijs van " + x.datum].filter(Boolean).join(" · ")})),
+        notitie: cb.ok ? "Per brandstof het goedkoopste station binnen " + cb.straal + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + ", uit " + cb.stations + " stations met een recente prijs. Prijzen die ouder zijn dan " + cb.dagen + " dagen en brandstoffen die op raken tellen niet mee. De stations geven hun prijzen zelf door: wat aan de pomp staat kan afwijken." : "",
+        links:(cb.soorten && cb.soorten[0] && cb.soorten[0].lat !== null ? [{url:G.dechKaartUrl(cb.soorten[0]), label:"Goedkoopste " + cb.soorten[0].label.toLowerCase() + " op de kaart ↗"}] : []),
+        bron:"Bron: Ministère de l'Économie (prix des carburants), via data.economie.gouv.fr"}),
       kaart("dvf", "Verkochte huizen (DVF)", val("dvf"), {
         fout:"DVF-data momenteel niet beschikbaar.", leeg:"Geen verkopen van huizen of appartementen gevonden in het DVF-register voor deze gemeente.",
         regels:[dvfRegel("Huizen (maison)", v.huis), dvfRegel("Appartementen", v.app)].filter(Boolean),
