@@ -114,57 +114,154 @@ test("items: alleen vastgesteld en voor Infopoche, rommel valt weg, te_verifiere
   assert.equal(Kl.leesItems({ items: [ruw("h", { bron: { url: "http://onveilig.nl" } })] })[0].bron.url, "");
 });
 
-test("groeperen per dag: datumkoppen, Vandaag en Morgen, perioden onder hun beginnende dag of onder Loopt nu", () => {
-  const items = Kl.leesItems({ items: [
-    ruw("vandaag", { voorkomens: [{ van: "2026-11-02", tot: "2026-11-02" }] }),
-    ruw("morgen", { voorkomens: [{ van: "2026-11-03", tot: "2026-11-03" }], tijd: "20:00" }),
-    ruw("morgen-eerder", { voorkomens: [{ van: "2026-11-03", tot: "2026-11-03" }], tijd: "09:30-12:00" }),
-    ruw("morgen-zonder", { voorkomens: [{ van: "2026-11-03", tot: "2026-11-03" }] }),
-    ruw("later", { voorkomens: [{ van: "2026-11-09", tot: "2026-11-09" }] }),
-    ruw("periode-komt", { soort: "periode", voorkomens: [{ van: "2026-11-16", tot: "2026-12-31" }] }),
-    ruw("seizoen-loopt", { soort: "seizoen", voorkomens: [{ van: "2026-09-15", tot: "2027-02-28" }] }),
-    ruw("periode-loopt-ook", { soort: "periode", voorkomens: [{ van: "2026-10-13", tot: "2027-01-31" }] }),
-    ruw("mijlpaal-loopt", { soort: "mijlpaal", voorkomens: [{ van: "2026-11-01", tot: "2026-12-31" }] }),
-    ruw("voorbij", { voorkomens: [{ van: "2026-10-01", tot: "2026-10-01" }] }),
-    ruw("te-ver", { voorkomens: [{ van: "2027-03-03", tot: "2027-03-03" }] }),
-    ruw("net-op-de-grens", { voorkomens: [{ van: "2027-03-02", tot: "2027-03-02" }] }),
-    ruw("herhaald", { voorkomens: [{ van: "2026-11-05", tot: "2026-11-05" }, { van: "2026-11-12", tot: "2026-11-12" }] })
-  ] });
-  const g = Kl.groepeer(items, "2026-11-02");
-  assert.deepEqual(g.lopend.map(r => r.item.id), ["mijlpaal-loopt", "periode-loopt-ook", "seizoen-loopt"], "Loopt nu: wat het eerst afloopt eerst");
-  assert.deepEqual(g.dagen.map(d => d.kop), ["Vandaag", "Morgen", "donderdag 5 november", "maandag 9 november", "donderdag 12 november", "maandag 16 november", "dinsdag 2 maart"]);
-  assert.deepEqual(g.dagen[1].rijen.map(r => r.item.id), ["morgen-zonder", "morgen-eerder", "morgen"], "zonder tijd eerst, dan op tijd");
-  assert.deepEqual(g.dagen[5].rijen.map(r => r.item.id), ["periode-komt"]);
-  assert.equal(g.dagen.some(d => d.rijen.some(r => ["voorbij", "te-ver"].includes(r.item.id))), false);
-  assert.equal(Kl.inVenster(items, "2026-11-02").some(i => i.id === "te-ver"), false);
-  assert.equal(Kl.inVenster(items, "2026-11-02").some(i => i.id === "net-op-de-grens"), true, "tot en met 120 dagen vooruit");
+const kal = (extra) => Kl.leesItems({ items: extra });
+const ids = l => l.map(i => i.id);
+
+test("week: bereik vanaf maandag (ISO), titel, vorige en volgende, vandaag springt terug", () => {
+  assert.deepEqual(Kl.weekBereik("2026-11-02"), { van: "2026-11-02", tot: "2026-11-08" }, "maandag zelf");
+  assert.deepEqual(Kl.weekBereik("2026-11-08"), { van: "2026-11-02", tot: "2026-11-08" }, "zondag hoort bij de week ervoor");
+  assert.deepEqual(Kl.weekBereik("2026-11-18"), { van: "2026-11-16", tot: "2026-11-22" });
+  assert.deepEqual(Kl.weekBereik("2027-01-01"), { van: "2026-12-28", tot: "2027-01-03" }, "over de jaargrens");
+  assert.equal(Kl.weekBereik("rommel"), null);
+  assert.equal(Kl.periodeTitel("week", "2026-11-18"), "16 tot 22 november");
+  assert.equal(Kl.periodeTitel("week", "2026-10-28"), "26 oktober tot 1 november");
+  assert.equal(Kl.periodeTitel("week", "2026-12-30"), "28 december 2026 tot 3 januari 2027");
+  assert.equal(Kl.periodeTitel("maand", "2026-11-02"), "november 2026");
+  // vorige en volgende: een week of een maand; valt vandaag erin, dan is vandaag gekozen
+  const v = "2026-11-02";
+  assert.equal(Kl.verschuif("week", "2026-11-02", 1, v), "2026-11-09", "volgende week begint op maandag");
+  assert.equal(Kl.verschuif("week", "2026-11-12", 1, v), "2026-11-16", "ook vanuit een dag midden in de week");
+  assert.equal(Kl.verschuif("week", "2026-11-09", -1, v), "2026-11-02", "vandaag valt in de vorige week: vandaag gekozen");
+  assert.equal(Kl.verschuif("week", "2026-11-04", -1, "2026-10-28"), "2026-10-28", "vandaag in de nieuwe week: vandaag");
+  assert.equal(Kl.verschuif("maand", "2026-11-16", 1, v), "2026-12-01", "volgende maand begint op de eerste");
+  assert.equal(Kl.verschuif("maand", "2026-11-16", -1, "2026-10-20"), "2026-10-20", "vandaag in die maand: vandaag");
+  assert.equal(Kl.verschuif("maand", "2026-12-15", 1, v), "2027-01-01", "over de jaargrens");
+  assert.equal(Kl.verschuif("maand", "2026-01-31", 1, v), "2026-02-01", "geen overloop naar maart");
+  // heen en terug komt op dezelfde week uit; de knop Vandaag zet de schil op kalVandaag
+  let g = v; g = Kl.verschuif("week", g, 1, v); g = Kl.verschuif("week", g, 1, v); g = Kl.verschuif("week", g, -1, v); g = Kl.verschuif("week", g, -1, v);
+  assert.equal(g, v);
+  assert.deepEqual(Kl.WEEK_NAMEN, ["MA", "DI", "WO", "DO", "VR", "ZA", "ZO"]);
 });
 
-test("filters: rubriek en doelgroep, een item blijft staan bij iedereen of een gekozen doelgroep", () => {
-  const items = Kl.leesItems({ items: [
-    ruw("a", { rubriek: "fiscaal", doelgroepen: ["ondernemer"] }),
-    ruw("b", { rubriek: "wonen", rubriek_naam: "Wonen en seizoen", doelgroepen: ["iedereen"] }),
-    ruw("c", { rubriek: "wonen", rubriek_naam: "Wonen en seizoen", doelgroepen: ["huurder", "particulier"] }),
-    ruw("d", { rubriek: "zorg", rubriek_naam: "Zorg", doelgroepen: ["gepensioneerde"] }),
-    ruw("e", { rubriek: "zorg", rubriek_naam: "Zorg", doelgroepen: [] })
-  ] });
-  const ids = l => l.map(i => i.id);
-  assert.deepEqual(ids(Kl.filterItems(items, "alles", [])), ["a", "b", "c", "d", "e"]);
-  assert.deepEqual(ids(Kl.filterItems(items, "wonen", [])), ["b", "c"]);
-  assert.deepEqual(ids(Kl.filterItems(items, "alles", ["huurder"])), ["b", "c", "e"]);
-  assert.deepEqual(ids(Kl.filterItems(items, "alles", ["huurder", "ondernemer"])), ["a", "b", "c", "e"]);
-  assert.deepEqual(ids(Kl.filterItems(items, "zorg", ["particulier"])), ["e"]);
-  const rubrieken = Kl.leesRubrieken([
-    { id: "zorg", naam: "Zorg", kleur: "#B3261E", tint: "#F8DFDD" }, { id: "wonen", naam: "Wonen en seizoen", kleur: "#800000", tint: "#F3E0E0" },
-    { id: "fiscaal", naam: "Fiscale kalender", kleur: "rood", tint: "#DDEFE3" }, { id: "weg", naam: "Niet in de lijst", kleur: "#111111", tint: "#222222" }
+test("maand: raster met voorloop en naloop, altijd hele weken die op maandag beginnen", () => {
+  const r = Kl.maandRaster("2026-11-16");
+  assert.equal(r.length, 42, "november 2026 begint op zondag: zes weken");
+  assert.deepEqual([r[0].iso, r[0].dag, r[0].buiten], ["2026-10-26", 26, true], "voorloop vanaf de maandag");
+  assert.deepEqual([r[6].iso, r[6].dag, r[6].buiten], ["2026-11-01", 1, false]);
+  assert.deepEqual([r[35].iso, r[35].buiten], ["2026-11-30", false]);
+  assert.deepEqual([r[41].iso, r[41].dag, r[41].buiten], ["2026-12-06", 6, true], "naloop tot de zondag");
+  assert.equal(r.filter(c => !c.buiten).length, 30);
+  const feb = Kl.maandRaster("2027-02-10");
+  assert.equal(feb.length, 28, "februari 2027 begint op maandag en eindigt op zondag: geen voor- of naloop");
+  assert.ok(feb.every(c => !c.buiten));
+  assert.equal(Kl.maandRaster("2026-12-31").length % 7, 0);
+  assert.deepEqual(Kl.maandBereik("2024-02-15"), { van: "2024-02-01", tot: "2024-02-29" }, "schrikkeljaar");
+  assert.deepEqual(Kl.maandRaster("kapot"), []);
+});
+
+test("stipjes: een per rubriek uit de voorkomens, hooguit drie, een periode alleen op zijn begindag", () => {
+  const rubrieken = Kl.leesRubrieken([{ id: "fiscaal", naam: "Fiscale kalender", kleur: "#1B6B3A", tint: "#DDEFE3" }, { id: "wonen", naam: "Wonen", kleur: "#800000", tint: "#F3E0E0" },
+    { id: "zorg", naam: "Zorg", kleur: "#B3261E", tint: "#F8DFDD" }, { id: "school", naam: "School", kleur: "#465C70", tint: "#E1E7EC" }]);
+  const items = kal([
+    ruw("a", { rubriek: "zorg", rubriek_naam: "Zorg", voorkomens: [{ van: "2026-11-16", tot: "2026-11-16" }] }),
+    ruw("b", { rubriek: "fiscaal", voorkomens: [{ van: "2026-11-16", tot: "2026-11-16" }] }),
+    ruw("c", { rubriek: "fiscaal", voorkomens: [{ van: "2026-11-16", tot: "2026-11-16" }] }),
+    ruw("d", { rubriek: "wonen", rubriek_naam: "Wonen", soort: "periode", voorkomens: [{ van: "2026-11-16", tot: "2026-12-31" }] }),
+    ruw("e", { rubriek: "school", rubriek_naam: "School", voorkomens: [{ van: "2026-11-16", tot: "2026-11-16" }] }),
+    ruw("f", { rubriek: "wonen", rubriek_naam: "Wonen", soort: "periode", voorkomens: [{ van: "2026-11-01", tot: "2027-03-31" }] }),
+    ruw("g", { rubriek: "onbekend", rubriek_naam: "Onbekend", voorkomens: [{ van: "2026-11-17", tot: "2026-11-17" }] })
   ]);
-  assert.deepEqual(Kl.rubriekChips(items, rubrieken).map(c => c.id), ["zorg", "wonen", "fiscaal"], "alleen wat voorkomt, volgorde van de API");
+  const pd = Kl.perDag(items, "2026-11-16", "2026-11-22");
+  assert.deepEqual(Object.keys(pd).sort(), ["2026-11-16", "2026-11-17"], "f begon voor de week en staat dus niet op een dag");
+  assert.deepEqual(ids(pd["2026-11-16"].map(r => r.item)), ["a", "b", "c", "d", "e"]);
+  const st = Kl.stippen(pd["2026-11-16"], rubrieken);
+  assert.equal(st.length, 3, "hooguit drie stipjes");
+  assert.deepEqual(st.map(s => s.rubriek), ["fiscaal", "wonen", "zorg"], "een per rubriek, in de volgorde van de rubriekenlijst");
+  assert.equal(st[0].kleur, "#1B6B3A");
+  assert.equal(Kl.stippen(pd["2026-11-16"], rubrieken, 5).length, 4, "max is instelbaar; rubriek school komt er dan bij");
+  assert.deepEqual(Kl.stippen(pd["2026-11-17"], rubrieken).map(s => [s.rubriek, s.kleur]), [["onbekend", "#3D4346"]], "onbekende rubriek: neutrale kleur");
+  assert.deepEqual(Kl.stippen([], rubrieken), []);
+  assert.equal((Kl.perDag(items, "2026-11-17", "2026-11-22")["2026-11-18"] || []).length, 0, "een periode staat niet op de dagen na zijn begindag");
+  // legenda: alleen rubrieken die in de getoonde periode voorkomen, in de volgorde van de lijst
+  assert.deepEqual(Kl.legenda(pd, rubrieken).map(l => l.id), ["fiscaal", "wonen", "zorg", "school", "onbekend"]);
+  assert.deepEqual(Kl.legenda(Kl.perDag(Kl.filterItems(items, "zorg"), "2026-11-16", "2026-11-22"), rubrieken).map(l => l.id), ["zorg"], "het filter geldt voor de legenda");
+});
+
+test("lijst: week per begindag, lopende perioden onder Loopt, tijd bepaalt de volgorde", () => {
+  const items = kal([
+    ruw("morgen", { voorkomens: [{ van: "2026-11-17", tot: "2026-11-17" }], tijd: "20:00" }),
+    ruw("morgen-eerder", { voorkomens: [{ van: "2026-11-17", tot: "2026-11-17" }], tijd: "09:30-12:00" }),
+    ruw("morgen-zonder", { voorkomens: [{ van: "2026-11-17", tot: "2026-11-17" }] }),
+    ruw("loopt-kort", { soort: "periode", voorkomens: [{ van: "2026-11-01", tot: "2026-11-30" }] }),
+    ruw("seizoen-loopt", { soort: "seizoen", voorkomens: [{ van: "2026-09-15", tot: "2027-02-28" }] }),
+    ruw("periode-komt", { soort: "periode", voorkomens: [{ van: "2026-11-19", tot: "2026-12-31" }] }),
+    ruw("voorbij", { voorkomens: [{ van: "2026-11-10", tot: "2026-11-10" }] }),
+    ruw("herhaald", { voorkomens: [{ van: "2026-11-18", tot: "2026-11-18" }, { van: "2026-11-25", tot: "2026-11-25" }] })
+  ]);
+  const w = Kl.weekBereik("2026-11-18"), pd = Kl.perDag(items, w.van, w.tot);
+  assert.deepEqual(Object.keys(pd).sort(), ["2026-11-17", "2026-11-18", "2026-11-19"], "dagen zonder items ontbreken");
+  assert.deepEqual(ids(pd["2026-11-17"].map(r => r.item)), ["morgen-zonder", "morgen-eerder", "morgen"], "zonder tijd eerst, dan op tijd");
+  assert.deepEqual(ids(Kl.loopt(items, w.van).map(r => r.item)), ["loopt-kort", "seizoen-loopt"], "Loopt deze week: wat het eerst afloopt eerst");
+  assert.deepEqual(ids(Kl.loopt(items, "2026-11-23").map(r => r.item)), ["loopt-kort", "periode-komt", "seizoen-loopt"], "een periode die eerder begon loopt nu ook, wat het eerst afloopt eerst");
+  assert.equal(Kl.loopt(items, w.van).some(r => r.item.id === "voorbij"), false);
+  assert.equal(Kl.kopDag("2026-11-16"), "Maandag 16 november");
+  assert.equal(Kl.kopDag("2026-11-18"), "Woensdag 18 november");
+});
+
+test("filter op rubriek: stipjes, legenda en lijst, lege uitkomst en Toon alles", () => {
+  const items = kal([
+    ruw("a", { rubriek: "fiscaal", voorkomens: [{ van: "2026-11-16", tot: "2026-11-16" }] }),
+    ruw("b", { rubriek: "wonen", rubriek_naam: "Wonen en seizoen", voorkomens: [{ van: "2026-11-17", tot: "2026-11-17" }] }),
+    ruw("c", { rubriek: "zorg", rubriek_naam: "Zorg", voorkomens: [{ van: "2027-01-12", tot: "2027-01-12" }] })
+  ]);
+  assert.deepEqual(ids(Kl.filterItems(items, "alles")), ["a", "b", "c"]);
+  assert.deepEqual(ids(Kl.filterItems(items, "wonen")), ["b"]);
+  assert.deepEqual(ids(Kl.filterItems(items)), ["a", "b", "c"]);
+  const w = Kl.weekBereik("2026-11-16");
+  assert.equal(Object.keys(Kl.perDag(Kl.filterItems(items, "wonen"), w.van, w.tot)).join(), "2026-11-17", "stipjes en lijst volgen het filter");
+  assert.deepEqual(Object.keys(Kl.perDag(Kl.filterItems(items, "zorg"), w.van, w.tot)), [], "geen treffer in deze week");
+  assert.equal(Kl.leegTekst("Zorg", "week"), "Niets in Zorg in deze week.");
+  assert.equal(Kl.leegTekst("Zorg", "maand"), "Niets in Zorg in deze maand.");
+  assert.equal(Kl.leegTekst("", "week"), "Niets in deze week.");
+  assert.equal(Kl.leegTekst("", "dag"), "Niets op deze dag.");
+  assert.equal(Kl.leegTekst("Zorg", "dag"), "Niets in Zorg op deze dag.");
+  assert.equal(Kl.TOON_ALLES, "Toon alles");
+  assert.equal(Kl.LEEG_DAG, "Niets op deze dag.");
+  // chips: alleen rubrieken in de geladen data, volgorde van de API
+  const rubrieken = Kl.leesRubrieken([{ id: "zorg", naam: "Zorg", kleur: "#B3261E", tint: "#F8DFDD" }, { id: "wonen", naam: "Wonen en seizoen", kleur: "#800000", tint: "#F3E0E0" },
+    { id: "fiscaal", naam: "Fiscale kalender", kleur: "rood", tint: "#DDEFE3" }, { id: "weg", naam: "Niet in de lijst", kleur: "#111111", tint: "#222222" }]);
+  assert.deepEqual(Kl.rubriekChips(items, rubrieken).map(c => c.id), ["zorg", "wonen", "fiscaal"]);
   assert.equal(Kl.rubriekChips(items, rubrieken)[2].kleur, "#3D4346", "ongeldige kleur valt terug");
-  assert.deepEqual(Kl.rubriekChips(items, []).map(c => c.naam), ["Fiscale kalender", "Wonen en seizoen", "Zorg"], "zonder rubriekenlijst: namen uit de items");
-  assert.deepEqual(Kl.wieChips(items).map(c => c.id), ["iedereen", "particulier", "ondernemer", "gepensioneerde", "huurder"]);
-  assert.equal(Kl.wieNaam("pas-verhuisd"), "Pas verhuisd");
-  assert.deepEqual(Kl.zetWie([], "huurder"), ["huurder"]);
-  assert.deepEqual(Kl.zetWie(["huurder", "gezin"], "huurder"), ["gezin"]);
+  assert.deepEqual(Kl.rubriekChips(items, []).map(c => c.naam), ["Fiscale kalender", "Wonen en seizoen", "Zorg"]);
+  assert.equal(Kl.kleurVan("zorg", rubrieken), "#B3261E");
+  assert.equal(Kl.kleurVan("nergens", rubrieken), "#3D4346");
+});
+
+test("labels: dagcel met aantal items", () => {
+  assert.equal(Kl.dagLabel("2026-11-16", 2), "maandag 16 november, 2 items");
+  assert.equal(Kl.dagLabel("2026-11-17", 1), "dinsdag 17 november, 1 item");
+  assert.equal(Kl.dagLabel("2026-11-18", 0), "woensdag 18 november, geen items");
+});
+
+test("vensters: samenvoegen op id, dekking, extra aanvraag per maand", () => {
+  const a = kal([ruw("x", { voorkomens: [{ van: "2026-11-05", tot: "2026-11-05" }] }), ruw("y")]);
+  const b = kal([ruw("x", { voorkomens: [{ van: "2026-12-05", tot: "2026-12-05" }, { van: "2026-11-05", tot: "2026-11-05" }] }), ruw("z")]);
+  const m = Kl.voegSamen(a, b);
+  assert.deepEqual(ids(m), ["x", "y", "z"]);
+  assert.deepEqual(m[0].voorkomens.map(v => v.van), ["2026-11-05", "2026-12-05"], "voorkomens van beide, zonder dubbelen");
+  assert.equal(a[0].voorkomens.length, 1, "de invoer blijft ongemoeid");
+  assert.deepEqual(Kl.startVenster("2026-11-02"), { van: "2026-10-26", tot: "2027-03-02" }, "een week terug tot en met 120 dagen vooruit");
+  const v = [Kl.startVenster("2026-11-02")];
+  assert.equal(Kl.gedekt(v, "2026-11-02", "2026-11-08"), true);
+  assert.equal(Kl.gedekt(v, "2026-11-01", "2026-11-30"), true, "november valt helemaal binnen het eerste venster");
+  assert.equal(Kl.gedekt(v, "2026-10-01", "2026-10-31"), false, "oktober niet");
+  assert.equal(Kl.gedekt(v, "2027-03-01", "2027-03-31"), false);
+  assert.equal(Kl.gedekt(v.concat([{ van: "2027-03-01", tot: "2027-03-31" }]), "2027-03-01", "2027-03-31"), true);
+  assert.equal(Kl.gedekt(v.concat([{ van: "2027-03-04", tot: "2027-03-31" }]), "2027-03-01", "2027-03-31"), false, "een gat van een dag telt");
+  assert.equal(Kl.gedekt(v.concat([{ van: "2027-03-03", tot: "2027-03-31" }]), "2027-03-01", "2027-03-31"), true, "aansluitende vensters tellen als een");
+  assert.equal(Kl.gedekt([], "2026-11-01", "2026-11-02"), false);
+  assert.deepEqual(Kl.ophaalVenster("2026-12-28", "2027-01-03"), { van: "2026-12-01", tot: "2027-01-31" }, "een week over de jaargrens haalt twee hele maanden op");
+  assert.deepEqual(Kl.ophaalVenster("2026-10-01", "2026-10-31"), { van: "2026-10-01", tot: "2026-10-31" });
 });
 
 test("rij en item: meta, datum in woorden, tijd, gebied, bron, link, forumtekst", () => {
@@ -252,7 +349,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-02-2"/);
+  assert.match(sw, /VERSIE = "2026-11-02-3"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -276,28 +373,102 @@ test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band all
   assert.match(html, /this\.vdCheck\(\); this\.histSync\(\)/);
 });
 
-test("scherm: kop, uitleg, filters, lege en foute toestand, bron, abonnementen, geen lange streepjes in zichtbare tekst", () => {
+test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een filterrij, loopt, abonneren, toegankelijk, geen lange streepjes", () => {
   const i = html.indexOf("<!-- ============ KALENDER FRANKRIJK");
   const scherm = html.slice(i, html.indexOf("<!-- ============ TE KOOP IN FRANKRIJK"));
   assert.ok(scherm.length > 5000);
   assert.ok(!LANG.test(scherm), "geen lang streepje in het scherm");
   assert.ok(!LANG.test(lib), "geen lang streepje in de lib");
-  assert.equal(Kl.UITLEG, "Data die ertoe doen voor Nederlanders en Belgen in Frankrijk. Alleen wat we tegen de bron hebben gecontroleerd.");
   assert.equal(Kl.FOUT, "De kalender is nu niet bereikbaar.");
-  assert.equal(Kl.LEEG, "Niets in deze keuze de komende 120 dagen.");
-  [Kl.UITLEG, Kl.FOUT, Kl.LEEG, Kl.WEG, Kl.ABO_UITLEG].forEach(t => assert.ok(!LANG.test(t)));
+  [Kl.FOUT, Kl.LEEG_DAG, Kl.WEG, Kl.ABO_UITLEG, Kl.ABO_VRAAG, Kl.ABO_KNOP, Kl.ABO_ALLES, Kl.ABO_RUBRIEK, Kl.TOON_ALLES].forEach(t => assert.ok(!LANG.test(t)));
+  // kopbalk: alleen de titel, geen themanaam eronder
+  assert.match(html, /titles = \{[^}]*kalender:"Kalender Frankrijk"/);
+  assert.match(html, /const subs = \{[^}]*kalender:""/, "geen themanaam (Overheid) onder de titel");
+  assert.ok(!/kalender:"Overheid"/.test(html));
+  // schakelaar Week | Maand: twee gelijke helften, 44 px, aria-pressed, actief bordeaux met witte tekst
+  assert.match(scherm, /data-kal-schakel[\s\S]{0,400}aria-pressed="\{\{ kalIsWeek \}\}"[\s\S]{0,200}min-height:44px/);
+  assert.match(scherm, /aria-pressed="\{\{ kalIsMaand \}\}"/);
+  assert.match(scherm, />Week<\/button>/); assert.match(scherm, />Maand<\/button>/);
+  assert.match(html, /kalWeekBg: maand \? "transparent" : "#800000", kalWeekFg: maand \? "#3D4346" : "#fff"/);
+  assert.match(html, /kalWeergave:"week"/, "standaard Week");
+  // navigatiekop: pijl vorige en volgende van 44 px, titel in Source Serif 4, tekstknop Vandaag
+  assert.match(scherm, /width:44px;height:44px[\s\S]{0,300}\{\{ kalVorigeLabel \}\}|aria-label="\{\{ kalVorigeLabel \}\}" style="flex:none;width:44px;height:44px/);
+  assert.match(scherm, /aria-label="\{\{ kalVolgendeLabel \}\}" style="flex:none;width:44px;height:44px/);
+  assert.match(scherm, /data-kal-periode[^>]*Source Serif 4/);
+  assert.match(scherm, /data-kal-vandaag="1"[^>]*color:#800000[^>]*>Vandaag</);
+  // dagcellen zijn knoppen met aria-label en aria-pressed, week en maand
+  assert.equal((scherm.match(/<button data-kal-dag="1"[^>]*aria-label="\{\{ c\.label \}\}" aria-pressed="\{\{ c\.gekozen \}\}"/g) || []).length, 2, "week en maand");
+  assert.match(html, /min-height:64px;padding:8px 0 6px/);
+  assert.match(html, /min-height:48px;padding:6px 0 4px/);
+  assert.match(html, /width:6px;height:6px;border-radius:50%/, "stipjes van 6 px");
+  assert.match(html, /aria-current|huidig: nu \? "date" : "false"/);
+  assert.match(scherm, /Dagen van de week/); assert.match(scherm, /Dagen van de maand/);
+  assert.match(html, /gek && maand \? "#fff"/, "witte stipjes op de gekozen dag in de maand");
+  assert.match(html, /gek \? "#800000" : "transparent"[\s\S]{0,120}inset 0 0 0 1\.5px #800000/, "gekozen: vulling, vandaag: dunne rand");
+  // een filterrij die omloopt, geen zijwaarts scrollen, geen Voor wie
+  assert.match(scherm, /data-kal-rubrieken="1" style="display:flex;flex-wrap:wrap/);
+  assert.ok(!/overflow-x:auto/.test(scherm), "geen zijwaarts scrollen");
+  assert.ok(!/Voor wie|kalWie|wieChips|zetWie/.test(scherm + lib.replace(/wieNaam|wieTekst/g, "")), "de filter Voor wie is vervallen");
+  assert.ok(!/kalWie|wieChips/.test(html), "ook niet in de schil");
+  assert.match(html, /rand: actief \? "rgba\(128,0,0,\.35\)"/); assert.match(html, /vlak: actief \? "rgba\(128,0,0,\.08\)"/);
+  assert.match(html, /chip\("Alles", rubriek === "alles"/);
+  assert.match(scherm, /min-height:44px;padding:0 13px;border-radius:999px/);
+  // lege uitkomst: tekst en knop Toon alles (44 px) die het filter wist
+  assert.match(scherm, /data-kal-toonalles="1" style="[^"]*min-height:44px[^"]*">Toon alles</);
+  assert.match(html, /kalToonAlles: \(\) => this\.setState\(\{kalRubriek:"alles"\}\)/);
+  assert.match(html, /kalToonKnop: leeg && !!rubNaam/);
+  assert.match(html, /Kl\.leegTekst\(rubNaam, "week"\)/); assert.match(html, /Kl\.leegTekst\(rubNaam, "maand"\)/);
+  // perioden: Loopt deze week / Loopt deze maand
+  assert.match(html, /const looptKop = "Loopt deze " \+ woord/);
+  assert.match(html, /const woord = maand \? "maand" : "week"/);
+  assert.match(scherm, /data-kal-loopt/);
+  const iLoopt = scherm.indexOf("data-kal-loopt"), iGroepen = scherm.indexOf("data-kal-groepen"), iLegenda = scherm.indexOf("data-kal-legenda");
+  assert.ok(iLegenda < iLoopt && iLoopt < iGroepen, "maand: legenda, dan Loopt deze maand, dan de items van de dag");
+  // abonneren: een kaart met een knop, een onderblad met alles.ics en een rij per rubriek
+  assert.match(scherm, /data-kal-abo="1"/);
+  assert.equal(Kl.ABO_VRAAG, "Ook in uw eigen agenda-app?");
+  assert.equal(Kl.ABO_KNOP, "Zet in uw agenda →");
+  assert.equal(Kl.ABO_ALLES, "Hele kalender");
+  assert.equal(Kl.ABO_RUBRIEK, "Of alleen een rubriek:");
+  assert.ok(!/a\.naam \}\} &#8599;<\/a>\s*<\/sc-for>\s*<\/div>\s*<\/section>\s*<\/sc-if>/.test(scherm), "geen rij knoppen meer in de kaart");
+  assert.match(html, /data-kal-aboblad="1"/);
+  assert.match(html, /data-kal-abo-alles="1"[^>]*>\{\{ kalAboAllesTekst \}\}/);
+  assert.match(html, /<sc-for list="\{\{ kalAboRijen \}\}" as="a"[\s\S]{0,200}min-height:44px/);
+  assert.match(html, /kalAboAllesUrl: Kl \? Kl\.icalUrl\("alles"\)/);
+  assert.match(html, /kalAboRijen: abo\.filter\(a => a\.id !== "alles"\)/);
+  assert.match(html, /target="_blank" rel="noopener" data-kal-abo-alles/);
+  assert.match(html, /st\.kalAbo \? "kalabo"/, "het blad staat in de geschiedenis");
+  assert.match(html, /if \(st\.kalAbo\) \{ this\.setState\(\{kalAbo:false\}\); return true; \}/, "terug sluit het blad");
+  // overig: bron, item, forum, lazy beelden, 1,8em, geen aftellen
   assert.match(scherm, /Opnieuw proberen/);
   assert.match(scherm, /Bekijk de bron &#8599;/);
   assert.match(scherm, /Bespreek op het forum/);
   assert.match(scherm, /Terug naar de kalender/);
-  assert.match(scherm, /In uw eigen agenda/);
-  assert.match(scherm, /Voor wie/);
-  assert.match(scherm, /loading="lazy"/);
-  assert.match(scherm, /alt="" loading="lazy"[^>]*width="48"/);
+  assert.match(scherm, /alt="" loading="lazy" decoding="async" width="44" height="44"/);
   assert.match(scherm, /alt="" loading="lazy" width="72" height="72"/);
-  assert.match(scherm, /Source Serif 4/);
   assert.match(scherm, /line-height:1\.8em/);
-  assert.match(scherm, /min-height:44px/);
   assert.ok(!/aftellen|toon_in/.test(scherm), "aftellen en toon_in worden niet getoond");
+  // geen tekst onder 11,5 px in het scherm
+  (scherm + html.slice(html.indexOf("// Scherm openen. wil"), html.indexOf("// ---- Zoeken in de artikelen van Infofrankrijk (WordPress"))).replace(/font:[^;"]*/g, m => { const x = /(\d+(?:\.\d+)?)px/.exec(m); if (x) assert.ok(parseFloat(x[1]) >= 11.5, m); return m; });
+});
+
+test("schil: Week is de standaard, vensters per maand, geen opslag, Vandaag en dagkeuze", () => {
+  const blok = html.slice(html.indexOf("// Scherm openen. wil"), html.indexOf("// ---- Zoeken in de artikelen van Infofrankrijk (WordPress"));
+  assert.match(blok, /kalWeergave:"week", kalGekozen: Kl \? Kl\.isoVan\(new Date\(\)\) : "", kalRubriek:"alles"/, "openen: Week, vandaag gekozen, geen filter");
+  assert.match(blok, /Kl\.startVenster\(dag\)/, "eerste aanvraag een week terug tot 120 dagen vooruit, in een keer");
+  assert.match(blok, /Kl\.ophaalVenster\(b\.van, b\.tot\)/, "daarbuiten een extra aanvraag per maand");
+  assert.match(blok, /Kl\.gedekt\(st\.kalVensters/);
+  assert.match(blok, /Kl\.voegSamen\(prev\.kalItems, lijst\)/, "antwoorden blijven in het geheugen per venster");
+  assert.match(blok, /kalNav:"fout"/); assert.match(blok, /kalNavFout/); assert.match(blok, /kalNavLaadt/);
+  assert.match(blok, /this\._kalNTeller\.actueel\(tok\)/);
+  assert.match(html, /this\.kalZorg\(\); this\.vdCheck\(\)/);
+  assert.match(blok, /kalVandaagKnop: \(\) => this\.setState\(prev => \(\{kalGekozen: prev\.kalVandaag \|\| vandaag\}\)\)/);
+  assert.match(blok, /Kl\.verschuif\(/);
+  assert.match(blok, /kalNaarWeek: \(\) => this\.setState\(\{kalWeergave:"week"\}\), kalNaarMaand: \(\) => this\.setState\(\{kalWeergave:"maand"\}\)/);
+  assert.match(blok, /Kl\.perDag\(gef, b\.van, b\.tot\)/); assert.match(blok, /Kl\.loopt\(gef, b\.van\)/);
+  assert.match(blok, /Kl\.stippen\(rijen, rubrieken\)/);
+  assert.match(blok, /kalKies\(iso\)/);
+  assert.match(html, /id="\{\{ g\.id \}\}" data-kal-dagkop="1"/);
+  assert.match(blok, /"kal-dag-" \+ iso/);
   assert.match(html, /titles = \{[^}]*kalender:"Kalender Frankrijk"/);
 });

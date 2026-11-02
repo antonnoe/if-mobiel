@@ -271,4 +271,4 @@ Techniek: zie "Klusarchief, twee delen" in CLAUDE.md.
 
 ## Kalender Frankrijk in de app (02-11-2026)
 
-Band "Vandaag" op de hub (hooguit drie regels uit de openbare API van Kalender Frankrijk, zacht falend) en het scherm Kalender met rubriek- en doelgroepfilters, item, bron en iCal-abonnementen; alleen vastgestelde items voor Infopoche, de lezer blijft in de app. Techniek: zie "Kalender Frankrijk in de app (2 november 2026)" in CLAUDE.md. Tests: `tests/kalender.test.mjs`.
+Band "Vandaag" op de hub (hooguit drie regels uit de openbare API van Kalender Frankrijk, zacht falend) en het scherm Kalender (herbouwd op 02-11-2026 als echte kalender na afkeuring van de lijst: Week en Maand met stipjes per rubriek, een filterrij, "Loopt deze week/maand", abonneren via een onderblad; geen filter "Voor wie" meer) met item, bron en iCal-abonnementen; alleen vastgestelde items voor Infopoche, de lezer blijft in de app. Techniek: zie "Kalender Frankrijk in de app (2 november 2026)" in CLAUDE.md. Tests: `tests/kalender.test.mjs`.

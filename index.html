@@ -2724,22 +2724,6 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ kalLijstScherm }}" hint-placeholder-val="{{ true }}">
   <div data-kal-lijst="1">
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Kalender Frankrijk</h1>
-    <p data-kal-uitleg="1" style="margin:0;padding:18px 16px 0;font:400 15px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">{{ kalUitleg }}</p>
-    <sc-if value="{{ kalFilters }}" hint-placeholder-val="{{ true }}">
-    <div role="group" aria-label="Rubriek" data-kal-rubrieken="1" style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:14px 16px 2px">
-      <sc-for list="{{ kalRubChips }}" as="c" hint-placeholder-count="4">
-      <button onClick="{{ c.klik }}" aria-pressed="{{ c.actief }}" style="flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid {{ c.rand }};background:{{ c.vlak }};color:{{ c.kleur }};font:700 14px Mulish;white-space:nowrap;cursor:pointer">{{ c.naam }}</button>
-      </sc-for>
-    </div>
-    <sc-if value="{{ kalWieZichtbaar }}" hint-placeholder-val="{{ true }}">
-    <div style="padding:10px 16px 0;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">Voor wie</div>
-    <div role="group" aria-label="Voor wie" data-kal-wie="1" style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 16px 2px">
-      <sc-for list="{{ kalWieChips }}" as="c" hint-placeholder-count="4">
-      <button onClick="{{ c.klik }}" aria-pressed="{{ c.actief }}" style="flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid {{ c.rand }};background:{{ c.vlak }};color:{{ c.kleur }};font:700 14px Mulish;white-space:nowrap;cursor:pointer">{{ c.naam }}</button>
-      </sc-for>
-    </div>
-    </sc-if>
-    </sc-if>
     <sc-if value="{{ kalLaadt }}" hint-placeholder-val="{{ false }}">
     <div role="status" style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#3D4346">De kalender wordt opgehaald...</div>
     </sc-if>
@@ -2752,33 +2736,106 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </div>
     </div>
     </sc-if>
-    <sc-if value="{{ kalLeeg }}" hint-placeholder-val="{{ false }}">
-    <p data-kal-leeg="1" role="status" style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);font:600 14.5px/1.6 Mulish;color:#15181A">{{ kalLeegTekst }}</p>
+    <sc-if value="{{ kalKlaar }}" hint-placeholder-val="{{ true }}">
+    <div role="group" aria-label="Weergave" data-kal-schakel="1" style="margin:14px 16px 0;display:flex;gap:3px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:12px;padding:3px">
+      <button onClick="{{ kalNaarWeek }}" aria-pressed="{{ kalIsWeek }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ kalWeekBg }};color:{{ kalWeekFg }};font:700 14px Mulish;cursor:pointer">Week</button>
+      <button onClick="{{ kalNaarMaand }}" aria-pressed="{{ kalIsMaand }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ kalMaandBg }};color:{{ kalMaandFg }};font:700 14px Mulish;cursor:pointer">Maand</button>
+    </div>
+    <div data-kal-kop="1" style="display:flex;align-items:center;gap:4px;padding:10px 12px 2px">
+      <button onClick="{{ kalVorige }}" aria-label="{{ kalVorigeLabel }}" style="flex:none;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;color:#15181A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 data-kal-periode="1" aria-live="polite" style="flex:1;min-width:0;margin:0;text-align:center;font:500 21px/1.2 'Source Serif 4',Georgia,serif;color:#15181A;text-wrap:balance">{{ kalTitel }}</h2>
+      <button onClick="{{ kalVandaagKnop }}" data-kal-vandaag="1" style="flex:none;min-height:44px;padding:0 8px;border:0;background:none;color:#800000;font:700 14px Mulish;cursor:pointer">Vandaag</button>
+      <button onClick="{{ kalVolgende }}" aria-label="{{ kalVolgendeLabel }}" style="flex:none;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;color:#15181A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <sc-if value="{{ kalIsWeek }}" hint-placeholder-val="{{ true }}">
+    <div role="group" aria-label="Dagen van de week" data-kal-week="1" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding:8px 12px 0">
+      <sc-for list="{{ kalWeekCellen }}" as="c" hint-placeholder-count="7">
+      <button data-kal-dag="1" onClick="{{ c.klik }}" aria-label="{{ c.label }}" aria-pressed="{{ c.gekozen }}" style="{{ c.stijl }}">
+        <span style="{{ c.naamStijl }}">{{ c.naam }}</span>
+        <span style="{{ c.nrStijl }}">{{ c.nr }}</span>
+        <span style="display:flex;gap:3px;height:6px"><sc-for list="{{ c.stippen }}" as="s" hint-placeholder-count="2"><span style="{{ s.stijl }}"></span></sc-for></span>
+      </button>
+      </sc-for>
+    </div>
     </sc-if>
-    <sc-if value="{{ kalLijst }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ kalIsMaand }}" hint-placeholder-val="{{ false }}">
+    <div data-kal-maand="1" style="padding:8px 12px 0">
+      <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px">
+        <sc-for list="{{ kalWeekNamen }}" as="n" hint-placeholder-count="7">
+        <div aria-hidden="true" style="text-align:center;font:600 12px Mulish;letter-spacing:.06em;color:#71787C;padding:6px 0">{{ n.t }}</div>
+        </sc-for>
+      </div>
+      <div role="group" aria-label="Dagen van de maand" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px">
+        <sc-for list="{{ kalMaandCellen }}" as="c" hint-placeholder-count="14">
+        <button data-kal-dag="1" onClick="{{ c.klik }}" aria-label="{{ c.label }}" aria-pressed="{{ c.gekozen }}" style="{{ c.stijl }}">
+          <span style="{{ c.nrStijl }}">{{ c.nr }}</span>
+          <span style="display:flex;gap:3px;height:6px"><sc-for list="{{ c.stippen }}" as="s" hint-placeholder-count="2"><span style="{{ s.stijl }}"></span></sc-for></span>
+        </button>
+        </sc-for>
+      </div>
+    </div>
+    <sc-if value="{{ kalLegendaZichtbaar }}" hint-placeholder-val="{{ true }}">
+    <div data-kal-legenda="1" style="padding:10px 16px 0;display:flex;flex-wrap:wrap;gap:6px 14px">
+      <sc-for list="{{ kalLegenda }}" as="l" hint-placeholder-count="3">
+      <span style="display:inline-flex;align-items:center;gap:5px;font:500 12px Mulish;color:#4F575B"><span style="{{ l.stijl }}"></span>{{ l.naam }}</span>
+      </sc-for>
+    </div>
+    </sc-if>
+    </sc-if>
+    <sc-if value="{{ kalChipsZichtbaar }}" hint-placeholder-val="{{ true }}">
+    <div role="group" aria-label="Rubriek" data-kal-rubrieken="1" style="display:flex;flex-wrap:wrap;gap:6px 8px;padding:14px 16px 0">
+      <sc-for list="{{ kalRubChips }}" as="c" hint-placeholder-count="5">
+      <button onClick="{{ c.klik }}" aria-pressed="{{ c.actief }}" style="min-height:44px;padding:0 13px;border-radius:999px;border:1px solid {{ c.rand }};background:{{ c.vlak }};color:{{ c.kleur }};font:700 13px Mulish;cursor:pointer">{{ c.naam }}</button>
+      </sc-for>
+    </div>
+    </sc-if>
+    <sc-if value="{{ kalLoopt }}" hint-placeholder-val="{{ false }}">
+    <section data-kal-loopt="1" aria-label="{{ kalLooptKop }}">
+      <h2 style="margin:0;padding:18px 16px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#4F575B">{{ kalLooptKop }}</h2>
+      <div style="margin:0 16px;display:flex;flex-direction:column;gap:6px">
+        <sc-for list="{{ kalLooptRijen }}" as="r" hint-placeholder-count="2">
+        <button data-kal-rij="1" onClick="{{ r.open }}" aria-label="{{ r.label }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:6px 12px;box-sizing:border-box;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:12px;cursor:pointer">
+          <span style="{{ r.stipStijl }}"></span>
+          <span style="flex:1;min-width:0;display:block;font:600 14px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</span>
+          <span style="flex:none;max-width:42%;font:500 12px/1.3 Mulish;color:#4F575B;text-align:right">{{ r.tot }}</span>
+        </button>
+        </sc-for>
+      </div>
+    </section>
+    </sc-if>
+    <sc-if value="{{ kalNavLaadt }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="padding:18px 16px 0;font:600 14px/1.6 Mulish;color:#3D4346">De kalender wordt opgehaald...</div>
+    </sc-if>
+    <sc-if value="{{ kalNavFout }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" data-kal-navfout="1" style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">{{ kalFoutTekst }}</p>
+      <button onClick="{{ kalNavOpnieuw }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+    </div>
+    </sc-if>
+    <sc-if value="{{ kalLeeg }}" hint-placeholder-val="{{ false }}">
+    <div data-kal-leeg="1" role="status" style="margin:18px 16px 0;padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">{{ kalLeegTekst }}</p>
+      <sc-if value="{{ kalToonKnop }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ kalToonAlles }}" data-kal-toonalles="1" style="margin-top:10px;min-height:44px;padding:0 20px;border:0;border-radius:12px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Toon alles</button>
+      </sc-if>
+    </div>
+    </sc-if>
     <div data-kal-groepen="1">
       <sc-for list="{{ kalGroepen }}" as="g" hint-placeholder-count="2">
-      <h2 data-kal-dagkop="1" style="margin:0;padding:20px 16px 8px;font:600 15px Poppins,system-ui,sans-serif;color:#15181A">{{ g.kop }}</h2>
+      <h2 id="{{ g.id }}" data-kal-dagkop="1" style="{{ g.kopStijl }}">{{ g.kop }}</h2>
       <div style="margin:0 16px;display:flex;flex-direction:column;gap:8px">
         <sc-for list="{{ g.rijen }}" as="r" hint-placeholder-count="2">
-        <button data-kal-rij="1" onClick="{{ r.open }}" aria-label="{{ r.label }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:8px 12px;box-sizing:border-box;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;cursor:pointer">
-          <img src="{{ r.beeld }}" alt="" loading="lazy" decoding="async" width="48" height="48" style="flex:none;display:block;width:48px;height:48px;border-radius:12px">
-          <span style="flex:1;min-width:0;display:block"><span style="display:block;font:600 15px/1.35 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</span><span style="display:block;margin-top:3px;font:500 13px/1.4 Mulish;color:#4F575B;overflow-wrap:anywhere">{{ r.meta }}</span></span>
+        <button data-kal-rij="1" onClick="{{ r.open }}" aria-label="{{ r.label }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 14px;box-sizing:border-box;text-align:left;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;cursor:pointer">
+          <img src="{{ r.beeld }}" alt="" loading="lazy" decoding="async" width="44" height="44" style="flex:none;display:block;width:44px;height:44px;border-radius:10px">
+          <span style="flex:1;min-width:0;display:block"><span style="display:block;font:600 14.5px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</span><span style="display:block;margin-top:3px;font:500 12.5px/1.4 Mulish;color:#4F575B;overflow-wrap:anywhere">{{ r.meta }}</span></span>
         </button>
         </sc-for>
       </div>
       </sc-for>
     </div>
-    </sc-if>
-    <sc-if value="{{ kalAboZichtbaar }}" hint-placeholder-val="{{ false }}">
-    <section data-kal-abo="1" aria-label="In uw eigen agenda" style="margin:24px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-      <h2 style="margin:0;font:600 16px/1.3 Poppins,system-ui,sans-serif;color:#15181A">In uw eigen agenda</h2>
-      <p style="margin:6px 0 0;font:400 14.5px Mulish;line-height:1.7em;color:#3D4346">{{ kalAboUitleg }}</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
-        <sc-for list="{{ kalAbo }}" as="a" hint-placeholder-count="3">
-        <a href="{{ a.url }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid rgba(128,0,0,.28);background:#fff;color:#800000;font:700 14px Mulish;text-decoration:none">{{ a.naam }} &#8599;</a>
-        </sc-for>
-      </div>
+    <section data-kal-abo="1" aria-label="Agenda-abonnement" style="margin:22px 16px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 8px 8px 14px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <p style="margin:0;flex:1;min-width:0;font:500 13.5px/1.4 Mulish;color:#3D4346">{{ kalAboVraag }}</p>
+      <button onClick="{{ kalAboOpen }}" data-kal-abo-knop="1" style="flex:none;min-height:44px;padding:0 10px;border:0;background:none;color:#800000;font:700 13.5px Mulish;cursor:pointer;white-space:nowrap">{{ kalAboKnop }}</button>
     </section>
     </sc-if>
     <div style="height:30px"></div>
@@ -3190,6 +3247,25 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ fbVerzend }}" style="width:100%;min-height:52px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;cursor:pointer;margin-top:14px;opacity:{{ fbKnopOpa }}">{{ fbKnopTekst }}</button>
     <button onClick="{{ fbSluit }}" style="width:100%;min-height:46px;border:0;background:none;color:#71787C;font:600 13px Mulish;cursor:pointer;margin-top:4px">Sluiten</button>
   </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ kalAboBlad }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:55">
+  <div onClick="{{ kalAboSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.45)"></div>
+  <section role="dialog" aria-modal="true" aria-label="Zet de kalender in uw agenda" data-kal-aboblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;box-shadow:0 -8px 30px rgba(21,24,26,.18);box-sizing:border-box">
+    <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
+    <h2 style="margin:6px 0 0;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25">Zet de kalender in uw agenda</h2>
+    <a href="{{ kalAboAllesUrl }}" target="_blank" rel="noopener" data-kal-abo-alles="1" style="display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 15px Mulish">{{ kalAboAllesTekst }}&nbsp;&#8599;</a>
+    <div style="margin-top:6px;font:600 13.5px Mulish;color:#3D4346">{{ kalAboRubriekTekst }}</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <sc-for list="{{ kalAboRijen }}" as="a" hint-placeholder-count="4">
+      <a href="{{ a.url }}" target="_blank" rel="noopener" data-kal-abo-rij="1" style="display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid rgba(128,0,0,.28);background:#fff;color:#800000;text-decoration:none;font:700 14px Mulish"><span>{{ a.naam }}</span><span aria-hidden="true">&#8599;</span></a>
+      </sc-for>
+    </div>
+    <p style="margin:4px 0 0;font:400 13.5px/1.6 Mulish;color:#3D4346">{{ kalAboUitleg }}</p>
+    <button onClick="{{ kalAboSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:700 14px Mulish">Sluiten</button>
+  </section>
 </div>
 </sc-if>
 
@@ -3659,7 +3735,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalRubriek:"alles", kalWie:[], kalItem:null, kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalItem:null, kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -4279,7 +4355,7 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(){
-    this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkInstallAuto(); this.checkOproep(); this.vulInstall(); this.vdCheck(); this.histSync();
+    this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkInstallAuto(); this.checkOproep(); this.vulInstall(); this.kalZorg(); this.vdCheck(); this.histSync();
     if (this.state.oproep && !this._opFocus) {
       this._opFocus = true;
       const b = document.querySelector('[data-oproep] button[aria-label="Sluiten"]');
@@ -4788,12 +4864,12 @@ class Component extends DCLogic {
     if (!L || this._ibTimer) return;
     const nuttig = !!this.opSoort() || (st.screen === "artikel" && !!st.art && st.art.status === "klaar");
     if (!L.toonAutoBlad({standalone:this.alGeinstalleerd(), desktop:this.isDesktop(), landingOpen:!!window.__ifmLandingOpen, bladOpen:!!st.installBlad,
-      ander:!!(st.oproep || st.forumBlad || st.vraagPostcode || st.fbOpen || st.menu), getoond:this.ibLees("SLEUTEL_BLAD"), nuttig})) return;
+      ander:!!(st.oproep || st.forumBlad || st.kalAbo || st.vraagPostcode || st.fbOpen || st.menu), getoond:this.ibLees("SLEUTEL_BLAD"), nuttig})) return;
     this._ibTimer = setTimeout(() => {
       this._ibTimer = null;
       const s2 = this.state;
       const nog = !!this.opSoort() || (s2.screen === "artikel" && !!s2.art && s2.art.status === "klaar");
-      if (!nog || this.isDesktop() || s2.installBlad || s2.oproep || s2.forumBlad || s2.vraagPostcode || s2.fbOpen || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
+      if (!nog || this.isDesktop() || s2.installBlad || s2.oproep || s2.forumBlad || s2.kalAbo || s2.vraagPostcode || s2.fbOpen || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
       this.ibSchrijf("SLEUTEL_BLAD");
       this.installOpen("Fijn dat InfoPoche u helpt. Zet hem op uw beginscherm.");
     }, 1800);
@@ -4973,6 +5049,7 @@ class Component extends DCLogic {
     if (st.menu) { this.setState({menu:false}); return true; }
     if (st.installBlad) { this.installBladSluit(); return true; }
     if (st.forumBlad) { this.forumBladSluit(); return true; }
+    if (st.kalAbo) { this.setState({kalAbo:false}); return true; }
     if (st.oproep) { this.oproepSluit(); return true; }
     if (st.fbOpen) { this.fbSluit(); return true; }
     if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
@@ -5013,7 +5090,7 @@ class Component extends DCLogic {
   }
   histToestand(){
     const st = this.state;
-    const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.oproep ? "oproep" : st.fbOpen ? "feedback" : st.vraagPostcode ? "pc" : (st.screen === "klusarchief" && st.kaMeld) ? "melden" : "";
+    const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.kalAbo ? "kalabo" : st.oproep ? "oproep" : st.fbOpen ? "feedback" : st.vraagPostcode ? "pc" : (st.screen === "klusarchief" && st.kaMeld) ? "melden" : "";
     return {screen:st.screen, kalItem: st.screen === "kalender" && st.kalItem ? st.kalItem : "", kaDraad: st.screen === "klusarchief" && st.kaDraad ? String(st.kaDraad.id) : "", artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
       nwTegel:st.nwTegel, nwTerug:st.nwTerug, blad,
       themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
@@ -5078,7 +5155,7 @@ class Component extends DCLogic {
     if (r.soort === "klusdraad") { this.kaOpenId(r.id); return; }
     if (r.soort === "kalitem") { this.kalOpenId(r.id); return; }
     this.stopPiramide();
-    this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, oproep:false, vraagPostcode:false, fbOpen:false,
+    this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, kalAbo:false, oproep:false, vraagPostcode:false, fbOpen:false,
       gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false});
   }
   histPop(e){
@@ -5872,15 +5949,19 @@ class Component extends DCLogic {
     };
   }
   // Scherm openen. wil = id van een item dat open moet gaan zodra het in de lijst blijkt te staan (anders gewoon het scherm).
+  // Het scherm opent altijd op Week, met vandaag gekozen en zonder filter.
   kalOpen(m, from, wil){
-    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:m || this.vindModule("kalender"), from:from || "hub", kalItem:null, kalWil:wil || null});
+    const Kl = window.IfKal;
+    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:m || this.vindModule("kalender"), from:from || "hub", kalItem:null, kalWil:wil || null,
+      kalWeergave:"week", kalGekozen: Kl ? Kl.isoVan(new Date()) : "", kalRubriek:"alles", kalAbo:false});
     this.kalLaad(false);
   }
   // Rechtstreeks naar een item (hash #/kalender/<id>); het item staat meteen open, terug gaat naar de lijst.
   kalOpenId(id){
     const Kl = window.IfKal;
     if (!Kl || Kl.idSchoon(id) === null) return;
-    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:this.vindModule("kalender"), from:"hub", kalItem:id, kalWil:null});
+    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:this.vindModule("kalender"), from:"hub", kalItem:id, kalWil:null,
+      kalWeergave:"week", kalGekozen: Kl.isoVan(new Date()), kalRubriek:"alles", kalAbo:false});
     this.kalLaad(false);
   }
   kalWilToepassen(){
@@ -5890,26 +5971,53 @@ class Component extends DCLogic {
       return {kalWil:null, ...((prev.kalItems || []).some(i => i.id === w) ? {kalItem:w} : {})};
     });
   }
+  // Eerste aanvraag: een week terug tot en met 120 dagen vooruit, in een keer. Andere perioden haalt kalZorg per maand op.
   kalLaad(forceer){
     const Kl = window.IfKal, Nv = window.IfNav;
     if (!Kl || !Nv) { this.setState({kalStatus:"fout"}); return; }
     const dag = Kl.isoVan(new Date()), nu = Date.now();
     if (!forceer && this.state.kalStatus === "klaar" && this._kalT && this._kalDag === dag && nu - this._kalT < Kl.TUSSENTIJD_MS) { this.kalWilToepassen(); return; }
     this._kalTeller = this._kalTeller || Nv.maakTeller();
-    const tok = this._kalTeller.volgende();
+    const tok = this._kalTeller.volgende(), ven = Kl.startVenster(dag);
+    this._kalNKey = "";
     this.setState({kalStatus:"laden"});
     Promise.all([
-      this.kaFetch(Kl.itemsUrl(dag, Kl.plusDagen(dag, Kl.VENSTER_DAGEN)), null, Kl.TIMEOUT_MS),
+      this.kaFetch(Kl.itemsUrl(ven.van, ven.tot), null, Kl.TIMEOUT_MS),
       this.kaFetch(Kl.rubriekenUrl(), null, Kl.TIMEOUT_MS)
     ]).then(([a, b]) => {
       if (!this._kalTeller.actueel(tok)) return;
       const lijst = a.status === 200 ? Kl.leesItems(a.data) : null;
       if (!lijst) { this.setState({kalStatus:"fout"}); return; }
       this._kalT = Date.now(); this._kalDag = dag;
-      this.setState({kalStatus:"klaar", kalItems:lijst, kalRubr: b.status === 200 ? Kl.leesRubrieken(b.data) : [], kalVandaag:dag});
+      this.setState(prev => ({kalStatus:"klaar", kalItems:lijst, kalRubr: b.status === 200 ? Kl.leesRubrieken(b.data) : [], kalVandaag:dag, kalVensters:[ven], kalNav:"",
+        kalGekozen: prev.kalGekozen || dag}));
       this.kalWilToepassen();
     });
   }
+  // Buiten het opgehaalde venster gekeken (andere maand of week)? Dan een extra aanvraag voor die maand, met dezelfde zachte foutafhandeling.
+  // Wordt na elke render aangeroepen; de sleutel van de aanvraag voorkomt dubbele aanvragen en een eindeloze herhaling na een fout.
+  kalZorg(){
+    const st = this.state, Kl = window.IfKal, Nv = window.IfNav;
+    if (!Kl || !Nv || st.screen !== "kalender" || st.kalStatus !== "klaar" || !st.kalGekozen || st.kalItem) return;
+    const b = Kl.bereikVan(st.kalWeergave, st.kalGekozen);
+    if (!b) return;
+    if (Kl.gedekt(st.kalVensters, b.van, b.tot)) { if (st.kalNav) this.setState({kalNav:""}); return; }
+    const w = Kl.ophaalVenster(b.van, b.tot), sleutel = w.van + "|" + w.tot;
+    if (this._kalNKey === sleutel && st.kalNav) return;
+    this._kalNKey = sleutel;
+    this._kalNTeller = this._kalNTeller || Nv.maakTeller();
+    const tok = this._kalNTeller.volgende();
+    this.setState({kalNav:"laden"});
+    this.kaFetch(Kl.itemsUrl(w.van, w.tot), null, Kl.TIMEOUT_MS).then(({status, data}) => {
+      const lijst = status === 200 ? Kl.leesItems(data) : null;
+      const actueel = this._kalNTeller.actueel(tok);
+      if (lijst) {
+        if (this._kalNKey === sleutel) this._kalNKey = "";
+        this.setState(prev => ({kalItems:Kl.voegSamen(prev.kalItems, lijst), kalVensters:(prev.kalVensters || []).concat([w]), ...(actueel ? {kalNav:""} : {})}));
+      } else if (actueel) this.setState({kalNav:"fout"});
+    });
+  }
+  kalNavOpnieuw(){ this._kalNKey = ""; this.setState({kalNav:""}); }
   kalItemOpen(id){
     if (!this.state.kalItem) this._kalY = this._scrNow || 0;
     this.setState({kalItem:id, kalWil:null});
@@ -5921,48 +6029,121 @@ class Component extends DCLogic {
     const zet = () => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = y; };
     setTimeout(zet, 0); setTimeout(zet, 150); setTimeout(zet, 400);
   }
+  // Een dag kiezen. Week: naar die dag in de lijst scrollen. Maand: zorgen dat de items van de dag in beeld komen.
+  kalKies(iso){
+    const week = this.state.kalWeergave !== "maand";
+    this.setState({kalGekozen:iso});
+    setTimeout(() => {
+      const sc = document.getElementById("ifm-scroll"), e = document.getElementById("kal-dag-" + iso);
+      if (!sc || !e) return;
+      const r = e.getBoundingClientRect(), s = sc.getBoundingClientRect();
+      if (week) sc.scrollTop += r.top - s.top - 8;
+      else if (r.top > s.bottom - 160) sc.scrollTop += r.top - (s.bottom - 300);
+    }, 60);
+  }
   kalVals(){
     const st = this.state, Kl = window.IfKal, is = st.screen === "kalender" && !!Kl;
     const items = is ? (st.kalItems || []) : [];
+    const rubrieken = st.kalRubr || [];
     const vandaag = (is && st.kalVandaag) || (Kl ? Kl.isoVan(new Date()) : "");
-    const venster = is ? Kl.inVenster(items, vandaag) : [];
-    const rubrChips = is ? Kl.rubriekChips(venster, st.kalRubr) : [];
-    const wieChips = is ? Kl.wieChips(venster) : [];
-    const rubriek = rubrChips.some(c => c.id === st.kalRubriek) ? st.kalRubriek : "alles";
-    const wie = (st.kalWie || []).filter(w => wieChips.some(c => c.id === w));
-    const gef = is ? Kl.filterItems(venster, rubriek, wie) : [];
-    const gr = is ? Kl.groepeer(gef, vandaag) : {lopend:[], dagen:[]};
+    const wg = st.kalWeergave === "maand" ? "maand" : "week", maand = wg === "maand";
+    const gekozen = (is && st.kalGekozen) || vandaag;
+    const b = is && gekozen ? Kl.bereikVan(wg, gekozen) : null;
     const ok = st.kalStatus === "klaar", fout = st.kalStatus === "fout", laadt = !ok && !fout;
+    const chips = is ? Kl.rubriekChips(items, rubrieken) : [];
+    const gekozenChip = chips.filter(c => c.id === st.kalRubriek)[0];
+    const rubriek = gekozenChip ? gekozenChip.id : "alles", rubNaam = gekozenChip ? gekozenChip.naam : "";
+    const gef = is ? Kl.filterItems(items, rubriek) : [];
+    const pd = b ? Kl.perDag(gef, b.van, b.tot) : {};
+    const ongefilterd = b && rubNaam ? Kl.perDag(items, b.van, b.tot) : pd;
+    const lopend = b ? Kl.loopt(gef, b.van) : [];
     const rij = r => {
       const it = r.item, meta = Kl.rijMeta(it) + (r.van < r.tot ? " · tot en met " + Kl.dagMaand(r.tot, false) : "");
       return {titel:it.titel, meta, beeld:Kl.beeldUrl(it.rubriek), label:it.titel + ", " + meta, open: () => this.kalItemOpen(it.id)};
     };
+    const stip = (kleur) => "display:block;width:6px;height:6px;border-radius:50%;background:" + kleur;
+    // Dagcellen: week en maand
+    const cel = (iso, buiten) => {
+      const rijen = pd[iso] || [], gek = iso === gekozen, nu = iso === vandaag;
+      return {iso, rijen, gek, gekozen: gek, nu, buiten, label: Kl.dagLabel(iso, rijen.length), huidig: nu ? "date" : "false", klik: () => this.kalKies(iso),
+        stippen: (buiten && maand ? [] : Kl.stippen(rijen, rubrieken)).map(s => ({stijl: stip(gek && maand ? "#fff" : s.kleur)}))};
+    };
+    const weekCellen = is && b && !maand ? Kl.WEEK_NAMEN.map((n, i) => {
+      const c = cel(Kl.plusDagen(b.van, i), false);
+      return {...c, naam:n, nr:String(parseInt(c.iso.slice(8), 10)),
+        stijl:"display:flex;flex-direction:column;align-items:center;gap:4px;min-height:64px;padding:8px 0 6px;border:0;border-radius:12px;cursor:pointer;color:#15181A;background:" + (c.gek ? "rgba(128,0,0,.08)" : "transparent"),
+        naamStijl:"font:600 12px Mulish;letter-spacing:.06em;color:#4F575B",
+        nrStijl:"font:" + (c.nu ? "800" : "600") + " 16px Mulish;color:" + (c.nu ? "#800000" : "#15181A")};
+    }) : [];
+    const maandCellen = is && b && maand ? Kl.maandRaster(gekozen).map(r => {
+      const c = cel(r.iso, r.buiten);
+      return {...c, nr:String(r.dag),
+        stijl:"display:flex;flex-direction:column;align-items:center;gap:4px;min-height:48px;padding:6px 0 4px;border:0;border-radius:10px;cursor:pointer;background:" + (c.gek ? "#800000" : "transparent") + (c.nu && !c.gek ? ";box-shadow:inset 0 0 0 1.5px #800000" : ""),
+        nrStijl:"font:600 14px Mulish;color:" + (c.gek ? "#fff" : r.buiten ? "#9AA0A3" : "#15181A")};
+    }) : [];
+    // Lijst onder de kalender: week = alle dagen met items, maand = de gekozen dag
     const groepen = [];
-    if (gr.lopend.length) groepen.push({kop:"Loopt nu", rijen:gr.lopend.map(rij)});
-    gr.dagen.forEach(d => groepen.push({kop:d.kop, rijen:d.rijen.map(rij)}));
-    const chip = (tekst, actief, kleur, tint, klik) => ({naam:tekst, actief, kleur: actief ? kleur : "#15181A", vlak: actief ? tint : "#fff", rand: actief ? kleur : "rgba(21,24,26,.18)", klik});
-    const rubChips = is ? [chip("Alles", rubriek === "alles", "#800000", "rgba(128,0,0,.08)", () => this.setState({kalRubriek:"alles"}))]
-      .concat(rubrChips.map(c => chip(c.naam, rubriek === c.id, c.kleur, c.tint, () => this.setState({kalRubriek:c.id})))) : [];
-    const wChips = wieChips.map(c => chip(c.naam, wie.indexOf(c.id) >= 0, "#800000", "rgba(128,0,0,.08)", () => this.setState(prev => ({kalWie: Kl.zetWie(prev.kalWie, c.id)}))));
+    let leegTekst = "", leeg = false;
+    if (is && b && ok) {
+      const kopStijl = (gek) => "margin:0;padding:" + (gek ? "8px 16px" : "18px 16px 8px") + ";font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000" + (gek ? ";margin:14px 0 4px;background:rgba(128,0,0,.08)" : "");
+      if (!maand) {
+        for (let i = 0; i < 7; i++) {
+          const iso = Kl.plusDagen(b.van, i), rijen = pd[iso] || [];
+          if (rijen.length) groepen.push({id:"kal-dag-" + iso, kop:Kl.kopDag(iso), kopStijl:kopStijl(false), rijen:rijen.map(rij)});
+        }
+        if (!groepen.length && !lopend.length) { leeg = true; leegTekst = Kl.leegTekst(rubNaam, "week"); }
+      } else {
+        const heleMaand = Object.keys(pd).length > 0 || lopend.length > 0;
+        const rijen = pd[gekozen] || [];
+        if (rubNaam && !heleMaand) { leeg = true; leegTekst = Kl.leegTekst(rubNaam, "maand"); }
+        else {
+          groepen.push({id:"kal-dag-" + gekozen, kop:Kl.kopDag(gekozen), kopStijl:kopStijl(false), rijen:rijen.map(rij)});
+          if (!rijen.length) { leeg = true; leegTekst = Kl.leegTekst((ongefilterd[gekozen] || []).length ? rubNaam : "", "dag"); }
+        }
+      }
+    }
+    const chip = (tekst, actief, kleur, klik) => ({naam:tekst, actief, kleur: actief ? "#800000" : "#3D4346", vlak: actief ? "rgba(128,0,0,.08)" : "#fff", rand: actief ? "rgba(128,0,0,.35)" : "rgba(21,24,26,.14)", klik});
+    const rubChips = is ? [chip("Alles", rubriek === "alles", "", () => this.setState({kalRubriek:"alles"}))]
+      .concat(chips.map(c => chip(c.naam, rubriek === c.id, "", () => this.setState({kalRubriek:c.id})))) : [];
+    const legenda = is && b && maand ? Kl.legenda(pd, rubrieken).map(l => ({naam:l.naam, stijl:stip(l.kleur)})) : [];
+    const woord = maand ? "maand" : "week";
+    const looptKop = "Loopt deze " + woord;
     // Het open item (sub-staat van hetzelfde scherm)
     const it = is && st.kalItem ? items.find(i => i.id === st.kalItem) || null : null;
     const fd = it ? Kl.forumDelen(it) : null, link = it ? it.link : "";
     const inApp = !!it && !!link && Kl.isInfofrankrijk(link) && !!(window.IfArtikel && window.IfArtikel.isInApp(link));
     const later = it ? Kl.laterRegel(it, vandaag) : "";
-    const chips = it ? Kl.wieTekst(it).concat(Kl.gebiedItem(it) ? [Kl.gebiedItem(it)] : []).map(t => ({t})) : [];
+    const itemChips = it ? Kl.wieTekst(it).concat(Kl.gebiedItem(it) ? [Kl.gebiedItem(it)] : []).map(t => ({t})) : [];
     const heeftBron = !!it && (!!it.bron.url || !!it.bron.gecontroleerd);
+    const abo = is && ok ? Kl.icalLijst(rubrieken, items) : [];
+    const tot = d => "tot en met " + Kl.dagMaand(d, false);
     return {
       isKal: is, kalLijstScherm: !st.kalItem, kalItemScherm: !!st.kalItem,
-      kalUitleg: Kl ? Kl.UITLEG : "", kalFoutTekst: Kl ? Kl.FOUT : "", kalLeegTekst: Kl ? Kl.LEEG : "", kalWegTekst: Kl ? Kl.WEG : "", kalSiteUrl: Kl ? Kl.BASIS + "/" : "",
-      kalFilters: is && ok && venster.length > 0, kalRubChips: rubChips, kalWieChips: wChips, kalWieZichtbaar: wChips.length > 1,
-      kalLaadt: is && !st.kalItem && laadt, kalFout: is && !st.kalItem && fout,
-      kalLeeg: is && ok && groepen.length === 0, kalLijst: is && ok && groepen.length > 0, kalGroepen: groepen,
+      kalFoutTekst: Kl ? Kl.FOUT : "", kalWegTekst: Kl ? Kl.WEG : "", kalSiteUrl: Kl ? Kl.BASIS + "/" : "",
+      kalLaadt: is && !st.kalItem && laadt, kalFout: is && !st.kalItem && fout, kalKlaar: is && !st.kalItem && ok,
+      kalIsWeek: !maand, kalIsMaand: maand, kalNaarWeek: () => this.setState({kalWeergave:"week"}), kalNaarMaand: () => this.setState({kalWeergave:"maand"}),
+      kalWeekBg: maand ? "transparent" : "#800000", kalWeekFg: maand ? "#3D4346" : "#fff", kalMaandBg: maand ? "#800000" : "transparent", kalMaandFg: maand ? "#fff" : "#3D4346",
+      kalTitel: is && gekozen ? Kl.periodeTitel(wg, gekozen) : "",
+      kalVorigeLabel: "Vorige " + woord, kalVolgendeLabel: "Volgende " + woord,
+      kalVorige: () => this.setState(prev => ({kalGekozen: Kl.verschuif(prev.kalWeergave === "maand" ? "maand" : "week", prev.kalGekozen || vandaag, -1, prev.kalVandaag)})),
+      kalVolgende: () => this.setState(prev => ({kalGekozen: Kl.verschuif(prev.kalWeergave === "maand" ? "maand" : "week", prev.kalGekozen || vandaag, 1, prev.kalVandaag)})),
+      kalVandaagKnop: () => this.setState(prev => ({kalGekozen: prev.kalVandaag || vandaag})),
+      kalWeekCellen: weekCellen, kalMaandCellen: maandCellen, kalWeekNamen: Kl ? Kl.WEEK_NAMEN.map(t => ({t})) : [],
+      kalLegenda: legenda, kalLegendaZichtbaar: legenda.length > 0,
+      kalRubChips: rubChips, kalChipsZichtbaar: is && ok && chips.length > 0,
+      kalLoopt: is && ok && lopend.length > 0, kalLooptKop: looptKop,
+      kalLooptRijen: lopend.map(r => ({titel:r.item.titel, tot:tot(r.tot), label:r.item.titel + ", " + tot(r.tot), stipStijl:"flex:none;" + stip(Kl.kleurVan(r.item.rubriek, rubrieken)), open: () => this.kalItemOpen(r.item.id)})),
+      kalGroepen: groepen,
+      kalLeeg: leeg, kalLeegTekst: leegTekst, kalToonKnop: leeg && !!rubNaam, kalToonAlles: () => this.setState({kalRubriek:"alles"}),
+      kalNavLaadt: is && ok && !st.kalItem && st.kalNav === "laden", kalNavFout: is && ok && !st.kalItem && st.kalNav === "fout", kalNavOpnieuw: () => this.kalNavOpnieuw(),
       kalOpnieuw: () => this.kalLaad(true),
-      kalAboZichtbaar: is && ok && !st.kalItem, kalAboUitleg: Kl ? Kl.ABO_UITLEG : "", kalAbo: is && ok ? Kl.icalLijst(st.kalRubr, items) : [],
+      kalAboVraag: Kl ? Kl.ABO_VRAAG : "", kalAboKnop: Kl ? Kl.ABO_KNOP : "", kalAboOpen: () => this.setState({kalAbo:true}), kalAboSluit: () => this.setState({kalAbo:false}),
+      kalAboBlad: is && !!st.kalAbo, kalAboAllesUrl: Kl ? Kl.icalUrl("alles") : "", kalAboAllesTekst: Kl ? Kl.ABO_ALLES : "", kalAboRubriekTekst: Kl ? Kl.ABO_RUBRIEK : "",
+      kalAboRijen: abo.filter(a => a.id !== "alles").map(a => ({naam:a.naam, url:a.url})), kalAboUitleg: Kl ? Kl.ABO_UITLEG : "",
       kiLaadt: is && !!st.kalItem && !it && laadt, kiFout: is && !!st.kalItem && !it && fout, kiWeg: is && !!st.kalItem && !it && ok, kiKlaar: !!it,
       kiTerug: () => this.terugKnop(),
       kiBeeld: it ? Kl.beeldUrl(it.rubriek) : "", kiTitel: it ? it.titel : "", kiDatum: it ? Kl.datumRegel(it, vandaag) : "",
-      kiLater: !!later, kiLaterTekst: later, kiAlineas: it ? Kl.alineas(it.tekst).map(t => ({t})) : [], kiChips: chips,
+      kiLater: !!later, kiLaterTekst: later, kiAlineas: it ? Kl.alineas(it.tekst).map(t => ({t})) : [], kiChips: itemChips,
       kiBronKaart: heeftBron, kiGecontroleerd: !!it && !!Kl.bronRegel(it), kiGecontroleerdTekst: it ? Kl.bronRegel(it) : "",
       kiBronLink: !!it && !!it.bron.url, kiBronUrl: it ? it.bron.url : "",
       kiMeerExtern: !!link && !inApp, kiMeerInApp: !!link && inApp, kiMeerUrl: link, kiMeerTekst: link ? Kl.leesMeerTekst(link) : "",
@@ -6627,7 +6808,7 @@ class Component extends DCLogic {
 
     const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"Overheid", linklijst: st.tool ? this.themaVan(st.tool) : "",
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
       over:"Profiel",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",

@@ -10,12 +10,16 @@
   var HEXKLEUR = /^#[0-9a-fA-F]{6}$/;
   var WEEKDAGEN = ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
   var MAANDEN = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
-  var UITLEG = "Data die ertoe doen voor Nederlanders en Belgen in Frankrijk. Alleen wat we tegen de bron hebben gecontroleerd.";
   var FOUT = "De kalender is nu niet bereikbaar.";
-  var LEEG = "Niets in deze keuze de komende 120 dagen.";
+  var LEEG_DAG = "Niets op deze dag.";
+  var TOON_ALLES = "Toon alles";
+  var ABO_VRAAG = "Ook in uw eigen agenda-app?";
+  var ABO_KNOP = "Zet in uw agenda \u2192";
   var WEG = "Dit item staat niet meer in de kalender.";
-  var ABO_UITLEG = "Zet de kalender in uw eigen agenda-app: kies een rubriek of alles. Uw agenda haalt de data zelf op en houdt ze bij.";
-  var VOLGORDE_WIE = ["iedereen", "particulier", "ondernemer", "gepensioneerde", "huiseigenaar", "huurder", "gezin", "automobilist", "pas-verhuisd"];
+  var ABO_UITLEG = "Uw agenda-app haalt de data zelf op en houdt ze bij, u hoeft er verder niets voor te doen.";
+  var ABO_ALLES = "Hele kalender";
+  var ABO_RUBRIEK = "Of alleen een rubriek:";
+  var WEEK_NAMEN = ["MA", "DI", "WO", "DO", "VR", "ZA", "ZO"];
 
   function tekst(x) { return typeof x === "string" ? x : ""; }
   // Geen lange streepjes in zichtbare tekst: een omringd streepje wordt een komma, een los streepje een koppelteken.
@@ -179,19 +183,8 @@
   }
 
   // ---- filters ----
-  function wieOk(item, wie) {
-    if (!wie || !wie.length) return true;
-    var g = item.doelgroepen;
-    if (!g.length || g.indexOf("iedereen") >= 0) return true;
-    return g.some(function (x) { return wie.indexOf(x) >= 0; });
-  }
-  function filterItems(items, rubriek, wie) {
-    return (items || []).filter(function (i) { return (!rubriek || rubriek === "alles" || i.rubriek === rubriek) && wieOk(i, wie); });
-  }
-  // Items die (deels) in het venster van vandaag tot en met 120 dagen vooruit vallen.
-  function inVenster(items, vandaag, dagen) {
-    var eind = plusDagen(vandaag, dagen == null ? VENSTER_DAGEN : dagen);
-    return (items || []).filter(function (i) { return i.voorkomens.some(function (v) { return v.tot >= vandaag && v.van <= eind; }); });
+  function filterItems(items, rubriek) {
+    return (items || []).filter(function (i) { return !rubriek || rubriek === "alles" || i.rubriek === rubriek; });
   }
   // Chips voor de rubrieken: alleen wat in de lijst voorkomt, in de volgorde van de API; onbekende rubrieken met de naam uit het item.
   function rubriekChips(items, rubrieken) {
@@ -203,40 +196,145 @@
     return uit;
   }
   function wieNaam(id) { var t = String(id).replace(/-/g, " "); return t.charAt(0).toUpperCase() + t.slice(1); }
-  function wieChips(items) {
-    var aanwezig = {};
-    (items || []).forEach(function (i) { i.doelgroepen.forEach(function (g) { aanwezig[g] = true; }); });
-    var ids = Object.keys(aanwezig), eerst = VOLGORDE_WIE.filter(function (g) { return aanwezig[g]; });
-    var rest = ids.filter(function (g) { return VOLGORDE_WIE.indexOf(g) < 0; }).sort();
-    return eerst.concat(rest).map(function (g) { return { id: g, naam: wieNaam(g) }; });
-  }
-  function zetWie(wie, id) {
-    var l = (wie || []).slice(), i = l.indexOf(id);
-    if (i >= 0) l.splice(i, 1); else l.push(id);
-    return l;
+  function kleurVan(rubriek, rubrieken) {
+    var r = (rubrieken || []).filter(function (x) { return x.id === rubriek; })[0];
+    return r ? r.kleur : "#3D4346";
   }
 
-  // ---- groeperen per dag ----
+  // ---- de kalender zelf: week, maand, stipjes, vensters ----
+  function maandNaam(iso) { var d = utc(iso); return d ? MAANDEN[d.getUTCMonth()] : ""; }
+  function hoofdletter(t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : ""; }
+  // Maandag van de week (ISO: de week begint op maandag).
+  function weekStart(iso) {
+    var d = utc(iso);
+    if (!d) return "";
+    return plusDagen(iso, -((d.getUTCDay() + 6) % 7));
+  }
+  function weekBereik(iso) { var v = weekStart(iso); return v ? { van: v, tot: plusDagen(v, 6) } : null; }
+  function dagenInMaand(iso) {
+    var d = utc(iso);
+    return d ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0)).getUTCDate() : 0;
+  }
+  function maandBereik(iso) {
+    var d = utc(iso);
+    if (!d) return null;
+    var m = iso.slice(0, 8);
+    return { van: m + "01", tot: m + pad(dagenInMaand(iso)) };
+  }
+  // Raster van de maand: van de maandag voor de eerste tot de zondag na de laatste. [{iso, dag, buiten}]
+  function maandRaster(iso) {
+    var b = maandBereik(iso);
+    if (!b) return [];
+    var van = weekStart(b.van), tot = weekBereik(b.tot).tot, uit = [], n = 0, dag = van;
+    while (dag <= tot && n < 42) {
+      uit.push({ iso: dag, dag: parseInt(dag.slice(8), 10), buiten: dag < b.van || dag > b.tot });
+      dag = plusDagen(dag, 1); n++;
+    }
+    return uit;
+  }
+  function bereikVan(weergave, iso) { return weergave === "maand" ? maandBereik(iso) : weekBereik(iso); }
+  function maandPlus(iso, n) {
+    var d = utc(iso);
+    if (!d) return "";
+    var y = d.getUTCFullYear(), m = d.getUTCMonth() + n;
+    y += Math.floor(m / 12); m = ((m % 12) + 12) % 12;
+    return y + "-" + pad(m + 1) + "-01";
+  }
+  // Vorige (-1) of volgende (+1): een week of een maand verder. Valt vandaag in de nieuwe periode, dan is vandaag gekozen,
+  // anders de eerste dag (maandag of de eerste van de maand).
+  function verschuif(weergave, gekozen, richting, vandaag) {
+    var nieuw = weergave === "maand" ? maandPlus(gekozen, richting) : plusDagen(weekStart(gekozen), 7 * richting);
+    if (!nieuw) return gekozen;
+    var b = bereikVan(weergave, nieuw);
+    return vandaag && vandaag >= b.van && vandaag <= b.tot ? vandaag : nieuw;
+  }
+  // "16 tot 22 november", "26 oktober tot 1 november", "28 december 2026 tot 3 januari 2027"; maand: "november 2026".
+  function periodeTitel(weergave, iso) {
+    var d = utc(iso);
+    if (!d) return "";
+    if (weergave === "maand") return MAANDEN[d.getUTCMonth()] + " " + d.getUTCFullYear();
+    var b = weekBereik(iso), v = utc(b.van), t = utc(b.tot);
+    if (v.getUTCFullYear() !== t.getUTCFullYear()) return dagMaand(b.van, true) + " tot " + dagMaand(b.tot, true);
+    if (v.getUTCMonth() !== t.getUTCMonth()) return dagMaand(b.van, false) + " tot " + dagMaand(b.tot, false);
+    return v.getUTCDate() + " tot " + dagMaand(b.tot, false);
+  }
+  function kopDag(iso) { return hoofdletter(datumWoorden(iso, false)); }
   function tijdSleutel(t) { var m = /(\d{1,2})[:.](\d{2})/.exec(tekst(t)); return m ? pad(+m[1]) + ":" + m[2] : ""; }
-  // Voorkomen op een enkele dag, of een periode die vandaag of later begint: onder de beginner-dag.
-  // Een periode of seizoen die al loopt: onder "Loopt nu". Wat voor het venster of erna valt, blijft weg.
-  function groepeer(items, vandaag, dagen) {
-    var eind = plusDagen(vandaag, dagen == null ? VENSTER_DAGEN : dagen), lopend = [], perDag = {}, volgnr = 0;
+  // Rijen per begindag binnen van-tot: {iso: [{item, van, tot}]}. Een voorkomen telt op zijn begindag (een periode ook: alleen daar).
+  function perDag(items, van, tot) {
+    var uit = {}, n = 0;
     (items || []).forEach(function (it) {
       it.voorkomens.forEach(function (v) {
-        if (v.tot < vandaag || v.van > eind) return;
-        var rij = { item: it, van: v.van, tot: v.tot, n: volgnr++ };
-        if (v.van === v.tot || v.van >= vandaag) (perDag[v.van] = perDag[v.van] || []).push(rij);
-        else lopend.push(rij);
+        if (v.van < van || v.van > tot) return;
+        (uit[v.van] = uit[v.van] || []).push({ item: it, van: v.van, tot: v.tot, n: n++ });
       });
     });
-    lopend.sort(function (a, b) { return a.tot < b.tot ? -1 : a.tot > b.tot ? 1 : a.n - b.n; });
-    var dagenLijst = Object.keys(perDag).sort().map(function (d) {
-      perDag[d].sort(function (a, b) { var x = tijdSleutel(a.item.tijd), y = tijdSleutel(b.item.tijd); return x < y ? -1 : x > y ? 1 : a.n - b.n; });
-      return { datum: d, kop: datumKop(d, vandaag), rijen: perDag[d] };
+    Object.keys(uit).forEach(function (d) {
+      uit[d].sort(function (a, b) { var x = tijdSleutel(a.item.tijd), y = tijdSleutel(b.item.tijd); return x < y ? -1 : x > y ? 1 : a.n - b.n; });
     });
-    return { lopend: lopend, dagen: dagenLijst };
+    return uit;
   }
+  // Perioden en seizoenen die voor het begin van de periode zijn begonnen en er nog lopen: "Loopt deze week/maand".
+  // Wat in de periode zelf begint staat op zijn begindag.
+  function loopt(items, van) {
+    var uit = [], n = 0;
+    (items || []).forEach(function (it) {
+      it.voorkomens.forEach(function (v) {
+        if (v.van < van && v.tot >= van && v.van < v.tot) uit.push({ item: it, van: v.van, tot: v.tot, n: n++ });
+      });
+    });
+    return uit.sort(function (a, b) { return a.tot < b.tot ? -1 : a.tot > b.tot ? 1 : a.n - b.n; });
+  }
+  // Stipjes onder een dag: een per rubriek, hooguit drie, in de volgorde van de rubriekenlijst. [{rubriek, kleur}]
+  function stippen(rijen, rubrieken, max) {
+    var aanwezig = {}, uit = [];
+    (rijen || []).forEach(function (r) { if (r.item.rubriek) aanwezig[r.item.rubriek] = true; });
+    var volgorde = (rubrieken || []).map(function (r) { return r.id; });
+    Object.keys(aanwezig).forEach(function (id) { if (volgorde.indexOf(id) < 0) volgorde.push(id); });
+    volgorde.forEach(function (id) { if (aanwezig[id]) uit.push({ rubriek: id, kleur: kleurVan(id, rubrieken) }); });
+    return uit.slice(0, max == null ? 3 : max);
+  }
+  // Rubrieken (in de volgorde van de lijst) waarvan er op de getoonde dagen een stip staat; voor de legenda.
+  function legenda(perDagMap, rubrieken) {
+    var aanwezig = {};
+    Object.keys(perDagMap || {}).forEach(function (d) { perDagMap[d].forEach(function (r) { if (r.item.rubriek) aanwezig[r.item.rubriek] = r.item.rubriekNaam || r.item.rubriek; }); });
+    var uit = [], gedaan = {};
+    (rubrieken || []).forEach(function (r) { if (aanwezig[r.id]) { gedaan[r.id] = true; uit.push({ id: r.id, naam: r.naam, kleur: r.kleur }); } });
+    Object.keys(aanwezig).forEach(function (id) { if (!gedaan[id]) uit.push({ id: id, naam: aanwezig[id], kleur: "#3D4346" }); });
+    return uit;
+  }
+  function itemsTekst(n) { return n === 0 ? "geen items" : n === 1 ? "1 item" : n + " items"; }
+  // "maandag 16 november, 2 items"
+  function dagLabel(iso, aantal) { return datumWoorden(iso, false) + ", " + itemsTekst(aantal); }
+  // Tekst bij een lege uitkomst. rubriekNaam: de naam van het actieve filter ("" zonder filter); periode: "week", "maand" of "dag".
+  function leegTekst(rubriekNaam, periode) {
+    if (periode === "dag") return rubriekNaam ? "Niets in " + rubriekNaam + " op deze dag." : LEEG_DAG;
+    return rubriekNaam ? "Niets in " + rubriekNaam + " in deze " + periode + "." : "Niets in deze " + periode + ".";
+  }
+  // Voegt twee itemlijsten samen op id; de voorkomens van beide blijven (zonder dubbelen), op volgorde.
+  function voegSamen(a, b) {
+    var per = {}, volgorde = [];
+    (a || []).concat(b || []).forEach(function (it) {
+      var x = per[it.id];
+      if (!x) { per[it.id] = Object.assign({}, it, { voorkomens: it.voorkomens.slice() }); volgorde.push(it.id); return; }
+      it.voorkomens.forEach(function (v) { if (!x.voorkomens.some(function (w) { return w.van === v.van && w.tot === v.tot; })) x.voorkomens.push(v); });
+      x.voorkomens.sort(function (p, q) { return p.van < q.van ? -1 : p.van > q.van ? 1 : 0; });
+    });
+    return volgorde.map(function (id) { return per[id]; });
+  }
+  // Is van-tot helemaal gedekt door de opgehaalde vensters (aan elkaar of overlappend)?
+  function gedekt(vensters, van, tot) {
+    var l = (vensters || []).slice().sort(function (a, b) { return a.van < b.van ? -1 : a.van > b.van ? 1 : 0; }), nodig = van;
+    for (var i = 0; i < l.length; i++) {
+      if (l[i].van > nodig) break;
+      if (l[i].tot >= nodig) { nodig = plusDagen(l[i].tot, 1); if (nodig > tot) return true; }
+    }
+    return nodig > tot;
+  }
+  // Het venster dat voor een extra aanvraag wordt gebruikt: hele maanden rond van-tot.
+  function ophaalVenster(van, tot) { return { van: maandBereik(van).van, tot: maandBereik(tot).tot }; }
+  // Het eerste venster bij het openen: een week terug tot en met 120 dagen vooruit.
+  function startVenster(vandaag) { return { van: plusDagen(vandaag, -7), tot: plusDagen(vandaag, VENSTER_DAGEN) }; }
 
   // ---- weergave ----
   function tijdTekst(t) {
@@ -302,12 +400,16 @@
 
   var api = {
     BASIS: BASIS, TIMEOUT_MS: TIMEOUT_MS, VENSTER_DAGEN: VENSTER_DAGEN, TUSSENTIJD_MS: TUSSENTIJD_MS, MAX_BAND: MAX_BAND, REGEL_MAX: REGEL_MAX,
-    UITLEG: UITLEG, FOUT: FOUT, LEEG: LEEG, WEG: WEG, ABO_UITLEG: ABO_UITLEG,
+    FOUT: FOUT, LEEG_DAG: LEEG_DAG, TOON_ALLES: TOON_ALLES, ABO_VRAAG: ABO_VRAAG, ABO_KNOP: ABO_KNOP, WEG: WEG, ABO_UITLEG: ABO_UITLEG, ABO_ALLES: ABO_ALLES,
+    ABO_RUBRIEK: ABO_RUBRIEK, WEEK_NAMEN: WEEK_NAMEN,
     schoon: schoon, idSchoon: idSchoon, https: https, hostnaam: hostnaam, isoVan: isoVan, plusDagen: plusDagen, dagMaand: dagMaand, datumWoorden: datumWoorden,
     datumKop: datumKop, ddmmjjjj: ddmmjjjj, vandaagUrl: vandaagUrl, itemsUrl: itemsUrl, rubriekenUrl: rubriekenUrl, beeldUrl: beeldUrl, icalUrl: icalUrl,
     voorvoegsel: voorvoegsel, datumUitKop: datumUitKop, eersteZin: eersteZin, bandTekst: bandTekst, bandRegels: bandRegels,
-    leesRubrieken: leesRubrieken, leesItems: leesItems, wieOk: wieOk, filterItems: filterItems, inVenster: inVenster, rubriekChips: rubriekChips,
-    wieChips: wieChips, wieNaam: wieNaam, zetWie: zetWie, groepeer: groepeer, tijdTekst: tijdTekst, rijMeta: rijMeta, periodeTekst: periodeTekst,
+    leesRubrieken: leesRubrieken, leesItems: leesItems, filterItems: filterItems, rubriekChips: rubriekChips, wieNaam: wieNaam, kleurVan: kleurVan,
+    maandNaam: maandNaam, weekStart: weekStart, weekBereik: weekBereik, maandBereik: maandBereik, maandRaster: maandRaster, bereikVan: bereikVan,
+    verschuif: verschuif, periodeTitel: periodeTitel, kopDag: kopDag, perDag: perDag, loopt: loopt, stippen: stippen, legenda: legenda,
+    itemsTekst: itemsTekst, dagLabel: dagLabel, leegTekst: leegTekst, voegSamen: voegSamen, gedekt: gedekt, ophaalVenster: ophaalVenster, startVenster: startVenster,
+    tijdTekst: tijdTekst, rijMeta: rijMeta, periodeTekst: periodeTekst,
     eerstVolgende: eerstVolgende, datumRegel: datumRegel, laterRegel: laterRegel, alineas: alineas, wieTekst: wieTekst, gebiedItem: gebiedItem,
     leesMeerTekst: leesMeerTekst, isInfofrankrijk: isInfofrankrijk, bronRegel: bronRegel, forumDelen: forumDelen, icalLijst: icalLijst
   };
