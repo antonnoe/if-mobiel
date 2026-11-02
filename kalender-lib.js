@@ -19,6 +19,8 @@
   var ABO_UITLEG = "Uw agenda-app haalt de data zelf op en houdt ze bij, u hoeft er verder niets voor te doen.";
   var ABO_ALLES = "Hele kalender";
   var ABO_RUBRIEK = "Of alleen een rubriek:";
+  // Korte namen voor de chips; de volledige naam blijft in de lijstrijen, de legenda en het itemscherm.
+  var KORT = { fiscaal: "Fiscaal", uitkeringen: "Uitkeringen", feestdagen: "Feestdagen", school: "School", wonen: "Wonen", buiten: "Buiten", zorg: "Zorg", stemmen: "Stemmen", genieten: "Genieten", verenigingen: "Verenigingen" };
   var WEEK_NAMEN = ["MA", "DI", "WO", "DO", "VR", "ZA", "ZO"];
 
   function tekst(x) { return typeof x === "string" ? x : ""; }
@@ -196,6 +198,8 @@
     return uit;
   }
   function wieNaam(id) { var t = String(id).replace(/-/g, " "); return t.charAt(0).toUpperCase() + t.slice(1); }
+  // Korte naam voor een chip; een onbekende rubriek valt terug op de volledige naam.
+  function korteNaam(id, naam) { return Object.prototype.hasOwnProperty.call(KORT, id) ? KORT[id] : naam; }
   function kleurVan(rubriek, rubrieken) {
     var r = (rubrieken || []).filter(function (x) { return x.id === rubriek; })[0];
     return r ? r.kleur : "#3D4346";
@@ -401,7 +405,7 @@
   var api = {
     BASIS: BASIS, TIMEOUT_MS: TIMEOUT_MS, VENSTER_DAGEN: VENSTER_DAGEN, TUSSENTIJD_MS: TUSSENTIJD_MS, MAX_BAND: MAX_BAND, REGEL_MAX: REGEL_MAX,
     FOUT: FOUT, LEEG_DAG: LEEG_DAG, TOON_ALLES: TOON_ALLES, ABO_VRAAG: ABO_VRAAG, ABO_KNOP: ABO_KNOP, WEG: WEG, ABO_UITLEG: ABO_UITLEG, ABO_ALLES: ABO_ALLES,
-    ABO_RUBRIEK: ABO_RUBRIEK, WEEK_NAMEN: WEEK_NAMEN,
+    ABO_RUBRIEK: ABO_RUBRIEK, WEEK_NAMEN: WEEK_NAMEN, KORT: KORT, korteNaam: korteNaam,
     schoon: schoon, idSchoon: idSchoon, https: https, hostnaam: hostnaam, isoVan: isoVan, plusDagen: plusDagen, dagMaand: dagMaand, datumWoorden: datumWoorden,
     datumKop: datumKop, ddmmjjjj: ddmmjjjj, vandaagUrl: vandaagUrl, itemsUrl: itemsUrl, rubriekenUrl: rubriekenUrl, beeldUrl: beeldUrl, icalUrl: icalUrl,
     voorvoegsel: voorvoegsel, datumUitKop: datumUitKop, eersteZin: eersteZin, bandTekst: bandTekst, bandRegels: bandRegels,

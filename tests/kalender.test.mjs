@@ -237,6 +237,17 @@ test("filter op rubriek: stipjes, legenda en lijst, lege uitkomst en Toon alles"
   assert.equal(Kl.kleurVan("nergens", rubrieken), "#3D4346");
 });
 
+test("korte rubrieknamen op de chips, volledige naam elders", () => {
+  const verwacht = { fiscaal: "Fiscaal", uitkeringen: "Uitkeringen", feestdagen: "Feestdagen", school: "School", wonen: "Wonen", buiten: "Buiten", zorg: "Zorg", stemmen: "Stemmen", genieten: "Genieten", verenigingen: "Verenigingen" };
+  assert.deepEqual(Kl.KORT, verwacht);
+  Object.keys(verwacht).forEach(id => assert.equal(Kl.korteNaam(id, "Lange naam van " + id), verwacht[id]));
+  assert.equal(Kl.korteNaam("nieuw", "Een nieuwe rubriek"), "Een nieuwe rubriek", "onbekend: volledige naam");
+  assert.equal(Kl.korteNaam("constructor", "Volledig"), "Volledig", "geen eigenschappen van Object");
+  assert.match(html, /chip\(Kl\.korteNaam\(c\.id, c\.naam\), rubriek === c\.id/, "chips gebruiken de korte naam");
+  assert.ok(!/Kl\.korteNaam/.test(html.slice(html.indexOf("const legenda ="), html.indexOf("const woord ="))), "legenda en rijen niet verkort");
+  assert.ok(!/korteNaam/.test(html.slice(html.indexOf("const rij = r =>"), html.indexOf("const stip ="))), "lijstrijen niet verkort");
+});
+
 test("labels: dagcel met aantal items", () => {
   assert.equal(Kl.dagLabel("2026-11-16", 2), "maandag 16 november, 2 items");
   assert.equal(Kl.dagLabel("2026-11-17", 1), "dinsdag 17 november, 1 item");
@@ -349,7 +360,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-02-3"/);
+  assert.match(sw, /VERSIE = "2026-11-02-4"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -412,7 +423,8 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
   assert.ok(!/kalWie|wieChips/.test(html), "ook niet in de schil");
   assert.match(html, /rand: actief \? "rgba\(128,0,0,\.35\)"/); assert.match(html, /vlak: actief \? "rgba\(128,0,0,\.08\)"/);
   assert.match(html, /chip\("Alles", rubriek === "alles"/);
-  assert.match(scherm, /min-height:44px;padding:0 13px;border-radius:999px/);
+  assert.match(scherm, /data-kal-rubrieken="1" style="display:flex;flex-wrap:wrap;gap:0 8px/);
+  assert.match(scherm, /min-height:40px;margin:2px 0;padding:0 14px;border-radius:999px/, "chips van 40 px met 2 px marge: tikvlak 44");
   // lege uitkomst: tekst en knop Toon alles (44 px) die het filter wist
   assert.match(scherm, /data-kal-toonalles="1" style="[^"]*min-height:44px[^"]*">Toon alles</);
   assert.match(html, /kalToonAlles: \(\) => this\.setState\(\{kalRubriek:"alles"\}\)/);
@@ -424,6 +436,17 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
   assert.match(scherm, /data-kal-loopt/);
   const iLoopt = scherm.indexOf("data-kal-loopt"), iGroepen = scherm.indexOf("data-kal-groepen"), iLegenda = scherm.indexOf("data-kal-legenda");
   assert.ok(iLegenda < iLoopt && iLoopt < iGroepen, "maand: legenda, dan Loopt deze maand, dan de items van de dag");
+  const iChips = scherm.indexOf("data-kal-rubrieken"), iWeek = scherm.indexOf("data-kal-week"), iMaand = scherm.indexOf("data-kal-maand");
+  assert.ok(iWeek < iLoopt && iMaand < iLegenda && iLegenda < iLoopt && iLoopt < iChips && iChips < iGroepen, "dagkolommen of raster, legenda, ingeklapte Loopt, chips, daglijst");
+  // ingeklapt: een knop van 44 px met kop, aantal en pijl; de lijst staat alleen open met kalLooptOpen
+  assert.match(scherm, /data-kal-loopt-knop="1" style="[^"]*min-height:44px/);
+  assert.match(scherm, /aria-expanded="\{\{ kalLooptOpen \}\}"/);
+  assert.match(scherm, /<sc-if value="\{\{ kalLooptOpen \}\}"[^>]*>\s*<div data-kal-loopt-lijst/);
+  assert.match(scherm, /\{\{ kalLooptTel \}\}/);
+  assert.match(html, /kalLooptOpen:false/, "standaard dicht");
+  assert.match(html, /kalLooptSchakel: \(\) => this\.setState\(prev => \(\{kalLooptOpen: !prev\.kalLooptOpen\}\)\)/);
+  assert.match(html, /kalLoopt: is && ok && lopend\.length > 0/, "niets dat loopt: geen rij");
+  assert.match(html, /kalLooptTel: String\(lopend\.length\)/);
   // abonneren: een kaart met een knop, een onderblad met alles.ics en een rij per rubriek
   assert.match(scherm, /data-kal-abo="1"/);
   assert.equal(Kl.ABO_VRAAG, "Ook in uw eigen agenda-app?");
