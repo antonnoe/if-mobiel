@@ -203,6 +203,24 @@
       "standaard": "aan"
     },
     {
+      "id": "kalender",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
+      "groep": "leven",
+      "thema": "overheid",
+      "naam": "Kalender Frankrijk",
+      "kort": "Kalender",
+      "meta": "Data die ertoe doen voor Nederlanders en Belgen in Frankrijk",
+      "prijs": "gratis",
+      "schil": "zoekschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "kalender",
+      "nagekeken": "2026-11-02",
+      "over": "De komende 120 dagen op een rij: belastingdata, uitkeringen en pensioen, feestdagen, schoolvakanties, seizoenen en verenigingsagenda's. Alleen wat is nagelezen bij de bron staat erin. U kunt de kalender ook in uw eigen agenda-app zetten.",
+      "zoekwoorden": "kalender agenda deadline feestdag schoolvakantie soldes belasting data jacht pensioen betaaldatum",
+      "standaard": "aan"
+    },
+    {
       "id": "vastgoed",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",

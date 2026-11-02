@@ -268,3 +268,7 @@ Het besluit "alleen oud forum" vervalt. Nieuw vast kader:
 4. Bronvermelding Service Public: "Source : Service Public / DILA" (in de app "Bron: Service Public / DILA") met datum van bijwerking en link naar de fiche; geen logo's, nooit suggereren dat de overheid de app goedkeurt.
 
 Techniek: zie "Klusarchief, twee delen" in CLAUDE.md.
+
+## Kalender Frankrijk in de app (02-11-2026)
+
+Band "Vandaag" op de hub (hooguit drie regels uit de openbare API van Kalender Frankrijk, zacht falend) en het scherm Kalender met rubriek- en doelgroepfilters, item, bron en iCal-abonnementen; alleen vastgestelde items voor Infopoche, de lezer blijft in de app. Techniek: zie "Kalender Frankrijk in de app (2 november 2026)" in CLAUDE.md. Tests: `tests/kalender.test.mjs`.

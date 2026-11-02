@@ -1,9 +1,10 @@
 // Navigatie en laadtokens: pure logica, zonder DOM. Browser: window.IfNav; tests: require.
 // Hash-routes (geen server nodig): #/artikel/<slug> opent een artikel, #/nieuws, #/forum, #/profiel en #/zoek
-// openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
+// openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief; #/kalender en #/kalender/<id> openen Kalender Frankrijk, het laatste met dat item open. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
 (function (root) {
-  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief" };
-  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief" };
+  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender" };
+  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender" };
+  var KALID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,119}$/;  // id van een item van Kalender Frankrijk
   var SLUG = /^[a-z0-9%][a-z0-9%_-]*$/;  // % voor procent-gecodeerde WordPress-slugs (%e2%87%84)
 
   // "#/artikel/mijn-slug" -> {soort:"artikel", slug}; "#/nieuws" -> {soort:"scherm", scherm:"nieuws"}; anders {soort:"hub"}.
@@ -17,6 +18,7 @@
       return SLUG.test(s) && !/%(?![0-9a-f]{2})/.test(s) ? { soort: "artikel", slug: s } : { soort: "hub" };
     }
     if (delen[0] === "klusarchief" && delen.length === 2) return /^\d{1,12}$/.test(delen[1]) ? { soort: "klusdraad", id: delen[1] } : { soort: "hub" };
+    if (delen[0] === "kalender" && delen.length === 2) return KALID.test(delen[1]) ? { soort: "kalitem", id: delen[1] } : { soort: "hub" };
     if (delen.length === 1 && Object.prototype.hasOwnProperty.call(TOP, delen[0])) return { soort: "scherm", scherm: TOP[delen[0]] };
     return { soort: "hub" };
   }
@@ -25,6 +27,7 @@
   function bouwHash(t) {
     if (t && t.screen === "artikel" && t.artSlug && SLUG.test(t.artSlug)) return "#/artikel/" + t.artSlug;
     if (t && t.screen === "klusarchief" && t.kaDraad && /^\d{1,12}$/.test(String(t.kaDraad))) return "#/klusarchief/" + t.kaDraad;
+    if (t && t.screen === "kalender" && t.kalItem && KALID.test(String(t.kalItem))) return "#/kalender/" + t.kalItem;
     if (t && Object.prototype.hasOwnProperty.call(NAAR_HASH, t.screen)) return "#/" + NAAR_HASH[t.screen];
     return "";
   }
@@ -44,7 +47,7 @@
   function navKey(t) {
     t = t || {};
     return [t.screen, t.artSlug || "", t.gzHfd || "", t.gzOnd || "", t.gzLijst == null ? "" : t.gzLijst, t.onStap == null ? "" : t.onStap, t.nwTegel || "",
-      t.sc || "", t.themaId || "", t.toolId || "", t.blad || "", t.kaDraad || ""].join("|");
+      t.sc || "", t.themaId || "", t.toolId || "", t.blad || "", t.kaDraad || "", t.kalItem || ""].join("|");
   }
 
   // Laadtoken: elke nieuwe aanvraag krijgt een nummer; alleen het laatste nummer mag het scherm nog bijwerken.
