@@ -252,7 +252,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-02-1"/);
+  assert.match(sw, /VERSIE = "2026-11-02-2"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -294,7 +294,7 @@ test("scherm: kop, uitleg, filters, lege en foute toestand, bron, abonnementen, 
   assert.match(scherm, /Voor wie/);
   assert.match(scherm, /loading="lazy"/);
   assert.match(scherm, /alt="" loading="lazy"[^>]*width="48"/);
-  assert.match(scherm, /width="72" height="72"/);
+  assert.match(scherm, /alt="" loading="lazy" width="72" height="72"/);
   assert.match(scherm, /Source Serif 4/);
   assert.match(scherm, /line-height:1\.8em/);
   assert.match(scherm, /min-height:44px/);
