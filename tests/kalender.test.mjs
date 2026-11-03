@@ -238,7 +238,7 @@ test("filter op rubriek: stipjes, legenda en lijst, lege uitkomst en Toon alles"
 });
 
 test("korte rubrieknamen op de chips, volledige naam elders", () => {
-  const verwacht = { fiscaal: "Fiscaal", uitkeringen: "Uitkeringen", feestdagen: "Feestdagen", school: "School", wonen: "Wonen", buiten: "Buiten", zorg: "Zorg", stemmen: "Stemmen", genieten: "Genieten", verenigingen: "Verenigingen" };
+  const verwacht = { fiscaal: "Fiscaal", uitkeringen: "Uitkeringen", feestdagen: "Feestdagen", school: "School", wonen: "Wonen", buiten: "Buiten", zorg: "Zorg", stemmen: "Stemmen", genieten: "Genieten", verenigingen: "Verenigingen", moestuin: "Moestuin" };
   assert.deepEqual(Kl.KORT, verwacht);
   Object.keys(verwacht).forEach(id => assert.equal(Kl.korteNaam(id, "Lange naam van " + id), verwacht[id]));
   assert.equal(Kl.korteNaam("nieuw", "Een nieuwe rubriek"), "Een nieuwe rubriek", "onbekend: volledige naam");
@@ -360,7 +360,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-02-4"/);
+  assert.match(sw, /VERSIE = "2026-11-03-1"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
