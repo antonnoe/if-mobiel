@@ -6096,7 +6096,7 @@ class Component extends DCLogic {
           const iso = Kl.plusDagen(b.van, i), rijen = pd[iso] || [];
           if (rijen.length) groepen.push({id:"kal-dag-" + iso, kop:Kl.kopDag(iso), kopStijl:kopStijl(false), rijen:rijen.map(rij)});
         }
-        if (!groepen.length && !lopend.length) { leeg = true; leegTekst = Kl.leegTekst(rubNaam, "week"); }
+        if (!groepen.length) { leeg = true; leegTekst = Kl.leegTekst(rubNaam, "week", lopend.length); }
       } else {
         const heleMaand = Object.keys(pd).length > 0 || lopend.length > 0;
         const rijen = pd[gekozen] || [];

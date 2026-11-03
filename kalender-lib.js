@@ -311,8 +311,11 @@
   // "maandag 16 november, 2 items"
   function dagLabel(iso, aantal) { return datumWoorden(iso, false) + ", " + itemsTekst(aantal); }
   // Tekst bij een lege uitkomst. rubriekNaam: de naam van het actieve filter ("" zonder filter); periode: "week", "maand" of "dag".
-  function leegTekst(rubriekNaam, periode) {
+  // lopend: aantal perioden dat deze week of maand al loopt (en dus alleen onder "Loopt deze week" staat). Zonder deze regel
+  // zag een lezer bij een filter met alleen lopende perioden (Moestuin, 3 november 2026) een lege lijst zonder uitleg.
+  function leegTekst(rubriekNaam, periode, lopend) {
     if (periode === "dag") return rubriekNaam ? "Niets in " + rubriekNaam + " op deze dag." : LEEG_DAG;
+    if (lopend > 0) return "Niets begint deze " + periode + (rubriekNaam ? " in " + rubriekNaam : "") + "; wat al loopt staat onder \"Loopt deze " + periode + "\"." ;
     return rubriekNaam ? "Niets in " + rubriekNaam + " in deze " + periode + "." : "Niets in deze " + periode + ".";
   }
   // Voegt twee itemlijsten samen op id; de voorkomens van beide blijven (zonder dubbelen), op volgorde.

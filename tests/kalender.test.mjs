@@ -223,6 +223,9 @@ test("filter op rubriek: stipjes, legenda en lijst, lege uitkomst en Toon alles"
   assert.equal(Kl.leegTekst("Zorg", "week"), "Niets in Zorg in deze week.");
   assert.equal(Kl.leegTekst("Zorg", "maand"), "Niets in Zorg in deze maand.");
   assert.equal(Kl.leegTekst("", "week"), "Niets in deze week.");
+  assert.equal(Kl.leegTekst("Moestuin", "week", 2), 'Niets begint deze week in Moestuin; wat al loopt staat onder "Loopt deze week".');
+  assert.equal(Kl.leegTekst("", "week", 1), 'Niets begint deze week; wat al loopt staat onder "Loopt deze week".');
+  assert.equal(Kl.leegTekst("Moestuin", "week", 0), "Niets in Moestuin in deze week.");
   assert.equal(Kl.leegTekst("", "dag"), "Niets op deze dag.");
   assert.equal(Kl.leegTekst("Zorg", "dag"), "Niets in Zorg op deze dag.");
   assert.equal(Kl.TOON_ALLES, "Toon alles");
@@ -360,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-03-1"/);
+  assert.match(sw, /VERSIE = "2026-11-03-2"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -429,7 +432,7 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
   assert.match(scherm, /data-kal-toonalles="1" style="[^"]*min-height:44px[^"]*">Toon alles</);
   assert.match(html, /kalToonAlles: \(\) => this\.setState\(\{kalRubriek:"alles"\}\)/);
   assert.match(html, /kalToonKnop: leeg && !!rubNaam/);
-  assert.match(html, /Kl\.leegTekst\(rubNaam, "week"\)/); assert.match(html, /Kl\.leegTekst\(rubNaam, "maand"\)/);
+  assert.match(html, /Kl\.leegTekst\(rubNaam, "week", lopend\.length\)/); assert.match(html, /Kl\.leegTekst\(rubNaam, "maand"\)/);
   // perioden: Loopt deze week / Loopt deze maand
   assert.match(html, /const looptKop = "Loopt deze " \+ woord/);
   assert.match(html, /const woord = maand \? "maand" : "week"/);
