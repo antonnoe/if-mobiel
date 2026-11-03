@@ -3740,7 +3740,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:DEMO, live:false, laden:true, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -6117,6 +6117,9 @@ class Component extends DCLogic {
     const it = is && st.kalItem ? items.find(i => i.id === st.kalItem) || null : null;
     const fd = it ? Kl.forumDelen(it) : null, link = it ? it.link : "";
     const inApp = !!it && !!link && Kl.isInfofrankrijk(link) && !!(window.IfArtikel && window.IfArtikel.isInApp(link));
+    // Hoort de link bij een module van de app (bv. de moestuintool), dan opent die module in de app op precies die pagina,
+    // in plaats van een nieuw tabblad (3 november 2026, rubriek Moestuin).
+    const linkMod = !!it && !!link && !inApp && window.IfArtikel ? window.IfArtikel.moduleVoorUrl(link, this.alleMods()) : null;
     const later = it ? Kl.laterRegel(it, vandaag) : "";
     const itemChips = it ? Kl.wieTekst(it).concat(Kl.gebiedItem(it) ? [Kl.gebiedItem(it)] : []).map(t => ({t})) : [];
     const heeftBron = !!it && (!!it.bron.url || !!it.bron.gecontroleerd);
@@ -6153,8 +6156,9 @@ class Component extends DCLogic {
       kiLater: !!later, kiLaterTekst: later, kiAlineas: it ? Kl.alineas(it.tekst).map(t => ({t})) : [], kiChips: itemChips,
       kiBronKaart: heeftBron, kiGecontroleerd: !!it && !!Kl.bronRegel(it), kiGecontroleerdTekst: it ? Kl.bronRegel(it) : "",
       kiBronLink: !!it && !!it.bron.url, kiBronUrl: it ? it.bron.url : "",
-      kiMeerExtern: !!link && !inApp, kiMeerInApp: !!link && inApp, kiMeerUrl: link, kiMeerTekst: link ? Kl.leesMeerTekst(link) : "",
-      kiMeerOpen: () => this.openInfoArtikel(link),
+      kiMeerExtern: !!link && !inApp && !linkMod, kiMeerInApp: !!link && (inApp || !!linkMod), kiMeerUrl: link,
+      kiMeerTekst: link ? (linkMod ? "Open " + linkMod.naam : Kl.leesMeerTekst(link)) : "",
+      kiMeerOpen: () => linkMod ? this.routeMetUrl(linkMod, link) : this.openInfoArtikel(link),
       kiGesprek: !!it && it.gesprek,
       kiForum: () => { const L = window.IfArtikel; if (L && fd) this.forumStart(L.forumTekst(fd.titel, fd.samenvatting, fd.link)); }
     };
@@ -6212,9 +6216,20 @@ class Component extends DCLogic {
     this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
+  // Opent een iframe-module op een specifieke pagina van dezelfde site (bv. de maandpagina van de moestuintool vanuit een
+  // kalenderitem). Alleen een https-adres op de host van de module; anders gewoon de module. Geldt voor die ene opening.
+  routeMetUrl(m, url){
+    let u = null;
+    try { u = new URL(url); } catch (e) { u = null; }
+    const mu = (() => { try { return new URL(m.url); } catch (e) { return null; } })();
+    const ok = u && mu && u.protocol === "https:" && u.hostname === mu.hostname;
+    this.route(m);
+    if (ok) this.setState({toolStart: {id: m.id, url: u.href}});
+  }
   route(m){
     if (!m) return;
     if (this.state.toolQuery) this.setState({toolQuery:""}); // een voorinvulling geldt alleen voor de keer dat Mijn gemeente hem zet
+    if (this.state.toolStart) this.setState({toolStart:null}); // een startpagina geldt alleen voor de opening die hem zet
     const from = this.state.screen;
     if (m.kind === "forum") return this.setState({screen:"gem", gemTab:"ber", q:""});
     if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
@@ -7186,7 +7201,7 @@ class Component extends DCLogic {
       toonIntro: !(T && T.kind === "iframe" && T.url && T.weergave === "volledig"),
       knopLabel: T ? "Open " + T.naam + " ↗" : "Openen",
       geenUrl: !!(T && T.kind === "iframe" && !T.url),
-      toolUrl: T && T.url ? T.url + (T.id === "internet" && st.toolQuery ? (T.url.indexOf("?") < 0 ? "?" : "&") + st.toolQuery : "") : "",
+      toolUrl: T && T.url ? (st.toolStart && st.toolStart.id === T.id ? st.toolStart.url : T.url + (T.id === "internet" && st.toolQuery ? (T.url.indexOf("?") < 0 ? "?" : "&") + st.toolQuery : "")) : "",
       // Rechten van het tool-iframe: altijd klembord en delen; extra alleen als de module ze in `rechten` vraagt (nu alleen geolocation voor het adressen-dashboard).
       toolAllow: "clipboard-write; web-share" + (T && IFRAME_RECHTEN.indexOf(T.rechten) >= 0 ? "; " + T.rechten : ""),
       catFout: st.catFout,

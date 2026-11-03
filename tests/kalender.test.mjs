@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-03-2"/);
+  assert.match(sw, /VERSIE = "2026-11-03-3"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -497,4 +497,15 @@ test("schil: Week is de standaard, vensters per maand, geen opslag, Vandaag en d
   assert.match(html, /id="\{\{ g\.id \}\}" data-kal-dagkop="1"/);
   assert.match(blok, /"kal-dag-" \+ iso/);
   assert.match(html, /titles = \{[^}]*kalender:"Kalender Frankrijk"/);
+});
+
+test("een kalenderitem met een link naar een module van de app (moestuintool) opent die module in de app op die pagina, niet een nieuw tabblad", () => {
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(html, /routeMetUrl\(m, url\)/);
+  assert.match(html, /moduleVoorUrl\(link, this\.alleMods\(\)\)/);
+  assert.match(html, /kiMeerOpen: \(\) => linkMod \? this\.routeMetUrl\(linkMod, link\) : this\.openInfoArtikel\(link\)/);
+  assert.match(html, /st\.toolStart && st\.toolStart\.id === T\.id \? st\.toolStart\.url/);
+  const mods = JSON.parse(readFileSync(new URL("../modules.json", import.meta.url), "utf8")).modules;
+  const m = mods.find(x => x.id === "moestuin");
+  assert.equal(m.weergave, "volledig", "de moestuintool laat framing op infopoche.fr toe (frame-ancestors gecontroleerd 3 november 2026)");
 });
