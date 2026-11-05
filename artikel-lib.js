@@ -332,6 +332,71 @@
     });
   }
 
+  // Inhoudsopgave van een reeks (zoals de tien delen van "De Franse elektrische installatie"): een blok met genummerde regels,
+  // gescheiden door regeleinden, waarvan minstens drie naar een ander artikel wijzen. Als lopende tekst is dat op een telefoon een
+  // lange lap met kleine links; hier wordt het een raster van tegels. Het deel dat de lezer nu leest heeft geen link en krijgt een eigen kleur.
+  var REEKS = {
+    kop: "margin:18px 0 0;font:600 12px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#71787C",
+    raster: "display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 0",
+    cel: "box-sizing:border-box;min-width:0;min-height:64px;display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);text-decoration:none;color:" + KLEUR,
+    nu: "background:rgba(128,0,0,.06);border-color:rgba(128,0,0,.30)",
+    nr: "flex:0 0 auto;min-width:26px;height:26px;border-radius:13px;background:rgba(128,0,0,.08);color:#800000;font:600 12.5px/26px Poppins,system-ui,sans-serif;text-align:center",
+    titel: "display:block;font:600 13.5px/1.35 Poppins,system-ui,sans-serif;color:" + KLEUR + ";overflow-wrap:break-word;-webkit-hyphens:auto;hyphens:auto",
+    hier: "display:block;margin:4px 0 0;font:700 11.5px/1.3 Mulish,system-ui,sans-serif;color:#800000"
+  };
+  var REEKS_REGEL = /^(\d{1,2})\s*[.)]\s*(.+?)[\s.]*$/;
+  var REEKS_INLINE = /^(A|B|STRONG|EM|I|SPAN|U|BR)$/;
+  function leesReeks(el) {
+    var kids = Array.prototype.slice.call(el.childNodes), regels = [[]];
+    for (var i = 0; i < kids.length; i++) {
+      var k = kids[i];
+      if (k.nodeType === 1 && !REEKS_INLINE.test(k.tagName)) return null;
+      if (k.nodeType === 1 && k.tagName === "BR") regels.push([]); else if (k.nodeType === 1 || k.nodeType === 3) regels[regels.length - 1].push(k);
+    }
+    var uit = [], links = 0;
+    for (var r = 0; r < regels.length; r++) {
+      var tekst = regels[r].map(function (n) { return n.textContent || ""; }).join("").replace(/[\s ]+/g, " ").trim();
+      if (!tekst) continue;
+      var m = REEKS_REGEL.exec(tekst);
+      if (!m) return null;
+      var href = null;
+      regels[r].forEach(function (n) {
+        if (href || n.nodeType !== 1) return;
+        var a = n.tagName === "A" ? n : n.querySelector("a[data-art]");
+        if (a && a.getAttribute("data-art") === "1" && isInApp(a.getAttribute("href"))) href = a.getAttribute("href");
+      });
+      if (href) links++;
+      uit.push({ nr: m[1], titel: m[2], href: href });
+    }
+    return uit.length >= 3 && links >= 3 ? uit : null;
+  }
+  function maakReeksTegels(doc, body) {
+    Array.prototype.slice.call(body.querySelectorAll("h2, h3, h4, h5, h6, p")).forEach(function (el) {
+      if (!el.parentNode || el.querySelectorAll("a[data-art]").length < 3) return;
+      var delen = leesReeks(el);
+      if (!delen) return;
+      var kop = doc.createElement("div"); kop.setAttribute("style", REEKS.kop); kop.textContent = "In deze reeks";
+      var raster = doc.createElement("div"); raster.setAttribute("style", REEKS.raster); raster.setAttribute("data-reeks", String(delen.length));
+      delen.forEach(function (d, i) {
+        var cel = doc.createElement(d.href ? "a" : "div");
+        var st = REEKS.cel + (d.href ? "" : ";" + REEKS.nu) + (i === delen.length - 1 && delen.length % 2 === 1 ? ";grid-column:1/-1" : "");
+        cel.setAttribute("style", st);
+        if (d.href) { cel.setAttribute("href", d.href); cel.setAttribute("data-art", "1"); cel.setAttribute("target", "_blank"); cel.setAttribute("rel", "noopener noreferrer"); }
+        else cel.setAttribute("data-reeks-nu", "1");
+        var nr = doc.createElement("span"); nr.setAttribute("style", REEKS.nr); nr.textContent = d.nr;
+        var blok = doc.createElement("span"); blok.setAttribute("style", "min-width:0");
+        var t = doc.createElement("span"); t.setAttribute("style", REEKS.titel); t.setAttribute("lang", "nl"); t.textContent = d.titel; blok.appendChild(t);
+        if (!d.href) { var h = doc.createElement("span"); h.setAttribute("style", REEKS.hier); h.textContent = "Je leest dit deel"; blok.appendChild(h); }
+        cel.appendChild(nr); cel.appendChild(blok); raster.appendChild(cel);
+      });
+      // De scheidingslijn direct onder de oude lijst hoort bij die lijst en vervalt mee.
+      var n = el.nextSibling;
+      while (n && n.nodeType === 3 && !n.nodeValue.replace(/\s+/g, "")) n = n.nextSibling;
+      if (n && n.nodeType === 1 && n.tagName === "HR") n.parentNode.removeChild(n);
+      el.parentNode.insertBefore(kop, el); el.parentNode.insertBefore(raster, el); el.parentNode.removeChild(el);
+    });
+  }
+
   // Geeft een <body>-element uit een inert document. Scripts, styles, iframes, formulieren en alle
   // on*-attributen verdwijnen; alleen de lijst ATTR blijft over. Eigen inline opmaak (huisstijl).
   function schoon(html, opt) {
@@ -423,6 +488,7 @@
     });
     maakKaartTegels(doc, kaartDivs);
     pasOpmaakToe(body);
+    maakReeksTegels(doc, body);
     kaarten.forEach(function (x) {
       if (x.plek.parentNode && body.contains(x.plek)) x.plek.parentNode.replaceChild(maakKaart(doc, x.kaart), x.plek);
     });

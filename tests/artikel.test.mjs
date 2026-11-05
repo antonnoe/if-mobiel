@@ -262,3 +262,28 @@ test("een opmaaktabel met kaartcellen (waardekwadrant) wordt een raster van vier
   assert.equal(uit.uitgelijnd, true);
   assert.equal(uit.zijlabel, false, "de zijlabels van de assen vervallen");
 });
+
+test("inhoudsopgave van een reeks wordt een raster van tegels; het huidige deel is geen link (05-11-2026)", async (t) => {
+  const bron = '<p>Door Rob</p><h4 style="text-align: justify;">1.   <a href="https://infofrankrijk.com/de-elektrische-installatie/">De Franse elektrische installatie</a>.<br />\n<strong>2.   De elektriciteitstoevoer en de elektriciteitsmeter</strong><br />\n3.   <a href="https://infofrankrijk.com/de-hoofdschakelaar/">De hoofdschakelaar</a><br />\n4.   <a href="https://infofrankrijk.com/de-groepenkast/">De groepenkast</a><br />\n10. <a href="https://infofrankrijk.com/aanbevolen-websites/">Aanbevolen websites en de veranderende NF C 15-100 normen</a>.</h4>\n<hr />\n<h4>Lopende tekst met een <a href="https://infofrankrijk.com/a/">link</a>, nog een <a href="https://infofrankrijk.com/b/">link</a><br />en een <a href="https://infofrankrijk.com/c/">derde</a>.</h4><p>1. <a href="https://infofrankrijk.com/a/">Een</a><br />2. <a href="https://infofrankrijk.com/b/">Twee</a></p>';
+  const uit = await inBrowser(h => {
+    const b = window.IfArtikel.schoon(h), r = b.querySelectorAll("[data-reeks]");
+    const cellen = r[0] ? [...r[0].children] : [];
+    return { rasters: r.length, aantal: r[0] ? r[0].getAttribute("data-reeks") : null,
+      tags: cellen.map(c => c.tagName), nrs: cellen.map(c => c.children[0].textContent), titels: cellen.map(c => c.children[1].children[0].textContent),
+      art: cellen.filter(c => c.getAttribute("data-art") === "1").length, nu: b.querySelectorAll("[data-reeks-nu]").length,
+      nuTekst: (b.querySelector("[data-reeks-nu]") || {}).textContent || "", laatste: cellen.length ? cellen[cellen.length - 1].getAttribute("style") : "",
+      hr: b.querySelectorAll("hr").length, h4: b.querySelectorAll("h4").length, p: b.querySelectorAll("p").length };
+  }, bron);
+  if (!uit) return t.skip("geen headless browser beschikbaar");
+  assert.equal(uit.rasters, 1, "alleen de genummerde lijst met minstens drie artikellinks wordt een raster");
+  assert.equal(uit.aantal, "5");
+  assert.deepEqual(uit.tags, ["A", "DIV", "A", "A", "A"]);
+  assert.deepEqual(uit.nrs, ["1", "2", "3", "4", "10"]);
+  assert.deepEqual(uit.titels, ["De Franse elektrische installatie", "De elektriciteitstoevoer en de elektriciteitsmeter", "De hoofdschakelaar", "De groepenkast", "Aanbevolen websites en de veranderende NF C 15-100 normen"]);
+  assert.equal(uit.art, 4, "de vier andere delen openen in de app");
+  assert.equal(uit.nu, 1); assert.match(uit.nuTekst, /Je leest dit deel/);
+  assert.match(uit.laatste, /grid-column:1\/-1/, "een oneven laatste tegel loopt over beide kolommen");
+  assert.equal(uit.hr, 0, "de lijn onder de oude lijst vervalt");
+  assert.equal(uit.h4, 1, "een kop met lopende tekst en links blijft een kop");
+  assert.equal(uit.p, 2, "een korte genummerde lijst (twee links) blijft tekst");
+});

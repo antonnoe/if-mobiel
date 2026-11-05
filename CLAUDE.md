@@ -459,4 +459,10 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 
 - Op een telefoon staat "Eerst even rondkijken" direct onder de stappenkaart en blijft zonder scrollen in beeld (minstens 12 px lucht eronder). Het landingsscript bovenin `index.html` kiest uit vier compactheidsniveaus (`NIV`, met `compact` doorgegeven aan `LandingLib.blokHtml`) het ruimste niveau waarbij de inhoud past; het herhaalt dat bij `resize`. Tekst blijft minstens 13 px, tikvlakken minstens 44 px. Past het ook op niveau 3 niet, dan scrolt het scherm en volgt de knop direct onder de kaart.
 
+
+
+## Reeks-inhoudsopgave in artikelen wordt tegels (5 november 2026)
+
+- **Wat:** een genummerde inhoudsopgave bovenaan een artikel (zoals de tien delen van "De Franse elektrische installatie" van Rob van der Meulen) was op de telefoon een lange lap vette tekst met kleine links. `maakReeksTegels` in `artikel-lib.js` maakt er een raster van twee kolommen van (`data-reeks`, kopje "In deze reeks"): per deel een tegel met het nummer en de titel. Een deel met een link opent in de app (`a[data-art]`); het deel zonder link is het artikel dat de lezer nu leest en krijgt een lichte bordeaux tint met "Je leest dit deel" (`data-reeks-nu`). Een oneven laatste tegel loopt over beide kolommen; de scheidingslijn direct onder de oude lijst vervalt.
+- **Herkenning** (`leesReeks`): een kop of alinea met alleen tekst, regeleinden en inline-elementen, waarvan elke regel met een nummer en een punt begint en minstens drie regels naar een artikel van Infofrankrijk wijzen. Voldoet een blok daar niet aan, dan blijft het ongewijzigd. Geen data in de repo: het werkt voor elke reeks die zo is opgemaakt. Test: `tests/artikel.test.mjs`. Service worker `VERSIE` 2026-11-05-3.
 Laatst nagelopen: 5 november 2026
