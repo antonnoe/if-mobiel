@@ -458,3 +458,5 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 ## Landingsscherm: knop zonder scrollen (5 november 2026)
 
 - Op een telefoon staat "Eerst even rondkijken" direct onder de stappenkaart en blijft zonder scrollen in beeld (minstens 12 px lucht eronder). Het landingsscript bovenin `index.html` kiest uit vier compactheidsniveaus (`NIV`, met `compact` doorgegeven aan `LandingLib.blokHtml`) het ruimste niveau waarbij de inhoud past; het herhaalt dat bij `resize`. Tekst blijft minstens 13 px, tikvlakken minstens 44 px. Past het ook op niveau 3 niet, dan scrolt het scherm en volgt de knop direct onder de kaart.
+
+Laatst nagelopen: 5 november 2026
