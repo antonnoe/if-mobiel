@@ -13,10 +13,10 @@
   var FOUT = "De kalender is nu niet bereikbaar.";
   var LEEG_DAG = "Niets op deze dag.";
   var TOON_ALLES = "Toon alles";
-  var ABO_VRAAG = "Ook in uw eigen agenda-app?";
-  var ABO_KNOP = "Zet in uw agenda \u2192";
+  var ABO_VRAAG = "Ook in je eigen agenda-app?";
+  var ABO_KNOP = "Zet in je agenda \u2192";
   var WEG = "Dit item staat niet meer in de kalender.";
-  var ABO_UITLEG = "Uw agenda-app haalt de data zelf op en houdt ze bij, u hoeft er verder niets voor te doen.";
+  var ABO_UITLEG = "Je agenda-app haalt de data zelf op en houdt ze bij, je hoeft er verder niets voor te doen.";
   var ABO_ALLES = "Hele kalender";
   var ABO_RUBRIEK = "Of alleen een rubriek:";
   // Korte namen voor de chips; de volledige naam blijft in de lijstrijen, de legenda en het itemscherm.
@@ -177,7 +177,7 @@
       var wie = (Array.isArray(i.doelgroepen) ? i.doelgroepen : []).map(function (x) { return schoon(x).toLowerCase(); }).filter(Boolean);
       uit.push({
         id: id, titel: titel, rubriek: tekst(i.rubriek), rubriekNaam: schoon(i.rubriek_naam), doelgroepen: wie,
-        gebied: gebiedTekst(i.gebied), tijd: schoon(i.tijd), tekst: schoon(i.tekst_u || i.tekst), link: https(i.link), bron: bron,
+        gebied: gebiedTekst(i.gebied), tijd: schoon(i.tijd), tekst: schoon(i.tekst_je || i.tekst_u || i.tekst), link: https(i.link), bron: bron,
         gesprek: i.gesprek === true, aanzet: aanzet && (aanzet.titel || aanzet.tekst) ? aanzet : null, voorkomens: vk
       });
     });

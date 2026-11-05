@@ -17,7 +17,7 @@ test("scherm: label, kop, intro, V2-regel en slotregel precies één keer", () =
 test("scherm: vijf kaarten, alleen nedergids.nl gaat naar buiten, de rest opent in de app, de rest opent in de app", () => {
   const kaarten = [...scherm.matchAll(/<a href="([^"]+)" target="_blank" rel="noopener"/g)].map(m => m[1]);
   assert.deepEqual(kaarten, ["https://www.nedergids.nl"]);
-  assert.ok(scherm.includes("Wat u bij Gault &amp; Millau en Michelin niet leest") && scherm.includes("fris, fruitig en hygiënisch"));
+  assert.ok(scherm.includes("Wat je bij Gault &amp; Millau en Michelin niet leest") && scherm.includes("fris, fruitig en hygiënisch"));
   for (const h of ["ngGemeente", "ngVerenigingen", "ngOverheden", "ngHygiene"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
   assert.match(html, /ngVerenigingen: \(\) => this\.route\(this\.vindModule\("verenigingen"\)\)/);
   assert.match(html, /ngOverheden: \(\) => this\.route\(this\.vindModule\("overhedenbuurt"\)\)/);

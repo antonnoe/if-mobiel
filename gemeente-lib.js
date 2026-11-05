@@ -55,7 +55,7 @@
   // niet met alleen een gemeente (het middelpunt van een gemeente is geen adres). Leeg = niets voorinvullen.
   function internetQuery(c) {
     if (!c || !tekst(c.adres) || typeof c.lat !== "number" || typeof c.lon !== "number" || !isFinite(c.lat) || !isFinite(c.lon)) return "";
-    var naam = c.adres === "Uw locatie" ? "Uw locatie, bij benadering" : tekst(c.adres);
+    var naam = c.adres === "Je locatie" ? "Je locatie, bij benadering" : tekst(c.adres);
     return "adres=" + q(naam.slice(0, 200)) + "&lat=" + c.lat.toFixed(6) + "&lon=" + c.lon.toFixed(6);
   }
   function catnatUrl(code, pagina, grootte) {

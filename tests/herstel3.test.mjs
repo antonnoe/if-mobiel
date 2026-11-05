@@ -16,7 +16,7 @@ const mod = id => cat.modules.find(m => m.id === id);
 
 test("teksten beloven geen exclusiviteit voor abonnees", () => {
   ["de rest bij het abonnement", "alleen de uitkomst hoort bij het abonnement", "of om betaalde modules te gebruiken", "Wat achter het abonnement zit",
-    "Wat u hier zoekt vindt u wél via het zoekveld"].forEach(z => assert.ok(!html.includes(z), z));
+    "Wat je hier zoekt vind je wél via het zoekveld"].forEach(z => assert.ok(!html.includes(z), z));
   assert.ok(html.includes("Alle onderdelen zijn gratis te gebruiken."));
   assert.ok(html.includes("Aanmelden is alleen nodig om te reageren op de site."));
   assert.ok(!/voor abonnees/i.test(JSON.stringify(cat.modules.map(m => m.ai_uitleg || ""))));
@@ -34,7 +34,7 @@ test("onderblad: niet na het einde van een artikel", () => {
 test("forumblok onder een artikel: één korte regel", () => {
   assert.ok(html.includes(">Bespreek dit op het forum Nederlanders.fr</button>"));
   assert.ok(!html.includes("Ervaring met dit onderwerp?"));
-  assert.ok(!html.includes("worden gekopieerd, zodat u ze in een nieuw bericht kunt plakken. Daarvoor"));
+  assert.ok(!html.includes("worden gekopieerd, zodat je ze in een nieuw bericht kunt plakken. Daarvoor"));
 });
 
 test("modules: correspondentie en financieel kompas volledig in de app", () => {

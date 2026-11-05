@@ -64,20 +64,36 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
   function omgeving(){
     return L.detecteerOmgeving({ua:nav.userAgent,platform:nav.platform,maxTouchPoints:nav.maxTouchPoints,standalone:false,breedte:window.innerWidth,heeftInstallEvent:!!window.__ifmInstallEv});
   }
-  var P='margin:0;font:500 15px/1.6 Mulish,system-ui,sans-serif;color:'+DEMP;
-  function teken(){
-    var pc=omgeving()==="desktop";
-    el.innerHTML='<div style="box-sizing:border-box;min-height:100%;max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 24px max(20px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:'+(pc?'center':'flex-start')+';text-align:center">'
-      +(pc?'':'<div style="min-height:calc(100vh - 48px);min-height:calc(100dvh - 48px);display:flex;flex-direction:column;justify-content:center">')
-      +'<img src="./icons/logo-goud.svg" alt="" width="84" height="82" style="display:block;margin:0 auto;width:84px;height:auto">'
-      +'<h1 style="margin:16px 0 0;font:500 40px/1.15 \'Source Serif 4\',Georgia,serif;color:'+LICHT+'">InfoPoche</h1>'
-      +'<p style="margin:10px 0 0;font:600 18px/1.4 Mulish,system-ui,sans-serif;color:'+GOUD+'">Kennis en ervaring dans la poche</p>'
-      +'<p style="'+P+';margin-top:8px">Gratis · geen account nodig · geen app store</p>'
-      +'<p style="margin:22px 0 12px;font:700 19px/1.35 Mulish,system-ui,sans-serif;color:'+LICHT+'">Zet InfoPoche op uw beginscherm</p>'
-      +'<div>'+L.blokHtml({omgeving:omgeving(),browser:L.iosBrowser(nav.userAgent),heeftEvent:!!window.__ifmInstallEv,afgebroken:afgebroken,status:status,palet:"donker"})+'</div>'
-      +(pc?'':'</div>')
-      +'<button type="button" id="ifm-l-verder" style="display:block;margin:'+(pc?'18px':'36px')+' auto 0;min-height:44px;padding:0 16px;border:0;background:transparent;color:'+DEMP+';text-decoration:underline;text-underline-offset:4px;font:500 13px/1.2 Mulish,system-ui,sans-serif;cursor:pointer">'+(pc?'Toch hier rondkijken':'Eerst even rondkijken')+'</button>'
+  // Maten per compactheidsniveau: logo, kop, tussenruimten. Niveau 0 is ruim (hoge schermen); op lage schermen kiest pas()
+  // het ruimste niveau waarbij de knop onder de kaart zonder scrollen in beeld blijft (minstens 12 px lucht eronder).
+  // logo = breedte logo, h1 = lettergrootte kop, tl = lettergrootte slagzin, r1..r3 = ruimte boven kop, slagzin en gratisregel,
+  // zk = ruimte boven en onder de zin "Zet InfoPoche op je beginscherm", zf = lettergrootte daarvan, kn = ruimte boven de knop.
+  var NIV=[
+    {logo:84,h1:40,tl:18,r1:16,r2:10,r3:8,zb:22,zo:12,zf:19,kn:14,top:28},
+    {logo:64,h1:34,tl:17,r1:10,r2:6,r3:4,zb:14,zo:8,zf:18,kn:10,top:20},
+    {logo:48,h1:30,tl:16,r1:6,r2:4,r3:2,zb:10,zo:6,zf:17,kn:6,top:14},
+    {logo:36,h1:26,tl:15,r1:4,r2:2,r3:0,zb:6,zo:4,zf:16,kn:4,top:10}
+  ];
+  function bouw(niv){
+    var pc=omgeving()==="desktop",n=pc?NIV[0]:NIV[niv||0];
+    var P='margin:0;font:500 '+(niv>=2?13.5:15)+'px/1.5 Mulish,system-ui,sans-serif;color:'+DEMP;
+    el.innerHTML='<div style="box-sizing:border-box;min-height:100%;max-width:440px;margin:0 auto;padding:max('+(pc?28:n.top)+'px,env(safe-area-inset-top)) 24px max(16px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;text-align:center">'
+      +'<img src="./icons/logo-goud.svg" alt="" width="84" height="82" style="display:block;margin:0 auto;width:'+n.logo+'px;height:auto">'
+      +'<h1 style="margin:'+n.r1+'px 0 0;font:500 '+n.h1+'px/1.15 \'Source Serif 4\',Georgia,serif;color:'+LICHT+'">InfoPoche</h1>'
+      +'<p style="margin:'+n.r2+'px 0 0;font:600 '+n.tl+'px/1.4 Mulish,system-ui,sans-serif;color:'+GOUD+'">Kennis en ervaring dans la poche</p>'
+      +'<p style="'+P+';margin-top:'+n.r3+'px">Gratis · geen account nodig · geen app store</p>'
+      +'<p style="margin:'+n.zb+'px 0 '+n.zo+'px;font:700 '+n.zf+'px/1.35 Mulish,system-ui,sans-serif;color:'+LICHT+'">Zet InfoPoche op je beginscherm</p>'
+      +'<div>'+L.blokHtml({omgeving:omgeving(),browser:L.iosBrowser(nav.userAgent),heeftEvent:!!window.__ifmInstallEv,afgebroken:afgebroken,status:status,palet:"donker",compact:pc?0:niv})+'</div>'
+      +'<button type="button" id="ifm-l-verder" style="display:block;flex:none;margin:'+(pc?18:n.kn)+'px auto 0;min-height:44px;padding:0 16px;border:0;background:transparent;color:'+DEMP+';text-decoration:underline;text-underline-offset:4px;font:500 13px/1.2 Mulish,system-ui,sans-serif;cursor:pointer">'+(pc?'Toch hier rondkijken':'Eerst even rondkijken')+'</button>'
       +'</div>';
+  }
+  // Past de inhoud niet zonder scrollen, dan gaat het scherm een niveau krapper (maximaal niveau 3). Past het ook dan niet,
+  // dan scrolt het scherm en volgt de knop gewoon direct onder de kaart.
+  function past(){var v=el.querySelector("#ifm-l-verder");if(!v||!el.parentNode)return true;return el.scrollHeight<=el.clientHeight+1}
+  function teken(){
+    var pc=omgeving()==="desktop",niv=0;
+    bouw(0);
+    if(!pc&&el.parentNode){while(niv<NIV.length-1&&!past()){niv++;bouw(niv)}}
     var v=el.querySelector("#ifm-l-verder");if(v)v.onclick=verder;
     var i=el.querySelector('[data-ifm-actie="installeer"]');if(i)i.onclick=installeer;
     var k=el.querySelector('[data-ifm-actie="kopieer"]');if(k)k.onclick=kopieer;
@@ -98,8 +114,9 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
   }
   window.addEventListener("ifm-installevent",function(){afgebroken=false;if(!klaar&&el.parentNode)teken()});
   window.addEventListener("appinstalled",sluit);
-  teken();
   document.body.appendChild(el);
+  teken();
+  window.addEventListener("resize",function(){if(!klaar&&el.parentNode)teken()});
 })();
 </script>
 <!-- Zichtbaar zolang de runtime niet gestart is: na 6 seconden zonder app, of meteen bij een
@@ -107,7 +124,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <div id="ifm-start" hidden style="max-width:412px;margin:0 auto;padding:40px 24px;font:500 15px/1.8 Mulish,system-ui,sans-serif;color:#15181A;background:#F4F1F0;min-height:100vh;box-sizing:border-box">
   <div style="width:44px;height:44px;border-radius:12px;background:#800000;color:#fff;display:grid;place-items:center;font:800 15px Mulish,system-ui,sans-serif">IP</div>
   <div style="font:600 22px/1.2 Poppins,system-ui,sans-serif;margin-top:18px">InfoPoche kon niet starten</div>
-  <p style="margin:10px 0 0">De app is niet volledig geladen. Controleer uw verbinding en ververs de pagina. Blijft dit staan, dan is er iets mis aan onze kant en horen we het graag op nederlanders.fr.</p>
+  <p style="margin:10px 0 0">De app is niet volledig geladen. Controleer je verbinding en ververs de pagina. Blijft dit staan, dan is er iets mis aan onze kant en horen we het graag op nederlanders.fr.</p>
   <button onclick="location.reload()" style="margin-top:18px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish,system-ui,sans-serif;cursor:pointer">Opnieuw laden</button>
 </div>
 <script>
@@ -177,7 +194,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div data-menuscrim="1" onClick="{{ menuSluit }}" style="position:absolute;left:0;right:0;top:100%;height:100dvh;background:rgba(21,24,26,.42)"></div>
   <div role="dialog" aria-modal="true" aria-label="Menu" data-menu="1" style="position:absolute;left:0;right:0;top:100%;background:#fff;border-radius:0 0 18px 18px;box-shadow:0 14px 30px rgba(21,24,26,.18);max-height:calc(100dvh - 150px);overflow-y:auto;overscroll-behavior:contain">
     <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
-    <button onClick="{{ mnBeginscherm }}" style="display:flex;align-items:flex-start;gap:14px;width:calc(100% - 28px);margin:14px 14px 8px;padding:14px 14px;border:1.5px solid rgba(128,0,0,.35);border-radius:14px;background:rgba(128,0,0,.06);text-align:left;cursor:pointer;color:#15181A;min-height:56px"><span style="{{ mnIcoInstalleer }};margin-top:1px"></span><span style="flex:1;min-width:0"><b style="display:block;font:700 16px Mulish">Zet op uw beginscherm</b><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">Dan opent InfoPoche als een gewone app. Tik hier voor de stappen op uw toestel.</span></span></button>
+    <button onClick="{{ mnBeginscherm }}" style="display:flex;align-items:flex-start;gap:14px;width:calc(100% - 28px);margin:14px 14px 8px;padding:14px 14px;border:1.5px solid rgba(128,0,0,.35);border-radius:14px;background:rgba(128,0,0,.06);text-align:left;cursor:pointer;color:#15181A;min-height:56px"><span style="{{ mnIcoInstalleer }};margin-top:1px"></span><span style="flex:1;min-width:0"><b style="display:block;font:700 16px Mulish">Zet op je beginscherm</b><span style="display:block;margin-top:4px;font:500 13.5px/1.5 Mulish;color:#3D4346">Dan opent InfoPoche als een gewone app. Tik hier voor de stappen op je toestel.</span></span></button>
     </sc-if>
     <sc-if value="{{ mnGeinstalleerd }}" hint-placeholder-val="{{ false }}">
     <div style="display:flex;align-items:center;gap:14px;min-height:48px;padding:0 18px;font:600 14px Mulish;color:#3D4346"><span aria-hidden="true" style="flex:none;width:24px;text-align:center;color:#800000;font-weight:800">&#10003;</span><span>App is geïnstalleerd</span></div>
@@ -189,14 +206,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
     <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
     <button onClick="{{ mnPostcode }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoPostcode }}"></span><span style="flex:1;min-width:0">Postcode</span><span style="flex:0 1 auto;min-width:0;font:600 16px Mulish;color:#3D4346;text-align:right;overflow-wrap:anywhere">{{ pcLabel }}</span></button>
-    <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android opent u de recente apps en veegt u InfoPoche weg.</div>
+    <div style="margin:12px 18px 0;padding:0 0 18px;font:500 13px/1.55 Mulish;color:#3D4346">Je hoeft de app niet af te sluiten: ga gewoon terug naar je beginscherm, de app wacht rustig op de achtergrond. Wil je hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android open je de recente apps en veeg je InfoPoche weg.</div>
   </div>
   </sc-if>
 </div>
 
 <sc-if value="{{ balkOpen }}" hint-placeholder-val="{{ false }}">
 <div data-installbalk="1" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff">
-  <button onClick="{{ installOpenBalk }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 4px 6px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="flex:1 1 auto;min-width:0;font:700 14px/1.3 Mulish">Installeer InfoPoche op uw beginscherm</span><span style="flex:none;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:56px;padding:0 14px;border-radius:12px;background:#fff;color:#800000;font:800 14px Mulish">Hoe?</span></button>
+  <button onClick="{{ installOpenBalk }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 4px 6px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="flex:1 1 auto;min-width:0;font:700 14px/1.3 Mulish">Installeer InfoPoche op je beginscherm</span><span style="flex:none;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:56px;padding:0 14px;border-radius:12px;background:#fff;color:#800000;font:800 14px Mulish">Hoe?</span></button>
   <button onClick="{{ installBalkSluit }}" aria-label="Balk sluiten" style="flex:none;width:44px;min-height:48px;border:0;background:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px">&#10005;</button>
 </div>
 </sc-if>
@@ -204,7 +221,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div id="ifm-scroll" style="{{ zoomCss }}view-transition-name:ifm-inhoud;flex:1;min-height:0;position:relative;overflow-y:{{ scrollOverflow }};-webkit-overflow-scrolling:touch">
 
 <sc-if value="{{ catFout }}" hint-placeholder-val="{{ false }}">
-<div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer uw verbinding en laad de pagina opnieuw.</div>
+<div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer je verbinding en laad de pagina opnieuw.</div>
 </sc-if>
 
 <!-- ============ HUB / VANDAAG ============ -->
@@ -233,8 +250,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div data-proto="1" style="margin:14px 16px 0;padding:12px 6px 14px 14px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);display:flex;align-items:flex-start;gap:6px">
       <div style="flex:1;min-width:0">
         <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Prototype</div>
-        <p style="margin:6px 0 0;font:500 14px/1.65 Mulish;color:#15181A;text-wrap:pretty">InfoPoche is nog een prototype. U bent van harte welkom om uw feedback, verbetervoorstellen en suggesties met ons te delen.</p>
-        <button onClick="{{ protoFeedback }}" style="margin-top:10px;min-height:44px;padding:0 16px;border:1.5px solid rgba(128,0,0,.35);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Geef uw feedback</button>
+        <p style="margin:6px 0 0;font:500 14px/1.65 Mulish;color:#15181A;text-wrap:pretty">InfoPoche is nog een prototype. Je bent van harte welkom om je feedback, verbetervoorstellen en suggesties met ons te delen.</p>
+        <button onClick="{{ protoFeedback }}" style="margin-top:10px;min-height:44px;padding:0 16px;border:1.5px solid rgba(128,0,0,.35);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Geef je feedback</button>
       </div>
       <button onClick="{{ protoSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
     </div>
@@ -263,12 +280,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:14px 16px 0;display:grid;gap:8px">
       <button onClick="{{ openDossierDemo }}" style="width:100%;min-height:48px;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:.5px solid rgba(21,24,26,.25);border-radius:12px;padding:8px 14px;cursor:pointer">
         <span style="{{ rijIcoStyleNavy }}"></span>
-        <span style="flex:1;min-width:0;font:600 13px/1.3 Mulish;color:#15181A;overflow-wrap:anywhere">DossierFrankrijk, uw eigen dossier voor abonnees</span>
+        <span style="flex:1;min-width:0;font:600 13px/1.3 Mulish;color:#15181A;overflow-wrap:anywhere">DossierFrankrijk, je eigen dossier voor abonnees</span>
         <span aria-hidden="true" style="font:700 14px Mulish;color:#15213A">→</span>
       </button>
       <button onClick="{{ openAiTools }}" style="width:100%;min-height:48px;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:.5px solid rgba(21,24,26,.25);border-radius:12px;padding:8px 14px;cursor:pointer">
         <span style="{{ rijIcoStyleAi }}"></span>
-        <span style="flex:1;min-width:0;font:600 13px/1.3 Mulish;color:#15181A;overflow-wrap:anywhere">AI-tools, hulp bij uw vragen</span>
+        <span style="flex:1;min-width:0;font:600 13px/1.3 Mulish;color:#15181A;overflow-wrap:anywhere">AI-tools, hulp bij je vragen</span>
         <span aria-hidden="true" style="font:700 14px Mulish;color:#15213A">→</span>
       </button>
     </div>
@@ -288,7 +305,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ hubFavs }}" hint-placeholder-val="{{ false }}">
   <div style="margin:22px 0 0">
     <div style="display:flex;align-items:baseline;gap:8px;padding:0 16px 8px">
-      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Uw favorieten</div>
+      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Je favorieten</div>
       <div style="font:600 12px Mulish;color:#71787C;margin-left:auto">{{ favCount }}</div>
     </div>
     <div style="background:#fff;border:1px solid rgba(128,0,0,.16);border-radius:16px;margin:0 16px;overflow:hidden">
@@ -320,7 +337,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </sc-if>
   <sc-if value="{{ isModScreen }}" hint-placeholder-val="{{ false }}">
   <div data-modkeuze="1" style="margin:16px 14px 0">
-    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Mijn modules: kies wat u hier ziet &#8594;</button>
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Mijn modules: kies wat je hier ziet &#8594;</button>
     <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin:8px 2px 0">
       <span style="flex:1 1 auto;font:500 12.5px/1.5 Mulish;color:#3D4346">{{ modStand }}</span>
       <sc-if value="{{ heeftEigenKeuze }}" hint-placeholder-val="{{ false }}"><button onClick="{{ resetKeuze }}" style="min-height:44px;padding:0 4px;border:0;background:none;color:#800000;font:700 12.5px Mulish;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Terug naar de standaard</button></sc-if>
@@ -380,7 +397,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ lmFout }}" hint-placeholder-val="{{ false }}">
   <div style="margin:16px 14px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
     <b style="display:block;font:700 14px Mulish;color:#15181A">La Maison kon niet geladen worden</b>
-    <p style="font:500 13.5px/1.8 Mulish;color:#3D4346;margin:4px 0 0;text-wrap:pretty">Controleer uw verbinding en probeer het opnieuw. U kunt de gids ook op de website lezen.</p>
+    <p style="font:500 13.5px/1.8 Mulish;color:#3D4346;margin:4px 0 0;text-wrap:pretty">Controleer je verbinding en probeer het opnieuw. Je kunt de gids ook op de website lezen.</p>
     <button onClick="{{ lmOpnieuw }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">Opnieuw</button>
     <a href="{{ lmGidsUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;text-decoration:none;margin-top:8px">La Maison op infofrankrijk.com ↗</a>
   </div>
@@ -473,7 +490,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </sc-if>
   <sc-if value="{{ lmGeenTools }}" hint-placeholder-val="{{ false }}">
   <div style="margin:0 14px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-    <p style="font:500 14px/1.8 Mulish;color:#3D4346;margin:0;text-wrap:pretty">Er staan geen tools aan bij dit onderwerp. U zet ze aan bij Profiel, Mijn modules.</p>
+    <p style="font:500 14px/1.8 Mulish;color:#3D4346;margin:0;text-wrap:pretty">Er staan geen tools aan bij dit onderwerp. Je zet ze aan bij Profiel, Mijn modules.</p>
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer;margin-top:12px">Naar Mijn modules →</button>
   </div>
   </sc-if>
@@ -523,7 +540,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ onFout }}" hint-placeholder-val="{{ false }}">
   <div style="margin:16px 14px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
     <b style="display:block;font:700 14px Mulish;color:#15181A">De route kon niet geladen worden</b>
-    <p style="font:500 13.5px/1.8 Mulish;color:#3D4346;margin:4px 0 0;text-wrap:pretty">Controleer uw verbinding en probeer het opnieuw. U kunt ook het artikel over ondernemen op de website lezen.</p>
+    <p style="font:500 13.5px/1.8 Mulish;color:#3D4346;margin:4px 0 0;text-wrap:pretty">Controleer je verbinding en probeer het opnieuw. Je kunt ook het artikel over ondernemen op de website lezen.</p>
     <button onClick="{{ onOpnieuw }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">Opnieuw</button>
     <a href="{{ onTerugvalUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;text-decoration:none;margin-top:8px">Ondernemen in Frankrijk op infofrankrijk.com ↗</a>
   </div>
@@ -785,7 +802,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div>
     <button onClick="{{ gzNoodTegel.open }}" style="width:calc(100% - 32px);margin:16px 16px 0;display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:#F8DFDD;border:1px solid rgba(179,38,30,.25);color:#15181A;text-align:left;cursor:pointer;min-height:44px;box-sizing:border-box">
       <span style="width:40px;height:40px;border-radius:50%;background:#B3261E;color:#fff;display:flex;align-items:center;justify-content:center;font:700 18px Mulish;flex:none">!</span>
-      <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.25">{{ gzNoodTitel }}</span><span style="font:500 13px Mulish;color:#3D4346;line-height:1.3">Wat u vandaag kunt doen</span></span>
+      <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font:600 14.5px Poppins,system-ui,sans-serif;line-height:1.25">{{ gzNoodTitel }}</span><span style="font:500 13px Mulish;color:#3D4346;line-height:1.3">Wat je vandaag kunt doen</span></span>
       <span style="color:#B3261E;font-size:18px">›</span>
     </button>
     <button onClick="{{ gzNuTegel.open }}" style="width:calc(100% - 32px);margin:14px 16px 0;display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-align:left;cursor:pointer;min-height:44px;box-sizing:border-box">
@@ -884,7 +901,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ aiUitHeeft }}" hint-placeholder-val="{{ false }}">
   <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.04);border:1px solid rgba(128,0,0,.12)">
     <div style="font:500 13px/1.6 Mulish;color:#3D4346">{{ aiUitTekst }}</div>
-    <button onClick="{{ goKeuze }}" style="width:100%;min-height:48px;margin-top:10px;border:1px solid rgba(128,0,0,.25);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat u ziet →</button>
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:48px;margin-top:10px;border:1px solid rgba(128,0,0,.25);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat je ziet →</button>
   </div>
   </sc-if>
   <div style="height:26px"></div>
@@ -1127,7 +1144,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:18px 18px 0">
     <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nederlanders.fr · vrij toegankelijk</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Forum</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Het forum van Nederlanders.fr: berichten mét hun volledige reactiedraad, juist wat de mobiele weergave van de site weglaat. Lezen kan zonder account; reageren doet u op de site zelf.</p>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Het forum van Nederlanders.fr: berichten mét hun volledige reactiedraad, juist wat de mobiele weergave van de site weglaat. Lezen kan zonder account; reageren doe je op de site zelf.</p>
   </div>
 
   <div>
@@ -1177,7 +1194,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Geld · vrij toegankelijk</div>
-    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.15;margin:7px 0 0">Betaalt u 7,5% of 17,2%?</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:25px;line-height:1.15;margin:7px 0 0">Betaal je 7,5% of 17,2%?</h1>
     <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ ruKern }}</p>
     <div style="margin-top:12px;padding:13px 15px;border-radius:13px;background:rgba(226,129,47,.12);font:600 12.5px/1.7 Mulish;color:#8A4E14;text-wrap:pretty">{{ ruWaarschuwing }}</div>
   </div>
@@ -1244,7 +1261,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ ruKopieer }}" style="width:100%;min-height:48px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14px Mulish;cursor:pointer;margin-top:12px">{{ ruKopieerLabel }}</button>
   </div>
 
-  <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Wat u nodig heeft</div>
+  <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Wat je nodig heeft</div>
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
     <sc-for list="{{ ruPapieren }}" as="p" hint-placeholder-count="6">
     <div style="display:flex;gap:11px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.07)">
@@ -1292,7 +1309,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div>
   <div style="margin:14px 14px 0;background:#8A1414;border-radius:17px;padding:17px 18px">
     <div style="font:800 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.72)">Direct gevaar?</div>
-    <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:21px;line-height:1.2;color:#fff;margin-top:6px">Bel 15 of 112. Zeg eerst uw adres.</div>
+    <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:21px;line-height:1.2;color:#fff;margin-top:6px">Bel 15 of 112. Zeg eerst je adres.</div>
     <div style="display:flex;flex-direction:column;gap:7px;margin-top:13px">
       <sc-for list="{{ zoNummers }}" as="n" hint-placeholder-count="4">
       <a href="{{ n.tel }}" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.13);border-radius:12px;padding:11px 13px;text-decoration:none;min-height:46px">
@@ -1374,7 +1391,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   </sc-if>
 
-  <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Zeggen wat u nodig heeft</div>
+  <div style="padding:24px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Zeggen wat je nodig heeft</div>
   <div style="display:flex;flex-direction:column;gap:9px;padding:0 14px">
     <sc-for list="{{ zoZinnen }}" as="z" hint-placeholder-count="5">
     <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;padding:14px 15px">
@@ -1405,7 +1422,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:18px 18px 0">
     <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wonen · vrij toegankelijk</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Een huis kopen</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies de fase waarin u zit. Per fase staat wat er wettelijk geldt en wat alleen gebruik is. Dat onderscheid is precies waar het misgaat.</p>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Kies de fase waarin je zit. Per fase staat wat er wettelijk geldt en wat alleen gebruik is. Dat onderscheid is precies waar het misgaat.</p>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:8px;padding:16px 14px 0">
@@ -1479,8 +1496,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
   <sc-if value="{{ vgHeeftReken }}" hint-placeholder-val="{{ true }}">
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(128,0,0,.20);border-radius:16px;padding:16px 17px">
-    <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Wat gaat het u kosten</div>
-    <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">De rekentool Vastgoed transactiekosten rekent met de overdrachtsbelasting van úw departement en het wettelijke notaristarief, en toont per post het toegepaste wetsartikel met bron en peildatum.</div>
+    <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Wat gaat het je kosten</div>
+    <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">De rekentool Vastgoed transactiekosten rekent met de overdrachtsbelasting van jouw departement en het wettelijke notaristarief, en toont per post het toegepaste wetsartikel met bron en peildatum.</div>
     <button onClick="{{ vgReken }}" style="width:100%;min-height:50px;border:0;border-radius:13px;background:#800000;color:#fff;font:800 14.5px Mulish;cursor:pointer;margin-top:13px">Naar de rekentool</button>
   </div>
   </sc-if>
@@ -1570,8 +1587,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-if>
 
     <!-- Eigen situatie: acht vragen -->
-    <div style="padding:26px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Nu uw eigen situatie</div>
-    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 18px 0;text-wrap:pretty">Acht vragen, met dezelfde rekenmotor als hierboven. Gratis in te vullen, met uw eigen bedragen als uitkomst.</p>
+    <div style="padding:26px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Nu je eigen situatie</div>
+    <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 18px 0;text-wrap:pretty">Acht vragen, met dezelfde rekenmotor als hierboven. Gratis in te vullen, met je eigen bedragen als uitkomst.</p>
 
     <sc-for list="{{ enGroepen }}" as="g" hint-placeholder-count="7">
     <div style="margin:18px 14px 0">
@@ -1593,7 +1610,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <div style="width:22px;height:22px;flex:none;border-radius:7px;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 12px Mulish">8</div>
         <div style="font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15.5px;line-height:1.3">Woonoppervlak</div>
       </div>
-      <div style="font:500 12px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">Surface habitable, zoals op uw acte of taxe foncière.</div>
+      <div style="font:500 12px/1.6 Mulish;color:#71787C;margin:4px 0 0 30px">Surface habitable, zoals op je acte of taxe foncière.</div>
       <div style="display:flex;align-items:center;gap:12px;margin:10px 0 0 30px">
         <button onClick="{{ enM2Min }}" aria-label="Minder" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(128,0,0,.20);background:#fff;color:#800000;font:700 22px Mulish;cursor:pointer">−</button>
         <div style="flex:1;text-align:center;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:24px">{{ enM2 }} m²</div>
@@ -1608,7 +1625,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ enEigenKlaar }}" hint-placeholder-val="{{ false }}">
     <div>
       <div style="margin:20px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px">
-        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">De richting van uw uitkomst</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">De richting van je uitkomst</div>
         <div style="font:500 13px/1.8 Mulish;color:#3D4346;margin-top:6px;text-wrap:pretty">{{ enEigenRichting }}</div>
       </div>
 
@@ -1784,7 +1801,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           </div>
           </sc-if>
           <sc-if value="{{ b.melding }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346;text-wrap:pretty">De volledige tekst is nu niet beschikbaar. U leest de samenvatting; de bronnen staan hieronder.</div>
+          <div style="padding:11px 13px;border-radius:11px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346;text-wrap:pretty">De volledige tekst is nu niet beschikbaar. Je leest de samenvatting; de bronnen staan hieronder.</div>
           </sc-if>
         </div>
         <sc-if value="{{ b.klaar }}" hint-placeholder-val="{{ false }}">
@@ -1892,7 +1909,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ draadHeeftHref }}" hint-placeholder-val="{{ true }}">
   <div style="margin:18px 14px 0">
     <a href="{{ draadHref }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:13px;background:#800000;color:#fff;font:700 14.5px Mulish;text-decoration:none">{{ draadUitLabel }}</a>
-    <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:8px;text-align:center;text-wrap:pretty">Reageren gebeurt op de site zelf, met uw eigen account. De app plaatst nooit iets namens u.</div>
+    <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:8px;text-align:center;text-wrap:pretty">Reageren gebeurt op de site zelf, met je eigen account. De app plaatst nooit iets namens je.</div>
   </div>
   </sc-if>
   <div style="height:26px"></div>
@@ -1980,13 +1997,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:16px 14px 0">
     <a href="https://www.nedergids.nl" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids 1.0</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">De bestaande gids met particulieren en dienstverleners</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71787C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
-    <button onClick="{{ ngGemeente }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Mijn gemeente</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Risico's, belasting, mairie en meer voor uw gemeente</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
-    <button onClick="{{ ngVerenigingen }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlandse verenigingen</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Welke verenigingen kunt u in Frankrijk vinden</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
-    <button onClick="{{ ngOverheden }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Franse overheden bij u in de buurt</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Loketten en instellingen op postcode</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button onClick="{{ ngGemeente }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Mijn gemeente</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Risico's, belasting, mairie en meer voor je gemeente</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button onClick="{{ ngVerenigingen }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlandse verenigingen</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Welke verenigingen kun je in Frankrijk vinden</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button onClick="{{ ngOverheden }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Franse overheden bij je in de buurt</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Loketten en instellingen op postcode</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     <sc-for list="{{ ngExtra }}" as="x" hint-placeholder-count="3">
     <button onClick="{{ x.open }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">{{ x.naam }}</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">{{ x.meta }}</span><sc-if value="{{ x.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     </sc-for>
-    <button onClick="{{ ngHygiene }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Wat u bij Gault &amp; Millau en Michelin niet leest</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">We laten niet zien of het lekker is, wel of het fris, fruitig en hygiënisch is</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button onClick="{{ ngHygiene }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Wat je bij Gault &amp; Millau en Michelin niet leest</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">We laten niet zien of het lekker is, wel of het fris, fruitig en hygiënisch is</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
   <p style="margin:16px 18px 0;font:500 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Deze functies komen samen in Nedergids V2.</p>
   <div style="height:26px"></div>
@@ -2013,7 +2030,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <div style="font:500 13px/1.8 Mulish;color:#5C0000;margin-top:5px;text-wrap:pretty">Alles onder Veiligheid &amp; natuur is en blijft vrij toegankelijk, ook zonder abonnement en zonder account.</div>
       </div>
       <div style="margin:12px 14px 0;padding:15px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#71787C">Uw omgeving</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#71787C">Je omgeving</div>
         <div style="font:700 15px/1.3 Mulish;color:#15181A;margin-top:5px">{{ veiligDep }}</div>
         <div style="font:500 12.5px/1.75 Mulish;color:#3D4346;margin-top:5px;text-wrap:pretty">{{ veiligUitleg }}</div>
         <sc-if value="{{ veiligGeenPc }}" hint-placeholder-val="{{ true }}">
@@ -2039,7 +2056,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ isKnop }}" hint-placeholder-val="{{ false }}">
     <div style="margin:18px 14px 0">
       <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:54px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">{{ knopLabel }}</a>
-      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin:8px 2px 0;text-align:center;text-wrap:pretty">Opent in een nieuw tabblad van uw browser; sluit dat om terug te keren naar de app.</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin:8px 2px 0;text-align:center;text-wrap:pretty">Opent in een nieuw tabblad van je browser; sluit dat om terug te keren naar de app.</div>
     </div>
     </sc-if>
     <sc-if value="{{ isVoorvertoning }}" hint-placeholder-val="{{ true }}">
@@ -2050,7 +2067,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
           <span style="font:700 12px Mulish;color:#15181A;background:rgba(255,255,255,.94);border:1px solid rgba(21,24,26,.12);border-radius:999px;padding:10px 15px;min-height:40px;display:flex;align-items:center">Tik om te openen</span>
         </a>
       </div>
-      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin:8px 16px 0;text-wrap:pretty">De module opent in een nieuw tabblad van uw browser; sluit dat om terug te keren.</div>
+      <div style="font:500 12px/1.7 Mulish;color:#71787C;margin:8px 16px 0;text-wrap:pretty">De module opent in een nieuw tabblad van je browser; sluit dat om terug te keren.</div>
     </div>
     </sc-if>
     <sc-if value="{{ geenUrl }}" hint-placeholder-val="{{ false }}">
@@ -2113,8 +2130,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
 
     <div style="padding:26px 18px 8px">
-      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Nu uw eigen situatie</div>
-      <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Vul in wat op u van toepassing is. Dat mag zonder abonnement. U ziet zo precies wat de module met uw antwoorden doet.</p>
+      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Nu je eigen situatie</div>
+      <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Vul in wat op je van toepassing is. Dat mag zonder abonnement. Je ziet zo precies wat de module met je antwoorden doet.</p>
     </div>
     <sc-for list="{{ intake }}" as="q" hint-placeholder-count="3">
     <div style="margin:14px 16px 0">
@@ -2133,8 +2150,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ muurOpen }}" hint-placeholder-val="{{ false }}">
     <div style="margin:20px 14px 0;background:#fff;border:1px solid rgba(128,0,0,.22);border-radius:16px;overflow:hidden">
       <div style="padding:15px 16px;background:rgba(128,0,0,.06)">
-        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Uw uitkomst is berekend</div>
-        <div style="font:500 12.5px/1.7 Mulish;color:#5C0000;margin-top:4px;text-wrap:pretty">Uw antwoorden blijven bewaard. Word abonnee en u ziet deze getallen meteen. U hoeft niets opnieuw in te vullen.</div>
+        <div style="font:700 12px Mulish;letter-spacing:.11em;text-transform:uppercase;color:#800000">Je uitkomst is berekend</div>
+        <div style="font:500 12.5px/1.7 Mulish;color:#5C0000;margin-top:4px;text-wrap:pretty">Je antwoorden blijven bewaard. Word abonnee en je ziet deze getallen meteen. Je hoeft niets opnieuw in te vullen.</div>
       </div>
       <sc-for list="{{ uitRows }}" as="r" hint-placeholder-count="3">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid rgba(21,24,26,.06);font:500 13.5px Mulish;color:#3D4346">
@@ -2145,7 +2162,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="padding:14px 16px;border-top:1px solid rgba(21,24,26,.06)">
         <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:13px;background:#800000;color:#fff;font:800 15px Mulish;text-decoration:none">Word abonnee en bekijk mijn uitkomst →</a>
         <button onClick="{{ goTaal }}" style="width:100%;min-height:46px;border:1px solid rgba(21,24,26,.10);border-radius:12px;background:#fff;color:#15181A;font:700 13.5px Mulish;cursor:pointer;margin-top:9px">Later, naar de gratis onderdelen</button>
-        <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:9px;text-align:center;text-wrap:pretty">Het abonnement geeft toegang tot alle rekenmodules, uw dossier en de artikelen op infofrankrijk.com.</div>
+        <div style="font:500 12px/1.7 Mulish;color:#71787C;margin-top:9px;text-align:center;text-wrap:pretty">Het abonnement geeft toegang tot alle rekenmodules, je dossier en de artikelen op infofrankrijk.com.</div>
       </div>
     </div>
     </sc-if>
@@ -2219,7 +2236,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div>
   <div style="padding:20px 18px 0">
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:0">Profiel</h1>
-    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">U gebruikt de app nu zonder aanmelden. Dat mag: de gemeenschap en de taaltools zijn vrij toegankelijk.</p>
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">Je gebruikt de app nu zonder aanmelden. Dat mag: de gemeenschap en de taaltools zijn vrij toegankelijk.</p>
   </div>
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px">
     <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;font-size:13.5px"><span>Nederlanders.fr</span><b style="color:#71787C">niet aangemeld</b></div>
@@ -2240,16 +2257,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </button>
   </div>
   <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
-    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat u ziet →</button>
+    <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat je ziet →</button>
     <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Alle modules →</button>
     <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
     <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
-    <button id="ifm-installeer" onClick="{{ installOpenProfiel }}" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:rgba(128,0,0,.05);color:#800000;font:700 14px Mulish;cursor:pointer">Zet InfoPoche op uw beginscherm →</button>
+    <button id="ifm-installeer" onClick="{{ installOpenProfiel }}" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:rgba(128,0,0,.05);color:#800000;font:700 14px Mulish;cursor:pointer">Zet InfoPoche op je beginscherm →</button>
     </sc-if>
   </div>
-  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app: u ziet altijd welke van de twee gevraagd wordt.</div>
-  <div style="margin:12px 18px 0;font:500 13px/1.55 Mulish;color:#3D4346">U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android opent u de recente apps en veegt u InfoPoche weg.</div>
+  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app: je ziet altijd welke van de twee gevraagd wordt.</div>
+  <div style="margin:12px 18px 0;font:500 13px/1.55 Mulish;color:#3D4346">Je hoeft de app niet af te sluiten: ga gewoon terug naar je beginscherm, de app wacht rustig op de achtergrond. Wil je hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android open je de recente apps en veeg je InfoPoche weg.</div>
   <div style="margin:12px 14px 0">
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
@@ -2261,11 +2278,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isRegio }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:20px 18px 0">
-    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.1;margin:0">Uw regio</h1>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.1;margin:0">Je regio</h1>
     <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ regioIntro }}</p>
   </div>
   <sc-if value="{{ regioLeeg }}" hint-placeholder-val="{{ false }}">
-  <div style="margin:16px 14px 0;padding:15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 13px/1.8 Mulish;color:#3D4346">Er staat voor uw regio nu niets aan. Bij Profiel, Mijn modules, zet u modules aan.</div>
+  <div style="margin:16px 14px 0;padding:15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 13px/1.8 Mulish;color:#3D4346">Er staat voor je regio nu niets aan. Bij Profiel, Mijn modules, zet je modules aan.</div>
   </sc-if>
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;overflow:hidden">
     <sc-for list="{{ regioRijen }}" as="r" hint-placeholder-count="3">
@@ -2349,8 +2366,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isKeuze }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:20px 16px 0">
-    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:28px;line-height:1.1;margin:0">Wat wilt u zien?</h1>
-    <p style="font-size:15px;line-height:1.6;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zet aan wat u gebruikt. Wat uit staat verdwijnt van het beginscherm, maar blijft vindbaar via zoeken.</p>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:28px;line-height:1.1;margin:0">Wat wil je zien?</h1>
+    <p style="font-size:15px;line-height:1.6;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zet aan wat je gebruikt. Wat uit staat verdwijnt van het beginscherm, maar blijft vindbaar via zoeken.</p>
   </div>
   <div style="display:flex;gap:8px;margin:16px 16px 0">
     <button onClick="{{ keuzeAllesAan }}" style="flex:1;min-height:48px;border:1px solid rgba(128,0,0,.25);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Alles aan</button>
@@ -2358,7 +2375,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   <div style="margin:8px 16px 0"><button onClick="{{ resetKeuze }}" style="width:100%;min-height:44px;border:0;background:none;color:#800000;font:700 13.5px Mulish;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Terug naar de standaard</button></div>
   <sc-if value="{{ keuzeFavsUit }}" hint-placeholder-val="{{ false }}">
-  <div style="margin:8px 16px 0;font:500 12.5px/1.6 Mulish;color:#71787C">U hebt nog geen favorieten. Zet een ster bij een module in de lijst, dan werkt deze knop.</div>
+  <div style="margin:8px 16px 0;font:500 12.5px/1.6 Mulish;color:#71787C">Je hebt nog geen favorieten. Zet een ster bij een module in de lijst, dan werkt deze knop.</div>
   </sc-if>
   <sc-for list="{{ keuzeGroepen }}" as="g" hint-placeholder-count="3">
   <div style="margin:20px 0 0">
@@ -2376,7 +2393,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
   </div>
   </sc-for>
-  <div style="margin:16px 16px 0;font:500 13px/1.5 Mulish;color:#71787C">Uw keuze wordt alleen op dit toestel bewaard.</div>
+  <div style="margin:16px 16px 0;font:500 13px/1.5 Mulish;color:#71787C">Je keuze wordt alleen op dit toestel bewaard.</div>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -2538,7 +2555,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <input value="{{ kaQ }}" onInput="{{ kaOnQ }}" type="text" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120" placeholder="Bijv. septic tank" aria-label="Zoek in het Klusarchief" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#fff">
         <button type="submit" style="flex:none;min-height:52px;min-width:72px;padding:0 18px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
       </form>
-      <div role="group" aria-label="Waar zoekt u" data-ka-chips="1" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+      <div role="group" aria-label="Waar zoek je" data-ka-chips="1" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
         <sc-for list="{{ kaChips }}" as="c" hint-placeholder-count="3">
         <button onClick="{{ c.klik }}" aria-pressed="{{ c.actief }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(128,0,0,.35);background:{{ c.vlak }};color:{{ c.kleur }};font:700 14px Mulish;cursor:pointer">{{ c.tekst }}</button>
         </sc-for>
@@ -2977,7 +2994,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   </sc-if>
   <div style="padding:22px 16px 0">
-    <p style="margin:0;font:400 15px/1.6 Mulish;color:#15181A">Adverteren is betaald en gaat via Nederlanders.fr. Staat uw advertentie daar, dan vindt u hem ook in deze lijst.</p>
+    <p style="margin:0;font:400 15px/1.6 Mulish;color:#15181A">Adverteren is betaald en gaat via Nederlanders.fr. Staat je advertentie daar, dan vind je hem ook in deze lijst.</p>
     <a href="{{ tkAdverterenUrl }}" target="_blank" rel="noopener" style="margin-top:12px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-align:center;text-decoration:none">Adverteren op Nederlanders.fr &#8599;</a>
   </div>
   <div style="height:28px"></div>
@@ -3004,7 +3021,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </sc-if>
   <sc-if value="{{ hyFout }}" hint-placeholder-val="{{ false }}">
   <div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De gegevens zijn nu niet te laden. Controleer uw verbinding of probeer het later opnieuw.</p>
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De gegevens zijn nu niet te laden. Controleer je verbinding of probeer het later opnieuw.</p>
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
       <button onClick="{{ hyOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
       <a href="{{ hySiteUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-decoration:none">Zoek op de site van Alim'confiance ↗</a>
@@ -3032,7 +3049,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ hyMeerBezig }}" hint-placeholder-val="{{ false }}"><div style="font:600 14px/1.6 Mulish;color:#71787C">Meer controles worden opgehaald...</div></sc-if>
   </div>
   </sc-if>
-  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Bron: Alim'confiance van het Franse Ministerie van Landbouw (Licence Ouverte). Dit zijn gegevens van de overheid: de uitkomst is die van de inspecteur op de controledatum, Infopoche beoordeelt niets. Uw locatie wordt alleen gebruikt als u op de knop tikt, eenmalig om een postcode te vinden (via geo.api.gouv.fr), en wordt niet bewaard.</p>
+  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Bron: Alim'confiance van het Franse Ministerie van Landbouw (Licence Ouverte). Dit zijn gegevens van de overheid: de uitkomst is die van de inspecteur op de controledatum, Infopoche beoordeelt niets. Je locatie wordt alleen gebruikt als je op de knop tikt, eenmalig om een postcode te vinden (via geo.api.gouv.fr), en wordt niet bewaard.</p>
   <div style="padding:12px 16px 0"><a href="{{ hySiteUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;text-decoration:none">Alle resultaten en kaart op alimconfiance.agriculture.gouv.fr ↗</a></div>
   <div style="height:26px"></div>
 </div>
@@ -3042,7 +3059,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isGemeente }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:16px 16px 0">
-    <p style="margin:0;font:400 15.5px Mulish;line-height:1.6;color:#15181A;text-wrap:pretty">Wat de Franse overheid openbaar publiceert over uw gemeente en uw adres: risico's, belasting, de mairie en meer. Elke kaart noemt zijn bron. Valt een bron uit, dan staat dat erbij.</p>
+    <p style="margin:0;font:400 15.5px Mulish;line-height:1.6;color:#15181A;text-wrap:pretty">Wat de Franse overheid openbaar publiceert over je gemeente en je adres: risico's, belasting, de mairie en meer. Elke kaart noemt zijn bron. Valt een bron uit, dan staat dat erbij.</p>
     <form onSubmit="{{ gmVerstuur }}" style="margin-top:14px;display:flex;gap:8px">
       <input value="{{ gmPc }}" onInput="{{ gmOnPc }}" autocomplete="street-address" placeholder="Adres of postcode" aria-label="Adres of postcode" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#fff">
       <button type="submit" style="flex:none;min-height:52px;padding:0 18px;border:0;border-radius:13px;background:{{ gmKnopBg }};color:{{ gmKnopFg }};font:700 15px Mulish;cursor:pointer">Zoek</button>
@@ -3055,7 +3072,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ gmGeen }}" hint-placeholder-val="{{ false }}"><div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);font:600 14.5px/1.6 Mulish;color:#15181A">{{ gmGeenTekst }}</div></sc-if>
   <sc-if value="{{ gmFout }}" hint-placeholder-val="{{ false }}">
   <div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De gemeente is nu niet op te zoeken. Controleer uw verbinding of probeer het later opnieuw.</p>
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De gemeente is nu niet op te zoeken. Controleer je verbinding of probeer het later opnieuw.</p>
     <button onClick="{{ gmOpnieuw }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
   </div>
   </sc-if>
@@ -3112,7 +3129,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-for>
   </div>
-  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit zijn gegevens van de Franse overheid per gemeente, zonder oordeel van Infopoche. Een ingevuld adres gaat naar de Franse adreszoeker (data.geopf.fr) en daarna naar Géorisques. Natuurrampbesluiten, radon en verkochte huizen vraagt de app op via de server van Infopoche; die ziet alleen de gemeentecode en slaat niets op (de hostingdienst bewaart technische logbestanden). Uw locatie wordt alleen gebruikt als u op de knop tikt, eenmalig om een gemeente te vinden (via geo.api.gouv.fr) en de risico's op die plek op te vragen. Niets wordt bewaard.</p>
+  <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit zijn gegevens van de Franse overheid per gemeente, zonder oordeel van Infopoche. Een ingevuld adres gaat naar de Franse adreszoeker (data.geopf.fr) en daarna naar Géorisques. Natuurrampbesluiten, radon en verkochte huizen vraagt de app op via de server van Infopoche; die ziet alleen de gemeentecode en slaat niets op (de hostingdienst bewaart technische logbestanden). Je locatie wordt alleen gebruikt als je op de knop tikt, eenmalig om een gemeente te vinden (via geo.api.gouv.fr) en de risico's op die plek op te vragen. Niets wordt bewaard.</p>
   </sc-if>
   <div style="height:26px"></div>
 </div>
@@ -3121,9 +3138,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <!-- ============ OVER ONS ============ -->
 <sc-if value="{{ isOver }}" hint-placeholder-val="{{ false }}">
 <div>
-  <div style="padding:22px 16px 0;text-align:center"><img src="./icons/logo-brons.svg" alt="" width="84" height="84" style="display:block;margin:0 auto;width:84px;height:auto"><h1 style="margin:14px 0 0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">Over InfoPoche</h1><p style="margin:8px 0 0;font:400 15.5px Mulish;line-height:1.6;color:#3D4346;text-wrap:pretty">Ons netwerk in uw broekzak</p></div>
+  <div style="padding:22px 16px 0;text-align:center"><img src="./icons/logo-brons.svg" alt="" width="84" height="84" style="display:block;margin:0 auto;width:84px;height:auto"><h1 style="margin:14px 0 0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">Over InfoPoche</h1><p style="margin:8px 0 0;font:400 15.5px Mulish;line-height:1.6;color:#3D4346;text-wrap:pretty">Ons netwerk in je broekzak</p></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Wie zijn we</div>
-  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Infofrankrijk.com</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Kennishub, sinds 2001.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlanders.fr</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Het forum, sinds 2002, met ruim 25.000 leden. Het bestaat dankzij de mensen die eraan bijdragen: vragenstellers, bijdragers en discussiedeelnemers, soms honderden bijdragen per persoon over vele jaren. Het is een gemodereerde gemeenschap, met toelating, huisregels en optreden tegen spam en misbruik.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Café Claude</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">U klikt uw vraag aan en krijgt een kort, duidelijk antwoord. Daaronder staat de volledige onderbouwing: de uitgebreide analyse waarop dat antwoord rust. U krijgt dus niet alleen het antwoord, maar ook hoe we eraan komen.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Vind particulieren en dienstverleners in Frankrijk.</p></div></div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Infofrankrijk.com</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Kennishub, sinds 2001.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlanders.fr</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Het forum, sinds 2002, met ruim 25.000 leden. Het bestaat dankzij de mensen die eraan bijdragen: vragenstellers, bijdragers en discussiedeelnemers, soms honderden bijdragen per persoon over vele jaren. Het is een gemodereerde gemeenschap, met toelating, huisregels en optreden tegen spam en misbruik.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Café Claude</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Je klikt je vraag aan en krijgt een kort, duidelijk antwoord. Daaronder staat de volledige onderbouwing: de uitgebreide analyse waarop dat antwoord rust. Je krijgt dus niet alleen het antwoord, maar ook hoe we eraan komen.</p></div><div style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Vind particulieren en dienstverleners in Frankrijk.</p></div></div>
   <div style="padding:26px 18px 8px">
     <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Hoe wij naar kennis kijken</div>
     <p style="font-size:13.5px;line-height:1.8;color:#3D4346;margin:7px 0 0;text-wrap:pretty">Onderaan staan data en zoek-agents. Daarboven kennis: een gevalideerd antwoord op een gestelde vraag. Bovenaan, het grootst, staat ervaring, want één melding is een anekdote en twintig meldingen zijn een patroon. In de punt de handeling zelf: uitwisseling.</p>
@@ -3143,7 +3160,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Cockpit</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Toezicht op de techniek: werkt elke tool, zijn de koppelingen en API's in orde, zijn er storingen. Cockpit signaleert voordat iets breekt: verloopdata, sleutels en koppelingen, met diagnose en herstelroute.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Peil bewaakt de integriteit van de data. Dat is een continu proces van updaten en controleren, niet alleen van de parameters maar ook van de berekeningsgrondslagen.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Officiële bronnen wegen zwaar. Facebook telt niet als bron.</p></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Kansen en valkuilen</div>
-  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:rgba(31,122,58,.08);border:1px solid rgba(31,122,58,.30)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;color:#1B5E2F">Kansen</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#2B3A2F;text-wrap:pretty;overflow-wrap:anywhere">AI helpt om te zoeken en formuleren. Het maakt een vraag sneller beantwoordbaar. Nauwgezette protocollen, geautoriseerde bronnen en betrouwbare API's (koppelingen) met bronnen van officiële instanties helpen ons om de inzet van AI in onze media nauwgezet te auditen.</p></div><div style="padding:16px;border-radius:16px;background:rgba(176,32,32,.07);border:1px solid rgba(176,32,32,.30)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;color:#9B1C1C">Valkuilen</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Een valkuil is een verkeerde veronderstelling van een AI-agent of tool, waardoor het hele antwoord onjuist is. De oorzaak is bijna altijd dat de context onvoldoende duidelijk was.</p><p style="margin:8px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Voorbeeld: u stelt een vraag in het Nederlands over de Franse inkomstenbelasting, en de AI antwoordt met Nederlandse regels.</p><p style="margin:8px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Een vraag stellen aan een AI-tool zonder context is een recept voor mogelijk onjuiste informatie. Daarom vraagt de app uw postcode: die legt de context vooraf vast.</p></div></div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><div style="padding:16px;border-radius:16px;background:rgba(31,122,58,.08);border:1px solid rgba(31,122,58,.30)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;color:#1B5E2F">Kansen</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#2B3A2F;text-wrap:pretty;overflow-wrap:anywhere">AI helpt om te zoeken en formuleren. Het maakt een vraag sneller beantwoordbaar. Nauwgezette protocollen, geautoriseerde bronnen en betrouwbare API's (koppelingen) met bronnen van officiële instanties helpen ons om de inzet van AI in onze media nauwgezet te auditen.</p></div><div style="padding:16px;border-radius:16px;background:rgba(176,32,32,.07);border:1px solid rgba(176,32,32,.30)"><div style="font:600 14.5px Poppins,system-ui,sans-serif;color:#9B1C1C">Valkuilen</div><p style="margin:6px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Een valkuil is een verkeerde veronderstelling van een AI-agent of tool, waardoor het hele antwoord onjuist is. De oorzaak is bijna altijd dat de context onvoldoende duidelijk was.</p><p style="margin:8px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Voorbeeld: je stelt een vraag in het Nederlands over de Franse inkomstenbelasting, en de AI antwoordt met Nederlandse regels.</p><p style="margin:8px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3F2A2A;text-wrap:pretty;overflow-wrap:anywhere">Een vraag stellen aan een AI-tool zonder context is een recept voor mogelijk onjuiste informatie. Daarom vraagt de app je postcode: die legt de context vooraf vast.</p></div></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Waarom dit zorgvuld moet</div>
   <blockquote style="margin:0 16px;padding:14px 16px;border-left:4px solid #800000;border-radius:0 12px 12px 0;background:rgba(128,0,0,.05);font:italic 500 16px 'Source Serif 4',Georgia,serif;line-height:1.6;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">Als ChatGPT, Claude enz. iets fout doen wordt het afgedaan als 'typisch AI'; als een van onze tools niet werkt komt het met de onversneden directheid van de Nederlandse cultuur direct terug in het forum.</blockquote>
   <div style="padding:12px 16px 0;display:flex;flex-direction:column;gap:10px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Na anderhalf jaar werk aan betrouwbare AI weten we: een fout antwoord klinkt even overtuigend als een goed. Controles verkleinen risico's, maar garanderen niets.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Het abonnement op Infofrankrijk houdt de kennisbank en het forum in stand.</p></div>
@@ -3151,7 +3168,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Contact</div>
   <div style="margin:0 16px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)"><a href="mailto:info@communitiesabroad.com" style="display:inline-flex;align-items:center;min-height:44px;font:700 14.5px Mulish;color:#800000;text-decoration:none;overflow-wrap:anywhere">info@communitiesabroad.com</a><p style="margin:2px 0 0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">Communities Abroad, Oirschot, KvK 55741509</p></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#71787C">Disclaimer</div>
-  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Een forumreactie, AI-antwoord of rekentool vervangt niet automatisch professioneel advies voor uw specifieke situatie.</p></div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">De app geeft algemene voorlichting, geen juridisch of fiscaal advies. Bij een concrete zaak: notaris, expert-comptable of de betreffende dienst. Een forumreactie, AI-antwoord of rekentool vervangt niet automatisch professioneel advies voor je specifieke situatie.</p></div>
   <a href="https://infofrankrijk.com/disclaimer/" target="_blank" rel="noopener" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Volledige disclaimer &#8599;</a>
   <div style="height:26px"></div>
 </div>
@@ -3178,12 +3195,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ vraagPostcode }}" hint-placeholder-val="{{ false }}">
 <div data-pcblad="1" style="position:absolute;inset:0;z-index:50;background:rgba(21,24,26,.42);display:flex;flex-direction:column;justify-content:flex-end">
   <div onClick="{{ pcBladSluit }}" style="flex:1 1 auto;min-height:0"></div>
-  <div role="dialog" aria-modal="true" aria-label="Waar woont u?" style="{{ zoomCss }}flex:none;background:#fff;border-radius:22px 22px 0 0;padding:24px 20px 20px;box-shadow:0 -10px 40px rgba(21,24,26,.22);max-height:92%;overflow-y:auto;box-sizing:border-box">
+  <div role="dialog" aria-modal="true" aria-label="Waar woon je?" style="{{ zoomCss }}flex:none;background:#fff;border-radius:22px 22px 0 0;padding:24px 20px 20px;box-shadow:0 -10px 40px rgba(21,24,26,.22);max-height:92%;overflow-y:auto;box-sizing:border-box">
     <div style="width:38px;height:4px;border-radius:2px;background:rgba(21,24,26,.14);margin:0 auto 16px"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
       <div style="min-width:0">
         <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Eén vraag</div>
-        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woont u?</h2>
+        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Waar woon je?</h2>
       </div>
       <div style="display:flex;gap:4px;flex:none">
       <button onClick="{{ pcInfoWissel }}" aria-label="Waarvoor dient de postcode?" aria-expanded="{{ pcInfoAria }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:1px solid rgba(128,0,0,.30);background:rgba(128,0,0,.08);color:#800000;font:700 15px 'Source Serif 4',Georgia,serif;cursor:pointer">i</button>
@@ -3193,7 +3210,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <p style="font:500 13px/1.75 Mulish;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Alleen de postcode, vijf cijfers.</p>
     <sc-if value="{{ pcInfoOpen }}" hint-placeholder-val="{{ false }}">
     <div style="margin-top:12px;padding:14px;border-radius:12px;background:rgba(128,0,0,.05);display:flex;flex-direction:column;gap:10px">
-      <p style="margin:0;font:500 13.5px Mulish;line-height:1.5;color:#15181A">Uw postcode blijft op dit toestel en wordt alleen gebruikt om bij u in de buurt te zoeken.</p>
+      <p style="margin:0;font:500 13.5px Mulish;line-height:1.5;color:#15181A">Je postcode blijft op dit toestel en wordt alleen gebruikt om bij je in de buurt te zoeken.</p>
     </div>
     </sc-if>
     <input value="{{ pcInvoer }}" onInput="{{ onPc }}" inputmode="numeric" placeholder="bijv. 24200" aria-label="Postcode" style="width:100%;min-height:56px;margin-top:16px;border:1px solid rgba(128,0,0,.20);border-radius:13px;padding:0 16px;font:700 20px Mulish;letter-spacing:.08em;color:#15181A;background:#F4F1F0">
@@ -3213,18 +3230,18 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
       <div style="min-width:0">
         <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Pilot</div>
-        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Wat vindt u van Infopoche?</h2>
+        <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:7px 0 0">Wat vind je van Infopoche?</h2>
       </div>
       <button onClick="{{ fbSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
     </div>
     <sc-if value="{{ fbKlaar }}" hint-placeholder-val="{{ false }}">
     <div role="status" style="margin-top:16px;padding:16px;border-radius:12px;background:rgba(128,0,0,.05)">
-      <p style="margin:0;font:600 15px/1.6 Mulish;color:#15181A">Bedankt, uw reactie is ontvangen.</p>
-      <p style="margin:8px 0 0;font:500 13.5px/1.6 Mulish;color:#3D4346">Nog iets gezien? Dan kunt u hieronder een volgende reactie schrijven.</p>
+      <p style="margin:0;font:600 15px/1.6 Mulish;color:#15181A">Bedankt, je reactie is ontvangen.</p>
+      <p style="margin:8px 0 0;font:500 13.5px/1.6 Mulish;color:#3D4346">Nog iets gezien? Dan kun je hieronder een volgende reactie schrijven.</p>
     </div>
     </sc-if>
-    <p style="font:500 13.5px/1.7 Mulish;color:#3D4346;margin:10px 0 0;text-wrap:pretty">Zag u iets dat niet werkt, onduidelijk is of ontbreekt? Schrijf het hier op.</p>
-    <label for="fb-naam" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Uw naam</label>
+    <p style="font:500 13.5px/1.7 Mulish;color:#3D4346;margin:10px 0 0;text-wrap:pretty">Zag je iets dat niet werkt, onduidelijk is of ontbreekt? Schrijf het hier op.</p>
+    <label for="fb-naam" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Je naam</label>
     <input id="fb-naam" value="{{ fbNaam }}" onInput="{{ fbOnNaam }}" maxlength="80" autocomplete="name" style="width:100%;min-height:48px;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:0 14px;font:600 16px Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box">
     <div id="fb-onderdeel" style="margin-top:14px;font:700 13px Mulish;color:#15181A">Waar gaat het over?</div>
     <div role="group" aria-labelledby="fb-onderdeel" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
@@ -3238,7 +3255,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <option value="{{ t.id }}">{{ t.naam }}</option>
       </sc-for>
     </select>
-    <label for="fb-bericht" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Wat zag u?</label>
+    <label for="fb-bericht" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Wat zag je?</label>
     <textarea id="fb-bericht" value="{{ fbBericht }}" onInput="{{ fbOnBericht }}" maxlength="2000" rows="5" style="width:100%;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:12px 14px;font:500 16px/1.5 Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box;resize:vertical"></textarea>
     <label for="fb-toestel" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Toestel en browser</label>
     <input id="fb-toestel" value="{{ fbToestelWaarde }}" onInput="{{ fbOnToestel }}" maxlength="120" style="width:100%;min-height:48px;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:0 14px;font:500 15px Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box">
@@ -3258,9 +3275,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ kalAboBlad }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:55">
   <div onClick="{{ kalAboSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.45)"></div>
-  <section role="dialog" aria-modal="true" aria-label="Zet de kalender in uw agenda" data-kal-aboblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;box-shadow:0 -8px 30px rgba(21,24,26,.18);box-sizing:border-box">
+  <section role="dialog" aria-modal="true" aria-label="Zet de kalender in je agenda" data-kal-aboblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;box-shadow:0 -8px 30px rgba(21,24,26,.18);box-sizing:border-box">
     <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
-    <h2 style="margin:6px 0 0;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25">Zet de kalender in uw agenda</h2>
+    <h2 style="margin:6px 0 0;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25">Zet de kalender in je agenda</h2>
     <a href="{{ kalAboAllesUrl }}" target="_blank" rel="noopener" data-kal-abo-alles="1" style="display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 15px Mulish">{{ kalAboAllesTekst }}&nbsp;&#8599;</a>
     <div style="margin-top:6px;font:600 13.5px Mulish;color:#3D4346">{{ kalAboRubriekTekst }}</div>
     <div style="display:flex;flex-direction:column;gap:6px">
@@ -3281,11 +3298,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
     <h2 style="margin:6px 0 0;font:500 22px 'Source Serif 4',Georgia,serif;line-height:1.25">Bespreek op het forum</h2>
     <sc-if value="{{ forumBladOk }}" hint-placeholder-val="{{ false }}">
-    <p role="status" style="margin:0;font:500 15px Mulish;line-height:1.7;color:#15181A">Tekst gekopieerd. Open Nederlanders.fr, maak een nieuw bericht en plak de tekst. U moet daarvoor aangemeld zijn op Nederlanders.fr.</p>
+    <p role="status" style="margin:0;font:500 15px Mulish;line-height:1.7;color:#15181A">Tekst gekopieerd. Open Nederlanders.fr, maak een nieuw bericht en plak de tekst. Je moet daarvoor aangemeld zijn op Nederlanders.fr.</p>
     </sc-if>
     <sc-if value="{{ forumBladMis }}" hint-placeholder-val="{{ false }}">
     <div>
-      <p role="status" style="margin:0;font:500 15px Mulish;line-height:1.7;color:#15181A">Kopiëren lukte niet op dit toestel. Selecteer de tekst hieronder en kopieer hem zelf. Open daarna Nederlanders.fr, maak een nieuw bericht en plak de tekst. U moet daarvoor aangemeld zijn op Nederlanders.fr.</p>
+      <p role="status" style="margin:0;font:500 15px Mulish;line-height:1.7;color:#15181A">Kopiëren lukte niet op dit toestel. Selecteer de tekst hieronder en kopieer hem zelf. Open daarna Nederlanders.fr, maak een nieuw bericht en plak de tekst. Je moet daarvoor aangemeld zijn op Nederlanders.fr.</p>
       <div style="margin-top:10px;padding:12px;border-radius:10px;background:#F4F1F0;font:500 13.5px/1.6 Mulish;color:#15181A;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text">{{ forumBladTekst }}</div>
     </div>
     </sc-if>
@@ -3301,14 +3318,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <section role="dialog" aria-modal="true" aria-label="Abonnement" data-oproep="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(30px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.18)">
     <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-      <h2 style="margin:6px 0 0;font:500 24px 'Source Serif 4',Georgia,serif;line-height:1.25">Fijn dat InfoPoche u helpt</h2>
+      <h2 style="margin:6px 0 0;font:500 24px 'Source Serif 4',Georgia,serif;line-height:1.25">Fijn dat InfoPoche je helpt</h2>
       <button onClick="{{ oproepSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
     </div>
-    <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Wat u net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.</p>
-    <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.</p>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Wat je net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.</p>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Met een abonnement helpt je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.</p>
     <a href="{{ abonneeUrl }}" onClick="{{ oproepSluit }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14.5px Mulish">Bekijk het abonnement</a>
     <button onClick="{{ oproepSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:700 14px Mulish">Niet nu</button>
-    <p style="margin:0;text-align:center;font:500 12.5px Mulish;color:#71787C">U ziet deze vraag hooguit eens per week.</p>
+    <p style="margin:0;text-align:center;font:500 12.5px Mulish;color:#71787C">Je ziet deze vraag hooguit eens per week.</p>
   </section>
 </div>
 </sc-if>
@@ -3316,13 +3333,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ installBladOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;z-index:70">
   <div onClick="{{ installBladSluit }}" style="position:absolute;inset:0;background:rgba(21,24,26,.5)"></div>
-  <section role="dialog" aria-modal="true" aria-label="Zet InfoPoche op uw beginscherm" data-installblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:85%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.22)">
+  <section role="dialog" aria-modal="true" aria-label="Zet InfoPoche op je beginscherm" data-installblad="1" style="{{ zoomCss }}position:absolute;left:0;right:0;bottom:0;max-height:85%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:22px 22px 0 0;padding:12px 20px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;box-shadow:0 -8px 30px rgba(21,24,26,.22)">
     <div style="align-self:center;flex:none;width:40px;height:5px;border-radius:3px;background:rgba(21,24,26,.18)"></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
       <h2 style="margin:6px 0 0;font:500 25px 'Source Serif 4',Georgia,serif;line-height:1.25">{{ installBladKop }}</h2>
       <button onClick="{{ installBladSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
     </div>
-    <p style="margin:0;font:400 15px Mulish;line-height:1.7em">Dan staat InfoPoche tussen uw andere apps en opent hij in één tik, zonder app store en zonder account.</p>
+    <p style="margin:0;font:400 15px Mulish;line-height:1.7em">Dan staat InfoPoche tussen je andere apps en opent hij in één tik, zonder app store en zonder account.</p>
     <div data-installinhoud="1"></div>
     <button onClick="{{ installBladSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:600 14px Mulish;text-decoration:underline;text-underline-offset:4px">Verder in de browser</button>
   </section>
@@ -3397,7 +3414,7 @@ const CAT = [
   ["Administratie &amp; zorg", [
     ["Correspondentie-assistent", "brieven in correct Frans", "tool", 0, DOT.admin],
     ["Carte Vitale-status", "aanvraag volgen", "tool", 0, DOT.gezond],
-    ["Documentenkluis", "bewaar uw documenten", "tool", 0, DOT.admin]]]
+    ["Documentenkluis", "bewaar je documenten", "tool", 0, DOT.admin]]]
 ];
 
 const DEMO = [
@@ -3412,8 +3429,8 @@ const DEMO = [
     href:"https://www.nederlanders.fr/",
     reacties:[{auteur:"Joop K.",datum:"gisteren 19:55",tekst:"Bij ons hielp langsgaan bij het CPAM-loket met een uitdraai van het dossiernummer. Twee weken later was hij er."},
       {auteur:"Ellen S.",datum:"gisteren 12:40",tekst:"Vraag intussen een attestation de droits aan, daarmee kun je gewoon naar de dokter."}] },
-  { id:"d3", titel:"Brandrisico in de Hérault: hoe leest u de kaart van Météo des forêts?", auteur:"Redactie", datum:"2026-08-20T06:00:00Z", laatsteReactie:"2026-08-22T08:30:00Z",
-    samenvatting:"Het niveau is een voorspelling, geen melding van een brand. Wat u wél moet doen bij oranje en rood.",
+  { id:"d3", titel:"Brandrisico in de Hérault: hoe lees je de kaart van Météo des forêts?", auteur:"Redactie", datum:"2026-08-20T06:00:00Z", laatsteReactie:"2026-08-22T08:30:00Z",
+    samenvatting:"Het niveau is een voorspelling, geen melding van een brand. Wat je wél moet doen bij oranje en rood.",
     href:"https://www.nederlanders.fr/",
     reacties:[{auteur:"Rob M.",datum:"gisteren 08:30",tekst:"Belangrijk: bij rood mag je in veel departementen niet meer op de wegen in het bosgebied komen."}] },
   { id:"d4", titel:"Franse buren en de erfgrens: bornage laten doen of niet?", auteur:"Willem T.", datum:"2026-08-19T09:14:00Z", laatsteReactie:"2026-08-21T17:02:00Z",
@@ -3439,51 +3456,51 @@ function dagDatum(d){
 // Per betaalde module: wat hij doet, één volledig doorgerekend voorbeeld (gratis te zien),
 // en de intakevragen die de gebruiker zelf mag invullen. De muur valt pas bij de eigen uitkomst.
 const PREVIEW = {
-  "Energie-portaal": { doet:"Zeven vragen over uw woning, en de rekenmotor van EnergiePortaal vult de veertig overige velden met forfaits per bouwperiode.",
+  "Energie-portaal": { doet:"Zeven vragen over je woning, en de rekenmotor van EnergiePortaal vult de veertig overige velden met forfaits per bouwperiode.",
     vb:"Pavillon uit 1968, 120 m², Hérault, elektrische verwarming",
     rows:[["Energielabel","E"],["Verbruik","287 kWh EP/m²"],["Jaarkosten","€ 2.140"],["CO₂","31 kg/m²"]],
     intake:[["Bouwperiode",["vóór 1948","1948–1974","1975–2000","na 2000"]],["Verwarming",["elektrisch","gas","hout","warmtepomp"]],["Woonoppervlak",["tot 90 m²","90–140 m²","meer dan 140 m²"]]],
-    uit:[["Uw energielabel","•"],["Uw jaarkosten","€ ••••"],["Terugverdientijd isolatie","•• jaar"]] },
-  "Notariskosten-calculator": { doet:"De frais de notaire zijn grotendeels belasting. Deze module splitst ze uit, zodat u ziet waarvoor u betaalt.",
+    uit:[["Je energielabel","•"],["Je jaarkosten","€ ••••"],["Terugverdientijd isolatie","•• jaar"]] },
+  "Notariskosten-calculator": { doet:"De frais de notaire zijn grotendeels belasting. Deze module splitst ze uit, zodat je ziet waarvoor je betaalt.",
     vb:"Bestaande woning van € 245.000 in de Hérault",
     rows:[["Overdrachtsbelasting","€ 14.210"],["Honorarium notaris","€ 2.680"],["Kosten en formaliteiten","€ 1.395"],["Totaal","€ 18.285"]],
     intake:[["Soort woning",["bestaand","nieuwbouw","bouwgrond"]],["Prijsklasse",["tot € 150.000","€ 150–300.000","boven € 300.000"]]],
-    uit:[["Uw totale kosten","€ ••.•••"],["Waarvan belasting","€ ••.•••"],["Af te dragen bij ondertekening","€ ••.•••"]] },
-  "Belastingaangifte-wijzer": { doet:"Twaalf vinkjes over uw situatie, en u krijgt alleen de secties, formulieren en termijnen die op u van toepassing zijn.",
+    uit:[["Je totale kosten","€ ••.•••"],["Waarvan belasting","€ ••.•••"],["Af te dragen bij ondertekening","€ ••.•••"]] },
+  "Belastingaangifte-wijzer": { doet:"Twaalf vinkjes over je situatie, en je krijgt alleen de secties, formulieren en termijnen die op je van toepassing zijn.",
     vb:"Pensioen uit Nederland, eigen woning in Frankrijk, geen onderneming",
-    rows:[["Uw formulieren","2042 · 2047 · 3916"],["Secties die u aangaan","9 van de 25"],["Uiterste datum","4 juni 2026"],["Let op","AOW valt onder het verdrag"]],
+    rows:[["Je formulieren","2042 · 2047 · 3916"],["Secties die je aangaan","9 van de 25"],["Uiterste datum","4 juni 2026"],["Let op","AOW valt onder het verdrag"]],
     intake:[["Inkomen uit",["pensioen NL","loon FR","onderneming","huur"]],["Woning",["eigen woning","huur","tweede woning"]]],
-    uit:[["Uw formulierenlijst","••••"],["Uw deadline","•• ••••"],["Aandachtspunten","••"]] },
+    uit:[["Je formulierenlijst","••••"],["Je deadline","•• ••••"],["Aandachtspunten","••"]] },
   "Pensioen NL-FR": { doet:"AOW, bedrijfspensioen en overheidspensioen worden verschillend behandeld. Deze module zegt per soort wie mag heffen.",
     vb:"AOW plus bedrijfspensioen van € 28.000, fiscaal inwoner van Frankrijk",
     rows:[["AOW","Frankrijk heft"],["Bedrijfspensioen","Frankrijk heft"],["Overheidspensioen","Nederland heft"],["Aandachtspunt","CRDS/CSG-vrijstelling"]],
     intake:[["Soort pensioen",["AOW","bedrijfspensioen","overheidspensioen"]],["Fiscaal inwoner van",["Frankrijk","Nederland"]]],
-    uit:[["Wie heft er over uw pensioen","••••"],["Uw premieplicht","••••"],["Wat u aangeeft waar","••••"]] },
-  "Woningaankoop-stappenplan": { doet:"Van compromis tot acte, met de termijnen die daadwerkelijk lopen en de stukken die u per stap nodig heeft.",
+    uit:[["Wie heft er over je pensioen","••••"],["Je premieplicht","••••"],["Wat je aangeeft waar","••••"]] },
+  "Woningaankoop-stappenplan": { doet:"Van compromis tot acte, met de termijnen die daadwerkelijk lopen en de stukken die je per stap nodig heeft.",
     vb:"Compromis ondertekend op 12 mei, financiering via NL-bank",
     rows:[["Bedenktermijn eindigt","22 mei"],["Financieringsvoorwaarde","tot 12 juli"],["Acte verwacht","medio augustus"],["Nu te doen","diagnostics opvragen"]],
     intake:[["Fase",["nog aan het zoeken","bod gedaan","compromis getekend"]],["Financiering",["eigen geld","NL-hypotheek","FR-hypotheek"]]],
-    uit:[["Uw termijnen","•• ••••"],["Uw volgende stap","••••"],["Uw documentenlijst","••"]] },
+    uit:[["Je termijnen","•• ••••"],["Je volgende stap","••••"],["Je documentenlijst","••"]] },
   "Verhuisplanner NL→FR": { doet:"Een checklist met echte termijnen: wat vóór vertrek moet, wat in de eerste maand, en wat pas na inschrijving kan.",
     vb:"Verhuizing in september, twee personen, met auto en huisdier",
     rows:[["Vóór vertrek","11 punten"],["Eerste maand","8 punten"],["Na inschrijving","6 punten"],["Eerste deadline","auto binnen 1 maand"],],
     intake:[["Vertrekmaand",["binnen 3 maanden","dit jaar","later"]],["Meeverhuizend",["alleen","partner","gezin"]]],
-    uit:[["Uw persoonlijke checklist","•• punten"],["Uw eerste deadline","•• ••••"],["Wat u nu al kunt regelen","••"]] },
-  "Correspondentie-assistent": { doet:"U beschrijft de kwestie in het Nederlands; de module levert een correcte Franse brief met de juiste formules en toon.",
+    uit:[["Je persoonlijke checklist","•• punten"],["Je eerste deadline","•• ••••"],["Wat je nu al kunt regelen","••"]] },
+  "Correspondentie-assistent": { doet:"Je beschrijft de kwestie in het Nederlands; de module levert een correcte Franse brief met de juiste formules en toon.",
     vb:"Klacht over een niet-uitgevoerde reparatie, aan een aannemer",
     rows:[["Aanhef","Monsieur,"],["Toon","zakelijk, met termijn"],["Slotformule","Veuillez agréer…"],["Lengte","1 pagina"]],
     intake:[["Aan wie",["mairie","aannemer","verhuurder","verzekeraar"]],["Toon",["vriendelijk","zakelijk","laatste waarschuwing"]]],
-    uit:[["Uw brief","•••• ••••"],["Als PDF en als e-mail","••"],["Bewaard in uw dossier","••"]] },
-  "Carte Vitale-status": { doet:"Uw aanvraag volgen, met per fase wat u kunt doen als het te lang duurt, en welk papier u in de tussentijd gebruikt.",
+    uit:[["Je brief","•••• ••••"],["Als PDF en als e-mail","••"],["Bewaard in je dossier","••"]] },
+  "Carte Vitale-status": { doet:"Je aanvraag volgen, met per fase wat je kunt doen als het te lang duurt, en welk papier je in de tussentijd gebruikt.",
     vb:"Aanvraag ingediend in april, nog geen kaart ontvangen",
     rows:[["Fase","dossier in behandeling"],["Gemiddeld nog","6 weken"],["Wat nu werkt","attestation de droits"],["Actie","dossiernummer opvragen"]],
     intake:[["Ingediend",["deze maand","1–3 maanden","langer dan 4 maanden"]],["Via",["mairie","CPAM-loket","Ameli online"]]],
-    uit:[["Uw verwachte doorlooptijd","•• weken"],["Uw volgende actie","••••"],["Uw tijdelijke bewijs","••••"]] },
-  "Documentenkluis": { doet:"Uw justificatifs versleuteld op de telefoon, ook zonder bereik, met een waarschuwing zodra een stuk te oud wordt voor een loket.",
+    uit:[["Je verwachte doorlooptijd","•• weken"],["Je volgende actie","••••"],["Je tijdelijke bewijs","••••"]] },
+  "Documentenkluis": { doet:"Je justificatifs versleuteld op de telefoon, ook zonder bereik, met een waarschuwing zodra een stuk te oud wordt voor een loket.",
     vb:"Zeven documenten bewaard, twee verlopen binnenkort",
     rows:[["Bewaard","7 documenten"],["Verloopt binnenkort","justificatif de domicile"],["Versleuteld","ja, op het toestel"]],
-    intake:[["Wat wilt u bewaren",["identiteit","woning","zorg","auto"]],["Beschikbaar",["alleen offline","ook op laptop"]]],
-    uit:[["Uw kluis","•• documenten"],["Uw verloopwaarschuwingen","••"],["Synchronisatie","••••"]] }
+    intake:[["Wat wil je bewaren",["identiteit","woning","zorg","auto"]],["Beschikbaar",["alleen offline","ook op laptop"]]],
+    uit:[["Je kluis","•• documenten"],["Je verloopwaarschuwingen","••"],["Synchronisatie","••••"]] }
 };
 
 // Brandgevaar is tien maanden per jaar irrelevant. De hub duwt het alleen naar voren
@@ -4221,7 +4238,7 @@ class Component extends DCLogic {
       themaLeeg: zichtbaar.length === 0,
       themaLeegKeuze: alle.length > 0,
       themaLeegTekst: alle.length > 0
-        ? "Alle modules van dit onderwerp staan uit. U zet ze weer aan bij Mijn modules."
+        ? "Alle modules van dit onderwerp staan uit. Je zet ze weer aan bij Mijn modules."
         : "Hier staan nog geen modules.",
       strookZichtbaar: strook.strookZichtbaar,
       strookItems: strook.strookItems,
@@ -4804,10 +4821,10 @@ class Component extends DCLogic {
     const st = this.state, A = window.IfAbonnee, a = st.art, klaar = st.screen === "artikel" && !!a && a.status === "klaar";
     const lees = " Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.";
     return {
-      abKop: "Had u hier iets aan?", abMuurKop: "Lees verder als abonnee",
-      abForum: "Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
+      abKop: "Had je hier iets aan?", abMuurKop: "Lees verder als abonnee",
+      abForum: "Met een abonnement helpt je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
       abRuyterTekst: "Deze keuzehulp is gratis." + lees,
-      abArtikelTekst: "Dit artikel las u gratis." + lees,
+      abArtikelTekst: "Dit artikel las je gratis." + lees,
       abMuurTekst: "Het vervolg van dit artikel is voor abonnees van Infofrankrijk. Zij maken de bekostiging en instandhouding van InfoPoche mogelijk.",
       abArtikel: klaar && !a.muur, abMuur: klaar && !!a.muur,
       oproepOpen: !!st.oproep, oproepSluit: () => this.oproepSluit()
@@ -4850,7 +4867,7 @@ class Component extends DCLogic {
   ibSchrijf(naam){ try { sessionStorage.setItem(this.ibSleutel(naam), "1"); } catch(e){} this["_ib" + naam] = "1"; }
   installOpen(kop){
     if (this.alGeinstalleerd()) return;
-    this.setState({installBlad:{kop: kop || "Zet InfoPoche op uw beginscherm"}, installStatus:"", installAf:false, menu:false});
+    this.setState({installBlad:{kop: kop || "Zet InfoPoche op je beginscherm"}, installStatus:"", installAf:false, menu:false});
   }
   installBladSluit(){ this._ibFocus = false; this.setState({installBlad:null}); }
   // Brede, niet-touch weergave: geen installatiebalk en geen automatisch installatieblad.
@@ -4876,7 +4893,7 @@ class Component extends DCLogic {
       const nog = !!this.opSoort() || (s2.screen === "artikel" && !!s2.art && s2.art.status === "klaar");
       if (!nog || this.isDesktop() || s2.installBlad || s2.oproep || s2.forumBlad || s2.kalAbo || s2.vraagPostcode || s2.fbOpen || s2.menu || this.alGeinstalleerd() || window.__ifmLandingOpen) { this.forceUpdate(); return; }
       this.ibSchrijf("SLEUTEL_BLAD");
-      this.installOpen("Fijn dat InfoPoche u helpt. Zet hem op uw beginscherm.");
+      this.installOpen("Fijn dat InfoPoche je helpt. Zet hem op je beginscherm.");
     }, 1800);
   }
   // Vult de inhoud van het installatieblad uit LandingLib.blokHtml (dezelfde bron als het landingsscherm).
@@ -5029,18 +5046,18 @@ class Component extends DCLogic {
       return m ? {naam, uitleg, ontw:this.inOntw(m), open:() => this.route(m)} : null;
     };
     const rijen = [
-      rij("veiligheid", "Bosbrandkaart", depTxt ? "Zoek op de kaart " + depTxt + " op. De app haalt zelf geen gevaarniveau op." : "Zoek op de kaart uw departement op. De app haalt zelf geen gevaarniveau op."),
-      rij("verenigingen", "Verenigingen en evenementen", "Kaart en agenda van Nederlandstalige verenigingen in heel Frankrijk. U zoekt zelf in uw omgeving; de app filtert niet voor u."),
-      rij("palliatief", "Palliatieve zorg in uw regio", "Open de officiële kaart van het Centre national en kies uw regio."),
-      rij("zoekers", "Zoekers per departement", depTxt ? "Zoek zelf " + depTxt + " op in de module." : "Zoek zelf uw departement op in de module.")
+      rij("veiligheid", "Bosbrandkaart", depTxt ? "Zoek op de kaart " + depTxt + " op. De app haalt zelf geen gevaarniveau op." : "Zoek op de kaart je departement op. De app haalt zelf geen gevaarniveau op."),
+      rij("verenigingen", "Verenigingen en evenementen", "Kaart en agenda van Nederlandstalige verenigingen in heel Frankrijk. Je zoekt zelf in je omgeving; de app filtert niet voor je."),
+      rij("palliatief", "Palliatieve zorg in je regio", "Open de officiële kaart van het Centre national en kies je regio."),
+      rij("zoekers", "Zoekers per departement", depTxt ? "Zoek zelf " + depTxt + " op in de module." : "Zoek zelf je departement op in de module.")
     ].filter(Boolean);
     return {
       isRegio: st.screen === "regio",
       regioKop: L.regioLabel(pc, st.plaats),
-      regioIntro: depTxt ? "Uw postcode valt in " + depTxt + ". Dit zijn de onderdelen van de app die bij een departement horen." : "Dit zijn de onderdelen van de app die bij een departement horen.",
+      regioIntro: depTxt ? "Je postcode valt in " + depTxt + ". Dit zijn de onderdelen van de app die bij een departement horen." : "Dit zijn de onderdelen van de app die bij een departement horen.",
       regioRijen: rijen, regioLeeg: rijen.length === 0,
       hubRegioLabel: L.regioLabel(pc, st.plaats),
-      hubRegioSub: L.postcodeOk(pc) ? "De onderdelen die bij uw departement horen" : "Met uw postcode noemt de app uw departement",
+      hubRegioSub: L.postcodeOk(pc) ? "De onderdelen die bij je departement horen" : "Met je postcode noemt de app je departement",
       openRegio: () => this.openRegio(),
       regioIcoStyle: themaIcoStijl("regio")
     };
@@ -5285,8 +5302,8 @@ class Component extends DCLogic {
   geoMelding(waar){
     const st = this.state;
     if (st.geoWaar !== waar) return "";
-    return {zoekt:"Uw locatie wordt bepaald...", geweigerd:"Locatie niet toegestaan. U kunt de toestemming in uw browser wijzigen, of de postcode zelf invullen.",
-      nietfr:"Op uw locatie is geen Franse postcode gevonden. Vul de postcode zelf in.", tijd:"De locatie bepalen duurde te lang. Probeer het opnieuw of vul de postcode in.",
+    return {zoekt:"Je locatie wordt bepaald...", geweigerd:"Locatie niet toegestaan. Je kunt de toestemming in je browser wijzigen, of de postcode zelf invullen.",
+      nietfr:"Op je locatie is geen Franse postcode gevonden. Vul de postcode zelf in.", tijd:"De locatie bepalen duurde te lang. Probeer het opnieuw of vul de postcode in.",
       fout:"De locatie kon niet worden omgezet in een postcode. Vul de postcode zelf in.", nietbeschikbaar:"Dit apparaat of deze browser geeft de locatie niet vrij. Vul de postcode zelf in."}[st.geoStatus] || "";
   }
   // Mijn gemeente (gemeente-lib.js): één zoekveld voor een postcode of een exact adres, of de locatie. Elke kaart haalt zijn eigen bron
@@ -5360,7 +5377,7 @@ class Component extends DCLogic {
         adres: au ? {rga:r[4], azi:r[5], tri:r[6], mvt:r[7], cavites:r[8], sismique:r[9]} : null});
       // wat niet is opgehaald, melden we bij de kaart: nooit een stil gat
       l.ontbreekt = [r[0] === null ? "de risicolijst van de gemeente" : "", r[1] === null ? "natuurrampbesluiten" : "", r[2] === null ? "radonpotentiaal" : "",
-        au && r.slice(4).some(x => x === null) ? "een deel van de gegevens voor uw adres" : ""].filter(Boolean);
+        au && r.slice(4).some(x => x === null) ? "een deel van de gegevens voor je adres" : ""].filter(Boolean);
       zet("risico", l.ok ? {s:"ok", d:l} : {s:"leeg"});
     });
     this.gmHaal(G.belastingUrl(c.code)).then(d => { const l = d ? G.leesBelasting(d) : null; zet("belasting", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
@@ -5465,15 +5482,15 @@ class Component extends DCLogic {
     const km = G.RAYON + " m";
     // Het hulpmiddel Internetverbinding staat al in de app (module `internet`): daar verwijzen we naar, tenzij het uit de catalogus is gehaald.
     const inetMod = (m0 => m0 && m0.zichtbaar !== false ? m0 : null)(this.vindModule("internet"));
-    // Risico's: eerst wat voor uw adres of locatie geldt, dan de lijst van de gemeente.
+    // Risico's: eerst wat voor je adres of locatie geldt, dan de lijst van de gemeente.
     const adresRegels = !a ? [] : [
-      a.kleigrond ? {label:"Kleigrond op " + (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") + " (retrait-gonflement des argiles)", waarde:a.kleigrond} : null,
+      a.kleigrond ? {label:"Kleigrond op " + (c.adres === "Je locatie" ? "je locatie" : "je adres") + " (retrait-gonflement des argiles)", waarde:a.kleigrond} : null,
       a.azi.length || a.tri.length ? {label:"Overstroming, binnen " + km, waarde:[a.azi.length ? "Overstromingsatlas (AZI): " + a.azi.join("; ") : "", a.tri.length ? "Gebied met verhoogd overstromingsrisico (TRI): " + a.tri.join("; ") : ""].filter(Boolean).join(" · ")}
         : (a.aziOk && a.triOk ? {label:"Overstroming, binnen " + km, waarde:"Geen overstromingsatlas (AZI) of risicogebied (TRI) gevonden"} : null),
       a.mvt.length ? {label:"Bodembewegingen gemeld, binnen " + km, waarde:a.mvt.length + " gemeld: " + a.mvt.slice(0, 3).map(x => x.type + (x.lieu || x.jaar ? " (" + [x.lieu, x.jaar].filter(Boolean).join(", ") + ")" : "")).join("; ") + (a.mvt.length > 3 ? " en meer" : "")}
         : (a.mvtOk ? {label:"Bodembewegingen gemeld, binnen " + km, waarde:"Geen gemeld"} : null),
       typeof a.cavites === "number" ? {label:"Bekende holle ruimten (cavités), binnen " + km, waarde:a.cavites === 0 ? "Geen bekend" : String(a.cavites)} : null,
-      a.zone ? {label:"Aardbevingszone op " + (c.adres === "Uw locatie" ? "uw locatie" : "uw adres"), waarde:a.zone} : null
+      a.zone ? {label:"Aardbevingszone op " + (c.adres === "Je locatie" ? "je locatie" : "je adres"), waarde:a.zone} : null
     ].filter(Boolean);
     const vloedRegel = r.vloedOntbreekt && r.vloed ? {label:"Let op: overstroming",
       waarde:"De lijst van de gemeente noemt overstroming niet, maar er zijn " + r.vloed.aantal + " natuurrampbesluiten voor overstroming en modderstroom" + (r.vloed.laatsteJaar ? " (laatste " + r.vloed.laatsteJaar + ")" : "") + ". Een ontbrekende regel in de lijst betekent dus niet dat er geen risico is."} : null;
@@ -5491,13 +5508,13 @@ class Component extends DCLogic {
         fout:"Risicodata momenteel niet beschikbaar.", leeg:"Geen risicogegevens gevonden voor deze gemeente.",
         regels: adresRegels.concat(gemRegels),
         notitie: (a ? "Overstroming, bodembeweging en holle ruimten gelden binnen " + km + " van het punt: dat betekent niet dat het pand zelf getroffen wordt. Kleigrond en aardbevingszone gelden voor het punt zelf. De volledige kaart staat op Géorisques."
-          : "Dit is de lijst van de gemeente. Vul hierboven uw adres in voor kleigrond, overstroming en meer op uw eigen adres.")
+          : "Dit is de lijst van de gemeente. Vul hierboven je adres in voor kleigrond, overstroming en meer op je eigen adres.")
           + (r.ontbreekt && r.ontbreekt.length ? " Niet opgehaald (de bron reageerde niet): " + r.ontbreekt.join(", ") + ". Probeer het later opnieuw of kijk op de Géorisques-kaart." : ""),
         links:[link(L.georisques, "Volledige risicokaart (Géorisques) ↗")], bron:"Bron: Géorisques, Licence Ouverte (Etalab 2.0)"}),
-      kaart("belasting", "Belasting op uw huis", val("belasting"), {
+      kaart("belasting", "Belasting op je huis", val("belasting"), {
         fout:"Belastingtarieven momenteel niet beschikbaar.", leeg:"Geen tarieven gevonden voor deze gemeente in het bestand.",
         regels:[pj(b.bebouwd, "Bebouwd (taxe foncière)"), pj(b.onbebouwd, "Onbebouwd (taxe foncière non bâti)"), pj(b.afval, "Huisvuilheffing (TEOM)"), pj(b.wonen, "Taxe d'habitation (alleen tweede woningen)")].filter(Boolean),
-        notitie:"Dit zijn tarieven, geen bedragen. Wat u betaalt hangt af van de cadastrale waarde van de woning, en die is niet openbaar per woning: vul hem hieronder in als u hem kent (staat op de aanslag van de huidige eigenaar).",
+        notitie:"Dit zijn tarieven, geen bedragen. Wat je betaalt hangt af van de cadastrale waarde van de woning, en die is niet openbaar per woning: vul hem hieronder in als je hem kent (staat op de aanslag van de huidige eigenaar).",
         invoer:invoerBel, bron:"Bron: DGFiP via data.economie.gouv.fr, Licence Ouverte 2.0"}),
       kaart("mairie", "Mairie", val("mairie"), {
         fout:"Mairie-gegevens momenteel niet beschikbaar.", leeg:"Geen mairie gevonden in de Annuaire.",
@@ -5508,8 +5525,8 @@ class Component extends DCLogic {
         fout:"Gegevens over déchèteries momenteel niet beschikbaar.", leeg:"Geen déchèteries gevonden in het bestand voor dit departement.",
         regels:(dc.lijst || []).map(x => ({label:x.naam + (x.km !== null ? " · " + (x.km < 10 ? x.km.toFixed(1).replace(".", ",") : Math.round(x.km)) + " km hemelsbreed" : ""),
           waarde:[x.adres, x.tel ? "Telefoon " + x.tel : "", x.beheer ? "Beheer: " + x.beheer : "", x.ook_bedrijven ? "Ook voor bedrijven (professionals)" : ""].filter(Boolean).join(" · ")})),
-        notitie: dc.ok ? (dc.heeftAfstand ? "De " + dc.lijst.length + " dichtstbijzijnde locaties in uw departement, in hemelsbreed gemeten vanaf " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + ": de werkelijke rijafstand is langer, en een locatie net over de departementsgrens staat er niet bij."
-          : "Locaties in uw gemeente.") + " Openingstijden en toegangsregels (pas, bewijs van woonplaats, tarieven voor tweede woningen) staan niet in de bron: vraag ze na bij de mairie of de beheerder. Jaargang van het bestand: " + dc.jaar + "." : "",
+        notitie: dc.ok ? (dc.heeftAfstand ? "De " + dc.lijst.length + " dichtstbijzijnde locaties in je departement, in hemelsbreed gemeten vanaf " + (c.adres ? (c.adres === "Je locatie" ? "je locatie" : "je adres") : "het middelpunt van de gemeente") + ": de werkelijke rijafstand is langer, en een locatie net over de departementsgrens staat er niet bij."
+          : "Locaties in je gemeente.") + " Openingstijden en toegangsregels (pas, bewijs van woonplaats, tarieven voor tweede woningen) staan niet in de bron: vraag ze na bij de mairie of de beheerder. Jaargang van het bestand: " + dc.jaar + "." : "",
         links:(dc.lijst && dc.lijst[0] ? [{url:G.dechKaartUrl(dc.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
         bron:"Bron: ADEME, SINOE (via data.gouv.fr), Licence Ouverte 2.0"}),
       kaart("eau", "Kwaliteit van het kraanwater", val("eau"), {
@@ -5520,31 +5537,31 @@ class Component extends DCLogic {
           nt.params.forEach(p => acc.push({label:p.label, waarde:p.waarde + (p.grens ? " (norm " + p.grens + ")" : "")}));
           return acc;
         }, []),
-        notitie: ew.ok ? "Resultaten van het officiële controleprogramma voor de waternetwerken die deze gemeente bedienen; per netwerk het laatste monster. Een gemeente kan meerdere netwerken hebben en uw eigen leiding kan afwijken: vraag bij twijfel uw waterleverancier. Hardheid heeft geen norm: een hoger getal betekent kalkrijker water." : "",
+        notitie: ew.ok ? "Resultaten van het officiële controleprogramma voor de waternetwerken die deze gemeente bedienen; per netwerk het laatste monster. Een gemeente kan meerdere netwerken hebben en je eigen leiding kan afwijken: vraag bij twijfel je waterleverancier. Hardheid heeft geen norm: een hoger getal betekent kalkrijker water." : "",
         bron:"Bron: Hub'Eau (eaufrance), controlegegevens drinkwater"}),
       kaart("dae", "Defibrillatoren in de buurt (AED)", val("dae"), {
         fout:"Gegevens over defibrillatoren momenteel niet beschikbaar.", leeg:"Geen defibrillator geregistreerd binnen " + String(G.DAE_STRAAL).replace(".", ",") + " km. De bron is niet volledig: dat zegt niet dat er geen toestel hangt.",
         regels:(da.lijst || []).map(x => ({label:x.naam + " · " + G.kmTekst(x.km) + " hemelsbreed",
           waarde:[x.adres, x.altijd ? "Dag en nacht bereikbaar" : x.binnen ? "Binnen, mogelijk alleen tijdens openingstijden" : x.buiten ? "Buiten" : "", x.plek, x.opm].filter(Boolean).join(" · ")})),
-        notitie: da.ok ? "De " + da.lijst.length + " dichtstbijzijnde van " + da.aantal + " geregistreerde toestellen binnen " + String(G.DAE_STRAAL).replace(".", ",") + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + (da.onvolledig ? " (op basis van een deel van de gegevens)" : "") + ". Bij een noodgeval belt u eerst 15 of 112: zij helpen u verder. Geregistreerd betekent niet dat het toestel op dit moment bereikbaar of in orde is, en veel toestellen hangen in winkels en zijn dan alleen open als die open zijn." : "",
+        notitie: da.ok ? "De " + da.lijst.length + " dichtstbijzijnde van " + da.aantal + " geregistreerde toestellen binnen " + String(G.DAE_STRAAL).replace(".", ",") + " km van " + (c.adres ? (c.adres === "Je locatie" ? "je locatie" : "je adres") : "het middelpunt van de gemeente") + (da.onvolledig ? " (op basis van een deel van de gegevens)" : "") + ". Bij een noodgeval bel je eerst 15 of 112: zij helpen je verder. Geregistreerd betekent niet dat het toestel op dit moment bereikbaar of in orde is, en veel toestellen hangen in winkels en zijn dan alleen open als die open zijn." : "",
         links:(da.lijst && da.lijst[0] ? [{url:G.dechKaartUrl(da.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
         bron:"Bron: Géo'DAE, Base nationale des défibrillateurs (data.gouv.fr), Licence Ouverte 2.0"}),
       kaart("carb", "Brandstofprijzen in de buurt", val("carb"), {
         fout:"Brandstofprijzen momenteel niet beschikbaar.", leeg:"Geen recente brandstofprijzen gevonden binnen " + G.CARB_STRAAL_TEKST + " km.",
         regels:(cb.soorten || []).map(x => ({label:x.label + " · " + x.prijsTekst + " per liter",
           waarde:[x.plaats, x.km !== null ? G.kmTekst(x.km) + " hemelsbreed" : "", "prijs van " + x.datum].filter(Boolean).join(" · ")})),
-        notitie: cb.ok ? "Per brandstof het goedkoopste station binnen " + cb.straal + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + ", uit " + cb.stations + " stations met een recente prijs. Prijzen die ouder zijn dan " + cb.dagen + " dagen en brandstoffen die op raken tellen niet mee. De stations geven hun prijzen zelf door: wat aan de pomp staat kan afwijken." : "",
+        notitie: cb.ok ? "Per brandstof het goedkoopste station binnen " + cb.straal + " km van " + (c.adres ? (c.adres === "Je locatie" ? "je locatie" : "je adres") : "het middelpunt van de gemeente") + ", uit " + cb.stations + " stations met een recente prijs. Prijzen die ouder zijn dan " + cb.dagen + " dagen en brandstoffen die op raken tellen niet mee. De stations geven hun prijzen zelf door: wat aan de pomp staat kan afwijken." : "",
         links:(cb.soorten && cb.soorten[0] && cb.soorten[0].lat !== null ? [{url:G.dechKaartUrl(cb.soorten[0]), label:"Goedkoopste " + cb.soorten[0].label.toLowerCase() + " op de kaart ↗"}] : []),
         bron:"Bron: Ministère de l'Économie (prix des carburants), via data.economie.gouv.fr"}),
       kaart("agr", "Lokaal kopen bij de boer (bio)", val("agr"), {
         fout:"Gegevens over bio-producenten momenteel niet beschikbaar.", leeg:"Geen bio-producenten die aan particulieren verkopen gevonden binnen " + G.AGR_STRAAL + " km. Dat zegt niet dat er geen boeren zijn: deze lijst bevat alleen bio.",
         regels:(ag.lijst || []).map(x => ({label:x.naam + " · " + G.kmTekst(x.km) + " hemelsbreed",
           waarde:[x.adres, x.wat.length ? "Onder meer: " + x.wat.join(", ") : ""].filter(Boolean).join(" · ")})),
-        notitie: ag.ok ? (ag.aantal > ag.lijst.length ? "De " + ag.lijst.length + " dichtstbijzijnde van " + ag.aantal : ag.aantal) + " bio-bedrijven binnen " + ag.straal + " km van " + (c.adres ? (c.adres === "Uw locatie" ? "uw locatie" : "uw adres") : "het middelpunt van de gemeente") + " die zeggen aan particulieren te verkopen. Alleen bio, dus niet elke boer in de buurt staat hier. De app toont geen telefoonnummers en geen contactpersonen; zoek het bedrijf op voor de openingstijden. Of een bedrijf aan huis verkoopt of alleen op de markt, staat niet in de bron." : "",
+        notitie: ag.ok ? (ag.aantal > ag.lijst.length ? "De " + ag.lijst.length + " dichtstbijzijnde van " + ag.aantal : ag.aantal) + " bio-bedrijven binnen " + ag.straal + " km van " + (c.adres ? (c.adres === "Je locatie" ? "je locatie" : "je adres") : "het middelpunt van de gemeente") + " die zeggen aan particulieren te verkopen. Alleen bio, dus niet elke boer in de buurt staat hier. De app toont geen telefoonnummers en geen contactpersonen; zoek het bedrijf op voor de openingstijden. Of een bedrijf aan huis verkoopt of alleen op de markt, staat niet in de bron." : "",
         links:(ag.lijst || []).filter(x => x.web).slice(0, 3).map(x => ({url:x.web, label:"Site van " + x.naam + " ↗"})).concat(ag.lijst && ag.lijst[0] ? [{url:G.dechKaartUrl(ag.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
         bron:"Bron: Agence Bio, annuaire des opérateurs bio (opendata.agencebio.org)"}),
-      kaart("boer", "Ook niet-bio: boeren in uw regio", "statisch", {
-        notitie:"Veel boeren verkopen aan huis zonder bio-label en staan dus niet in de lijst hierboven. Bienvenue à la ferme is een landelijk netwerk van boerderijproducten, boerderijwinkels en lokale boerenmarkten, doorzoekbaar op de site zelf. Veel gemeenten en regio's hebben daarnaast een eigen gids: vraag de mairie of kijk op de website van uw gemeente. De app kopieert die gegevens niet en kan niet zeggen wat er in uw buurt staat.",
+      kaart("boer", "Ook niet-bio: boeren in je regio", "statisch", {
+        notitie:"Veel boeren verkopen aan huis zonder bio-label en staan dus niet in de lijst hierboven. Bienvenue à la ferme is een landelijk netwerk van boerderijproducten, boerderijwinkels en lokale boerenmarkten, doorzoekbaar op de site zelf. Veel gemeenten en regio's hebben daarnaast een eigen gids: vraag de mairie of kijk op de website van je gemeente. De app kopieert die gegevens niet en kan niet zeggen wat er in je buurt staat.",
         links:[{url:"https://www.bienvenue-a-la-ferme.com/", label:"Bienvenue à la ferme: zoek een boer ↗"}], bron:""}),
       kaart("dvf", "Verkochte huizen (DVF)", val("dvf"), {
         fout:"DVF-data momenteel niet beschikbaar.", leeg:"Geen verkopen van huizen of appartementen gevonden in het DVF-register voor deze gemeente.",
@@ -5553,8 +5570,8 @@ class Component extends DCLogic {
           + (v.onvolledig ? " Op basis van een deel van de transacties." : "") : "",
         links:[link(G.dvfKaartUrl(c.lat, c.lon), "Verkochte huizen op de officiële kaart ↗")], bron:"Bron: DVF via Cerema, Licence Ouverte"}),
       kaart("internet", "Internet en mobiel bereik", "statisch", {
-        notitie: inetMod ? "Het hulpmiddel Internetverbinding vertaalt de officiële ARCEP-kaart naar een duidelijk overzicht" + (c.adres ? " en opent met uw adres al ingevuld" : "; u vult daar uw adres in") + ". De app toont hier zelf geen cijfers: de overheid biedt ze niet aan in een vorm die de app kan opvragen."
-          : "De app toont hier geen eigen cijfers: de overheid biedt deze gegevens niet aan in een vorm die de app kan opvragen. De officiële kaart opent op " + (c.adres ? "uw " + (c.adres === "Uw locatie" ? "locatie" : "adres") : "uw gemeente") + ".",
+        notitie: inetMod ? "Het hulpmiddel Internetverbinding vertaalt de officiële ARCEP-kaart naar een duidelijk overzicht" + (c.adres ? " en opent met je adres al ingevuld" : "; je vult daar je adres in") + ". De app toont hier zelf geen cijfers: de overheid biedt ze niet aan in een vorm die de app kan opvragen."
+          : "De app toont hier geen eigen cijfers: de overheid biedt deze gegevens niet aan in een vorm die de app kan opvragen. De officiële kaart opent op " + (c.adres ? "je " + (c.adres === "Je locatie" ? "locatie" : "adres") : "je gemeente") + ".",
         acties: inetMod ? [{label:"Open het hulpmiddel Internetverbinding", open: () => { this.route(inetMod); const qs = G.internetQuery(c); if (qs) this.setState({toolQuery: qs}); }}] : [],
         links:[link(G.arcepUrl(c.lat, c.lon), "Glasvezel en internet, officiële kaart (ARCEP) ↗"), link(L.arcepMobiel, "Mobiel bereik, officiële kaart (ARCEP) ↗")], bron:"Bron: ARCEP"})
     ];
@@ -5573,7 +5590,7 @@ class Component extends DCLogic {
         if (GG && g && GG.codeOk(g.code)) {
           const exact = pos && typeof pos.latitude === "number" && typeof pos.longitude === "number";
           this.gmSet({pc});
-          this.gmKies({code:g.code, nom:g.plaats || plaats, dep:g.dep, lat: exact ? pos.latitude : g.lat, lon: exact ? pos.longitude : g.lon, pop:0, adres: exact ? "Uw locatie" : ""}, pc);
+          this.gmKies({code:g.code, nom:g.plaats || plaats, dep:g.dep, lat: exact ? pos.latitude : g.lat, lon: exact ? pos.longitude : g.lon, pop:0, adres: exact ? "Je locatie" : ""}, pc);
         } else this.gmZoek(pc);
       }),
       gmGeoTekst: st.geoStatus === "zoekt" && st.geoWaar === "gm" ? "Locatie bepalen..." : "Gebruik mijn locatie",
@@ -5581,11 +5598,11 @@ class Component extends DCLogic {
       gmZoekt: gm.status === "zoek", gmFout: gm.status === "fout", gmGeen: gm.status === "geen", gmKort: gm.status === "kort",
       gmGeenTekst: "Geen gemeente of adres gevonden bij “" + (gm.zocht || "") + "”. Probeer een postcode, of een adres met huisnummer en plaats.",
       gmKiezen: gm.status === "kies" || gm.status === "adres",
-      gmKiesTekst: gm.status === "adres" ? "Welk adres bedoelt u?" : "Bij deze postcode horen meerdere gemeenten. Welke bedoelt u?",
+      gmKiesTekst: gm.status === "adres" ? "Welk adres bedoel je?" : "Bij deze postcode horen meerdere gemeenten. Welke bedoel je?",
       gmKeuzes: lijst,
       gmKlaar: gm.status === "klaar" && !!c,
       gmKop: c ? c.nom + (c.dep ? " (" + c.dep + ")" : "") : "",
-      gmAdresRegel: c && c.adres ? (c.adres === "Uw locatie" ? "Uw locatie, bij benadering" : c.adres) : "", gmHeeftAdres: !!(c && c.adres),
+      gmAdresRegel: c && c.adres ? (c.adres === "Je locatie" ? "Je locatie, bij benadering" : c.adres) : "", gmHeeftAdres: !!(c && c.adres),
       gmKaarten: this.gmKaartenLijst(),
       gmOpnieuw: () => this.gmZoek(gm.pc)
     };
@@ -5893,11 +5910,11 @@ class Component extends DCLogic {
       kaChatHeeftNlfr: chatKlaar && cd.nlfr.length > 0,
       kaChatNlfr: chatKlaar ? cd.nlfr.map(x => ({titel:x.titel, url:x.url, meta: K.nlfrMeta(x) ? K.nlfrMeta(x) + " · " : ""})) : [],
       kaChatInvoer: cK && !chatLaadt && !chatVol && cs !== "fout",
-      kaChatLabel: chatKlaar ? "Stel een vervolgvraag" : "Uw vraag",
+      kaChatLabel: chatKlaar ? "Stel een vervolgvraag" : "Je vraag",
       kaChatNieuwKnop: chatKlaar || cs === "fout", kaChatNieuwTekst: chatVol ? "Begin een nieuwe vraag" : "Nieuwe vraag", kaChatNieuw: () => this.kaChatNieuw(),
       kaChips: [chip("alles","Alles"), chip("fora","Uit de fora"), chip("kennis","Kennis van nu")], kaBronRegel: K ? K.BRON_REGEL : "", kaBronnenUrl: K ? K.BRONNEN_URL : "#", kaBronnenTekst: K ? K.BRONNEN_TEKST : "",
       isKa: is, kaZoekScherm: !d, kaDraadScherm: !!d,
-      kaIntro: "Dit archief bundelt ervaringen uit oude forums en kennis van nu: artikelen van Infofrankrijk en officiële Franse bronnen. Draden van het oude klusforum leest u hier zelf; berichten op Nederlanders.fr leest u op die site. Zoek op een woord en kies waar u in zoekt.",
+      kaIntro: "Dit archief bundelt ervaringen uit oude forums en kennis van nu: artikelen van Infofrankrijk en officiële Franse bronnen. Draden van het oude klusforum lees je hier zelf; berichten op Nederlanders.fr lees je op die site. Zoek op een woord en kies waar je in zoekt.",
       kaPrivacy: K ? K.PRIVACY : "", kaWaarschuwing: K ? K.WAARSCHUWING : "", kaTerugvalUrl: K ? K.TERUGVAL_URL : "https://infofrankrijk.com/klussen/",
       kaQ: st.kaQ, kaOnQ: e => this.setState({kaQ: e.target.value.slice(0, 120), kaKort:false}),
       kaVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); this.kaZoek(false); },
@@ -6307,7 +6324,7 @@ class Component extends DCLogic {
     } catch (e) {
       this._pirBron = null;
       this.setState({pirStatus:"fout",
-        pirFoutTekst:"Het model kon niet geladen worden. Controleer uw verbinding en probeer het opnieuw."});
+        pirFoutTekst:"Het model kon niet geladen worden. Controleer je verbinding en probeer het opnieuw."});
     }
   }
   stopPiramide(){
@@ -6499,7 +6516,7 @@ class Component extends DCLogic {
     if (!engineKlaar || typeof PRIJS_INFO === "undefined" || typeof dpePefElec !== "function") return "";
     const nl = x => { const s = String(x), d = (s.split(".")[1] || "").length; return (Number.isInteger(x) ? s : d < 2 ? x.toFixed(2) : s).replace(".", ","); };
     const per = k => PRIJS_INFO[k].periode ? " (" + PRIJS_INFO[k].periode + ")" : "";
-    return "Deze berekening rekent met standaardprijzen: elektriciteit " + nl(PRIJS_INFO.elec.waarde) + " euro per kWh (het gereguleerde tarief sinds 1 augustus 2026; het abonnement komt er los bij en telt hier niet mee), aardgas " + nl(PRIJS_INFO.gas.waarde) + " euro per kWh" + per("gas") + ", fioul " + nl(PRIJS_INFO.fioul.waarde) + " euro per liter" + per("fioul") + ", pellets " + nl(PRIJS_INFO.pellet.waarde) + " euro per kg" + per("pellet") + " en hout " + nl(PRIJS_INFO.wood.waarde) + " euro per stère" + per("wood") + ". Die vier laatste zijn gemiddelden over die perioden (bronnen: CRE, DGEC, SDES en ADEME) en dus een aanname; ook bij gas komt het abonnement er los bij. Het apparaatverbruik is gemiddeld volgens ADEME, uw verbruik kan afwijken. De DPE-indicatie telt elektriciteit mee met de wettelijke factor " + String(dpePefElec()).replace(".", ",") + " (1,7 vanaf 1 januari 2027)." + (typeof DPE_BENADERING === "string" ? " " + DPE_BENADERING : "");
+    return "Deze berekening rekent met standaardprijzen: elektriciteit " + nl(PRIJS_INFO.elec.waarde) + " euro per kWh (het gereguleerde tarief sinds 1 augustus 2026; het abonnement komt er los bij en telt hier niet mee), aardgas " + nl(PRIJS_INFO.gas.waarde) + " euro per kWh" + per("gas") + ", fioul " + nl(PRIJS_INFO.fioul.waarde) + " euro per liter" + per("fioul") + ", pellets " + nl(PRIJS_INFO.pellet.waarde) + " euro per kg" + per("pellet") + " en hout " + nl(PRIJS_INFO.wood.waarde) + " euro per stère" + per("wood") + ". Die vier laatste zijn gemiddelden over die perioden (bronnen: CRE, DGEC, SDES en ADEME) en dus een aanname; ook bij gas komt het abonnement er los bij. Het apparaatverbruik is gemiddeld volgens ADEME, je verbruik kan afwijken. De DPE-indicatie telt elektriciteit mee met de wettelijke factor " + String(dpePefElec()).replace(".", ",") + " (1,7 vanaf 1 januari 2027)." + (typeof DPE_BENADERING === "string" ? " " + DPE_BENADERING : "");
   }
   enGrootstePost(costs){
     const labels = {verwarming:"Verwarming", tapwater:"Warm water", koeling:"Koeling", apparaten:"Apparaten en licht", ev:"Elektrische auto", zwembad:"Zwembad"};
@@ -6548,7 +6565,7 @@ class Component extends DCLogic {
       vbUitleg = [
         {k:"Warmteverlies door de constructie (UA)", v:n0(res.debug.UA) + " W/K"},
         {k:"Ventilatieverlies (Hvent)", v:n0(res.debug.Hvent) + " W/K"},
-        {k:"Graaddagen (HDD) in uw klimaatzone", v:n0(res.debug.HDD_present) + " Kd/jr"},
+        {k:"Graaddagen (HDD) in je klimaatzone", v:n0(res.debug.HDD_present) + " Kd/jr"},
         {k:"Rendement hoofdverwarming", v:n1(res.debug.mainEff) + "×"}
       ];
     } else if (vbMismatch) {
@@ -6571,9 +6588,9 @@ class Component extends DCLogic {
         [["pre1948","Vóór 1948"],["y48_74","1948–1974"],["y75_89","1975–1989"],["y90_05","1990–2005"],["post2005","Na 2005"]]),
       grp(5, "reno", "Al gerenoveerd?", "Meerdere antwoorden mogelijk. Niets aanvinken mag ook.",
         [["roof","Dak"],["walls","Muren"],["windows","Ramen"],["floor","Vloer"]]),
-      grp(6, "heating", "Verwarming", "Uw hoofdsysteem.",
+      grp(6, "heating", "Verwarming", "Je hoofdsysteem.",
         [["hp","Warmtepomp"],["elec","Elektrisch"],["gas","Aardgas"],["fioul","Fioul"],["wood","Hout"],["pellet","Pellets"]]),
-      grp(7, "usage", "Gebruik", "Hoe vaak bent u er?",
+      grp(7, "usage", "Gebruik", "Hoe vaak ben je er?",
         [["permanent","Permanent"],["halftijds","Halftijds"],["zomer","Zomervakantie"],["winter","Winterverblijf"]])
     ];
 
@@ -6582,7 +6599,7 @@ class Component extends DCLogic {
     const eigenOk = !!(eigenOut && !eigenMismatch);
     let eigenRichting = "";
     if (eigenOk) {
-      eigenRichting = "Rond label " + eigenOut.dpe.classe + ". De grootste kostenpost is " + this.enGrootstePost(eigenOut.res.costs).toLowerCase() + ". De bedragen zelf ziet u met het abonnement.";
+      eigenRichting = "Rond label " + eigenOut.dpe.classe + ". De grootste kostenpost is " + this.enGrootstePost(eigenOut.res.costs).toLowerCase() + ". De bedragen zelf zie je met het abonnement.";
     } else if (st.enBerekend && eigenMismatch) {
       eigenRichting = "De elektrabalans sluit hier niet, dus de motor toont geen uitkomst. Probeer andere antwoorden, of meld dit als het blijft gebeuren.";
     }
@@ -6715,7 +6732,7 @@ class Component extends DCLogic {
       nwHero: items[0] || {},
       nwRijen: items.slice(1),
       nwHeeftRijen: items.length > 1,
-      nwBeeldNote: "Beelden zijn eigen themaillustraties, geen persfoto's." + (alle.length > MAX ? " U ziet de " + MAX + " nieuwste berichten; kies een onderwerp voor de rest." : "")
+      nwBeeldNote: "Beelden zijn eigen themaillustraties, geen persfoto's." + (alle.length > MAX ? " Je ziet de " + MAX + " nieuwste berichten; kies een onderwerp voor de rest." : "")
     };
   }
   nwVals(){
@@ -6828,7 +6845,7 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Uw regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Je regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
     const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
@@ -7061,13 +7078,13 @@ class Component extends DCLogic {
       aiIcoStyle: themaIcoStijl("ai"), slotIcoStyle: themaIcoStijl("slot"),
       toolOntw: this.inOntw(T),
       veiligRegel: depNaam
-        ? "brandgevaar en waarschuwingen · uw departement: " + depNaam + " (" + depCode + ")"
+        ? "brandgevaar en waarschuwingen · je departement: " + depNaam + " (" + depCode + ")"
         : "brandgevaar en waarschuwingen, per departement",
       veiligDep: depNaam ? depNaam + " (" + depCode + ")" : "Geen postcode ingesteld",
       veiligGeenPc: !depNaam,
       veiligUitleg: depNaam
         ? "De app haalt zelf geen gevaarniveau op. De kaart hieronder geeft het verwachte niveau per departement; zoek daar " + depNaam + " op."
-        : "Met uw postcode kan de app zeggen welk departement u op de kaart moet opzoeken. Een gevaarniveau haalt de app zelf niet op.",
+        : "Met je postcode kan de app zeggen welk departement je op de kaart moet opzoeken. Een gevaarniveau haalt de app zelf niet op.",
 
       isMod: st.screen === "mod",
       goMod: () => this.openMods(),
@@ -7098,7 +7115,7 @@ class Component extends DCLogic {
         open: () => this.route(m),
         unpin: () => this.toggleFav(m.id)})),
       freeNote: "Alle onderdelen zijn gratis te gebruiken.",
-      modStand: "U ziet " + this.mods().length + " van " + this.keuzeMods().length + " modules." + (this.heeftEigenKeuze() ? " Dat volgt uit uw keuzes in Mijn modules." : ""),
+      modStand: "Je ziet " + this.mods().length + " van " + this.keuzeMods().length + " modules." + (this.heeftEigenKeuze() ? " Dat volgt uit je keuzes in Mijn modules." : ""),
       heeftEigenKeuze: this.heeftEigenKeuze(), resetKeuze: () => this.resetKeuze(),
 
       q: st.q, hasQ: st.q.length > 0,
@@ -7159,8 +7176,8 @@ class Component extends DCLogic {
           })};
       }),
       apiNote: st.live
-        ? "Berichten en reacties komen van nlfr-berichten; de volledige draad staat op de site zelf. Reageren opent nederlanders.fr, zodat uw sessie meegaat."
-        : "De API van nlfr-berichten staat alleen eigen domeinen toe. Op infofrankrijk.com of een vercel.app-adres verschijnen hier de echte berichten; nu ziet u vier voorbeelden met dezelfde structuur.",
+        ? "Berichten en reacties komen van nlfr-berichten; de volledige draad staat op de site zelf. Reageren opent nederlanders.fr, zodat je sessie meegaat."
+        : "De API van nlfr-berichten staat alleen eigen domeinen toe. Op infofrankrijk.com of een vercel.app-adres verschijnen hier de echte berichten; nu zie je vier voorbeelden met dezelfde structuur.",
       ...this.nwVals(),
 
       toolName: T ? T.naam : "", toolGroup: T ? this.themaVan(T) : "",
@@ -7172,10 +7189,10 @@ class Component extends DCLogic {
       nogNiet: !!(T && /bestaat niet|te kiezen|bron onbekend|te smeden/i.test(T.status || "")),
       klaarVoorAbo: !!(T && T.prijs === "abonnee" && !pv && !/bestaat niet|te kiezen|bron onbekend/i.test(T.status || "")),
       statusUitleg: T ? ({
-        "bestaat niet": "Deze module is nog niet gebouwd. Hij staat in de catalogus omdat de plek al vaststaat, niet omdat u hem vandaag kunt gebruiken.",
+        "bestaat niet": "Deze module is nog niet gebouwd. Hij staat in de catalogus omdat de plek al vaststaat, niet omdat je hem vandaag kunt gebruiken.",
         "te kiezen": "De inhoud bestaat, maar is over meerdere dossiers verdeeld. Er moet eerst redactioneel gekozen worden welke versie leidend is.",
         "bron onbekend": "De inhoud zit in een bron waar de app nog geen toegang tot heeft.",
-        "in bouw": "Wordt op dit moment gebouwd; u ziet de vorm, nog niet de volle inhoud.",
+        "in bouw": "Wordt op dit moment gebouwd; je ziet de vorm, nog niet de volle inhoud.",
         "deels af": "Een deel werkt al; de overige onderdelen komen later.",
         "te smeden": "De inhoud bestaat in losse tools die nog tot één module worden samengevoegd."
       }[T.status] || "") : "",

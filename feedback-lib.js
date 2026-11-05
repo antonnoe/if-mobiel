@@ -1,7 +1,7 @@
 // Feedback van testers (pilot): pure functies voor controleren, opbouwen en verzenden. Gewone JavaScript, geen buildstap:
 // index.html laadt dit bestand (window.IfFb), de tests laden het met require.
 // De reacties gaan naar een Supabase Edge Function (project communities-tools, tabel infopoche_feedback). De functie accepteert
-// alleen verzoeken van infopoche.fr; vanaf een ander adres (bv. localhost) krijgt u een 403, dat is bedoeld.
+// alleen verzoeken van infopoche.fr; vanaf een ander adres (bv. localhost) krijg je een 403, dat is bedoeld.
 (function (root) {
   var ENDPOINT = "https://mqkhfyvrizgmmmcbdkxh.supabase.co/functions/v1/infopoche-feedback";
   var CONTACT = "info@communitiesabroad.com";
@@ -30,13 +30,13 @@
   }
 
   var FOUTEN = {
-    naam: "Vul uw naam in.",
-    onderdeel: "Kies waar uw opmerking over gaat.",
-    bericht: "Schrijf kort wat u zag of wat er misging.",
-    toestemming: "Zonder uw toestemming kunnen we de reactie niet bewaren.",
-    druk: "Er komen nu veel reacties tegelijk binnen. Probeer het over een uur nog eens, uw tekst blijft staan.",
-    netwerk: "Verzenden lukte niet. Uw tekst staat er nog, probeer het straks opnieuw.",
-    server: "Verzenden lukte niet. Uw tekst staat er nog, probeer het straks opnieuw."
+    naam: "Vul je naam in.",
+    onderdeel: "Kies waar je opmerking over gaat.",
+    bericht: "Schrijf kort wat je zag of wat er misging.",
+    toestemming: "Zonder je toestemming kunnen we de reactie niet bewaren.",
+    druk: "Er komen nu veel reacties tegelijk binnen. Probeer het over een uur nog eens, je tekst blijft staan.",
+    netwerk: "Verzenden lukte niet. Je tekst staat er nog, probeer het straks opnieuw.",
+    server: "Verzenden lukte niet. Je tekst staat er nog, probeer het straks opnieuw."
   };
   function foutTekst(sleutel) { return FOUTEN[sleutel] || FOUTEN.server; }
 

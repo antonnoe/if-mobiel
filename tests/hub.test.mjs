@@ -70,11 +70,11 @@ test("elk scherm hoort bij een tab", () => {
 });
 
 test("regiokaart: label, departement, plaatsnaam", () => {
-  assert.equal(L.regioLabel("", ""), "Stel uw postcode in");
-  assert.equal(L.regioLabel(null, "Nice"), "Stel uw postcode in");
-  assert.equal(L.regioLabel("123", "Nice"), "Stel uw postcode in");
-  assert.equal(L.regioLabel("06000", "Nice"), "Voor uw regio: 06000 Nice");
-  assert.equal(L.regioLabel("34360", ""), "Voor uw regio: 34360");
+  assert.equal(L.regioLabel("", ""), "Stel je postcode in");
+  assert.equal(L.regioLabel(null, "Nice"), "Stel je postcode in");
+  assert.equal(L.regioLabel("123", "Nice"), "Stel je postcode in");
+  assert.equal(L.regioLabel("06000", "Nice"), "Voor je regio: 06000 Nice");
+  assert.equal(L.regioLabel("34360", ""), "Voor je regio: 34360");
   assert.equal(L.departementCode("34360"), "34");
   assert.equal(L.departementCode("97100"), "971");
   assert.equal(L.departementCode("abc"), "");

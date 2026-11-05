@@ -97,8 +97,19 @@
   function deelIcoon(kleur) {
     return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="' + kleur + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="de deelknop" role="img" style="vertical-align:-5px;margin:0 2px"><path d="M12 15V3"/><path d="M7.5 7.5L12 3l4.5 4.5"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
   }
-  function stapHtml(n, html, p) {
-    return '<li style="display:flex;gap:12px;align-items:flex-start;margin:0 0 14px;text-align:left"><span aria-hidden="true" style="flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid ' + p.accent + ';color:' + p.accent + ';font:800 16px/29px ' + FONT + ';text-align:center">' + n + '</span><span style="font:600 17px/1.5 ' + FONT + ';color:' + p.tekst + ';padding-top:3px">' + html + '</span></li>';
+  // Maten per compactheidsniveau (0 = ruim, 3 = krapst). Het landingsscherm kiest zelf het ruimste niveau waarbij de knop
+  // "Eerst even rondkijken" zonder scrollen in beeld blijft; elders (installatieblad) is het altijd niveau 0.
+  // li = ruimte onder een stap, n = doorsnede van het stapnummer, f = lettergrootte stap, kp = binnenruimte kaart, p = lettergrootte toelichting.
+  var MATEN = [
+    { li: 14, n: 32, f: 17, kp: 18, p: 15, ls: 1.5, lp: 1.6 },
+    { li: 10, n: 28, f: 16, kp: 14, p: 14, ls: 1.45, lp: 1.5 },
+    { li: 8, n: 26, f: 15, kp: 12, p: 13.5, ls: 1.4, lp: 1.45 },
+    { li: 6, n: 24, f: 14.5, kp: 10, p: 13, ls: 1.35, lp: 1.4 }
+  ];
+  function maat(o) { var c = o && +o.compact; return MATEN[c >= 0 && c < MATEN.length ? c : 0]; }
+  function stapHtml(n, html, p, k) {
+    k = k || MATEN[0];
+    return '<li style="display:flex;gap:12px;align-items:flex-start;margin:0 0 ' + k.li + 'px;text-align:left"><span aria-hidden="true" style="flex:none;width:' + k.n + 'px;height:' + k.n + 'px;border-radius:50%;border:1.5px solid ' + p.accent + ';color:' + p.accent + ';font:800 ' + (k.n >= 32 ? 16 : 14.5) + 'px/' + (k.n - 3) + 'px ' + FONT + ';text-align:center">' + n + '</span><span style="font:600 ' + k.f + 'px/' + k.ls + ' ' + FONT + ';color:' + p.tekst + ';padding-top:' + (k.n >= 32 ? 3 : 2) + 'px">' + html + '</span></li>';
   }
   function knopStijl(p, primair) {
     return 'display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;padding:0 20px;border-radius:14px;font:800 17px/1.2 ' + FONT + ';cursor:pointer;text-align:center;'
@@ -109,8 +120,9 @@
   function blokHtml(o) {
     o = o || {};
     var p = PALETTEN[o.palet] || PALETTEN.donker, omg = o.omgeving;
-    var P = 'margin:0;font:500 15px/1.6 ' + FONT + ';color:' + p.demp;
-    var kaart = 'text-align:left;border:1px solid ' + p.rand + ';border-radius:16px;padding:18px;background:' + p.kaart;
+    var k = maat(o);
+    var P = 'margin:0;font:500 ' + k.p + 'px/' + k.lp + ' ' + FONT + ';color:' + p.demp;
+    var kaart = 'text-align:left;border:1px solid ' + p.rand + ';border-radius:16px;padding:' + k.kp + 'px;background:' + p.kaart;
     if (omg === "inapp") {
       return '<div style="' + kaart + '">'
         + '<div style="font:700 20px/1.3 ' + FONT + ';color:' + p.accent + '">Open InfoPoche in Safari of Chrome</div>'
@@ -121,23 +133,23 @@
     if (omg === "ios") {
       var s = (o.browser || "safari") === "safari";
       return '<div style="' + kaart + '"><ol style="list-style:none;margin:0;padding:0">'
-        + stapHtml(1, s ? 'Tik op ' + deelIcoon(p.accent) + ' onderaan in Safari' : 'Tik op ' + deelIcoon(p.accent) + ' (Delen) in de balk van uw browser', p)
-        + stapHtml(2, "Kies 'Zet op beginscherm'", p)
-        + stapHtml(3, "Tik op 'Voeg toe'", p) + '</ol>'
-        + (s ? '' : '<p style="' + P + ';text-align:left">Ziet u \'Zet op beginscherm\' niet in het menu? Open deze pagina dan in Safari.</p>') + '</div>';
+        + stapHtml(1, s ? 'Tik op ' + deelIcoon(p.accent) + ' onderaan in Safari' : 'Tik op ' + deelIcoon(p.accent) + ' (Delen) in de balk van je browser', p, k)
+        + stapHtml(2, "Kies 'Zet op beginscherm'", p, k)
+        + stapHtml(3, "Tik op 'Voeg toe'", p, k) + '</ol>'
+        + (s ? '' : '<p style="' + P + ';text-align:left">Zie je \'Zet op beginscherm\' niet in het menu? Open deze pagina dan in Safari.</p>') + '</div>';
     }
     if (omg === "android") {
       if (o.heeftEvent) {
-        return '<button type="button" data-ifm-actie="installeer" style="' + knopStijl(p, true) + ';min-height:58px;font-size:18px">Installeer</button>'
-          + '<p style="' + P + ';margin-top:10px;text-align:center">Eén tik, uw toestel vraagt om bevestiging</p>';
+        return '<button type="button" data-ifm-actie="installeer" style="' + knopStijl(p, true) + ';min-height:' + (k.n >= 28 ? 58 : 48) + 'px;font-size:18px">Installeer</button>'
+          + '<p style="' + P + ';margin-top:10px;text-align:center">Eén tik, je toestel vraagt om bevestiging</p>';
       }
       return '<div style="' + kaart + '"><ol style="list-style:none;margin:0;padding:0">'
-        + stapHtml(1, "Open het menu van uw browser (de drie puntjes)", p)
-        + stapHtml(2, "Kies 'App installeren' of 'Toevoegen aan startscherm'", p)
-        + stapHtml(3, "Bevestig met 'Installeren' of 'Toevoegen'", p) + '</ol>'
-        + (o.afgebroken ? '<p style="' + P + '">Installeren is afgebroken. U kunt het opnieuw proberen via het menu van uw browser.</p>' : '<p style="' + P + '">Ziet u deze opties niet? Dan biedt uw browser installeren hier niet aan; open deze pagina dan in Chrome.</p>') + '</div>';
+        + stapHtml(1, "Open het menu van je browser (de drie puntjes)", p, k)
+        + stapHtml(2, "Kies 'App installeren' of 'Toevoegen aan startscherm'", p, k)
+        + stapHtml(3, "Bevestig met 'Installeren' of 'Toevoegen'", p, k) + '</ol>'
+        + (o.afgebroken ? '<p style="' + P + '">Installeren is afgebroken. Je kunt het opnieuw proberen via het menu van je browser.</p>' : '<p style="' + P + '">Zie je deze opties niet? Dan biedt je browser installeren hier niet aan; open deze pagina dan in Chrome.</p>') + '</div>';
     }
-    return '<div style="text-align:center"><div style="display:inline-block;background:#fff;border-radius:14px;padding:10px"><img src="./icons/qr-infopoche.svg" width="176" height="176" alt="QR-code naar ' + URL_APP + '" style="display:block"></div><p style="' + P + ';margin-top:12px;color:' + p.tekst + '">Scan met uw telefoon</p></div>';
+    return '<div style="text-align:center"><div style="display:inline-block;background:#fff;border-radius:14px;padding:10px"><img src="./icons/qr-infopoche.svg" width="176" height="176" alt="QR-code naar ' + URL_APP + '" style="display:block"></div><p style="' + P + ';margin-top:12px;color:' + p.tekst + '">Scan met je telefoon</p></div>';
   }
 
   // Het eigen installatievenster van het toestel starten. cb("accepted") of cb("afgebroken").

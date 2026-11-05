@@ -100,7 +100,7 @@ test("omschrijvingen: negen aanwezig, twee vaste teksten letterlijk", () => {
     assert.ok(!/[–—]/.test(t.omschrijving), "geen lange streepjes " + t.id);
   }
   const per = Object.fromEntries(cat.themas.map(t => [t.id, t.omschrijving]));
-  assert.equal(per.geld, "Uw eigen financiën als particulier: inkomen, belasting, sociale heffingen, erfenis en de kosten van uw huis.");
+  assert.equal(per.geld, "Je eigen financiën als particulier: inkomen, belasting, sociale heffingen, erfenis en de kosten van je huis.");
   assert.equal(per.ondernemen, "Voor wie in Frankrijk zelf iets onderneemt of verhuurt: of het mag, starten, factureren en belastingregels voor ondernemers.");
 });
 

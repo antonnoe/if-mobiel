@@ -317,7 +317,7 @@ test("chat: schil gebruikt geen innerHTML, geen opslag, geen hash; teksten klopp
   assert.ok(stuk.length > 500);
   assert.equal(/innerHTML|localStorage|sessionStorage|pushState|location\.hash/.test(stuk), false);
   assert.ok(html.includes("data-ka-chat-waarschuwing"));
-  assert.equal(K.CHAT_PRIVACY, "Uw vraag gaat naar Claude van Anthropic om het antwoord te schrijven. Vul geen namen of adressen in.");
+  assert.equal(K.CHAT_PRIVACY, "Je vraag gaat naar Claude van Anthropic om het antwoord te schrijven. Vul geen namen of adressen in.");
   assert.equal(K.CHAT_DRUK, "Het archief krijgt nu veel vragen. Probeer het later opnieuw of zoek zelf hieronder.");
   assert.equal(K.CHAT_FOUT, "Het antwoord lukte niet. Zoek zelf hieronder of probeer het opnieuw.");
   assert.equal(K.CHAT_MAX_VRAGEN, 4);

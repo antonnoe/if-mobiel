@@ -123,7 +123,7 @@ test("advertenties: datum, telling en blokken van 20", () => {
 });
 
 test("Te koop: scherm met de afgesproken teksten, contract en foutafhandeling", () => {
-  ["Advertenties van Nederlanders.fr, nieuw bovenaan. Een tik opent de advertentie.", "Adverteren is betaald en gaat via Nederlanders.fr. Staat uw advertentie daar, dan vindt u hem ook in deze lijst.", "Adverteren op Nederlanders.fr",
+  ["Advertenties van Nederlanders.fr, nieuw bovenaan. Een tik opent de advertentie.", "Adverteren is betaald en gaat via Nederlanders.fr. Staat je advertentie daar, dan vind je hem ook in deze lijst.", "Adverteren op Nederlanders.fr",
     "De advertenties zijn nu niet te laden.", "Opnieuw proberen", "Open de advertenties op Nederlanders.fr", "Toon meer (nog ", "Exploitatie mogelijk"].forEach(t => assert.ok(html.includes(t), t));
   assert.ok(html.includes("https://www.nederlanders.fr/page/onroerend-goed") || A.ADVERTEREN_URL === "https://www.nederlanders.fr/page/onroerend-goed");
   assert.equal(A.ADVERTEREN_URL, "https://www.nederlanders.fr/page/onroerend-goed");

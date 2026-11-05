@@ -8,7 +8,7 @@ const mod = id => cat.modules.find(m => m.id === id);
 
 test("hub: prototypekaart met feedbackknop, te sluiten, alleen per sessie weg", () => {
   assert.match(html, /data-proto="1"/);
-  assert.match(html, /InfoPoche is nog een prototype\. U bent van harte welkom om uw feedback, verbetervoorstellen en suggesties met ons te delen\./);
+  assert.match(html, /InfoPoche is nog een prototype\. Je bent van harte welkom om je feedback, verbetervoorstellen en suggesties met ons te delen\./);
   assert.match(html, /protoFeedback: \(\) => this\.fbOpenen\(\)/);
   assert.match(html, /sessionStorage\.setItem\("ifm_proto_weg", "1"\)/);
   assert.ok(!/localStorage[^;]*ifm_proto_weg/.test(html));

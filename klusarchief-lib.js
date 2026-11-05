@@ -212,7 +212,7 @@
   var CHAT_URL = BASIS + "-chat";
   var CHAT_MIN = 5, CHAT_MAX = 300, CHAT_ANTW_MAX = 1500, CHAT_MAX_VRAGEN = 4, CHAT_TIMEOUT_MS = 45000, CHAT_STATUS_MS = 5000;
   var CHAT_UITLEG = "Stel een vraag over klussen of verbouwen. Het antwoord combineert artikelen van Infofrankrijk, officiële Franse bronnen en oude forumdraden, met bron en datum, en kan verouderd zijn.";
-  var CHAT_PRIVACY = "Uw vraag gaat naar Claude van Anthropic om het antwoord te schrijven. Vul geen namen of adressen in.";
+  var CHAT_PRIVACY = "Je vraag gaat naar Claude van Anthropic om het antwoord te schrijven. Vul geen namen of adressen in.";
   var CHAT_PLAATSHOUDER = "Bijvoorbeeld: mag ik zelf mijn septic tank vervangen?";
   var CHAT_DRUK = "Het archief krijgt nu veel vragen. Probeer het later opnieuw of zoek zelf hieronder.";
   var CHAT_SAMENVATTING = "Samenvatting door de app op basis van de bronnen hierboven. Franse bronnen zijn vertaald.";

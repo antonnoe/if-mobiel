@@ -42,7 +42,7 @@ test('1. geen em- of en-dash in zichtbare teksten (index.html buiten Over ons, l
 
 test('1b. de genoemde keuringsteksten zijn herschreven', () => {
   const h = lees('index.html');
-  ['Later, ik vul het per keer in', 'Later, naar de gratis onderdelen', 'één app: u ziet'].forEach(t => assert.ok(h.includes(t), t));
+  ['Later, ik vul het per keer in', 'Later, naar de gratis onderdelen', 'één app: je ziet'].forEach(t => assert.ok(h.includes(t), t));
   ['Later —', 'Nog niet beschikbaar —', 'Voorbeeldgegevens —', 'Geen uitkomst te tonen —'].forEach(t => assert.ok(!h.includes(t), t));
 });
 
@@ -58,7 +58,7 @@ test('3. desktop: geen installatiebalk en geen automatisch blad', () => {
   const h = lees('index.html');
   assert.ok(h.includes('desktop:this.isDesktop()'), 'de app geeft desktop door aan toonBalk en toonAutoBlad');
   assert.ok(h.includes('"(min-width: 900px)"') && h.includes('"(pointer: fine)"'));
-  assert.ok(/mnBeginscherm/.test(h) && /Scan met uw telefoon/.test(lees('landing-lib.js')), 'menukaart en QR blijven');
+  assert.ok(/mnBeginscherm/.test(h) && /Scan met je telefoon/.test(lees('landing-lib.js')), 'menukaart en QR blijven');
 });
 
 test('6. een open module hoort bij de tab Modules', () => {
@@ -86,9 +86,9 @@ test('2. postcodeblad opent niet vanzelf, wel via kaart of menu, sluit op buiten
   const h = lees('index.html');
   assert.ok(!/vraagPostcode:\s*!pc && !pcLater/.test(h), 'geen automatisch blad bij de start');
   assert.ok(h.includes('pcBladSluit') && /Escape" && this\.state\.vraagPostcode/.test(h));
-  assert.ok(h.includes('Uw postcode blijft op dit toestel en wordt alleen gebruikt om bij u in de buurt te zoeken.'));
+  assert.ok(h.includes('Je postcode blijft op dit toestel en wordt alleen gebruikt om bij je in de buurt te zoeken.'));
   assert.ok(!h.includes('geo.api.gouv.fr, een dienst'), 'geen technische uitleg in het blad');
-  assert.equal(H.regioLabel('', ''), 'Stel uw postcode in');
+  assert.equal(H.regioLabel('', ''), 'Stel je postcode in');
 });
 
 test('8. aanraakdoelen en de balk onder een blad', () => {

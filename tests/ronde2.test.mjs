@@ -19,7 +19,7 @@ const mod = id => cat.modules.find(m => m.id === id);
 // ---- Gezondheid: indeling -----------------------------------------------------------------------
 test("gezondheid: zes onderwerpen in de afgesproken volgorde, spoedblok met tel:15", () => {
   assert.deepEqual(gz.onderwerpen.map(o => o.id), ["verzekerd", "arts", "ziekenhuis", "apotheek", "ouderen", "woorden"]);
-  assert.equal(gz.intro, "Verzekerd zijn, naar de dokter, het ziekenhuis, de apotheek, en zorg als u ouder wordt.");
+  assert.equal(gz.intro, "Verzekerd zijn, naar de dokter, het ziekenhuis, de apotheek, en zorg als je ouder wordt.");
   assert.equal(gz.spoed.tel, "15");
   assert.equal(gz.spoed.knop, "Bel 15");
   assert.equal(gz.spoed.tekst, "Medisch spoedgeval: 15 (Samu). Overal in de EU: 112.");

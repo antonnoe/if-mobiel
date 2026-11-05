@@ -92,7 +92,7 @@ test("band: geen lange streepjes in zichtbare tekst, ook niet uit de API", () =>
 
 const ruw = (id, extra) => Object.assign({
   id, titel: "Titel " + id, rubriek: "fiscaal", rubriek_naam: "Fiscale kalender", doelgroepen: ["iedereen"], wanneer: { datum: "2026-11-05" }, soort: "datum",
-  gebied: "heel Frankrijk", tekst: "t", tekst_u: "Tekst voor u van " + id, link: null, bron: { url: "https://www.impots.gouv.fr/x", gecontroleerd: "2026-11-02" },
+  gebied: "heel Frankrijk", tekst: "t", tekst_u: "Tekst voor je van " + id, link: null, bron: { url: "https://www.impots.gouv.fr/x", gecontroleerd: "2026-11-02" },
   status: "vastgesteld", toon_in: ["nieuwsbrief", "pagina", "infopoche"], gesprek: false, tijd: null, forum_aanzet: null,
   voorkomens: [{ van: "2026-11-05", tot: "2026-11-05" }]
 }, extra || {});
@@ -108,7 +108,7 @@ test("items: alleen vastgesteld en voor Infopoche, rommel valt weg, te_verifiere
   assert.equal(Kl.leesItems(null), null);
   assert.deepEqual(Kl.leesItems({ items: [] }), []);
   const x = l[0];
-  assert.equal(x.tekst, "Tekst voor u van a");
+  assert.equal(x.tekst, "Tekst voor je van a");
   assert.equal(x.bron.gecontroleerd, "2026-11-02");
   assert.equal(Kl.leesItems({ items: [ruw("h", { bron: { url: "http://onveilig.nl", gecontroleerd: "2026-11-02" }, link: "javascript:alert(1)" })] })[0].link, "");
   assert.equal(Kl.leesItems({ items: [ruw("h", { bron: { url: "http://onveilig.nl" } })] })[0].bron.url, "");
@@ -292,7 +292,7 @@ test("rij en item: meta, datum in woorden, tijd, gebied, bron, link, forumtekst"
   assert.equal(Kl.periodeTekst({ van: "2026-10-17", tot: "2026-11-02" }), "Van 17 oktober tot en met 2 november 2026", "zelfde jaar: het jaar een keer");
   assert.equal(Kl.bronRegel(it[0]), "Gecontroleerd op 02-11-2026");
   assert.deepEqual(Kl.forumDelen(it[0]), { titel: "Aanzet titel", samenvatting: "Aanzet tekst", link: "https://www.nedazur.org/agenda" });
-  assert.deepEqual(Kl.forumDelen(it[1]), { titel: "Titel b", samenvatting: "Tekst voor u van b", link: "https://www.impots.gouv.fr/x" });
+  assert.deepEqual(Kl.forumDelen(it[1]), { titel: "Titel b", samenvatting: "Tekst voor je van b", link: "https://www.impots.gouv.fr/x" });
   assert.equal(Kl.leesMeerTekst("https://www.nedazur.org/agenda"), "Lees meer op nedazur.org ↗");
   assert.equal(Kl.leesMeerTekst("https://infofrankrijk.com/fiscale-kalender-frankrijk/"), "Lees meer op infofrankrijk.com ↗");
   assert.equal(Kl.leesMeerTekst("http://nee.nl"), "");
@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-03-3"/);
+  assert.match(sw, /VERSIE = "2026-11-05-1"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -452,8 +452,8 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
   assert.match(html, /kalLooptTel: String\(lopend\.length\)/);
   // abonneren: een kaart met een knop, een onderblad met alles.ics en een rij per rubriek
   assert.match(scherm, /data-kal-abo="1"/);
-  assert.equal(Kl.ABO_VRAAG, "Ook in uw eigen agenda-app?");
-  assert.equal(Kl.ABO_KNOP, "Zet in uw agenda →");
+  assert.equal(Kl.ABO_VRAAG, "Ook in je eigen agenda-app?");
+  assert.equal(Kl.ABO_KNOP, "Zet in je agenda →");
   assert.equal(Kl.ABO_ALLES, "Hele kalender");
   assert.equal(Kl.ABO_RUBRIEK, "Of alleen een rubriek:");
   assert.ok(!/a\.naam \}\} &#8599;<\/a>\s*<\/sc-for>\s*<\/div>\s*<\/section>\s*<\/sc-if>/.test(scherm), "geen rij knoppen meer in de kaart");

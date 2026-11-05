@@ -134,18 +134,18 @@ test("voorbeeldtools komen uit de catalogus (nu leeg: alle prijzen staan voorlop
 
 test("onderblad: tekst letterlijk uit de opdracht", () => {
   [
-    "Fijn dat InfoPoche u helpt",
-    "Wat u net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.",
-    "Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
-    "Bekijk het abonnement", "Niet nu", "U ziet deze vraag hooguit eens per week."
+    "Fijn dat InfoPoche je helpt",
+    "Wat je net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.",
+    "Met een abonnement helpt je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
+    "Bekijk het abonnement", "Niet nu", "Je ziet deze vraag hooguit eens per week."
   ].forEach(t => assert.ok(html.includes(t), t));
   assert.ok(html.includes('role="dialog"') && html.includes('aria-label="Sluiten"'));
-  assert.ok(!html.includes("Als abonnee leest u bovendien"), "alinea 3 van het onderblad is weg");
+  assert.ok(!html.includes("Als abonnee lees je bovendien"), "alinea 3 van het onderblad is weg");
   assert.ok(!/tools met het label Abonnee/.test(html), "geen belofte van exclusieve toegang meer in de teksten");
 });
 
 test("het vaste abonneeblok draagt dezelfde forumzin", () => {
-  assert.ok(html.includes("Met een abonnement helpt u ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen."));
+  assert.ok(html.includes("Met een abonnement helpt je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen."));
 });
 
 test("index.html: artikelscherm hangt aan openInfoArtikel, nooit openArtikel; forumroute en delen", () => {

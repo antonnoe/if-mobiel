@@ -37,8 +37,8 @@ test("menu-items in volgorde en de sluituitleg", () => {
   const stuk = html.slice(a, z);
   const volg = ["mnBeginscherm", "mnProfiel", "mnKeuze", "mnOver", "groteTekstSchakel", "mnPostcode"].map(k => stuk.indexOf("{{ " + k + " }}"));
   assert.ok(volg.every(i => i > 0) && volg.every((v, i) => i === 0 || v > volg[i - 1]), String(volg));
-  assert.ok(stuk.includes("Zet op uw beginscherm") && stuk.includes("App is geïnstalleerd")); // kaart bovenaan, opent het installatieblad
-  assert.ok(stuk.includes("U hoeft de app niet af te sluiten: ga gewoon terug naar uw beginscherm, de app wacht rustig op de achtergrond. Wilt u hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android opent u de recente apps en veegt u InfoPoche weg."));
+  assert.ok(stuk.includes("Zet op je beginscherm") && stuk.includes("App is geïnstalleerd")); // kaart bovenaan, opent het installatieblad
+  assert.ok(stuk.includes("Je hoeft de app niet af te sluiten: ga gewoon terug naar je beginscherm, de app wacht rustig op de achtergrond. Wil je hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android open je de recente apps en veeg je InfoPoche weg."));
   assert.ok(stuk.includes("min-height:56px"));
 });
 
