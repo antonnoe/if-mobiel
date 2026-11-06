@@ -32,8 +32,8 @@ test("geen artikel: andere sites, de homepage, abonnement, systeempaden, de Klus
 });
 
 test("REST-adres: posts, pages, anoniem met de vier velden", () => {
-  assert.equal(A.restUrl("x-y"), "https://infofrankrijk.com/wp-json/wp/v2/posts?slug=x-y&_fields=title,content,date,link");
-  assert.match(A.restUrl("x-y", "pages"), /\/wp\/v2\/pages\?slug=x-y&_fields=title,content,date,link$/);
+  assert.equal(A.restUrl("x-y"), "https://infofrankrijk.com/wp-json/wp/v2/posts?slug=x-y&_fields=title,content,date,link,yoast_head_json.author");
+  assert.match(A.restUrl("x-y", "pages"), /\/wp\/v2\/pages\?slug=x-y&_fields=title,content,date,link,yoast_head_json\.author$/);
 });
 
 test("betaalmuur: klassen en tekst met pms- worden herkend, 3PMSF niet", () => {
@@ -286,4 +286,18 @@ test("inhoudsopgave van een reeks wordt een raster van tegels; het huidige deel 
   assert.equal(uit.hr, 0, "de lijn onder de oude lijst vervalt");
   assert.equal(uit.h4, 1, "een kop met lopende tekst en links blijft een kop");
   assert.equal(uit.p, 2, "een korte genummerde lijst (twee links) blijft tekst");
+});
+
+test("auteur: de naam van de site staat onder de titel, een verzamelnaam niet (06-11-2026)", () => {
+  const maak = (au) => A.leesAntwoord([{ title: { rendered: "T" }, content: { rendered: "<p>x</p>" }, date: "2017-06-07T22:30:10", link: "https://infofrankrijk.com/t/", yoast_head_json: au === undefined ? undefined : { author: au } }]);
+  assert.equal(maak("Rob van der Meulen").auteur, "Rob van der Meulen");
+  assert.equal(maak("Redactieteam").auteur, "");
+  assert.equal(maak("admin").auteur, "");
+  assert.equal(maak(undefined).auteur, "");
+  assert.equal(maak(["x"]).auteur, "");
+  assert.equal(maak("<b>Rob</b>  van der Meulen").auteur, "Rob van der Meulen");
+  assert.equal(A.metaRegel("7 juni 2017", "Rob van der Meulen"), "7 juni 2017 · Rob van der Meulen · Infofrankrijk");
+  assert.equal(A.metaRegel("7 juni 2017", ""), "7 juni 2017 · Infofrankrijk");
+  assert.equal(A.metaRegel("", ""), "Infofrankrijk");
+  assert.match(html, /artMeta: klaar \? window\.IfArtikel\.metaRegel\(a\.datum, a\.auteur\)/);
 });

@@ -4698,7 +4698,7 @@ class Component extends DCLogic {
       const body = L.schoon(k.html, {modules: this.alleMods()});
       const heeftInhoud = !!(body.textContent || "").replace(/\s+/g, "") || !!body.querySelector("img");
       if (!heeftInhoud && !k.muur) throw new Error("leeg");
-      const meta = {titel: (L.tekstVan(a.titel) || slug.replace(/-/g, " ")).replace(/\s+[\u2013\u2014]\s+/g, " - "), datum: L.datumNl(a.datum), muur: k.muur,
+      const meta = {titel: (L.tekstVan(a.titel) || slug.replace(/-/g, " ")).replace(/\s+[\u2013\u2014]\s+/g, " - "), datum: L.datumNl(a.datum), auteur: a.auteur || "", muur: k.muur,
         link: L.schoneUrl(a.link) || url, samenvatting: L.inkorten(L.eersteAlinea(body), 280), toolAlleen: !!body.querySelector("[data-toolregel]")};
       this._artCache[slug] = {meta, body};
       toon(this._artCache[slug]);
@@ -4805,7 +4805,7 @@ class Component extends DCLogic {
     const st = this.state, a = st.art, is = st.screen === "artikel" && !!a, klaar = is && a.status === "klaar";
     return {
       isArtikel: is, artHeeftTitel: klaar && !!a.titel, artTitel: klaar ? a.titel : "",
-      artMeta: klaar && a.datum ? a.datum + " · Infofrankrijk" : "Infofrankrijk",
+      artMeta: klaar ? window.IfArtikel.metaRegel(a.datum, a.auteur) : "Infofrankrijk",
       artLaadt: is && a.status === "laden", artFout: is && a.status === "fout", artKlaar: klaar,
       artSiteUrl: is ? (a.link || a.url) : "https://infofrankrijk.com/",
       forumBladOpen: !!st.forumBlad, forumBladOk: !!st.forumBlad && st.forumBlad.ok, forumBladMis: !!st.forumBlad && !st.forumBlad.ok,

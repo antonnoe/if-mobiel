@@ -465,4 +465,9 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 
 - **Wat:** een genummerde inhoudsopgave bovenaan een artikel (zoals de tien delen van "De Franse elektrische installatie" van Rob van der Meulen) was op de telefoon een lange lap vette tekst met kleine links. `maakReeksTegels` in `artikel-lib.js` maakt er een raster van twee kolommen van (`data-reeks`, kopje "In deze reeks"): per deel een tegel met het nummer en de titel. Een deel met een link opent in de app (`a[data-art]`); het deel zonder link is het artikel dat de lezer nu leest en krijgt een lichte bordeaux tint met "Je leest dit deel" (`data-reeks-nu`). Een oneven laatste tegel loopt over beide kolommen; de scheidingslijn direct onder de oude lijst vervalt.
 - **Herkenning** (`leesReeks`): een kop of alinea met alleen tekst, regeleinden en inline-elementen, waarvan elke regel met een nummer en een punt begint en minstens drie regels naar een artikel van Infofrankrijk wijzen. Voldoet een blok daar niet aan, dan blijft het ongewijzigd. Geen data in de repo: het werkt voor elke reeks die zo is opgemaakt. Test: `tests/artikel.test.mjs`. Service worker `VERSIE` 2026-11-05-3.
-Laatst nagelopen: 5 november 2026
+
+## Auteur onder de artikeltitel (6 november 2026)
+
+- De regel onder de titel van een artikel is "datum · auteur · Infofrankrijk" (`IfArtikel.metaRegel`). De auteur komt uit het veld `yoast_head_json.author` van de WordPress REST API (`restUrl` vraagt dat veld mee; `leesAntwoord` geeft `auteur`). Een verzamelnaam (Redactieteam, admin, zie `GEEN_AUTEUR`) is geen auteur en blijft weg, net als een ontbrekend veld. De naam staat dus op de site (auteur van het bericht in WordPress), niet in de repo. Test: `tests/artikel.test.mjs`. Service worker `VERSIE` 2026-11-06-1.
+
+Laatst nagelopen: 6 november 2026

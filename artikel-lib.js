@@ -37,7 +37,7 @@
   function isInApp(url) { return slugUitUrl(url) !== null; }
   function schoneUrl(url) { var s = slugUitUrl(url); return s ? BASIS + "/" + s + "/" : null; }
   function restUrl(slug, soort) {
-    return BASIS + "/wp-json/wp/v2/" + (soort === "pages" ? "pages" : "posts") + "?slug=" + encodeURIComponent(slug) + "&_fields=title,content,date,link";
+    return BASIS + "/wp-json/wp/v2/" + (soort === "pages" ? "pages" : "posts") + "?slug=" + encodeURIComponent(slug) + "&_fields=title,content,date,link,yoast_head_json.author";
   }
 
   // ---- Betaalmuur --------------------------------------------------------------------------
@@ -66,9 +66,17 @@
       titel: it.title && typeof it.title.rendered === "string" ? it.title.rendered : "",
       html: it.content.rendered,
       datum: typeof it.date === "string" ? it.date : "",
-      link: typeof it.link === "string" ? it.link : ""
+      link: typeof it.link === "string" ? it.link : "",
+      auteur: auteurNaam(it.yoast_head_json && it.yoast_head_json.author)
     };
   }
+  // De auteur zoals de site hem zelf noemt. Een verzamelnaam (Redactieteam, admin) is geen auteur en blijft weg.
+  var GEEN_AUTEUR = /^(redactie(team)?|admin(istrator)?|infofrankrijk(\.com)?|beheer(der)?)$/i;
+  function auteurNaam(v) {
+    var t = typeof v === "string" ? v.replace(/<[^>]*>/g, "").replace(/[\s\u00a0]+/g, " ").trim() : "";
+    return t && t.length <= 60 && !GEEN_AUTEUR.test(t) ? t : "";
+  }
+  function metaRegel(datum, auteur) { return [datum, auteur, "Infofrankrijk"].filter(Boolean).join(" · "); }
 
   // posts, dan pages. Geeft een belofte met {titel, html, datum, link, soort} of een afwijzing.
   function haalOp(slug, opt) {
@@ -560,7 +568,7 @@
   var api = {
     BASIS: BASIS, slugUitUrl: slugUitUrl, isInApp: isInApp, schoneUrl: schoneUrl, restUrl: restUrl,
     heeftBetaalmuur: heeftBetaalmuur, knipBijMuur: knipBijMuur, haalOp: haalOp, leesAntwoord: leesAntwoord,
-    schoon: schoon, tabsNaarKoppen: tabsNaarKoppen, zonderDivi: zonderDivi, moduleVoorUrl: moduleVoorUrl, toolKaartVoor: toolKaartVoor, tekstVan: tekstVan, inkorten: inkorten, eersteAlinea: eersteAlinea, forumTekst: forumTekst, datumNl: datumNl
+    auteurNaam: auteurNaam, metaRegel: metaRegel, schoon: schoon, tabsNaarKoppen: tabsNaarKoppen, zonderDivi: zonderDivi, moduleVoorUrl: moduleVoorUrl, toolKaartVoor: toolKaartVoor, tekstVan: tekstVan, inkorten: inkorten, eersteAlinea: eersteAlinea, forumTekst: forumTekst, datumNl: datumNl
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfArtikel = api;
