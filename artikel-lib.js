@@ -260,6 +260,7 @@
     titel: "margin:0 0 6px;font:600 14.5px/1.35 Poppins,system-ui,sans-serif;color:" + KLEUR + ";overflow-wrap:anywhere",
     tekst: "margin:0 0 8px;font:400 14px/1.7 Mulish,system-ui,sans-serif;color:#3D4346;overflow-wrap:anywhere",
     item: "margin:6px 0 0;font:400 13.5px/1.5 Mulish,system-ui,sans-serif;color:#3D4346;overflow-wrap:anywhere",
+    lijst: "margin:8px 0 0;font:400 14px/1.6 Mulish,system-ui,sans-serif;color:#3D4346;overflow-wrap:anywhere",
     raster: "display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 0"
   };
   function stijlVan(el) { return String(el.getAttribute("style") || "").toLowerCase().replace(/\s+/g, ""); }
@@ -320,6 +321,8 @@
       });
       // Regels in een tegel (de punten in het waardekwadrant) zijn compact, niet de ruime lopende tekst van het artikel.
       Array.prototype.slice.call(d.querySelectorAll("p")).forEach(function (pp) { pp.setAttribute("style", TEGEL.item); });
+      // Ook een opsomming in een kaartje (zoals het blok "Actualisering" boven een ouder artikel) is compact.
+      Array.prototype.slice.call(d.querySelectorAll("li")).forEach(function (li) { li.setAttribute("style", TEGEL.lijst); });
     });
     // Aaneengesloten kaartjes (broers) komen samen in één raster; een oneven laatste kaartje loopt over beide kolommen.
     var klaar = [];

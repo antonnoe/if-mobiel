@@ -301,3 +301,11 @@ test("auteur: de naam van de site staat onder de titel, een verzamelnaam niet (0
   assert.equal(A.metaRegel("", ""), "Infofrankrijk");
   assert.match(html, /artMeta: klaar \? window\.IfArtikel\.metaRegel\(a\.datum, a\.auteur\)/);
 });
+
+test("een opsomming in een kaartje is compact, niet de ruime lopende tekst (06-11-2026)", async (t) => {
+  const bron = '<div style="border:1px solid #e3caca;border-radius:8px;padding:16px 20px;"><div style="font-weight:bold;">Actualisering</div><ul><li>Een punt</li><li>Nog een</li></ul></div><ul><li>Buiten</li></ul>';
+  const uit = await inBrowser(h => { const b = window.IfArtikel.schoon(h); return [...b.querySelectorAll("li")].map(l => l.getAttribute("style")); }, bron);
+  if (!uit) return t.skip("geen headless browser beschikbaar");
+  assert.match(uit[0], /400 14px\/1\.6 Mulish/); assert.match(uit[1], /400 14px\/1\.6 Mulish/);
+  assert.match(uit[2], /line-height:1\.8em/, "een lijst buiten een kaartje blijft lopende tekst");
+});

@@ -470,4 +470,6 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 
 - De regel onder de titel van een artikel is "datum · auteur · Infofrankrijk" (`IfArtikel.metaRegel`). De auteur komt uit het veld `yoast_head_json.author` van de WordPress REST API (`restUrl` vraagt dat veld mee; `leesAntwoord` geeft `auteur`). Een verzamelnaam (Redactieteam, admin, zie `GEEN_AUTEUR`) is geen auteur en blijft weg, net als een ontbrekend veld. De naam staat dus op de site (auteur van het bericht in WordPress), niet in de repo. Test: `tests/artikel.test.mjs`. Service worker `VERSIE` 2026-11-06-1.
 
+- Een opsomming in een kaartje (`li` binnen een kaart-div, zoals het blok "Actualisering" boven een ouder artikel) krijgt de compacte stijl `TEGEL.lijst` (14 px). Service worker `VERSIE` 2026-11-06-2.
+
 Laatst nagelopen: 6 november 2026
