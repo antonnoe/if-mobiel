@@ -141,6 +141,19 @@
     return uit.slice(0, MAX_BAND);
   }
 
+  // Naamdag uit /api/vandaag: {namen:[...], tekst:"Bonne fête aux ..."} of null. Geeft de tekst of "" (dan staat er niets).
+  // Alleen tekst die met "Bonne fête aux " begint en niet te lang is; bij elk ander veld of een fout: "".
+  var NAAMDAG_VOOR = "Bonne fête aux ";
+  function naamdagTekst(data) {
+    try {
+      var n = data && typeof data === "object" ? data.naamdag : null;
+      if (!n || typeof n !== "object") return "";
+      var t = schoon(n.tekst);
+      if (t.indexOf(NAAMDAG_VOOR) !== 0 || t.length <= NAAMDAG_VOOR.length || t.length > 100) return "";
+      return t;
+    } catch (e) { return ""; }
+  }
+
   // ---- rubrieken en items ----
   function leesRubrieken(data) {
     if (!Array.isArray(data)) return [];
@@ -491,7 +504,7 @@
     ABO_RUBRIEK: ABO_RUBRIEK, WEEK_NAMEN: WEEK_NAMEN, KORT: KORT, korteNaam: korteNaam,
     schoon: schoon, idSchoon: idSchoon, https: https, hostnaam: hostnaam, isoVan: isoVan, plusDagen: plusDagen, dagMaand: dagMaand, datumWoorden: datumWoorden,
     datumKop: datumKop, ddmmjjjj: ddmmjjjj, vandaagUrl: vandaagUrl, itemsUrl: itemsUrl, rubriekenUrl: rubriekenUrl, beeldUrl: beeldUrl, icalUrl: icalUrl,
-    voorvoegsel: voorvoegsel, datumUitKop: datumUitKop, eersteZin: eersteZin, bandTekst: bandTekst, bandRegels: bandRegels,
+    voorvoegsel: voorvoegsel, datumUitKop: datumUitKop, eersteZin: eersteZin, bandTekst: bandTekst, bandRegels: bandRegels, naamdagTekst: naamdagTekst,
     leesRubrieken: leesRubrieken, leesItems: leesItems, filterItems: filterItems, rubriekChips: rubriekChips, wieNaam: wieNaam, kleurVan: kleurVan,
     maandNaam: maandNaam, weekStart: weekStart, weekBereik: weekBereik, maandBereik: maandBereik, maandRaster: maandRaster, bereikVan: bereikVan,
     verschuif: verschuif, periodeTitel: periodeTitel, kopDag: kopDag, perDag: perDag, loopt: loopt, stippen: stippen, legenda: legenda,

@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-7"/);
+  assert.match(sw, /VERSIE = "2026-11-09-8"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -619,4 +619,27 @@ test("aanvulling: ook onder een dag met items, zonder dubbelen met die dag", () 
   assert.deepEqual(a.blokken[0].rijen.map(r => r.item.id), ["lumieres"]);
   assert.ok(!a.blokken.some(g => g.rijen.some(r => r.item.id === "dag1" || r.item.id === "oesters")), "de items van de gekozen dag komen niet terug");
   assert.match(html, /aanvNodig = true;\n/);
+});
+
+test("naamdag in de band (9 november 2026): pure functie en schil", () => {
+  const ok = { naamdag: { namen: ["Théodore"], tekst: "Bonne fête aux Théodore" } };
+  assert.equal(Kl.naamdagTekst(ok), "Bonne fête aux Théodore");
+  assert.equal(Kl.naamdagTekst({ naamdag: { namen: ["A", "B", "C"], tekst: "Bonne fête aux A, B et C" } }), "Bonne fête aux A, B et C");
+  // geen veld, null, rommel of een andere tekst: niets
+  [undefined, null, "rommel", {}, { naamdag: null }, { naamdag: "x" }, { naamdag: {} }, { naamdag: { tekst: 5 } },
+    { naamdag: { tekst: "Bonne fête aux " } }, { naamdag: { tekst: "Hallo Théodore" } }, { naamdag: { tekst: "Bonne fête aux " + "x".repeat(120) } }]
+    .forEach(d => assert.equal(Kl.naamdagTekst(d), "", JSON.stringify(d)));
+  // geen lange streepjes in zichtbare tekst
+  assert.ok(!LANG.test(Kl.naamdagTekst({ naamdag: { tekst: "Bonne fête aux A — B" } })));
+  // de naamdag telt niet mee in de drie regels van de band
+  const regels = [1, 2, 3, 4].map(i => ({ soort: "vandaag", kop: "Vandaag, maandag 9 november.", titel: "Item " + i, tekst: "x", id: "i" + i }));
+  assert.equal(Kl.bandRegels({ ...ok, regels }).length, 3);
+  assert.ok(Kl.bandRegels({ ...ok, regels }).every(r => !/Bonne/.test(r.tekst)));
+  // schil: onder het label VANDAAG, Mulish 600, 13 px, #DCE8DF, geen hoofdletters, margin-top 4px, display block; tekst nooit via innerHTML
+  assert.match(html, /<span data-naamdag="1" style="display:block;margin-top:4px;font:600 13px\/1\.3 Mulish;letter-spacing:normal;text-transform:none;color:#DCE8DF/);
+  assert.match(html, /\{\{ vdNaamdag \}\}/);
+  assert.match(html, /vdHeeftNaamdag: aan && !!st\.vdNaamdag/);
+  assert.match(html, /Kl\.naamdagTekst\(data\)/);
+  assert.ok(html.indexOf(">Vandaag</span>") < html.indexOf('data-naamdag="1"') && html.indexOf('data-naamdag="1"') < html.indexOf('data-vandaag-regel="1"'));
+  assert.match(html, /Kalender Frankrijk &#8594;<\/span><\/button>/, "de knop rechts blijft");
 });

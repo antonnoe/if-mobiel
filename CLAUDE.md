@@ -499,3 +499,7 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 - Module `vervoershub` (thema Ervaring, gratis, standaard aan): prikbord voor liften en goederenvervoer van Nederlanders.fr. `weergave: knop`, want de pagina geeft `x-frame-options: deny` en `frame-ancestors 'self'` (gecontroleerd 9-11-2026); de knop opent https://www.nederlanders.fr/page/lift-en-transportcentrale in een nieuw tabblad. Service worker `VERSIE` 2026-11-09-7. Test: `tests/vervoershub.test.mjs`.
 
 Laatst nagelopen: 9 november 2026
+
+## Naamdag in de band Vandaag (9 november 2026)
+
+- Onder het label VANDAAG staat een kleine lichte regel "Bonne fête aux <Naam>" (`data-naamdag`, Mulish 600, 13 px, `#DCE8DF`, geen hoofdletters, `margin-top:4px`), links in dezelfde kolom; "Kalender Frankrijk →" blijft rechts. Bron: het veld `naamdag` van `/api/vandaag` (`{namen, tekst}` of `null`, hooguit drie namen, nooit op een Franse wettelijke feestdag; dat bepaalt Kalender Frankrijk, de app rekent niets). `IfKal.naamdagTekst(data)` geeft de tekst of `""` (alleen tekst die met "Bonne fête aux " begint, hooguit 100 tekens); `state.vdNaamdag`, hole `vdHeeftNaamdag`/`vdNaamdag`, nooit via innerHTML. De naamdag telt niet mee in de drie regels en maakt geen band als er geen regels zijn. Valt het veld weg, is het `null` of mislukt de aanvraag: geen regel, geen melding. Service worker `VERSIE` 2026-11-09-8. Test: `tests/kalender.test.mjs`.
