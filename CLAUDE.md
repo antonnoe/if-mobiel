@@ -494,4 +494,8 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 
 - **Rubriek Tradities (9 november 2026)**: de rubriek `genieten` van Kalender Frankrijk heet "Franse tradities", het knopje "Tradities" (`IfKal.KORT`); de id blijft `genieten`. Service worker `VERSIE` 2026-11-09-4.
 
+## Lift en transport (9 november 2026)
+
+- Module `vervoershub` (thema Ervaring, gratis, standaard aan): prikbord voor liften en goederenvervoer van Nederlanders.fr. `weergave: knop`, want de pagina geeft `x-frame-options: deny` en `frame-ancestors 'self'` (gecontroleerd 9-11-2026); de knop opent https://www.nederlanders.fr/page/lift-en-transportcentrale in een nieuw tabblad. Service worker `VERSIE` 2026-11-09-7. Test: `tests/vervoershub.test.mjs`.
+
 Laatst nagelopen: 9 november 2026

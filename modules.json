@@ -965,6 +965,25 @@
       "kind": "forum",
       "nagekeken": "2026-10-22",
       "over": "Berichten en reactiedraden van leden van Nederlanders.fr, sinds 2002. Gratis te lezen in de app; reageren gebeurt op de site zelf."
+    },
+    {
+      "id": "vervoershub",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
+      "groep": "leven",
+      "thema": "ervaring",
+      "naam": "Lift en transport",
+      "kort": "Lift en transport",
+      "meta": "Zoek of bied een lift of transport tussen Nederland, België en Frankrijk. Het prikbord van Nederlanders.fr is gratis, ook zonder lidmaatschap.",
+      "prijs": "gratis",
+      "schil": "keuzeschil",
+      "houdbaar": "dagelijks",
+      "status": "af",
+      "kind": "iframe",
+      "weergave": "knop",
+      "url": "https://www.nederlanders.fr/page/lift-en-transportcentrale",
+      "zoekwoorden": "lift meerijden rit transport verhuizing verhuizen vervoer aanhanger bestelbus covoiturage vervoershub",
+      "nagekeken": "2026-11-09",
+      "over": "Het prikbord voor liften en goederenvervoer van Nederlanders.fr. Je plaatst een oproep met een formulier en bekijkt de lijst. Gratis, ook voor niet-leden. Een oproep verdwijnt 3 dagen na vertrek. De pagina opent op Nederlanders.fr zelf."
     }
   ],
   "klusonderwerpen": [

@@ -18,7 +18,7 @@ const INDELING = {
   gezondheid: ["zorg", "zorgkompas", "palliatief", "zoekers"],
   adressen: ["nedergids", "verenigingen", "verenigingsbeheer"],
   nieuws: [],
-  ervaring: ["forum", "nlfrzoek"],
+  ervaring: ["forum", "nlfrzoek", "vervoershub"],
   ondernemen: ["efacturatie", "gitekompas", "beroepenchecker", "devisdossier"],
   wonen: ["klussen", "klusforum", "lijstjes", "tekoop", "dossierelektra", "elektrabuiten", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
   taal: ["correspondentie", "taalhulp", "woordenboek"]
