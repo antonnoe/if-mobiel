@@ -1843,7 +1843,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
             </sc-for>
           </div>
           <button onClick="{{ b.forum }}" style="display:flex;align-items:center;min-height:48px;margin-top:8px;padding:0;border:0;background:none;cursor:pointer;font:700 13px Mulish;color:#800000">Bespreek op het forum &rarr;</button>
-          <button data-nw-deel="1" onClick="{{ b.deel }}" style="display:flex;align-items:center;min-height:48px;margin-top:0;padding:0;border:0;background:none;cursor:pointer;font:700 13px Mulish;color:#800000">Delen</button>
+          <button data-nw-deel="1" onClick="{{ b.deel }}" style="display:flex;align-items:center;min-height:48px;min-width:44px;margin-top:0;padding:0;border:0;background:none;cursor:pointer;font:700 13px Mulish;color:#800000">Delen</button>
           <sc-if value="{{ b.deelMld }}" hint-placeholder-val="{{ false }}">
           <div role="status" style="font:600 13px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ b.deelMld }}</div>
           </sc-if>
@@ -3856,7 +3856,7 @@ class Component extends DCLogic {
     // Klussen in Frankrijk heeft een eigen blok, met de dossiers en de lijstjes eronder; de rest staat in Tools bij wonen.
     const klusIds = ["klussen","klusforum","dossierelektra","elektrabuiten","lijstjes"];
     const klus = klusIds.map(id => this.mods().find(m => m.id === id)).filter(Boolean);
-    const tools = ["klussen","lijstjes","tekoop","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","devisdossier","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
+    const tools = ["klussen","lijstjes","tekoop","dossierelektra","veiligheid","internet","moestuin","woonplan","bouwgrond","huizenchecker","woningzoeker","vastgoed","energie","subsidieroute"]
       .map(id => this.mods().find(m => m.id === id)).filter(Boolean).filter(m => !klusIds.includes(m.id));
     return {
       isLamaison: is,
@@ -6218,7 +6218,7 @@ class Component extends DCLogic {
       kiMeerTekst: link ? (linkMod ? "Open " + linkMod.naam : Kl.leesMeerTekst(link)) : "",
       kiMeerOpen: () => linkMod ? this.routeMetUrl(linkMod, link) : this.openInfoArtikel(link),
       kiGesprek: !!it && it.gesprek,
-      kiDeel: () => { if (it) this.deelStuk("kal:" + it.id, it.titel, APP_URL + "/#/kalender/" + encodeURIComponent(it.id)); },
+      kiDeel: () => { if (it) this.deelStuk("kal:" + it.id, it.titel + ", " + Kl.datumRegel(it, vandaag), APP_URL + "/#/kalender/" + encodeURIComponent(it.id)); },
       kiDeelMld: it && st.deelMld && st.deelMld.k === "kal:" + it.id ? st.deelMld.t : "",
       kiForum: () => { const L = window.IfArtikel; if (L && fd) this.forumStart(L.forumTekst(fd.titel, fd.samenvatting, fd.link)); }
     };

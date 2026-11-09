@@ -44,3 +44,8 @@ test("teksten en ordening", () => {
   assert.equal(m("devisdossier").thema, "ondernemen");
   assert.equal(m("transactiekosten").weergave, "volledig");
 });
+test("herstelronde: deelknop 44 px, datum in de gedeelde tekst, devisdossier niet meer vast bij wonen", () => {
+  assert.match(html, /data-nw-deel="1"[^>]*min-height:48px;min-width:44px/);
+  assert.match(html, /it\.titel \+ ", " \+ Kl\.datumRegel\(it, vandaag\)/);
+  assert.ok(!/"bouwgrond","devisdossier"/.test(html));
+});
