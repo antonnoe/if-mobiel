@@ -44,6 +44,8 @@ test("iframe-rechten: alleen uit de vaste lijst, en alleen voor modules die er i
   assert.ok(met.every(m => toegestaan.includes(m.rechten)), "onbekend recht in modules.json");
   assert.deepEqual(met.map(m => m.id + ":" + m.rechten), ["overhedenbuurt:geolocation"]);
   assert.match(html, /const IFRAME_RECHTEN = \["geolocation"\];/);
-  assert.match(html, /allow="\{\{ toolAllow \}\}"/);
+  assert.doesNotMatch(html, /allow="[^"]*\{\{/, "geen hole in allow (console: Unrecognized feature)");
+  assert.match(html, /allow="clipboard-write; web-share; geolocation"/);
+  assert.match(html, /allow="clipboard-write; web-share" /);
   assert.match(html, /IFRAME_RECHTEN\.indexOf\(T\.rechten\) >= 0/);
 });

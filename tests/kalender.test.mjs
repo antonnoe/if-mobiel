@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-10"/);
+  assert.match(sw, /VERSIE = "2026-11-09-11"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -679,4 +679,19 @@ test("ronde 9 november (4): naamdag met uitleg, onzekere datum, departementsnaam
   assert.equal(Kl.eersteDagMetItem(mi, "alles", "2027-03-01"), "");
   assert.match(html, /kalAutoKies\(\)/);
   assert.match(html, /kalKies\(iso\)\{[^}]*kalAuto:""/);
+});
+
+test("gedeelde link naar een item ver vooruit: ophalen op id, nette meldingen", () => {
+  assert.equal(Kl.itemUrl("hospices-de-beaune-2027"), Kl.BASIS + "/api/items?id=hospices-de-beaune-2027");
+  assert.equal(Kl.itemUrl("a b"), Kl.BASIS + "/api/items?id=a%20b");
+  assert.match(html, /kalIdZorg\(\)\{/);
+  const blok = html.slice(html.indexOf("kalIdZorg(){"), html.indexOf("kalZorg(){"));
+  assert.match(blok, /Kl\.itemUrl\(id\)/);
+  assert.match(blok, /IfNav|Nv\.maakTeller\(\)/, "laadtoken");
+  assert.match(blok, /status === 404\) \{ this\.setState\(\{kalIdStatus:"weg"\}/, "404 is de melding 'niet meer in de kalender'");
+  assert.match(blok, /kalIdStatus:"fout"/, "fout of time-out is een eerlijke melding met Opnieuw proberen");
+  assert.match(blok, /kalWeergave:"maand", kalGekozen:it\.voorkomens\[0\]\.van/, "terug opent de maand van het item");
+  assert.match(html, /kiWeg: is && !!st\.kalItem && !it && ok && st\.kalIdStatus === "weg"/);
+  assert.match(html, /kalOpnieuw: \(\) => \{ this\.kalIdOpnieuw\(\)/);
+  assert.match(html, /^[\s\S]*this\.kalIdZorg\(\);\n/m);
 });

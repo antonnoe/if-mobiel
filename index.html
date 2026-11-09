@@ -2073,7 +2073,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <!-- De site zelf, exact de ruimte tussen kopbalk en tabbalk: de schermcontainer scrolt hier
            niet (overflow hidden), het iframe scrolt zelf. Alleen voor sites die framing toestaan
            (weergave: "volledig" in modules.json). De knop "In browser" staat in de kopbalk. -->
-      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="{{ toolAllow }}" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
+      <!-- Twee iframes met een vast allow-attribuut: een allow met een {{ }}-hole geeft in de console "Unrecognized feature" omdat de template live in de DOM staat. -->
+      <sc-if value="{{ toolGeen }}" hint-placeholder-val="{{ true }}">
+      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write; web-share" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
+      </sc-if>
+      <sc-if value="{{ toolGeo }}" hint-placeholder-val="{{ false }}">
+      <iframe loading="lazy" src="{{ toolUrl }}" title="{{ toolName }}" allow="clipboard-write; web-share; geolocation" style="flex:1;min-height:0;width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
+      </sc-if>
     </div>
     </sc-if>
     <sc-if value="{{ toonUitlegRij }}" hint-placeholder-val="{{ false }}">
@@ -3794,7 +3800,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], vdNaamdag:"", kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], vdNaamdag:"", kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -6035,7 +6041,7 @@ class Component extends DCLogic {
   // Het scherm opent altijd op Week, met vandaag gekozen en zonder filter.
   kalOpen(m, from, wil){
     const Kl = window.IfKal;
-    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:m || this.vindModule("kalender"), from:from || "hub", kalItem:null, kalWil:wil || null,
+    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:m || this.vindModule("kalender"), from:from || "hub", kalItem:null, kalIdStatus:"", kalWil:wil || null,
       kalWeergave:"week", kalGekozen: Kl ? Kl.isoVan(new Date()) : "", kalRubriek:"alles", kalAbo:false, kalAuto:""});
     this.kalLaad(false);
   }
@@ -6043,7 +6049,7 @@ class Component extends DCLogic {
   kalOpenId(id){
     const Kl = window.IfKal;
     if (!Kl || Kl.idSchoon(id) === null) return;
-    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:this.vindModule("kalender"), from:"hub", kalItem:id, kalWil:null,
+    this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:this.vindModule("kalender"), from:"hub", kalItem:id, kalIdStatus:"", kalWil:null,
       kalWeergave:"week", kalGekozen: Kl.isoVan(new Date()), kalRubriek:"alles", kalAbo:false, kalAuto:""});
     this.kalLaad(false);
   }
@@ -6079,8 +6085,32 @@ class Component extends DCLogic {
   }
   // Buiten het opgehaalde venster gekeken (andere maand of week)? Dan een extra aanvraag voor die maand, met dezelfde zachte foutafhandeling.
   // Wordt na elke render aangeroepen; de sleutel van de aanvraag voorkomt dubbele aanvragen en een eindeloze herhaling na een fout.
+  // Een gedeelde link naar een item dat buiten het opgehaalde venster ligt (bv. #/kalender/hospices-de-beaune-2027): het item
+  // apart ophalen op id, in de lijst zetten en de kalender (na Terug) in de maand van het eerste voorkomen openen.
+  // Statussen: "" nog niet gezocht, "laden", "fout" (met Opnieuw proberen), "weg" (404: onbekend of verborgen).
+  kalIdZorg(){
+    const st = this.state, Kl = window.IfKal, Nv = window.IfNav, id = st.kalItem;
+    if (!Kl || !Nv || st.screen !== "kalender" || st.kalStatus !== "klaar" || !id || st.kalIdStatus !== "") return;
+    if ((st.kalItems || []).some(i => i.id === id)) return;
+    if (this._kalIdKey === id) return;
+    this._kalIdKey = id;
+    this._kalITeller = this._kalITeller || Nv.maakTeller();
+    const tok = this._kalITeller.volgende();
+    this.setState({kalIdStatus:"laden"});
+    this.kaFetch(Kl.itemUrl(id), null, Kl.TIMEOUT_MS).then(({status, data}) => {
+      if (!this._kalITeller.actueel(tok)) return;
+      if (status === 404) { this.setState({kalIdStatus:"weg"}); return; }
+      const lijst = status === 200 ? Kl.leesItems(data) : null;
+      const it = lijst ? lijst.find(i => i.id === id) : null;
+      if (!lijst || (status === 200 && !it && Array.isArray(data && data.items) && data.items.length)) { this._kalIdKey = ""; this.setState({kalIdStatus:"fout"}); return; }
+      if (!it) { this.setState({kalIdStatus:"weg"}); return; }
+      this.setState(prev => ({kalItems:Kl.voegSamen(prev.kalItems, lijst), kalIdStatus:"", kalWeergave:"maand", kalGekozen:it.voorkomens[0].van, kalAuto:""}));
+    });
+  }
+  kalIdOpnieuw(){ this._kalIdKey = ""; this.setState({kalIdStatus:""}); }
   kalZorg(){
     const st = this.state, Kl = window.IfKal, Nv = window.IfNav;
+    this.kalIdZorg();
     if (!Kl || !Nv || st.screen !== "kalender" || st.kalStatus !== "klaar" || !st.kalGekozen || st.kalItem) return;
     const b0 = Kl.bereikVan(st.kalWeergave, st.kalGekozen);
     if (!b0) return;
@@ -6268,11 +6298,11 @@ class Component extends DCLogic {
       kalLeeg: leeg, kalLeegTekst: leegTekst, kalToonKnop: leeg && !!rubNaam && !dagLeeg, kalToonAlles: () => this.setState({kalRubriek:"alles"}),
       kalAanvZichtbaar: aanvBlokken.length > 0, kalAanvBlokken: aanvBlokken, kalTitelPx: is && gekozen ? String(Kl.titelGrootte(Kl.periodeTitelKop(wg, gekozen))) : "21",
       kalNavLaadt: is && ok && !st.kalItem && (st.kalNav === "laden" || (!!aanvBer && !aanvGedekt && st.kalNav !== "fout")), kalNavFout: is && ok && !st.kalItem && st.kalNav === "fout", kalNavOpnieuw: () => this.kalNavOpnieuw(),
-      kalOpnieuw: () => this.kalLaad(true),
+      kalOpnieuw: () => { this.kalIdOpnieuw(); this.kalLaad(true); },
       kalAboVraag: Kl ? Kl.ABO_VRAAG : "", kalAboKnop: Kl ? Kl.ABO_KNOP : "", kalAboOpen: () => this.setState({kalAbo:true}), kalAboSluit: () => this.setState({kalAbo:false}),
       kalAboBlad: is && !!st.kalAbo, kalAboAllesUrl: Kl ? Kl.icalUrl("alles") : "", kalAboAllesTekst: Kl ? Kl.ABO_ALLES : "", kalAboRubriekTekst: Kl ? Kl.ABO_RUBRIEK : "",
       kalAboRijen: abo.filter(a => a.id !== "alles").map(a => ({naam:a.naam, url:a.url})), kalAboUitleg: Kl ? Kl.ABO_UITLEG : "",
-      kiLaadt: is && !!st.kalItem && !it && laadt, kiFout: is && !!st.kalItem && !it && fout, kiWeg: is && !!st.kalItem && !it && ok, kiKlaar: !!it,
+      kiLaadt: is && !!st.kalItem && !it && (laadt || (ok && (st.kalIdStatus === "" || st.kalIdStatus === "laden"))), kiFout: is && !!st.kalItem && !it && (fout || (ok && st.kalIdStatus === "fout")), kiWeg: is && !!st.kalItem && !it && ok && st.kalIdStatus === "weg", kiKlaar: !!it,
       kiTerug: () => this.terugKnop(),
       kiBeeld: it ? Kl.beeldUrl(it.rubriek) : "", kiTitel: it ? it.titel : "", kiDatum: it ? Kl.datumRegel(it, vandaag) : "",
       kiLater: !!later, kiLaterTekst: later, kiAlineas: it ? Kl.alineas(it.tekst).map(t => ({t})) : [], kiChips: itemChips,
@@ -7331,7 +7361,8 @@ class Component extends DCLogic {
       geenUrl: !!(T && T.kind === "iframe" && !T.url),
       toolUrl: T && T.url ? (st.toolStart && st.toolStart.id === T.id ? st.toolStart.url : T.url + (T.id === "internet" && st.toolQuery ? (T.url.indexOf("?") < 0 ? "?" : "&") + st.toolQuery : "")) : "",
       // Rechten van het tool-iframe: altijd klembord en delen; extra alleen als de module ze in `rechten` vraagt (nu alleen geolocation voor het adressen-dashboard).
-      toolAllow: "clipboard-write; web-share" + (T && IFRAME_RECHTEN.indexOf(T.rechten) >= 0 ? "; " + T.rechten : ""),
+      toolGeo: !!(T && IFRAME_RECHTEN.indexOf(T.rechten) >= 0 && T.rechten === "geolocation"),
+      toolGeen: !(T && IFRAME_RECHTEN.indexOf(T.rechten) >= 0 && T.rechten === "geolocation"),
       catFout: st.catFout,
       pcLabel: st.postcode ? (st.postcode + (st.plaats ? " " + st.plaats : "")) : "niet ingesteld",
       vraagPostcode: st.vraagPostcode,
