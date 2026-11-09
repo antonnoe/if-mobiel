@@ -6157,6 +6157,7 @@ class Component extends DCLogic {
     const st = this.state, Kl = window.IfKal, is = st.screen === "kalender" && !!Kl;
     const items = is ? (st.kalItems || []) : [];
     const rubrieken = st.kalRubr || [];
+    const deps = (st.cat && st.cat.departementen) || {};
     const vandaag = (is && st.kalVandaag) || (Kl ? Kl.isoVan(new Date()) : "");
     const wg = st.kalWeergave === "maand" ? "maand" : "week", maand = wg === "maand";
     const gekozen = (is && st.kalGekozen) || vandaag;
@@ -6241,7 +6242,6 @@ class Component extends DCLogic {
     // in plaats van een nieuw tabblad (3 november 2026, rubriek Moestuin).
     const linkMod = !!it && !!link && !inApp && window.IfArtikel ? window.IfArtikel.moduleVoorUrl(link, this.alleMods()) : null;
     const later = it ? Kl.laterRegel(it, vandaag) : "";
-    const deps = (st.cat && st.cat.departementen) || {};
     const itemChips = it ? Kl.wieTekst(it).concat(Kl.gebiedItem(it, deps) ? [Kl.gebiedItem(it, deps)] : []).map(t => ({t})) : [];
     const heeftBron = !!it && (!!it.bron.url || !!it.bron.gecontroleerd);
     const abo = is && ok ? Kl.icalLijst(rubrieken, items) : [];

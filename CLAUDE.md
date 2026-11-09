@@ -506,7 +506,7 @@ Laatst nagelopen: 9 november 2026
 
 ## Vier verbeteringen in Kalender en band (9 november 2026)
 
-- **Naamdag met uitleg:** de app zet "Naamdag: " voor de Franse API-tekst ("Naamdag: Bonne fête aux Théodore"); "Kalender Frankrijk →" heeft `white-space:nowrap`, de naamdag mag op twee regels. Service worker `VERSIE` 2026-11-09-9.
+- **Naamdag met uitleg:** de app zet "Naamdag: " voor de Franse API-tekst ("Naamdag: Bonne fête aux Théodore"); "Kalender Frankrijk →" heeft `white-space:nowrap`, de naamdag mag op twee regels. Service worker `VERSIE` 2026-11-09-10.
 - **Onzekere datum:** `leesItems` zet `zeker: false` bij `datum_zeker: false` (of "nee") uit de API, met terugval op de titeltekst "(waarschijnlijke datum)"; `IfKal.bronRegel` toont dan "Gebruikelijke datum, nog niet bevestigd door de organisator." in plaats van "Gecontroleerd op ...". Bronlink blijft.
 - **Departementsnaam:** `IfKal.gebiedNaam(gebied, deps)` maakt van een nummer "Côte-d'Or (21)" (chips op het itemscherm en regel onder een lijstrij); `deps` is `modules.json` `departementen`, nu compleet met 2A en 2B (naast "20" Corse voor postcodes), getest tegen `tests/fixture-departementen.json` (geo.api.gouv.fr, 9-11-2026). Onbekend nummer: alleen het nummer.
 - **Eerste dag met een item:** in Maand kiest een pijl naar een maand zonder vandaag na het laden de eerste dag met een item binnen het filter (`IfKal.eersteDagMetItem`, `kalVerschuif`, `kalAutoKies`, state `kalAuto`); een dag die de lezer zelf tikt (`kalKies`) wint. Geen item: de 1e. Week ongewijzigd.
