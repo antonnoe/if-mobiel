@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-5"/);
+  assert.match(sw, /VERSIE = "2026-11-09-6"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -610,4 +610,13 @@ test("aanvulling: bereik, titelgrootte en schil", () => {
   assert.match(html, /Kl\.leegTekst\(rubNaam, "dag"\)/);
   assert.match(html, /this\._kalAanvBereik \|\| b0/);
   assert.ok(!LANG.test(lib), "geen lange streepjes");
+});
+
+test("aanvulling: ook onder een dag met items, zonder dubbelen met die dag", () => {
+  const it = kal([dag("oesters", "genieten", "2026-12-01", "2026-12-31"), dag("dag1", "genieten", "2026-12-01"), dag("lumieres", "genieten", "2026-12-05"), dag("nieuwjaar", "genieten", "2027-01-02")]);
+  const a = Kl.aanvulling(it, "2026-12-01", "2026-11-09", "genieten", "maand");
+  assert.deepEqual(a.blokken.map(g => g.label), ["Rest van de week (2 tot 6 december)", "Januari"]);
+  assert.deepEqual(a.blokken[0].rijen.map(r => r.item.id), ["lumieres"]);
+  assert.ok(!a.blokken.some(g => g.rijen.some(r => r.item.id === "dag1" || r.item.id === "oesters")), "de items van de gekozen dag komen niet terug");
+  assert.match(html, /aanvNodig = true;\n/);
 });

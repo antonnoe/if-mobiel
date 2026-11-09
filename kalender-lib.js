@@ -370,6 +370,8 @@
     if (!utc(gekozen)) return uit;
     var lijst = filterItems(items, rubriek), anker = weergave === "week" ? weekBereik(gekozen).tot : gekozen;
     var wk = weekBereik(anker), gezien = {};
+    // Maand: de items van de gekozen dag staan al in de lijst erboven, dus komen ze niet nog eens in een blok.
+    if (weergave !== "week") perDag(lijst, gekozen, gekozen)[gekozen] && perDag(lijst, gekozen, gekozen)[gekozen].forEach(function (r) { gezien[r.item.id] = true; });
     var dezeWeek = !!vandaag && weekStart(vandaag) === wk.van, dezeMaand = !!vandaag && vandaag.slice(0, 7) === anker.slice(0, 7);
     // blok 1
     var r1 = { van: plusDagen(anker, 1), tot: wk.tot }, rest1 = true, rijen1 = rijenIn(lijst, r1.van, r1.tot, gezien);

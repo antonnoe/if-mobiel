@@ -6190,6 +6190,7 @@ class Component extends DCLogic {
         if (rubNaam && !heleMaand) { leeg = true; leegTekst = Kl.leegTekst(rubNaam, "maand"); aanvNodig = true; }
         else {
           groepen.push({id:"kal-dag-" + gekozen, kop:Kl.kopDag(gekozen), kopStijl:kopStijl(false), rijen:rijen.map(rij)});
+          aanvNodig = true;
           if (!rijen.length) { leeg = true; dagLeeg = true; aanvNodig = true; leegTekst = Kl.leegTekst(rubNaam, "dag"); }
         }
       }
