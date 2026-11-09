@@ -120,11 +120,23 @@
     var m = /^(.+?[.!?])(?=\s+[A-ZÀ-Ý0-9]|$)/.exec(s);
     return (m ? m[1] : s).replace(/[.!?\s]+$/, "");
   }
-  // Titel + ": " + eerste zin, samen hooguit REGEL_MAX tekens, afgekapt op een woordgrens met een beletselteken.
+  // Eerste zin tot de eerste punt, puntkomma, vraagteken of uitroepteken (een punt telt alleen voor een spatie en hoofdletter of cijfer),
+  // zonder stukken tussen haakjes. Geeft {zin, eind}: de zin zonder slotteken en het slotteken (".", "!" of "?"; een puntkomma wordt ".").
+  function zinTotPunt(t) {
+    var s = schoon(t).replace(/\s*\([^)]*\)/g, "").replace(/\s+/g, " ").trim();
+    if (!s) return { zin: "", eind: "." };
+    var m = /^(.+?)(?:([.!?])(?=\s+[A-ZÀ-Ý0-9]|$)|;)/.exec(s);
+    var zin = (m ? m[1] : s).replace(/[.!?;\s]+$/, "");
+    var eind = m && (m[2] === "!" || m[2] === "?") ? m[2] : ".";
+    return { zin: zin, eind: eind };
+  }
+  // Titel + ": " + eerste zin. Past alles met slotteken binnen REGEL_MAX, dan zonder beletselteken en met een punt;
+  // anders de zin afgekapt op een woordgrens met een beletselteken.
   function kortRegel(titel, tk) {
-    var zin = eersteZin(tk), voor = titel + ": ", ruimte = REGEL_MAX - voor.length;
-    if (!zin || ruimte < 12) return afkappen(titel, REGEL_MAX);
-    return voor + afkappen(zin, ruimte);
+    var z = zinTotPunt(tk), voor = titel + ": ", ruimte = REGEL_MAX - voor.length;
+    if (!z.zin || ruimte < 12) return afkappen(titel, REGEL_MAX);
+    if (z.zin.length + 1 <= ruimte) return voor + z.zin + z.eind;
+    return voor + afkappen(z.zin, ruimte);
   }
   function bandTekst(r) {
     var t = r.titel;
@@ -170,6 +182,41 @@
       return t;
     } catch (e) { return ""; }
   }
+
+  // Kop van de band: "VANDAAG · MAANDAG 9 NOVEMBER" (weekdag en datum in het Nederlands, hoofdletters).
+  function bandKop(iso) {
+    var w = datumWoorden(iso, false);
+    return w ? ("Vandaag \u00b7 " + w).toUpperCase() : "VANDAAG";
+  }
+
+  // Maanstand uit /api/vandaag: {maan:{fase, naam}} of null. Alleen een bekende fase-sleutel komt door; de naam komt uit deze tabel,
+  // niet uit de API. Geeft {fase, naam} of null (dan staat er geen maantje).
+  var MAAN_NAMEN = {
+    "nieuwe-maan": "Nieuwe maan", "wassende-sikkel": "Wassende sikkel", "eerste-kwartier": "Eerste kwartier", "wassende-maan": "Wassende maan",
+    "volle-maan": "Volle maan", "afnemende-maan": "Afnemende maan", "laatste-kwartier": "Laatste kwartier", "afnemende-sikkel": "Afnemende sikkel"
+  };
+  function maanLezen(data) {
+    try {
+      var m = data && typeof data === "object" ? data.maan : null;
+      if (!m || typeof m !== "object" || typeof m.fase !== "string") return null;
+      if (!Object.prototype.hasOwnProperty.call(MAAN_NAMEN, m.fase)) return null;
+      return { fase: m.fase, naam: MAAN_NAMEN[m.fase] };
+    } catch (e) { return null; }
+  }
+  // Verlicht deel in een viewBox van 30 bij 30 (schijf: middelpunt 15,15 straal 12,5), noordelijk halfrond: wassend is rechts verlicht.
+  // De nieuwe maan heeft geen verlicht deel (leeg pad).
+  var MAAN_T = "M15 2.5 ", MAAN_B = "15 27.5";
+  var MAAN_PADEN = {
+    "nieuwe-maan": "",
+    "wassende-sikkel": MAAN_T + "A12.5 12.5 0 0 1 " + MAAN_B + " A7 12.5 0 0 0 15 2.5 Z",
+    "eerste-kwartier": MAAN_T + "A12.5 12.5 0 0 1 " + MAAN_B + " Z",
+    "wassende-maan": MAAN_T + "A12.5 12.5 0 0 1 " + MAAN_B + " A7 12.5 0 0 1 15 2.5 Z",
+    "volle-maan": "M2.5 15 A12.5 12.5 0 1 1 27.5 15 A12.5 12.5 0 1 1 2.5 15 Z",
+    "afnemende-maan": MAAN_T + "A12.5 12.5 0 0 0 " + MAAN_B + " A7 12.5 0 0 0 15 2.5 Z",
+    "laatste-kwartier": MAAN_T + "A12.5 12.5 0 0 0 " + MAAN_B + " Z",
+    "afnemende-sikkel": MAAN_T + "A12.5 12.5 0 0 0 " + MAAN_B + " A7 12.5 0 0 1 15 2.5 Z"
+  };
+  function maanPad(fase) { return Object.prototype.hasOwnProperty.call(MAAN_PADEN, fase) ? MAAN_PADEN[fase] : ""; }
 
   // ---- rubrieken en items ----
   function leesRubrieken(data) {
@@ -540,7 +587,7 @@
     ABO_RUBRIEK: ABO_RUBRIEK, WEEK_NAMEN: WEEK_NAMEN, KORT: KORT, korteNaam: korteNaam,
     schoon: schoon, idSchoon: idSchoon, https: https, hostnaam: hostnaam, isoVan: isoVan, plusDagen: plusDagen, dagMaand: dagMaand, datumWoorden: datumWoorden,
     datumKop: datumKop, ddmmjjjj: ddmmjjjj, vandaagUrl: vandaagUrl, depVoorBand: depVoorBand, itemsUrl: itemsUrl, itemUrl: itemUrl, rubriekenUrl: rubriekenUrl, beeldUrl: beeldUrl, icalUrl: icalUrl,
-    voorvoegsel: voorvoegsel, datumUitKop: datumUitKop, eersteZin: eersteZin, bandTekst: bandTekst, bandRegels: bandRegels, naamdagTekst: naamdagTekst,
+    voorvoegsel: voorvoegsel, datumUitKop: datumUitKop, eersteZin: eersteZin, bandTekst: bandTekst, bandRegels: bandRegels, naamdagTekst: naamdagTekst, zinTotPunt: zinTotPunt, bandKop: bandKop, maanLezen: maanLezen, maanPad: maanPad, MAAN_NAMEN: MAAN_NAMEN, MAAN_PADEN: MAAN_PADEN,
     leesRubrieken: leesRubrieken, leesItems: leesItems, filterItems: filterItems, rubriekChips: rubriekChips, wieNaam: wieNaam, kleurVan: kleurVan,
     maandNaam: maandNaam, weekStart: weekStart, weekBereik: weekBereik, maandBereik: maandBereik, maandRaster: maandRaster, bereikVan: bereikVan,
     verschuif: verschuif, periodeTitel: periodeTitel, kopDag: kopDag, perDag: perDag, loopt: loopt, stippen: stippen, legenda: legenda,

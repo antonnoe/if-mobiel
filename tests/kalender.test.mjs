@@ -62,7 +62,7 @@ test("band: teksten per soort, deadline-aftelling, hooguit drie regels", () => {
   assert.equal(t[0].voor, "Seizoen");
   assert.ok(!/\(|\)/.test(t[0].tekst));
   assert.ok(t[0].tekst.startsWith("Paddenstoelen en kastanjes: In oktober en november zijn er cèpes"));
-  assert.equal(t[0].tekst, "Paddenstoelen en kastanjes: In oktober en november zijn er cèpes", "alleen de eerste zin");
+  assert.equal(t[0].tekst, "Paddenstoelen en kastanjes: In oktober en november zijn er cèpes.", "alleen de eerste zin, past dus met punt en zonder beletselteken");
   // geen regels: geen band
   assert.deepEqual(Kl.bandRegels({ datum: "x", banner: null, regels: [] }), []);
   assert.deepEqual(Kl.bandRegels(null), []);
@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-12"/);
+  assert.match(sw, /VERSIE = "2026-11-09-13"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -381,7 +381,7 @@ test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band all
   const iH1 = html.indexOf("{{ begroetingTekst }}"), iBand = html.indexOf('data-vandaag="1"'), iZoek = html.indexOf('onClick="{{ goZoek }}"');
   assert.ok(iH1 > 0 && iBand > iH1 && iZoek > iBand, "volgorde begroeting, band, zoekbalk");
   assert.match(html, /<sc-if value="\{\{ vdToon \}\}" hint-placeholder-val="\{\{ false \}\}">\s*<div data-vandaag="1"/);
-  assert.match(html, /margin:14px 16px 0;border-radius:16px;padding:13px 16px 14px;background:#2f6b3d;color:#fff/);
+  assert.match(html, /margin:14px 16px 0;border-radius:18px;padding:14px 16px 6px;background:#2f6b3d;color:#fff/);
   assert.match(blok, /vdToon: aan/);
   assert.match(blok, /\(st\.vdRegels \|\| \[\]\)\.length > 0/);
   assert.match(html, /this\.vdCheck\(\); this\.histSync\(\)/);
@@ -636,18 +636,16 @@ test("naamdag in de band (9 november 2026): pure functie en schil", () => {
   assert.equal(Kl.bandRegels({ ...ok, regels }).length, 3);
   assert.ok(Kl.bandRegels({ ...ok, regels }).every(r => !/Bonne/.test(r.tekst)));
   // schil: onder het label VANDAAG, Mulish 600, 13 px, #DCE8DF, geen hoofdletters, margin-top 4px, display block; tekst nooit via innerHTML
-  assert.match(html, /<span data-naamdag="1" style="display:block;margin-top:4px;font:600 13px\/1\.3 Mulish;letter-spacing:normal;text-transform:none;color:#DCE8DF/);
+  assert.match(html, /<span data-naamdag="1" style="display:block;font:600 13px\/1\.3 Mulish;color:#DCE8DF/);
   assert.match(html, /\{\{ vdNaamdag \}\}/);
   assert.match(html, /vdHeeftNaamdag: aan && !!st\.vdNaamdag/);
   assert.match(html, /Kl\.naamdagTekst\(data\)/);
-  assert.ok(html.indexOf(">Vandaag</span>") < html.indexOf('data-naamdag="1"') && html.indexOf('data-naamdag="1"') < html.indexOf('data-vandaag-regel="1"'));
-  assert.match(html, /Kalender Frankrijk &#8594;<\/span><\/button>/, "de knop rechts blijft");
+  assert.ok(html.indexOf('data-vandaag-datum="1"') < html.indexOf('data-naamdag="1"') && html.indexOf('data-naamdag="1"') < html.indexOf('data-vandaag-regel="1"'));
 });
 
 test("ronde 9 november (4): naamdag met uitleg, onzekere datum, departementsnaam, eerste dag met een item", () => {
   // 1 naamdag: de app zet "Naamdag: " ervoor, de API-tekst blijft Frans; de rechterknop slaat niet om
   assert.match(html, /vdNaamdag: aan && st\.vdNaamdag \? "Naamdag: " \+ st\.vdNaamdag : ""/);
-  assert.match(html, /flex:none;white-space:nowrap">Kalender Frankrijk &#8594;/);
   // 2 onzekere datum: veld datum_zeker, terugval op de titel
   const lijst = Kl.leesItems({ items: [
     ruw("a", { datum_zeker: false }), ruw("b", { titel: "Braderie de Lille (waarschijnlijke datum)" }), ruw("c"), ruw("d", { datum_zeker: true })] });
@@ -709,4 +707,59 @@ test("band per departement: depVoorBand, vandaagUrl met dep en de aansluiting in
   assert.match(html, /Kl\.depVoorBand\(st\.postcode\)/);
   assert.match(html, /Kl\.vandaagUrl\(dag, dep\)/);
   assert.match(html, /this\._vdDep === dep/, "een andere postcode haalt de band opnieuw op");
+});
+
+test("band Vandaag, variant A (9 november 2026): kop, eerste zin, maantje, link onderaan", () => {
+  // kop met weekdag en datum
+  assert.equal(Kl.bandKop("2026-11-09"), "VANDAAG \u00b7 MAANDAG 9 NOVEMBER");
+  assert.equal(Kl.bandKop("2026-12-01"), "VANDAAG \u00b7 DINSDAG 1 DECEMBER");
+  assert.equal(Kl.bandKop("kapot"), "VANDAAG");
+  // eerste zin tot punt of puntkomma
+  const tip = (tekst, titel = "Paddenstoelen en kastanjes") => Kl.bandTekst({ soort: "tip", titel, tekst, kop: "" });
+  assert.equal(tip("In oktober en november zijn er cèpes en kastanjes; laat een kenner je pluk controleren."), "Paddenstoelen en kastanjes: In oktober en november zijn er cèpes en kastanjes.");
+  assert.equal(tip("Eerste zin. Tweede zin."), "Paddenstoelen en kastanjes: Eerste zin.");
+  assert.equal(tip("Is het al seizoen? Ja."), "Paddenstoelen en kastanjes: Is het al seizoen?");
+  assert.equal(tip("Zonder slotteken"), "Paddenstoelen en kastanjes: Zonder slotteken.");
+  const lang = "Een zin die veel te lang is en maar doorgaat en doorgaat en doorgaat en doorgaat en doorgaat en doorgaat en doorgaat en doorgaat; daarna meer.";
+  const k = tip(lang);
+  assert.ok(k.endsWith("…") && k.length <= Kl.REGEL_MAX, "past het niet, dan de bestaande afkapping");
+  assert.ok(!/…\.$/.test(k));
+  assert.equal(tip("   ", "Alleen titel"), "Alleen titel");
+  // maanstand: alleen bekende sleutels, naam uit de tabel
+  const sleutels = ["nieuwe-maan", "wassende-sikkel", "eerste-kwartier", "wassende-maan", "volle-maan", "afnemende-maan", "laatste-kwartier", "afnemende-sikkel"];
+  assert.deepEqual(Object.keys(Kl.MAAN_NAMEN), sleutels);
+  sleutels.forEach(f => assert.deepEqual(Kl.maanLezen({ maan: { fase: f, naam: "iets anders" } }), { fase: f, naam: Kl.MAAN_NAMEN[f] }));
+  assert.equal(Kl.maanLezen({ maan: { fase: "nieuwe-maan", naam: "Nieuwe maan" } }).naam, "Nieuwe maan");
+  [null, undefined, {}, { maan: null }, { maan: "volle-maan" }, { maan: { fase: "halve-maan" } }, { maan: { fase: "__proto__" } }, { maan: { fase: 3 } }, { maan: { fase: "toString" } }]
+    .forEach(d => assert.equal(Kl.maanLezen(d), null, JSON.stringify(d)));
+  // paden zoals in de goedgekeurde mock (Maanstanden.dc.html)
+  assert.equal(Kl.maanPad("nieuwe-maan"), "");
+  assert.equal(Kl.maanPad("eerste-kwartier"), "M15 2.5 A12.5 12.5 0 0 1 15 27.5 Z");
+  assert.equal(Kl.maanPad("laatste-kwartier"), "M15 2.5 A12.5 12.5 0 0 0 15 27.5 Z");
+  assert.equal(Kl.maanPad("wassende-sikkel"), "M15 2.5 A12.5 12.5 0 0 1 15 27.5 A7 12.5 0 0 0 15 2.5 Z");
+  assert.equal(Kl.maanPad("wassende-maan"), "M15 2.5 A12.5 12.5 0 0 1 15 27.5 A7 12.5 0 0 1 15 2.5 Z");
+  assert.equal(Kl.maanPad("afnemende-maan"), "M15 2.5 A12.5 12.5 0 0 0 15 27.5 A7 12.5 0 0 0 15 2.5 Z");
+  assert.equal(Kl.maanPad("afnemende-sikkel"), "M15 2.5 A12.5 12.5 0 0 0 15 27.5 A7 12.5 0 0 1 15 2.5 Z");
+  assert.ok(Kl.maanPad("volle-maan").startsWith("M2.5 15 A12.5 12.5 0 1 1 27.5 15"));
+  assert.equal(Kl.maanPad("onbekend"), "");
+  assert.equal(Kl.maanPad("__proto__"), "");
+  // schil
+  const band = html.slice(html.indexOf('data-vandaag="1"'), html.indexOf('onClick="{{ goZoek }}"'));
+  assert.match(band, /font:800 12px Mulish;letter-spacing:1\.5px;color:#DCE8DF">\{\{ vdKop \}\}/);
+  assert.match(band, /<svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="\{\{ vdMaanNaam \}\}"><circle cx="15" cy="15" r="12\.5" fill="rgba\(0,0,0,\.28\)" stroke="#DCE8DF" stroke-width="1\.5"><\/circle><sc-if value="\{\{ vdFase1 \}\}"/);
+  // geen hole in <path d> (consolefouten); de statische paden in de template zijn die van de lib, een per fase
+  Object.keys(Kl.MAAN_PADEN).forEach((f, i) => {
+    if (!Kl.MAAN_PADEN[f]) { assert.ok(!band.includes('data-fase="' + f + '"'), "nieuwe maan heeft geen verlicht deel"); return; }
+    assert.ok(band.includes('<sc-if value="{{ vdFase' + i + ' }}" hint-placeholder-val="{{ false }}"><path data-fase="' + f + '" d="' + Kl.MAAN_PADEN[f] + '" fill="#DCE8DF"></path></sc-if>'), f);
+    assert.ok(html.includes('vdFase' + i + ': !!st.vdMaan && st.vdMaan.fase === "' + f + '"'), f);
+  });
+  assert.match(band, /font:600 11\.5px Mulish;color:#DCE8DF;white-space:nowrap">\{\{ vdMaanNaam \}\}/);
+  assert.match(band, /<sc-if value="\{\{ vdHeeftMaan \}\}"/);
+  assert.ok(!/Kalender Frankrijk &#8594;/.test(band), "de pijl rechtsboven is weg");
+  assert.match(band, /data-vandaag-link="1" onClick="\{\{ vdOpen \}\}" style="[^"]*min-height:44px[^"]*border-top:1px solid rgba\(255,255,255,\.22\)[^"]*font:700 14px Mulish"><span>Bekijk de hele kalender<\/span><span aria-hidden="true">&#8594;<\/span>/);
+  assert.match(html, /vdMaan: status === 200 \? Kl\.maanLezen\(data\) : null/);
+  assert.match(html, /vdHeeftMaan: aan && !!st\.vdMaan/);
+  assert.ok(!/innerHTML/.test(band) && !/innerHTML[^\n]*vdMaan/.test(html));
+  assert.ok(!/font:[^;"]*\b(9|10|11)(\.[0-4])?px/.test(band), "niets onder 11,5 px");
+  assert.ok(!/[\u2013\u2014]/.test(band));
 });
