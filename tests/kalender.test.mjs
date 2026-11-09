@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-14"/);
+  assert.match(sw, /VERSIE = "2026-11-09-15"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -711,8 +711,8 @@ test("band per departement: depVoorBand, vandaagUrl met dep en de aansluiting in
 
 test("band Vandaag, variant A (9 november 2026): kop, eerste zin, maantje, link onderaan", () => {
   // kop met weekdag en datum
-  assert.equal(Kl.bandKop("2026-11-09"), "VANDAAG \u00b7 MAANDAG 9 NOVEMBER");
-  assert.equal(Kl.bandKop("2026-12-01"), "VANDAAG \u00b7 DINSDAG 1 DECEMBER");
+  assert.equal(Kl.bandKop("2026-11-09"), "MAANDAG 9 NOVEMBER");
+  assert.equal(Kl.bandKop("2026-12-01"), "DINSDAG 1 DECEMBER");
   assert.equal(Kl.bandKop("kapot"), "VANDAAG");
   // eerste zin tot punt of puntkomma
   const tip = (tekst, titel = "Paddenstoelen en kastanjes") => Kl.bandTekst({ soort: "tip", titel, tekst, kop: "" });

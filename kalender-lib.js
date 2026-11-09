@@ -183,10 +183,10 @@
     } catch (e) { return ""; }
   }
 
-  // Kop van de band: "VANDAAG · MAANDAG 9 NOVEMBER" (weekdag en datum in het Nederlands, hoofdletters).
+  // Kop van de band: "MAANDAG 9 NOVEMBER" (weekdag en datum in het Nederlands, hoofdletters; zonder "Vandaag ·", zodat de kop naast het maantje op een regel past).
   function bandKop(iso) {
     var w = datumWoorden(iso, false);
-    return w ? ("Vandaag \u00b7 " + w).toUpperCase() : "VANDAAG";
+    return w ? w.toUpperCase() : "VANDAAG";
   }
 
   // Maanstand uit /api/vandaag: {maan:{fase, naam}} of null. Alleen een bekende fase-sleutel komt door; de naam komt uit deze tabel,
