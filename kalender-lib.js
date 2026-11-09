@@ -191,6 +191,7 @@
       uit.push({
         id: id, titel: titel, rubriek: tekst(i.rubriek), rubriekNaam: schoon(i.rubriek_naam), doelgroepen: wie,
         gebied: gebiedTekst(i.gebied), tijd: schoon(i.tijd), tekst: schoon(i.tekst_je || i.tekst_u || i.tekst), link: https(i.link), bron: bron,
+        zeker: !(i.datum_zeker === false || i.datum_zeker === "nee" || /\(waarschijnlijke datum\)/i.test(titel)),
         gesprek: i.gesprek === true, aanzet: aanzet && (aanzet.titel || aanzet.tekst) ? aanzet : null, voorkomens: vk
       });
     });
@@ -446,11 +447,11 @@
     return s;
   }
   // Tweede regel van een rij: rubrieknaam, tijd als die er is, gebied als het niet heel Frankrijk is.
-  function rijMeta(item) {
+  function rijMeta(item, deps) {
     var delen = [item.rubriekNaam];
     var t = tijdTekst(item.tijd);
     if (t) delen.push(t);
-    if (item.gebied && item.gebied.toLowerCase() !== "heel frankrijk") delen.push(item.gebied);
+    if (item.gebied && item.gebied.toLowerCase() !== "heel frankrijk") delen.push(gebiedNaam(item.gebied, deps));
     return delen.filter(Boolean).join(" · ");
   }
   function periodeTekst(v) {
@@ -480,11 +481,29 @@
     return tekst(t).split(/\n{2,}/).map(schoon).filter(Boolean);
   }
   function wieTekst(item) { return item.doelgroepen.map(wieNaam); }
-  function gebiedItem(item) { return item.gebied && item.gebied.toLowerCase() !== "heel frankrijk" ? item.gebied : ""; }
+  function gebiedItem(item, deps) { return item.gebied && item.gebied.toLowerCase() !== "heel frankrijk" ? gebiedNaam(item.gebied, deps) : ""; }
+  // Een departementsnummer in het gebied wordt "Côte-d'Or (21)"; de namen komen uit modules.json (departementen), onbekend of geen nummer blijft ongewijzigd.
+  function gebiedNaam(gebied, deps) {
+    return String(gebied || "").split(", ").map(function (t) {
+      var k = t.trim().toUpperCase();
+      return /^(\d{2,3}|2A|2B)$/.test(k) && deps && Object.prototype.hasOwnProperty.call(deps, k) ? deps[k] + " (" + k + ")" : t;
+    }).join(", ");
+  }
+  // Eerste dag van de maand van iso waarop (binnen het filter) iets begint; leeg als er niets is.
+  function eersteDagMetItem(items, rubriek, iso) {
+    var b = maandBereik(iso);
+    if (!b) return "";
+    var dagen = Object.keys(perDag(filterItems(items, rubriek), b.van, b.tot)).sort();
+    return dagen.length ? dagen[0] : "";
+  }
   // "Lees meer op <hostnaam> ↗"
   function leesMeerTekst(link) { var h = hostnaam(link); return h ? "Lees meer op " + h + " ↗" : ""; }
   function isInfofrankrijk(link) { var h = hostnaam(link); return h === "infofrankrijk.com"; }
-  function bronRegel(item) { return item.bron && item.bron.gecontroleerd ? "Gecontroleerd op " + ddmmjjjj(item.bron.gecontroleerd) : ""; }
+  var ONZEKER = "Gebruikelijke datum, nog niet bevestigd door de organisator.";
+  function bronRegel(item) {
+    if (item.zeker === false) return ONZEKER;
+    return item.bron && item.bron.gecontroleerd ? "Gecontroleerd op " + ddmmjjjj(item.bron.gecontroleerd) : "";
+  }
   // Tekst voor het forumblad: titel, korte samenvatting, link van het item of de bron.
   function forumDelen(item) {
     var a = item.aanzet;
@@ -511,7 +530,7 @@
     aanvulling: aanvulling, aanvullingBereik: aanvullingBereik, titelGrootte: titelGrootte, periodeTitelKop: periodeTitelKop, AANV_MAX: AANV_MAX, kortBereik: kortBereik,
     itemsTekst: itemsTekst, dagLabel: dagLabel, leegTekst: leegTekst, voegSamen: voegSamen, gedekt: gedekt, ophaalVenster: ophaalVenster, startVenster: startVenster,
     tijdTekst: tijdTekst, rijMeta: rijMeta, periodeTekst: periodeTekst,
-    eerstVolgende: eerstVolgende, datumRegel: datumRegel, laterRegel: laterRegel, alineas: alineas, wieTekst: wieTekst, gebiedItem: gebiedItem,
+    eerstVolgende: eerstVolgende, datumRegel: datumRegel, laterRegel: laterRegel, alineas: alineas, wieTekst: wieTekst, gebiedItem: gebiedItem, gebiedNaam: gebiedNaam, eersteDagMetItem: eersteDagMetItem, ONZEKER: ONZEKER,
     leesMeerTekst: leesMeerTekst, isInfofrankrijk: isInfofrankrijk, bronRegel: bronRegel, forumDelen: forumDelen, icalLijst: icalLijst
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;

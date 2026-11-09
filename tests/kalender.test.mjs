@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-8"/);
+  assert.match(sw, /VERSIE = "2026-11-09-9"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -487,8 +487,8 @@ test("schil: Week is de standaard, vensters per maand, geen opslag, Vandaag en d
   assert.match(blok, /Kl\.voegSamen\(prev\.kalItems, lijst\)/, "antwoorden blijven in het geheugen per venster");
   assert.match(blok, /kalNav:"fout"/); assert.match(blok, /kalNavFout/); assert.match(blok, /kalNavLaadt/);
   assert.match(blok, /this\._kalNTeller\.actueel\(tok\)/);
-  assert.match(html, /this\.kalZorg\(\); this\.kalPasTitel\(\); this\.vdCheck\(\)/);
-  assert.match(blok, /kalVandaagKnop: \(\) => this\.setState\(prev => \(\{kalGekozen: prev\.kalVandaag \|\| vandaag\}\)\)/);
+  assert.match(html, /this\.kalZorg\(\); this\.kalAutoKies\(\); this\.kalPasTitel\(\); this\.vdCheck\(\)/);
+  assert.match(blok, /kalVandaagKnop: \(\) => this\.setState\(prev => \(\{kalGekozen: prev\.kalVandaag \|\| vandaag, kalAuto:""\}\)\)/);
   assert.match(blok, /Kl\.verschuif\(/);
   assert.match(blok, /kalNaarWeek: \(\) => this\.setState\(\{kalWeergave:"week"\}\), kalNaarMaand: \(\) => this\.setState\(\{kalWeergave:"maand"\}\)/);
   assert.match(blok, /Kl\.perDag\(gef, b\.van, b\.tot\)/); assert.match(blok, /Kl\.loopt\(gef, b\.van\)/);
@@ -642,4 +642,41 @@ test("naamdag in de band (9 november 2026): pure functie en schil", () => {
   assert.match(html, /Kl\.naamdagTekst\(data\)/);
   assert.ok(html.indexOf(">Vandaag</span>") < html.indexOf('data-naamdag="1"') && html.indexOf('data-naamdag="1"') < html.indexOf('data-vandaag-regel="1"'));
   assert.match(html, /Kalender Frankrijk &#8594;<\/span><\/button>/, "de knop rechts blijft");
+});
+
+test("ronde 9 november (4): naamdag met uitleg, onzekere datum, departementsnaam, eerste dag met een item", () => {
+  // 1 naamdag: de app zet "Naamdag: " ervoor, de API-tekst blijft Frans; de rechterknop slaat niet om
+  assert.match(html, /vdNaamdag: aan && st\.vdNaamdag \? "Naamdag: " \+ st\.vdNaamdag : ""/);
+  assert.match(html, /flex:none;white-space:nowrap">Kalender Frankrijk &#8594;/);
+  // 2 onzekere datum: veld datum_zeker, terugval op de titel
+  const lijst = Kl.leesItems({ items: [
+    ruw("a", { datum_zeker: false }), ruw("b", { titel: "Braderie de Lille (waarschijnlijke datum)" }), ruw("c"), ruw("d", { datum_zeker: true })] });
+  assert.deepEqual(lijst.map(i => i.zeker), [false, false, true, true]);
+  assert.equal(Kl.bronRegel(lijst[0]), "Gebruikelijke datum, nog niet bevestigd door de organisator.");
+  assert.equal(Kl.bronRegel(lijst[1]), Kl.ONZEKER);
+  assert.equal(Kl.bronRegel(lijst[2]), "Gecontroleerd op 02-11-2026");
+  // 3 departementsnamen: lijst compleet en gelijk aan geo.api.gouv.fr/departements (momentopname 9-11-2026)
+  const deps = JSON.parse(readFileSync(join(root, "modules.json"), "utf8")).departementen;
+  const geo = JSON.parse(readFileSync(join(root, "tests", "fixture-departementen.json"), "utf8"));
+  assert.equal(geo.length, 101);
+  geo.forEach(d => assert.equal(deps[d.code], d.nom, d.code));
+  assert.equal(Kl.gebiedNaam("21", deps), "Côte-d'Or (21)");
+  assert.equal(Kl.gebiedNaam("06, 2A", deps), "Alpes-Maritimes (06), Corse-du-Sud (2A)");
+  assert.equal(Kl.gebiedNaam("974", deps), "La Réunion (974)");
+  assert.equal(Kl.gebiedNaam("99", deps), "99", "onbekend nummer blijft het nummer");
+  assert.equal(Kl.gebiedNaam("zone A, Elzas-Moezel", deps), "zone A, Elzas-Moezel");
+  const it = Kl.leesItems({ items: [ruw("g", { gebied: ["06"] })] })[0];
+  assert.equal(Kl.gebiedItem(it, deps), "Alpes-Maritimes (06)");
+  assert.equal(Kl.rijMeta(it, deps), "Fiscale kalender · Alpes-Maritimes (06)");
+  assert.equal(Kl.gebiedItem(it), "06", "zonder lijst alleen het nummer");
+  // 4 eerste dag met een item, binnen het filter
+  const mi = Kl.leesItems({ items: [
+    ruw("x", { rubriek: "fiscaal", voorkomens: [{ van: "2027-02-12", tot: "2027-02-12" }] }),
+    ruw("y", { rubriek: "school", voorkomens: [{ van: "2027-02-20", tot: "2027-02-20" }] }),
+    ruw("z", { rubriek: "school", voorkomens: [{ van: "2027-02-05", tot: "2027-02-19" }] })] });
+  assert.equal(Kl.eersteDagMetItem(mi, "alles", "2027-02-01"), "2027-02-05");
+  assert.equal(Kl.eersteDagMetItem(mi, "fiscaal", "2027-02-01"), "2027-02-12");
+  assert.equal(Kl.eersteDagMetItem(mi, "alles", "2027-03-01"), "");
+  assert.match(html, /kalAutoKies\(\)/);
+  assert.match(html, /kalKies\(iso\)\{[^}]*kalAuto:""/);
 });

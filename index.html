@@ -244,7 +244,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     <sc-if value="{{ vdToon }}" hint-placeholder-val="{{ false }}">
     <div data-vandaag="1" role="region" aria-label="Vandaag, uit Kalender Frankrijk" onClick="{{ vdOpen }}" style="margin:14px 16px 0;border-radius:16px;padding:13px 16px 14px;background:#2f6b3d;color:#fff;cursor:pointer">
-      <button data-vandaag-kop="1" onClick="{{ vdOpen }}" aria-label="Kalender Frankrijk openen" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:44px;margin:-13px 0 0;padding:0;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="display:block;min-width:0"><span style="display:block;font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#DCE8DF">Vandaag</span><sc-if value="{{ vdHeeftNaamdag }}" hint-placeholder-val="{{ false }}"><span data-naamdag="1" style="display:block;margin-top:4px;font:600 13px/1.3 Mulish;letter-spacing:normal;text-transform:none;color:#DCE8DF;overflow-wrap:anywhere">{{ vdNaamdag }}</span></sc-if></span><span style="font:700 13px Mulish;color:#fff;flex:none">Kalender Frankrijk &#8594;</span></button>
+      <button data-vandaag-kop="1" onClick="{{ vdOpen }}" aria-label="Kalender Frankrijk openen" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:44px;margin:-13px 0 0;padding:0;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="display:block;min-width:0"><span style="display:block;font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#DCE8DF">Vandaag</span><sc-if value="{{ vdHeeftNaamdag }}" hint-placeholder-val="{{ false }}"><span data-naamdag="1" style="display:block;margin-top:4px;font:600 13px/1.3 Mulish;letter-spacing:normal;text-transform:none;color:#DCE8DF;overflow-wrap:anywhere">{{ vdNaamdag }}</span></sc-if></span><span style="font:700 13px Mulish;color:#fff;flex:none;white-space:nowrap">Kalender Frankrijk &#8594;</span></button>
       <sc-for list="{{ vdRegels }}" as="r" hint-placeholder-count="3">
       <button data-vandaag-regel="1" onClick="{{ r.open }}" style="display:flex;align-items:center;width:100%;min-height:44px;padding:3.5px 0;border:0;background:none;text-align:left;cursor:pointer;font:500 14px/1.5 Mulish;color:rgba(255,255,255,.92)"><span style="display:block;min-width:0;overflow-wrap:anywhere"><b style="font-weight:800;color:#fff">{{ r.vet }}</b>{{ r.gewoon }}</span></button>
       </sc-for>
@@ -3794,7 +3794,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], vdNaamdag:"", kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], vdNaamdag:"", kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -4414,7 +4414,7 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(){
-    this.zetDocTitel(); this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkInstallAuto(); this.checkOproep(); this.vulInstall(); this.kalZorg(); this.kalPasTitel(); this.vdCheck(); this.histSync();
+    this.zetDocTitel(); this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkInstallAuto(); this.checkOproep(); this.vulInstall(); this.kalZorg(); this.kalAutoKies(); this.kalPasTitel(); this.vdCheck(); this.histSync();
     if (this.state.oproep && !this._opFocus) {
       this._opFocus = true;
       const b = document.querySelector('[data-oproep] button[aria-label="Sluiten"]');
@@ -6023,7 +6023,7 @@ class Component extends DCLogic {
     const stop = e => { if (e && e.stopPropagation) e.stopPropagation(); };
     return {
       vdToon: aan,
-      vdHeeftNaamdag: aan && !!st.vdNaamdag, vdNaamdag: aan ? st.vdNaamdag || "" : "",
+      vdHeeftNaamdag: aan && !!st.vdNaamdag, vdNaamdag: aan && st.vdNaamdag ? "Naamdag: " + st.vdNaamdag : "",
       vdOpen: e => { stop(e); this.kalOpen(this.vindModule("kalender"), "hub"); },
       vdRegels: aan ? st.vdRegels.map(r => ({
         vet: r.feest ? r.tekst : r.voor, gewoon: r.feest ? "" : " · " + r.tekst,
@@ -6036,7 +6036,7 @@ class Component extends DCLogic {
   kalOpen(m, from, wil){
     const Kl = window.IfKal;
     this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:m || this.vindModule("kalender"), from:from || "hub", kalItem:null, kalWil:wil || null,
-      kalWeergave:"week", kalGekozen: Kl ? Kl.isoVan(new Date()) : "", kalRubriek:"alles", kalAbo:false});
+      kalWeergave:"week", kalGekozen: Kl ? Kl.isoVan(new Date()) : "", kalRubriek:"alles", kalAbo:false, kalAuto:""});
     this.kalLaad(false);
   }
   // Rechtstreeks naar een item (hash #/kalender/<id>); het item staat meteen open, terug gaat naar de lijst.
@@ -6044,7 +6044,7 @@ class Component extends DCLogic {
     const Kl = window.IfKal;
     if (!Kl || Kl.idSchoon(id) === null) return;
     this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:this.vindModule("kalender"), from:"hub", kalItem:id, kalWil:null,
-      kalWeergave:"week", kalGekozen: Kl.isoVan(new Date()), kalRubriek:"alles", kalAbo:false});
+      kalWeergave:"week", kalGekozen: Kl.isoVan(new Date()), kalRubriek:"alles", kalAbo:false, kalAuto:""});
     this.kalLaad(false);
   }
   kalWilToepassen(){
@@ -6111,6 +6111,24 @@ class Component extends DCLogic {
     e.style.fontSize = px + "px";
     while (e.scrollWidth > e.clientWidth + 1 && px > 12) { px--; e.style.fontSize = px + "px"; }
   }
+  // Pijlen: een week of maand verder. In Maand zonder vandaag erin wordt de gekozen dag (na het laden) de eerste dag met een item.
+  kalVerschuif(prev, richting, vandaag){
+    const Kl = window.IfKal, maand = prev.kalWeergave === "maand";
+    const nieuw = Kl.verschuif(maand ? "maand" : "week", prev.kalGekozen || vandaag, richting, prev.kalVandaag);
+    const auto = maand && nieuw !== prev.kalVandaag ? nieuw.slice(0, 7) : "";
+    return {kalGekozen:nieuw, kalAuto:auto};
+  }
+  // Na het laden: de automatisch gekozen dag wordt de eerste dag met een item, tenzij de lezer intussen zelf een dag koos (kalKies wist kalAuto).
+  kalAutoKies(){
+    const st = this.state, Kl = window.IfKal;
+    if (!st.kalAuto || !Kl) return;
+    if (st.screen !== "kalender" || st.kalWeergave !== "maand" || !st.kalGekozen || st.kalGekozen.slice(0, 7) !== st.kalAuto) { this.setState({kalAuto:""}); return; }
+    if (st.kalStatus !== "klaar") return;
+    const b = Kl.maandBereik(st.kalGekozen);
+    if (!b || !Kl.gedekt(st.kalVensters, b.van, b.tot)) return;
+    const dag = Kl.eersteDagMetItem(st.kalItems, st.kalRubriek, st.kalGekozen);
+    this.setState({kalAuto:"", kalGekozen: dag || st.kalGekozen});
+  }
   kalNavOpnieuw(){ this._kalNKey = ""; this.setState({kalNav:""}); }
   kalItemOpen(id){
     if (!this.state.kalItem) this._kalY = this._scrNow || 0;
@@ -6126,7 +6144,7 @@ class Component extends DCLogic {
   // Een dag kiezen. Week: naar die dag in de lijst scrollen. Maand: zorgen dat de items van de dag in beeld komen.
   kalKies(iso){
     const week = this.state.kalWeergave !== "maand";
-    this.setState({kalGekozen:iso});
+    this.setState({kalGekozen:iso, kalAuto:""});
     setTimeout(() => {
       const sc = document.getElementById("ifm-scroll"), e = document.getElementById("kal-dag-" + iso);
       if (!sc || !e) return;
@@ -6152,7 +6170,7 @@ class Component extends DCLogic {
     const ongefilterd = b && rubNaam ? Kl.perDag(items, b.van, b.tot) : pd;
     const lopend = b ? Kl.loopt(gef, b.van) : [];
     const rij = r => {
-      const it = r.item, meta = Kl.rijMeta(it) + (r.van < r.tot ? " · tot en met " + Kl.dagMaand(r.tot, false) : "");
+      const it = r.item, meta = Kl.rijMeta(it, deps) + (r.van < r.tot ? " · tot en met " + Kl.dagMaand(r.tot, false) : "");
       return {titel:it.titel, meta, beeld:Kl.beeldUrl(it.rubriek), label:it.titel + ", " + meta, open: () => this.kalItemOpen(it.id)};
     };
     const stip = (kleur) => "display:block;width:6px;height:6px;border-radius:50%;background:" + kleur;
@@ -6202,12 +6220,12 @@ class Component extends DCLogic {
     this._kalAanvBereik = is && ok && aanvNodig ? Kl.aanvullingBereik(wg, gekozen) : null;
     const aanvBer = this._kalAanvBereik, aanvGedekt = !!aanvBer && Kl.gedekt(st.kalVensters, aanvBer.van, aanvBer.tot);
     const aanvRij = r => {
-      const it = r.item, meta = Kl.kopDag(r.van) + " · " + Kl.rijMeta(it) + (r.van < r.tot ? " · tot en met " + Kl.dagMaand(r.tot, false) : "");
+      const it = r.item, meta = Kl.kopDag(r.van) + " · " + Kl.rijMeta(it, deps) + (r.van < r.tot ? " · tot en met " + Kl.dagMaand(r.tot, false) : "");
       return {titel:it.titel, meta, beeld:Kl.beeldUrl(it.rubriek), label:it.titel + ", " + meta, open: () => this.kalItemOpen(it.id)};
     };
     const aanvBlokken = aanvGedekt ? Kl.aanvulling(items, gekozen, vandaag, rubriek, wg).blokken.map(g => ({
       label:g.label, rijen:g.rijen.map(aanvRij), heeftMeer:!!g.meer, meerTekst:g.meer ? g.meer.tekst : "",
-      meerKlik: () => { if (g.meer) { this.setState({kalWeergave:g.meer.weergave, kalGekozen:g.meer.iso}); setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0); } }
+      meerKlik: () => { if (g.meer) { this.setState({kalWeergave:g.meer.weergave, kalGekozen:g.meer.iso, kalAuto:""}); setTimeout(() => { const e = document.getElementById("ifm-scroll"); if (e) e.scrollTop = 0; }, 0); } }
     })) : [];
     const chip = (tekst, actief, kleur, klik) => ({naam:tekst, actief, kleur: actief ? "#800000" : "#3D4346", vlak: actief ? "rgba(128,0,0,.08)" : "#fff", rand: actief ? "rgba(128,0,0,.35)" : "rgba(21,24,26,.14)", klik});
     const rubChips = is ? [chip("Alles", rubriek === "alles", "", () => this.setState({kalRubriek:"alles"}))]
@@ -6223,7 +6241,8 @@ class Component extends DCLogic {
     // in plaats van een nieuw tabblad (3 november 2026, rubriek Moestuin).
     const linkMod = !!it && !!link && !inApp && window.IfArtikel ? window.IfArtikel.moduleVoorUrl(link, this.alleMods()) : null;
     const later = it ? Kl.laterRegel(it, vandaag) : "";
-    const itemChips = it ? Kl.wieTekst(it).concat(Kl.gebiedItem(it) ? [Kl.gebiedItem(it)] : []).map(t => ({t})) : [];
+    const deps = (st.cat && st.cat.departementen) || {};
+    const itemChips = it ? Kl.wieTekst(it).concat(Kl.gebiedItem(it, deps) ? [Kl.gebiedItem(it, deps)] : []).map(t => ({t})) : [];
     const heeftBron = !!it && (!!it.bron.url || !!it.bron.gecontroleerd);
     const abo = is && ok ? Kl.icalLijst(rubrieken, items) : [];
     const tot = d => "tot en met " + Kl.dagMaand(d, false);
@@ -6235,9 +6254,9 @@ class Component extends DCLogic {
       kalWeekBg: maand ? "transparent" : "#800000", kalWeekFg: maand ? "#3D4346" : "#fff", kalMaandBg: maand ? "#800000" : "transparent", kalMaandFg: maand ? "#fff" : "#3D4346",
       kalTitel: is && gekozen ? Kl.periodeTitelKop(wg, gekozen) : "",
       kalVorigeLabel: "Vorige " + woord, kalVolgendeLabel: "Volgende " + woord,
-      kalVorige: () => this.setState(prev => ({kalGekozen: Kl.verschuif(prev.kalWeergave === "maand" ? "maand" : "week", prev.kalGekozen || vandaag, -1, prev.kalVandaag)})),
-      kalVolgende: () => this.setState(prev => ({kalGekozen: Kl.verschuif(prev.kalWeergave === "maand" ? "maand" : "week", prev.kalGekozen || vandaag, 1, prev.kalVandaag)})),
-      kalVandaagKnop: () => this.setState(prev => ({kalGekozen: prev.kalVandaag || vandaag})),
+      kalVorige: () => this.setState(prev => this.kalVerschuif(prev, -1, vandaag)),
+      kalVolgende: () => this.setState(prev => this.kalVerschuif(prev, 1, vandaag)),
+      kalVandaagKnop: () => this.setState(prev => ({kalGekozen: prev.kalVandaag || vandaag, kalAuto:""})),
       kalWeekCellen: weekCellen, kalMaandCellen: maandCellen, kalWeekNamen: Kl ? Kl.WEEK_NAMEN.map(t => ({t})) : [],
       kalLegenda: legenda, kalLegendaZichtbaar: legenda.length > 0,
       kalRubChips: rubChips, kalChipsZichtbaar: is && ok && chips.length > 0,
