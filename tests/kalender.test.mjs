@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-15"/);
+  assert.match(sw, /VERSIE = "2026-11-09-16"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -404,7 +404,7 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
   assert.match(scherm, /aria-pressed="\{\{ kalIsMaand \}\}"/);
   assert.match(scherm, />Week<\/button>/); assert.match(scherm, />Maand<\/button>/);
   assert.match(html, /kalWeekBg: maand \? "transparent" : "#800000", kalWeekFg: maand \? "#3D4346" : "#fff"/);
-  assert.match(html, /kalWeergave:"week"/, "standaard Week");
+  assert.match(html, /kalWeergave:"maand"/, "standaard Maand");
   // navigatiekop: pijl vorige en volgende van 44 px, titel in Source Serif 4, tekstknop Vandaag
   assert.match(scherm, /width:44px;height:44px[\s\S]{0,300}\{\{ kalVorigeLabel \}\}|aria-label="\{\{ kalVorigeLabel \}\}" style="flex:none;width:44px;height:44px/);
   assert.match(scherm, /aria-label="\{\{ kalVolgendeLabel \}\}" style="flex:none;width:44px;height:44px/);
@@ -480,7 +480,7 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
 
 test("schil: Week is de standaard, vensters per maand, geen opslag, Vandaag en dagkeuze", () => {
   const blok = html.slice(html.indexOf("// Scherm openen. wil"), html.indexOf("// ---- Zoeken in de artikelen van Infofrankrijk (WordPress"));
-  assert.match(blok, /kalWeergave:"week", kalGekozen: Kl \? Kl\.isoVan\(new Date\(\)\) : "", kalRubriek:"alles"/, "openen: Week, vandaag gekozen, geen filter");
+  assert.match(blok, /kalWeergave:"maand", kalGekozen: Kl \? Kl\.isoVan\(new Date\(\)\) : "", kalRubriek:"alles"/, "openen: Maand, vandaag gekozen, geen filter");
   assert.match(blok, /Kl\.startVenster\(dag\)/, "eerste aanvraag een week terug tot 120 dagen vooruit, in een keer");
   assert.match(blok, /Kl\.ophaalVenster\(b\.van, b\.tot\)/, "daarbuiten een extra aanvraag per maand");
   assert.match(blok, /Kl\.gedekt\(st\.kalVensters/);

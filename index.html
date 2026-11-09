@@ -3804,7 +3804,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"week", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -6051,7 +6051,7 @@ class Component extends DCLogic {
   kalOpen(m, from, wil){
     const Kl = window.IfKal;
     this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:m || this.vindModule("kalender"), from:from || "hub", kalItem:null, kalIdStatus:"", kalWil:wil || null,
-      kalWeergave:"week", kalGekozen: Kl ? Kl.isoVan(new Date()) : "", kalRubriek:"alles", kalAbo:false, kalAuto:""});
+      kalWeergave:"maand", kalGekozen: Kl ? Kl.isoVan(new Date()) : "", kalRubriek:"alles", kalAbo:false, kalAuto:""});
     this.kalLaad(false);
   }
   // Rechtstreeks naar een item (hash #/kalender/<id>); het item staat meteen open, terug gaat naar de lijst.
@@ -6059,7 +6059,7 @@ class Component extends DCLogic {
     const Kl = window.IfKal;
     if (!Kl || Kl.idSchoon(id) === null) return;
     this.setState({screen:"kalender", menu:false, q:"", copied:null, tool:this.vindModule("kalender"), from:"hub", kalItem:id, kalIdStatus:"", kalWil:null,
-      kalWeergave:"week", kalGekozen: Kl.isoVan(new Date()), kalRubriek:"alles", kalAbo:false, kalAuto:""});
+      kalWeergave:"maand", kalGekozen: Kl.isoVan(new Date()), kalRubriek:"alles", kalAbo:false, kalAuto:""});
     this.kalLaad(false);
   }
   kalWilToepassen(){

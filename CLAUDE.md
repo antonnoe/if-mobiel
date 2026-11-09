@@ -524,3 +524,7 @@ Laatst nagelopen: 9 november 2026
 
 - Kop links "MAANDAG 9 NOVEMBER" (sinds VERSIE 2026-11-09-15 zonder "VANDAAG ·", anders brak de kop op 390 px over twee regels) (`IfKal.bandKop`, 12 px 800, letterspacing 1,5 px), daaronder de naamdag. Rechts het maantje (SVG 30x30, `data-maan`) met de naam (11,5 px): fase uit het veld `maan: {fase, naam}` van `/api/vandaag` (Kalender Frankrijk rekent, `lib/maan.js`). `IfKal.maanLezen` laat alleen de acht bekende fase-sleutels door en neemt de naam uit `MAAN_NAMEN`, niet uit de API; geen maangegeven of onbekende fase: geen maantje. Het verlichte deel is per fase een statisch `<path d>` in een `sc-if` (`vdFase1` tot `vdFase7`; de nieuwe maan heeft er geen): een hole in `d` geeft consolefouten. Paden staan ook in `IfKal.MAAN_PADEN` en een test bewaakt dat ze gelijk zijn. Noordelijk halfrond: wassend is rechts verlicht.
 - "Kalender Frankrijk →" rechtsboven is weg; onderaan staat de link "Bekijk de hele kalender →" (44 px, bovenrand). Tip, periode en mijlpaal in de band: de eerste zin tot punt of puntkomma (`IfKal.zinTotPunt`); past die in `REGEL_MAX`, dan met punt en zonder beletselteken, anders de oude afkapping. Service worker `VERSIE` 2026-11-09-14.
+
+## Kalender opent in Maand (9 november 2026)
+
+- Besluit eigenaar: het scherm Kalender opent standaard in Maand (was Week), met vandaag gekozen en geen filter; de schakelaar Week | Maand blijft. Initiële state, `kalOpen` en `kalOpenId` zetten `kalWeergave:"maand"`. Service worker `VERSIE` 2026-11-09-16.
