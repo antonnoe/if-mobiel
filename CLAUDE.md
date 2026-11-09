@@ -490,4 +490,6 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 - Service worker `VERSIE` 2026-11-09-3. Tests: `tests/klusronde.test.mjs`.
 - **Herstelronde 1 (9 november 2026)**: de deelknop op een nieuwskaart heeft een tikvlak van minstens 44 x 44 px; Devisdossier staat niet meer vast in "Tools bij wonen" (thema Ondernemen volgens `modules.json`; het scherm Ondernemen toont alleen wat de route-data van if-plek `ondernemen.json` als `soort: tool` noemt, dat is nu `gitekompas` en `efacturatie`, dus Devisdossier staat daar pas als die data hem noemt; Alle modules en zoeken vinden hem wel); het gedeelde kalenderitem draagt de datum in woorden mee ("IFI: aangifte, zondag 16 november" plus link).
 
+- **Rubriek Tradities (9 november 2026)**: de rubriek `genieten` van Kalender Frankrijk heet "Franse tradities", het knopje "Tradities" (`IfKal.KORT`); de id blijft `genieten`. Service worker `VERSIE` 2026-11-09-4.
+
 Laatst nagelopen: 9 november 2026

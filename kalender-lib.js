@@ -20,7 +20,7 @@
   var ABO_ALLES = "Hele kalender";
   var ABO_RUBRIEK = "Of alleen een rubriek:";
   // Korte namen voor de chips; de volledige naam blijft in de lijstrijen, de legenda en het itemscherm.
-  var KORT = { fiscaal: "Fiscaal", uitkeringen: "Uitkeringen", feestdagen: "Feestdagen", school: "School", wonen: "Wonen", buiten: "Buiten", zorg: "Zorg", stemmen: "Stemmen", genieten: "Genieten", verenigingen: "Verenigingen", moestuin: "Moestuin" };
+  var KORT = { fiscaal: "Fiscaal", uitkeringen: "Uitkeringen", feestdagen: "Feestdagen", school: "School", wonen: "Wonen", buiten: "Buiten", zorg: "Zorg", stemmen: "Stemmen", genieten: "Tradities", verenigingen: "Verenigingen", moestuin: "Moestuin" };
   var WEEK_NAMEN = ["MA", "DI", "WO", "DO", "VR", "ZA", "ZO"];
 
   function tekst(x) { return typeof x === "string" ? x : ""; }
