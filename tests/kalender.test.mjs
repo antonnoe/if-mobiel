@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-11"/);
+  assert.match(sw, /VERSIE = "2026-11-09-12"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -694,4 +694,19 @@ test("gedeelde link naar een item ver vooruit: ophalen op id, nette meldingen", 
   assert.match(html, /kiWeg: is && !!st\.kalItem && !it && ok && st\.kalIdStatus === "weg"/);
   assert.match(html, /kalOpnieuw: \(\) => \{ this\.kalIdOpnieuw\(\)/);
   assert.match(html, /^[\s\S]*this\.kalIdZorg\(\);\n/m);
+});
+
+test("band per departement: depVoorBand, vandaagUrl met dep en de aansluiting in de schil", () => {
+  const d = Kl.depVoorBand;
+  assert.equal(d("11120"), "11"); assert.equal(d("24100"), "24"); assert.equal(d("01000"), "01"); assert.equal(d("75008"), "75");
+  assert.equal(d("97400"), "974"); assert.equal(d("98800"), "988"); assert.equal(d("98000"), "geen");
+  assert.equal(d("20000"), "2A"); assert.equal(d("20199"), "2A"); assert.equal(d("20200"), "2B"); assert.equal(d("20699"), "2B"); assert.equal(d("20700"), "geen");
+  assert.equal(d(null), "geen"); assert.equal(d(""), "geen"); assert.equal(d("1112"), "geen"); assert.equal(d("00100"), "geen"); assert.equal(d("99000"), "geen"); assert.equal(d("abcde"), "geen");
+  assert.equal(Kl.vandaagUrl("2026-11-09", "11"), "https://kalender-frankrijk.vercel.app/api/vandaag?datum=2026-11-09&dep=11");
+  assert.equal(Kl.vandaagUrl("2026-11-09", "geen"), "https://kalender-frankrijk.vercel.app/api/vandaag?datum=2026-11-09&dep=geen");
+  assert.equal(Kl.vandaagUrl("2026-11-09", "11120"), "https://kalender-frankrijk.vercel.app/api/vandaag?datum=2026-11-09", "een postcode gaat nooit mee");
+  assert.equal(Kl.vandaagUrl("2026-11-09", "2a"), "https://kalender-frankrijk.vercel.app/api/vandaag?datum=2026-11-09");
+  assert.match(html, /Kl\.depVoorBand\(st\.postcode\)/);
+  assert.match(html, /Kl\.vandaagUrl\(dag, dep\)/);
+  assert.match(html, /this\._vdDep === dep/, "een andere postcode haalt de band opnieuw op");
 });

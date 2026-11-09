@@ -64,7 +64,22 @@
   function ddmmjjjj(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(tekst(iso)); return m ? m[3] + "-" + m[2] + "-" + m[1] : ""; }
 
   // ---- URL's ----
-  function vandaagUrl(datum) { return BASIS + "/api/vandaag?datum=" + encodeURIComponent(datum); }
+  // Departement voor de band: uit een opgeslagen postcode (5 cijfers). 97x en 98x hebben drie cijfers, Corsica (20xxx) is 2A
+  // (200xx-201xx) of 2B (202xx-206xx); bij twijfel, geen postcode of een postcode buiten de departementen is het "geen".
+  // Alleen dit nummer gaat naar Kalender Frankrijk, nooit de postcode zelf.
+  function depVoorBand(pc) {
+    var p = tekst(pc);
+    if (!/^\d{5}$/.test(p)) return "geen";
+    var twee = +p.slice(0, 2), drie = +p.slice(0, 3);
+    if (twee === 20) return drie <= 201 ? "2A" : drie <= 206 ? "2B" : "geen";
+    if (twee === 97) return drie >= 971 && drie <= 976 ? p.slice(0, 3) : "geen";
+    if (twee === 98) return drie >= 984 && drie <= 988 ? p.slice(0, 3) : "geen";
+    return twee >= 1 && twee <= 95 ? p.slice(0, 2) : "geen";
+  }
+  function vandaagUrl(datum, dep) {
+    var d = tekst(dep);
+    return BASIS + "/api/vandaag?datum=" + encodeURIComponent(datum) + (d && /^(geen|\d{2,3}|2[AB])$/.test(d) ? "&dep=" + d : "");
+  }
   // Een enkel item op id (gedeelde link naar een item buiten het startvenster); 404 = onbekend of verborgen.
   function itemUrl(id) { return BASIS + "/api/items?id=" + encodeURIComponent(id); }
   function itemsUrl(van, tot) { return BASIS + "/api/items?van=" + encodeURIComponent(van) + "&tot=" + encodeURIComponent(tot); }
@@ -524,7 +539,7 @@
     FOUT: FOUT, LEEG_DAG: LEEG_DAG, TOON_ALLES: TOON_ALLES, ABO_VRAAG: ABO_VRAAG, ABO_KNOP: ABO_KNOP, WEG: WEG, ABO_UITLEG: ABO_UITLEG, ABO_ALLES: ABO_ALLES,
     ABO_RUBRIEK: ABO_RUBRIEK, WEEK_NAMEN: WEEK_NAMEN, KORT: KORT, korteNaam: korteNaam,
     schoon: schoon, idSchoon: idSchoon, https: https, hostnaam: hostnaam, isoVan: isoVan, plusDagen: plusDagen, dagMaand: dagMaand, datumWoorden: datumWoorden,
-    datumKop: datumKop, ddmmjjjj: ddmmjjjj, vandaagUrl: vandaagUrl, itemsUrl: itemsUrl, itemUrl: itemUrl, rubriekenUrl: rubriekenUrl, beeldUrl: beeldUrl, icalUrl: icalUrl,
+    datumKop: datumKop, ddmmjjjj: ddmmjjjj, vandaagUrl: vandaagUrl, depVoorBand: depVoorBand, itemsUrl: itemsUrl, itemUrl: itemUrl, rubriekenUrl: rubriekenUrl, beeldUrl: beeldUrl, icalUrl: icalUrl,
     voorvoegsel: voorvoegsel, datumUitKop: datumUitKop, eersteZin: eersteZin, bandTekst: bandTekst, bandRegels: bandRegels, naamdagTekst: naamdagTekst,
     leesRubrieken: leesRubrieken, leesItems: leesItems, filterItems: filterItems, rubriekChips: rubriekChips, wieNaam: wieNaam, kleurVan: kleurVan,
     maandNaam: maandNaam, weekStart: weekStart, weekBereik: weekBereik, maandBereik: maandBereik, maandRaster: maandRaster, bereikVan: bereikVan,

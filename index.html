@@ -6010,18 +6010,21 @@ class Component extends DCLogic {
   // Mislukt het ophalen, dan is de band er niet (geen melding, geen lege ruimte); het scherm toont een eerlijke melding met "Opnieuw proberen".
   vdCheck(){
     const st = this.state, Kl = window.IfKal, Nv = window.IfNav;
-    if (!Kl || !Nv || st.screen !== "hub" || this._vdBezig) return;
+    if (!Kl || !Nv || st.screen !== "hub") return;
     if (!this.mods().some(m => m.id === "kalender")) return;
-    const nu = Date.now(), dag = Kl.isoVan(new Date());
-    if (this._vdT && this._vdDag === dag && nu - this._vdT < Kl.TUSSENTIJD_MS) return;
-    this._vdBezig = true; this._vdT = nu; this._vdDag = dag;
+    const nu = Date.now(), dag = Kl.isoVan(new Date()), dep = Kl.depVoorBand(st.postcode);
+    // Een andere postcode (ingesteld, gewijzigd of gewist) haalt de band direct opnieuw op, ook binnen de tussentijd.
+    if (this._vdBezig && this._vdDep === dep) return;
+    if (this._vdT && this._vdDag === dag && this._vdDep === dep && nu - this._vdT < Kl.TUSSENTIJD_MS) return;
+    this._vdBezig = true; this._vdT = nu; this._vdDag = dag; this._vdDep = dep;
     this._vdTeller = this._vdTeller || Nv.maakTeller();
     const tok = this._vdTeller.volgende();
-    this.kaFetch(Kl.vandaagUrl(dag), null, Kl.TIMEOUT_MS).then(({status, data}) => {
+    this.kaFetch(Kl.vandaagUrl(dag, dep), null, Kl.TIMEOUT_MS).then(({status, data}) => {
+      if (!this._vdTeller.actueel(tok)) return;
       this._vdBezig = false;
       const regels = status === 200 ? Kl.bandRegels(data) : [];
       const naamdag = status === 200 ? Kl.naamdagTekst(data) : "";
-      this.setState(prev => this._vdTeller.actueel(tok) ? {vdRegels:regels, vdNaamdag:naamdag} : null);
+      this.setState({vdRegels:regels, vdNaamdag:naamdag});
     });
   }
   vdVals(){
