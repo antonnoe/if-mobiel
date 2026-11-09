@@ -49,3 +49,12 @@ test("herstelronde: deelknop 44 px, datum in de gedeelde tekst, devisdossier nie
   assert.match(html, /it\.titel \+ ", " \+ Kl\.datumRegel\(it, vandaag\)/);
   assert.ok(!/"bouwgrond","devisdossier"/.test(html));
 });
+
+test("zoekveld op de hub: een regel 'Zoek in InfoPoche', 54 px, bordeaux icoon (10-11-2026)", () => {
+  const h = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const blok = h.slice(h.indexOf('data-hubzoek="1"'), h.indexOf('data-hubzoek="1"') + 700);
+  assert.match(blok, /min-height:54px/);
+  assert.match(blok, />Zoek in InfoPoche</);
+  assert.match(blok, /white-space:nowrap/);
+  assert.match(h, /width:22px;height:22px;color:#800000/);
+});

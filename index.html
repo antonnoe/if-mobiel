@@ -255,9 +255,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-if>
     <div style="padding:16px 16px 0">
-      <button onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;border-radius:14px;padding:0 14px;min-height:48px;cursor:pointer;text-align:left">
+      <button data-hubzoek="1" onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid rgba(128,0,0,.22);border-radius:14px;box-shadow:0 1px 2px rgba(21,24,26,.06);padding:0 16px;min-height:54px;cursor:pointer;text-align:left">
         <span style="{{ zoekIcoStyle }}"></span>
-        <span style="font:600 14.5px Mulish;color:#5F6669">Zoek in modules, berichten en woorden</span>
+        <span style="font:600 16px Mulish;color:#3D4346;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Zoek in InfoPoche</span>
       </button>
     </div>
     <sc-if value="{{ protoOpen }}" hint-placeholder-val="{{ true }}">
@@ -7203,7 +7203,7 @@ class Component extends DCLogic {
       ...this.regioVals(),
       isAiTools: st.screen === "aitools",
       begroetingTekst: HubLib.begroeting(new Date()),
-      zoekIcoStyle: this.iconStyle("zoek").replace("width:22px;height:22px", "width:20px;height:20px;color:#5F6669"),
+      zoekIcoStyle: this.iconStyle("zoek").replace("width:22px;height:22px", "width:22px;height:22px;color:#800000"),
       hubFavs: st.screen === "hub" && favLijst.length > 0,
       hubNoodKnoppen: this.spoedKnoppenLijst(),
       hubNoodTekst: (this.gzCfg().spoed || {}).hubTekst || "",

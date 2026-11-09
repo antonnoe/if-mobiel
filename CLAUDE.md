@@ -528,3 +528,7 @@ Laatst nagelopen: 9 november 2026
 ## Kalender opent in Maand (9 november 2026)
 
 - Besluit eigenaar: het scherm Kalender opent standaard in Maand (was Week), met vandaag gekozen en geen filter; de schakelaar Week | Maand blijft. Initiële state, `kalOpen` en `kalOpenId` zetten `kalWeergave:"maand"`. Service worker `VERSIE` 2026-11-09-16.
+
+## Zoekveld op de hub (10 november 2026)
+
+- Mock-up goedgekeurd: één regel "Zoek in InfoPoche" (16 px 600, `#3D4346`, nowrap), bordeaux vergrootglas 22 px, 54 px hoog, rand 1,5 px `rgba(128,0,0,.22)`, lichte schaduw (`data-hubzoek`). Het zoeken zelf is ongewijzigd. Service worker `VERSIE` 2026-11-10-1. Test: `tests/klusronde.test.mjs`.
