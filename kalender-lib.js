@@ -343,6 +343,84 @@
   // Het eerste venster bij het openen: een week terug tot en met 120 dagen vooruit.
   function startVenster(vandaag) { return { van: plusDagen(vandaag, -7), tot: plusDagen(vandaag, VENSTER_DAGEN) }; }
 
+  // ---- aanvulling bij een lege dag of week ----
+  var AANV_MAX = 5;
+  // Rijen (perDag-vorm) die in van-tot beginnen, op datum en tijd, zonder items die al gezien zijn (op id). gezien wordt aangevuld.
+  function rijenIn(lijst, van, tot, gezien) {
+    if (van > tot) return [];
+    var pd = perDag(lijst, van, tot), uit = [];
+    Object.keys(pd).sort().forEach(function (d) {
+      pd[d].forEach(function (r) { if (!gezien[r.item.id]) { gezien[r.item.id] = true; uit.push(r); } });
+    });
+    return uit;
+  }
+  // "2 tot 6 december", "30 november tot 6 december"
+  function kortBereik(van, tot) {
+    var v = utc(van), t = utc(tot);
+    if (v.getUTCMonth() !== t.getUTCMonth() || v.getUTCFullYear() !== t.getUTCFullYear()) return dagMaand(van, false) + " tot " + dagMaand(tot, false);
+    return v.getUTCDate() + " tot " + dagMaand(tot, false);
+  }
+  // Wat staat er na een lege dag (maand) of een lege week? Twee blokken, zonder dubbelen en binnen het actieve filter:
+  // 1. begint in de rest van de week (dag+1 tot zondag), anders in de week erna;
+  // 2. begint in de rest van de maand na dat blok, anders in de maand erna.
+  // weergave "week": de hele week is leeg, dus het anker is de zondag (rest van de week is leeg, dus de week erna).
+  // Geeft {blokken:[{id:"week"|"maand", label, rijen (hooguit AANV_MAX), totaal, meer:null | {tekst, weergave, iso}}]}; een leeg blok ontbreekt.
+  function aanvulling(items, gekozen, vandaag, rubriek, weergave) {
+    var uit = { blokken: [] };
+    if (!utc(gekozen)) return uit;
+    var lijst = filterItems(items, rubriek), anker = weergave === "week" ? weekBereik(gekozen).tot : gekozen;
+    var wk = weekBereik(anker), gezien = {};
+    var dezeWeek = !!vandaag && weekStart(vandaag) === wk.van, dezeMaand = !!vandaag && vandaag.slice(0, 7) === anker.slice(0, 7);
+    // blok 1
+    var r1 = { van: plusDagen(anker, 1), tot: wk.tot }, rest1 = true, rijen1 = rijenIn(lijst, r1.van, r1.tot, gezien);
+    if (!rijen1.length) {
+      var nv = plusDagen(wk.tot, 1);
+      r1 = { van: nv, tot: plusDagen(nv, 6) }; rest1 = false; rijen1 = rijenIn(lijst, r1.van, r1.tot, gezien);
+    }
+    function blok(id, label, rijen, doel, weergaveNaar) {
+      if (!rijen.length) return;
+      uit.blokken.push({
+        id: id, label: label, rijen: rijen.slice(0, AANV_MAX), totaal: rijen.length,
+        meer: rijen.length > AANV_MAX ? { tekst: "Bekijk alles in " + doel, weergave: weergaveNaar, iso: rijen[0].van } : null
+      });
+    }
+    var label1 = rest1 ? (dezeWeek ? "Nog deze week" : "Rest van de week (" + kortBereik(r1.van, r1.tot) + ")") : (dezeWeek ? "Volgende week" : "Week van " + dagMaand(r1.van, false));
+    var doel1 = rest1 ? (dezeWeek ? "deze week" : "de week van " + dagMaand(wk.van, false)) : (dezeWeek ? "volgende week" : "de week van " + dagMaand(r1.van, false));
+    blok("week", label1, rijen1, doel1, "week");
+    // blok 2: na het einde van de week die hierboven is bekeken
+    var na = plusDagen(r1.tot, 1), eind = maandBereik(anker).tot, rest2 = true;
+    var r2 = { van: na, tot: eind }, rijen2 = rijenIn(lijst, r2.van, r2.tot, gezien), nm = maandPlus(anker, 1);
+    if (!rijen2.length) {
+      var mb = maandBereik(nm);
+      r2 = { van: mb.van > na ? mb.van : na, tot: mb.tot }; rest2 = false; rijen2 = rijenIn(lijst, r2.van, r2.tot, gezien);
+    }
+    var naam2 = rest2 ? maandNaam(anker) : maandNaam(nm);
+    var label2 = rest2 ? (dezeMaand ? "Nog deze maand" : "Rest van " + naam2) : (dezeMaand ? "Volgende maand" : hoofdletter(naam2));
+    var doel2 = rest2 ? (dezeMaand ? "deze maand" : naam2) : (dezeMaand ? "volgende maand" : naam2);
+    blok("maand", label2, rijen2, doel2, "maand");
+    return uit;
+  }
+  // Is het bereik dat aanvulling nodig heeft gedekt? van = begin van de getoonde periode, tot = einde van de maand erna.
+  function aanvullingBereik(weergave, gekozen) {
+    var b = bereikVan(weergave, gekozen);
+    if (!b) return null;
+    var anker = weergave === "week" ? b.tot : gekozen;
+    return { van: b.van, tot: maandBereik(maandPlus(anker, 1)).tot };
+  }
+  // Titel voor de navigatiekop. Een weektitel die over een maand- of jaargrens loopt wordt kort ("28 dec tot 3 jan", zonder jaar),
+  // zodat hij op een regel past, ook met Grotere tekst. De volledige titel blijft voor aria en tests in periodeTitel.
+  function periodeTitelKop(weergave, iso) {
+    var t = periodeTitel(weergave, iso);
+    if (weergave === "maand" || t.length <= 18) return t;
+    var b = weekBereik(iso), kort = function (x) { var d = utc(x); return d.getUTCDate() + " " + MAANDEN[d.getUTCMonth()].slice(0, 3); };
+    return kort(b.van) + " tot " + kort(b.tot);
+  }
+  // Lettergrootte (px) voor de titel van de navigatiekop, zodat hij op een regel blijft: langere titel, kleinere letter.
+  function titelGrootte(titel) {
+    var n = String(titel || "").length;
+    return n <= 14 ? 21 : n <= 18 ? 19 : 17;
+  }
+
   // ---- weergave ----
   function tijdTekst(t) {
     var s = schoon(t);
@@ -415,6 +493,7 @@
     leesRubrieken: leesRubrieken, leesItems: leesItems, filterItems: filterItems, rubriekChips: rubriekChips, wieNaam: wieNaam, kleurVan: kleurVan,
     maandNaam: maandNaam, weekStart: weekStart, weekBereik: weekBereik, maandBereik: maandBereik, maandRaster: maandRaster, bereikVan: bereikVan,
     verschuif: verschuif, periodeTitel: periodeTitel, kopDag: kopDag, perDag: perDag, loopt: loopt, stippen: stippen, legenda: legenda,
+    aanvulling: aanvulling, aanvullingBereik: aanvullingBereik, titelGrootte: titelGrootte, periodeTitelKop: periodeTitelKop, AANV_MAX: AANV_MAX, kortBereik: kortBereik,
     itemsTekst: itemsTekst, dagLabel: dagLabel, leegTekst: leegTekst, voegSamen: voegSamen, gedekt: gedekt, ophaalVenster: ophaalVenster, startVenster: startVenster,
     tijdTekst: tijdTekst, rijMeta: rijMeta, periodeTekst: periodeTekst,
     eerstVolgende: eerstVolgende, datumRegel: datumRegel, laterRegel: laterRegel, alineas: alineas, wieTekst: wieTekst, gebiedItem: gebiedItem,
