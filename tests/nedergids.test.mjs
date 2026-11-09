@@ -6,10 +6,9 @@ const lees = f => readFileSync(new URL("../" + f, import.meta.url), "utf8");
 const html = lees("index.html"), cat = JSON.parse(lees("modules.json"));
 const i = html.indexOf("<!-- ============ NEDERGIDS (kaartschil)");
 const scherm = html.slice(i, html.indexOf("<!-- ============ MODULE (gratis", i));
-const V2 = "(in de komende maanden zal een V2 worden uitgerold)";
 
 test("scherm: label, kop, intro, V2-regel en slotregel precies één keer", () => {
-  for (const t of ["Wegwijzer · gratis te lezen", ">Nedergids</h1>", "Vind particulieren en dienstverleners in Frankrijk.", V2, "Deze functies komen samen in Nedergids V2."])
+  for (const t of ["Wegwijzer · gratis te lezen", ">Nedergids</h1>", "Vind particulieren en dienstverleners in Frankrijk.", "Later komen deze functies samen in één nieuwe Nedergids."])
     assert.equal(scherm.split(t).length - 1, 1, t);
   assert.ok(!/wegwijzer · gratis te lezen/.test(html.slice(html.indexOf("const subs ="), html.indexOf("const subs =") + 1500)), "kopbalk herhaalt het label niet");
 });
@@ -17,7 +16,7 @@ test("scherm: label, kop, intro, V2-regel en slotregel precies één keer", () =
 test("scherm: vijf kaarten, alleen nedergids.nl gaat naar buiten, de rest opent in de app, de rest opent in de app", () => {
   const kaarten = [...scherm.matchAll(/<a href="([^"]+)" target="_blank" rel="noopener"/g)].map(m => m[1]);
   assert.deepEqual(kaarten, ["https://www.nedergids.nl"]);
-  assert.ok(scherm.includes("Wat je bij Gault &amp; Millau en Michelin niet leest") && scherm.includes("fris, fruitig en hygiënisch"));
+  assert.ok(scherm.includes("Hygiënecontroles bij restaurants") && scherm.includes("Wat je bij Gault &amp; Millau en Michelin niet leest") && scherm.includes("fris, fruitig en hygiënisch"));
   for (const h of ["ngGemeente", "ngVerenigingen", "ngOverheden", "ngHygiene"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
   assert.match(html, /ngVerenigingen: \(\) => this\.route\(this\.vindModule\("verenigingen"\)\)/);
   assert.match(html, /ngOverheden: \(\) => this\.route\(this\.vindModule\("overhedenbuurt"\)\)/);
@@ -30,7 +29,8 @@ test("scherm en data: geen filters, Uitgelicht, sitelijst, aanmeldblok, archiefn
   assert.ok(!/ngCats|ngSites|ngAan|ngArchief|uitPlekken|uitKop|pcRegel|ngRegel|ngCat\b/.test(html));
   assert.equal(cat.nedergids, undefined);
   const m = cat.modules.find(x => x.id === "nedergids");
-  assert.equal(m.over, "Vind particulieren en dienstverleners in Frankrijk. " + V2);
+  assert.equal(m.over, "Vind particulieren en dienstverleners in Frankrijk.");
+  assert.ok(!/V2|Nedergids 1\.0/.test(scherm), "geen versietaal");
 });
 
 test("kopbalk herhaalt de kop Nedergids niet", () => {

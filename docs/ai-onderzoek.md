@@ -68,3 +68,7 @@ Regel: alleen vastgesteld AI komt erin. Kon het niet worden vastgesteld, dan sta
 ## Niet vastgesteld
 - dossierfrankrijk: zie boven (inlog, privérepo). Staat er niet in.
 - kompas: alleen het eindpunt en de afscherming zijn vastgesteld, niet de kwaliteit van de antwoorden.
+
+### klusforum
+- Klusarchief (module `klusforum`): de chat "Vraag het archief" (Supabase Edge Function `klusarchief-chat`, model van Anthropic) antwoordt alleen uit gevonden draden en artikelen, met bronvermelding; zonder bron geen antwoord. Zie CLAUDE.md, hoofdstuk Klusarchief, besluit van 30-10-2026.
+- Indeling: tool (geeft zelf antwoord, binnen de bronnen).

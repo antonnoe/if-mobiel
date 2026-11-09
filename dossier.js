@@ -21,7 +21,7 @@
     h3: "font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:16.5px;line-height:1.3;margin:20px 0 6px;color:#15181A",
     h4: "font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;line-height:1.3;margin:16px 0 6px;color:#15181A",
     strong: "font-weight:700;color:#15181A", b: "font-weight:700;color:#15181A", em: "font-style:italic",
-    small: "font-size:12.5px;color:#71787C",
+    small: "font-size:12.5px;color:#5F6669",
     a: "color:#800000;text-decoration:underline;word-break:break-word",
     img: "display:block;max-width:100%;height:auto;border-radius:12px;margin:12px auto",
     table: "border-collapse:collapse;min-width:100%;font:500 13px/1.45 Mulish,system-ui,sans-serif;color:#3D4346",

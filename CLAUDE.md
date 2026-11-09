@@ -76,7 +76,7 @@ Frankrijk).
     `ifm_last_visit`, `ifm_landing_tot` (vervallen sinds 25-10-2026, wordt niet meer gelezen; zie sessionStorage hieronder), `ifm_grote_tekst` (`"1"` = Grotere tekst aan, Profiel), `ifm_abo_vraag` (tijdstempel oproep), `ifm_plaats` (JSON `{postcode, plaats}`, plaatsnaam van
     geo.api.gouv.fr, zacht falend, alleen geldig bij dezelfde postcode). Actueel-tab via `nlfr-menu`'s `/api/actueel` (thema-tegels: pers,
     overheid, infofrankrijk, verenigingen) met een voorbeeldlijst-terugval; het forum via
-    `nlfr-berichten` met een demo-terugval. Beide falen zacht: nooit een lege pagina.
+    `nlfr-berichten`; valt dat uit, dan toont het Forum "Het forum is nu niet bereikbaar." met "Opnieuw proberen" en een link naar Nederlanders.fr (geen voorbeeldberichten meer). Beide falen zacht: nooit een lege pagina.
 
 **De catalogus staat in `modules.json` en gaat nooit terug de code in** — ontbreekt een
 veld, voeg het toe aan de JSON en lees het uit met een veilige terugval, zie regel 6/8.
@@ -194,7 +194,7 @@ de bron van de ontwerpsessie.
 - **Lopende tekst (body):** Mulish.
 - **Pagina-achtergrond:** `#F4F1F0`.
 - **Kaarten:** wit, `1px` rand `rgba(21,24,26,.10)`, `border-radius: 16px`.
-- Tekstkleur body `#15181A`; secundaire tekst rond `#71787C`/`#3D4346`.
+- Tekstkleur body `#15181A`; secundaire tekst rond `#5F6669`/`#3D4346`.
 
 ## Regels
 
@@ -477,5 +477,16 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 - **Besluit van de eigenaar:** de app heeft geen inlog, dus Profiel doet ook niet alsof. Weg: de statusregels "Nederlanders.fr niet aangemeld" en "Infofrankrijk-abonnement niet gekoppeld", de bordeaux knop "Aanmelden bij Nederlanders.fr", de zin over twee identiteiten en "niet aangemeld" in de kopbalk (`subs.acc` is leeg). De kaart toont "Modules die je ziet: N, allemaal vrij" (`freeCount`, telt `mods()`, dus Mijn modules telt mee; zodra een module weer `prijs: abonnee` krijgt wordt het "N van de M vrij"). Onderaan een rustig grijs blok (`data-profiel-links`) met twee gewone links: "Naar het forum op Nederlanders.fr ↗" en "Wat het abonnement biedt ↗" (`abonneeUrl`).
 - **Koppeling later:** inloggen met NLFR-lidmaatschap en IF-abonneestatus komt pas als Nederlanders.fr en Infofrankrijk.com allebei op Next.js draaien (inlogdomein account.infofrankrijk.com). De haken `prijs`, `knip` en de muur blijven.
 - Service worker `VERSIE` 2026-11-09-1. Test: `tests/profiel.test.mjs`.
+
+## Klusronde na de analyse (9 november 2026)
+
+- **Forum**: geen voorbeeldberichten meer (`DEMO` is weg). Bij uitval van `nlfr-berichten` toont het Forum "Het forum is nu niet bereikbaar." met "Opnieuw proberen" en "Open Nederlanders.fr ↗" (`data-forum-fout`, `state.fout`).
+- **Inlogmelding als muur** (`artikel-lib.js`, `INLOG_MELDING`): staat "Je moet ingelogd zijn om deze inhoud te bekijken" in de opgehaalde inhoud, dan knipt `knipBijMuur` daar af (`inlog: true`, `muur: false`) en toont het artikelscherm een eerlijke melding met knop naar de site (`data-art-inlog`), niet het blok "Dit artikel las je gratis".
+- **Delen**: `deelStuk(sleutel, titel, url)` (share, anders kopiëren, "Link gekopieerd" alleen na succes) op het kalenderitem (`#/kalender/<id>`) en elke nieuwskaart (titel plus bronlink). Mijn gemeente heeft geen hash-route en heeft dus geen deelknop.
+- **Vindbaarheid**: Open Graph-tags (og:image is `icons/icon-512.png`), `robots.txt`, tabtitel per scherm via `zetDocTitel` ("<schermtitel> · InfoPoche", hub "InfoPoche", artikel de artikeltitel).
+- **Toegankelijkheid**: secundaire tekst `#5F6669` (was `#71787C`), label VANDAAG `#DCE8DF`, kalenderchips 44 px zonder marge (zelfde rijhoogte als 40 plus 2 plus 2), `role="main"` op de schermcontainer. Elk scherm heeft één h1: schermen zonder eigen h1 in de inhoud staan in `KOP_H1` (mod, zoek, tekoop, hygiene, gemeente, aitools), daar is de kopbalktitel de h1. Een nieuw scherm zonder eigen h1: voeg het daar toe.
+- **Houdbaarheid**: déchèterie-jaar komt uit de klok met terugval op het vorige jaar (test); `hub-lib.js` en `ondernemen-lib.js` in `SCHIL`; offline-regel onder de kopbalk (`data-offline`); `vercel.json` zet Referrer-Policy en X-Content-Type-Options (geen Permissions-Policy, geen CSP).
+- **Teksten en ordening**: prijslabel (`prijsLabel`) is leeg bij `gratis`, ook in zoekresultaten; Nedergids-scherm zonder versietaal, rij "Hygiënecontroles bij restaurants"; Klusarchief staat in AI-tools (`ai: tool`); Devisdossier in thema Ondernemen; Vastgoed transactiekosten `weergave: volledig` (framing gecontroleerd 9-11-2026). Het feedbackblad houdt zijn zes onderwerpchips: de Edge Function `infopoche-feedback` controleert `onderdeel` tegen een vaste lijst.
+- Service worker `VERSIE` 2026-11-09-2. Tests: `tests/klusronde.test.mjs`.
 
 Laatst nagelopen: 9 november 2026

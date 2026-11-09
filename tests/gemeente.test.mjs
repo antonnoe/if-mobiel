@@ -304,3 +304,9 @@ test("lokaal kopen bij de boer (Agence Bio): url, filter, afstand, geen persoons
   assert.equal(echt.ok, true);
   assert.ok(echt.lijst.every(x => x.km <= 15 && x.naam));
 });
+
+test("déchèteries: het jaar komt uit de klok, met terugval op het vorige jaar", async () => {
+  const { readFileSync } = await import("node:fs");
+  const src = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(src, /const jr0 = new Date\(\)\.getFullYear\(\);\s*dechJaar\(jr0\)\.then\(r => r\.leeg \? dechJaar\(jr0 - 1\) : r\)/);
+});

@@ -58,7 +58,7 @@
       "status": "in bouw",
       "kind": "nedergids",
       "nagekeken": "2026-08-23",
-      "over": "Vind particulieren en dienstverleners in Frankrijk. (in de komende maanden zal een V2 worden uitgerold)"
+      "over": "Vind particulieren en dienstverleners in Frankrijk."
     },
     {
       "id": "cafeclaude",
@@ -197,6 +197,8 @@
       "houdbaar": "jaren",
       "status": "af",
       "kind": "klusarchief",
+      "ai": "tool",
+      "ai_uitleg": "De chat Vraag het archief antwoordt uitsluitend uit de gevonden bronnen van het archief en noemt ze erbij. Het blijft een samenvatting door AI van oude berichten, geen advies van een deskundige.",
       "nagekeken": "2026-10-30",
       "over": "Zoek in de klusdraden van het oude Infofrankrijk-forum (2012 tot 2020) over bouwen, verbouwen, tuin, water, septic tank en elektra, en lees wat anderen toen ervoeren. Om privacyredenen zijn de namen verzonnen, behalve die van bekende auteurs en bijdragers.",
       "zoekwoorden": "septic afvoer riool dak houtkachel elektra water tuin bouwen verbouwen klussen forum archief",
@@ -437,6 +439,7 @@
       "status": "af",
       "kind": "iframe",
       "url": "https://antonnoe.github.io/Vastgoedtransactie/",
+      "weergave": "volledig",
       "nagekeken": "2026-08-13",
       "over": "Eerst één vraag: koop je of verkoop je. Daarna alleen de vragen die bij je situatie horen, en na drie vragen staat er een bedrag. De tool rekent met de overdrachtsbelasting van jouw departement, het wettelijke notaristarief, en bij verkoop met de vermogenswinstbelasting inclusief de aftrek voor bezitsduur. Achter elke post staat welk wetsartikel is toegepast, op welke bron dat berust en met welke peildatum.",
       "let": "Ken je een bedrag niet, de landmeter, de doorhaling van je hypotheek, dan laat de tool die post buiten de berekening en meldt dat de uitkomst onvolledig is, in plaats van een verzonnen getal te tonen. Een onbekende postcode geeft eveneens een melding, geen terugvaltarief.",
@@ -804,7 +807,7 @@
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/zakelijke-transactie-van-offerte-tot-incasso/",
       "groep": "wonen",
-      "thema": "wonen",
+      "thema": "ondernemen",
       "naam": "Devisdossier",
       "meta": "je dossier bij een betalingsgeschil",
       "prijs": "gratis",

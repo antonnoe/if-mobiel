@@ -51,7 +51,15 @@ test("betaalmuur: alleen de inleiding blijft, de rest vervalt", () => {
   assert.ok(r.html.includes("Inleiding."));
   assert.ok(!/Geheim|geheim|Wordt lid/.test(r.html));
   const vrij = A.knipBijMuur("<p>Alles vrij</p>");
-  assert.deepEqual(vrij, { html: "<p>Alles vrij</p>", muur: false });
+  assert.deepEqual(vrij, { html: "<p>Alles vrij</p>", muur: false, inlog: false });
+});
+
+test("inlogmelding: geen abonnementsmuur, wel afgeknipt en gemeld als inlog", () => {
+  const r = A.knipBijMuur('<p>Kop.</p><div class="x"><p>Je moet ingelogd zijn om deze inhoud te bekijken.</p></div>');
+  assert.equal(r.inlog, true);
+  assert.equal(r.muur, false);
+  assert.ok(r.html.includes("Kop.") && !/ingelogd/.test(r.html));
+  assert.equal(A.knipBijMuur("<p>Gewoon</p>").inlog, false);
 });
 
 test("REST-antwoord: lege lijst of verkeerde vorm geeft null; titel en link blijven bewaard", () => {
@@ -136,7 +144,7 @@ test("onderblad: tekst letterlijk uit de opdracht", () => {
   [
     "Fijn dat InfoPoche je helpt",
     "Wat je net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.",
-    "Met een abonnement helpt je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
+    "Met een abonnement help je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.",
     "Bekijk het abonnement", "Niet nu", "Je ziet deze vraag hooguit eens per week."
   ].forEach(t => assert.ok(html.includes(t), t));
   assert.ok(html.includes('role="dialog"') && html.includes('aria-label="Sluiten"'));
@@ -145,7 +153,7 @@ test("onderblad: tekst letterlijk uit de opdracht", () => {
 });
 
 test("het vaste abonneeblok draagt dezelfde forumzin", () => {
-  assert.ok(html.includes("Met een abonnement helpt je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen."));
+  assert.ok(html.includes("Met een abonnement help je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen."));
 });
 
 test("index.html: artikelscherm hangt aan openInfoArtikel, nooit openArtikel; forumroute en delen", () => {

@@ -363,7 +363,7 @@ test("module en schil: catalogus in modules.json, geen tegel op de hub, terugsta
   assert.match(html, /r\.soort === "kalitem"\) \{ this\.kalOpenId/);
   assert.match(html, /<script src="\.\/kalender-lib\.js"><\/script>/);
   assert.match(sw, /\.\/kalender-lib\.js/);
-  assert.match(sw, /VERSIE = "2026-11-09-1"/);
+  assert.match(sw, /VERSIE = "2026-11-09-2"/);
 });
 
 test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band alleen met regels", () => {
@@ -427,7 +427,7 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
   assert.match(html, /rand: actief \? "rgba\(128,0,0,\.35\)"/); assert.match(html, /vlak: actief \? "rgba\(128,0,0,\.08\)"/);
   assert.match(html, /chip\("Alles", rubriek === "alles"/);
   assert.match(scherm, /data-kal-rubrieken="1" style="display:flex;flex-wrap:wrap;gap:0 8px/);
-  assert.match(scherm, /min-height:40px;margin:2px 0;padding:0 14px;border-radius:999px/, "chips van 40 px met 2 px marge: tikvlak 44");
+  assert.match(scherm, /min-height:44px;margin:0;padding:0 14px;border-radius:999px/, "chips van 44 px zonder marge: zelfde rijhoogte als 40 plus 2 plus 2");
   // lege uitkomst: tekst en knop Toon alles (44 px) die het filter wist
   assert.match(scherm, /data-kal-toonalles="1" style="[^"]*min-height:44px[^"]*">Toon alles</);
   assert.match(html, /kalToonAlles: \(\) => this\.setState\(\{kalRubriek:"alles"\}\)/);

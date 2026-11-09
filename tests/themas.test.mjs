@@ -19,8 +19,8 @@ const INDELING = {
   adressen: ["nedergids", "verenigingen", "verenigingsbeheer"],
   nieuws: [],
   ervaring: ["forum", "nlfrzoek"],
-  ondernemen: ["efacturatie", "gitekompas", "beroepenchecker"],
-  wonen: ["klussen", "klusforum", "lijstjes", "tekoop", "dossierelektra", "elektrabuiten", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "devisdossier", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
+  ondernemen: ["efacturatie", "gitekompas", "beroepenchecker", "devisdossier"],
+  wonen: ["klussen", "klusforum", "lijstjes", "tekoop", "dossierelektra", "elektrabuiten", "veiligheid", "internet", "moestuin", "woonplan", "bouwgrond", "huizenchecker", "woningzoeker", "vastgoed", "energie", "subsidieroute", "energieportaal", "vastgoedanalyse"],
   taal: ["correspondentie", "taalhulp", "woordenboek"]
 };
 

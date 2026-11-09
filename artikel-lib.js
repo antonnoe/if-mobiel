@@ -46,6 +46,10 @@
   // en losse "PMS" in gewone tekst tellen niet.
   var MUUR_START = /class\s*=\s*["'](?:[^"']*\s)?pms-[a-z0-9_-]+|\[\/?pms-[a-z0-9_-]+|(?:^|[^a-z0-9])pms[-_]restrict/i;
 
+  // Vangnet: de site toont soms "Je moet ingelogd zijn om deze inhoud te bekijken" in plaats van de inhoud.
+  // Dat is geen abonnementsmuur en de app toont dan geen "Dit artikel las je gratis".
+  var INLOG_MELDING = /Je moet ingelogd zijn om deze inhoud te bekijken/i;
+
   function heeftBetaalmuur(html) { return MUUR_START.test(String(html || "")); }
 
   // Knipt de HTML af vlak voor het element met de afschermingsmelding. De rest (en alles erna)
@@ -53,9 +57,13 @@
   function knipBijMuur(html) {
     html = String(html || "");
     var m = MUUR_START.exec(html);
-    if (!m) return { html: html, muur: false };
-    var tagStart = html.lastIndexOf("<", m.index);
-    return { html: html.slice(0, tagStart >= 0 ? tagStart : m.index), muur: true };
+    var l = INLOG_MELDING.exec(html);
+    if (!m && !l) return { html: html, muur: false, inlog: false };
+    // De eerste van de twee bepaalt waar wordt geknipt; de inlogmelding is geen abonnementsmuur maar een eigen vangnet.
+    var inlog = !!l && (!m || l.index < m.index);
+    var idx = inlog ? l.index : m.index;
+    var tagStart = html.lastIndexOf("<", idx);
+    return { html: html.slice(0, tagStart >= 0 ? tagStart : idx), muur: !inlog, inlog: inlog };
   }
 
   // ---- Ophalen -----------------------------------------------------------------------------
@@ -118,11 +126,11 @@
     h3: "margin:22px 0 0;font:500 18px 'Source Serif 4',Georgia,serif;line-height:1.3;color:" + KLEUR,
     h4: "margin:18px 0 0;font:600 15px Poppins,system-ui,sans-serif;line-height:1.35;color:" + KLEUR,
     strong: "font-weight:700", b: "font-weight:700", em: "font-style:italic", i: "font-style:italic",
-    small: "font-size:13px;color:#71787C",
+    small: "font-size:13px;color:#5F6669",
     a: "color:#800000;text-decoration:underline;word-break:break-word",
     img: "display:block;max-width:100%;height:auto;border-radius:12px;margin:16px auto 0",
     figure: "margin:16px 0 0",
-    figcaption: "margin:6px 0 0;font:500 13px Mulish,system-ui,sans-serif;line-height:1.6;color:#71787C",
+    figcaption: "margin:6px 0 0;font:500 13px Mulish,system-ui,sans-serif;line-height:1.6;color:#5F6669",
     table: "border-collapse:collapse;min-width:100%;font:500 14px/1.5 Mulish,system-ui,sans-serif;color:#3D4346",
     th: "text-align:left;vertical-align:top;padding:8px 10px;background:rgba(128,0,0,.06);border:1px solid rgba(21,24,26,.10);font-weight:700;color:" + KLEUR,
     td: "vertical-align:top;padding:8px 10px;border:1px solid rgba(21,24,26,.10)",
@@ -347,7 +355,7 @@
   // gescheiden door regeleinden, waarvan minstens drie naar een ander artikel wijzen. Als lopende tekst is dat op een telefoon een
   // lange lap met kleine links; hier wordt het een raster van tegels. Het deel dat de lezer nu leest heeft geen link en krijgt een eigen kleur.
   var REEKS = {
-    kop: "margin:18px 0 0;font:600 12px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#71787C",
+    kop: "margin:18px 0 0;font:600 12px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#5F6669",
     raster: "display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 0",
     cel: "box-sizing:border-box;min-width:0;min-height:64px;display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);text-decoration:none;color:" + KLEUR,
     nu: "background:rgba(128,0,0,.06);border-color:rgba(128,0,0,.30)",
