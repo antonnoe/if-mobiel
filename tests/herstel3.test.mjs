@@ -18,7 +18,7 @@ test("teksten beloven geen exclusiviteit voor abonnees", () => {
   ["de rest bij het abonnement", "alleen de uitkomst hoort bij het abonnement", "of om betaalde modules te gebruiken", "Wat achter het abonnement zit",
     "Wat je hier zoekt vind je wél via het zoekveld"].forEach(z => assert.ok(!html.includes(z), z));
   assert.ok(html.includes("Alle onderdelen zijn gratis te gebruiken."));
-  assert.ok(html.includes("Aanmelden is alleen nodig om te reageren op de site."));
+  assert.ok(html.includes("Reageren en meepraten doe je op Nederlanders.fr zelf"));
   assert.ok(!/voor abonnees/i.test(JSON.stringify(cat.modules.map(m => m.ai_uitleg || ""))));
 });
 

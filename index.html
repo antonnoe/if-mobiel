@@ -2236,12 +2236,10 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div>
   <div style="padding:20px 18px 0">
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin:0">Profiel</h1>
-    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">Je gebruikt de app nu zonder aanmelden. Dat mag: de gemeenschap en de taaltools zijn vrij toegankelijk.</p>
+    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">Je hoeft je nergens aan te melden: alle onderdelen van de app zijn vrij te gebruiken. Je keuzes blijven alleen op dit toestel.</p>
   </div>
   <div style="margin:18px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px">
-    <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;font-size:13.5px"><span>Nederlanders.fr</span><b style="color:#71787C">niet aangemeld</b></div>
-    <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Infofrankrijk-abonnement</span><b style="color:#71787C">niet gekoppeld</b></div>
-    <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Vrij te gebruiken nu</span><b>{{ freeCount }}</b></div>
+    <div style="display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;padding:11px 0;font-size:13.5px"><span>Modules die je ziet</span><b>{{ freeCount }}</b></div>
     <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 10px;padding:6px 0 0;border-top:1px solid rgba(21,24,26,.06);font-size:13.5px"><span>Postcode</span><b>{{ pcLabel }}</b><button onClick="{{ wijzigPc }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12.5px Mulish;cursor:pointer">Wijzigen</button></div>
     <sc-if value="{{ heeftPc }}" hint-placeholder-val="{{ false }}">
     <div style="display:flex;justify-content:flex-end;padding-top:2px"><button onClick="{{ wisPc }}" style="min-height:44px;padding:0 14px;border:0;background:none;color:#3D4346;font:600 13px Mulish;cursor:pointer;text-decoration:underline">Postcode wissen</button></div>
@@ -2259,13 +2257,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat je ziet →</button>
     <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Alle modules →</button>
-    <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;text-decoration:none">Aanmelden bij Nederlanders.fr →</a>
-    <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:50px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt →</a>
     <sc-if value="{{ mnInstalleer }}" hint-placeholder-val="{{ true }}">
     <button id="ifm-installeer" onClick="{{ installOpenProfiel }}" style="min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:rgba(128,0,0,.05);color:#800000;font:700 14px Mulish;cursor:pointer">Zet InfoPoche op je beginscherm →</button>
     </sc-if>
   </div>
-  <div style="margin:18px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 12px/1.7 Mulish;color:#3D4346">Aanmelden is alleen nodig om te reageren op de site. Twee losse identiteiten, één app: je ziet altijd welke van de twee gevraagd wordt.</div>
+  <div data-profiel-links style="margin:18px 14px 0;padding:6px 15px 4px;border-radius:13px;background:rgba(21,24,26,.04)">
+    <p style="margin:8px 0 0;font:500 13px/1.6 Mulish;color:#3D4346">Reageren en meepraten doe je op Nederlanders.fr zelf, met je account daar.</p>
+    <a href="https://www.nederlanders.fr/" target="_blank" rel="noopener" style="min-height:44px;display:flex;align-items:center;color:#800000;font:700 14px Mulish;text-decoration:none">Naar het forum op Nederlanders.fr ↗</a>
+    <p style="margin:8px 0 0;font:500 13px/1.6 Mulish;color:#3D4346">Abonnees van Infofrankrijk maken de bekostiging en instandhouding van InfoPoche mogelijk.</p>
+    <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:44px;display:flex;align-items:center;color:#800000;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt ↗</a>
+  </div>
   <div style="margin:12px 18px 0;font:500 13px/1.55 Mulish;color:#3D4346">Je hoeft de app niet af te sluiten: ga gewoon terug naar je beginscherm, de app wacht rustig op de achtergrond. Wil je hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android open je de recente apps en veeg je InfoPoche weg.</div>
   <div style="margin:12px 14px 0">
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
@@ -6860,7 +6861,7 @@ class Component extends DCLogic {
       piramide:"het ordeningsmodel achter de app",
       draad:"Nederlanders.fr · alleen lezen",
       gem:"Nederlanders.fr · vrij toegankelijk",
-      tool: st.tool ? (this.inOntw(st.tool) ? "In ontwikkeling · " : "") + this.themaVan(st.tool) : "", acc:"niet aangemeld"};
+      tool: st.tool ? (this.inOntw(st.tool) ? "In ontwikkeling · " : "") + this.themaVan(st.tool) : "", acc:""};
 
     // ---- Discussie lezen -------------------------------------------------
     const dp = st.draadPost || {};
@@ -7283,7 +7284,7 @@ class Component extends DCLogic {
             return n === 1 ? "Nog één vraag te kiezen" : "Nog " + n + " vragen te kiezen"; })(),
       uitRows: pv ? pv.uit_rows : [],
       resetIntake: () => this.setState({antwoorden:{}, muur:false}),
-      freeCount: free + " van de " + this.mods().length + " modules",
+      freeCount: free === this.mods().length ? free + ", allemaal vrij" : free + " van de " + this.mods().length + " vrij",
       abonneeUrl: this.abonneeUrl(),
       zoomCss: st.groteTekst ? "zoom:" + TEKST_ZOOM + ";" : "",
       groteTekstAan: !!st.groteTekst,

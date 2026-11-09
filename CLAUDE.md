@@ -472,4 +472,10 @@ Besluit Anton (optie B): "sterk mag en moet wel heel sterk zijn", maar de lezer 
 
 - Een opsomming in een kaartje (`li` binnen een kaart-div, zoals het blok "Actualisering" boven een ouder artikel) krijgt de compacte stijl `TEGEL.lijst` (14 px). Service worker `VERSIE` 2026-11-06-2.
 
-Laatst nagelopen: 6 november 2026
+## Profiel zonder schijnaanmelding (9 november 2026)
+
+- **Besluit van de eigenaar:** de app heeft geen inlog, dus Profiel doet ook niet alsof. Weg: de statusregels "Nederlanders.fr niet aangemeld" en "Infofrankrijk-abonnement niet gekoppeld", de bordeaux knop "Aanmelden bij Nederlanders.fr", de zin over twee identiteiten en "niet aangemeld" in de kopbalk (`subs.acc` is leeg). De kaart toont "Modules die je ziet: N, allemaal vrij" (`freeCount`, telt `mods()`, dus Mijn modules telt mee; zodra een module weer `prijs: abonnee` krijgt wordt het "N van de M vrij"). Onderaan een rustig grijs blok (`data-profiel-links`) met twee gewone links: "Naar het forum op Nederlanders.fr ↗" en "Wat het abonnement biedt ↗" (`abonneeUrl`).
+- **Koppeling later:** inloggen met NLFR-lidmaatschap en IF-abonneestatus komt pas als Nederlanders.fr en Infofrankrijk.com allebei op Next.js draaien (inlogdomein account.infofrankrijk.com). De haken `prijs`, `knip` en de muur blijven.
+- Service worker `VERSIE` 2026-11-09-1. Test: `tests/profiel.test.mjs`.
+
+Laatst nagelopen: 9 november 2026

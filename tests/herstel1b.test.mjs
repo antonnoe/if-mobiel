@@ -42,7 +42,7 @@ test('1. geen em- of en-dash in zichtbare teksten (index.html buiten Over ons, l
 
 test('1b. de genoemde keuringsteksten zijn herschreven', () => {
   const h = lees('index.html');
-  ['Later, ik vul het per keer in', 'Later, naar de gratis onderdelen', 'één app: je ziet'].forEach(t => assert.ok(h.includes(t), t));
+  ['Later, ik vul het per keer in', 'Later, naar de gratis onderdelen', 'Reageren en meepraten doe je op Nederlanders.fr zelf'].forEach(t => assert.ok(h.includes(t), t));
   ['Later —', 'Nog niet beschikbaar —', 'Voorbeeldgegevens —', 'Geen uitkomst te tonen —'].forEach(t => assert.ok(!h.includes(t), t));
 });
 
