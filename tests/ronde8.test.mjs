@@ -31,8 +31,8 @@ test("hub: themategels compact, minstens 11,5 px en 44 px tikvlak", () => {
   assert.match(html, /themaIcoStijl\(t\.id, k\.kleur, 28\)/);
 });
 
-test("hub: Infofrankrijk opent het Nieuws-scherm met filter infofrankrijk", () => {
-  assert.match(html, /this\.go\("nieuws"\); this\.setState\(\{nwFilter:"infofrankrijk"\}\)/);
+test("hub: Infofrankrijk opent het eigen scherm Infofrankrijk (sinds 10-11-2026)", () => {
+  assert.match(html, /naam:"Infofrankrijk"[^\n]*open:\(\) => this\.go\("infofr"\)/);
 });
 
 test("piramide: nieuwe teksten en geen lange streepjes in lopende tekst", () => {

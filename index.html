@@ -31,6 +31,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./advertenties-lib.js"></script>
 <script src="./klusarchief-lib.js"></script>
 <script src="./kalender-lib.js"></script>
+<script src="./infofr-lib.js"></script>
 <script src="./hygiene-lib.js"></script>
 <script src="./gemeente-lib.js"></script>
 <script src="./feedback-lib.js"></script>
@@ -3024,6 +3025,136 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
+<!-- ============ INFOFRANKRIJK (dossiers en gidsen, artikelen in de app) ============ -->
+<sc-if value="{{ isInfofr }}" hint-placeholder-val="{{ false }}">
+<div data-infofr="1">
+  <sc-if value="{{ ifStart }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <div style="padding:18px 16px 0">
+      <div style="font:600 12px Mulish;letter-spacing:.1em;color:#800000">DOSSIERS EN GIDSEN, SINDS 2001</div>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:30px;line-height:1.15;margin:6px 0 8px;color:#15181A">Infofrankrijk</h1>
+      <p style="margin:0;font:400 15px/1.8em Mulish;color:#3D4346;text-wrap:pretty">Achtergrond en uitleg over leven, wonen en werken in Frankrijk. Artikelen openen hier in de app.</p>
+      <div data-if-zoek="1" style="margin:16px 0 0;display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid rgba(128,0,0,.22);border-radius:14px;box-shadow:0 1px 2px rgba(21,24,26,.06);min-height:54px;padding:0 6px 0 16px">
+        <span style="{{ zoekIcoStyle }}"></span>
+        <input value="{{ q }}" onInput="{{ onQ }}" placeholder="Zoek in de artikelen" aria-label="Zoek in de artikelen" autocomplete="off" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 16px Mulish;color:#15181A;min-height:52px">
+        <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ clearQ }}" aria-label="Wissen" style="width:44px;height:44px;flex:none;border:0;background:none;display:grid;place-items:center;cursor:pointer;padding:0"><span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:rgba(21,24,26,.06);color:#3D4346;font:700 14px Mulish;display:grid;place-items:center">&#215;</span></button>
+        </sc-if>
+      </div>
+      <sc-if value="{{ ifZKort }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:8px 2px 0;font:400 13px Mulish;color:#5F6669">Typ minstens 3 letters om te zoeken.</p>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ ifZToon }}" hint-placeholder-val="{{ false }}">
+    <div data-if-treffers="1" style="padding:20px 16px 0">
+      <div style="font:600 12px Mulish;letter-spacing:.1em;color:#800000">TREFFERS</div>
+      <sc-if value="{{ ifZLaadt }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:10px;font:600 14px/1.6 Mulish;color:#5F6669">Artikelen worden gezocht...</div>
+      </sc-if>
+      <sc-if value="{{ ifZFout }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:10px;font:600 14px/1.6 Mulish;color:#3D4346">Zoeken lukt nu niet. Probeer het zo nog eens.</div>
+      </sc-if>
+      <sc-if value="{{ ifZLeeg }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:10px;font:600 14px/1.6 Mulish;color:#3D4346">Niets gevonden. Probeer een ander woord.</div>
+      </sc-if>
+      <sc-if value="{{ ifZHeeft }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:10px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:2px 16px">
+        <sc-for list="{{ ifZItems }}" as="r" hint-placeholder-count="3">
+        <button data-if-rij="1" onClick="{{ r.open }}" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:12px 0;border:0;border-top:1px solid rgba(21,24,26,.08);background:none;text-align:left;cursor:pointer"><span style="display:block;font:600 15px/1.35 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</span><span style="display:block;font:400 13px Mulish;color:#5F6669;margin-top:3px">{{ r.buitenTekst }}</span></button>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ifNormaal }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="padding:20px 16px 0">
+        <div style="font:600 12px Mulish;letter-spacing:.1em;color:#800000;margin:0 0 10px">ONDERWERPEN</div>
+        <div data-if-onderwerpen="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px">
+          <sc-for list="{{ ifOnderwerpen }}" as="o" hint-placeholder-count="8">
+          <button data-if-onderwerp="1" onClick="{{ o.open }}" style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:14px;min-height:44px;font:600 14.5px/1.3 Poppins,system-ui,sans-serif;color:#15181A;text-align:left;cursor:pointer;overflow-wrap:anywhere">{{ o.titel }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="padding:24px 16px 0">
+        <div style="font:600 12px Mulish;letter-spacing:.1em;color:#800000;margin:0 0 4px">NIEUWSTE ARTIKELEN</div>
+        <sc-if value="{{ ifNLaadt }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:10px;font:600 14px/1.6 Mulish;color:#5F6669">Artikelen worden opgehaald...</div>
+        </sc-if>
+        <sc-if value="{{ ifNFout }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:10px">
+        <div data-if-fout="1" style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+          <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">{{ ifFoutTekst }}</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+            <button onClick="{{ ifNOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+            <a href="{{ ifSiteUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-decoration:none">Naar infofrankrijk.com &#8599;</a>
+          </div>
+        </div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ ifNLijst }}" hint-placeholder-val="{{ true }}">
+        <div data-if-nieuwste="1" style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:2px 16px">
+        <sc-for list="{{ ifNieuw }}" as="r" hint-placeholder-count="5">
+        <button data-if-rij="1" onClick="{{ r.open }}" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:12px 0;border:0;border-top:1px solid rgba(21,24,26,.08);background:none;text-align:left;cursor:pointer"><span style="display:block;font:600 15px/1.35 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</span><sc-if value="{{ r.heeftDatum }}" hint-placeholder-val="{{ true }}"><span style="display:block;font:400 13px Mulish;color:#5F6669;margin-top:3px">{{ r.datum }}</span></sc-if></button>
+        </sc-for>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ ifOndScherm }}" hint-placeholder-val="{{ false }}">
+  <div data-if-ond="1">
+    <div style="padding:6px 16px 0">
+      <button onClick="{{ ifOndSluit }}" style="min-height:44px;padding:0 14px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer;margin-top:12px">&#8592; Alle onderwerpen</button>
+      <div style="font:600 12px Mulish;letter-spacing:.1em;color:#800000;margin-top:16px">ONDERWERP</div>
+      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:30px;line-height:1.15;margin:6px 0 0;color:#15181A;overflow-wrap:anywhere">{{ ifOndTitel }}</h1>
+    </div>
+    <div style="padding:14px 16px 0">
+      <sc-if value="{{ ifOLaadt }}" hint-placeholder-val="{{ false }}">
+      <div style="font:600 14px/1.6 Mulish;color:#5F6669">Artikelen worden opgehaald...</div>
+      </sc-if>
+      <sc-if value="{{ ifOFout }}" hint-placeholder-val="{{ false }}">
+      <div data-if-fout="1" style="padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+          <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">{{ ifFoutTekst }}</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+            <button onClick="{{ ifOOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+            <a href="{{ ifSiteUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-decoration:none">Naar infofrankrijk.com &#8599;</a>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ ifOLeeg }}" hint-placeholder-val="{{ false }}">
+      <div style="font:600 14.5px/1.6 Mulish;color:#3D4346">In dit onderwerp staan nu geen artikelen.</div>
+      </sc-if>
+      <sc-if value="{{ ifOLijst }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div data-if-ondlijst="1" style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:2px 16px">
+        <sc-for list="{{ ifORijen }}" as="r" hint-placeholder-count="5">
+        <button data-if-rij="1" onClick="{{ r.open }}" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:12px 0;border:0;border-top:1px solid rgba(21,24,26,.08);background:none;text-align:left;cursor:pointer"><span style="display:block;font:600 15px/1.35 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ r.titel }}</span><sc-if value="{{ r.heeftDatum }}" hint-placeholder-val="{{ true }}"><span style="display:block;font:400 13px Mulish;color:#5F6669;margin-top:3px">{{ r.datum }}</span></sc-if></button>
+        </sc-for>
+        </div>
+        <sc-if value="{{ ifOMeerFout }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:12px 0 0;font:600 13.5px/1.6 Mulish;color:#3D4346">Meer laden lukte niet. Probeer het opnieuw.</p>
+        </sc-if>
+        <sc-if value="{{ ifOMeer }}" hint-placeholder-val="{{ false }}">
+        <button data-if-meer="1" onClick="{{ ifMeer }}" style="width:100%;min-height:48px;margin-top:12px;border:1.5px solid rgba(128,0,0,.35);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">{{ ifMeerTekst }}</button>
+        </sc-if>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="padding:8px 16px 28px">
+    <a data-if-site="1" href="{{ ifSiteUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;margin-top:8px;font:700 14px Mulish;color:#800000;text-decoration:none">Naar infofrankrijk.com &#8599;</a>
+  </div>
+</div>
+</sc-if>
+
 <!-- ============ TE KOOP IN FRANKRIJK (advertenties, alleen lezen) ============ -->
 <sc-if value="{{ isTekoop }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -3457,7 +3588,7 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|klusarchief|kalender|hygiene|gemeente|linklijst)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 // Schermen zonder eigen h1 in de inhoud: de schermtitel in de kopbalk is daar de h1 (elk scherm heeft er precies één).
@@ -3848,6 +3979,7 @@ class Component extends DCLogic {
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
     art:null, artStack:[], forumBlad:null, pcGewist:null, zaq:{q:"", status:"leeg", items:[]}, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false, installBlad:null, installAf:false, installStatus:"", balkWeg:false, landingOpen:!!window.__ifmLandingOpen, installTik:0,
+    ifNieuw:[], ifNStatus:"", ifOnd:null, ifL:{status:"", items:[], pagina:0, paginas:0, meer:""},
     gzStatus:"leeg", gzTitels:{}, gzOpen:[], gzOnd:null, gzArtTitels:{}, gzLijst:null, onStap:null, gzHfd:null, gzHfdFout:false,
     themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null, onStatus:"leeg", onStappen:null, onDicht:[] };
 
@@ -4734,11 +4866,11 @@ class Component extends DCLogic {
   }
   // KOPPELVLAK AI-TOOLS: state.screen "aitools"; de AI-tools-bouwer vervangt het stub-blok in de template.
   // "Onze vier" op de hub. Bestemmingen: forum (scherm gem), Café Claude en Nedergids (hun module),
-  // Infofrankrijk: het Nieuws-scherm gefilterd op de tegel infofrankrijk (artikelen openen in de app).
+  // Infofrankrijk: het eigen scherm Infofrankrijk (onderwerpen en nieuwste artikelen, artikelen openen in de app).
   hubVierLijst(){
     const vier = [
       {naam:"Nederlanders.fr", regel:"Het forum, sinds 2002", icoon:"ervaring", open:() => this.go("gem")},
-      {naam:"Infofrankrijk", regel:"Dossiers en gidsen, sinds 2001", icoon:"infofr", open:() => { this.go("nieuws"); this.setState({nwFilter:"infofrankrijk"}); }},
+      {naam:"Infofrankrijk", regel:"Dossiers en gidsen, sinds 2001", icoon:"infofr", open:() => this.go("infofr")},
       {naam:"Café Claude", regel:"Kort antwoord, volledige onderbouwing", icoon:"cafe", open:() => this.route(this.vindModule("cafeclaude"))},
       {naam:"Nedergids", regel:"Particulieren en dienstverleners", icoon:"adressen", open:() => this.route(this.vindModule("nedergids"))}
     ];
@@ -5237,6 +5369,7 @@ class Component extends DCLogic {
     if (st.screen === "klusarchief" && st.kaMeld) { if (st.kaMeld !== "bezig") this.setState({kaMeld:""}); return true; }
     if (st.screen === "klusarchief" && st.kaDraad) { this.kaDraadSluit(); return true; }
     if (st.screen === "kalender" && st.kalItem) { this.kalItemSluit(); return true; }
+    if (st.screen === "infofr" && st.ifOnd) { this.setState({ifOnd:null}); return true; }
     if (st.screen === "artikel") { this.artTerug(); return true; }
     if (st.screen === "nieuws") { this.nwTerugKnop(); return true; }
     if (st.screen === "gezondheid" && st.gzHfd) { this.gzTerug(); return true; }
@@ -5272,7 +5405,7 @@ class Component extends DCLogic {
   histToestand(){
     const st = this.state;
     const blad = st.menu ? "menu" : st.installBlad ? "install" : st.forumBlad ? "forum" : st.kalAbo ? "kalabo" : st.oproep ? "oproep" : st.fbOpen ? "feedback" : st.vraagPostcode ? "pc" : (st.screen === "klusarchief" && st.kaMeld) ? "melden" : "";
-    return {screen:st.screen, kalItem: st.screen === "kalender" && st.kalItem ? st.kalItem : "", kaDraad: st.screen === "klusarchief" && st.kaDraad ? String(st.kaDraad.id) : "", artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
+    return {screen:st.screen, kalItem: st.screen === "kalender" && st.kalItem ? st.kalItem : "", kaDraad: st.screen === "klusarchief" && st.kaDraad ? String(st.kaDraad.id) : "", ifOnd: st.screen === "infofr" && st.ifOnd ? String(st.ifOnd) : "", artSlug: st.screen === "artikel" && st.art ? st.art.slug : "", gzHfd:st.gzHfd, gzOnd:st.gzOnd, gzLijst:st.gzLijst, onStap:st.onStap,
       nwTegel:st.nwTegel, nwTerug:st.nwTerug, blad,
       themaId: st.screen === "thema" ? st.themaId : "", toolId: st.tool && st.tool.id ? st.tool.id : ""};
   }
@@ -5337,7 +5470,7 @@ class Component extends DCLogic {
     if (r.soort === "kalitem") { this.kalOpenId(r.id); return; }
     this.stopPiramide();
     this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, kalAbo:false, oproep:false, vraagPostcode:false, fbOpen:false,
-      gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false});
+      gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false, ifOnd:null});
   }
   histPop(e){
     const Nv = window.IfNav, stt = e && e.state;
@@ -6458,6 +6591,103 @@ class Component extends DCLogic {
     };
   }
 
+  // ---- Scherm Infofrankrijk (10 november 2026): onderwerpen en nieuwste artikelen uit de WordPress REST API --------
+  // Anoniem (credentials omit, geen eigen headers), time-out 10 s, laadtokens, antwoorden alleen in het geheugen.
+  // Onderwerpen staan in modules.json (infofrankrijk.onderwerpen); zoeken hergebruikt zoekArtikelen (state.q).
+  ifOnderwerpenLijst(){
+    const I = window.IfInfo;
+    return I ? I.leesOnderwerpen(this.state.cat && this.state.cat.infofrankrijk) : [];
+  }
+  ifHaal(url){
+    return new Promise((ok, mis) => {
+      let ctl = null, timer = null, klaar = false;
+      const eind = (f, v) => { if (klaar) return; klaar = true; clearTimeout(timer); f(v); };
+      try { ctl = new AbortController(); } catch(e){ ctl = null; }
+      timer = setTimeout(() => { try { if (ctl) ctl.abort(); } catch(e){} eind(mis, new Error("tijd")); }, 10000);
+      let f;
+      try { f = fetch(url, ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"}); } catch(e){ eind(mis, e); return; }
+      f.then(r => r.ok ? r.json().then(d => ({d, tp: r.headers.get("X-WP-TotalPages")})) : Promise.reject(new Error("status")))
+        .then(v => eind(ok, v), e => eind(mis, e));
+    });
+  }
+  ifOpen(){
+    this.setState({screen:"infofr", menu:false, q:"", copied:null, tool:null, muur:false, from:"hub", ifOnd:null});
+    this.ifLaadNieuw();
+  }
+  ifLaadNieuw(){
+    const I = window.IfInfo, Nv = window.IfNav;
+    if (!I || !Nv) { this.setState({ifNStatus:"fout"}); return; }
+    this._ifNT = this._ifNT || Nv.maakTeller();
+    const tok = this._ifNT.volgende();
+    if (!(this.state.ifNieuw || []).length) this.setState({ifNStatus:"laden"});
+    this.ifHaal(I.nieuwsteUrl()).then(v => {
+      const items = I.leesPosts(v.d);
+      if (!items.length) throw new Error("leeg");
+      this.setState(p => this._ifNT.actueel(tok) ? {ifNieuw:items, ifNStatus:"klaar"} : null);
+    }).catch(() => this.setState(p => this._ifNT.actueel(tok) ? {ifNStatus: (p.ifNieuw || []).length ? "klaar" : "fout"} : null));
+  }
+  ifOndOpen(i){
+    const Nv = window.IfNav, ond = this.ifOnderwerpenLijst()[i];
+    if (!ond || !Nv) return;
+    this._ifCache = this._ifCache || {};
+    this._ifOT = this._ifOT || Nv.maakTeller();
+    const tok = this._ifOT.volgende(), c = this._ifCache[i];
+    this.setState({ifOnd:String(i), ifL: c ? {status:"klaar", items:c.items, pagina:c.pagina, paginas:c.paginas, meer:""} : {status:"laden", items:[], pagina:0, paginas:0, meer:""}});
+    if (!c) this.ifOndLaad(i, 1, tok);
+  }
+  ifOndLaad(i, pagina, tok){
+    const I = window.IfInfo, ond = this.ifOnderwerpenLijst()[i], url = I && ond ? I.rubriekUrl(ond.categorieen, pagina) : null;
+    const sleutel = String(i);
+    if (!url) { this.setState({ifL:{status:"fout", items:[], pagina:0, paginas:0, meer:""}}); return; }
+    this.ifHaal(url).then(v => {
+      const ruw = Array.isArray(v.d) ? v.d.length : 0, items = I.leesPosts(v.d), paginas = I.aantalPaginas(v.tp, pagina, ruw);
+      this.setState(p => {
+        if (!this._ifOT.actueel(tok) || p.ifOnd !== sleutel) return null;
+        const vorige = pagina > 1 ? p.ifL.items : [];
+        const alle = vorige.concat(items.filter(x => !vorige.some(y => y.url === x.url)));
+        this._ifCache[i] = {items:alle, pagina, paginas};
+        return {ifL:{status:"klaar", items:alle, pagina, paginas, meer:""}};
+      });
+    }).catch(() => this.setState(p => (this._ifOT.actueel(tok) && p.ifOnd === sleutel)
+      ? {ifL: pagina > 1 ? Object.assign({}, p.ifL, {meer:"fout"}) : {status:"fout", items:[], pagina:0, paginas:0, meer:""}} : null));
+  }
+  ifMeer(){
+    const st = this.state, i = parseInt(st.ifOnd, 10), l = st.ifL;
+    if (isNaN(i) || !this._ifOT || l.meer === "laden") return;
+    const tok = this._ifOT.volgende();
+    this.setState({ifL:Object.assign({}, l, {meer:"laden"})});
+    this.ifOndLaad(i, l.pagina + 1, tok);
+  }
+  ifVals(){
+    const st = this.state, I = window.IfInfo, is = st.screen === "infofr", za = this.zaVals();
+    const lijst = this.ifOnderwerpenLijst(), l = st.ifL || {}, qn = String(st.q || "").trim();
+    const ondIdx = st.ifOnd == null ? -1 : parseInt(st.ifOnd, 10), ond = ondIdx >= 0 ? lijst[ondIdx] : null;
+    const zoekAan = is && !ond && qn.length >= 3;
+    const rij = x => ({titel:x.titel, datum:x.datum, heeftDatum:!!x.datum, open:() => this.openInfoArtikel(x.url)});
+    const nieuw = (st.ifNieuw || []).map(rij);
+    const nSt = st.ifNStatus;
+    const lSt = ond ? l.status : "";
+    const alsOnd = !!ond && is;
+    return {
+      isInfofr: is, ifStart: is && !ond, ifOndScherm: alsOnd,
+      ifSiteUrl: I ? I.SITE_URL : "https://infofrankrijk.com/", ifFoutTekst: I ? I.FOUT : "",
+      ifZToon: zoekAan, ifZKort: is && !ond && qn.length > 0 && qn.length < 3, ifNormaal: is && !ond && !zoekAan,
+      ifZLaadt: zoekAan && za.zaLaadt, ifZFout: zoekAan && za.zaFout, ifZLeeg: zoekAan && za.zaLeeg, ifZHeeft: zoekAan && za.zaHeeft,
+      ifZItems: za.zaItems.map(it => ({titel:it.titel, buitenTekst:it.buitenTekst, open:it.open})),
+      ifOnderwerpen: lijst.map((o, i) => ({titel:o.titel, open:() => this.ifOndOpen(i)})),
+      ifNLaadt: nSt === "" || nSt === "laden", ifNFout: nSt === "fout" && !nieuw.length, ifNLijst: nieuw.length > 0, ifNieuw: nieuw,
+      ifNOpnieuw: () => this.ifLaadNieuw(),
+      ifOndTitel: ond ? ond.titel : "", ifOndSluit: () => this.terugStap(),
+      ifOLaadt: alsOnd && (lSt === "laden" || lSt === ""), ifOFout: alsOnd && lSt === "fout",
+      ifOLeeg: alsOnd && lSt === "klaar" && !(l.items || []).length, ifOLijst: alsOnd && lSt === "klaar" && (l.items || []).length > 0,
+      ifORijen: (l.items || []).map(rij),
+      ifOMeer: alsOnd && lSt === "klaar" && l.pagina < l.paginas, ifOMeerFout: alsOnd && l.meer === "fout",
+      ifMeerTekst: l.meer === "laden" ? "Artikelen worden opgehaald..." : l.meer === "fout" ? "Opnieuw proberen" : "Toon meer",
+      ifMeer: () => this.ifMeer(),
+      ifOOpnieuw: () => { const i = parseInt(st.ifOnd, 10); if (isNaN(i)) return; const tok = (this._ifOT = this._ifOT || window.IfNav.maakTeller()).volgende(); this.setState({ifL:{status:"laden", items:[], pagina:0, paginas:0, meer:""}}); this.ifOndLaad(i, 1, tok); }
+    };
+  }
+
   // Tabnavigatie verlaat de module: tool moet mee weg, anders blijft de
   // prijsbadge in de kopbalk op de vorige module hangen.
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
@@ -6465,6 +6695,7 @@ class Component extends DCLogic {
     if (s === "sponsors") return this.sponsorsOpen();
     if (s === "klusarchief") return this.kaOpen(this.vindModule("klusforum"), "hub");
     if (s === "kalender") return this.kalOpen(this.vindModule("kalender"), "hub");
+    if (s === "infofr") return this.ifOpen();
     if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
@@ -7084,7 +7315,7 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Je regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Je regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
     const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
@@ -7148,6 +7379,7 @@ class Component extends DCLogic {
       ...this.llVals(),
       ...this.kaVals(),
       ...this.kalVals(),
+      ...this.ifVals(),
       ...this.vdVals(),
       ...this.versieVals(),
       ...this.onVals(),

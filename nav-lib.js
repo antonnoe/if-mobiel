@@ -1,9 +1,9 @@
 // Navigatie en laadtokens: pure logica, zonder DOM. Browser: window.IfNav; tests: require.
 // Hash-routes (geen server nodig): #/artikel/<slug> opent een artikel, #/nieuws, #/forum, #/profiel en #/zoek
-// openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief; #/kalender en #/kalender/<id> openen Kalender Frankrijk, het laatste met dat item open. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
+// openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief; #/kalender en #/kalender/<id> openen Kalender Frankrijk, het laatste met dat item open; #/infofrankrijk opent het scherm Infofrankrijk. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
 (function (root) {
-  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender" };
-  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender" };
+  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofrankrijk: "infofr" };
+  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofr: "infofrankrijk" };
   var KALID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,119}$/;  // id van een item van Kalender Frankrijk
   var SLUG = /^[a-z0-9%][a-z0-9%_-]*$/;  // % voor procent-gecodeerde WordPress-slugs (%e2%87%84)
 
@@ -47,7 +47,7 @@
   function navKey(t) {
     t = t || {};
     return [t.screen, t.artSlug || "", t.gzHfd || "", t.gzOnd || "", t.gzLijst == null ? "" : t.gzLijst, t.onStap == null ? "" : t.onStap, t.nwTegel || "",
-      t.sc || "", t.themaId || "", t.toolId || "", t.blad || "", t.kaDraad || "", t.kalItem || ""].join("|");
+      t.sc || "", t.themaId || "", t.toolId || "", t.blad || "", t.kaDraad || "", t.kalItem || "", t.ifOnd || ""].join("|");
   }
 
   // Laadtoken: elke nieuwe aanvraag krijgt een nummer; alleen het laatste nummer mag het scherm nog bijwerken.

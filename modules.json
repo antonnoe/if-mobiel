@@ -2293,6 +2293,19 @@
       "omschrijving": "Frans voor het dagelijks leven: hulp bij gesprekken, Franse begrippen met uitleg en brieven."
     }
   ],
+  "infofrankrijk": {
+      "_uitleg": "Scherm Infofrankrijk (hub, Onze vier). Onderwerpen in volgorde; categorieen zijn WordPress-categorie-id's van infofrankrijk.com (top-level, gecontroleerd 10-11-2026). Een onderwerp erbij is een regel hier.",
+      "onderwerpen": [
+        {"titel": "Geldzaken & belasting", "categorieen": [361]},
+        {"titel": "Overheden", "categorieen": [26]},
+        {"titel": "Zorg en welzijn", "categorieen": [49]},
+        {"titel": "Wonen", "categorieen": [47]},
+        {"titel": "Vastgoed", "categorieen": [355]},
+        {"titel": "Verbouwen", "categorieen": [39]},
+        {"titel": "Ondernemen", "categorieen": [22]},
+        {"titel": "Emigreren", "categorieen": [563, 343]}
+      ]
+  },
   "gezondheid": {
       "_uitleg_niveau1": "Eerste niveau van het scherm Gezondheid: een intro, een spoedblok, zes onderwerpen en de hulpmiddelen van thema gezondheid. Een onderwerp heeft id, titel, regel (redactietekst onder de tegel), icoon (sleutel in THEMA_ICONS), en een bestemming: artikelen (lijst {url, titel}; de titel is een terugval, de app haalt de actuele titel live op via REST) en/of modules (lijst module-id's, alleen zichtbaar als de module nu zichtbaar is), of scherm (nu alleen 'ouderen': het bestaande dossierscherm hieronder, ongewijzigd). Geen aantallen in de data of de tegels die de app niet uit de data kan tellen.",
       "intro": "Verzekerd zijn, naar de dokter, het ziekenhuis, de apotheek, en zorg als je ouder wordt.",
