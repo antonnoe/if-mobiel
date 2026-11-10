@@ -6820,8 +6820,10 @@ class Component extends DCLogic {
       (aan ? "border:1px solid rgba(128,0,0,.35);background:rgba(128,0,0,.08);color:#800000" : "border:1px solid rgba(21,24,26,.14);background:#fff;color:#15181A");
     const chipAan = String(st.ifChip || "");
     const chips = [{naam:"Alles", id:""}].concat(ch.chips).map(c => ({naam:c.naam, actief:String(c.id) === chipAan ? "true" : "false", stijl:chipStijl(String(c.id) === chipAan), open:() => this.ifChipKies(String(c.id))}));
-    const tTh = ond && ond.tools ? this.ifThema(ond.tools) : null;
-    const toolsKaart = !!(alsOnd && tTh && tTh.t);
+    // Verwijskaart: `tools` (thema-id) opent het themascherm; `toolsModule` (module-id) opent die ene tool (10-11-2026, Emigreren).
+    const tMod = ond && ond.toolsModule ? this.mods().find(m => m.id === ond.toolsModule) : null;
+    const tTh = ond && (ond.tools || tMod) ? this.ifThema(ond.tools || ond.thema) : null;
+    const toolsKaart = !!(alsOnd && tTh && (tMod || tTh.t));
     const siteLink = ch.link || (I ? I.SITE_URL : "https://infofrankrijk.com/");
     return {
       isInfofr: is, ifStart: is && !ond, ifOndScherm: alsOnd,
@@ -6833,11 +6835,11 @@ class Component extends DCLogic {
       ifNLaadt: nSt === "" || nSt === "laden", ifNFout: nSt === "fout" && !nieuw.length, ifNLijst: nieuw.length > 0, ifNieuw: nieuw,
       ifNOpnieuw: () => this.ifLaadNieuw(),
       ifOndTitel: ond ? ond.titel : "", ifChips: chips,
-      ifToolsKaart: toolsKaart, ifToolsOpen: () => { if (ond && ond.tools) this.ifToolsOpen(ond.tools); },
+      ifToolsKaart: toolsKaart, ifToolsOpen: () => { if (tMod) { this.route(tMod); this.setState({from:"infofr"}); } else if (ond && ond.tools) this.ifToolsOpen(ond.tools); },
       ifToolsStijl: tTh ? "display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;min-height:64px;margin:4px 0 0;padding:12px 14px;border-radius:16px;text-align:left;cursor:pointer;background:" + tTh.kleur + "12;border:1px solid " + tTh.kleur + "40" : "",
       ifToolsCirkel: tTh ? cirkelStijl(tTh.tint, 42) : "", ifToolsIcoon: tTh ? themaIcoStijl("rekenen", tTh.kleur, 22) : "",
       ifToolsChevron: tTh ? themaIcoStijl("chevron", tTh.kleur, 18) : "",
-      ifToolsRegel: tTh ? "De tools bij " + tTh.naam + " in de app" : "",
+      ifToolsRegel: tMod ? tMod.naam + " in de app" : tTh ? "De tools bij " + tTh.naam + " in de app" : "",
       ifOLaadt: alsOnd && (lSt === "laden" || lSt === ""), ifOFout: alsOnd && lSt === "fout",
       ifOLeeg: alsOnd && lSt === "klaar" && !rijen.length, ifOLijst: alsOnd && lSt === "klaar" && rijen.length > 0,
       ifORijen: rijen,

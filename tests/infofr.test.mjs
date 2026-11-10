@@ -193,3 +193,9 @@ test("reeks: hoofdstukken met 'Hoofdstuk N van <reeks>' in de samenvatting horen
   assert.equal(uit.length, 2);
   assert.equal(uit[0].n, 10);
 });
+
+test("verwijskaart bij alle acht onderwerpen (tools of toolsModule)", () => {
+  const cat = JSON.parse(readFileSync(new URL("../modules.json", import.meta.url), "utf8"));
+  const ids = cat.modules.map(m => m.id), themas = cat.themas.map(t => t.id);
+  for (const o of cat.infofrankrijk.onderwerpen) assert.ok((o.tools && themas.includes(o.tools)) || (o.toolsModule && ids.includes(o.toolsModule)), o.titel);
+});

@@ -2439,7 +2439,8 @@
         "thema": "wonen",
         "categorieen": [
           355
-        ]
+        ],
+        "tools": "wonen"
       },
       {
         "titel": "Verbouwen",
@@ -2469,7 +2470,8 @@
         "categorieen": [
           563,
           343
-        ]
+        ],
+        "toolsModule": "emigreren"
       }
     ]
   },
