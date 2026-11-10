@@ -39,7 +39,7 @@
 
   // Een scherm met een eigen hash op het hoogste niveau (tabs); daaronder komt een geschiedenisregel.
   function isTop(t) {
-    return !!t && !t.blad && (t.screen === "hub" || t.screen === "zoek" || t.screen === "gem" || t.screen === "acc" || t.screen === "mod" ||
+    return !!t && !t.blad && !t.skOnd && (t.screen === "hub" || t.screen === "zoek" || t.screen === "gem" || t.screen === "acc" || t.screen === "mod" ||
       (t.screen === "nieuws" && !t.nwTegel && !t.nwTerug));
   }
 
@@ -47,7 +47,7 @@
   function navKey(t) {
     t = t || {};
     return [t.screen, t.artSlug || "", t.gzHfd || "", t.gzOnd || "", t.gzLijst == null ? "" : t.gzLijst, t.onStap == null ? "" : t.onStap, t.nwTegel || "",
-      t.sc || "", t.themaId || "", t.toolId || "", t.blad || "", t.kaDraad || "", t.kalItem || "", t.ifOnd || ""].join("|");
+      t.sc || "", t.themaId || "", t.toolId || "", t.blad || "", t.kaDraad || "", t.kalItem || "", t.ifOnd || "", t.skOnd || "", t.skVraag || ""].join("|");
   }
 
   // Laadtoken: elke nieuwe aanvraag krijgt een nummer; alleen het laatste nummer mag het scherm nog bijwerken.

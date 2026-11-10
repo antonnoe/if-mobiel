@@ -2733,5 +2733,1568 @@
       "regel": "Waar je terechtkunt als je hulp of advies nodig hebt",
       "url": "https://infofrankrijk.com/snel-hulp-zorg-vinden-nederlanders/"
     }
-  ]
+  ],
+  "sterrenkaart": {
+    "_uitleg": "Zoekscherm, sterrenkaart (10-11-2026). onderwerpen: acht zonnen met x en y in procenten van het sterrenveld, cafe (domein uit groepen[].cafe.domein, leeg = algemene Café-url) en hooguit zes vragen. Een vraag heeft id, tekst, intro en antwoorden: {groep: begin|stap|reken|adres|ervaring, bron: if|nl|ng|cc, titel, regel} plus precies een doel: module (id, titel en regel mogen ontbreken), artikel (https infofrankrijk.com), scherm (gemeente|hygiene|kalender|infofr|nedergids|gezondheid) of url (https, nieuw tabblad). Een module die uit staat valt weg. Een vraag erbij is een blok hier.",
+    "onderwerpen": [
+      {
+        "id": "wonen",
+        "naam": "Wonen",
+        "x": 26,
+        "y": 20,
+        "cafe": "wonen",
+        "vragen": [
+          {
+            "id": "huis-kopen",
+            "tekst": "Een huis kopen",
+            "intro": "Kopen in Frankrijk loopt via een notaris en een vaste reeks stappen. Hier vind je de gids, de kosten en de woorden die je tegenkomt.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Gids voor de aankoop van onroerend goed in Frankrijk",
+                "regel": "De aankoop van begin tot eind",
+                "artikel": "https://infofrankrijk.com/gids-huis-kopen-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "module": "vastgoed",
+                "regel": "Zeven fases met do's en don'ts bij het kopen van een huis"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Compromis de vente",
+                "regel": "Over het voorcontract bij de koop",
+                "artikel": "https://infofrankrijk.com/compromis-de-vente/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Kopen en viager",
+                "regel": "Over de koopvorm viager",
+                "artikel": "https://infofrankrijk.com/kopen-en-viager/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Begrippenlijst Makelaardij en Notarissen in Frankrijk",
+                "regel": "De woorden van makelaar en notaris",
+                "artikel": "https://infofrankrijk.com/begrippenlijst-makelaardij-en-notarissen-frankrijk/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "transactiekosten"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "woonplan"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "huizenchecker"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "scherm": "gemeente",
+                "titel": "Mijn gemeente",
+                "regel": "Risico's, tarieven en voorzieningen voor jouw gemeente of adres"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "module": "tekoop"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Wonen algemeen op Nederlanders.fr",
+                "regel": "Berichten van leden over wonen",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Woningen+Algemeen"
+              }
+            ]
+          },
+          {
+            "id": "risico",
+            "tekst": "Risico's bij een adres",
+            "intro": "Overstroming, kleigrond, bosbrand of aardbevingsgebied verschillen per plek. Kijk wat de officiële bronnen voor je gemeente of je adres zeggen.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "ng",
+                "scherm": "gemeente",
+                "titel": "Mijn gemeente",
+                "regel": "Risico's voor jouw gemeente, met meer detail als je een adres invult"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Vastgoed in Frankrijk analyseren per adres (prijzen, risico’s, DPE & PLU)",
+                "regel": "Wat je over een adres kunt nagaan",
+                "artikel": "https://infofrankrijk.com/vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Locatie- en omgevingsanalyse",
+                "regel": "Kijken naar de omgeving van een woning",
+                "artikel": "https://infofrankrijk.com/locatie-en-omgevingsanalyse/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Gedupeerd door natuurgeweld in Frankrijk?",
+                "regel": "Over verzekering na natuurschade",
+                "artikel": "https://infofrankrijk.com/gedupeerd-door-natuurgeweld-in-frankrijk-uw-verzekering-goed-regelen/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De verplichte technische onderzoeken bij de verkoop van een huis",
+                "regel": "Welke onderzoeken bij een woning horen",
+                "artikel": "https://infofrankrijk.com/de-verplichte-technische-onderzoeken-bij-de-verkoop-van-een-huis/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "vastgoedanalyse"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "bouwgrond"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "module": "veiligheid"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Woningbeheer en huishouding op Nederlanders.fr",
+                "regel": "Berichten van leden over het huis",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Woningbeheer+en+Huishouding"
+              }
+            ]
+          },
+          {
+            "id": "belasting-huis",
+            "tekst": "Belasting op je huis",
+            "intro": "Wat je jaarlijks aan belasting op een woning betaalt, hangt af van je gemeente en van de woning. Hier staan de bronnen en de tarieven per gemeente.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Taxe d’habitation voor tweede woningen in Frankrijk",
+                "regel": "Over de woonbelasting bij een tweede woning",
+                "artikel": "https://infofrankrijk.com/taxe-dhabitation-tweede-woning/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Fiscale kalender Frankrijk",
+                "regel": "Welke belastingdata wanneer vallen",
+                "artikel": "https://infofrankrijk.com/fiscale-kalender-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Gids voor de aankoop van onroerend goed in Frankrijk",
+                "regel": "Ook de belastingen rond een woning komen aan bod",
+                "artikel": "https://infofrankrijk.com/gids-huis-kopen-frankrijk/"
+              },
+              {
+                "groep": "reken",
+                "bron": "ng",
+                "scherm": "gemeente",
+                "titel": "Mijn gemeente",
+                "regel": "Tarief van de taxe foncière in jouw gemeente, met een indicatie als je de cadastrale huurwaarde invult"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "scherm": "kalender",
+                "titel": "Kalender Frankrijk",
+                "regel": "Data voor belasting en betaling op een rij"
+              }
+            ]
+          },
+          {
+            "id": "energie",
+            "tekst": "Energie en verwarming",
+            "intro": "Het energielabel, de verwarming en de subsidies hangen met elkaar samen. Begin bij de rekentool en lees daarna de uitleg.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "energie"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "DPE in Frankrijk: energielabel, verplichtingen en de wijziging van 2027",
+                "regel": "Het energielabel uitgelegd",
+                "artikel": "https://infofrankrijk.com/dpe-2026-in-frankrijk-uitleg-verplichtingen-en-aandachtspunten/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Verwarmen in Frankrijk: systemen, kosten en keuze",
+                "regel": "Verwarmingssystemen naast elkaar",
+                "artikel": "https://infofrankrijk.com/de-keuze-van-het-verwarmingssysteem/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De isolatie van het Franse huis",
+                "regel": "Over isoleren van een Frans huis",
+                "artikel": "https://infofrankrijk.com/de-isolatie-van-het-franse-huis/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Handboek Zonnepanelen en Energieopwekking Frankrijk",
+                "regel": "Zelf energie opwekken",
+                "artikel": "https://infofrankrijk.com/handboek-zonnepanelen-en-energieopwekking-frankrijk/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "subsidieroute"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "energieportaal"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Woningbeheer en huishouding op Nederlanders.fr",
+                "regel": "Berichten van leden over het huis",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Woningbeheer+en+Huishouding"
+              }
+            ]
+          },
+          {
+            "id": "internet",
+            "tekst": "Internet op je adres",
+            "intro": "Welk internet je krijgt hangt af van je adres. Vul het adres in en lees hoe de aansluitingen in Frankrijk werken.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "internet"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Internet in Frankrijk: glasvezel, providers en tweede huis",
+                "regel": "Glasvezel, providers en een tweede huis",
+                "artikel": "https://infofrankrijk.com/internet-internetverbinding/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Hardware-adviezen voor een optimale internetverbinding",
+                "regel": "Apparatuur voor een betere verbinding",
+                "artikel": "https://infofrankrijk.com/hardware-adviezen-voor-een-optimale-internetverbinding/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Franse telefoon- en internettechniek: een inleiding",
+                "regel": "De techniek achter de aansluiting",
+                "artikel": "https://infofrankrijk.com/franse-telefoon-en-internettechniek-een-inleiding/"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "scherm": "gemeente",
+                "titel": "Mijn gemeente",
+                "regel": "Opent het hulpmiddel Internetverbinding met je adres, als je een adres koos"
+              }
+            ]
+          },
+          {
+            "id": "verkopen",
+            "tekst": "Je huis verkopen",
+            "intro": "Bij een verkoop horen onderzoeken, een notaris en vaak een belasting op de winst. Hier staat wat bestaat om dat te begrijpen en door te rekenen.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "De verplichte technische onderzoeken bij de verkoop van een huis",
+                "regel": "Welke onderzoeken je moet laten doen",
+                "artikel": "https://infofrankrijk.com/de-verplichte-technische-onderzoeken-bij-de-verkoop-van-een-huis/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De plus-value immobilière is de meest voorkomende heffing op vermogenswinst in Frankrijk",
+                "regel": "Over de belasting op de winst bij verkoop",
+                "artikel": "https://infofrankrijk.com/de-plus-value-immobiliere/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Begrippenlijst Makelaardij en Notarissen in Frankrijk",
+                "regel": "De woorden van makelaar en notaris",
+                "artikel": "https://infofrankrijk.com/begrippenlijst-makelaardij-en-notarissen-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Carte professionnelle, bankgarantie, bon de visite, mandat",
+                "regel": "Wat een makelaar je laat tekenen",
+                "artikel": "https://infofrankrijk.com/carte-professionnelle-bankgarantie-bon-de-visite-mandat/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "transactiekosten"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "plusvalue"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Vastgoed op Nederlanders.fr",
+                "regel": "Het advertentiepunt voor vastgoed van Nederlanders.fr",
+                "url": "https://www.nederlanders.fr/page/onroerend-goed"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "verbouwen",
+        "naam": "Verbouwen",
+        "x": 72,
+        "y": 16,
+        "cafe": "wonen",
+        "vragen": [
+          {
+            "id": "klus",
+            "tekst": "Een klus aanpakken",
+            "intro": "Van vergunning tot offerte: zo bereid je een klus voor. Het klusonderdeel van Infofrankrijk heeft de uitleg, het archief heeft vragen van anderen.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "klussen"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Klussen in Frankrijk van Meesterklusser Christian von Klösterlein",
+                "regel": "Praktijkkennis van een ervaren klusser",
+                "artikel": "https://infofrankrijk.com/klussen-in-frankrijk-van-meesterklusser-christian-von-klosterlein/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De bouwvergunning: permis de construire en déclaration préalable",
+                "regel": "Wanneer je welke vergunning nodig hebt",
+                "artikel": "https://infofrankrijk.com/de-bouwvergunning-le-permis-de-construire/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De bouwvergunning: offertes en hun evaluatie",
+                "regel": "Offertes vergelijken",
+                "artikel": "https://infofrankrijk.com/de-bouwvergunning-offertes-en-hun-evaluatie/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Werken met architecten en aannemers, met interactieve beslissenhulp",
+                "regel": "Samenwerken met vakmensen",
+                "artikel": "https://infofrankrijk.com/werken-met-architecten-en-aannemers-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "ng",
+                "titel": "Officiële registers Frankrijk",
+                "regel": "Controleer vakmensen en instanties in de officiële Franse registers",
+                "url": "https://infofrankrijk.com/officiele-registers-frankrijk-vakmensen-instanties-zoeken/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "lijstjes"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "if",
+                "module": "klusforum"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Bouw op Nederlanders.fr",
+                "regel": "Berichten van leden over bouwen en verbouwen",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Bouw"
+              }
+            ]
+          },
+          {
+            "id": "elektra",
+            "tekst": "Elektra in huis",
+            "intro": "De Franse elektrische installatie heeft eigen regels en normen. Het dossier loopt de onderdelen een voor een langs.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "dossierelektra"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "module": "elektrabuiten"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De elektriciteitstoevoer en de elektriciteitsmeter",
+                "regel": "Van de straat tot de meter",
+                "artikel": "https://infofrankrijk.com/elektriciteitsaanvoer-en-elektriciteitsmeter/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De groepenkast",
+                "regel": "De groepenkast uitgelegd",
+                "artikel": "https://infofrankrijk.com/de-groepenkast/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De aarding",
+                "regel": "Over aarding",
+                "artikel": "https://infofrankrijk.com/de-aarding/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De leidingaanleg",
+                "regel": "Leidingen in het huis",
+                "artikel": "https://infofrankrijk.com/de-leidingaanleg/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Aanbevolen websites en de veranderende NF C 15-100 normen",
+                "regel": "De norm voor huisinstallaties",
+                "artikel": "https://infofrankrijk.com/aanbevolen-websites-en-veranderende-nf-c-15-100-normen/"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "if",
+                "module": "klusforum"
+              }
+            ]
+          },
+          {
+            "id": "subsidie",
+            "tekst": "Subsidie voor renovatie",
+            "intro": "Regelingen veranderen vaak en hangen af van je situatie. Begin bij de routeplanner en lees daarna de spelregels.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "subsidieroute"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Subsidies voor energierenovatie in Frankrijk, overzicht en spelregels",
+                "regel": "De regelingen naast elkaar",
+                "artikel": "https://infofrankrijk.com/subsidies-voor-energierenovatie-in-frankrijk-overzicht-en-spelregels/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "MaPrimeRénov’ 2026: bezint eer ge begint",
+                "regel": "Wat je vooraf moet weten",
+                "artikel": "https://infofrankrijk.com/maprimerenov-2026-bezint-eer-ge-begint/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Éco-PTZ, renteloze lening voor energierenovatie in Frankrijk",
+                "regel": "Over de renteloze lening",
+                "artikel": "https://infofrankrijk.com/eco-ptz-renteloze-lening-voor-energierenovatie-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "TVA à 5,5% bij renovatie in Frankrijk, wanneer geldt het lage btw-tarief?",
+                "regel": "Over het lage btw-tarief bij renovatie",
+                "artikel": "https://infofrankrijk.com/tva-a-55-bij-renovatie-in-frankrijk-wanneer-geldt-het-lage-btw-tarief/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Subsidie-routeplanner energie-renovatie",
+                "regel": "De routeplanner in artikelvorm",
+                "artikel": "https://infofrankrijk.com/subsidie-routeplanner-energie-renovatie-2026/"
+              }
+            ]
+          },
+          {
+            "id": "bouwtermen",
+            "tekst": "Franse bouwtermen",
+            "intro": "Een offerte of een tekening is in het Frans. Met een woordenlijst en een eigen lijstje kom je de bouwmarkt en de aannemer door.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Woordenlijst Klussen & Bouwen, NL ⇄ FR",
+                "regel": "Bouwwoorden in twee richtingen",
+                "artikel": "https://infofrankrijk.com/woordenlijst-klussen-bouwen-nl-%e2%87%84-fr/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "lijstjes"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "woordenboek"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "taalhulp"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Woordenlijst op Nederlanders.fr",
+                "regel": "Woorden en uitleg van leden",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Lexicon"
+              }
+            ]
+          },
+          {
+            "id": "klussers",
+            "tekst": "Ervaringen van klussers",
+            "intro": "Vragen en antwoorden van mensen die in Frankrijk zelf verbouwd hebben, uit het oude forum en van Nederlanders.fr.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "klusforum"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Uit het klusforum van Infofrankrijk.com",
+                "regel": "Een keuze uit het oude klusforum",
+                "artikel": "https://infofrankrijk.com/uit-het-klusforum-van-infofrankrijk-com/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Klussen in Frankrijk van Meesterklusser Christian von Klösterlein",
+                "regel": "Praktijkkennis van een ervaren klusser",
+                "artikel": "https://infofrankrijk.com/klussen-in-frankrijk-van-meesterklusser-christian-von-klosterlein/"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "module": "forum"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Bouw op Nederlanders.fr",
+                "regel": "Berichten van leden over bouwen en verbouwen",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Bouw"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Woningbeheer en huishouding op Nederlanders.fr",
+                "regel": "Berichten van leden over het huis",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Woningbeheer+en+Huishouding"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "geld",
+        "naam": "Geld en belasting",
+        "x": 48,
+        "y": 37,
+        "cafe": "geld",
+        "vragen": [
+          {
+            "id": "aangifte",
+            "tekst": "Aangifte in Frankrijk",
+            "intro": "De Franse aangifte heeft vaste data en eigen onderdelen. Lees eerst de uitleg voor dit jaar en kijk daarna naar je totale plaatje.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Belastingaangifte 2026 (voor fiscaal jaar 2025)",
+                "regel": "De aangifte van dit jaar uitgelegd",
+                "artikel": "https://infofrankrijk.com/belastingaangifte-2026-voor-het-jaar-2025/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Fiscale kalender Frankrijk",
+                "regel": "Welke belastingdata wanneer vallen",
+                "artikel": "https://infofrankrijk.com/fiscale-kalender-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "scherm": "kalender",
+                "titel": "Kalender Frankrijk",
+                "regel": "Data voor belasting en betaling op een rij"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "kompas"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "ruyter"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "module": "overhedenbuurt"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Geldzaken op Nederlanders.fr",
+                "regel": "Berichten van leden over geld en belasting",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Geldzaken"
+              }
+            ]
+          },
+          {
+            "id": "pensioen",
+            "tekst": "Pensioen uit Nederland",
+            "intro": "Een Nederlands pensioen of een uitkering gaat vaak samen met een bijdrage aan het CAK en met belasting in beide landen. Hier staan de uitleg en de rekenhulpen.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Uitkering of pensioen behouden in Frankrijk",
+                "regel": "Wat je meeneemt en wat vervalt",
+                "artikel": "https://infofrankrijk.com/uitkering-pensioen-behouden-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "CAK, vroegpensioen en zorg in Frankrijk",
+                "regel": "Over het CAK en vroegpensioen",
+                "artikel": "https://infofrankrijk.com/cak-vroegpensioen-en-zorg-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De verdragsbijdrage aan het CAK",
+                "regel": "Over de bijdrage aan het CAK",
+                "artikel": "https://infofrankrijk.com/de-verdragsbijdrage-aan-het-cak/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Sociale zaken, AOW",
+                "regel": "Over de AOW",
+                "artikel": "https://infofrankrijk.com/sociale-zaken-aow/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Zorg dat je het voordeel arrest De Ruyter niet misloopt",
+                "regel": "Over de sociale heffingen volgens het arrest",
+                "artikel": "https://infofrankrijk.com/zorg-dat-je-het-voordeel-arrest-de-ruyter-niet-misloopt/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "ruyter"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "kompas"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Geldzaken op Nederlanders.fr",
+                "regel": "Berichten van leden over geld en belasting",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Geldzaken"
+              }
+            ]
+          },
+          {
+            "id": "belasting-huis",
+            "tekst": "Belasting op je huis",
+            "intro": "Wat je jaarlijks aan belasting op een woning betaalt, hangt af van je gemeente en van de woning. Hier staan de bronnen en de tarieven per gemeente.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Taxe d’habitation voor tweede woningen in Frankrijk",
+                "regel": "Over de woonbelasting bij een tweede woning",
+                "artikel": "https://infofrankrijk.com/taxe-dhabitation-tweede-woning/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Fiscale kalender Frankrijk",
+                "regel": "Welke belastingdata wanneer vallen",
+                "artikel": "https://infofrankrijk.com/fiscale-kalender-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Gids voor de aankoop van onroerend goed in Frankrijk",
+                "regel": "Ook de belastingen rond een woning komen aan bod",
+                "artikel": "https://infofrankrijk.com/gids-huis-kopen-frankrijk/"
+              },
+              {
+                "groep": "reken",
+                "bron": "ng",
+                "scherm": "gemeente",
+                "titel": "Mijn gemeente",
+                "regel": "Tarief van de taxe foncière in jouw gemeente, met een indicatie als je de cadastrale huurwaarde invult"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "scherm": "kalender",
+                "titel": "Kalender Frankrijk",
+                "regel": "Data voor belasting en betaling op een rij"
+              }
+            ]
+          },
+          {
+            "id": "erven",
+            "tekst": "Erven en schenken",
+            "intro": "Erven en schenken over de grens heeft eigen regels, ook voor een testament. Begin bij het erfrecht en lees wat een testament doet.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "erfrecht"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Erfrecht in Frankrijk",
+                "regel": "Wie erft wat volgens het Franse recht",
+                "artikel": "https://infofrankrijk.com/erfrecht-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Is het internationaal (Europees) testament een zorg minder voor de nabestaanden?",
+                "regel": "Over het internationale testament",
+                "artikel": "https://infofrankrijk.com/is-internationaal-europees-testament-zorg-minder-nabestaanden/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Een Frans handgeschreven testamentje met grote gevolgen",
+                "regel": "Over een handgeschreven testament",
+                "artikel": "https://infofrankrijk.com/frans-handgeschreven-testamentje-grote-gevolgen/"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Geldzaken op Nederlanders.fr",
+                "regel": "Berichten van leden over geld en belasting",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Geldzaken"
+              }
+            ]
+          },
+          {
+            "id": "fiscale-data",
+            "tekst": "Fiscale data dit jaar",
+            "intro": "Aangiftedata, betaaldagen en andere vaste momenten staan in de kalender. Kies een maand en filter op belasting.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "scherm": "kalender",
+                "titel": "Kalender Frankrijk",
+                "regel": "Data voor belasting en betaling op een rij"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Fiscale kalender Frankrijk",
+                "regel": "Welke belastingdata wanneer vallen",
+                "artikel": "https://infofrankrijk.com/fiscale-kalender-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Belastingaangifte 2026 (voor fiscaal jaar 2025)",
+                "regel": "De aangifte van dit jaar uitgelegd",
+                "artikel": "https://infofrankrijk.com/belastingaangifte-2026-voor-het-jaar-2025/"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gezondheid",
+        "naam": "Gezondheid",
+        "x": 20,
+        "y": 54,
+        "cafe": "zorg",
+        "vragen": [
+          {
+            "id": "verzekerd",
+            "tekst": "Verzekerd zijn",
+            "intro": "Je zorgverzekering werkt anders dan in Nederland. Hier staan het overzicht van het zorgstelsel en de hulpmiddelen om je eigen kosten te begrijpen.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Het zorglandschap",
+                "regel": "Hoe de zorg in Frankrijk in elkaar zit",
+                "artikel": "https://infofrankrijk.com/het-zorglandschap/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Verzekeringen in Frankrijk",
+                "regel": "Over de verzekeringen die je nodig hebt",
+                "artikel": "https://infofrankrijk.com/verzekeringen-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "CAK, vroegpensioen en zorg in Frankrijk",
+                "regel": "Over het CAK en vroegpensioen",
+                "artikel": "https://infofrankrijk.com/cak-vroegpensioen-en-zorg-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De verdragsbijdrage aan het CAK",
+                "regel": "Over de bijdrage aan het CAK",
+                "artikel": "https://infofrankrijk.com/de-verdragsbijdrage-aan-het-cak/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "zorgkompas"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Gezondheid en sport op Nederlanders.fr",
+                "regel": "Berichten van leden over gezondheid",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Gezondheid%2C+Sport+en+Spel"
+              }
+            ]
+          },
+          {
+            "id": "huisarts",
+            "tekst": "Een huisarts vinden",
+            "intro": "In sommige streken is een huisarts moeilijk te vinden. Lees hoe het stelsel werkt en waar je kunt zoeken.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "“Déserts Médicaux”, een huisarts vinden in de woestijn",
+                "regel": "Zoeken waar huisartsen schaars zijn",
+                "artikel": "https://infofrankrijk.com/deserts-medicaux-een-huisarts-vinden/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Huisarts, specialist en tandarts",
+                "regel": "Hoe je bij een arts terechtkomt",
+                "artikel": "https://infofrankrijk.com/huisarts-specialist-en-tandarts/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De huisarts, de specialist",
+                "regel": "De rol van de huisarts",
+                "artikel": "https://infofrankrijk.com/de-huisarts-de-specialist/"
+              },
+              {
+                "groep": "stap",
+                "bron": "ng",
+                "titel": "Snel hulp of zorg vinden voor Nederlanders",
+                "regel": "Waar je terechtkunt als je hulp of advies nodig hebt",
+                "url": "https://infofrankrijk.com/snel-hulp-zorg-vinden-nederlanders/"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "module": "zoekers"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Gezondheid en sport op Nederlanders.fr",
+                "regel": "Berichten van leden over gezondheid",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Gezondheid%2C+Sport+en+Spel"
+              }
+            ]
+          },
+          {
+            "id": "ouder",
+            "tekst": "Ouder worden",
+            "intro": "Zorg voor ouderen, wat je vooraf kunt regelen en wie je daarbij kan helpen. Het dossier loopt het in fases langs.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Ouder worden in Frankrijk: het complete dossier",
+                "regel": "Het hele dossier in zes fasen",
+                "artikel": "https://infofrankrijk.com/ouderenzorg-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "module": "zorg"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Ouderenzorg in Frankrijk",
+                "regel": "Overzicht van de ouderenzorg",
+                "artikel": "https://infofrankrijk.com/ouderenzorg-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Zorg voor ouderen in Frankrijk",
+                "regel": "Zorg voor ouderen thuis en elders",
+                "artikel": "https://infofrankrijk.com/zorg-ouderen-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Franse bewindvoering bij ouderenzorg: wat familie vooraf (en achteraf) juridisch kan regelen",
+                "regel": "Juridisch regelen voor familie",
+                "artikel": "https://infofrankrijk.com/franse-bewindvoering-bij-ouderenzorg-wat-familie-vooraf-en-achteraf-juridisch-kan-regelen/"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "module": "zoekers"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "module": "palliatief"
+              }
+            ]
+          },
+          {
+            "id": "spoed",
+            "tekst": "Spoed: wat bel je?",
+            "intro": "Bij spoed bel je meteen. De nummers staan bovenaan het scherm Gezondheid.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "scherm": "gezondheid",
+                "titel": "Gezondheid",
+                "regel": "Het spoedblok met de nummers om te bellen"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Politie in Frankrijk: noodnummers, aangifte doen en verkeersboetes",
+                "regel": "Noodnummers en wat daarna volgt",
+                "artikel": "https://infofrankrijk.com/politie-en-veiligheid/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Ziekenhuis/kliniek",
+                "regel": "Hoe een opname in Frankrijk gaat",
+                "artikel": "https://infofrankrijk.com/ziekenhuis-en-kliniek/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De apotheek in Frankrijk: bevoegdheden",
+                "regel": "Wat een apotheker voor je kan doen",
+                "artikel": "https://infofrankrijk.com/de-apotheek-frankrijk/"
+              }
+            ]
+          },
+          {
+            "id": "woorden",
+            "tekst": "Woorden bij de dokter",
+            "intro": "Bij de arts, de tandarts of de apotheker helpen de juiste Franse woorden. Hier staan de lijsten en het woordenboek.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Woordenlijst (huis)arts, tandarts en apotheker in Frankrijk",
+                "regel": "Nederlands en Frans naast elkaar",
+                "artikel": "https://infofrankrijk.com/medische-woordenlijst-frankrijk/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "woordenboek"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "taalhulp"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De apotheek in Frankrijk: bevoegdheden",
+                "regel": "Wat een apotheker voor je kan doen",
+                "artikel": "https://infofrankrijk.com/de-apotheek-frankrijk/"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "papieren",
+        "naam": "Papieren",
+        "x": 78,
+        "y": 52,
+        "cafe": "bureaucratie",
+        "vragen": [
+          {
+            "id": "rijbewijs",
+            "tekst": "Rijbewijs en auto",
+            "intro": "Een rijbewijs omzetten en een auto inschrijven hebben elk hun eigen route. Hier staan de stappen en de dossiers.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Omzetten Nederlands naar Frans rijbewijs",
+                "regel": "Het rijbewijs omzetten",
+                "artikel": "https://infofrankrijk.com/omzetten-nederlands-naar-frans-rijbewijs/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Rijbewijs",
+                "regel": "Alles over het rijbewijs",
+                "artikel": "https://infofrankrijk.com/rijbewijs/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Auto importeren in Frankrijk: stappenplan en kostenraming",
+                "regel": "Je auto naar Frankrijk",
+                "artikel": "https://infofrankrijk.com/auto-importeren-in-frankrijk-stappenplan-en-kostenraming/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Dossier Verkeer en Auto",
+                "regel": "Het dossier over verkeer en auto",
+                "artikel": "https://infofrankrijk.com/dossier-verkeer-en-auto/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "auto"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "module": "controletechnique"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Vervoer op Nederlanders.fr",
+                "regel": "Berichten van leden over vervoer",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Vervoer"
+              }
+            ]
+          },
+          {
+            "id": "brief",
+            "tekst": "Een brief aan de overheid",
+            "intro": "Een Franse brief of een eigen vraag aan een loket vraagt om de juiste woorden. Schrijf in het Nederlands en laat de Franse brief maken.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "correspondentie"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "La Mairie, van de wieg tot het graf",
+                "regel": "Wat je bij de gemeente regelt",
+                "artikel": "https://infofrankrijk.com/la-mairie-van-de-wieg-tot-het-graf/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Websites Franse overheden en instellingen",
+                "regel": "De digitale loketten per onderwerp",
+                "artikel": "https://infofrankrijk.com/websites-franse-overheden-en-instellingen/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "taalhulp"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Overheid en wet op Nederlanders.fr",
+                "regel": "Berichten van leden over overheden en wetgeving",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Overheid"
+              }
+            ]
+          },
+          {
+            "id": "registers",
+            "tekst": "Officiële registers",
+            "intro": "Met de officiële registers controleer je vakmensen en instanties. Nedergids brengt ze bij elkaar.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "ng",
+                "titel": "Officiële registers Frankrijk",
+                "regel": "Controleer vakmensen en instanties in de officiële Franse registers",
+                "url": "https://infofrankrijk.com/officiele-registers-frankrijk-vakmensen-instanties-zoeken/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Uitgebreid adressenboek voor Nederlanders in Frankrijk",
+                "regel": "Officiële Franse en Nederlandse portalen op één plek",
+                "artikel": "https://infofrankrijk.com/uitgebreid-adressenboek-voor-nederlanders-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Websites Franse overheden en instellingen",
+                "regel": "De digitale loketten per onderwerp",
+                "artikel": "https://infofrankrijk.com/websites-franse-overheden-en-instellingen/"
+              },
+              {
+                "groep": "stap",
+                "bron": "ng",
+                "scherm": "nedergids",
+                "titel": "Nedergids",
+                "regel": "Registers, overheden en verenigingen bij elkaar"
+              }
+            ]
+          },
+          {
+            "id": "overheden",
+            "tekst": "Franse overheden bij jou",
+            "intro": "Welk loket bij jou in de buurt zit, hangt af van je gemeente. Vul je postcode of adres in en zoek verder.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Vind Franse overheden en instellingen bij jou in de buurt",
+                "regel": "Loketten in jouw omgeving",
+                "artikel": "https://infofrankrijk.com/vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt/"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "scherm": "gemeente",
+                "titel": "Mijn gemeente",
+                "regel": "De mairie en andere gegevens van jouw gemeente"
+              },
+              {
+                "groep": "adres",
+                "bron": "ng",
+                "module": "overhedenbuurt"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Websites Franse overheden en instellingen",
+                "regel": "De digitale loketten per onderwerp",
+                "artikel": "https://infofrankrijk.com/websites-franse-overheden-en-instellingen/"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "samen",
+        "naam": "Samen leven",
+        "x": 50,
+        "y": 66,
+        "vragen": [
+          {
+            "id": "verenigingen",
+            "tekst": "Verenigingen bij jou",
+            "intro": "Nederlandse verenigingen in Frankrijk organiseren activiteiten en helpen bij het wennen. Zoek er een bij jou in de buurt.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "ng",
+                "module": "verenigingen"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Nederlandse verenigingen in Frankrijk: agenda, adressen en oprichten",
+                "regel": "Agenda, adressen en oprichten",
+                "artikel": "https://infofrankrijk.com/nederlandse-verenigingen-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "ng",
+                "module": "verenigingsbeheer"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Enquête NL Verenigingen 2021",
+                "regel": "Een onderzoek onder Nederlandse verenigingen",
+                "artikel": "https://infofrankrijk.com/enquete-nl-verenigingen-2021/"
+              },
+              {
+                "groep": "stap",
+                "bron": "ng",
+                "scherm": "nedergids",
+                "titel": "Nedergids",
+                "regel": "Registers, overheden en verenigingen bij elkaar"
+              }
+            ]
+          },
+          {
+            "id": "tradities",
+            "tekst": "Franse tradities",
+            "intro": "Feestdagen en gebruiken staan per datum in de kalender. Lees ook hoe de Fransen leven.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "scherm": "kalender",
+                "titel": "Kalender Frankrijk",
+                "regel": "Feestdagen en tradities per datum, naast belasting en betaaldata"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "L’Art de Vivre: ontdek de Franse levenskunst",
+                "regel": "Over de Franse levenskunst",
+                "artikel": "https://infofrankrijk.com/lart-de-vivre-ontdek-de-franse-levenskunst/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De Franse integratiegids",
+                "regel": "Een gids om te wennen aan Frankrijk",
+                "artikel": "https://infofrankrijk.com/de-franse-integratiegids/"
+              }
+            ]
+          },
+          {
+            "id": "contact",
+            "tekst": "Contact met anderen",
+            "intro": "Het forum van Nederlanders.fr en de verenigingen zijn de plekken om anderen te ontmoeten.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "nl",
+                "module": "forum"
+              },
+              {
+                "groep": "stap",
+                "bron": "ng",
+                "module": "verenigingen"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Nederlandse verenigingen in Frankrijk: agenda, adressen en oprichten",
+                "regel": "Agenda, adressen en oprichten",
+                "artikel": "https://infofrankrijk.com/nederlandse-verenigingen-in-frankrijk/"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Het forum op Nederlanders.fr",
+                "regel": "Alle onderwerpen en berichten van de leden",
+                "url": "https://www.nederlanders.fr/forum"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "module": "vervoershub"
+              }
+            ]
+          },
+          {
+            "id": "frans",
+            "tekst": "Frans leren",
+            "intro": "Praktisch Frans, geen cursus: woorden voor situaties, een woordenboek met uitleg en hulp bij brieven.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "taalhulp"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "woordenboek"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "correspondentie"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Woordenlijst Verkeer & Weggebruik, Frans-Nederlands (2025)",
+                "regel": "Woorden voor onderweg",
+                "artikel": "https://infofrankrijk.com/woordenlijst-verkeer-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Woordenlijst Klussen & Bouwen, NL ⇄ FR",
+                "regel": "Bouwwoorden in twee richtingen",
+                "artikel": "https://infofrankrijk.com/woordenlijst-klussen-bouwen-nl-%e2%87%84-fr/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Woordenlijst (huis)arts, tandarts en apotheker in Frankrijk",
+                "regel": "Nederlands en Frans naast elkaar",
+                "artikel": "https://infofrankrijk.com/medische-woordenlijst-frankrijk/"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "werk",
+        "naam": "Werk en bedrijf",
+        "x": 27,
+        "y": 84,
+        "vragen": [
+          {
+            "id": "starten",
+            "tekst": "Een bedrijf starten",
+            "intro": "Een eigen bedrijf in Frankrijk begint met een keuze voor een bedrijfsvorm. Lees eerst de uitleg en toets daarna je beroep.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Ondernemen in Frankrijk: zo start je goed en voorkom je dure fouten",
+                "regel": "Starten als zelfstandige",
+                "artikel": "https://infofrankrijk.com/ondernemen-in-frankrijk-micro-entreprise-zelfstandigen/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "De auto-entrepreneur is dood; leve de micro-entreprise",
+                "regel": "Over de micro-entreprise",
+                "artikel": "https://infofrankrijk.com/autoentrepreneur/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Een gîte beginnen",
+                "regel": "Over het uitbaten van een gîte",
+                "artikel": "https://infofrankrijk.com/gite-beginnen-in-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Camping of gîtes beginnen",
+                "regel": "Over een camping of gîtes",
+                "artikel": "https://infofrankrijk.com/camping-of-gites-beginnen/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "beroepenchecker"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "gitekompas"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "devisdossier"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "MKB op Nederlanders.fr",
+                "regel": "Berichten van leden over ondernemen",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Midden-+en+Kleinbedrijf"
+              }
+            ]
+          },
+          {
+            "id": "werk-vinden",
+            "tekst": "Werk vinden",
+            "intro": "Werk vinden in Frankrijk kan via vacatures, via netwerk of als zelfstandige. Hier staan de uitleg en de prikborden.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "Werken vinden in Frankrijk",
+                "regel": "Waar je werk vindt",
+                "artikel": "https://infofrankrijk.com/werken-vinden-frankrijk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Werken in Frankrijk, baan zoeken",
+                "regel": "Een baan zoeken in Frankrijk",
+                "artikel": "https://infofrankrijk.com/werken-in-frankrijk-baan-zoeken/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Werken of ondernemen in Frankrijk: check de regels per beroep",
+                "regel": "De regels per beroep",
+                "artikel": "https://infofrankrijk.com/beroepenchecker-werken-of-ondernemen-in-frankrijk/"
+              },
+              {
+                "groep": "reken",
+                "bron": "if",
+                "module": "beroepenchecker"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Werkaanbod op Nederlanders.fr",
+                "regel": "Aangeboden werk",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Werk+Aangeboden"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Werk gevraagd op Nederlanders.fr",
+                "regel": "Mensen die werk zoeken",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Werk+Gevraagd"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Werk algemeen op Nederlanders.fr",
+                "regel": "Berichten van leden over werk",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Werk+Algemeen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "vervoer",
+        "naam": "Vervoer",
+        "x": 74,
+        "y": 83,
+        "cafe": "bureaucratie",
+        "vragen": [
+          {
+            "id": "controle",
+            "tekst": "Controle technique",
+            "intro": "De contrôle technique is de Franse APK. Lees hoe vaak en waar, en zoek een station.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "titel": "De Contrôle Technique, de Franse APK",
+                "regel": "Hoe de keuring werkt",
+                "artikel": "https://infofrankrijk.com/de-controle-technique-de-franse-apk/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Geen jaarlijkse controle technique voor oudere auto’s",
+                "regel": "Over de frequentie van de keuring",
+                "artikel": "https://infofrankrijk.com/geen-jaarlijkse-controle-technique-voor-oudere-autos/"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Dossier Verkeer en Auto",
+                "regel": "Het dossier over verkeer en auto",
+                "artikel": "https://infofrankrijk.com/dossier-verkeer-en-auto/"
+              },
+              {
+                "groep": "reken",
+                "bron": "ng",
+                "module": "controletechnique"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Vervoer op Nederlanders.fr",
+                "regel": "Berichten van leden over vervoer",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Vervoer"
+              }
+            ]
+          },
+          {
+            "id": "lift",
+            "tekst": "Lift of transport",
+            "intro": "Een lift of een vracht tussen Nederland, België en Frankrijk regel je via het prikbord van Nederlanders.fr.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "nl",
+                "module": "vervoershub"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Lift zoeken of goederen vervoeren naar Frankrijk? Gebruik de Vervoershub",
+                "regel": "Uitleg bij het prikbord",
+                "artikel": "https://infofrankrijk.com/vervoer-naar-frankrijk-gebruik-de-vervoershub/"
+              },
+              {
+                "groep": "ervaring",
+                "bron": "nl",
+                "titel": "Vervoer op Nederlanders.fr",
+                "regel": "Berichten van leden over vervoer",
+                "url": "https://www.nederlanders.fr/profiles/blog/list?tag=Vervoer"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
