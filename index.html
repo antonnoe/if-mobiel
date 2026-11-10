@@ -38,6 +38,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./nieuws-lib.js"></script>
 <script src="./hub-lib.js"></script>
 <script src="./landing-lib.js"></script>
+<script src="./versie-lib.js"></script>
 <script src="./support.js"></script>
 <script src="./dossier.js"></script>
 <script src="./nav-lib.js"></script>
@@ -219,6 +220,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
 <sc-if value="{{ offlineRegel }}" hint-placeholder-val="{{ false }}">
 <div data-offline="1" role="status" style="{{ zoomCss }}flex:none;padding:8px 16px;background:rgba(21,24,26,.07);border-bottom:1px solid rgba(21,24,26,.06);font:600 12.5px/1.4 Mulish;color:#3D4346">Je bent offline. Je ziet de laatst bekende stand.</div>
+</sc-if>
+
+<sc-if value="{{ versieBalkToon }}" hint-placeholder-val="{{ false }}">
+<div data-versiebalk="1" role="status" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff">
+  <button onClick="{{ versieHerlaad }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:12px;min-height:52px;padding:7px 4px 7px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer">
+    <span aria-hidden="true" style="{{ versieBalkIcoStyle }}"></span>
+    <span style="flex:1 1 auto;min-width:0"><span style="display:block;font:700 14px/1.3 Mulish">Er is een nieuwe versie van InfoPoche.</span><span style="display:block;margin-top:2px;font:500 12.5px/1.3 Mulish;color:rgba(255,255,255,.85)">Tik om te vernieuwen</span></span>
+  </button>
+  <button onClick="{{ versieSluit }}" aria-label="Later" style="flex:none;width:44px;min-height:44px;border:0;background:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px">&#10005;</button>
+</div>
 </sc-if>
 
 <sc-if value="{{ balkOpen }}" hint-placeholder-val="{{ false }}">
@@ -2304,6 +2315,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="min-height:44px;display:flex;align-items:center;color:#800000;font:700 14px Mulish;text-decoration:none">Wat het abonnement biedt ↗</a>
   </div>
   <div style="margin:12px 18px 0;font:500 13px/1.55 Mulish;color:#3D4346">Je hoeft de app niet af te sluiten: ga gewoon terug naar je beginscherm, de app wacht rustig op de achtergrond. Wil je hem toch echt afsluiten, veeg dan op een iPhone omhoog en houd even vast, en veeg de kaart van InfoPoche omhoog. Op Android open je de recente apps en veeg je InfoPoche weg.</div>
+  <div data-versieprofiel="1" style="margin:12px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px 17px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+      <div style="min-width:0;flex:1 1 auto">
+        <div style="font:700 14px Mulish;color:#15181A">Versie van InfoPoche</div>
+        <div style="margin-top:3px;font:500 12.5px/1.5 Mulish;color:#5F6669">{{ versieRegel }}</div>
+      </div>
+      <button onClick="{{ versieVernieuwKnop }}" style="flex:none;min-height:44px;padding:0 16px;border:1.5px solid rgba(128,0,0,.35);border-radius:12px;background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Vernieuwen</button>
+    </div>
+    <div style="margin-top:9px;font:500 12px/1.6 Mulish;color:#5F6669">Updates gaan vanzelf. Deze knop laadt InfoPoche opnieuw, voor als de app lang op de achtergrond openstond.</div>
+  </div>
   <div style="margin:12px 14px 0">
     <button onClick="{{ goOver }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Over ons →</button>
   </div>
@@ -3582,7 +3603,8 @@ const ICONS = {
   over: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.2"/></svg>',
   tekst: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 8 6l5 13M4.8 15h6.4"/><path d="M15 19l3-8 3 8M16 17h4"/></svg>',
   pc: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.400-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-  inst: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 8v6M9.500 11.500 12 14l2.500-2.500"/></svg>'
+  inst: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 8v6M9.500 11.500 12 14l2.500-2.500"/></svg>',
+  vernieuw: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.500 12a7.500 7.500 0 0 1 12.800-5.300L20 9.200"/><path d="M20 4.500V9.200h-4.700"/><path d="M19.500 12a7.500 7.500 0 0 1-12.800 5.300L4 14.800"/><path d="M4 19.500v-4.700h4.700"/></svg>'
 };
 
 // Eenvoudige lijniconen voor de themategels, als SVG-masker (zelfde techniek als ICONS).
@@ -4507,6 +4529,10 @@ class Component extends DCLogic {
     if (route.soort !== "hub") this.routeToepassen(route);
     if (pc && !plaats) this.laadPlaats(pc);
     this.load();
+    this.versieInit();
+    this._versieTerug = () => this.versieControleer();
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") this._versieTerug(); });
+    window.addEventListener("pageshow", this._versieTerug);
   }
 
   // Schermwissels lopen via de View Transition API als de browser die kent en de lezer geen beperkte
@@ -5003,6 +5029,58 @@ class Component extends DCLogic {
       installBladOpen: !!st.installBlad && !geinst, installBladKop: st.installBlad ? st.installBlad.kop : "",
       installBladSluit: () => this.installBladSluit(), installOpenProfiel: () => this.installOpen(),
       mnGeinstalleerd: geinst
+    };
+  }
+  // ---- Nieuwe versie (versie-lib.js): /api/versie geeft de commit van de huidige deploy. De eerste
+  // aanvraag bij het starten van de app is alleen de nulmeting (nooit een balk); pas een latere aanvraag,
+  // bij terugkeer van de achtergrond, kan een verschil laten zien. Bij een netwerkfout gebeurt niets.
+  versieHaal(cb){
+    fetch("/api/versie", {cache:"no-store", credentials:"omit"})
+      .then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
+      .then(d => { if (d && typeof d.commit === "string" && d.commit) cb(d); })
+      .catch(() => {});
+  }
+  versieInit(){
+    this.versieHaal(d => {
+      let datum = new Date().toISOString();
+      try {
+        const rec = JSON.parse(localStorage.getItem("ifm_versie_laad") || "null");
+        if (rec && rec.commit === d.commit && rec.datum) datum = rec.datum;
+        localStorage.setItem("ifm_versie_laad", JSON.stringify({commit:d.commit, datum}));
+      } catch(e){}
+      this.setState({versieCommit:d.commit, versieCommitDatum:datum, versieNieuwer:false});
+    });
+  }
+  versieControleer(){
+    if (!this.state.versieCommit) return;
+    this.setState({versieBalkWeg:false});
+    try {
+      if (navigator.serviceWorker && navigator.serviceWorker.getRegistration) {
+        navigator.serviceWorker.getRegistration().then(reg => { try { reg && reg.update && reg.update(); } catch(e){} }).catch(() => {});
+      }
+    } catch(e){}
+    this.versieHaal(d => { if (d.commit !== this.state.versieCommit) this.setState({versieNieuwer:true}); });
+  }
+  versieVals(){
+    const st = this.state, Vl = window.IfVersie;
+    const nieuwer = !!st.versieNieuwer;
+    return {
+      versieBalkToon: nieuwer && !st.versieBalkWeg,
+      versieBalkIcoStyle: this.iconStyle("vernieuw", 22) + ";color:#fff",
+      versieHerlaad: () => { try { location.reload(); } catch(e){} },
+      versieSluit: () => this.setState({versieBalkWeg:true}),
+      versieRegel: Vl ? Vl.profielRegel(st.versieCommitDatum, nieuwer) : (nieuwer ? "er is een nieuwere versie" : "je hebt de nieuwste"),
+      versieVernieuwKnop: () => {
+        try {
+          if (navigator.serviceWorker && navigator.serviceWorker.getRegistration) {
+            navigator.serviceWorker.getRegistration()
+              .then(reg => { try { reg && reg.update && reg.update(); } finally { location.reload(); } })
+              .catch(() => location.reload());
+            return;
+          }
+        } catch(e){}
+        location.reload();
+      }
     };
   }
   openMods(){ this.setState({screen:"mod", from:"hub", q:"", tool:null}); }
@@ -7059,6 +7137,7 @@ class Component extends DCLogic {
       ...this.kaVals(),
       ...this.kalVals(),
       ...this.vdVals(),
+      ...this.versieVals(),
       ...this.onVals(),
       badge: st.screen === "dossierdemo" ? "VOORBEELD" : locked ? "ABONNEMENT" : "GRATIS",
       subStijl: st.screen === "hub" ? "white-space:normal;overflow-wrap:anywhere" : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
