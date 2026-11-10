@@ -1202,7 +1202,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
             <span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">NIEUW</span>
             </sc-if>
           </div>
-          <div style="font:700 15px/1.35 Mulish;color:#15181A;margin-top:5px;text-wrap:pretty">{{ p.titel }}</div>
+          <div style="display:flex;align-items:flex-start;gap:12px;margin-top:5px">
+            <div style="flex:1;min-width:0;font:700 15px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ p.titel }}</div>
+            <sc-if value="{{ p.heeftBeeld }}" hint-placeholder-val="{{ false }}">
+            <img data-forumbeeld="1" src="{{ p.beeld }}" alt="" loading="lazy" onError="{{ p.beeldFout }}" style="flex:none;width:84px;height:84px;object-fit:cover;border-radius:10px;background:#F4F1F0">
+            </sc-if>
+          </div>
           <div style="font:500 12.5px/1.6 Mulish;color:#5F6669;margin-top:5px;text-wrap:pretty">{{ p.samenvatting }}</div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:9px">
             <span style="font:600 12px Mulish;color:#5F6669">{{ p.meta }}</span>
@@ -3689,6 +3694,13 @@ function blokken(tekst){
   return uit;
 }
 function beeldSrcVeilig(tag){ return beeldBron(tag); }
+// Eerste https-foto van een bericht: uit `afbeeldingen`, anders de eerste <img> in de html.
+function eersteBeeld(p){
+  const afb = Array.isArray(p && p.afbeeldingen) ? p.afbeeldingen : [];
+  for (const a of afb) { if (a && typeof a.src === "string") { try { const u = new URL(a.src.trim()); if (u.protocol === "https:") return u.href; } catch (e) {} } }
+  const m = /<img\b[^>]*>/i.exec(String((p && p.html) || ""));
+  return m ? (beeldBron(m[0]) || "") : "";
+}
 // Velden `afbeeldingen: [{src, alt}]` van nlfr-berichten: per item een eigen img-blok,
 // onder de tekst; alleen https, zonder dubbelen met beelden die al in de tekst stonden.
 function metBeelden(bl, afb){
@@ -7374,6 +7386,8 @@ class Component extends DCLogic {
         const pHref = veiligeUrl(p.href);
         return {
           titel:p.titel, samenvatting:platteTekst(p.samenvatting || ""), href: pHref || "",
+          // Eerste foto van het bericht als klein beeld naast de titel (besluit 10-11-2026); alleen https.
+          beeld: eersteBeeld(p), heeftBeeld: !!eersteBeeld(p), beeldFout,
           heeftHref: !!pHref, geenHref: !pHref, kicker:"NEDERLANDERS.FR",
           isNew: !!(st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit),
           meta:(p.auteur || "onbekend") + " · " + reactieMeta(n) + " · " + kort(p.laatsteReactie || p.datum),

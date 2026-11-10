@@ -58,3 +58,12 @@ test("zoekveld op de hub: een regel 'Zoek in InfoPoche', 54 px, bordeaux icoon (
   assert.match(blok, /white-space:nowrap/);
   assert.match(h, /width:22px;height:22px;color:#800000/);
 });
+
+test("forumkaart: klein beeld naast de titel, lui geladen, alleen bij een foto", () => {
+  const src = lees("index.html");
+  const tag = /<img data-forumbeeld="1"[^>]*>/.exec(src);
+  assert.ok(tag, "beeld in de forumkaart");
+  assert.match(tag[0], /loading="lazy"/);
+  assert.match(tag[0], /width:84px;height:84px/);
+  assert.match(src, /heeftBeeld: !!eersteBeeld\(p\)/);
+});
