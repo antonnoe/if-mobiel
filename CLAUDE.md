@@ -555,3 +555,8 @@ Laatst nagelopen: 9 november 2026
 - **Zoeken** hergebruikt `zoekArtikelen` en `zaVals` (wp/v2/search, 350 ms, minimaal 3 tekens) met `state.q`; treffers vervangen op Start de gidsen, onderwerpen en nieuw; ze openen met `{tegel:true}`.
 - **Fout of time-out** (lijst): "Infofrankrijk is nu niet bereikbaar." met "Opnieuw proberen" en de siteknop; tijdens laden "Artikelen worden opgehaald...".
 - Pure logica en tests: `infofr-lib.js` (`window.IfInfo`), `tests/infofr.test.mjs` (fixtures `tests/fixture-infofr-lijst.json`, `-media.json`, `-chips.json`, `-cat.json`, echte antwoorden van 10-11-2026). Service worker `VERSIE` 2026-11-10-11.
+
+## Dossier Frankrijk en AI-tools als tegels, favorieten zonder limiet (10 november 2026)
+
+- Besluit eigenaar: Dossier Frankrijk (usp) en AI-tools staan op de hub als twee tegels in de stijl van Onze vier (`data-hubextra`, rand 1,5 px bordeaux, cirkel 44 px; Dossier Frankrijk met een navy cirkel en slot), direct na de negen onderwerpen. De smalle rijen zijn weg.
+- Favorieten: de teller "N van 6" is weg en er is geen maximum meer (de zevende favoriet duwde eerder ongemerkt de oudste eruit). Service worker `VERSIE` 2026-11-10-13. Test: `tests/ronde8.test.mjs`.

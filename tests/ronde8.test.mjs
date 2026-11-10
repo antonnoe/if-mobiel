@@ -19,13 +19,16 @@ test("hub: kopje Onze vier, vier tegels met bordeaux rand van 1,5 px", () => {
 
 test("hub: volgorde vier, onderwerpen, DossierFrankrijk, AI-tools, regio", () => {
   const i = s => { const n = html.indexOf(s); assert.ok(n > 0, s); return n; };
-  const rij = [i(">Onze vier<"), i(">Of kies een onderwerp<"), i('list="{{ hubTegels }}"'), i("Dossier Frankrijk, je eigen dossier voor abonnees"), i("AI-tools, hulp bij je vragen"), i("onClick=\"{{ openRegio }}\"")];
+  const rij = [i(">Onze vier<"), i(">Of kies een onderwerp<"), i('list="{{ hubTegels }}"'), i('data-hubextra="dossier"'), i('data-hubextra="aitools"'), i("onClick=\"{{ openRegio }}\"")];
   assert.deepEqual(rij, rij.slice().sort((a, b) => a - b));
-  assert.match(html, /openDossierDemo \}\}"[^>]*border:\.5px solid/);
+  assert.match(html, /data-hubextra="dossier" onClick="\{\{ openDossierDemo \}\}"[^>]*border:1\.5px solid #800000/);
+  assert.match(html, /data-hubextra="aitools" onClick="\{\{ openAiTools \}\}"[^>]*border:1\.5px solid #800000/);
+  assert.doesNotMatch(html, /van 6/);
+  assert.doesNotMatch(html, /slice\(-6\)/);
 });
 
 test("hub: themategels compact, minstens 11,5 px en 44 px tikvlak", () => {
-  const blok = html.slice(html.indexOf('list="{{ hubTegels }}"'), html.indexOf("Dossier Frankrijk, je eigen"));
+  const blok = html.slice(html.indexOf('list="{{ hubTegels }}"'), html.indexOf('data-hubextra="dossier"'));
   assert.match(blok, /font-size:11\.5px/);
   assert.match(blok, /min-height:88px/);
   assert.match(html, /themaIcoStijl\(t\.id, k\.kleur, 28\)/);
