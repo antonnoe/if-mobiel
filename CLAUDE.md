@@ -34,9 +34,8 @@ Frankrijk).
    De hub toont van boven naar beneden: begroeting naar dagdeel (`begroeting()` in
    `hub-lib.js`), zoekbalk, negen themategels, twee halve tegels (AI-tools en Mijn dossier), de
    regiokaart en eventueel favorieten. De ontwerpprop `tabVariant` en de "Vandaag"-strip zijn
-   vervallen. Schermen `aitools` (stub tot de AI-tools-bouwer het vervangt, `openAiTools()`)
-   en `regio` (per departement: bosbrandkaart, verenigingen, palliatieve zorg, zoekers, alleen
-   als de module aan staat). De tab-actief-markering komt uit `HubLib.tabVan(screen)`;
+   vervallen. Scherm `aitools` (`openAiTools()`). Het scherm `regio` is vervallen
+   (10-11-2026): de regiokaart heet "Mijn gemeente" en opent het scherm `gemeente`. De tab-actief-markering komt uit `HubLib.tabVan(screen)`;
    `mod` (Alle modules) is een hoofdscherm achter de tab Modules (hash `#/modules`); Profiel (`acc`), Mijn modules (`keuze`) en Over ons (`over`) staan in het hamburgermenu.
 7. `renderVals()` bouwt in één keer álle holes voor het actieve scherm; losse `*Vals()`-
    helpers leveren hun deel toe (bv. `enVals()` voor het energiescherm).
@@ -560,3 +559,8 @@ Laatst nagelopen: 9 november 2026
 
 - Besluit eigenaar: Dossier Frankrijk (usp) en AI-tools staan op de hub als twee tegels in de stijl van Onze vier (`data-hubextra`, rand 1,5 px bordeaux, cirkel 44 px; Dossier Frankrijk met een navy cirkel en slot), direct na de negen onderwerpen. De smalle rijen zijn weg.
 - Favorieten: de teller "N van 6" is weg en er is geen maximum meer (de zevende favoriet duwde eerder ongemerkt de oudste eruit). Service worker `VERSIE` 2026-11-10-13. Test: `tests/ronde8.test.mjs`.
+
+## Mijn gemeente op de hub, bosbrandkaart op het podium (10 november 2026)
+
+- Besluit eigenaar (optie A): het scherm "Je regio" overlapte met Nedergids (verenigingen, palliatieve zorg en zoekers stonden op beide) en deed niets met de postcode behalve het departement noemen. Het is weg. De kaart op de hub heet "Mijn gemeente: <postcode> <plaats>" (`HubLib.regioLabel`) en opent het scherm `gemeente` (`gmOpen("hub")`, terug naar de hub); zonder postcode "Mijn gemeente: stel je postcode in", dat opent het postcodeblad zoals voorheen.
+- De bosbrandkaart (module `veiligheid`) staat nu ook op het Nedergids-scherm (`ookNedergids`). In het brandseizoen staat hij "op het podium": veld `podium: {van, tot, label, naam, regel, icoon}` in `modules.json` (nu 06-01 tot en met 09-30, label Brandseizoen, naam Bosbrandkaart, icoon `vlam`) geeft een kaart met bordeaux rand boven Onze vier (`data-podium`, `podiumVals`, zelfde datumregel als `seizoen` via `inSeizoen`). Geen alarmkleur en geen gevaarniveau. Mijn modules telt mee. Een andere module op het podium: een `podium`-blok in de JSON. Service worker `VERSIE` 2026-11-10-14. Tests: `tests/nedergids.test.mjs`, `tests/hub.test.mjs`.

@@ -88,7 +88,7 @@ test('2. postcodeblad opent niet vanzelf, wel via kaart of menu, sluit op buiten
   assert.ok(h.includes('pcBladSluit') && /Escape" && this\.state\.vraagPostcode/.test(h));
   assert.ok(h.includes('Je postcode blijft op dit toestel en wordt alleen gebruikt om bij je in de buurt te zoeken.'));
   assert.ok(!h.includes('geo.api.gouv.fr, een dienst'), 'geen technische uitleg in het blad');
-  assert.equal(H.regioLabel('', ''), 'Stel je postcode in');
+  assert.equal(H.regioLabel('', ''), 'Mijn gemeente: stel je postcode in');
 });
 
 test('8. aanraakdoelen en de balk onder een blad', () => {

@@ -70,9 +70,9 @@
   // Regiokaart op de hub.
   function postcodeOk(pc) { return typeof pc === "string" && /^\d{5}$/.test(pc); }
   function regioLabel(pc, plaats) {
-    if (!postcodeOk(pc)) return "Stel je postcode in";
+    if (!postcodeOk(pc)) return "Mijn gemeente: stel je postcode in";
     var p = typeof plaats === "string" ? plaats.trim() : "";
-    return "Voor je regio: " + pc + (p ? " " + p : "");
+    return "Mijn gemeente: " + pc + (p ? " " + p : "");
   }
   // Departementscode uit de postcode: 97x en 98x hebben drie cijfers, de rest twee.
   function departementCode(pc) {

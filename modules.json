@@ -120,7 +120,7 @@
       "weergave": "volledig",
       "groep": "wonen",
       "thema": "wonen",
-      "reden": "Staat het hele jaar in de app, maar rustig: één regel op de hub in plaats van een alarmtegel. Zet er een seizoen op (bijvoorbeeld van 06-01 tot 09-30) om hem buiten het brandseizoen uit de hub te halen; hij blijft dan vindbaar via zoeken.",
+      "reden": "Staat het hele jaar in de app en op het Nedergids-scherm. In het brandseizoen (veld podium, 1 juni tot en met 30 september) staat hij als opvallende kaart bovenaan de hub. Geen alarmkleur en geen gevaarniveau: de app heeft daar geen bron voor.",
       "naam": "Veiligheid & natuur",
       "meta": "brandgevaar, weeralarm, FR-Alert",
       "prijs": "gratis",
@@ -130,7 +130,16 @@
       "kind": "iframe",
       "url": "https://bosbranden.vercel.app",
       "nagekeken": "2026-10-21",
-      "over": "Het verwachte gevaarniveau per departement, officiële waarschuwingen en wat je moet doen. Altijd gratis, ook zonder account, met veiligheid spelen wij geen spelletjes."
+      "over": "Het verwachte gevaarniveau per departement, officiële waarschuwingen en wat je moet doen. Altijd gratis, ook zonder account, met veiligheid spelen wij geen spelletjes.",
+      "ookNedergids": true,
+      "podium": {
+        "van": "06-01",
+        "tot": "09-30",
+        "label": "Brandseizoen",
+        "naam": "Bosbrandkaart",
+        "regel": "Zoek je departement op de kaart op",
+        "icoon": "vlam"
+      }
     },
     {
       "id": "klussen",

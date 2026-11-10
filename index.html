@@ -282,6 +282,19 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <button onClick="{{ protoSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
     </div>
     </sc-if>
+    <sc-if value="{{ podiumToon }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:14px 16px 0">
+      <button data-podium="1" onClick="{{ podiumOpen }}" aria-label="{{ podiumNaam }}, {{ podiumRegel }}" style="width:100%;min-height:68px;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1.5px solid #800000;border-radius:16px;padding:12px 15px;cursor:pointer">
+        <span style="{{ vierCirkelStyle }}"><span style="{{ podiumIcoStyle }}"></span></span>
+        <span style="flex:1;min-width:0;line-height:1.3">
+          <span style="display:block;font:700 11.5px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">{{ podiumLabel }}</span>
+          <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A;margin-top:2px">{{ podiumNaam }}</b>
+          <span style="display:block;font:500 12.5px/1.35 Mulish;color:#3D4346;margin-top:2px">{{ podiumRegel }}</span>
+        </span>
+        <span aria-hidden="true" style="font:700 13px Mulish;color:#800000">→</span>
+      </button>
+    </div>
+    </sc-if>
     <div style="padding:20px 18px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Onze vier</div>
     <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:8px 16px 0">
       <sc-for list="{{ hubVier }}" as="v" hint-placeholder-count="4">
@@ -2345,34 +2358,6 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </sc-if>
 
 <!-- ============ REGIO ============ -->
-<sc-if value="{{ isRegio }}" hint-placeholder-val="{{ false }}">
-<div>
-  <div style="padding:20px 18px 0">
-    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:29px;line-height:1.1;margin:0">Je regio</h1>
-    <p style="font-size:14px;line-height:1.8;color:#3D4346;margin:9px 0 0;text-wrap:pretty">{{ regioIntro }}</p>
-  </div>
-  <sc-if value="{{ regioLeeg }}" hint-placeholder-val="{{ false }}">
-  <div style="margin:16px 14px 0;padding:15px;border-radius:13px;background:rgba(21,24,26,.04);font:500 13px/1.8 Mulish;color:#3D4346">Er staat voor je regio nu niets aan. Bij Profiel, Mijn modules, zet je modules aan.</div>
-  </sc-if>
-  <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:16px 14px 0;overflow:hidden">
-    <sc-for list="{{ regioRijen }}" as="r" hint-placeholder-count="3">
-    <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:64px">
-      <span style="flex:1;min-width:0;line-height:1.3">
-        <b style="display:block;font:700 14px Mulish;color:#15181A">{{ r.naam }}</b>
-        <span style="display:block;font:500 12.5px/1.4 Mulish;color:#3D4346;margin-top:2px">{{ r.uitleg }}</span>
-        <sc-if value="{{ r.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
-      </span>
-      <span style="font:700 13px Mulish;color:#800000">→</span>
-    </button>
-    </sc-for>
-  </div>
-  <div style="margin:12px 14px 0">
-    <button onClick="{{ wijzigPc }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Postcode wijzigen</button>
-  </div>
-  <div style="height:26px"></div>
-</div>
-</sc-if>
-
 <!-- ============ ARTIKEL (infofrankrijk.com in de app, via de WordPress REST API; artikel-lib.js) ============ -->
 <sc-if value="{{ isArtikel }}" hint-placeholder-val="{{ false }}">
 <div>
@@ -3639,7 +3624,7 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|regio|aitools|artikel|sponsors|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 // Schermen zonder eigen h1 in de inhoud: de schermtitel in de kopbalk is daar de h1 (elk scherm heeft er precies één).
@@ -3821,6 +3806,7 @@ const THEMA_ICONS = {
   wereld: '<circle cx="12" cy="12" r="8.500"/><path d="M3.500 12h17M12 3.500c2.500 2.600 2.500 14.400 0 17M12 3.500c-2.500 2.600-2.500 14.400 0 17"/>',
   kalender: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/>',
   rekenen: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M8 15h2M12 15h2M8 18h8"/>',
+  vlam: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.380-.500-2-1-3-1.070-2.140-.220-4.050 2-6 .500 2.500 2 4.900 4 6.500 2 1.600 3 3.500 3 5.500a7 7 0 1 1-14 0c0-1.150.430-2.290 1-3a2.500 2.500 0 0 0 2.500 2.500z"/>',
   slot: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
 };
 function themaIcoStijl(id, kleur, maat){
@@ -4919,7 +4905,7 @@ class Component extends DCLogic {
   }
   openRegio(){
     if (!this.state.postcode) return this.setState({vraagPostcode:true, pcInfo:false, pcInvoer:""});
-    this.setState({screen:"regio", from:"hub", q:"", tool:null});
+    this.gmOpen("hub");
   }
   // KOPPELVLAK AI-TOOLS: state.screen "aitools"; de AI-tools-bouwer vervangt het stub-blok in de template.
   // "Onze vier" op de hub. Bestemmingen: forum (scherm gem), Café Claude en Nedergids (hun module),
@@ -5384,28 +5370,26 @@ class Component extends DCLogic {
     const vol = ev.shiftKey ? (i <= 0 ? rij[rij.length - 1] : rij[i - 1]) : (i < 0 || i >= rij.length - 1 ? rij[0] : rij[i + 1]);
     ev.preventDefault(); vol.focus();
   }
+  // Op het podium: een module met `podium: {van, tot, label, regel}` (dag-maand MM-DD) staat in die periode
+  // als opvallende kaart bovenaan de hub, boven Onze vier. Buiten de periode staat hij op zijn gewone plekken.
+  // Nu: de bosbrandkaart in het brandseizoen. Mijn modules telt mee.
+  podiumVals(){
+    const st = this.state;
+    const m = st.screen === "hub" ? this.mods().find(x => x.podium && this.inSeizoen({seizoen: x.podium})) : null;
+    return {
+      podiumToon: !!m,
+      podiumNaam: m ? (m.podium.naam || m.naam) : "", podiumLabel: m ? (m.podium.label || "Nu belangrijk") : "",
+      podiumRegel: m ? (m.podium.regel || m.meta || "") : "",
+      podiumIcoStyle: themaIcoStijl(m && m.podium.icoon || "regio", "#fff", 24),
+      podiumOpen: () => { if (m) this.route(m); }
+    };
+  }
   regioVals(){
     const st = this.state, L = HubLib, pc = st.postcode || "";
-    const deps = (st.cat && st.cat.departementen) || {};
-    const code = L.departementCode(pc), dep = deps[code] || "";
-    const depTxt = dep ? dep + " (" + code + ")" : "";
-    const rij = (id, naam, uitleg) => {
-      const m = this.mods().find(x => x.id === id);
-      return m ? {naam, uitleg, ontw:this.inOntw(m), open:() => this.route(m)} : null;
-    };
-    const rijen = [
-      rij("veiligheid", "Bosbrandkaart", depTxt ? "Zoek op de kaart " + depTxt + " op. De app haalt zelf geen gevaarniveau op." : "Zoek op de kaart je departement op. De app haalt zelf geen gevaarniveau op."),
-      rij("verenigingen", "Verenigingen en evenementen", "Kaart en agenda van Nederlandstalige verenigingen in heel Frankrijk. Je zoekt zelf in je omgeving; de app filtert niet voor je."),
-      rij("palliatief", "Palliatieve zorg in je regio", "Open de officiële kaart van het Centre national en kies je regio."),
-      rij("zoekers", "Zoekers per departement", depTxt ? "Zoek zelf " + depTxt + " op in de module." : "Zoek zelf je departement op in de module.")
-    ].filter(Boolean);
+    const ok = L.postcodeOk(pc);
     return {
-      isRegio: st.screen === "regio",
-      regioKop: L.regioLabel(pc, st.plaats),
-      regioIntro: depTxt ? "Je postcode valt in " + depTxt + ". Dit zijn de onderdelen van de app die bij een departement horen." : "Dit zijn de onderdelen van de app die bij een departement horen.",
-      regioRijen: rijen, regioLeeg: rijen.length === 0,
       hubRegioLabel: L.regioLabel(pc, st.plaats),
-      hubRegioSub: L.postcodeOk(pc) ? "De onderdelen die bij je departement horen" : "Met je postcode noemt de app je departement",
+      hubRegioSub: ok ? "Risico's, belasting, water, afval en meer" : "Dan toont de app de gegevens van je gemeente",
       openRegio: () => this.openRegio(),
       regioIcoStyle: themaIcoStijl("regio")
     };
@@ -5675,9 +5659,9 @@ class Component extends DCLogic {
     return p;
   }
   gmSet(patch){ this.setState(prev => ({gm: Object.assign({}, prev.gm, patch)})); }
-  gmOpen(){
+  gmOpen(van){
     const G = window.IfGem, pc = this.state.postcode, ok = !!G && G.postcodeOk(pc), gm = this.state.gm;
-    this.setState({screen:"gemeente", menu:false, q:"", copied:null, tool:null, from:"nedergids", gm: Object.assign({}, gm, {pc: ok ? pc : (gm.pc || "")})});
+    this.setState({screen:"gemeente", menu:false, q:"", copied:null, tool:null, from: van || "nedergids", gm: Object.assign({}, gm, {pc: ok ? pc : (gm.pc || "")})});
     if (ok && !(gm.gemeente && gm.zocht === pc)) this.gmZoek(pc);
   }
   gmZoek(inv){
@@ -7481,7 +7465,7 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", regio:"Je regio", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
     const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
@@ -7703,6 +7687,7 @@ class Component extends DCLogic {
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"),
       goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
       openFire: () => this.route(this.vindModule("veiligheid")),
+      ...this.podiumVals(),
       // Veiligheid staat het hele jaar in de app, maar rustig: één regel op de hub,
       // geen alarmtegel. De locator zegt alleen wat de app zeker weet — welk
       // departement bij de postcode hoort. Een gevaarniveau claimt hij niet: daar

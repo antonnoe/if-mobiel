@@ -39,7 +39,7 @@ test("kopbalk herhaalt de kop Nedergids niet", () => {
 
 test("Nedergids toont ook de zoekers per buurt of departement, uit de data (ookNedergids)", () => {
   const extra = cat.modules.filter(m => m.ookNedergids === true).map(m => m.id).sort();
-  assert.deepEqual(extra, ["controletechnique", "palliatief", "zoekers"]);
+  assert.deepEqual(extra, ["controletechnique", "palliatief", "veiligheid", "zoekers"]);
   assert.ok(scherm.includes('<sc-for list="{{ ngExtra }}"'));
   assert.match(html, /ngExtra: this\.alleMods\(\)\.filter\(m => m\.ookNedergids === true/);
 });
@@ -50,4 +50,13 @@ test("Nedergids: vindpagina's van Infofrankrijk uit modules.json", () => {
   for (const x of l) assert.match(x.url, /^https:\/\/infofrankrijk\.com\//);
   assert.equal(l[0].extern, true, "registers is een zoekpagina die in de app niet werkt");
   assert.match(html, /data-nglink="1"/);
+});
+
+test("bosbrandkaart staat in het brandseizoen bovenaan de hub (veld podium)", () => {
+  const v = cat.modules.find(m => m.id === "veiligheid");
+  assert.equal(v.podium.van, "06-01"); assert.equal(v.podium.tot, "09-30");
+  assert.equal(v.podium.naam, "Bosbrandkaart");
+  const iP = html.indexOf('data-podium="1"'), iV = html.indexOf(">Onze vier<");
+  assert.ok(iP > 0 && iP < iV, "podiumkaart staat boven Onze vier");
+  assert.match(html, /podiumVals\(\)\{[\s\S]{0,300}this\.inSeizoen\(\{seizoen: x\.podium\}\)/);
 });
