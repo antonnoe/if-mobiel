@@ -12,7 +12,7 @@ test("url: officiële API, postcode als tekst, nieuwste eerst, geen select en ge
   const u = H.url("84800", 0, 20);
   assert.ok(u.startsWith("https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?"));
   const q = new URL(u).searchParams;
-  assert.equal(q.get("where"), 'code_postal="84800"');
+  assert.ok(q.get("where").startsWith('code_postal="84800" AND app_libelle_activite_etablissement IN ("Restaurants",'));
   assert.equal(q.get("order_by"), "date_inspection desc");
   assert.equal(q.get("limit"), "20"); assert.equal(q.get("offset"), "0");
   assert.equal(q.has("select"), false);
@@ -46,4 +46,10 @@ test("voegSamen houdt de nieuwste per zaak en kanMeer volgt het totaal en de gre
 test("uitkomstTekst: Nederlandse omschrijving met het Franse origineel, onbekende tekst ongewijzigd", () => {
   assert.equal(H.uitkomstTekst("Très satisfaisant"), "Zeer tevredenstellend (Très satisfaisant)");
   assert.equal(H.uitkomstTekst("Iets nieuws"), "Iets nieuws"); assert.equal(H.uitkomstTekst(null), "");
+});
+
+test("url: alleen zaken waar je zelf komt, geen magazijn, slachthuis of transport", () => {
+  const w = new URL(H.url("62170", 0, 20)).searchParams.get("where");
+  for (const s of ["Restaurants", "Boulangerie-Pâtisserie", "Boucherie-Charcuterie", "Traiteur", "Poissonnerie", "Restauration collective"]) assert.ok(w.includes('"' + s + '"'), s);
+  for (const s of ["Entreposage", "abattage", "Transport", "Transformation", "Découpe"]) assert.ok(!w.includes(s), s);
 });

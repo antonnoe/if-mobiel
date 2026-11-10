@@ -10,11 +10,21 @@
 
   function postcodeOk(pc) { return typeof pc === "string" && /^\d{5}$/.test(pc); }
 
+  // Alleen zaken waar een lezer zelf komt (eten, kopen). Magazijnen, slachthuizen, transport en verwerkers vallen weg:
+  // de kaart heet "bij restaurants" (gemeld 10-11-2026: een groothandelsmagazijn in 62170 stond ertussen).
+  // Waarden letterlijk uit app_libelle_activite_etablissement (gecontroleerd 10-11-2026); IN werkt op dit lijstveld.
+  var SOORTEN = ["Restaurants", "Boulangerie-Pâtisserie", "Restauration collective", "Boucherie-Charcuterie", "Alimentation générale",
+    "Libre service", "Rayon boucherie-charcuterie", "Rayon pain/viennoiserie/pâtisserie", "Traiteur", "Producteurs fermiers",
+    "Fromagerie", "Rayon fromagerie", "Rayon poissonnerie", "Poissonnerie", "Rayon traiteur", "Chocolatier", "Métier de bouche",
+    "Glacier", "Commerce alimentaire", "Autres activités de remise directe"];
+
   // Nieuwste controle bovenaan. De postcode staat in de API als tekst.
   function url(pc, offset, limit) {
     if (!postcodeOk(pc)) return "";
     var o = Math.max(0, Math.min(MAX_OFFSET, offset | 0)), l = Math.max(1, Math.min(100, limit || STAP));
-    return BASIS + "?where=" + encodeURIComponent('code_postal="' + pc + '"') +
+    var waar = 'code_postal="' + pc + '" AND app_libelle_activite_etablissement IN (' +
+      SOORTEN.map(function (x) { return '"' + x + '"'; }).join(",") + ")";
+    return BASIS + "?where=" + encodeURIComponent(waar) +
       "&order_by=" + encodeURIComponent("date_inspection desc") + "&limit=" + l + "&offset=" + o;
   }
 
@@ -87,7 +97,7 @@
     return aantalRuw > 0 && volgende < totaal && volgende <= MAX_OFFSET;
   }
 
-  var api = { BASIS: BASIS, SITE_URL: SITE_URL, STAP: STAP, postcodeOk: postcodeOk, url: url, item: item, lees: lees,
+  var api = { BASIS: BASIS, SOORTEN: SOORTEN, SITE_URL: SITE_URL, STAP: STAP, postcodeOk: postcodeOk, url: url, item: item, lees: lees,
     voegSamen: voegSamen, uitkomstTekst: uitkomstTekst, kanMeer: kanMeer, datumNl: datumNl, titelCase: titelCase };
   root.IfHyg = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
