@@ -57,3 +57,12 @@ test("piramide: knoppenrij toont dat er meer komt", () => {
   assert.match(lees("piramide/opmaak.js"), /#pir-balk\[data-meer="1"\][^}]*mask-image/);
   assert.match(lees("piramide/scene.js"), /data-meer/);
 });
+
+test("Alle modules: kop per onderwerp en tegels in twee kolommen", () => {
+  const i = html.indexOf('data-modgroep="1"');
+  assert.ok(i > 0);
+  const blok = html.slice(i, html.indexOf("</section>", i));
+  assert.match(blok, /<h2 /);
+  assert.match(blok, /data-modtegels="1" style="display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(blok, /aria-label="Bij favorieten" style="position:absolute;right:0;bottom:0;width:48px;height:48px/);
+});

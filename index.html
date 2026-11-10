@@ -398,36 +398,36 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
   </div>
   <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
-  <div style="margin:22px 0 0">
-    <div style="display:flex;align-items:baseline;gap:8px;padding:0 16px 8px">
-      <div style="font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">{{ g.name }}</div>
-      <div style="font:600 12px Mulish;color:#5F6669;margin-left:auto">{{ g.count }}</div>
-    </div>
-    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 16px;overflow:hidden">
-      <sc-for list="{{ g.tools }}" as="t" hint-placeholder-count="3">
-      <div style="display:flex;align-items:stretch;border-top:1px solid rgba(21,24,26,.06)">
-        <button onClick="{{ t.open }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:11px;padding:13px 4px 13px 15px;background:none;border:0;text-align:left;cursor:pointer;min-height:56px">
-          <span style="width:8px;height:8px;border-radius:50%;flex:none;background:{{ t.dot }}"></span>
-          <span style="flex:1;min-width:0">
-            <b style="display:block;font:700 14px Mulish;color:#15181A">{{ t.name }}</b>
-            <span style="font:600 12px Mulish;color:#5F6669">{{ t.meta }}</span>
-            <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:700 12px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
-            <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
-          </span>
-          <sc-if value="{{ t.tag }}" hint-placeholder-val="{{ false }}"><span style="font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 7px;border-radius:999px;flex:none;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span></sc-if>
+  <section data-modgroep="1" style="margin:26px 0 0">
+    <button onClick="{{ g.openThema }}" style="display:flex;align-items:center;gap:12px;width:calc(100% - 28px);margin:0 14px 10px;padding:0 2px;min-height:48px;border:0;background:none;text-align:left;cursor:pointer">
+      <span style="{{ g.cirkelStyle }}"><span style="{{ g.icoStyle }}"></span></span>
+      <h2 style="flex:1;min-width:0;margin:0;font:600 18px/1.2 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ g.name }}</h2>
+      <span style="flex:none;font:600 12.5px Mulish;color:#5F6669">{{ g.count }}</span>
+      <span aria-hidden="true" style="flex:none;font:700 15px Mulish;color:{{ g.kleur }}">&#8250;</span>
+    </button>
+    <div data-modtegels="1" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 14px">
+      <sc-for list="{{ g.tools }}" as="t" hint-placeholder-count="4">
+      <div style="position:relative;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;min-width:0">
+        <span aria-hidden="true" style="position:absolute;left:13px;top:0;width:28px;height:3px;border-radius:0 0 3px 3px;background:{{ g.kleur }}"></span>
+        <button onClick="{{ t.open }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:5px;box-sizing:border-box;width:100%;min-height:132px;padding:15px 13px 52px;background:none;border:0;border-radius:16px;text-align:left;cursor:pointer">
+          <b style="display:block;font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ t.name }}</b>
+          <span style="display:block;font:500 13px/1.5 Mulish;color:#3D4346;overflow-wrap:anywhere;text-wrap:pretty">{{ t.meta }}</span>
+          <sc-if value="{{ t.heeftHoort }}" hint-placeholder-val="{{ false }}"><span style="display:block;font:700 12px Mulish;color:#800000">{{ t.hoort }}</span></sc-if>
+          <sc-if value="{{ t.ontw }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;font:700 12px Mulish;padding:3px 8px;border-radius:999px;background:rgba(226,129,47,.16);color:#8A4E14">In ontwikkeling</span></sc-if>
         </button>
-        <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="width:46px;flex:none;border:0;background:none;cursor:pointer;font-size:17px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
+        <sc-if value="{{ t.tag }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:13px;bottom:14px;pointer-events:none;font:800 11.5px Mulish;letter-spacing:.04em;padding:4px 8px;border-radius:999px;background:{{ t.tagBg }};color:{{ t.tagFg }}">{{ t.tag }}</span></sc-if>
+        <button onClick="{{ t.pin }}" aria-label="Bij favorieten" style="position:absolute;right:0;bottom:0;width:48px;height:48px;border:0;background:none;cursor:pointer;font-size:18px;line-height:1;color:{{ t.favColor }}">{{ t.fav }}</button>
       </div>
       </sc-for>
-      <sc-if value="{{ g.heeftCafe }}" hint-placeholder-val="{{ false }}">
-      <a href="{{ g.cafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
-        <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 12px Mulish">CC</span>
-        <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ g.cafeTekst }}</span>
-        <span style="font:700 13px Mulish;color:#800000;flex:none">↗</span>
-      </a>
-      </sc-if>
     </div>
-  </div>
+    <sc-if value="{{ g.heeftCafe }}" hint-placeholder-val="{{ false }}">
+    <a href="{{ g.cafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;margin:10px 14px 0;padding:12px 15px;border:1px solid rgba(128,0,0,.14);border-radius:16px;background:rgba(128,0,0,.04);color:#5C0000;min-height:52px;text-decoration:none">
+      <span style="width:26px;height:26px;flex:none;border-radius:8px;background:#800000;color:#fff;display:grid;place-items:center;font:800 12px Mulish">CC</span>
+      <span style="flex:1;min-width:0;font:600 12.5px/1.4 Mulish;text-wrap:pretty">{{ g.cafeTekst }}</span>
+      <span style="font:700 13px Mulish;color:#800000;flex:none">&#8599;</span>
+    </a>
+    </sc-if>
+  </section>
   </sc-for>
   </sc-if>
   <sc-if value="{{ isModScreen }}" hint-placeholder-val="{{ false }}">
@@ -7745,7 +7745,7 @@ class Component extends DCLogic {
       zorg:"Leven · altijd vrij toegankelijk",
       gezondheid: st.gzOnd === "ouderen" ? "Ouder worden in Frankrijk" : (st.gzOnd ? "Onderwerp" : "Zorg en gezondheid"),
       ruyter:"Geld · nagelezen bij DGFiP en Légifrance",
-      zoek:"modules, berichten en woorden",
+      zoek:"typ je vraag, of kies een onderwerp",
       nieuws: st.nwTegel ? (st.nwTegel === "archief" ? "Archief" : "Doorlopend lezen") : "redactie van Nederlanders.fr",
       energie:"Wonen · methode 3CL-DPE 2021",
       piramide:"het ordeningsmodel achter de app",
@@ -7991,7 +7991,9 @@ class Component extends DCLogic {
       groups: this.themaList().filter(g => this.mods().some(m => m.thema === g.id) || this.ookMods(g.id).length > 0).map(g => {
         const tools = this.mods().filter(m => m.thema === g.id).concat(this.ookMods(g.id));
         const cafe = this.cafeUrl(g);
+        const k = HubLib.themaKleur(g);
         return {name:g.naam, count: tools.length === 1 ? "1 module" : tools.length + " modules",
+          kleur: k.kleur, icoStyle: themaIcoStijl(g.id, k.kleur, 24), cirkelStyle: cirkelStijl(k.tint, 40), openThema: () => this.openThema(g),
           heeftCafe: !!cafe, cafeUrl: cafe || "", cafeTekst: (g.cafe && g.cafe.tekst) || "Vraag het Café Claude",
           tools: tools.map(m => ({
             name:m.naam, meta:m.meta, dot:"#800000", ontw:this.inOntw(m),
