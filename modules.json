@@ -2360,52 +2360,112 @@
     }
   ],
   "infofrankrijk": {
-    "_uitleg": "Scherm Infofrankrijk (hub, Onze vier). Onderwerpen in volgorde; categorieen zijn WordPress-categorie-id's van infofrankrijk.com (top-level, gecontroleerd 10-11-2026). Een onderwerp erbij is een regel hier.",
+    "_uitleg": "Scherm Infofrankrijk (hub, Onze vier). gidsen: de vier grote gidsen als tegels, elk met titel, regel, icoon (sleutel in THEMA_ICONS), thema (kleur en tint uit themas) en een bestemming in de app: scherm (lamaison | ouderen | kalender) of module (id). onderwerpen: in volgorde, met regel, icoon, thema en optioneel tools (thema-id: de verwijskaart Rekenen en regelen opent het themascherm van dat thema); categorieen zijn WordPress-categorie-id's van infofrankrijk.com (top-level, gecontroleerd 10-11-2026). Een gids of onderwerp erbij is een regel hier.",
+    "gidsen": [
+      {
+        "titel": "La Maison",
+        "regel": "Kopen, kosten, verkopen en wonen",
+        "icoon": "wonen",
+        "thema": "wonen",
+        "scherm": "lamaison"
+      },
+      {
+        "titel": "Klussen in Frankrijk",
+        "regel": "Bouwen en verbouwen op z’n Frans",
+        "icoon": "hamer",
+        "thema": "wonen",
+        "module": "klussen"
+      },
+      {
+        "titel": "Ouder worden in Frankrijk",
+        "regel": "Zorg, regelingen en wat je nu al regelt",
+        "icoon": "gzouder",
+        "thema": "gezondheid",
+        "scherm": "ouderen"
+      },
+      {
+        "titel": "Kalender Frankrijk",
+        "regel": "Belastingdata, betaaldagen, feestdagen",
+        "icoon": "kalender",
+        "thema": "geld",
+        "scherm": "kalender"
+      }
+    ],
     "onderwerpen": [
       {
-        "titel": "Geldzaken & belasting",
+        "titel": "Geld en belasting",
+        "regel": "Bankieren, belastingen, verzekeringen",
+        "icoon": "geld",
+        "thema": "geld",
+        "tools": "geld",
         "categorieen": [
           361
         ]
       },
       {
         "titel": "Overheden",
+        "regel": "Gemeente, politie, ambassade en consulaten",
+        "icoon": "overheid",
+        "thema": "overheid",
+        "tools": "overheid",
         "categorieen": [
           26
         ]
       },
       {
         "titel": "Zorg en welzijn",
+        "regel": "Zorgverzekering, apotheek, ouderenzorg, overlijden",
+        "icoon": "gezondheid",
+        "thema": "gezondheid",
+        "tools": "gezondheid",
         "categorieen": [
           49
         ]
       },
       {
         "titel": "Wonen",
+        "regel": "Leven in en rond je Franse huis",
+        "icoon": "wonen",
+        "thema": "wonen",
+        "tools": "wonen",
         "categorieen": [
           47
         ]
       },
       {
         "titel": "Vastgoed",
+        "regel": "Kopen, verkopen, huren, notaris en makelaar",
+        "icoon": "sleutel",
+        "thema": "wonen",
         "categorieen": [
           355
         ]
       },
       {
         "titel": "Verbouwen",
+        "regel": "Vergunningen, installaties, constructie",
+        "icoon": "hamer",
+        "thema": "wonen",
+        "tools": "wonen",
         "categorieen": [
           39
         ]
       },
       {
         "titel": "Ondernemen",
+        "regel": "Bedrijfsvormen, gîtes en toerisme",
+        "icoon": "ondernemen",
+        "thema": "ondernemen",
+        "tools": "ondernemen",
         "categorieen": [
           22
         ]
       },
       {
         "titel": "Emigreren",
+        "regel": "Vervoer en import, terug naar huis",
+        "icoon": "wereld",
+        "thema": "taal",
         "categorieen": [
           563,
           343
