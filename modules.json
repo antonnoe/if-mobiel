@@ -1,7 +1,10 @@
 {
   "_uitleg": "De modulecatalogus van InfoPoche. Pas dit bestand aan om een module toe te voegen, te hernoemen, van groep te wisselen of van prijs te veranderen — de app leest het bij het opstarten en er hoeft geen code aan te pas te komen. Velden per module: id, groep (aankomen/wonen/geld/leven), naam, meta (één regel), prijs (gratis | abonnee | gratis-lezen | gratis-eerste), schil, houdbaar, status, kind (taal | lex | forum | actueel | iframe | voorbeeld | info | nedergids | vastgoed | zorg | ruyter | energie), url (alleen bij kind iframe), weergave (alleen bij kind iframe: 'voorvertoning' = plaatje van 300 px met knop naar buiten, standaard; 'volledig' = de site opent op volle hoogte in de app, alleen voor sites die framing toestaan; 'knop' = geen voorvertoning, één knop die de site in een nieuw tabblad opent), zoekindex (optioneel: adres van een JSON-bestand dat de site zelf publiceert met {artikelen:[{titel, omschrijving, pad, onderwerp}], termen:[{nl, fr, rubriek, pad}]}; de app doorzoekt dat en opent treffers in de module), nagekeken (datum, zichtbaar in de app). zichtbaar (optioneel: false haalt de module overal weg, ook uit het zoekveld — voor een module zonder inhoud; true toont hem altijd en overrulet het seizoen; ontbreekt het veld, dan is de module zichtbaar), seizoen (optioneel: {van, tot} als 'MM-DD', bijvoorbeeld {van: '06-01', tot: '09-30'}; buiten die periode staat de module niet in de hub maar blijft hij vindbaar via zoeken met de vermelding 'buiten seizoen'; een periode over de jaarwisseling mag, bijvoorbeeld van '11-01' tot '03-31'), reden (optioneel: één regel waarom een module uit staat of een seizoen heeft; de app doet er niets mee, het is een aantekening voor de redactie). Een module toevoegen vanuit Vercel: kopieer het blok van 'klussen', vul id, naam, meta, url en nagekeken in, kies weergave, en commit; Vercel deployt de app opnieuw. Per groep kan een veld 'cafe' staan: {domein, tekst}; de app maakt daar een regel 'Vraag het Café Claude' van met een deep link naar het domein van cafeclaude.fr. standaard (optioneel: 'aan' | 'uit'; ontbreekt = 'aan'): of de module op het beginscherm en in de modulelijst staat zolang de lezer nog niets koos in Mijn modules; 'uit' laat hem weg van de hub maar vindbaar via zoeken met de vermelding 'uit in Mijn modules'. De eigen keuze van de lezer staat alleen op het toestel (localStorage ifm_modules) en wint van dit veld. thema (verplicht): de plek in de indeling, een id uit het top-level veld 'themas' (geld, overheid, gezondheid, adressen, nieuws, ervaring, ondernemen, wonen, taal), of 'ai' (blok AI-tools op de hub) of 'dossier' (blok Mijn dossier); de hub toont negen themategels in de volgorde van 'themas', een thema bevat de modules met dat thema. Per thema: id, naam, wat (één regel, voor de hubtegel), omschrijving (één zin, getoond onder de schermtitel van het themascherm en van de eigen schermen Wonen, Ondernemen, Gezondheid en Nieuws), scherm (optioneel: gezondheid | nieuws | lamaison | ondernemen, een eigen scherm; bij ondernemen horen ook bron (ondernemen.json op if-plek.vercel.app), site en terugval, het adres van het artikel dat in de foutstaat staat), nieuws (optioneel: lijst nlfr-menu thema-id's voor de nieuwsstrook), cafe (optioneel: {domein, tekst}, de regel 'Vraag het Café Claude'). groep blijft als gegeven bij elke module staan maar de hub gebruikt het niet meer. status 'in ontwikkeling' (precies zo geschreven) toont overal het label 'In ontwikkeling': op de rij, in de kop van de module en in zoekresultaten. kort (optioneel): korte naam voor een smalle rij, bijvoorbeeld Klussen. ai (optioneel, ook op een thema): 'tool' (geeft zelf antwoord of advies) of 'ondersteuning' (helpt zoeken, samenvatten of schrijven); alleen invullen als in docs/ai-onderzoek.md bewijs staat dat er echt AI in zit; ai_uitleg (verplicht bij ai): één regel die de tool niet te veel belooft. Het scherm AI-tools leest deze velden. zoekindex_wacht (Klussen): het adres van een zoekindex die nog geen CORS-header voor infopoche.fr heeft; de app leest het veld niet, hernoem het naar zoekindex zodra de header er staat. ook (optioneel, per module en per item in ondernemen.json: lijst thema-id's, bijvoorbeeld ['geld']): een tweede domein. De module staat dan ook in dat thema, met de regel 'hoort bij [eigen thema]', en opent op zijn vaste plek; het eigen thema in `thema` blijft het enige thema van Mijn modules en van de zoekresultaten, dus geen dubbele rijen. Zichtbaarheidsregels gelden ook in het tweede thema. Een item in ondernemen.json met ook ['wonen'] (een artikel) staat vast bij Ondernemen en verschijnt als rij 'Ook bij Wonen' onder de hulpmiddelen van La Maison. artikel (optioneel, bij een module waarvan de kern een eigen tool is): het adres van het Infofrankrijk-artikel dat de tool uitlegt, bijvoorbeeld 'https://infofrankrijk.com/financieel-kompas/'. Een tegel of rij in de app die naar dat artikel wijst opent de tool direct, en in de tool staat een rij 'Lees de uitleg op Infofrankrijk' die het artikel in de app opent. Een iframe in een artikel waarvan de url bij een module hoort, wordt in het artikel een toolkaart die die module opent. drempel (optioneel, voorlopig leeg): plek voor de latere regel waar de grens tussen gratis en premium voor deze tool komt te liggen; er hangt nog geen logica aan. `prijs` staat voorlopig overal op gratis (alle betaalmuren op Infofrankrijk zijn eruit), maar het veld en de knip-haken in de code blijven bestaan.",
   "bijgewerkt": "2026-10-22",
-  "abonnement": {"_uitleg": "De ene bestemming van elke abonnee-knop in de app (vaste abonneeblok, onderblad, muren). Een betere bestemming later is één wijziging hier.", "url": "https://infofrankrijk.com/abonnement/"},
+  "abonnement": {
+    "_uitleg": "De ene bestemming van elke abonnee-knop in de app (vaste abonneeblok, onderblad, muren). Een betere bestemming later is één wijziging hier.",
+    "url": "https://infofrankrijk.com/abonnement/"
+  },
   "groepen": [
     {
       "id": "aankomen",
@@ -351,7 +354,6 @@
       "weergave": "volledig",
       "nagekeken": "2026-11-03",
       "over": "Een kalender per maand en klimaatzone: wat je wanneer zaait, plant en oogst in je Franse tuin.",
-      "weergave": "volledig",
       "standaard": "uit"
     },
     {
@@ -551,10 +553,27 @@
       "over": "Voor wie een Nederlandse vereniging in Frankrijk begint of bestuurt: eerst de vraag of je een officiële vereniging nodig hebt, dan wat het bestuur moet regelen, de enquête onder Nederlandse verenigingen en een eigen website en nieuwsbrief.",
       "zoekwoorden": "vereniging oprichten besturen bestuur association loi 1901 secretaris penningmeester",
       "links": [
-        {"titel": "Vereniging oprichten in Frankrijk", "regel": "Wanneer een officiële vereniging nodig is en wanneer een informele groep volstaat, met een stappenplan voor oprichting.", "url": "https://infofrankrijk.com/vereniging-oprichten-in-frankrijk/"},
-        {"titel": "Een vereniging besturen in Frankrijk", "regel": "Wat het bestuur moet regelen: wijzigingen melden, geld en giften, bar en loterij, aansprakelijkheid en privacy van leden.", "url": "https://infofrankrijk.com/vereniging-besturen-in-frankrijk/"},
-        {"titel": "Enquête NL Verenigingen 2021", "regel": "De volledige analyse van de enquête van Nederlanders.fr uit 2021 onder Nederlandse verenigingen in Frankrijk.", "url": "https://infofrankrijk.com/enquete-nl-verenigingen-2021/"},
-        {"titel": "vereniging.fr", "regel": "Een eigen website en nieuwsbrief voor Nederlandse verenigingen in Frankrijk, zonder dat iemand in het bestuur programmeur hoeft te zijn.", "url": "https://www.vereniging.fr/", "extern": true}
+        {
+          "titel": "Vereniging oprichten in Frankrijk",
+          "regel": "Wanneer een officiële vereniging nodig is en wanneer een informele groep volstaat, met een stappenplan voor oprichting.",
+          "url": "https://infofrankrijk.com/vereniging-oprichten-in-frankrijk/"
+        },
+        {
+          "titel": "Een vereniging besturen in Frankrijk",
+          "regel": "Wat het bestuur moet regelen: wijzigingen melden, geld en giften, bar en loterij, aansprakelijkheid en privacy van leden.",
+          "url": "https://infofrankrijk.com/vereniging-besturen-in-frankrijk/"
+        },
+        {
+          "titel": "Enquête NL Verenigingen 2021",
+          "regel": "De volledige analyse van de enquête van Nederlanders.fr uit 2021 onder Nederlandse verenigingen in Frankrijk.",
+          "url": "https://infofrankrijk.com/enquete-nl-verenigingen-2021/"
+        },
+        {
+          "titel": "vereniging.fr",
+          "regel": "Een eigen website en nieuwsbrief voor Nederlandse verenigingen in Frankrijk, zonder dat iemand in het bestuur programmeur hoeft te zijn.",
+          "url": "https://www.vereniging.fr/",
+          "extern": true
+        }
       ]
     },
     {
@@ -2174,21 +2193,66 @@
   },
   "nieuwsBeeld": {
     "_uitleg": "Themabeeld per nieuwsthema (de `thema`-sleutel van de tegels uit /api/actueel van nlfr-menu): welke themakleur uit `themas` en welk pictogram (sleutel uit ICONEN in nieuws-lib.js). Een thema dat hier niet staat krijgt het neutrale beeld. Nooit persfoto's.",
-    "verkeer": {"thema": "taal", "icoon": "weg"},
-    "zorg": {"thema": "gezondheid", "icoon": "hart"},
-    "landelijk": {"thema": "nieuws", "icoon": "land"},
-    "nl-nieuws": {"thema": "nieuws", "icoon": "krant"},
-    "regionaal": {"thema": "adressen", "icoon": "pin"},
-    "geld-belasting": {"thema": "geld", "icoon": "munt"},
-    "economie": {"thema": "geld", "icoon": "grafiek"},
-    "praktisch": {"thema": "ervaring", "icoon": "lijst"},
-    "ondernemen": {"thema": "ondernemen", "icoon": "koffer"},
-    "douane": {"thema": "overheid", "icoon": "doos"},
-    "wetgeving": {"thema": "overheid", "icoon": "wet"},
-    "nl-overheid": {"thema": "overheid", "icoon": "gebouw"},
-    "natuur-milieu": {"thema": "geld", "icoon": "blad"},
-    "infofrankrijk": {"thema": "wonen", "icoon": "huis"},
-    "verenigingen": {"thema": "adressen", "icoon": "mensen"}
+    "verkeer": {
+      "thema": "taal",
+      "icoon": "weg"
+    },
+    "zorg": {
+      "thema": "gezondheid",
+      "icoon": "hart"
+    },
+    "landelijk": {
+      "thema": "nieuws",
+      "icoon": "land"
+    },
+    "nl-nieuws": {
+      "thema": "nieuws",
+      "icoon": "krant"
+    },
+    "regionaal": {
+      "thema": "adressen",
+      "icoon": "pin"
+    },
+    "geld-belasting": {
+      "thema": "geld",
+      "icoon": "munt"
+    },
+    "economie": {
+      "thema": "geld",
+      "icoon": "grafiek"
+    },
+    "praktisch": {
+      "thema": "ervaring",
+      "icoon": "lijst"
+    },
+    "ondernemen": {
+      "thema": "ondernemen",
+      "icoon": "koffer"
+    },
+    "douane": {
+      "thema": "overheid",
+      "icoon": "doos"
+    },
+    "wetgeving": {
+      "thema": "overheid",
+      "icoon": "wet"
+    },
+    "nl-overheid": {
+      "thema": "overheid",
+      "icoon": "gebouw"
+    },
+    "natuur-milieu": {
+      "thema": "geld",
+      "icoon": "blad"
+    },
+    "infofrankrijk": {
+      "thema": "wonen",
+      "icoon": "huis"
+    },
+    "verenigingen": {
+      "thema": "adressen",
+      "icoon": "mensen"
+    }
   },
   "themas": [
     {
@@ -2235,7 +2299,9 @@
       "naam": "Verenigingen",
       "wat": "Verenigingen en evenementen.",
       "omschrijving": "Nederlandse verenigingen in Frankrijk: wie waar zit en wat er wanneer is.",
-      "uitsluiten": ["nedergids"]
+      "uitsluiten": [
+        "nedergids"
+      ]
     },
     {
       "id": "nieuws",
@@ -2294,128 +2360,180 @@
     }
   ],
   "infofrankrijk": {
-      "_uitleg": "Scherm Infofrankrijk (hub, Onze vier). Onderwerpen in volgorde; categorieen zijn WordPress-categorie-id's van infofrankrijk.com (top-level, gecontroleerd 10-11-2026). Een onderwerp erbij is een regel hier.",
-      "onderwerpen": [
-        {"titel": "Geldzaken & belasting", "categorieen": [361]},
-        {"titel": "Overheden", "categorieen": [26]},
-        {"titel": "Zorg en welzijn", "categorieen": [49]},
-        {"titel": "Wonen", "categorieen": [47]},
-        {"titel": "Vastgoed", "categorieen": [355]},
-        {"titel": "Verbouwen", "categorieen": [39]},
-        {"titel": "Ondernemen", "categorieen": [22]},
-        {"titel": "Emigreren", "categorieen": [563, 343]}
-      ]
+    "_uitleg": "Scherm Infofrankrijk (hub, Onze vier). Onderwerpen in volgorde; categorieen zijn WordPress-categorie-id's van infofrankrijk.com (top-level, gecontroleerd 10-11-2026). Een onderwerp erbij is een regel hier.",
+    "onderwerpen": [
+      {
+        "titel": "Geldzaken & belasting",
+        "categorieen": [
+          361
+        ]
+      },
+      {
+        "titel": "Overheden",
+        "categorieen": [
+          26
+        ]
+      },
+      {
+        "titel": "Zorg en welzijn",
+        "categorieen": [
+          49
+        ]
+      },
+      {
+        "titel": "Wonen",
+        "categorieen": [
+          47
+        ]
+      },
+      {
+        "titel": "Vastgoed",
+        "categorieen": [
+          355
+        ]
+      },
+      {
+        "titel": "Verbouwen",
+        "categorieen": [
+          39
+        ]
+      },
+      {
+        "titel": "Ondernemen",
+        "categorieen": [
+          22
+        ]
+      },
+      {
+        "titel": "Emigreren",
+        "categorieen": [
+          563,
+          343
+        ]
+      }
+    ]
   },
   "gezondheid": {
-      "_uitleg_niveau1": "Eerste niveau van het scherm Gezondheid: een intro, een spoedblok, zes onderwerpen en de hulpmiddelen van thema gezondheid. Een onderwerp heeft id, titel, regel (redactietekst onder de tegel), icoon (sleutel in THEMA_ICONS), en een bestemming: artikelen (lijst {url, titel}; de titel is een terugval, de app haalt de actuele titel live op via REST) en/of modules (lijst module-id's, alleen zichtbaar als de module nu zichtbaar is), of scherm (nu alleen 'ouderen': het bestaande dossierscherm hieronder, ongewijzigd). Geen aantallen in de data of de tegels die de app niet uit de data kan tellen.",
-      "intro": "Verzekerd zijn, naar de dokter, het ziekenhuis, de apotheek, en zorg als je ouder wordt.",
-      "spoed": {
-          "titel": "Spoed",
-          "tekst": "Medisch spoedgeval: 15 (Samu). Overal in de EU: 112.",
-          "hubTekst": "Spoed? Bel 15 (Samu) of 112",
-          "knop": "Bel 15",
-  "knoppen": [{"label": "Bel 15", "tel": "15"}, {"label": "Bel 112", "tel": "112"}],
-          "tel": "15",
-          "bron": "https://www.service-public.gouv.fr/particuliers/vosdroits/F33954"
-      },
-      "onderwerpen": [
-          {
-              "id": "verzekerd",
-              "titel": "Verzekerd zijn",
-              "regel": "carte Vitale, mutuelle, CAK en S1",
-              "icoon": "gzverzekerd",
-              "artikelen": [
-                  {
-                      "url": "https://infofrankrijk.com/het-zorglandschap/",
-                      "titel": "Het zorglandschap",
-                      "soort": "tool"
-                  },
-                  {
-                      "url": "https://infofrankrijk.com/verzekeringen-in-frankrijk/",
-                      "titel": "Verzekeringen in Frankrijk"
-                  },
-                  {
-                      "url": "https://infofrankrijk.com/de-verdragsbijdrage-aan-het-cak/",
-                      "titel": "De verdragsbijdrage aan het CAK"
-                  },
-                  {
-                      "url": "https://infofrankrijk.com/cak-vroegpensioen-en-zorg-in-frankrijk/",
-                      "titel": "CAK, vroegpensioen en zorg in Frankrijk"
-                  }
-              ]
-          },
-          {
-              "id": "arts",
-              "titel": "Huisarts, specialist en tandarts",
-              "regel": "médecin traitant, een arts vinden",
-              "icoon": "gzarts",
-              "artikelen": [
-                  {
-                      "url": "https://infofrankrijk.com/huisarts-specialist-en-tandarts/",
-                      "titel": "Huisarts, specialist en tandarts"
-                  },
-                  {
-                      "url": "https://infofrankrijk.com/de-huisarts-de-specialist/",
-                      "titel": "De huisarts, de specialist"
-                  },
-                  {
-                      "url": "https://infofrankrijk.com/deserts-medicaux-een-huisarts-vinden/",
-                      "titel": "“Déserts Médicaux”, een huisarts vinden in de woestijn"
-                  }
-              ]
-          },
-          {
-              "id": "ziekenhuis",
-              "titel": "Ziekenhuis en kliniek",
-              "regel": "opname, eigen bijdrage, kiezen",
-              "icoon": "gzziekenhuis",
-              "artikelen": [
-                  {
-                      "url": "https://infofrankrijk.com/ziekenhuis-en-kliniek/",
-                      "titel": "Ziekenhuis/kliniek"
-                  }
-              ]
-          },
-          {
-              "id": "apotheek",
-              "titel": "Apotheek en medicijnen",
-              "regel": "recept, wat de apotheker mag",
-              "icoon": "gzapotheek",
-              "artikelen": [
-                  {
-                      "url": "https://infofrankrijk.com/de-apotheek-frankrijk/",
-                      "titel": "De apotheek in Frankrijk: bevoegdheden"
-                  }
-              ]
-          },
-          {
-              "id": "ouderen",
-              "titel": "Ouder worden en zorg",
-              "regel": "het dossier in zes fasen",
-              "icoon": "gzouder",
-              "scherm": "ouderen"
-          },
-          {
-              "id": "woorden",
-              "titel": "Woorden bij de dokter",
-              "regel": "Nederlands en Frans naast elkaar",
-              "icoon": "gzwoorden",
-              "artikelen": [
-                  {
-                      "url": "https://infofrankrijk.com/medische-woordenlijst-frankrijk/",
-                      "titel": "Woordenlijst (huis)arts, tandarts en apotheker in Frankrijk"
-                  }
-              ],
-              "modules": [
-                  "woordenboek"
-              ]
-          }
+    "_uitleg_niveau1": "Eerste niveau van het scherm Gezondheid: een intro, een spoedblok, zes onderwerpen en de hulpmiddelen van thema gezondheid. Een onderwerp heeft id, titel, regel (redactietekst onder de tegel), icoon (sleutel in THEMA_ICONS), en een bestemming: artikelen (lijst {url, titel}; de titel is een terugval, de app haalt de actuele titel live op via REST) en/of modules (lijst module-id's, alleen zichtbaar als de module nu zichtbaar is), of scherm (nu alleen 'ouderen': het bestaande dossierscherm hieronder, ongewijzigd). Geen aantallen in de data of de tegels die de app niet uit de data kan tellen.",
+    "intro": "Verzekerd zijn, naar de dokter, het ziekenhuis, de apotheek, en zorg als je ouder wordt.",
+    "spoed": {
+      "titel": "Spoed",
+      "tekst": "Medisch spoedgeval: 15 (Samu). Overal in de EU: 112.",
+      "hubTekst": "Spoed? Bel 15 (Samu) of 112",
+      "knop": "Bel 15",
+      "knoppen": [
+        {
+          "label": "Bel 15",
+          "tel": "15"
+        },
+        {
+          "label": "Bel 112",
+          "tel": "112"
+        }
       ],
-      "hulpmiddelen": {
-          "titel": "Hulpmiddelen",
-          "uitsluiten": ["zorg"],
-          "_uitleg": "Alle modules met thema gezondheid die nu zichtbaar zijn (Mijn modules telt mee), behalve de hier uitgesloten: zorg is het noodscherm achter Ouder worden en zorg."
+      "tel": "15",
+      "bron": "https://www.service-public.gouv.fr/particuliers/vosdroits/F33954"
+    },
+    "onderwerpen": [
+      {
+        "id": "verzekerd",
+        "titel": "Verzekerd zijn",
+        "regel": "carte Vitale, mutuelle, CAK en S1",
+        "icoon": "gzverzekerd",
+        "artikelen": [
+          {
+            "url": "https://infofrankrijk.com/het-zorglandschap/",
+            "titel": "Het zorglandschap",
+            "soort": "tool"
+          },
+          {
+            "url": "https://infofrankrijk.com/verzekeringen-in-frankrijk/",
+            "titel": "Verzekeringen in Frankrijk"
+          },
+          {
+            "url": "https://infofrankrijk.com/de-verdragsbijdrage-aan-het-cak/",
+            "titel": "De verdragsbijdrage aan het CAK"
+          },
+          {
+            "url": "https://infofrankrijk.com/cak-vroegpensioen-en-zorg-in-frankrijk/",
+            "titel": "CAK, vroegpensioen en zorg in Frankrijk"
+          }
+        ]
       },
+      {
+        "id": "arts",
+        "titel": "Huisarts, specialist en tandarts",
+        "regel": "médecin traitant, een arts vinden",
+        "icoon": "gzarts",
+        "artikelen": [
+          {
+            "url": "https://infofrankrijk.com/huisarts-specialist-en-tandarts/",
+            "titel": "Huisarts, specialist en tandarts"
+          },
+          {
+            "url": "https://infofrankrijk.com/de-huisarts-de-specialist/",
+            "titel": "De huisarts, de specialist"
+          },
+          {
+            "url": "https://infofrankrijk.com/deserts-medicaux-een-huisarts-vinden/",
+            "titel": "“Déserts Médicaux”, een huisarts vinden in de woestijn"
+          }
+        ]
+      },
+      {
+        "id": "ziekenhuis",
+        "titel": "Ziekenhuis en kliniek",
+        "regel": "opname, eigen bijdrage, kiezen",
+        "icoon": "gzziekenhuis",
+        "artikelen": [
+          {
+            "url": "https://infofrankrijk.com/ziekenhuis-en-kliniek/",
+            "titel": "Ziekenhuis/kliniek"
+          }
+        ]
+      },
+      {
+        "id": "apotheek",
+        "titel": "Apotheek en medicijnen",
+        "regel": "recept, wat de apotheker mag",
+        "icoon": "gzapotheek",
+        "artikelen": [
+          {
+            "url": "https://infofrankrijk.com/de-apotheek-frankrijk/",
+            "titel": "De apotheek in Frankrijk: bevoegdheden"
+          }
+        ]
+      },
+      {
+        "id": "ouderen",
+        "titel": "Ouder worden en zorg",
+        "regel": "het dossier in zes fasen",
+        "icoon": "gzouder",
+        "scherm": "ouderen"
+      },
+      {
+        "id": "woorden",
+        "titel": "Woorden bij de dokter",
+        "regel": "Nederlands en Frans naast elkaar",
+        "icoon": "gzwoorden",
+        "artikelen": [
+          {
+            "url": "https://infofrankrijk.com/medische-woordenlijst-frankrijk/",
+            "titel": "Woordenlijst (huis)arts, tandarts en apotheker in Frankrijk"
+          }
+        ],
+        "modules": [
+          "woordenboek"
+        ]
+      }
+    ],
+    "hulpmiddelen": {
+      "titel": "Hulpmiddelen",
+      "uitsluiten": [
+        "zorg"
+      ],
+      "_uitleg": "Alle modules met thema gezondheid die nu zichtbaar zijn (Mijn modules telt mee), behalve de hier uitgesloten: zorg is het noodscherm achter Ouder worden en zorg."
+    },
     "_uitleg": "Indeling van het scherm Gezondheid. Alleen hoofdstuknummers en labels; de tekst van het dossier wordt live bij Infofrankrijk opgehaald (dossier.js) en staat niet in de repo.",
     "bron": {
       "naam": "Ouder worden in Frankrijk: het complete dossier",
@@ -2521,5 +2639,28 @@
         "palliatief"
       ]
     }
-  }
+  },
+  "nedergidsLinks": [
+    {
+      "titel": "Officiële registers Frankrijk",
+      "regel": "Controleer vakmensen en instanties in de officiële Franse registers",
+      "url": "https://infofrankrijk.com/officiele-registers-frankrijk-vakmensen-instanties-zoeken/",
+      "extern": true
+    },
+    {
+      "titel": "Uitgebreid adressenboek voor Nederlanders in Frankrijk",
+      "regel": "Officiële Franse en Nederlandse portalen op één plek",
+      "url": "https://infofrankrijk.com/uitgebreid-adressenboek-voor-nederlanders-in-frankrijk/"
+    },
+    {
+      "titel": "Websites Franse overheden en instellingen",
+      "regel": "De belangrijkste diensten en digitale loketten, per onderwerp",
+      "url": "https://infofrankrijk.com/websites-franse-overheden-en-instellingen/"
+    },
+    {
+      "titel": "Snel hulp of zorg vinden voor Nederlanders",
+      "regel": "Waar je terechtkunt als je hulp of advies nodig hebt",
+      "url": "https://infofrankrijk.com/snel-hulp-zorg-vinden-nederlanders/"
+    }
+  ]
 }

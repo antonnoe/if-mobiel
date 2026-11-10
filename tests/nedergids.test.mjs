@@ -15,12 +15,12 @@ test("scherm: label, kop, intro, V2-regel en slotregel precies één keer", () =
 
 test("scherm: vijf kaarten, alleen nedergids.nl gaat naar buiten, de rest opent in de app, de rest opent in de app", () => {
   const kaarten = [...scherm.matchAll(/<a href="([^"]+)" target="_blank" rel="noopener"/g)].map(m => m[1]);
-  assert.deepEqual(kaarten, ["https://www.nedergids.nl"]);
+  assert.deepEqual(kaarten, ["https://www.nedergids.nl", "{{ x.url }}"], "plus de vindpagina's die niet in de app werken (nedergidsLinks extern)");
   assert.ok(scherm.includes("Hygiënecontroles bij restaurants") && scherm.includes("Wat je bij Gault &amp; Millau en Michelin niet leest") && scherm.includes("fris, fruitig en hygiënisch"));
   for (const h of ["ngGemeente", "ngVerenigingen", "ngOverheden", "ngHygiene"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
   assert.match(html, /ngVerenigingen: \(\) => this\.route\(this\.vindModule\("verenigingen"\)\)/);
   assert.match(html, /ngOverheden: \(\) => this\.route\(this\.vindModule\("overhedenbuurt"\)\)/);
-  assert.equal((scherm.match(/min-height:64px/g) || []).length, 6, "vijf vaste kaarten plus de herhaalde kaart uit ngExtra");
+  assert.equal((scherm.match(/min-height:64px/g) || []).length, 8, "vijf vaste kaarten plus de herhaalde kaarten uit ngExtra en ngLinks (twee varianten)");
   assert.ok(!scherm.includes("Adressenboek"), "Adressenboek en overheden zijn één kaart");
 });
 
@@ -42,4 +42,12 @@ test("Nedergids toont ook de zoekers per buurt of departement, uit de data (ookN
   assert.deepEqual(extra, ["controletechnique", "palliatief", "zoekers"]);
   assert.ok(scherm.includes('<sc-for list="{{ ngExtra }}"'));
   assert.match(html, /ngExtra: this\.alleMods\(\)\.filter\(m => m\.ookNedergids === true/);
+});
+
+test("Nedergids: vindpagina's van Infofrankrijk uit modules.json", () => {
+  const l = cat.nedergidsLinks;
+  assert.equal(l.length, 4);
+  for (const x of l) assert.match(x.url, /^https:\/\/infofrankrijk\.com\//);
+  assert.equal(l[0].extern, true, "registers is een zoekpagina die in de app niet werkt");
+  assert.match(html, /data-nglink="1"/);
 });

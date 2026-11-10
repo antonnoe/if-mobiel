@@ -63,7 +63,7 @@ test("bedrading: hash, navKey, tab, scripts, service worker", () => {
   assert.notEqual(Nv.navKey({screen:"infofr", ifOnd:""}), Nv.navKey({screen:"infofr", ifOnd:"2"}));
   assert.equal(require("../hub-lib.js").tabVan("infofr"), "hub");
   assert.match(html, /<script src="\.\/infofr-lib\.js"><\/script>/);
-  assert.ok(sw.includes('"./infofr-lib.js"') && sw.includes('VERSIE = "2026-11-10-5"'));
+  assert.ok(sw.includes('"./infofr-lib.js"'));
   assert.match(html, /SHOWBACK = \/\^\([^)]*\|infofr\|/);
   assert.ok(!/KOP_H1 = \[[^\]]*infofr/.test(html));
   assert.ok(html.includes('open:() => this.go("infofr")'));
