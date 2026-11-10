@@ -1,9 +1,9 @@
 {
   "voorbeeld": true,
   "naam": "Familie Voorbeeld",
-  "titel": "Dossier Familie Voorbeeld",
-  "ondertitel": "Een verzonnen voorbeeld om doorheen te klikken. Alle namen, bedragen en data zijn fictief.",
-  "welkom": "Zo ziet een dossier eruit: wat je bewaard hebt, wat er nog moet gebeuren en waar het over gaat. Alles hieronder is verzonnen.",
+  "titel": "Dossier Frankrijk",
+  "ondertitel": "Een voorbeeld om doorheen te klikken: het dossier van de verzonnen familie Voorbeeld. Alle namen, bedragen en data zijn fictief.",
+  "welkom": "Zo ziet een dossier eruit: wat je bewaard hebt, wat er nog moet gebeuren en waar het over gaat. Alles hieronder is verzonnen. Een slimme assistent in je dossier waarschuwt als iets verouderd is of niet meer klopt, zoals een document, een termijn of een rapportage.",
   "onderdelen": [
     {
       "id": "woning",

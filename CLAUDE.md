@@ -538,6 +538,10 @@ Laatst nagelopen: 9 november 2026
 
 - Mock-up goedgekeurd: één regel "Zoek in InfoPoche" (16 px 600, `#3D4346`, nowrap), bordeaux vergrootglas 22 px, 54 px hoog, rand 1,5 px `rgba(128,0,0,.22)`, lichte schaduw (`data-hubzoek`). Het zoeken zelf is ongewijzigd. Service worker `VERSIE` 2026-11-10-1. Test: `tests/klusronde.test.mjs`.
 
+## Dossier Frankrijk, naam en toegang (10 november 2026)
+
+- Besluit eigenaar: de naam is overal "Dossier Frankrijk" (hubknop, voorbeeldscherm `dossierdemo` met kop "Dossier Frankrijk" en kopbalk "Mijn Dossier Frankrijk", module `dossierfrankrijk`). Een abonnee houdt altijd en onbeperkt toegang tot zijn dossier, ook zonder verlenging; alleen de AI-dossierassistent (waarschuwt voor verouderde of inconsistente inhoud) stopt dan. Die tekst staat in de balk onder het voorbeeld, in `data/dossier-demo.json` (`welkom`) en in `over` van de module. Service worker `VERSIE` 2026-11-10-12.
+
 ## Scherm Infofrankrijk (herbouwd 10 november 2026)
 
 - De tegel Infofrankrijk in "Onze vier" (`hubVierLijst`) opent het eigen scherm `infofr` (hash `#/infofrankrijk`, `go("infofr")` naar `ifOpen`). Tab Home blijft actief, `SHOWBACK` kent het scherm, het scherm heeft een eigen h1 (niet in `KOP_H1`). Goedgekeurde mock-ups: start en onderwerp (10-11-2026).
