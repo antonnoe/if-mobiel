@@ -199,3 +199,9 @@ test("verwijskaart bij alle acht onderwerpen (tools of toolsModule)", () => {
   const ids = cat.modules.map(m => m.id), themas = cat.themas.map(t => t.id);
   for (const o of cat.infofrankrijk.onderwerpen) assert.ok((o.tools && themas.includes(o.tools)) || (o.toolsModule && ids.includes(o.toolsModule)), o.titel);
 });
+
+test("leesOnderwerpen geeft toolsModule door", () => {
+  const I = require("../infofr-lib.js");
+  const l = I.leesOnderwerpen({onderwerpen:[{titel:"Emigreren", categorieen:[563], toolsModule:"emigreren"}]});
+  assert.equal(l[0].toolsModule, "emigreren");
+});

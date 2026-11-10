@@ -216,7 +216,7 @@
       if (!o || !tekst(o.titel)) return null;
       var c = ids(o.categorieen);
       if (!c.length) return null;
-      return { titel: tekst(o.titel), regel: tekst(o.regel), icoon: ICONEN_OK.test(tekst(o.icoon)) ? o.icoon : "", thema: tekst(o.thema), tools: tekst(o.tools), categorieen: c };
+      return { titel: tekst(o.titel), regel: tekst(o.regel), icoon: ICONEN_OK.test(tekst(o.icoon)) ? o.icoon : "", thema: tekst(o.thema), tools: tekst(o.tools), toolsModule: tekst(o.toolsModule), categorieen: c };
     }).filter(Boolean);
   }
   // Grote gidsen: titel verplicht, en een bestemming: scherm (lamaison, gezondheid-ouderen, kalender) of module.
