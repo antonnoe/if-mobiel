@@ -586,3 +586,7 @@ Laatst nagelopen: 9 november 2026
 ## Forum, nieuwe kaarten (10 november 2026)
 
 - Goedgekeurd voorstel: het label "Nederlanders.fr" boven elk bericht is weg; de kop is "Forum" met één zin uitleg; een rij met Alles, "Met reacties (N)" en rechts een rond vernieuwknopje (44 px, `aria-label="Vernieuwen"`), daaronder "Nieuwste reacties bovenaan". Elke kaart (`data-forumkaart`): rondje met de beginletter, naam, en "Laatste reactie 36 minuten geleden" of "Geplaatst ..." (`forumWanneer`, `geleden`; geen tijd in de bron: geen regel), NIEUW rechts, titel in Poppins 17 px, samenvatting hooguit drie regels, de eerste foto over de volle breedte (200 px hoog, `loading="lazy"`, verdwijnt bij een fout) en een vaste onderregel met tekstballon en aantal reacties links en "Lees de draad →" rechts. Eén kolom. Service worker `VERSIE` 2026-11-10-18. Test: `tests/klusronde.test.mjs`.
+
+## Systeemkleur wit (10 november 2026)
+
+- Een tester (Motorola G75, Android 16) zag in de geïnstalleerde app de drie navigatieknoppen van Android haast niet op de bordeaux balk onderaan; Android kleurt die balk (en de statusbalk) met de themakleur. `theme_color` in `manifest.webmanifest` en `<meta name="theme-color">` in `index.html` zijn daarom wit (`#FFFFFF`, gelijk aan de tabbalk), zodat Android donkere knoppen kiest. Een al geïnstalleerde app neemt een gewijzigd manifest pas over na de periodieke update van Chrome (dagen); de meta-kleur geldt direct. Niet terugzetten naar bordeaux. Service worker `VERSIE` 2026-11-10-19. Test: `tests/klusronde.test.mjs`.

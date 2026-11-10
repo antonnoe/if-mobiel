@@ -70,3 +70,10 @@ test("forumkaart: foto over de volle breedte, lui geladen, alleen bij een foto; 
   assert.match(src, /aria-label="Vernieuwen"/);
   assert.match(src, /heeftBeeld: !!eersteBeeld\(p\)/);
 });
+
+test("systeemkleur wit: Androids navigatieknoppen blijven zichtbaar (melding tester, Motorola G75, Android 16)", () => {
+  const src = lees("index.html");
+  assert.ok(!src.includes('name="theme-color" content="#800000"'));
+  assert.match(src, /name="theme-color" content="#FFFFFF"/);
+  assert.match(lees("manifest.webmanifest"), /"theme_color": "#FFFFFF"/);
+});
