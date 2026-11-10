@@ -1,6 +1,6 @@
 {
-  "stand": "2026-10-26",
-  "registerversie": "1.12.1",
+  "stand": "2026-11-10",
+  "registerversie": "1.14.7",
   "toelichting": "Kopie van de waarden uit Peil, het parameterregister van Communities Abroad. Waarde null met status te_verifieren: het register heeft daar nog geen vastgestelde waarde; de tool toont die als standaard of aanname. tests/peil.test.mjs vergelijkt de tool hiermee.",
   "parameters": [
     {
@@ -295,10 +295,10 @@
       "id": "p.fr.energie.prijs_petroleum",
       "naam": "Lampolieprijs (pétrole lampant)",
       "status": "raming",
-      "waarde": 2.25,
-      "waarde_weergave": "circa 2,25 euro per liter TTC (bandbreedte 1,75 tot 2,75 euro per liter, bussen van 20 liter in bouwmarkten, september en oktober 2026)",
-      "bron_url": "https://selectra.info/energie/actualites/marche/poele-a-petrole-prix-combustible-radiateur",
-      "verificatiedatum": "2026-10-26"
+      "waarde": 2.65,
+      "waarde_weergave": "2,65 euro per liter TTC (Brico Dépôt, Pétrole Combubase, bus van 20 liter, 52,90 euro, opgehaald 10-11-2026; bandbreedte 1,80 tot 2,65 euro per liter)",
+      "bron_url": "https://www.bricodepot.fr/p/5420020007332/petrole-combubase-20l",
+      "verificatiedatum": "2026-11-10"
     },
     {
       "id": "p.fr.energie.prijs_propaan",

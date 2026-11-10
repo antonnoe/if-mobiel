@@ -17,7 +17,7 @@ const PV_YIELD = { med: 1450, ouest: 1250, paris: 1150, centre: 1200, est: 1150,
 // Alle standaardwaarden hieronder komen uit Peil (het parameterregister van Communities Abroad) of zijn
 // als aanname gemarkeerd. Per waarde staan bron en jaar erbij. Peil-id's verwijzen naar peil/waarden.json;
 // tests/peil.test.mjs bewaakt dat beide overeenkomen. Stand van de controle: PEIL_WAARDEN_STAND.
-const PEIL_WAARDEN_STAND = '2026-10-26';
+const PEIL_WAARDEN_STAND = '2026-11-10';
 
 // Status: 'vastgesteld' = officiële bron, 'raming' = gemeten gemiddelde van een overheidsinstantie,
 // 'aanname' = keuze van de tool (marktprijs of eigen koppeling), zichtbaar als standaard die de gebruiker kan aanpassen.
@@ -53,8 +53,9 @@ const PRIJS_INFO = {
   propaan:   { waarde: 1.17, status: 'aanname', peilId: 'p.fr.energie.prijs_propaan',
                bron: 'SDES, propaan in tank, juni tot en met augustus 2026: 0,1802 euro per kWh PCI, omgerekend met 0,51 kg per liter (aanname van de tool)',
                periode: 'juni tot en met augustus 2026', periodeEinde: '2026-08-31' },
-  petroleum: { waarde: 2.00, status: 'aanname', peilId: 'p.fr.energie.prijs_petroleum',
-               bron: 'eigen schatting van de tool, geen overheidsbron', periode: null, periodeEinde: null }
+  // Bron: Brico Dépôt, Pétrole Combubase, bus van 20 liter, 52,90 euro, opgehaald 10-11-2026 (winkelprijs van één bouwmarktketen, geen overheidsbron).
+  petroleum: { waarde: 2.65, status: 'aanname', peilId: 'p.fr.energie.prijs_petroleum',
+               bron: 'Brico Dépôt, Pétrole Combubase, bus van 20 liter, 52,90 euro, opgehaald 10-11-2026 (winkelprijs, geen overheidsbron)', periode: null, periodeEinde: null }
 };
 const PRICE_DEFAULTS_USER = { elec: PRIJS_INFO.elec.waarde, gas: PRIJS_INFO.gas.waarde, fioul: PRIJS_INFO.fioul.waarde, pellet: PRIJS_INFO.pellet.waarde, wood: PRIJS_INFO.wood.waarde, propaan: PRIJS_INFO.propaan.waarde, petroleum: PRIJS_INFO.petroleum.waarde };
 const ENERGY_UNITS        = { elec: '€/kWh', gas: '€/kWh', fioul: '€/L', pellet: '€/kg', wood: '€/stère', propaan: '€/L', petroleum: '€/L' };
