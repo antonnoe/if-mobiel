@@ -7131,6 +7131,7 @@ class Component extends DCLogic {
     if (s === "klusarchief") return this.kaOpen(this.vindModule("klusforum"), "hub");
     if (s === "kalender") return this.kalOpen(this.vindModule("kalender"), "hub");
     if (s === "infofr") return this.ifOpen();
+    if (s === "gemeente") return this.gmOpen("hub");
     if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }

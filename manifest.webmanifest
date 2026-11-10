@@ -41,14 +41,68 @@
       "sizes": "1080x2340",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "De hub met negen onderwerpen"
+      "label": "Het startscherm met de band Vandaag"
     },
     {
-      "src": "screenshots/thema.png",
+      "src": "screenshots/zoeken.png",
       "sizes": "1080x2340",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Een onderwerp met modules en nieuws"
+      "label": "Zoeken met de sterrenkaart"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mijn gemeente",
+      "short_name": "Gemeente",
+      "description": "Risico's, belasting, water en afval bij je adres",
+      "url": "./#/gemeente",
+      "icons": [
+        {
+          "src": "icons/snel/gemeente.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Kalender Frankrijk",
+      "short_name": "Kalender",
+      "description": "Deadlines, feestdagen en vakanties",
+      "url": "./#/kalender",
+      "icons": [
+        {
+          "src": "icons/snel/kalender.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Zoeken",
+      "short_name": "Zoeken",
+      "description": "Zoek in InfoPoche of kies een onderwerp",
+      "url": "./#/zoek",
+      "icons": [
+        {
+          "src": "icons/snel/zoeken.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Forum",
+      "short_name": "Forum",
+      "description": "Nieuwste berichten op Nederlanders.fr",
+      "url": "./#/forum",
+      "icons": [
+        {
+          "src": "icons/snel/forum.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }
