@@ -134,6 +134,15 @@
     (items || []).forEach(function (it) {
       if (it.reeks) { (groepen[it.reeks] = groepen[it.reeks] || []).push(it); }
     });
+    // Hoofdstukken zonder genummerde excerpt ("Hoofdstuk 3 van de Franse elektrische installatie") horen bij een reeks
+    // als hun samenvatting "hoofdstuk" en de reeksnaam noemt (besluit 10-11-2026: het ontwerp had ze samengevoegd).
+    (items || []).forEach(function (it) {
+      if (it.reeks || !/hoofdstuk/i.test(it.samenvatting || "")) return;
+      var sam = (it.samenvatting || "").toLowerCase();
+      Object.keys(groepen).forEach(function (k) {
+        if (!it.reeks && groepen[k].length >= 2 && k.length >= 8 && sam.indexOf(k.toLowerCase()) >= 0) { it.reeks = k; groepen[k].push(it); }
+      });
+    });
     var gedaan = {}, uit = [];
     (items || []).forEach(function (it) {
       var g = it.reeks ? groepen[it.reeks] : null;

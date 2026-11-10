@@ -180,3 +180,16 @@ test("scherm: teksten van het ontwerp staan er", () => {
   assert.ok(html.includes("Reeks in \" + k.n + \" delen"));
   assert.ok(html.includes("De tools bij \" + tTh.naam + \" in de app"));
 });
+
+test("reeks: hoofdstukken met 'Hoofdstuk N van <reeks>' in de samenvatting horen erbij", () => {
+  const I = require("../infofr-lib.js");
+  const k = "De Franse elektrische installatie";
+  const items = [
+    {titel:k, samenvatting:"Intro", reeks:k, reeksLengte:10},
+    {titel:"De aarding", samenvatting:"x", reeks:k},
+    {titel:"De groepenkast", samenvatting:"De groepenkast. Hoofdstuk 3 van de Franse elektrische installatie.", reeks:""},
+    {titel:"Los", samenvatting:"Iets anders", reeks:""}];
+  const uit = I.voegReeksenSamen(items);
+  assert.equal(uit.length, 2);
+  assert.equal(uit[0].n, 10);
+});
