@@ -1357,16 +1357,11 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <sc-if value="{{ isGem }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
-    <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Nederlanders.fr · vrij toegankelijk</div>
-    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Forum</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Het forum van Nederlanders.fr: berichten mét hun volledige reactiedraad, juist wat de mobiele weergave van de site weglaat. Lezen kan zonder account; reageren doe je op de site zelf.</p>
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:30px;line-height:1.1;letter-spacing:-.015em;margin:0">Forum</h1>
+    <p style="font-size:14px;line-height:1.6;color:#3D4346;margin:6px 0 0;text-wrap:pretty">Berichten met de hele reactiedraad. Lezen kan zonder account, reageren doe je op Nederlanders.fr.</p>
   </div>
 
   <div>
-    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 0">
-      <div style="font:600 12px Mulish;color:#5F6669;flex:1">{{ feedStatus }}</div>
-      <button onClick="{{ refresh }}" style="flex:none;border:1px solid rgba(21,24,26,.10);background:#fff;border-radius:999px;padding:8px 14px;min-height:44px;font:700 12px Mulish;color:#3D4346;cursor:pointer">Vernieuwen</button>
-    </div>
     <sc-if value="{{ gemFout }}" hint-placeholder-val="{{ false }}">
     <div data-forum-fout style="margin:14px 14px 0;padding:16px 15px;border-radius:15px;background:#fff;border:1px solid rgba(21,24,26,.10)">
       <div style="font:700 15px/1.4 Mulish;color:#15181A">Het forum is nu niet bereikbaar.</div>
@@ -1376,31 +1371,38 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </div>
     </div>
     </sc-if>
-<sc-if value="{{ gemGeenFout }}" hint-placeholder-val="{{ true }}">
-    <div style="display:flex;gap:7px;overflow-x:auto;padding:12px 16px 0">
+    <sc-if value="{{ gemGeenFout }}" hint-placeholder-val="{{ true }}">
+    <div data-forum-balk="1" style="display:flex;align-items:center;gap:8px;padding:14px 14px 0">
       <button onClick="{{ setFilterAll }}" style="{{ gemFilterAll }}">Alles</button>
       <button onClick="{{ setFilterMet }}" style="{{ gemFilterMet }}">{{ metCount }}</button>
+      <button onClick="{{ refresh }}" aria-label="Vernieuwen" title="Vernieuwen" style="margin-left:auto;flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(21,24,26,.12);background:#fff;display:grid;place-items:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D4346" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"></path></svg></button>
     </div>
+    <div style="padding:6px 18px 0;font:600 12px Mulish;color:#5F6669">{{ feedStatus }}</div>
     </sc-if>
     <div style="display:flex;flex-direction:column;gap:10px;padding:12px 14px 0">
       <sc-for list="{{ posts }}" as="p" hint-placeholder-count="4">
-      <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:15px;overflow:hidden">
-        <button onClick="{{ p.open }}" style="width:100%;display:block;padding:14px 15px;border:0;background:none;text-align:left;cursor:pointer">
-          <sc-if value="{{ p.isNew }}" hint-placeholder-val="{{ false }}">
-          <span style="display:inline-block;margin-bottom:5px;font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 6px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">NIEUW</span>
-          </sc-if>
-          <div style="display:flex;align-items:flex-start;gap:12px">
-            <div style="flex:1;min-width:0;font:700 15px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ p.titel }}</div>
-            <sc-if value="{{ p.heeftBeeld }}" hint-placeholder-val="{{ false }}">
-            <img data-forumbeeld="1" src="{{ p.beeld }}" alt="" loading="lazy" onError="{{ p.beeldFout }}" style="flex:none;width:84px;height:84px;object-fit:cover;border-radius:10px;background:#F4F1F0">
-            </sc-if>
+      <div data-forumkaart="1" style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:18px;overflow:hidden">
+        <button onClick="{{ p.open }}" style="width:100%;display:block;padding:0;border:0;background:none;text-align:left;cursor:pointer">
+          <div style="padding:14px 16px 0">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span aria-hidden="true" style="width:34px;height:34px;flex:none;border-radius:50%;background:rgba(128,0,0,.10);color:#800000;display:grid;place-items:center;font:800 14px Mulish">{{ p.letter }}</span>
+              <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px">
+                <span style="font:700 13.5px/1.3 Mulish;color:#15181A;overflow-wrap:anywhere">{{ p.auteur }}</span>
+                <span style="font:600 12.5px/1.3 Mulish;color:#5F6669">{{ p.wanneer }}</span>
+              </span>
+              <sc-if value="{{ p.isNew }}" hint-placeholder-val="{{ false }}">
+              <span style="flex:none;font:800 11.5px Mulish;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:rgba(128,0,0,.10);color:#800000">NIEUW</span>
+              </sc-if>
+            </div>
+            <div style="font:600 17px/1.3 Poppins,system-ui,sans-serif;color:#15181A;margin-top:11px;text-wrap:pretty;overflow-wrap:anywhere">{{ p.titel }}</div>
+            <div style="font:500 13.5px/1.6 Mulish;color:#3D4346;margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-wrap:pretty">{{ p.samenvatting }}</div>
           </div>
-          <div style="font:500 12.5px/1.6 Mulish;color:#5F6669;margin-top:5px;text-wrap:pretty">{{ p.samenvatting }}</div>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:9px">
-            <span style="font:600 12px Mulish;color:#5F6669">{{ p.meta }}</span>
-            <sc-if value="{{ p.heeftReacties }}" hint-placeholder-val="{{ true }}">
-            <span style="margin-left:auto;font:700 12px Mulish;color:#800000">{{ p.draadLabel }}</span>
-            </sc-if>
+          <sc-if value="{{ p.heeftBeeld }}" hint-placeholder-val="{{ false }}">
+          <img data-forumbeeld="1" src="{{ p.beeld }}" alt="" loading="lazy" onError="{{ p.beeldFout }}" style="display:block;width:100%;height:200px;object-fit:cover;margin-top:12px;background:#F4F1F0">
+          </sc-if>
+          <div style="display:flex;align-items:center;gap:8px;padding:12px 16px 14px;margin-top:12px;border-top:1px solid rgba(21,24,26,.06)">
+            <span style="display:flex;align-items:center;gap:6px;font:700 13px Mulish;color:#3D4346"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path></svg>{{ p.reactieTekst }}</span>
+            <span style="margin-left:auto;font:700 13px Mulish;color:#800000">{{ p.leesTekst }}</span>
           </div>
         </button>
         <sc-if value="{{ p.leesKnop }}" hint-placeholder-val="{{ false }}">
@@ -4146,6 +4148,21 @@ function heeftHtml(h){ return typeof h === "string" && h.replace(/\s+/g, "") !==
 // Voor de lijstweergave: alleen leesbare tekst, zonder tags.
 function platteTekst(t){ return blokken(t).filter(b => b.isTekst).map(b => b.tekst).join(" "); }
 
+// "36 minuten geleden": bij een bericht met reacties de tijd van de laatste reactie, anders van het bericht zelf.
+function geleden(d){
+  if (!d) return "";
+  const t = new Date(d); if (isNaN(t)) return "";
+  const min = Math.max(0, Math.round((Date.now() - t.getTime())/60000));
+  if (min < 1) return "zojuist";
+  if (min < 60) return min === 1 ? "1 minuut geleden" : min + " minuten geleden";
+  if (min < 60*24) { const u = Math.round(min/60); return u + " uur geleden"; }
+  const dag = Math.round(min/1440);
+  return dag === 1 ? "gisteren" : dag + " dagen geleden";
+}
+function forumWanneer(p, n){
+  if (n > 0 && p.laatsteReactie) { const g = geleden(p.laatsteReactie); return g ? "Laatste reactie " + g : ""; }
+  const g = geleden(p.datum); return g ? "Geplaatst " + g : "";
+}
 function kort(d){
   if (!d) return "";
   const t = new Date(d); if (isNaN(t)) return String(d);
@@ -8027,7 +8044,7 @@ class Component extends DCLogic {
       resultCount: "Modules en tools", resultCountTaal: "Woorden en berichten",
       noResults: st.q.trim().length >= 2 && alleTreffers.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
 
-      feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Live van nederlanders.fr · gesorteerd op laatste reactie" : "",
+      feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Nieuwste reacties bovenaan" : "",
       gemFout: !!st.fout && !st.laden, gemGeenFout: !(st.fout && !st.laden),
       apiHeeft: !!st.live,
       refresh: () => this.load(),
@@ -8035,7 +8052,7 @@ class Component extends DCLogic {
       gemFilterMet: this.chipStyle(st.gemFilter === "met"),
       setFilterAll: () => this.setState({gemFilter:"alles"}),
       setFilterMet: () => this.setState({gemFilter:"met"}),
-      metCount: st.posts.filter(p => aantalReacties(p) > 0).length + " met reacties",
+      metCount: "Met reacties (" + st.posts.filter(p => aantalReacties(p) > 0).length + ")",
       posts: st.posts.filter(p => st.gemFilter === "alles" || aantalReacties(p) > 0).map(p => {
         const rs = draad(p), n = aantalReacties(p);
         const pHref = veiligeUrl(p.href);
@@ -8046,6 +8063,10 @@ class Component extends DCLogic {
           heeftHref: !!pHref, geenHref: !pHref,
           isNew: !!(st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit),
           meta:(p.auteur || "onbekend") + " · " + reactieMeta(n) + " · " + kort(p.laatsteReactie || p.datum),
+          auteur: p.auteur || "Lid van Nederlanders.fr", letter: (String(p.auteur || "").trim().charAt(0) || "N").toUpperCase(),
+          wanneer: forumWanneer(p, n),
+          reactieTekst: n > 0 ? reactieMeta(n) : "Nog geen reacties",
+          leesTekst: n > 0 ? "Lees de draad →" : "Lees het bericht →",
           // De leeslink hangt af van het totaal (aantalReacties), niet van de paar reacties
           // uit de activiteitenfeed: ook berichten met alleen oudere reacties hebben een draad.
           heeftReacties: n > 0,

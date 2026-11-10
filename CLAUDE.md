@@ -582,3 +582,7 @@ Laatst nagelopen: 9 november 2026
 ## Alle modules als tegels per onderwerp (10 november 2026)
 
 - Besluit eigenaar: op Alle modules (`screen: mod`) heeft elk onderwerp een duidelijke kop (`data-modgroep`: cirkel 40 px in de tint met het themapictogram, naam in Poppins 600 18 px als h2, het aantal en een pijltje; de hele kop is een knop naar het themascherm) en staan de modules als tegels naast elkaar (`data-modtegels`, raster van twee kolommen, dezelfde tegel als op de themaschermen, met een kort streepje in de themakleur bovenaan). De Café Claude-regel staat als eigen kaart onder de tegels. Kopbalk van Zoeken: "typ je vraag, of kies een onderwerp". Service worker `VERSIE` 2026-11-10-16.
+
+## Forum, nieuwe kaarten (10 november 2026)
+
+- Goedgekeurd voorstel: het label "Nederlanders.fr" boven elk bericht is weg; de kop is "Forum" met één zin uitleg; een rij met Alles, "Met reacties (N)" en rechts een rond vernieuwknopje (44 px, `aria-label="Vernieuwen"`), daaronder "Nieuwste reacties bovenaan". Elke kaart (`data-forumkaart`): rondje met de beginletter, naam, en "Laatste reactie 36 minuten geleden" of "Geplaatst ..." (`forumWanneer`, `geleden`; geen tijd in de bron: geen regel), NIEUW rechts, titel in Poppins 17 px, samenvatting hooguit drie regels, de eerste foto over de volle breedte (200 px hoog, `loading="lazy"`, verdwijnt bij een fout) en een vaste onderregel met tekstballon en aantal reacties links en "Lees de draad →" rechts. Eén kolom. Service worker `VERSIE` 2026-11-10-18. Test: `tests/klusronde.test.mjs`.
