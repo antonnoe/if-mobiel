@@ -162,7 +162,7 @@ test("bedrading: hash, navKey, tab, scripts, service worker", () => {
   assert.ok(html.includes('open:() => this.go("infofr")'));
   assert.ok(html.includes('ifOnd: st.screen === "infofr"'));
   assert.ok(html.includes('st.screen === "infofr" && st.ifOnd'));
-  assert.ok(sw.includes('const VERSIE = "2026-11-10-7"') || /const VERSIE = "2026-11-(1[0-9]|[23]\d)-\d+"/.test(sw));
+  assert.ok(sw.includes('const VERSIE = "2026-11-10-8"') || /const VERSIE = "2026-11-(1[0-9]|[23]\d)-\d+"/.test(sw));
 });
 test("scherm: geen lange streepjes, geen innerHTML, beeld lazy met onError", () => {
   const blok = html.slice(html.indexOf("INFOFRANKRIJK (dossiers"), html.indexOf("TE KOOP IN FRANKRIJK (advertenties"));

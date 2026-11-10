@@ -6722,7 +6722,7 @@ class Component extends DCLogic {
     const vang = url => url ? this.ifHaal(url).then(v => v.d).catch(() => null) : Promise.resolve(null);
     Promise.all([Promise.all(ond.categorieen.map(c => vang(I.chipsUrl(c)))), vang(I.categorieUrl(ond.categorieen))]).then(r => {
       const chips = I.leesChips(r[0]), link = I.leesCategorieLink(r[1]);
-      this._ifChCache[i] = {chips, link};
+      if (chips.length || link) this._ifChCache[i] = {chips, link}; // een mislukte aanvraag wordt bij het volgende openen opnieuw geprobeerd
       this.setState(p => this._ifCT.actueel(tok) && p.ifOnd === String(i) ? {ifCh:{i:String(i), chips, link}} : null);
     });
   }
