@@ -4434,7 +4434,7 @@ class Component extends DCLogic {
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
     art:null, artStack:[], forumBlad:null, pcGewist:null, zaq:{q:"", status:"leeg", items:[]}, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false, installBlad:null, installAf:false, installStatus:"", balkWeg:false, landingOpen:!!window.__ifmLandingOpen, installTik:0,
-    skOnd:"", skVraag:"", ifNieuw:[], ifNStatus:"", ifOnd:null, ifChip:"", ifCh:null, ifMedia:{}, ifL:{status:"", items:[], pagina:0, paginas:0, meer:""},
+    skOnd:"", skVraag:"", plVan:false, ifNieuw:[], ifNStatus:"", ifOnd:null, ifChip:"", ifCh:null, ifMedia:{}, ifL:{status:"", items:[], pagina:0, paginas:0, meer:""},
     gzStatus:"leeg", gzTitels:{}, gzOpen:[], gzOnd:null, gzArtTitels:{}, gzLijst:null, onStap:null, gzHfd:null, gzHfdFout:false,
     themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null, onStatus:"leeg", onStappen:null, onDicht:[] };
 
@@ -5784,7 +5784,7 @@ class Component extends DCLogic {
     };
   }
 
-  menuNaar(update){ this.setState({menu:false, q:"", tool:null, ...update}); }
+  menuNaar(update){ this.setState({menu:false, q:"", tool:null, plVan:false, ...update}); }
   menuToets(ev){
     if (!this.state.menu) return;
     if (ev.key === "Escape") { ev.preventDefault(); this.menuSluit(); return; }
@@ -5845,6 +5845,9 @@ class Component extends DCLogic {
     if (st.screen === "gezondheid" && st.gzLijst !== null) { this.setState({gzLijst:null}); return true; }
     if (st.screen === "gezondheid" && st.gzOnd !== null) { this.setState({gzOnd:null}); return true; }
     if (st.screen === "ondernemen" && st.onStap !== null) { this.setState({onStap:null}); return true; }
+    // Forum, Profiel en Alle modules zijn hoofdschermen zonder eigen terugpijl; komt de lezer van een maan van de planeet, dan
+    // gaat terug naar die maan (sub-staat skOnd en skVraag staan nog) in plaats van naar de hub.
+    if (st.plVan && /^(gem|acc|mod)$/.test(st.screen)) { this.setState({screen:"zoek", plVan:false, q:"", copied:null, tool:null}); return true; }
     const heeftTerug = SHOWBACK.test(st.screen);
     if (!heeftTerug) {
       if (st.screen === "hub") return false;
@@ -7523,7 +7526,7 @@ class Component extends DCLogic {
   plOpen(doel){
     if (!doel) return;
     const st = this.state;
-    if (doel.soort === "module") { const m = this.alleMods().find(x => x.id === doel.waarde && this.zichtbaarNu(x)); if (m) this.route(m); return; }
+    if (doel.soort === "module") { const m = this.alleMods().find(x => x.id === doel.waarde && this.zichtbaarNu(x)); if (m) { this.route(m); this.setState({plVan: m.kind === "forum"}); } return; }
     if (doel.soort === "url") { try { window.open(doel.waarde, "_blank", "noopener"); } catch(e){} return; }
     if (doel.soort === "thema") { const t = this.themaList().find(x => x.id === doel.waarde); if (t) { this.openThema(t); this.setState({from:"zoek"}); } return; }
     switch (doel.waarde) {
@@ -7532,10 +7535,10 @@ class Component extends DCLogic {
       case "meldingen": this.mdOpen("zoek"); break;
       case "infofr": this.ifOpen(); this.setState({from:"zoek"}); break;
       case "sponsors": this.sponsorsOpen(); this.setState({from:"zoek"}); break;
-      case "acc": this.menuNaar({screen:"acc", from:"zoek"}); break;
+      case "acc": this.menuNaar({screen:"acc", from:"zoek", plVan:true}); break;
       case "keuze": this.menuNaar({screen:"keuze", from:"zoek"}); break;
       case "over": this.menuNaar({screen:"over", from:"zoek"}); break;
-      case "mod": this.setState({screen:"mod", from:"zoek", q:"", tool:null, menu:false}); break;
+      case "mod": this.setState({screen:"mod", from:"zoek", q:"", tool:null, menu:false, plVan:true}); break;
       case "dossierdemo": this.setState({screen:"dossierdemo", from:"zoek", dsView:"overzicht", dsOnd:null, dsOpen:null, q:"", tool:null, menu:false}); break;
       case "feedback": this.fbOpenen(); break;
       case "installeer": this.installOpen(); break;
@@ -7706,7 +7709,7 @@ class Component extends DCLogic {
     if (s === "gemeente") return this.gmOpen("hub");
     if (s === "brief") return this.brOpen(this.vindModule("briefuitleg"), "hub");
     if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
-    this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
+    this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, plVan:false, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
   // Opent een iframe-module op een specifieke pagina van dezelfde site (bv. de maandpagina van de moestuintool vanuit een

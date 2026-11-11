@@ -223,6 +223,11 @@ test("bedrading: planeet is een echte knop, eigen sub-staat, terugstap en focusr
   assert.match(html, /skOnd: st\.screen === "zoek" && st\.skOnd \? String\(st\.skOnd\) : ""/);
 });
 
+test("bedrading: Forum, Profiel en Alle modules gaan met terug naar dezelfde maan (plVan)", () => {
+  assert.match(html, /if \(st\.plVan && \/\^\(gem\|acc\|mod\)\$\/\.test\(st\.screen\)\) \{ this\.setState\(\{screen:"zoek", plVan:false/);
+  assert.match(html, /menuNaar\(update\)\{ this\.setState\(\{menu:false, q:"", tool:null, plVan:false, \.\.\.update\}\); \}/);
+});
+
 test("bedrading: bij reduced motion beweegt niets (bestaande regel voor de sterrenkaart), maantjes zijn aria-hidden", () => {
   assert.match(html, /@media \(prefers-reduced-motion:reduce\)\{\[data-sterrenkaart\],\[data-sterrenkaart\] \*\{animation:none!important/);
   assert.match(html, /<sc-for list="\{\{ plDeco \}\}" as="d" hint-placeholder-count="4"><span aria-hidden="true"/);
@@ -231,6 +236,6 @@ test("bedrading: bij reduced motion beweegt niets (bestaande regel voor de sterr
 
 test("bedrading: service worker kent de lib en heeft een nieuwe versie", () => {
   assert.match(sw, /"\.\/planeet-lib\.js"/);
-  assert.match(sw, /const VERSIE = "2026-11-11-7"/);
+  assert.match(sw, /const VERSIE = "2026-11-11-8"/);
   assert.match(html, /<script src="\.\/planeet-lib\.js"><\/script>/);
 });
