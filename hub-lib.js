@@ -122,10 +122,51 @@
     return null;
   }
 
+  // Terugval als geo.api.gouv.fr niet antwoordt (11-11-2026: de dienst weigerde verbindingen): de Géoplateforme van IGN
+  // (data.geopf.fr, CORS *, ook gebruikt voor adressen). De omzetting levert dezelfde vorm als geo.api.gouv.fr, zodat de
+  // bestaande lezers (leesCommunes, plaatsUitApi, postcodeUitGeo) ongewijzigd blijven. Arrondissementen van Parijs, Lyon en
+  // Marseille vallen weg: geo.api.gouv.fr geeft daar de hele stad.
+  var GEOPF = "https://data.geopf.fr/geocodage";
+  function arrondissement(code) { return /^(751(0[1-9]|1\d|20)|6938[1-9]|132(0[1-9]|1[0-6]))$/.test(code); }
+  function gemeentenUrlGeopf(pc) {
+    return postcodeOk(pc) ? GEOPF + "/search?q=" + encodeURIComponent(pc) + "&type=municipality&limit=50" : "";
+  }
+  function depUit(p) {
+    if (p && typeof p.depcode === "string" && p.depcode) return p.depcode;
+    var c = p && typeof p.context === "string" ? p.context.split(",")[0].trim() : "";
+    return /^(\d{2,3}|2A|2B)$/.test(c) ? c : "";
+  }
+  function gemeentenUitGeopf(json, pc) {
+    var f = json && Array.isArray(json.features) ? json.features : [], uit = [], gezien = {};
+    f.forEach(function (x) {
+      var p = x && x.properties, co = x && x.geometry && Array.isArray(x.geometry.coordinates) ? x.geometry.coordinates : [];
+      if (!p || p.postcode !== pc || typeof p.citycode !== "string" || !/^(\d{5}|2[AB]\d{3})$/.test(p.citycode)) return;
+      if (arrondissement(p.citycode) || gezien[p.citycode]) return;
+      var nom = typeof p.city === "string" && p.city.trim() ? p.city.trim() : (typeof p.name === "string" ? p.name.trim() : "");
+      if (!nom) return;
+      gezien[p.citycode] = true;
+      uit.push({ nom: nom, code: p.citycode, codeDepartement: depUit(p), population: typeof p.population === "number" ? p.population : 0,
+        codesPostaux: [pc], centre: { type: "Point", coordinates: [co[0], co[1]] } });
+    });
+    return uit;
+  }
+  function geoUrlGeopf(lat, lon) {
+    if (typeof lat !== "number" || typeof lon !== "number" || !isFinite(lat) || !isFinite(lon)) return "";
+    return GEOPF + "/reverse?lat=" + encodeURIComponent(lat.toFixed(5)) + "&lon=" + encodeURIComponent(lon.toFixed(5)) + "&limit=1";
+  }
+  function geoUitGeopf(json) {
+    var x = json && Array.isArray(json.features) ? json.features[0] : null, p = x && x.properties;
+    if (!p || !postcodeOk(p.postcode) || typeof p.citycode !== "string") return [];
+    var co = x.geometry && Array.isArray(x.geometry.coordinates) ? x.geometry.coordinates : [];
+    return [{ nom: typeof p.city === "string" ? p.city.trim() : "", code: p.citycode, codesPostaux: [p.postcode], codeDepartement: depUit(p),
+      centre: { type: "Point", coordinates: [co[0], co[1]] } }];
+  }
+
   var api = {
     begroeting: begroeting, THEMA_KLEUREN: THEMA_KLEUREN, themaKleur: themaKleur, luminantie: luminantie,
     contrast: contrast, TABS: TABS, tabVan: tabVan, postcodeOk: postcodeOk, regioLabel: regioLabel,
-    departementCode: departementCode, geoUrl: geoUrl, postcodeUitGeo: postcodeUitGeo, plaatsUitApi: plaatsUitApi, plaatsUrl: plaatsUrl, plaatsUitOpslag: plaatsUitOpslag
+    departementCode: departementCode, geoUrl: geoUrl, postcodeUitGeo: postcodeUitGeo, plaatsUitApi: plaatsUitApi, plaatsUrl: plaatsUrl, plaatsUitOpslag: plaatsUitOpslag,
+    gemeentenUrlGeopf: gemeentenUrlGeopf, gemeentenUitGeopf: gemeentenUitGeopf, geoUrlGeopf: geoUrlGeopf, geoUitGeopf: geoUitGeopf
   };
   root.HubLib = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
