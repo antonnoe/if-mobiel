@@ -603,7 +603,7 @@ Laatst nagelopen: 9 november 2026
 - **App-kant:** `IfBrief.leesAntwoord` valideert nog eens (punt zonder citaat valt af, termijn met een getal dat niet in het citaat staat valt af, zoekterm alleen uit de vaste lijst `ZOEKTERMEN`, lange streepjes worden een komma). Laadtoken via `IfNav.maakTeller`, time-out 45 s, `credentials:"omit"`. Niets van foto of uitkomst in `localStorage`, `sessionStorage`, de URL of de geschiedenis (een test bewaakt dat); de uitkomst staat alleen in `state.brData`.
 - **Uitkomst:** afzender, soort (Nederlands met Frans), termijn zoals de brief hem noemt met het Franse citaat, "Wat ze vragen" met onder elk punt het letterlijke citaat, "Wat je kunt doen": Antwoord schrijven met Correspondentie (`route` naar de module), Vraag het Café Claude (`cafeUrl` met domein bureaucratie, nieuw tabblad) en Zoek in InfoPoche met de zoekterm (opent het zoekscherm met die term). Daaronder altijd het blok "Dit is een uitleg, geen advies". Niet leesbaar: de melding "Niet goed leesbaar" met "Nieuwe foto".
 - **Privacytekst (besluit na de mock-up):** de mock-up zei "wordt nergens bewaard"; dat mag niet. Staat: de foto gaat naar Claude van Anthropic om gelezen te worden, InfoPoche bewaart hem niet, Anthropic kan gegevens die binnenkomen een beperkte tijd bewaren, en het advies om het fiscaal nummer af te dekken blijft. Zelfde toon als de privacyregel van de Klusarchief-chat.
-- Service worker `VERSIE` 2026-11-11-2 (`brief-lib.js` staat in `SCHIL`).
+- Service worker `VERSIE` 2026-11-11-4 (`brief-lib.js` staat in `SCHIL`).
 
 ## Peil-label weer aan, fioul en propaan bijgewerkt (11 november 2026)
 
