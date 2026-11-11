@@ -202,7 +202,7 @@ const param = (id) => { const p = perId.get(id); if (!p) fout(`${id} staat niet 
 {
   const nlD = P.peilStandNl();
   if (P.PEIL_UITLEG_URL !== UITLEG_URL) fout("PEIL_UITLEG_URL wijst niet naar het manifest.");
-  // Het label staat sinds 26-10-2026 bewust uit (PEIL_LABEL_AAN false) tot de ijking in Peil; de template toont het via peilAan.
+  // Het label stond van 26-10-2026 tot 11-11-2026 bewust uit (PEIL_LABEL_AAN false) tot de ijking in Peil; sinds 11-11-2026 staat het aan (besluit eigenaar). De template toont het via peilAan.
   if (typeof P.PEIL_LABEL_AAN !== "boolean") fout("PEIL_LABEL_AAN moet true of false zijn.");
   if (!/peilAan: PEIL_LABEL_AAN/.test(index)) fout("renderVals geeft de schakelaar PEIL_LABEL_AAN niet door.");
   { const enA = index.slice(index.indexOf("enAannames(engineKlaar){"), index.indexOf("enGrootstePost(costs){"));
@@ -221,6 +221,45 @@ const param = (id) => { const p = perId.get(id); if (!p) fout(`${id} staat niet 
   const iL = index.indexOf("{{ enLet }}"), iA = index.indexOf("{{ enAannames }}"), iS = index.indexOf('aria-label="{{ peilAria }}"'), iV = index.indexOf("Over de bedragen in deze tool.");
   if (!(iL > 0 && iL < iA && iA < iS && iS < iV)) fout("Volgorde bij de uitkomst moet zijn: disclaimer, aannames, stempel, voettekstalinea.");
   if (!/enAannames:\s*en\.enAannames/.test(index)) fout("renderVals geeft enAannames niet door.");
+}
+
+// ---- 9. Elke raming uit Peil die het Energie-scherm toont, heet op het scherm een raming
+// Bron van de lijst: de parameters met status raming in peil/waarden.json. Een raming die hier niet staat, laat de test falen: beslis dan eerst of het scherm
+// de waarde toont (dan het woord raming erbij en een toets hieronder) of niet (dan een regel in NIET_GETOOND met de reden).
+{
+  const ramingen = (WAARDEN.parameters || []).filter((p) => p.status === "raming").map((p) => p.id);
+  const ctx2 = vm.createContext({ Intl, Math, Number, Object, console });
+  vm.runInContext(engineCode + "\nfunction dpePefElec(){ return 1.9; }\nconst DPE_BENADERING = undefined;", ctx2);
+  const m = index.match(/\n  enAannames\(engineKlaar\)\{([\s\S]*?)\n  \}\n/);
+  if (!m) fout("enAannames niet gevonden in index.html.");
+  const aannames = m ? vm.runInContext(`(function(engineKlaar){${m[1]}})(true)`, ctx2) : "";
+  if (!/\S/.test(aannames)) fout("enAannames geeft geen tekst.");
+  const zinMet = (re) => aannames.split(/(?<=\.) /).filter((z) => re.test(z));
+  const rij = (naam) => (index.match(new RegExp('\\{k:"' + naam + '", v:[^}]*\\}')) || [""])[0];
+  const stere = new Intl.NumberFormat("nl-NL").format(vm.runInContext("KWH_CONVERSION.wood", ctx2));
+  // id -> toets die waar is als de waarde op het scherm staat mét het woord raming
+  const GETOOND = {
+    "p.fr.energie.graaddagen_per_klimaatzone": () => /\(raming\)/.test(rij("Graaddagen \\(HDD\\) in je klimaatzone")),
+    "p.fr.energie.apparaatverbruik_per_jaar": () => zinMet(/apparaatverbruik/i).length > 0 && zinMet(/apparaatverbruik/i).every((z) => /raming/.test(z)),
+    "p.fr.energie.prijs_hout": () => zinMet(/prijs van hout/i).length > 0 && zinMet(/prijs van hout/i).every((z) => /raming/.test(z)),
+    "p.fr.energie.houtenergie_per_stere": () => zinMet(/energie-inhoud van een stère/i).length > 0 && zinMet(/energie-inhoud van een stère/i).every((z) => /raming/.test(z) && z.includes(`(circa ${stere} kWh)`))
+  };
+  // id -> [regex die op het scherm niet mag voorkomen, reden]; komt de waarde er wel op, dan hoort hij in GETOOND
+  const NIET_GETOOND = {
+    "p.fr.energie.prijs_petroleum": [/petroleum/i, "de intake kent geen petroleumkachel"],
+    "p.fr.energie.petroleum_energie_per_liter": [/petroleum/i, "de intake kent geen petroleumkachel"],
+    "p.fr.energie.pv_opbrengst_per_klimaatzone": [/zonnepanelen|opbrengst|kWc/i, "enCompute rekent altijd met pvKwp 0"],
+    "p.fr.energie.verouderingsdrempel_prijzen": [/120 dagen|verouder/i, "interne drempel voor de prijscontrole, niet in de tekst"]
+  };
+  if (!/pvKwp:0/.test(index)) fout("enCompute rekent niet meer met pvKwp 0: de PV-opbrengst (raming) staat dan mogelijk op het scherm; zet hem in GETOOND met het woord raming.");
+  for (const id of ramingen) {
+    if (GETOOND[id]) { if (!GETOOND[id]()) fout(`${id} is een raming in Peil, maar het Energie-scherm toont hem zonder het woord raming.`); }
+    else if (NIET_GETOOND[id]) { const [re, reden] = NIET_GETOOND[id]; if (re.test(aannames) || re.test(rij("Graaddagen"))) fout(`${id} (${reden}) staat nu wel op het scherm; zet hem in GETOOND met het woord raming.`); }
+    else fout(`${id} is een raming in Peil en staat niet in GETOOND of NIET_GETOOND in tests/peil.test.mjs; bepaal of het Energie-scherm hem toont.`);
+  }
+  // Het woord raming komt alleen op het scherm als er ook een raming achter zit
+  if (/raming/.test(aannames) && !ramingen.some((id) => GETOOND[id])) fout("De tekst noemt een raming, maar peil/waarden.json kent geen raming die het scherm toont.");
+  for (const id of Object.keys(GETOOND)) if (!ramingen.includes(id)) fout(`${id} staat in GETOOND maar is geen raming meer in peil/waarden.json; haal het woord raming van het scherm of de toets weg.`);
 }
 
 if (fouten.length) {

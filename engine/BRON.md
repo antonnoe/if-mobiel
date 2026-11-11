@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | Bronrepo | `antonnoe/energieportaal`, map `engine/` |
-| Commit | `b01a356` (26 oktober 2026, "Rekenwijze hersteld: motor, prijzen en DPE-indicatie") |
+| Commit | `6177f4f` (11 november 2026, "Waardenblok bijgewerkt naar Peil 1.14.9") |
 | Bestanden | `archetypes.js`, `engine.js`, `dpe.js` |
-| Laatst vergeleken | 26 oktober 2026: alle drie byte voor byte gelijk; `tests/peil.test.mjs` bewaakt dit met de hashes in `peil/engine-hash.json` (in beide repo's gelijk) |
+| Laatst vergeleken | 11 november 2026: alle drie byte voor byte gelijk; `tests/peil.test.mjs` bewaakt dit met de hashes in `peil/engine-hash.json` (in beide repo's gelijk) |
 | Test | `node tests/dpe-test.js` uit de bronrepo slaagt op deze kopie; hier draait `node tests/peil.test.mjs` |
 
 Deze bestanden worden hier nooit met de hand gewijzigd. Een wijziging in de rekenlogica

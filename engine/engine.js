@@ -17,7 +17,7 @@ const PV_YIELD = { med: 1450, ouest: 1250, paris: 1150, centre: 1200, est: 1150,
 // Alle standaardwaarden hieronder komen uit Peil (het parameterregister van Communities Abroad) of zijn
 // als aanname gemarkeerd. Per waarde staan bron en jaar erbij. Peil-id's verwijzen naar peil/waarden.json;
 // tests/peil.test.mjs bewaakt dat beide overeenkomen. Stand van de controle: PEIL_WAARDEN_STAND.
-const PEIL_WAARDEN_STAND = '2026-11-10';
+const PEIL_WAARDEN_STAND = '2026-11-11';
 
 // Status: 'vastgesteld' = officiële bron, 'raming' = gemeten gemiddelde van een overheidsinstantie,
 // 'aanname' = keuze van de tool (marktprijs of eigen koppeling), zichtbaar als standaard die de gebruiker kan aanpassen.
@@ -32,11 +32,11 @@ const PRIJS_INFO = {
                bron: 'CRE, prix repère gas voor het verwarmingsprofiel, gemiddelde van september tot en met november 2026, per gefactureerde kWh (PCS), TTC',
                periode: 'september tot en met november 2026', periodeEinde: '2026-11-30',
                toelichting: 'Een gemiddelde, geen tarief: vul de kWh-prijs van uw eigen contract in. Het abonnement (bij het prix repère 360,79 euro per jaar) komt er los bij; de tool rekent het niet mee. Gas wordt in Frankrijk per kWh afgerekend; de meterstand in m³ zet de netbeheerder met een eigen omrekenfactor om in kWh. De tool rekent de gefactureerde kWh (PCS) om naar de kWh die de ketel benut (PCI), met de factor 1,11 uit de DPE-methode.' },
-  // Bron: DGEC, Prix HTT et TTC depuis janvier 2020, fioul domestique 2.000 tot 4.999 liter TTC, maandgemiddelden
-  // juli 1,58704, augustus 1,68475, september 1,880175 euro per liter: gemiddelde 1,7173.
-  fioul:     { waarde: 1.72, status: 'aanname', peilId: 'p.fr.energie.prijs_fioul',
-               bron: 'DGEC, gemiddelde huishoudprijs stookolie (levering 2.000 tot 4.999 liter), juli tot en met september 2026, TTC',
-               periode: 'juli tot en met september 2026', periodeEinde: '2026-09-30' },
+  // Bron: SDES DiDo, Conjoncture mensuelle de l'énergie, prix ménages pétrole, fioul domestique 2.000 tot 4.999 liter TTC, maandgemiddelden
+  // augustus 1,68475, september 1,880175, oktober 1,92526 euro per liter: gemiddelde 1,8301.
+  fioul:     { waarde: 1.83, status: 'aanname', peilId: 'p.fr.energie.prijs_fioul',
+               bron: 'SDES, gemiddelde huishoudprijs stookolie (levering 2.000 tot 4.999 liter), augustus tot en met oktober 2026, TTC',
+               periode: 'augustus tot en met oktober 2026', periodeEinde: '2026-10-31' },
   // Bron: SDES DiDo, Conjoncture mensuelle de l'énergie, prix ménages bois, granulés en vrac, tweede kwartaal 2026:
   // 387,68 euro per ton en 8,4278 euro per 100 kWh PCI (0,0843 euro per kWh PCI); 4,6 kWh PCI per kg.
   pellet:    { waarde: 0.388, status: 'aanname', peilId: 'p.fr.energie.prijs_pellets',
@@ -48,11 +48,11 @@ const PRIJS_INFO = {
                bron: 'ADEME, brandhout in blokken geleverd, prijs 2025 geïndexeerd naar oktober 2025 tot en met september 2026: circa 0,047 euro per kWh PCI',
                periode: 'oktober 2025 tot en met september 2026, raming', periodeEinde: '2026-09-30',
                toelichting: 'De omrekening naar euro per stère (1.800 kWh per stère) is een aanname van de tool.' },
-  // Bron: SDES DiDo, Conjoncture mensuelle de l'énergie, prix ménages pétrole, propaan, juni tot en met augustus 2026:
-  // gemiddeld 0,1802 euro per kWh PCI (2.303 euro per ton). Per liter bij 0,51 kg per liter en 12,78 kWh PCI per kg: circa 1,17 euro.
+  // Bron: SDES DiDo, Conjoncture mensuelle de l'énergie, prix ménages pétrole, propaan, juli tot en met september 2026:
+  // gemiddeld 0,1797 euro per kWh PCI (2.297 euro per ton). Per liter bij 0,51 kg per liter en 12,78 kWh PCI per kg: circa 1,17 euro.
   propaan:   { waarde: 1.17, status: 'aanname', peilId: 'p.fr.energie.prijs_propaan',
-               bron: 'SDES, propaan in tank, juni tot en met augustus 2026: 0,1802 euro per kWh PCI, omgerekend met 0,51 kg per liter (aanname van de tool)',
-               periode: 'juni tot en met augustus 2026', periodeEinde: '2026-08-31' },
+               bron: 'SDES, propaan in tank, juli tot en met september 2026: 0,1797 euro per kWh PCI, omgerekend met 0,51 kg per liter (aanname van de tool)',
+               periode: 'juli tot en met september 2026', periodeEinde: '2026-09-30' },
   // Bron: Brico Dépôt, Pétrole Combubase, bus van 20 liter, 52,90 euro, opgehaald 10-11-2026 (winkelprijs van één bouwmarktketen, geen overheidsbron).
   petroleum: { waarde: 2.65, status: 'aanname', peilId: 'p.fr.energie.prijs_petroleum',
                bron: 'Brico Dépôt, Pétrole Combubase, bus van 20 liter, 52,90 euro, opgehaald 10-11-2026 (winkelprijs, geen overheidsbron)', periode: null, periodeEinde: null }
@@ -66,7 +66,7 @@ const GAS_PCS_PER_PCI     = 1.11;
 const PROPAAN_KG_PER_LITER = 0.51;
 const KWH_CONVERSION      = { elec: 1, gas: 1 / GAS_PCS_PER_PCI, fioul: 10, pellet: 4.6, wood: 1800, propaan: 12.78 * PROPAAN_KG_PER_LITER, petroleum: 10 };
 // Tekst bij de prijzen, in gewone taal.
-const PRIJS_UITLEG = 'Dit zijn standaardprijzen: pas ze aan naar uw factuur. Elektriciteit volgt het officiële gereguleerde tarief (tarif réglementé, CRE, sinds 1 augustus 2026). De overige prijzen zijn gemiddelden van een recente periode en dus een aanname: aardgas september tot en met november 2026 (CRE), stookolie juli tot en met september 2026 (DGEC), pellets het tweede kwartaal van 2026 (SDES), propaan juni tot en met augustus 2026 (SDES), hout oktober 2025 tot en met september 2026 (raming op basis van ADEME). Een abonnement rekent de tool niet mee: dat komt er los bij.';
+const PRIJS_UITLEG = 'Dit zijn standaardprijzen: pas ze aan naar uw factuur. Elektriciteit volgt het officiële gereguleerde tarief (tarif réglementé, CRE, sinds 1 augustus 2026). De overige prijzen zijn gemiddelden van een recente periode en dus een aanname: aardgas september tot en met november 2026 (CRE), stookolie augustus tot en met oktober 2026 (SDES), pellets het tweede kwartaal van 2026 (SDES), propaan juli tot en met september 2026 (SDES), hout oktober 2025 tot en met september 2026 (raming op basis van ADEME). Een abonnement rekent de tool niet mee: dat komt er los bij.';
 
 // Terugleververgoeding voor het overschot van zonnepanelen (vente du surplus), tot en met 100 kWc.
 // Bron: arrêté du 1er juin 2026 (NOR ECOR2609281A, JO n° 129 van 4 juni 2026): "Le montant de ce tarif d'achat TPa est égal à 1,1c€/kWh hors TVA";

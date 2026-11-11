@@ -2,8 +2,8 @@
   "toelichting": "Vastgelegde sha256 van de byte-identieke engine-bestanden. In energieportaal en if-mobiel moet dit bestand gelijk zijn; wijzig de engine in beide repo's en werk de hashes in beide bij. Het waardenblok (engine.js van '// ===== Waarden uit Peil' tot '// ===== Helpers', exclusief de Helpers-regel, utf8) is alleen in deze twee repo's gelijk. In de gearchiveerde warmteverlies-calculator en de oude NLFR-energiecalculator staat een eigen, oudere versie (stand 2026-10-24, andere prijzen); die zijn niet gesynchroniseerd en worden niet bewaakt.",
   "bestanden": {
     "archetypes.js": "0e1e1bb1491cbd553d0654a1c6b21cbf0b864e9bdfbc53f92851a79b11c74eca",
-    "engine.js": "ab7edbd454366ebbdc4371603f929af020980b928c68e67fa4412fd4a76cc56d",
+    "engine.js": "8e2fcbec832ce5e851c1e94860ffde68c5d06cf2b8fd90085c91b96d064768c5",
     "dpe.js": "535694e5429687e74fc8338cefc1b3bc83d155f37f90695c838f073bc9ab7843"
   },
-  "waardenblok": "c8ac6a522a2ee322117c13b95dfee6986a2a7296c6a631609137167309768248"
+  "waardenblok": "a2c77eac73997988ac02d0c7e3b2c0160097175534c6941fb02225221b328f87"
 }
