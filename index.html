@@ -28,6 +28,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./lamaison-lib.js"></script>
 <script src="./sponsors-lib.js"></script>
+<script src="./meldingen-lib.js"></script>
 <script src="./advertenties-lib.js"></script>
 <script src="./klusarchief-lib.js"></script>
 <script src="./brief-lib.js"></script>
@@ -223,6 +224,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <button onClick="{{ mnProfiel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoProfiel }}"></span><span style="flex:1;min-width:0">Profiel</span></button>
     <button onClick="{{ mnKeuze }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoKeuze }}"></span><span style="flex:1;min-width:0">Mijn modules</span></button>
     <button onClick="{{ mnSponsors }}" data-menu-sponsors="1" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoSponsors }}"></span><span style="flex:1;min-width:0">Onze sponsors</span></button>
+    <button onClick="{{ mnMeldingen }}" data-menu-meldingen="1" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoMeldingen }}"></span><span style="flex:1;min-width:0">Meldingen</span></button>
     <button onClick="{{ mnFeedback }}" data-menu-feedback="1" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoFeedback }}"></span><span style="flex:1;min-width:0">Feedback</span></button>
     <button onClick="{{ mnOver }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoOver }}"></span><span style="flex:1;min-width:0">Over ons</span></button>
     <button role="switch" aria-checked="{{ groteTekstAan }}" onClick="{{ groteTekstSchakel }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:0 18px;border:0;border-top:1px solid rgba(21,24,26,.06);background:none;text-align:left;cursor:pointer;font:600 16px Mulish;color:#15181A"><span style="{{ mnIcoTekst }}"></span><span style="flex:1;min-width:0">Grotere tekst</span><span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span></button>
@@ -2656,6 +2658,71 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
+<sc-if value="{{ isMeldingen }}" hint-placeholder-val="{{ false }}">
+<div data-meldingen="1">
+  <sc-if value="{{ mdLaadt }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:22px 16px 0;font:600 14px/1.6 Mulish;color:#5F6669">Meldingen laden...</div>
+  </sc-if>
+  <sc-if value="{{ mdFout }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:22px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De rubrieken van de kalender zijn nu niet te laden.</p>
+    <button onClick="{{ mdOpnieuw }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+  </div>
+  </sc-if>
+  <sc-if value="{{ mdAlternatief }}" hint-placeholder-val="{{ false }}">
+  <div data-md-alt="1" style="padding:22px 16px 0">
+    <h1 style="margin:0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">{{ mdAltKop }}</h1>
+    <p style="margin:10px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">{{ mdAltTekst }}</p>
+    <sc-if value="{{ mdIosKnop }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ mdInstalleer }}" data-md-installeer="1" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;margin-top:18px;border:0;border-radius:14px;background:#800000;color:#fff;font:700 16px Mulish;cursor:pointer">Zet InfoPoche op je beginscherm</button>
+    </sc-if>
+    <sc-if value="{{ mdGeweigerdKnop }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ mdHerlees }}" data-md-herlees="1" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;margin-top:18px;border:0;border-radius:14px;background:#800000;color:#fff;font:700 16px Mulish;cursor:pointer">Ik heb het aangepast, kijk opnieuw</button>
+    </sc-if>
+    <p style="margin:16px 0 0;font:500 13.5px/1.6 Mulish;color:#5F6669">{{ mdAgendaTekst }}</p>
+    <button onClick="{{ mdAgenda }}" data-md-agenda="1" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;margin-top:10px;border:1.5px solid rgba(128,0,0,.35);border-radius:14px;background:#fff;color:#800000;font:700 16px Mulish;cursor:pointer">Zet in je agenda</button>
+  </div>
+  </sc-if>
+  <sc-if value="{{ mdFormulier }}" hint-placeholder-val="{{ true }}">
+  <div data-md-form="1" style="padding:22px 16px 0">
+    <div style="font:700 12px Poppins,system-ui,sans-serif;letter-spacing:.12em;color:#800000">NIEUW</div>
+    <h1 style="margin:8px 0 0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2">Mis geen deadline meer</h1>
+    <p style="margin:10px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">InfoPoche stuurt je een seintje voor wat jij aanzet. {{ mdDepTekst }}</p>
+    <sc-if value="{{ mdPostcodeKnop }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ mdPostcode }}" style="display:flex;align-items:center;min-height:44px;margin-top:4px;padding:0;border:0;background:none;color:#800000;font:700 14px Mulish;cursor:pointer;text-decoration:underline;text-underline-offset:4px">Stel je postcode in</button>
+    </sc-if>
+    <div style="margin-top:16px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+      <sc-for list="{{ mdRijen }}" as="r" hint-placeholder-count="4">
+      <button role="switch" aria-checked="{{ r.aan }}" aria-label="{{ r.naam }}" onClick="{{ r.klik }}" data-md-rubriek="{{ r.id }}" style="{{ r.rand }}display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:8px 14px;border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;cursor:pointer;box-sizing:border-box;color:#15181A">
+        <span style="flex:1;min-width:0"><span style="display:block;font:700 16px/1.3 Mulish">{{ r.naam }}</span><span style="display:block;margin-top:2px;font:500 13px/1.4 Mulish;color:#5F6669">{{ r.uitleg }}</span></span>
+        <span aria-hidden="true" style="{{ r.spoor }}"><span style="{{ r.knop }}"></span></span>
+      </button>
+      </sc-for>
+    </div>
+    <div style="margin-top:20px;font:700 12px Poppins,system-ui,sans-serif;letter-spacing:.1em;color:#5F6669">WANNEER</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <sc-for list="{{ mdDagen }}" as="d" hint-placeholder-count="3">
+      <button aria-pressed="{{ d.aan }}" onClick="{{ d.klik }}" data-md-dag="{{ d.dag }}" style="{{ d.stijl }}">{{ d.tekst }}</button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ mdMeldingTekst }}" hint-placeholder-val="{{ false }}">
+    <p role="status" data-md-melding="1" style="margin:16px 0 0;padding:12px 14px;border-radius:12px;background:rgba(128,0,0,.06);font:600 14px/1.6 Mulish;color:#15181A">{{ mdMeldingTekst }}</p>
+    </sc-if>
+    <sc-if value="{{ mdNogAan }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ mdAanzetten }}" data-md-aan="1" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;margin-top:18px;border:0;border-radius:14px;background:#800000;color:#fff;font:700 16px Mulish;cursor:pointer">{{ mdAanKnop }}</button>
+    </sc-if>
+    <sc-if value="{{ mdIsAan }}" hint-placeholder-val="{{ false }}">
+    <p style="margin:18px 0 0;font:700 14.5px/1.5 Mulish;color:#1B6B3A">Meldingen staan aan op dit toestel.</p>
+    <button onClick="{{ mdOpslaan }}" data-md-opslaan="1" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;margin-top:10px;border:0;border-radius:14px;background:#800000;color:#fff;font:700 16px Mulish;cursor:pointer">{{ mdOpslaanKnop }}</button>
+    <button onClick="{{ mdUitzetten }}" data-md-uit="1" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;margin-top:10px;border:1.5px solid rgba(128,0,0,.35);border-radius:14px;background:#fff;color:#800000;font:700 16px Mulish;cursor:pointer">Meldingen uitzetten</button>
+    </sc-if>
+    <p style="margin:14px 0 0;font:500 13px/1.6 Mulish;color:#5F6669">{{ mdPrivacy }}</p>
+  </div>
+  </sc-if>
+  <div style="height:36px"></div>
+</div>
+</sc-if>
+
 <sc-if value="{{ isSponsors }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:22px 16px 0">
@@ -3205,6 +3272,10 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <section data-kal-abo="1" aria-label="Agenda-abonnement" style="margin:22px 16px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 8px 8px 14px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10)">
       <p style="margin:0;flex:1;min-width:0;font:500 13.5px/1.4 Mulish;color:#3D4346">{{ kalAboVraag }}</p>
       <button onClick="{{ kalAboOpen }}" data-kal-abo-knop="1" style="flex:none;min-height:44px;padding:0 10px;border:0;background:none;color:#800000;font:700 13.5px Mulish;cursor:pointer;white-space:nowrap">{{ kalAboKnop }}</button>
+    </section>
+    <section data-kal-meldingen="1" aria-label="Meldingen bij deadlines" style="margin:10px 16px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 8px 8px 14px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <p style="margin:0;flex:1;min-width:0;font:500 13.5px/1.4 Mulish;color:#3D4346">Liever een seintje op je telefoon bij een deadline?</p>
+      <button onClick="{{ kalMeldOpen }}" data-kal-meld-knop="1" style="flex:none;min-height:44px;padding:0 10px;border:0;background:none;color:#800000;font:700 13.5px Mulish;cursor:pointer;white-space:nowrap">Meldingen &rarr;</button>
     </section>
     </sc-if>
     <div style="height:30px"></div>
@@ -3890,7 +3961,7 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst|brief)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|meldingen|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst|brief)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 // Schermen zonder eigen h1 in de inhoud: de schermtitel in de kopbalk is daar de h1 (elk scherm heeft er precies één).
@@ -4036,6 +4107,7 @@ const ICONS = {
   mod:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>',
   acc:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>',
   keuze: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>',
+  bel: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg>',
   feedback: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
   ster: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.7l-5.2 2.9 1-5.9-4.3-4.1 5.9-.8z"/></svg>',
   over: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.2"/></svg>',
@@ -4293,7 +4365,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, brStatus:"", brSoort:"", brData:null, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, brStatus:"", brSoort:"", brData:null, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", mdKeuze:null, mdRStatus:"", mdMelding:"", mdBezig:false, mdPerm:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -5819,6 +5891,156 @@ class Component extends DCLogic {
     return Nv.parseHash(location.hash);
   }
 
+  // ---- Meldingen bij deadlines (pushmeldingen uit Kalender Frankrijk; logica in meldingen-lib.js) ----------------
+  // Keuzes staan lokaal in localStorage `ifm_meldingen` (alleen keuzes) en op de server naast het push-adres van het toestel.
+  // De toestemming wordt pas gevraagd na een tik op "Zet meldingen aan". Niets hiervan loopt via een inlog.
+  mdPushKan(){ try { return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window; } catch(e){ return false; } }
+  mdIosToestel(){ try { return /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); } catch(e){ return false; } }
+  mdPermissie(){ try { return "Notification" in window ? Notification.permission : "denied"; } catch(e){ return "default"; } }
+  mdDepCode(){ const Kl = window.IfKal; return Kl ? Kl.depVoorBand(this.state.postcode || "") : "geen"; }
+  mdSla(k){ const M = window.IfMeld; try { localStorage.setItem(M.SLEUTEL, JSON.stringify({aan:!!k.aan, rubrieken:k.rubrieken, dagen:k.dagen})); } catch(e){} }
+  mdOpen(from){
+    this.setState({screen:"meldingen", menu:false, q:"", copied:null, tool:null, from:from || "hub", kalAbo:false, mdMelding:"", mdBezig:false, mdPerm:this.mdPermissie()});
+    this.mdLaad();
+  }
+  mdLaad(){
+    const Kl = window.IfKal, M = window.IfMeld, Nv = window.IfNav;
+    if (!Kl || !M || !Nv) { this.setState({mdRStatus:"fout"}); return; }
+    const klaar = rub => {
+      const ids = rub.map(r => r.id);
+      let ruw = null, bestond = false;
+      try { const t = localStorage.getItem(M.SLEUTEL); if (t) { bestond = true; ruw = JSON.parse(t); } } catch(e){}
+      const k = M.leesKeuze(ruw, ids);
+      if (!bestond) k.rubrieken = ["fiscaal", "wonen"].filter(x => ids.indexOf(x) >= 0);
+      this.setState({mdRStatus:"klaar", mdKeuze:k, kalRubr: rub});
+      this.mdSync(k);
+    };
+    if ((this.state.kalRubr || []).length) { klaar(this.state.kalRubr); return; }
+    this._mdTeller = this._mdTeller || Nv.maakTeller();
+    const tok = this._mdTeller.volgende();
+    this.setState({mdRStatus:"laden"});
+    this.kaFetch(Kl.rubriekenUrl(), null, Kl.TIMEOUT_MS).then(b => {
+      if (!this._mdTeller.actueel(tok)) return;
+      const rub = b.status === 200 ? Kl.leesRubrieken(b.data) : [];
+      if (!rub.length) { this.setState({mdRStatus:"fout"}); return; }
+      klaar(rub);
+    });
+  }
+  // Staat de melding nog aan op dit toestel? Zo ja, dan werkt dit het abonnement bij (de bewaartermijn loopt vanaf de laatste keer).
+  mdSync(k){
+    const M = window.IfMeld;
+    if (!k.aan) return;
+    if (!this.mdPushKan() || this.mdPermissie() !== "granted") { k.aan = false; this.mdSla(k); this.setState({mdKeuze:k}); return; }
+    this.mdRegistratie().then(reg => reg && reg.pushManager.getSubscription()).then(sub => {
+      if (!sub) { k.aan = false; this.mdSla(k); this.setState({mdKeuze:k}); return; }
+      const body = M.serverBody(sub.toJSON(), k, this.mdDepCode());
+      if (body) this.mdPost("POST", body);
+    }).catch(() => {});
+  }
+  mdRegistratie(){
+    if (!this.mdPushKan()) return Promise.resolve(null);
+    return Promise.race([navigator.serviceWorker.ready, new Promise(res => setTimeout(() => res(null), 4000))]).catch(() => null);
+  }
+  mdPost(methode, body){
+    const M = window.IfMeld;
+    let ctl = null, timer = null;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), M.TIMEOUT_MS); } catch(e){ ctl = null; }
+    const opts = {method:methode, credentials:"omit", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)};
+    if (ctl) opts.signal = ctl.signal;
+    return fetch(M.PUSH_URL, opts).then(r => { clearTimeout(timer); return r.ok; }).catch(() => { clearTimeout(timer); return false; });
+  }
+  mdWissel(id){
+    const M = window.IfMeld;
+    this.setState(prev => { const k = Object.assign({}, prev.mdKeuze, {rubrieken: M.wissel(prev.mdKeuze.rubrieken, id)}); this.mdSla(k); return {mdKeuze:k, mdMelding:""}; });
+  }
+  mdWisselDag(dag){
+    const M = window.IfMeld;
+    this.setState(prev => { const k = Object.assign({}, prev.mdKeuze, {dagen: M.wisselDag(prev.mdKeuze.dagen, dag)}); this.mdSla(k); return {mdKeuze:k, mdMelding:""}; });
+  }
+  // Tik op "Zet meldingen aan": eerst de toestemming (binnen het tikmoment), dan het abonnement bij de pushdienst van het toestel, dan de server.
+  mdAanzetten(){
+    const M = window.IfMeld, st = this.state, k = st.mdKeuze;
+    if (!k || st.mdBezig) return;
+    if (!k.rubrieken.length) { this.setState({mdMelding:"Kies minstens één rubriek."}); return; }
+    this.setState({mdBezig:true, mdMelding:""});
+    let vraag;
+    try { vraag = Promise.resolve(Notification.requestPermission()); } catch(e){ vraag = Promise.resolve(this.mdPermissie()); }
+    vraag.then(perm => {
+      if (perm !== "granted") { this.setState({mdBezig:false, mdPerm:perm === "denied" ? "denied" : this.mdPermissie(), mdMelding: perm === "denied" ? "" : "Zonder toestemming kan InfoPoche geen meldingen sturen. Tik nog eens op Zet meldingen aan als je dat wilt."}); return null; }
+      return this.mdRegistratie().then(reg => {
+        if (!reg) throw new Error("sw");
+        return reg.pushManager.getSubscription().then(sub => sub || reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey: M.sleutelBytes(M.VAPID_PUBLIEK)}));
+      }).then(sub => {
+        const body = M.serverBody(sub.toJSON(), k, this.mdDepCode());
+        if (!body) throw new Error("sub");
+        return this.mdPost("POST", body).then(ok => {
+          if (!ok) { this.setState({mdBezig:false, mdMelding:"Opslaan lukte niet. Controleer je verbinding en probeer het nog eens."}); return; }
+          const n = Object.assign({}, k, {aan:true}); this.mdSla(n);
+          this.setState({mdBezig:false, mdKeuze:n, mdPerm:"granted", mdMelding:"Gelukt, meldingen staan aan."});
+        });
+      });
+    }).catch(() => { this.setState({mdBezig:false, mdPerm:this.mdPermissie(), mdMelding:"Meldingen aanzetten lukte niet op dit toestel. Je kunt de kalender ook in je agenda-app zetten, die herinnert ook."}); });
+  }
+  mdOpslaan(){
+    const M = window.IfMeld, st = this.state, k = st.mdKeuze;
+    if (!k || st.mdBezig) return;
+    if (!k.rubrieken.length) { this.setState({mdMelding:"Kies minstens één rubriek, of zet de meldingen uit."}); return; }
+    this.setState({mdBezig:true, mdMelding:""});
+    this.mdRegistratie().then(reg => reg && reg.pushManager.getSubscription()).then(sub => {
+      const body = sub ? M.serverBody(sub.toJSON(), k, this.mdDepCode()) : null;
+      if (!body) { this.setState({mdBezig:false, mdMelding:"Dit toestel heeft geen actief abonnement meer. Tik op Zet meldingen aan."}); const n = Object.assign({}, k, {aan:false}); this.mdSla(n); this.setState({mdKeuze:n}); return; }
+      return this.mdPost("POST", body).then(ok => { this.mdSla(k); this.setState({mdBezig:false, mdMelding: ok ? "Opgeslagen." : "Opslaan lukte niet. Controleer je verbinding en probeer het nog eens."}); });
+    }).catch(() => this.setState({mdBezig:false, mdMelding:"Opslaan lukte niet. Probeer het nog eens."}));
+  }
+  mdUitzetten(){
+    const M = window.IfMeld, st = this.state, k = st.mdKeuze;
+    if (!k || st.mdBezig) return;
+    this.setState({mdBezig:true, mdMelding:""});
+    this.mdRegistratie().then(reg => reg && reg.pushManager.getSubscription()).then(sub => {
+      const eind = ok => { const n = Object.assign({}, k, {aan:false}); this.mdSla(n); this.setState({mdBezig:false, mdKeuze:n, mdMelding: ok ? "Meldingen staan uit en het abonnement is gewist." : "Meldingen staan uit op dit toestel. Het wissen op de server lukte niet; het abonnement verdwijnt daar vanzelf zodra het niet meer werkt."}); };
+      if (!sub) { eind(true); return; }
+      const endpoint = sub.endpoint;
+      return this.mdPost("DELETE", {endpoint}).then(ok => sub.unsubscribe().catch(() => false).then(() => eind(ok)));
+    }).catch(() => this.setState({mdBezig:false, mdMelding:"Uitzetten lukte niet. Probeer het nog eens."}));
+  }
+  mdVals(){
+    const st = this.state, M = window.IfMeld, Kl = window.IfKal, is = st.screen === "meldingen" && !!M && !!Kl;
+    const k = st.mdKeuze || {aan:false, rubrieken:[], dagen:[]};
+    const cat = st.cat || {}, tekstUitleg = (cat.meldingen && cat.meldingen.uitleg) || {};
+    const ios = this.mdIosToestel();
+    const soort = is ? M.staat({ios, standalone:this.alGeinstalleerd(), heeftPush:this.mdPushKan(), permissie:st.mdPerm || this.mdPermissie(), aangezet:!!k.aan}) : "uit";
+    const klaar = is && st.mdRStatus === "klaar";
+    const alt = is && (soort === "ios-installeren" || soort === "geen-push" || soort === "geweigerd") && (klaar || soort === "ios-installeren" || soort === "geen-push");
+    const formulier = klaar && (soort === "uit" || soort === "aan");
+    const dep = this.mdDepCode(), depNaam = dep !== "geen" ? Kl.gebiedNaam(dep, cat.departementen || {}) : "";
+    const bezig = !!st.mdBezig;
+    const AGENDA = "Liever geen meldingen? Zet de kalender in je eigen agenda-app: die herinnert ook.";
+    const alle = {
+      "ios-installeren": {kop:"Eerst op je beginscherm", tekst:"Op een iPhone kan InfoPoche alleen meldingen sturen als de app op je beginscherm staat. Dat duurt tien seconden."},
+      "geen-push": {kop:"Meldingen werken hier niet", tekst:"Deze browser of dit toestel kan geen meldingen van InfoPoche ontvangen. De kalender in je eigen agenda-app herinnert je wel."},
+      "geweigerd": {kop:"Meldingen staan uit op dit toestel", tekst:"Je hebt meldingen voor InfoPoche geblokkeerd, of het toestel doet dat zelf. Je kunt dat terugzetten in de instellingen van je toestel of je browser, bij de meldingen of rechten van InfoPoche of van deze site. De plek verschilt per toestel. Kom daarna terug en tik op de knop hieronder."}
+    }[soort] || {kop:"", tekst:""};
+    const spoor = aan => "flex:none;position:relative;display:block;width:52px;height:30px;border-radius:15px;background:" + (aan ? "#800000" : "#C9C4C3") + ";transition:background .15s",
+          knop = aan => "position:absolute;top:3px;left:" + (aan ? "25px" : "3px") + ";width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .15s";
+    const rijen = is ? M.rijen(st.kalRubr || [], tekstUitleg, k).map((r, i) => ({
+      id:r.id, naam:r.naam, uitleg:r.uitleg, aan:r.aan, klik: () => this.mdWissel(r.id), rand: i === 0 ? "border-top:0;" : "border-top:1px solid rgba(21,24,26,.08);", spoor: spoor(r.aan), knop: knop(r.aan)
+    })) : [];
+    const NAMEN = {7:"7 dagen vooraf", 1:"1 dag vooraf", 0:"Op de dag zelf"};
+    const dagen = M.DAGEN_ALLE.map(d => { const aan = k.dagen.indexOf(d) >= 0; return {dag:String(d), tekst:NAMEN[d], aan, klik: () => this.mdWisselDag(d),
+      stijl:"min-height:44px;padding:0 16px;border-radius:22px;cursor:pointer;font:700 14px Mulish;border:1px solid " + (aan ? "rgba(128,0,0,.35)" : "rgba(21,24,26,.18)") + ";background:" + (aan ? "rgba(128,0,0,.08)" : "#fff") + ";color:" + (aan ? "#800000" : "#3D4346")}; });
+    return {
+      isMeldingen: is, mdLaadt: is && st.mdRStatus === "laden" && soort !== "ios-installeren" && soort !== "geen-push", mdFout: is && st.mdRStatus === "fout" && !alt, mdOpnieuw: () => this.mdLaad(),
+      mdAlternatief: alt, mdAltKop: alle.kop, mdAltTekst: alle.tekst, mdIosKnop: alt && soort === "ios-installeren", mdGeweigerdKnop: alt && soort === "geweigerd",
+      mdInstalleer: () => this.installOpen(), mdHerlees: () => { this.setState({mdPerm:this.mdPermissie()}); this.mdLaad(); }, mdAgendaTekst: AGENDA, mdAgenda: () => this.setState({kalAbo:true}),
+      mdFormulier: formulier, mdRijen: rijen, mdDagen: dagen,
+      mdDepTekst: dep !== "geen" ? "Lokale data volgen je postcode: departement " + (depNaam || dep) + "." : "Voor lokale data, zoals verenigingen, heb je een postcode nodig.",
+      mdPostcodeKnop: formulier && dep === "geen", mdPostcode: () => this.setState({vraagPostcode:true}),
+      mdMeldingTekst: is ? (st.mdMelding || "") : "", mdNogAan: formulier && !k.aan, mdAanKnop: bezig ? "Even geduld..." : "Zet meldingen aan", mdAanzetten: () => this.mdAanzetten(),
+      mdIsAan: formulier && !!k.aan, mdOpslaan: () => this.mdOpslaan(), mdOpslaanKnop: bezig ? "Even geduld..." : "Opslaan", mdUitzetten: () => this.mdUitzetten(),
+      mdPrivacy: "Je toestel vraagt daarna om toestemming. We bewaren alleen een anoniem adres voor de melding (het push-adres van je toestel), je keuzes en het nummer van je departement. Geen naam, geen e-mail. Een abonnement verdwijnt als je de meldingen uitzet, als het toestel het niet meer aanneemt en na 13 maanden zonder bijwerken. Zolang je meldingen aan hebt, verlengt elk bezoek aan dit scherm het abonnement en werkt het je departement bij."
+    };
+  }
+
   // ---- Onze sponsors (sponsors.json + sponsors/, geen tellers, geen tracking) ----------------------
   // Elke opening schudt de volgorde (Fisher-Yates). Wisselende banners lopen op tijd uit een ticker die
   // stopt zodra het scherm verlaten wordt; bij beperkte beweging staat alleen het eerste beeld.
@@ -6935,7 +7157,7 @@ class Component extends DCLogic {
     const later = it ? Kl.laterRegel(it, vandaag) : "";
     const itemChips = it ? Kl.wieTekst(it).concat(Kl.gebiedItem(it, deps) ? [Kl.gebiedItem(it, deps)] : []).map(t => ({t})) : [];
     const heeftBron = !!it && (!!it.bron.url || !!it.bron.gecontroleerd);
-    const abo = is && ok ? Kl.icalLijst(rubrieken, items) : [];
+    const abo = ((is && ok) || (st.screen === "meldingen" && rubrieken.length)) && Kl ? Kl.icalLijst(rubrieken, is ? items : []) : [];
     const tot = d => "tot en met " + Kl.dagMaand(d, false);
     return {
       isKal: is, kalLijstScherm: !st.kalItem, kalItemScherm: !!st.kalItem,
@@ -6960,8 +7182,8 @@ class Component extends DCLogic {
       kalAanvZichtbaar: aanvBlokken.length > 0, kalAanvBlokken: aanvBlokken, kalTitelPx: is && gekozen ? String(Kl.titelGrootte(Kl.periodeTitelKop(wg, gekozen))) : "21",
       kalNavLaadt: is && ok && !st.kalItem && (st.kalNav === "laden" || (!!aanvBer && !aanvGedekt && st.kalNav !== "fout")), kalNavFout: is && ok && !st.kalItem && st.kalNav === "fout", kalNavOpnieuw: () => this.kalNavOpnieuw(),
       kalOpnieuw: () => { this.kalIdOpnieuw(); this.kalLaad(true); },
-      kalAboVraag: Kl ? Kl.ABO_VRAAG : "", kalAboKnop: Kl ? Kl.ABO_KNOP : "", kalAboOpen: () => this.setState({kalAbo:true}), kalAboSluit: () => this.setState({kalAbo:false}),
-      kalAboBlad: is && !!st.kalAbo, kalAboAllesUrl: Kl ? Kl.icalUrl("alles") : "", kalAboAllesTekst: Kl ? Kl.ABO_ALLES : "", kalAboRubriekTekst: Kl ? Kl.ABO_RUBRIEK : "",
+      kalAboVraag: Kl ? Kl.ABO_VRAAG : "", kalAboKnop: Kl ? Kl.ABO_KNOP : "", kalAboOpen: () => this.setState({kalAbo:true}), kalMeldOpen: () => this.mdOpen("kalender"), kalAboSluit: () => this.setState({kalAbo:false}),
+      kalAboBlad: (is || st.screen === "meldingen") && !!st.kalAbo, kalAboAllesUrl: Kl ? Kl.icalUrl("alles") : "", kalAboAllesTekst: Kl ? Kl.ABO_ALLES : "", kalAboRubriekTekst: Kl ? Kl.ABO_RUBRIEK : "",
       kalAboRijen: abo.filter(a => a.id !== "alles").map(a => ({naam:a.naam, url:a.url})), kalAboUitleg: Kl ? Kl.ABO_UITLEG : "",
       kiLaadt: is && !!st.kalItem && !it && (laadt || (ok && (st.kalIdStatus === "" || st.kalIdStatus === "laden"))), kiFout: is && !!st.kalItem && !it && (fout || (ok && st.kalIdStatus === "fout")), kiWeg: is && !!st.kalItem && !it && ok && st.kalIdStatus === "weg", kiKlaar: !!it,
       kiTerug: () => this.terugKnop(),
@@ -7327,6 +7549,7 @@ class Component extends DCLogic {
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
   go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); if (s === "act") s = "nieuws";
     if (s === "sponsors") return this.sponsorsOpen();
+    if (s === "meldingen") return this.mdOpen("hub");
     if (s === "klusarchief") return this.kaOpen(this.vindModule("klusforum"), "hub");
     if (s === "kalender") return this.kalOpen(this.vindModule("kalender"), "hub");
     if (s === "infofr") return this.ifOpen();
@@ -7953,9 +8176,9 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", meldingen:"Meldingen", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", meldingen:"Herinneringen uit Kalender Frankrijk", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
       over:"Profiel",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
@@ -8010,6 +8233,7 @@ class Component extends DCLogic {
       ...this.aiVals(),
       ...this.lmVals(),
       ...this.spVals(),
+      ...this.mdVals(),
       ...this.tkVals(),
       ...this.hyVals(),
       ...this.gmVals(),
@@ -8036,6 +8260,7 @@ class Component extends DCLogic {
       mnKeuze: () => this.menuNaar({screen:"keuze", from:"hub"}),
       mnOver: () => this.menuNaar({screen:"over", from:"hub"}),
       mnSponsors: () => this.sponsorsOpen(),
+      mnMeldingen: () => this.mdOpen("hub"), mnIcoMeldingen: this.iconStyle("bel", 24) + ";color:#800000",
       mnIcoSponsors: this.iconStyle("ster", 24) + ";color:#800000",
       mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),
       mnInstalleer: !this.alGeinstalleerd(),

@@ -63,7 +63,7 @@
     if (screen === "mod" || screen === "keuze" || screen === "tool" || screen === "tekoop" || screen === "klusarchief" || screen === "kalender" || screen === "linklijst" || screen === "brief") return "mod";
     if (screen === "gem" || screen === "draad") return "gem";
     if (screen === "nieuws") return "nieuws";
-    if (screen === "acc" || screen === "over" || screen === "piramide" || screen === "sponsors") return "";
+    if (screen === "acc" || screen === "over" || screen === "piramide" || screen === "sponsors" || screen === "meldingen") return "";
     return "hub";
   }
 
