@@ -236,6 +236,8 @@ test("bedrading: bij reduced motion beweegt niets (bestaande regel voor de sterr
 
 test("bedrading: service worker kent de lib en heeft een nieuwe versie", () => {
   assert.match(sw, /"\.\/planeet-lib\.js"/);
-  assert.match(sw, /const VERSIE = "2026-11-11-8"/);
+  const v = (sw.match(/const VERSIE = "(\d{4})-(\d{2})-(\d{2})-(\d+)"/) || []).slice(1).map(Number);
+  assert.equal(v.length, 4);
+  assert.ok(v[0] * 1e7 + v[1] * 1e5 + v[2] * 1e3 + v[3] >= 2026 * 1e7 + 11 * 1e5 + 11 * 1e3 + 8, 'VERSIE moet minstens 2026-11-11-8 zijn');
   assert.match(html, /<script src="\.\/planeet-lib\.js"><\/script>/);
 });

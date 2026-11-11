@@ -395,6 +395,7 @@
     },
     {
       "id": "kompas",
+      "maan": "ai",
       "peilkaart": "https://communitiesabroad.com/manifest/tool/financieel-kompas",
       "artikel": "https://infofrankrijk.com/financieel-kompas/",
       "ai": "ondersteuning",
@@ -525,6 +526,7 @@
     },
     {
       "id": "correspondentie",
+      "maan": "ai",
       "peilkaart": "https://communitiesabroad.com/manifest/tool/briefhulp-fr",
       "ai": "ondersteuning",
       "ai_uitleg": "Helpt bij het schrijven van een Franstalige brief; een AI vult je gegevens in een vaste opzet in. Lees de brief na voordat je hem verstuurt.",
@@ -969,6 +971,7 @@
     },
     {
       "id": "nlfrzoek",
+      "maan": "ai",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "ai": "ondersteuning",
       "ai_uitleg": "Zoekt in forum en artikelen en vat de best passende bronnen samen in lopende tekst. Controleer bij geld en overheid de datum van de bron.",
