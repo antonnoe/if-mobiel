@@ -476,6 +476,26 @@
       "standaard": "uit"
     },
     {
+      "id": "briefuitleg",
+      "peilkaart": "https://communitiesabroad.com/manifest/tools",
+      "groep": "leven",
+      "thema": "overheid",
+      "naam": "Brief uitleggen",
+      "kort": "Brief uitleggen",
+      "meta": "Foto van een Franse brief, uitleg in gewoon Nederlands",
+      "prijs": "gratis",
+      "schil": "stappenschil",
+      "houdbaar": "jaren",
+      "status": "af",
+      "kind": "brief",
+      "ai": "tool",
+      "ai_uitleg": "Claude leest de foto van je brief en zegt in gewoon Nederlands wie hem stuurt, wat ze vragen en welke termijn de brief noemt, met bij elk punt de Franse zin zelf. Het blijft een uitleg door AI, geen advies; de brief zelf gaat altijd voor.",
+      "nagekeken": "2026-11-11",
+      "over": "Maak een foto van een Franse brief en lees in gewoon Nederlands wie hem stuurt, wat ze vragen en voor wanneer, met bij elk punt de Franse tekst uit de brief. De uitleg is gemaakt door AI en is geen advies.",
+      "zoekwoorden": "brief uitleggen franse brief foto lezen vertalen aanmaning belasting courrier lettre",
+      "standaard": "aan"
+    },
+    {
       "id": "correspondentie",
       "peilkaart": "https://communitiesabroad.com/manifest/tool/briefhulp-fr",
       "ai": "ondersteuning",
@@ -3788,6 +3808,30 @@
         "y": 52,
         "cafe": "bureaucratie",
         "vragen": [
+          {
+            "id": "franse-brief",
+            "tekst": "Ik kreeg een Franse brief",
+            "intro": "Een brief van een Franse dienst is lastig te lezen. Maak een foto en lees wat er staat, en schrijf zo nodig zelf een antwoord.",
+            "antwoorden": [
+              {
+                "groep": "begin",
+                "bron": "if",
+                "module": "briefuitleg"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "module": "correspondentie"
+              },
+              {
+                "groep": "stap",
+                "bron": "if",
+                "titel": "Websites Franse overheden en instellingen",
+                "regel": "De digitale loketten per onderwerp",
+                "artikel": "https://infofrankrijk.com/websites-franse-overheden-en-instellingen/"
+              }
+            ]
+          },
           {
             "id": "rijbewijs",
             "tekst": "Rijbewijs en auto",

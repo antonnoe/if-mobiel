@@ -14,7 +14,7 @@ const vind = id => mods.find(m => m.id === id);
 const VOLGORDE = ["geld", "overheid", "gezondheid", "adressen", "nieuws", "ervaring", "ondernemen", "wonen", "taal"];
 const INDELING = {
   geld: ["kompas", "ruyter", "erfrecht", "transactiekosten", "plusvalue"],
-  overheid: ["emigreren", "auto", "frankrijklegal", "controletechnique", "overhedenbuurt", "kalender"],
+  overheid: ["emigreren", "auto", "frankrijklegal", "controletechnique", "overhedenbuurt", "kalender", "briefuitleg"],
   gezondheid: ["zorg", "zorgkompas", "palliatief", "zoekers"],
   adressen: ["nedergids", "verenigingen", "verenigingsbeheer"],
   nieuws: [],

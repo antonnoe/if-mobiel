@@ -30,6 +30,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./sponsors-lib.js"></script>
 <script src="./advertenties-lib.js"></script>
 <script src="./klusarchief-lib.js"></script>
+<script src="./brief-lib.js"></script>
 <script src="./kalender-lib.js"></script>
 <script src="./infofr-lib.js"></script>
 <script src="./sterrenkaart-lib.js"></script>
@@ -2698,6 +2699,99 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
+<!-- ============ BRIEF UITLEGGEN (foto van een Franse brief, uitleg door AI) ============ -->
+<sc-if value="{{ isBr }}" hint-placeholder-val="{{ false }}">
+<div data-brief="1" style="padding:22px 16px 28px">
+  <input id="ifm-br-cam" type="file" accept="image/*" capture="environment" onChange="{{ brKies }}" tabindex="-1" aria-hidden="true" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+  <input id="ifm-br-best" type="file" accept="image/*" onChange="{{ brKies }}" tabindex="-1" aria-hidden="true" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+  <sc-if value="{{ brKopH1 }}" hint-placeholder-val="{{ true }}">
+  <h1 style="margin:0;font:500 30px 'Source Serif 4',Georgia,serif;line-height:1.2;overflow-wrap:anywhere">Wat staat er in deze brief?</h1>
+  </sc-if>
+  <sc-if value="{{ brStart }}" hint-placeholder-val="{{ true }}">
+  <div data-br-start="1">
+    <p style="margin:10px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty">{{ brUitleg }}</p>
+    <div style="margin-top:16px;padding:22px 16px;border:2px dashed rgba(128,0,0,.35);border-radius:16px;background:rgba(128,0,0,.04);text-align:center">
+      <button onClick="{{ brCam }}" style="min-height:52px;width:100%;max-width:320px;padding:0 18px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 16px Mulish;cursor:pointer">Maak een foto</button>
+      <div style="margin-top:10px">
+        <button onClick="{{ brBestand }}" style="min-height:44px;padding:0 14px;border:0;background:transparent;color:#800000;font:700 14.5px Mulish;text-decoration:underline;cursor:pointer">of kies een bestand</button>
+      </div>
+    </div>
+    <p data-br-privacy="1" style="margin:12px 0 0;font:500 13px/1.6 Mulish;color:#3D4346">{{ brPrivacy }}</p>
+    <p style="margin:8px 0 0;font:500 13px/1.6 Mulish;color:#3D4346">Alleen een foto of afbeelding werkt, geen PDF.</p>
+  </div>
+  </sc-if>
+  <sc-if value="{{ brLaadt }}" hint-placeholder-val="{{ false }}">
+  <div role="status" data-br-laadt="1" style="padding:28px 4px;font:600 15px/1.6 Mulish;color:#15181A">De brief wordt gelezen. Dat duurt een halve minuut.</div>
+  </sc-if>
+  <sc-if value="{{ brFout }}" hint-placeholder-val="{{ false }}">
+  <div data-br-fout="1">
+    <div role="alert" style="padding:14px 16px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 14.5px/1.6 Mulish;color:#15181A">{{ brFoutTekst }}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
+      <sc-if value="{{ brFoutOpnieuw }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ brOpnieuw }}" style="min-height:44px;padding:0 18px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+      </sc-if>
+      <button onClick="{{ brNieuw }}" style="min-height:44px;padding:0 18px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Andere foto</button>
+    </div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ brOnleesbaar }}" hint-placeholder-val="{{ false }}">
+  <div data-br-onleesbaar="1">
+    <div style="padding:14px 16px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18)">
+      <b style="font:600 15px Poppins,sans-serif;color:#15181A">{{ brDisclaimerKop }}</b>
+      <p style="margin:6px 0 0;font:400 13.5px/1.7 Mulish;color:#3D4346">{{ brDisclaimer }}</p>
+    </div>
+    <div style="margin-top:12px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+      <b style="font:600 15px Poppins,sans-serif;color:#15181A">{{ brOnleesbaarKop }}</b>
+      <p style="margin:6px 0 0;font:400 14px/1.7 Mulish;color:#3D4346">{{ brOnleesbaarTekst }}</p>
+      <button onClick="{{ brNieuw }}" style="margin-top:12px;min-height:48px;width:100%;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 15px Mulish;cursor:pointer">Nieuwe foto</button>
+    </div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ brKlaar }}" hint-placeholder-val="{{ false }}">
+  <div data-br-klaar="1">
+    <div style="font:700 12px Mulish;letter-spacing:.12em;color:#800000">AFZENDER</div>
+    <h1 style="margin:6px 0 0;font:500 28px 'Source Serif 4',Georgia,serif;line-height:1.2;overflow-wrap:anywhere">{{ brAfzender }}</h1>
+    <p style="margin:8px 0 0;font:400 15.5px Mulish;line-height:1.8em;color:#3D4346;overflow-wrap:anywhere">{{ brSoortRegel }}</p>
+    <sc-if value="{{ brHeeftTermijn }}" hint-placeholder-val="{{ false }}">
+    <div data-br-termijn="1" style="margin-top:14px;padding:14px 16px;border-radius:16px;background:rgba(128,0,0,.07);border:1px solid rgba(128,0,0,.18)">
+      <div style="font:600 12.5px Mulish;color:#3D4346">Termijn zoals de brief hem noemt</div>
+      <div style="margin-top:4px;font:600 19px/1.35 Poppins,sans-serif;color:#800000;overflow-wrap:anywhere">{{ brTermijn }}</div>
+      <p style="margin:8px 0 0;padding-left:10px;border-left:3px solid rgba(128,0,0,.3);font:italic 400 13.5px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">« {{ brTermijnCitaat }} »</p>
+    </div>
+    </sc-if>
+    <sc-if value="{{ brHeeftPunten }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:20px;font:700 12px Mulish;letter-spacing:.12em;color:#3D4346">WAT ZE VRAGEN</div>
+    <ul data-br-punten="1" style="margin:8px 0 0;padding:0;list-style:none">
+      <sc-for list="{{ brPunten }}" as="p" hint-placeholder-count="2">
+      <li style="margin:0 0 14px;padding:0">
+        <div style="display:flex;gap:10px"><span aria-hidden="true" style="color:#800000;font:700 15px Mulish;line-height:1.7">&bull;</span><span style="flex:1;min-width:0;font:400 15.5px Mulish;line-height:1.7;color:#15181A;overflow-wrap:anywhere">{{ p.nl }}</span></div>
+        <p style="margin:6px 0 0 18px;padding-left:10px;border-left:3px solid rgba(128,0,0,.3);font:italic 400 13.5px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">« {{ p.citaat }} »</p>
+      </li>
+      </sc-for>
+    </ul>
+    </sc-if>
+    <div style="margin-top:12px;font:700 12px Mulish;letter-spacing:.12em;color:#3D4346">WAT JE KUNT DOEN</div>
+    <div data-br-acties="1" style="margin-top:8px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;overflow:hidden">
+      <sc-if value="{{ brHeeftCorrespondentie }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ brCorrespondentie }}" style="width:100%;min-height:56px;display:flex;align-items:center;gap:10px;padding:10px 16px;border:0;background:#fff;text-align:left;cursor:pointer"><b style="flex:1;font:700 14.5px/1.35 Mulish;color:#15181A">Antwoord schrijven met Correspondentie</b><span aria-hidden="true" style="color:#800000;font:700 16px Mulish">&rarr;</span></button>
+      </sc-if>
+      <sc-if value="{{ brHeeftCafe }}" hint-placeholder-val="{{ true }}">
+      <a href="{{ brCafeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 16px;border-top:1px solid rgba(21,24,26,.08);background:#fff;text-decoration:none"><b style="flex:1;font:700 14.5px/1.35 Mulish;color:#15181A">Vraag het Café Claude</b><span aria-hidden="true" style="color:#800000;font:700 16px Mulish">&#8599;</span></a>
+      </sc-if>
+      <sc-if value="{{ brHeeftZoek }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ brZoek }}" style="width:100%;min-height:56px;display:flex;align-items:center;gap:10px;padding:10px 16px;border:0;border-top:1px solid rgba(21,24,26,.08);background:#fff;text-align:left;cursor:pointer"><b style="flex:1;font:700 14.5px/1.35 Mulish;color:#15181A;overflow-wrap:anywhere">{{ brZoekTekst }}</b><span aria-hidden="true" style="color:#800000;font:700 16px Mulish">&rarr;</span></button>
+      </sc-if>
+    </div>
+    <div data-br-disclaimer="1" style="margin-top:16px;padding:14px 16px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18)">
+      <b style="font:600 15px Poppins,sans-serif;color:#15181A">{{ brDisclaimerKop }}</b>
+      <p style="margin:6px 0 0;font:400 13.5px/1.7 Mulish;color:#3D4346">{{ brDisclaimer }}</p>
+    </div>
+    <button onClick="{{ brNieuw }}" style="margin-top:14px;min-height:48px;width:100%;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 15px Mulish;cursor:pointer">Nieuwe foto</button>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
 <!-- ============ KLUSARCHIEF (oud klusforum van Infofrankrijk, alleen zoeken en lezen) ============ -->
 <sc-if value="{{ isKa }}" hint-placeholder-val="{{ false }}">
 <div data-klusarchief="1">
@@ -3796,7 +3890,7 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst|brief)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 // Schermen zonder eigen h1 in de inhoud: de schermtitel in de kopbalk is daar de h1 (elk scherm heeft er precies één).
@@ -4199,7 +4293,7 @@ function peilVoetTekst() {
 
 class Component extends DCLogic {
   state = { screen:"hub", menu:false, q:"", copied:null,
-    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
+    spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, brStatus:"", brSoort:"", brData:null, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
@@ -6294,6 +6388,111 @@ class Component extends DCLogic {
     if (this._kaCTeller) this._kaCTeller.volgende();
     this.setState({kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatV:"", kaChatVraag:"", kaChatKort:false});
   }
+
+  // ---- Brief uitleggen: foto van een Franse brief, uitleg door Claude (brief-lib.js). Alles blijft in het geheugen. ----
+  brOpen(m, from){
+    this._brBestand = null;
+    if (this._brTeller) this._brTeller.volgende();
+    this.setState({screen:"brief", menu:false, q:"", copied:null, tool:m || this.vindModule("briefuitleg"), from: from || "hub", brStatus:"", brSoort:"", brData:null});
+  }
+  brKies(e){
+    const L = window.IfBrief, el = e && e.target, f = el && el.files && el.files[0];
+    if (!L || !f) return;
+    try { el.value = ""; } catch(x){}
+    if (L.isPdf(f.name, f.type)) { this._brBestand = null; this.setState({brStatus:"fout", brSoort:"pdf", brData:null}); return; }
+    if (!L.isBeeld(f.name, f.type)) { this._brBestand = null; this.setState({brStatus:"fout", brSoort:"beeld", brData:null}); return; }
+    this._brBestand = f;
+    this.brStuur();
+  }
+  // Verkleint tot hoogstens 1600 px lange zijde en JPEG; blijft onder de bytegrens van de functie.
+  brMaakJpeg(file){
+    const L = window.IfBrief;
+    return new Promise((res, rej) => {
+      let url = null;
+      try { url = URL.createObjectURL(file); } catch(e){ rej(e); return; }
+      const img = new Image();
+      img.onload = () => {
+        try {
+          let lang = L.MAX_LANG, b64 = "";
+          for (let ronde = 0; ronde < 4; ronde++) {
+            const maat = L.verkleinMaat(img.naturalWidth, img.naturalHeight, lang);
+            if (!maat) throw new Error("maat");
+            const c = document.createElement("canvas"); c.width = maat.b; c.height = maat.h;
+            const cx = c.getContext("2d"); cx.fillStyle = "#fff"; cx.fillRect(0, 0, maat.b, maat.h); cx.drawImage(img, 0, 0, maat.b, maat.h);
+            let q = 0.85;
+            b64 = c.toDataURL("image/jpeg", q).split(",")[1] || "";
+            while (b64 && L.bytesVanBase64(b64) > L.DOEL_BYTES && q > 0.45) { q -= 0.1; b64 = c.toDataURL("image/jpeg", q).split(",")[1] || ""; }
+            if (b64 && L.bytesVanBase64(b64) <= L.DOEL_BYTES) break;
+            lang = Math.round(lang * 0.75);
+          }
+          URL.revokeObjectURL(url);
+          if (!b64 || L.bytesVanBase64(b64) > L.MAX_BYTES) rej(new Error("groot")); else res(b64);
+        } catch(e){ try { URL.revokeObjectURL(url); } catch(x){} rej(e); }
+      };
+      img.onerror = () => { try { URL.revokeObjectURL(url); } catch(x){} rej(new Error("beeld")); };
+      img.src = url;
+    });
+  }
+  brStuur(){
+    const L = window.IfBrief, Nv = window.IfNav, f = this._brBestand;
+    if (!L || !Nv || !f || this.state.brStatus === "laden") return;
+    this._brTeller = this._brTeller || Nv.maakTeller();
+    const tok = this._brTeller.volgende();
+    const klaar = patch => this.setState(prev => this._brTeller.actueel(tok) ? patch : null);
+    this.setState({brStatus:"laden", brSoort:"", brData:null});
+    this.brMaakJpeg(f).then(b64 => {
+      let ctl = null, timer = null;
+      try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), L.TIMEOUT_MS); } catch(e){ ctl = null; }
+      const opts = {method:"POST", credentials:"omit", headers:{"Content-Type":"application/json"}, body:L.body(b64)};
+      if (ctl) opts.signal = ctl.signal;
+      return fetch(L.URL, opts).then(r => r.json().catch(() => null).then(d => ({status:r.status, data:d})))
+        .catch(() => ({status:0, data:null}))
+        .then(x => { if (timer) clearTimeout(timer); return x; });
+    }).then(({status, data}) => {
+      if (status === 200 && data && data.ok === true) {
+        const l = L.leesAntwoord(data);
+        klaar(l.leesbaar ? {brStatus:"klaar", brData:l} : {brStatus:"onleesbaar", brData:null});
+      } else klaar({brStatus:"fout", brSoort:L.foutSoort(status, data), brData:null});
+    }).catch(e => {
+      klaar({brStatus:"fout", brSoort: e && e.message === "groot" ? "groot" : (e && e.message === "beeld" ? "beeld" : "fout"), brData:null});
+    });
+  }
+  brNieuw(){
+    this._brBestand = null;
+    if (this._brTeller) this._brTeller.volgende();
+    this.setState({brStatus:"", brSoort:"", brData:null});
+  }
+  brVals(){
+    const st = this.state, L = window.IfBrief, is = st.screen === "brief" && !!L;
+    const d = st.brData, S = st.brStatus;
+    const klaar = is && S === "klaar" && !!d;
+    const cafe = is ? this.cafeUrl({cafe:{domein:"bureaucratie"}}) : null;
+    const heeftBestand = !!this._brBestand;
+    const fSoort = st.brSoort;
+    return {
+      isBr: is, brKopH1: is && S !== "klaar", brStart: S === "", brLaadt: S === "laden", brFout: S === "fout", brOnleesbaar: S === "onleesbaar", brKlaar: klaar,
+      brUitleg: is ? L.UITLEG : "", brPrivacy: is ? L.PRIVACY : "",
+      brDisclaimerKop: is ? L.DISCLAIMER_KOP : "", brDisclaimer: is ? L.DISCLAIMER : "",
+      brOnleesbaarKop: is ? L.ONLEESBAAR_KOP : "", brOnleesbaarTekst: is ? L.ONLEESBAAR : "",
+      brFoutTekst: is ? (fSoort === "pdf" ? L.PDF_TEKST : L.foutTekst(fSoort)) : "",
+      brFoutOpnieuw: is && heeftBestand && (fSoort === "druk" || fSoort === "uit" || fSoort === "fout" || fSoort === "groot"),
+      brOpnieuw: () => this.brStuur(),
+      brNieuw: () => this.brNieuw(),
+      brCam: () => { const el = document.getElementById("ifm-br-cam"); if (el) el.click(); },
+      brBestand: () => { const el = document.getElementById("ifm-br-best"); if (el) el.click(); },
+      brKies: e => this.brKies(e),
+      brAfzender: klaar ? d.afzender : "",
+      brSoortRegel: klaar ? (d.soortNl ? "Soort: " + d.soortNl + (d.soortFr ? " (" + d.soortFr + ")" : "") : "") : "",
+      brHeeftTermijn: klaar && !!d.termijn, brTermijn: klaar && d.termijn ? d.termijn.nl : "", brTermijnCitaat: klaar && d.termijn ? d.termijn.citaat : "",
+      brHeeftPunten: klaar && d.punten.length > 0,
+      brPunten: klaar ? d.punten.map(p => ({nl:p.nl, citaat:p.citaat})) : [],
+      brHeeftCafe: !!cafe, brCafeUrl: cafe || "",
+      brCorrespondentie: () => { const m = this.vindModule("correspondentie"); if (m) this.route(m); },
+      brHeeftCorrespondentie: is && !!this.vindModule("correspondentie"),
+      brHeeftZoek: klaar && !!d.zoekterm, brZoekTekst: klaar && d.zoekterm ? "Zoek in InfoPoche: " + d.zoekterm : "",
+      brZoek: () => { const t = d && d.zoekterm; if (!t) return; this.go("zoek"); this.setState({q:t}); this.zoekArtikelen(t); }
+    };
+  }
   kaChatBron(b){
     this.kaOpenDraad({id:b.id, titel:b.titel, jaar:b.jaar, forum:""});
   }
@@ -7132,6 +7331,7 @@ class Component extends DCLogic {
     if (s === "kalender") return this.kalOpen(this.vindModule("kalender"), "hub");
     if (s === "infofr") return this.ifOpen();
     if (s === "gemeente") return this.gmOpen("hub");
+    if (s === "brief") return this.brOpen(this.vindModule("briefuitleg"), "hub");
     if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
@@ -7157,6 +7357,7 @@ class Component extends DCLogic {
     if (m.kind === "linklijst") return this.setState({screen:"linklijst", tool:m, q:"", from});
     if (m.kind === "klusarchief") return this.kaOpen(m, from);
     if (m.kind === "kalender") return this.kalOpen(m, from);
+    if (m.kind === "brief") return this.brOpen(m, from);
     if (m.kind === "advertenties") { this.setState({screen:"tekoop", tool:m, q:"", from, tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
     if (m.kind === "vastgoed") return this.setState({screen:"vastgoed", tool:m, q:"", from});
     if (m.kind === "zorg") return this.setState({screen:"zorg", tool:m, q:"", from});
@@ -7751,9 +7952,9 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", linklijst: st.tool ? this.themaVan(st.tool) : "",
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
       over:"Profiel",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
@@ -7815,6 +8016,7 @@ class Component extends DCLogic {
       ...this.llVals(),
       ...this.kaVals(),
       ...this.kalVals(),
+      ...this.brVals(),
       ...this.ifVals(),
       ...this.skVals(),
       ...this.vdVals(),

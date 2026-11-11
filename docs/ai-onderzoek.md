@@ -69,6 +69,10 @@ Regel: alleen vastgesteld AI komt erin. Kon het niet worden vastgesteld, dan sta
 - dossierfrankrijk: zie boven (inlog, privérepo). Staat er niet in.
 - kompas: alleen het eindpunt en de afscherming zijn vastgesteld, niet de kwaliteit van de antwoorden.
 
+### briefuitleg
+- Brief uitleggen (module `briefuitleg`): een foto van een Franse brief gaat naar de Supabase Edge Function `infopoche-brief`, die Claude (Anthropic, beeldinvoer) de brief laat lezen. Het antwoord is een vast JSON-schema; elk punt heeft een letterlijk Frans citaat uit de brief en de termijn blijft zoals de brief hem noemt, nooit een uitgerekende datum. Er wordt niets van foto of uitkomst bewaard door InfoPoche; Anthropic kan API-invoer een beperkte tijd bewaren. Zie CLAUDE.md, hoofdstuk Brief uitleggen.
+- Indeling: tool (geeft zelf een uitleg, binnen wat de brief zegt; geen advies).
+
 ### klusforum
 - Klusarchief (module `klusforum`): de chat "Vraag het archief" (Supabase Edge Function `klusarchief-chat`, model van Anthropic) antwoordt alleen uit gevonden draden en artikelen, met bronvermelding; zonder bron geen antwoord. Zie CLAUDE.md, hoofdstuk Klusarchief, besluit van 30-10-2026.
 - Indeling: tool (geeft zelf antwoord, binnen de bronnen).

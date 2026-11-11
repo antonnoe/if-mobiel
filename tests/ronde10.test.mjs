@@ -25,7 +25,7 @@ test("Verenigingsbeheer: module onder Verenigingen met de vier links", () => {
 
 test("de app kent het kind: route, scherm, terugknop, tab en kop", () => {
   assert.match(html, /if \(m\.kind === "linklijst"\) return this\.setState\(\{screen:"linklijst", tool:m/);
-  assert.match(html, /\|linklijst\)\$\/;/);
+  assert.match(html, /\|linklijst(\|brief)?\)\$\/;/);
   assert.match(html, /<sc-if value="\{\{ isLinklijst \}\}"/);
   assert.match(html, /llVals\(\)\{/);
   assert.match(html, /\.\.\.this\.llVals\(\)/);
