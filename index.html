@@ -35,6 +35,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./kalender-lib.js"></script>
 <script src="./infofr-lib.js"></script>
 <script src="./sterrenkaart-lib.js"></script>
+<script src="./planeet-lib.js"></script>
 <script src="./hygiene-lib.js"></script>
 <script src="./gemeente-lib.js"></script>
 <script src="./feedback-lib.js"></script>
@@ -1185,12 +1186,70 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div data-sterrenkaart="1" style="{{ skVeld }}">
     <sc-for list="{{ skSterren }}" as="s" hint-placeholder-count="46"><span aria-hidden="true" style="{{ s.stijl }}"></span></sc-for>
     <h2 style="position:absolute;left:16px;right:16px;top:20px;margin:0;text-align:center;font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:22px;line-height:1.2;color:#F6EFD9;text-wrap:balance">Waar zoek je een antwoord op?</h2>
-    <div style="position:absolute;left:0;right:0;top:72px;bottom:38px">
+    <div style="{{ skZonVlak }}">
       <sc-for list="{{ skZonnen }}" as="z" hint-placeholder-count="8">
       <div style="{{ z.pos }}"><button data-zon="1" onClick="{{ z.open }}" aria-label="{{ z.aria }}" style="{{ z.stijl }}">{{ z.naam }}</button></div>
       </sc-for>
     </div>
-    <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:12px;text-align:center;font:600 12px Mulish;color:#C9D0DC">Tik op een onderwerp</div>
+    <sc-if value="{{ plHeeft }}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{ plDeco }}" as="d" hint-placeholder-count="4"><span aria-hidden="true" style="{{ d.stijl }}"></span></sc-for>
+    <button data-planeet-groot="1" onClick="{{ plOpen }}" aria-label="{{ plAria }}" style="{{ plStijl }}">
+      <b style="font:600 21px/1.2 Poppins,system-ui,sans-serif;color:#fff">Alles in InfoPoche</b>
+      <span style="font:500 13.5px/1.4 Mulish;color:#E3EBF7">{{ plTotaal }}</span>
+    </button>
+    <div aria-hidden="true" style="{{ plRing }}"></div>
+    </sc-if>
+  </div>
+  </sc-if>
+  <sc-if value="{{ skP2 }}" hint-placeholder-val="{{ false }}">
+  <div data-sterrenkaart="2" data-planeet-niveau="2" style="{{ skVeld }}">
+    <sc-for list="{{ skSterren }}" as="s" hint-placeholder-count="46"><span aria-hidden="true" style="{{ s.stijl }}"></span></sc-for>
+    <div aria-hidden="true" style="{{ plBaanUit }}"></div>
+    <div aria-hidden="true" style="{{ plBaanIn }}"></div>
+    <sc-for list="{{ plSat }}" as="s" hint-placeholder-count="8"><span aria-hidden="true" style="{{ s.stijl }}"></span></sc-for>
+    <div style="{{ plMidden }}">Alles in InfoPoche</div>
+    <sc-for list="{{ plManen }}" as="p" hint-placeholder-count="7">
+    <div style="{{ p.pos }}"><button data-maan="1" onClick="{{ p.open }}" aria-label="{{ p.aria }}" style="{{ p.stijl }}"><b style="font:600 12px/1.2 Poppins,system-ui,sans-serif;overflow-wrap:normal;word-break:keep-all">{{ p.naam }}</b><span style="font:700 12px/1.2 Mulish;color:#3D4C6B">{{ p.aantal }}</span></button></div>
+    </sc-for>
+    <button onClick="{{ skTerug }}" style="position:absolute;left:8px;top:8px;z-index:3;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(246,239,217,.28);background:rgba(14,26,46,.62);color:#F6EFD9;font:700 13px Mulish;cursor:pointer">← Alle onderwerpen</button>
+    <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:12px;text-align:center;font:600 12px Mulish;color:#C9D0DC">Kies een soort functie</div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ skP3 }}" hint-placeholder-val="{{ false }}">
+  <div data-sterrenkaart="3" data-planeet-niveau="3">
+    <div style="{{ skKop }}">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;margin:-6px 0 0 -8px">
+        <button onClick="{{ plTerug }}" style="min-height:44px;padding:0 8px;border:0;background:none;color:#F6EFD9;font:700 13px Mulish;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Alles in InfoPoche</button>
+        <span aria-hidden="true" style="color:#C9D0DC;font:700 15px Mulish">›</span>
+        <span style="padding:0 8px;color:#C9D0DC;font:700 13px Mulish">{{ plMaanNaam }}</span>
+      </div>
+      <h1 style="margin:4px 0 0;font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:28px;line-height:1.15;color:#FFF7E0;overflow-wrap:anywhere">{{ plMaanNaam }}</h1>
+      <p style="margin:10px 0 0;font:500 14px/1.7 Mulish;color:#C9D0DC;text-wrap:pretty">{{ plUitleg }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px" aria-label="Bronnen">
+        <sc-for list="{{ skLegenda }}" as="l" hint-placeholder-count="4"><span style="display:inline-flex;align-items:center;gap:6px;font:600 12px Mulish;color:#E6E9EF"><span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:{{ l.kleur }};box-shadow:0 0 0 1.5px rgba(255,255,255,.7)"></span>{{ l.naam }}</span></sc-for>
+      </div>
+    </div>
+    <div data-planeet-tegels="1" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:6px 14px 0;align-items:start">
+      <sc-for list="{{ plRijen }}" as="r" hint-placeholder-count="6">
+      <sc-if value="{{ r.isKop }}" hint-placeholder-val="{{ false }}">
+      <div style="grid-column:1/-1;padding:16px 4px 0;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">{{ r.titel }}</div>
+      </sc-if>
+      <sc-if value="{{ r.isKnop }}" hint-placeholder-val="{{ true }}">
+      <button data-functie="1" onClick="{{ r.open }}" style="display:block;text-align:left;padding:13px 14px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);cursor:pointer;min-height:44px">
+        <span style="display:flex;align-items:center;gap:6px;font:800 11.5px Mulish;letter-spacing:.03em;color:#5F6669"><span aria-hidden="true" style="flex:none;width:10px;height:10px;border-radius:50%;background:{{ r.kleur }}"></span><span style="min-width:0;overflow-wrap:anywhere">{{ r.bron }}</span></span>
+        <b style="display:block;margin-top:6px;font:600 14px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto">{{ r.titel }}</b>
+        <span style="display:block;margin-top:4px;font:500 12.5px/1.5 Mulish;color:#5F6669">{{ r.regel }}</span>
+      </button>
+      </sc-if>
+      <sc-if value="{{ r.isLink }}" hint-placeholder-val="{{ false }}">
+      <a data-functie="1" href="{{ r.href }}" target="_blank" rel="noopener" style="display:block;padding:13px 14px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);text-decoration:none;min-height:44px">
+        <span style="display:flex;align-items:center;gap:6px;font:800 11.5px Mulish;letter-spacing:.03em;color:#5F6669"><span aria-hidden="true" style="flex:none;width:10px;height:10px;border-radius:50%;background:{{ r.kleur }}"></span><span style="min-width:0;overflow-wrap:anywhere">{{ r.bron }}</span></span>
+        <b style="display:block;margin-top:6px;font:600 14px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto">{{ r.titel }} ↗</b>
+        <span style="display:block;margin-top:4px;font:500 12.5px/1.5 Mulish;color:#5F6669">{{ r.regel }}</span>
+      </a>
+      </sc-if>
+      </sc-for>
+    </div>
   </div>
   </sc-if>
   <sc-if value="{{ skN2 }}" hint-placeholder-val="{{ false }}">
@@ -7418,6 +7477,7 @@ class Component extends DCLogic {
     if (st.screen !== "zoek" || String(st.q || "").trim() !== "") return 0;
     const data = this.skData(), o = data.onderwerpen.find(x => x.id === st.skOnd);
     if (!data.onderwerpen.length) return 0;
+    if (st.skOnd === "planeet") { const pl = this.plBouw(); return pl.manen.length ? (pl.manen.some(m => m.id === st.skVraag) ? 3 : 2) : 1; }
     if (!o) return 1;
     return o.vragen.some(v => v.id === st.skVraag) ? 3 : 2;
   }
@@ -7446,23 +7506,98 @@ class Component extends DCLogic {
     if (!cc || !cc.url) return "";
     return (o && o.cafe && this.cafeUrl({cafe:{domein:o.cafe}})) || cc.url;
   }
+  // ---- De planeet "Alles in InfoPoche" (11 november 2026) ------------------------------------------------------------
+  // Onder de zonnen van niveau 1 staat een planeet die alle functies van de app op een rij zet: niveau 2 zijn de manen (soorten
+  // functies), niveau 3 de functies zelf als tegels. Dezelfde sub-staat als de sterrenkaart: skOnd "planeet" (en skVraag = maan),
+  // dus geschiedenisregel, terugStap, histToestand en IfNav.navKey doen het al. De indeling komt uit modules.json (`planeet`, plus
+  // de velden maan en bron van een module); planeet-lib.js rekent. Alleen wat de lezer nu ziet staat erop (Mijn modules en seizoen tellen mee).
+  plBouw(){
+    const P = window.IfPl, c = this.state.cat;
+    if (!P || !c) return {manen:[], totaal:0};
+    if (!this._plC || this._plC.cat !== c) this._plC = {cat:c, data:P.leesPlaneet(c.planeet)};
+    // Alle modules die de lezer ziet, ook die met thema ai of dossier (die staan niet in mods(): ze hebben een eigen blok op de hub).
+    return P.bouw(this._plC.data, {modules:this.alleMods(), themas:this.themaList(), zichtbaar:m => this.zichtbaarNu(m), geinstalleerd:this.alGeinstalleerd()});
+  }
+  plTerug(){ if (this.state.skVraag || this.state.skOnd) this.terugKnop(); }
+  // Opent de functie zelf. Terug (pijl of gebaar) komt op dezelfde maan uit: de sub-staat blijft staan.
+  plOpen(doel){
+    if (!doel) return;
+    const st = this.state;
+    if (doel.soort === "module") { const m = this.alleMods().find(x => x.id === doel.waarde && this.zichtbaarNu(x)); if (m) this.route(m); return; }
+    if (doel.soort === "url") { try { window.open(doel.waarde, "_blank", "noopener"); } catch(e){} return; }
+    if (doel.soort === "thema") { const t = this.themaList().find(x => x.id === doel.waarde); if (t) { this.openThema(t); this.setState({from:"zoek"}); } return; }
+    switch (doel.waarde) {
+      case "gemeente": this.gmOpen("zoek"); break;
+      case "hygiene": this.hyOpen(); this.setState({from:"zoek"}); break;
+      case "meldingen": this.mdOpen("zoek"); break;
+      case "infofr": this.ifOpen(); this.setState({from:"zoek"}); break;
+      case "sponsors": this.sponsorsOpen(); this.setState({from:"zoek"}); break;
+      case "acc": this.menuNaar({screen:"acc", from:"zoek"}); break;
+      case "keuze": this.menuNaar({screen:"keuze", from:"zoek"}); break;
+      case "over": this.menuNaar({screen:"over", from:"zoek"}); break;
+      case "mod": this.setState({screen:"mod", from:"zoek", q:"", tool:null, menu:false}); break;
+      case "dossierdemo": this.setState({screen:"dossierdemo", from:"zoek", dsView:"overzicht", dsOnd:null, dsOpen:null, q:"", tool:null, menu:false}); break;
+      case "feedback": this.fbOpenen(); break;
+      case "installeer": this.installOpen(); break;
+      case "postcode": this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}); break;
+    }
+  }
+  plVals(uit, niv){
+    const st = this.state, P = window.IfPl, pl = this.plBouw();
+    const NACHT = "radial-gradient(ellipse at 50% 42%,#22304f 0%,#0E1A2E 58%,#060b15 100%)";
+    const veld = "position:relative;margin:12px 10px 0;border-radius:22px;overflow:hidden;min-height:max(" + P.VELD.minHoogte + "px,calc(100dvh - 255px));background:" + NACHT + ";";
+    const maan = pl.manen.find(m => m.id === st.skVraag) || null;
+    if (niv === 3 && maan) {
+      const rijen = [];
+      maan.groepen.forEach(g => {
+        if (g.titel) rijen.push({isKop:true, isKnop:false, isLink:false, titel:g.titel});
+        g.items.forEach(it => {
+          const b = P.BRONNEN[it.bron] || P.BRONNEN.ip, link = it.doel.soort === "url";
+          rijen.push({isKop:false, isKnop:!link, isLink:link, kleur:b.kleur, bron:b.naam, titel:it.titel, regel:it.regel, href:link ? it.doel.waarde : "", open:() => this.plOpen(it.doel)});
+        });
+      });
+      return Object.assign(uit, {skP3:true, plMaanNaam:maan.naam, plUitleg:maan.uitleg, plRijen:rijen, plTerug:() => this.plTerug(), skLegenda:P.legenda(maan.items),
+        skKop:"margin:12px 10px 0;padding:10px 16px 22px;border-radius:22px;background:" + NACHT});
+    }
+    const sc = document.getElementById("ifm-scroll"), br = Math.min(sc ? sc.clientWidth : window.innerWidth, 460) - 20;
+    const mp = P.maanPosities(pl.manen.length, br, P.VELD.minHoogte), sat = P.satellieten(mp, 9), M = P.MAAN;
+    return Object.assign(uit, {skP2:true, skVeld:veld, skSterren:this._skSt, skTerug:() => this.plTerug(),
+      plBaanUit:"position:absolute;left:50%;top:50%;width:" + (2 * mp.rx) + "px;height:" + (2 * mp.ry) + "px;margin:-" + mp.ry + "px 0 0 -" + mp.rx + "px;border-radius:50%;border:1.5px dashed rgba(246,239,217,.26)",
+      plBaanIn:"position:absolute;left:50%;top:50%;width:" + (2 * M.binnenR) + "px;height:" + (2 * M.binnenR) + "px;margin:-" + M.binnenR + "px 0 0 -" + M.binnenR + "px;border-radius:50%;border:1.5px dashed rgba(246,239,217,.34)",
+      plSat:sat.map(q => ({stijl:"position:absolute;z-index:1;left:calc(50% + " + (q.x - q.d / 2) + "px);top:calc(50% + " + (q.y - q.d / 2) + "px);width:" + q.d + "px;height:" + q.d + "px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF7E0,#F1D58E 62%,#D7AE55);box-shadow:0 0 8px 1px rgba(241,213,142,.55);animation:sk-twinkel " + q.t + "s ease-in-out " + q.v + "s infinite"})),
+      plMidden:"position:absolute;left:50%;top:50%;width:" + M.planeetD + "px;height:" + M.planeetD + "px;margin:-" + (M.planeetD / 2) + "px 0 0 -" + (M.planeetD / 2) + "px;z-index:1;border-radius:50%;display:grid;place-items:center;text-align:center;padding:0 12px;background:radial-gradient(circle at 36% 26%,#6FA3E0 0%,#2F6AAE 38%,#1B3F73 72%,#122C55 100%);color:#fff;font:600 14px/1.25 Poppins,system-ui,sans-serif;box-shadow:0 0 36px 8px rgba(88,150,230,.38)",
+      plManen:pl.manen.map((m, i) => ({naam:m.naam, aantal:P.aantalTekst(m.aantal), aria:m.naam + ", " + P.aantalTekst(m.aantal),
+        open:() => { this.setState({skVraag:m.id}); this.skBoven(); },
+        pos:"position:absolute;z-index:2;left:calc(50% + " + mp.posities[i].x + "px);top:calc(50% + " + mp.posities[i].y + "px);width:0;height:0;display:flex;align-items:center;justify-content:center",
+        stijl:"flex:none;width:" + M.d + "px;height:" + M.d + "px;border-radius:50%;border:0;padding:0 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;cursor:pointer;background:radial-gradient(circle at 35% 28%,#FFFFFF 0%,#E4E9F3 58%,#B9C4D8 100%);color:#16203A;box-shadow:0 0 18px 2px rgba(190,205,235,.28);animation:sk-zweef " + (7 + (i % 4) * 1.1).toFixed(1) + "s ease-in-out " + (i * 0.6).toFixed(1) + "s infinite,sk-in .55s ease-out " + (0.1 + i * 0.1).toFixed(2) + "s both"}))});
+  }
   skVals(){
     const st = this.state, Sk = window.IfSk, niv = this.skNiveau();
-    const leeg = {skKort: st.screen === "zoek" && String(st.q || "").trim().length === 1, skN1:false, skN2:false, skN3:false};
+    const leeg = {skKort: st.screen === "zoek" && String(st.q || "").trim().length === 1, skN1:false, skN2:false, skN3:false, skP2:false, skP3:false, plHeeft:false};
     if (!Sk || !niv) return leeg;
     const data = this.skData(), o = data.onderwerpen.find(x => x.id === st.skOnd) || null;
     const v = o ? o.vragen.find(x => x.id === st.skVraag) || null : null;
+    if (!this._skSt) this._skSt = Sk.sterren(46).map(s => ({stijl:"position:absolute;left:" + s.x + "%;top:" + s.y + "%;width:" + s.s + "px;height:" + s.s + "px;border-radius:50%;background:#fff;opacity:.7;animation:sk-twinkel " + s.d + "s ease-in-out " + s.dl + "s infinite"}));
+    if (st.skOnd === "planeet" && niv >= 2) return this.plVals(Object.assign({}, leeg), niv);
     const GOUD = "radial-gradient(circle at 35% 30%,#FFF7E0,#F1D58E 62%,#D7AE55)";
     const NACHT = "radial-gradient(ellipse at 50% 42%,#22304f 0%,#0E1A2E 58%,#060b15 100%)";
-    const veld = "position:relative;margin:12px 10px 0;border-radius:22px;overflow:hidden;min-height:max(520px,calc(100dvh - 255px));background:" + NACHT + ";";
-    if (!this._skSt) this._skSt = Sk.sterren(46).map(s => ({stijl:"position:absolute;left:" + s.x + "%;top:" + s.y + "%;width:" + s.s + "px;height:" + s.s + "px;border-radius:50%;background:#fff;opacity:.7;animation:sk-twinkel " + s.d + "s ease-in-out " + s.dl + "s infinite"}));
+    const PL = window.IfPl, pl1 = PL && niv === 1 ? this.plBouw() : null;
+    const veld = "position:relative;margin:12px 10px 0;border-radius:22px;overflow:hidden;min-height:max(" + (PL ? PL.VELD.minHoogte : 520) + "px,calc(100dvh - 255px));background:" + NACHT + ";";
     const uit = Object.assign({}, leeg, {skVeld:veld, skSterren:this._skSt, skNaarAlle:() => { this.setState({skOnd:"", skVraag:""}); this.skBoven(); }, skTerug:() => { if (this.state.skVraag || this.state.skOnd) this.terugKnop(); }});
     if (niv === 1) {
-      return Object.assign(uit, {skN1:true, skZonnen:data.onderwerpen.map((ond, i) => {
+      const V = PL ? PL.VELD : null, heeftPl = !!(pl1 && pl1.manen.length);
+      return Object.assign(uit, {skN1:true,
+        skZonVlak: V ? "position:absolute;left:0;right:0;top:" + V.zonTop + "px;bottom:" + V.zonOnder + "px" : "position:absolute;left:0;right:0;top:72px;bottom:38px",
+        plHeeft: heeftPl, plTotaal: heeftPl ? PL.totaalTekst(pl1.totaal) : "", plAria: heeftPl ? "Alles in InfoPoche, " + PL.totaalTekst(pl1.totaal) : "",
+        plOpen: () => { this.setState({skOnd:"planeet", skVraag:""}); this.skBoven(); },
+        plStijl: heeftPl ? "position:absolute;left:50%;bottom:-" + (V.planeetD - V.planeetZichtbaar) + "px;width:" + V.planeetD + "px;height:" + V.planeetD + "px;margin-left:-" + (V.planeetD / 2) + "px;z-index:1;border:0;border-radius:50%;padding:54px 14px 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;text-align:center;cursor:pointer;background:radial-gradient(circle at 36% 26%,#6FA3E0 0%,#2F6AAE 38%,#1B3F73 72%,#122C55 100%);box-shadow:0 0 44px 6px rgba(88,150,230,.32)" : "",
+        plRing: heeftPl ? "position:absolute;left:50%;bottom:6px;width:" + (V.planeetD + 70) + "px;height:62px;margin-left:-" + ((V.planeetD + 70) / 2) + "px;z-index:2;pointer-events:none;border-radius:50%;border:3px solid rgba(214,226,244,.55);transform:rotate(-7deg)" : "",
+        plDeco: heeftPl ? PL.DECO.map((d, i) => ({stijl:"position:absolute;z-index:1;left:" + d.x + "%;bottom:" + d.boven + "px;width:" + d.d + "px;height:" + d.d + "px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#B9C6DB);animation:sk-zweef " + (7 + i * 1.3).toFixed(1) + "s ease-in-out " + (i * 0.7).toFixed(1) + "s infinite"})) : [],
+        skZonnen:data.onderwerpen.map((ond, i) => {
         const b = Sk.zonBeweging(i), px = Sk.zonLetter(ond.naam);
         return {naam:ond.naam, aria:"Onderwerp " + ond.naam, open:() => this.skKiesOnd(ond.id),
           pos:"position:absolute;left:" + ond.x + "%;top:" + ond.y + "%;width:0;height:0;display:flex;align-items:center;justify-content:center",
-          stijl:"flex:none;width:96px;height:96px;border-radius:50%;border:0;padding:0 4px;display:grid;place-items:center;text-align:center;cursor:pointer;background:" + GOUD + ";color:#2A1F0A;font:600 " + px + "px/1.15 Poppins,system-ui,sans-serif;word-break:keep-all;overflow-wrap:normal;hyphens:none;animation:sk-zweef " + b.zweef + "s ease-in-out " + b.vertraging + "s infinite,sk-gloei " + b.gloei + "s ease-in-out " + b.vertraging + "s infinite"};
+          stijl:"flex:none;width:" + (V ? V.zonD : 96) + "px;height:" + (V ? V.zonD : 96) + "px;border-radius:50%;border:0;padding:0 3px;display:grid;place-items:center;text-align:center;cursor:pointer;background:" + GOUD + ";color:#2A1F0A;font:600 " + px + "px/1.15 Poppins,system-ui,sans-serif;word-break:keep-all;overflow-wrap:normal;hyphens:none;animation:sk-zweef " + b.zweef + "s ease-in-out " + b.vertraging + "s infinite,sk-gloei " + b.gloei + "s ease-in-out " + b.vertraging + "s infinite"};
       })});
     }
     const px2 = Math.min(15, Sk.zonLetter(o.naam) + 1);

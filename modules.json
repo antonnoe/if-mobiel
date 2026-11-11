@@ -67,6 +67,8 @@
   "modules": [
     {
       "id": "nedergids",
+      "maan": "buurt",
+      "bron": "ng",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "aankomen",
       "thema": "adressen",
@@ -82,6 +84,7 @@
     },
     {
       "id": "cafeclaude",
+      "bron": "cc",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "ai": "tool",
       "ai_uitleg": "Stel je vraag in gewone taal; Café Claude schrijft zelf het antwoord, met bronvermelding. Het blijft een AI-antwoord en geen advies van een deskundige.",
@@ -133,6 +136,8 @@
     },
     {
       "id": "veiligheid",
+      "maan": "buurt",
+      "bron": "ng",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "weergave": "volledig",
       "groep": "wonen",
@@ -160,6 +165,7 @@
     },
     {
       "id": "klussen",
+      "maan": "lezen",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
@@ -196,6 +202,8 @@
     },
     {
       "id": "tekoop",
+      "maan": "samen",
+      "bron": "nl",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
@@ -235,6 +243,7 @@
     },
     {
       "id": "kalender",
+      "maan": "op-tijd",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "overheid",
@@ -330,6 +339,7 @@
     },
     {
       "id": "internet",
+      "maan": "buurt",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/internet-internetverbinding/",
       "groep": "wonen",
@@ -365,6 +375,7 @@
     },
     {
       "id": "moestuin",
+      "maan": "op-tijd",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/de-moestuin-in-frankrijk-van-begin-januari-tot-eind-december/",
       "groep": "wonen",
@@ -552,6 +563,7 @@
     },
     {
       "id": "woordenboek",
+      "maan": "lezen",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "taal",
@@ -585,6 +597,7 @@
     },
     {
       "id": "verenigingsbeheer",
+      "maan": "samen",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "adressen",
@@ -624,6 +637,8 @@
     },
     {
       "id": "verenigingen",
+      "maan": "samen",
+      "bron": "nl",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "adressen",
@@ -642,6 +657,7 @@
     },
     {
       "id": "dossierfrankrijk",
+      "maan": "app",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "dossier",
@@ -696,6 +712,8 @@
     },
     {
       "id": "palliatief",
+      "maan": "buurt",
+      "bron": "ng",
       "ookNedergids": true,
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
@@ -791,6 +809,7 @@
     },
     {
       "id": "vastgoedanalyse",
+      "maan": "buurt",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu/",
       "groep": "wonen",
@@ -810,6 +829,8 @@
     },
     {
       "id": "controletechnique",
+      "maan": "buurt",
+      "bron": "ng",
       "ookNedergids": true,
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/de-controle-technique-de-franse-apk/",
@@ -830,6 +851,8 @@
     },
     {
       "id": "overhedenbuurt",
+      "maan": "buurt",
+      "bron": "ng",
       "rechten": "geolocation",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/vind-franse-overheden-en-instellingen-bij-jou-in-de-buurt/",
@@ -850,6 +873,7 @@
     },
     {
       "id": "bouwgrond",
+      "maan": "buurt",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "artikel": "https://infofrankrijk.com/locatie-en-omgevingsanalyse/",
       "groep": "wonen",
@@ -965,6 +989,7 @@
     },
     {
       "id": "dossierelektra",
+      "maan": "lezen",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
@@ -983,6 +1008,7 @@
     },
     {
       "id": "elektrabuiten",
+      "maan": "lezen",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "wonen",
       "thema": "wonen",
@@ -1000,6 +1026,8 @@
     },
     {
       "id": "zoekers",
+      "maan": "buurt",
+      "bron": "ng",
       "ookNedergids": true,
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
@@ -1018,6 +1046,8 @@
     },
     {
       "id": "forum",
+      "maan": "samen",
+      "bron": "nl",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "ervaring",
@@ -1033,6 +1063,8 @@
     },
     {
       "id": "vervoershub",
+      "maan": "samen",
+      "bron": "nl",
       "peilkaart": "https://communitiesabroad.com/manifest/tools",
       "groep": "leven",
       "thema": "ervaring",
@@ -4356,6 +4388,35 @@
           }
         ]
       }
+    ]
+  },
+  "planeet": {
+    "_uitleg": "De planeet 'Alles in InfoPoche' onder de sterrenkaart (11-11-2026): elke functie van de app staat op precies een maan. Een module komt vanzelf op een maan: het veld maan van de module (op-tijd, buurt, ai, samen, app, reken, lezen), anders ai:tool naar ai, de rest naar standaard (reken, daar gegroepeerd per thema). Een module die niet getoond wordt (zichtbaar false, uit in Mijn modules, buiten seizoen) staat er niet. Het veld bron van een module (if|nl|ng|cc) kleurt de tegel, standaard if. Schermen en menu-onderdelen die geen module zijn staan in schermen: {id, maan, titel, regel, bron (if|nl|ng|cc|ip), doel: gemeente|hygiene|meldingen|infofr|sponsors|acc|keuze|over|mod|dossierdemo|feedback|installeer|postcode}. De thema's uit themas staan automatisch bij onderwerpen.maan. Een nieuw scherm of een nieuwe module erbij: zie tests/planeet.test.mjs, die faalt als iets nergens staat of dubbel.",
+    "standaard": "reken",
+    "onderwerpen": { "maan": "lezen", "groep": "De onderwerpen" },
+    "manen": [
+      { "id": "op-tijd", "naam": "Op tijd", "uitleg": "Data, deadlines en een seintje, zodat je niets mist." },
+      { "id": "buurt", "naam": "Bij jou in de buurt", "uitleg": "Wat de app weet over je gemeente, je adres en je departement." },
+      { "id": "ai", "naam": "Vragen aan AI", "uitleg": "Leg je vraag of je brief voor en krijg een uitleg. Een AI-antwoord is een startpunt, geen advies van een deskundige." },
+      { "id": "samen", "naam": "Samen", "uitleg": "Het forum, verenigingen en wat Nederlanders in Frankrijk voor elkaar doen." },
+      { "id": "app", "naam": "Jouw app", "uitleg": "Je profiel, je modules en je instellingen." },
+      { "id": "reken", "naam": "Rekenen en regelen", "uitleg": "Tools om uit te rekenen, uit te zoeken en te regelen, per onderwerp." },
+      { "id": "lezen", "naam": "Lezen en vinden", "uitleg": "Artikelen, dossiers en nieuws, per onderwerp geordend." }
+    ],
+    "schermen": [
+      { "id": "meldingen", "maan": "op-tijd", "titel": "Meldingen bij deadlines", "regel": "Een seintje op je telefoon voor belastingdata en andere deadlines.", "bron": "if", "doel": "meldingen" },
+      { "id": "gemeente", "maan": "buurt", "titel": "Mijn gemeente", "regel": "Risico's, belasting, water en afval voor jouw gemeente.", "bron": "ng", "doel": "gemeente" },
+      { "id": "hygiene", "maan": "buurt", "titel": "Hygiënecontroles", "regel": "Restaurants en winkels bij je postcode.", "bron": "ng", "doel": "hygiene" },
+      { "id": "sponsors", "maan": "samen", "titel": "Onze sponsors", "regel": "Wie InfoPoche mogelijk maken.", "bron": "nl", "doel": "sponsors" },
+      { "id": "profiel", "maan": "app", "titel": "Profiel", "regel": "Je voorkeuren en wat er op dit toestel staat.", "bron": "ip", "doel": "acc" },
+      { "id": "mijnmodules", "maan": "app", "titel": "Mijn modules", "regel": "Kies welke modules je ziet.", "bron": "ip", "doel": "keuze" },
+      { "id": "allemodules", "maan": "app", "titel": "Alle modules", "regel": "Alles op een rij, per onderwerp.", "bron": "ip", "doel": "mod" },
+      { "id": "dossierdemo", "maan": "app", "titel": "Dossier Frankrijk, voorbeeld", "regel": "Zo ziet je persoonlijke archief eruit.", "bron": "if", "doel": "dossierdemo" },
+      { "id": "postcode", "maan": "app", "titel": "Je postcode", "regel": "Stel hem in voor je gemeente en je departement.", "bron": "ip", "doel": "postcode" },
+      { "id": "beginscherm", "maan": "app", "titel": "Zet op je beginscherm", "regel": "Open InfoPoche als app.", "bron": "ip", "doel": "installeer" },
+      { "id": "feedback", "maan": "app", "titel": "Feedback geven", "regel": "Deel een ervaring, een verbetering of een suggestie.", "bron": "ip", "doel": "feedback" },
+      { "id": "overons", "maan": "app", "titel": "Over ons", "regel": "Wie er achter InfoPoche zit en hoe wij werken.", "bron": "ip", "doel": "over" },
+      { "id": "infofrankrijk", "maan": "lezen", "titel": "Infofrankrijk", "regel": "Dossiers en gidsen, sinds 2001.", "bron": "if", "doel": "infofr" }
     ]
   }
 }
