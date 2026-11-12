@@ -317,3 +317,25 @@ test("een opsomming in een kaartje is compact, niet de ruime lopende tekst (06-1
   assert.match(uit[0], /400 14px\/1\.6 Mulish/); assert.match(uit[1], /400 14px\/1\.6 Mulish/);
   assert.match(uit[2], /line-height:1\.8em/, "een lijst buiten een kaartje blijft lopende tekst");
 });
+
+test("ankerbalk: een rij #-sprongen (A tot Z) wordt knoppen van 44 px; doelen krijgen data-anker (12-11-2026)", async (t) => {
+  const knop = l => `<a style="display:inline-block" href="#sec-${l}">${l}</a><br />`;
+  const sec = l => `<h2 id="sec-${l}">${l}</h2><table><tr><td>woord ${l}</td><td>mot</td></tr></table>`;
+  const h = `<p>Inleiding met <a href="#sec-B">een losse sprong</a> in tekst.</p><div>${["A","B","C"].map(knop).join("")}<a href="#top">Top</a></div><div id="top"></div>${["A","B","C"].map(sec).join("<div><a href=\"#top\">Terug naar boven</a></div>")}`;
+  const uit = await inBrowser(x => {
+    const b = window.IfArtikel.schoon(x), balk = b.querySelector("[data-ankerbalk]");
+    return { balken: b.querySelectorAll("[data-ankerbalk]").length, knoppen: balk ? [...balk.querySelectorAll("[data-sprong]")].map(k => k.textContent + "|" + k.getAttribute("data-sprong")) : [],
+      doelen: [...b.querySelectorAll("h2[data-anker]")].map(d => d.getAttribute("data-anker")), terug: b.querySelectorAll("h2 [data-sprong]").length,
+      balkAnker: balk ? balk.getAttribute("data-anker") : "", stijl: balk ? balk.querySelector("button").getAttribute("style") : "", inleiding: b.textContent.includes("Inleiding met een losse sprong in tekst."), top: b.textContent.includes("Terug naar boven") };
+  }, h);
+  if (!uit) return t.skip("geen headless browser beschikbaar");
+  assert.equal(uit.balken, 1);
+  assert.deepEqual(uit.knoppen, ["A|sec-A", "B|sec-B", "C|sec-C"], "Top valt weg");
+  assert.ok(!uit.top, "losse Terug naar boven-link is weg");
+  assert.deepEqual(uit.doelen, ["sec-A", "sec-B", "sec-C"]);
+  assert.equal(uit.terug, 3, "elke letter heeft een knop terug naar de rij");
+  assert.ok(/min-width:44px;min-height:44px/.test(uit.stijl));
+  assert.ok(uit.inleiding, "een alinea met tekst en een losse sprong blijft tekst");
+  const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  assert.ok(html.includes('closest("[data-artikel] [data-sprong]")'), "index.html handelt de sprongen af");
+});

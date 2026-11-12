@@ -5104,6 +5104,19 @@ class Component extends DCLogic {
       ev.preventDefault(); this.route(m);
     };
     document.addEventListener("click", this._klikTool);
+    // Ankerbalk in een artikel (bv. A tot Z): springt binnen het artikel, zonder de hash-route te raken.
+    this._klikSprong = ev => {
+      const k = ev.target && ev.target.closest ? ev.target.closest("[data-artikel] [data-sprong]") : null;
+      if (!k) return;
+      const art = k.closest("[data-artikel]"), naam = k.getAttribute("data-sprong");
+      const doel = art ? [...art.querySelectorAll("[data-anker]")].find(x => x.getAttribute("data-anker") === naam) : null;
+      if (!doel) return;
+      ev.preventDefault();
+      let zacht = true; try { zacht = !window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){}
+      doel.style.scrollMarginTop = "12px";
+      doel.scrollIntoView({behavior: zacht ? "smooth" : "auto", block: "start"});
+    };
+    document.addEventListener("click", this._klikSprong);
     this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.fbOpen) this.fbSluit(); else if (ev.key === "Escape" && this.state.vraagPostcode) this.setState({vraagPostcode:false, pcInfo:false}); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
     document.addEventListener("keydown", this._toetsOproep);
     this._toetsMenu = ev => this.menuToets(ev);

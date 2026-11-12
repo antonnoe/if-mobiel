@@ -14,7 +14,7 @@
   var GEEN_ARTIKEL = /^(abonnement|mijn-account|account|login|inloggen|registreren|wp-admin|wp-login\.php|wp-content|wp-json|wp-includes|feed|klussen|tag|category|author|search)$/i;
 
   var WEG = /^(script|style|iframe|object|embed|form|input|button|select|textarea|link|meta|base|template|noscript|svg|math|frame|frameset|applet|audio|video|source|canvas|dialog|footer|header|nav|aside)$/;
-  var ATTR = /^(href|src|alt|title|colspan|rowspan|scope|loading|target|rel|data-art|referrerpolicy)$/;
+  var ATTR = /^(href|src|alt|title|colspan|rowspan|scope|loading|target|rel|data-art|referrerpolicy|data-anker)$/;
 
   function geldigeUrl(u) {
     try { return new URL(String(u || "").trim(), BASIS + "/"); } catch (e) { return null; }
@@ -137,6 +137,69 @@
     blockquote: "margin:16px 0 0;padding:6px 16px;border-left:3px solid rgba(128,0,0,.30);background:rgba(128,0,0,.04);border-radius:0 12px 12px 0",
     hr: "border:0;border-top:1px solid rgba(21,24,26,.10);margin:22px 0"
   };
+
+  // ---- Ankerbalk (12-11-2026) ---------------------------------------------------------------
+  // Een rij interne sprongen (bv. A tot Z boven een woordenlijst, href="#sec-A") werd na het opschonen een kolom losse
+  // letters, want ids en #-links vallen weg. Nu: het doel krijgt data-anker, de rij wordt een raster knoppen van 44 px die in
+  // het artikel springen (afgehandeld in index.html via [data-sprong]); elk doel krijgt een knopje terug naar de rij.
+  var ANKER = {
+    balk: "display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0",
+    knop: "min-width:44px;min-height:44px;padding:0 10px;border-radius:10px;border:1px solid rgba(128,0,0,.30);background:#fff;color:#800000;font:600 15px/1 Poppins,system-ui,sans-serif;cursor:pointer",
+    terug: "flex:none;margin-left:auto;min-height:44px;padding:0 4px 0 12px;border:0;background:none;color:#800000;font:600 12.5px/44px Mulish,system-ui,sans-serif;cursor:pointer"
+  };
+  function vindAnkerbalken(body) {
+    var uit = [], gezien = [];
+    Array.prototype.slice.call(body.querySelectorAll('a[href^="#"]')).forEach(function (a) {
+      var ouder = a.parentNode;
+      if (!ouder || gezien.indexOf(ouder) >= 0) return;
+      gezien.push(ouder);
+      var items = [];
+      Array.prototype.slice.call(ouder.querySelectorAll('a[href^="#"]')).forEach(function (x) {
+        var id = (x.getAttribute("href") || "").slice(1), label = (x.textContent || "").replace(/\s+/g, " ").trim();
+        if (!id || !label || /^(top|boven|naar boven)$/i.test(label)) return;
+        var doel = null;
+        try { doel = body.querySelector('[id="' + id.replace(/["\\]/g, "") + '"]'); } catch (e) { doel = null; }
+        if (doel && !ouder.contains(doel)) items.push({ id: id, label: label, doel: doel });
+      });
+      // Alleen een rij die vrijwel uit de sprongen zelf bestaat; een alinea met tekst eromheen blijft staan.
+      var rest = ouder.textContent || "";
+      Array.prototype.slice.call(ouder.querySelectorAll('a[href^="#"]')).forEach(function (x) { rest = rest.replace(x.textContent || "", ""); });
+      if (items.length >= 3 && rest.replace(/[\s\u00a0|\u00b7,.\-]+/g, "").length < 4) uit.push({ ouder: ouder, items: items });
+    });
+    // Losse "Terug naar boven"-links zijn overbodig zodra elk doel een knop naar het overzicht heeft.
+    if (uit.length) Array.prototype.slice.call(body.querySelectorAll('a[href^="#"]')).forEach(function (x) {
+      if (!/^(top|boven|naar boven|terug naar boven)$/i.test((x.textContent || "").replace(/\s+/g, " ").trim()) || !x.parentNode) return;
+      var o = x.parentNode; o.removeChild(x);
+      if (o !== body && !(o.textContent || "").trim() && !o.querySelector("img, table")) o.parentNode && o.parentNode.removeChild(o);
+    });
+    uit.forEach(function (b, n) {
+      b.sleutel = "balk" + n;
+      b.items.forEach(function (it) { it.doel.setAttribute("data-anker", it.id); });
+    });
+    return uit;
+  }
+  function maakAnkerbalken(doc, body, balken) {
+    balken.forEach(function (b) {
+      if (!b.ouder.parentNode || !body.contains(b.ouder)) return;
+      var nav = doc.createElement("div");
+      nav.setAttribute("style", ANKER.balk); nav.setAttribute("data-ankerbalk", "1"); nav.setAttribute("data-anker", b.sleutel);
+      b.items.forEach(function (it) {
+        var k = doc.createElement("button");
+        k.setAttribute("type", "button"); k.setAttribute("style", ANKER.knop);
+        k.setAttribute("data-sprong", it.id); k.textContent = it.label;
+        nav.appendChild(k);
+        if (body.contains(it.doel) && !it.doel.querySelector("[data-sprong]")) {
+          var t = doc.createElement("button");
+          t.setAttribute("type", "button"); t.setAttribute("style", ANKER.terug);
+          t.setAttribute("data-sprong", b.sleutel); t.textContent = "\u2191 Overzicht";
+          // Geen float: een zwevende knop duwt de tabel eronder (die zelf scrolt) smaller.
+          it.doel.setAttribute("style", (it.doel.getAttribute("style") || "") + ";display:flex;align-items:center;gap:12px");
+          it.doel.appendChild(t);
+        }
+      });
+      b.ouder.parentNode.replaceChild(nav, b.ouder);
+    });
+  }
 
   function ontvouw(el) {
     var p = el.parentNode;
@@ -455,6 +518,7 @@
       h.parentNode.replaceChild(nw, h);
     });
 
+    var ankerbalken = vindAnkerbalken(body);
     Array.prototype.slice.call(body.querySelectorAll("a")).forEach(function (a) {
       if (!a.parentNode) return;
       var href = a.getAttribute("href");
@@ -508,6 +572,7 @@
     maakKaartTegels(doc, kaartDivs);
     pasOpmaakToe(body);
     maakReeksTegels(doc, body);
+    maakAnkerbalken(doc, body, ankerbalken);
     kaarten.forEach(function (x) {
       if (x.plek.parentNode && body.contains(x.plek)) x.plek.parentNode.replaceChild(maakKaart(doc, x.kaart), x.plek);
     });
