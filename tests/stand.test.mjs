@@ -55,20 +55,25 @@ test("Compleet: zoekloket boven de band, Onze vier en negen tegels blijven, Te v
   assert.match(html, /teVeelAanpassen: \(\) => \{ this\.setState\(\{screen:"keuze", from:"hub"\}\); \},/);
 });
 
-test("Eenvoudig: het zoekloket is een echt typbaar veld, geen knop (herstel 2e ronde: blijft op de hub tijdens het typen, navigeert pas na een pauze, Enter of weg-tikken)", () => {
-  assert.ok(html.includes('<input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" onBlur="{{ onHubQBlur }}"'));
+test("Eenvoudig en Compleet: het zoekloket is op de hub ALTIJD een echt typbaar veld, in geen van beide standen een knop (herstel 3e ronde 13-11-2026: de Compleet-stand had nog de oude knop uit de ronde van 10 november, daardoor leek de fix niet te werken)", () => {
+  assert.ok(html.includes('<input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}"'));
+  assert.ok(html.includes('<input id="hubq2" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}"'));
   assert.ok(!/<button id="hubq"/.test(html));
-  const i = html.indexOf('id="hubq"');
-  const tag = html.slice(i - 20, i + 400).match(/<input[^>]*>/)[0];
-  assert.ok(!/onFocus/.test(tag), "tikken/focus mag niet wegnavigeren");
+  assert.ok(!/<button[^>]*data-hubzoek/.test(html), "de Compleet-knop is vervangen door een veld");
+  for (const id of ["hubq", "hubq2"]) {
+    const i = html.indexOf('id="' + id + '"');
+    const tag = html.slice(i - 20, i + 400).match(/<input[^>]*>/)[0];
+    assert.ok(!/onFocus/.test(tag), "tikken/focus mag niet wegnavigeren (" + id + ")");
+    assert.ok(!/onBlur/.test(tag), "geen wegnavigeren bij blur, dat gaf op een echt toestel soms een voortijdige navigatie (" + id + ")");
+  }
   assert.match(html, /go\(s, qStart\)\{/);
   assert.match(html, /q:qStart \|\| "",/);
   // tijdens het typen blijft het scherm "hub" (geen DOM-wissel per toets, dus geen verloren toetsaanslagen); pas na
-  // een korte stilte (450ms) gaat de app naar het volledige zoekscherm, met de dan actuele tekst.
+  // een korte stilte (450ms) of Enter gaat de app naar het volledige zoekscherm, met de dan actuele tekst.
   assert.match(html, /onHubQ: e => \{ const v = e\.target\.value; this\.setState\(\{q:v\}\); this\.zoekArtikelen\(v\); this\.zoekKlusarchief\(v\);/);
   assert.match(html, /this\._hubQT = setTimeout\(\(\) => \{ if \(this\.state\.screen === "hub" && this\.state\.q === v && v\) this\.go\("zoek", v\); \}, 450\);/);
   assert.match(html, /onHubQEnter: e => \{ if \(e\.key !== "Enter"\) return; clearTimeout\(this\._hubQT\); const v = e\.target\.value; if \(v\) this\.go\("zoek", v\); \},/);
-  assert.match(html, /onHubQBlur: e => \{ clearTimeout\(this\._hubQT\); const v = e\.target\.value; if \(v && this\.state\.screen === "hub"\) this\.go\("zoek", v\); \},/);
+  assert.ok(!/onHubQBlur/.test(html), "de blur-handler is verwijderd, de stille wissel (450ms) werkt los van focus");
 });
 
 test("prototypekaart is vervangen: nooit meer in de code", () => {

@@ -378,8 +378,9 @@ test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band all
   // kaFetch (gedeeld met het Klusarchief) haalt anoniem op
   assert.match(html, /const opts = \{credentials:"omit"\}/);
   // sinds de postzegel-ronde (13-11-2026): de zoekbalk staat onder de begroeting, boven de band Vandaag; de band is er
-  // alleen met regels. De eerste zoekbalk in de bron is de Eenvoudig-variant, die ook vóór de band staat.
-  const iH1 = html.indexOf("{{ begroetingTekst }}"), iBand = html.indexOf('data-vandaag="1"'), iZoek = html.indexOf('onClick="{{ goZoek }}"');
+  // alleen met regels. De eerste zoekbalk in de bron is de Eenvoudig-variant, die ook vóór de band staat. Sinds de
+  // herstelronde (13-11-2026, 3e keer) is ook de Compleet-zoekbalk een echt veld (id="hubq2"), geen knop meer.
+  const iH1 = html.indexOf("{{ begroetingTekst }}"), iBand = html.indexOf('data-vandaag="1"'), iZoek = html.indexOf('id="hubq2"');
   assert.ok(iH1 > 0 && iZoek > iH1 && iBand > iZoek, "volgorde begroeting, zoekbalk, band");
   assert.match(html, /<sc-if value="\{\{ vdToon \}\}" hint-placeholder-val="\{\{ false \}\}">\s*<div data-vandaag="1"/);
   assert.match(html, /margin:14px 16px 0;border-radius:18px;padding:14px 16px 6px;background:#2f6b3d;color:#fff/);
