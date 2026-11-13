@@ -59,3 +59,18 @@ test("artikelTreffers: alleen berichten en pagina's, titels schoon, geen dubbele
   assert.deepEqual(r.map(x => x.titel), ["Gîte & chambre d’hôtes", "Solvit"]);
   assert.deepEqual(N.artikelTreffers({ code: "rest_error" }), []);
 });
+
+test("artikelTreffers: technische auth/account-pagina's mogen nooit in de zoekresultaten (13-11-2026, briefhulp-auth gezien door Anton)", () => {
+  const r = N.artikelTreffers([
+    { title: "briefhulp-auth", url: "https://infofrankrijk.com/briefhulp-auth/", subtype: "page" },
+    { title: "cafeclaude-auth", url: "https://infofrankrijk.com/cafeclaude-auth/", subtype: "page" },
+    { title: "Inloggen", url: "https://infofrankrijk.com/inloggen/", subtype: "page" },
+    { title: "Registreren", url: "https://infofrankrijk.com/registreren/", subtype: "page" },
+    { title: "Wachtwoord herstellen", url: "https://infofrankrijk.com/wachtwoord-herstellen/", subtype: "page" },
+    { title: "Account", url: "https://infofrankrijk.com/account/", subtype: "page" },
+    { title: "nlfr_if_zoek", url: "https://infofrankrijk.com/nlfr_if_zoek/", subtype: "page" },
+    { title: "Past de locatie?", url: "https://infofrankrijk.com/past-de-locatie/", subtype: "page" },
+    { title: "Een echt artikel over authentieke boerderijen", url: "https://infofrankrijk.com/authentieke-boerderijen/", subtype: "post" }
+  ]);
+  assert.deepEqual(r.map(x => x.titel), ["Een echt artikel over authentieke boerderijen"]);
+});

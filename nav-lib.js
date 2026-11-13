@@ -65,6 +65,16 @@
     if (t.length < 3) return null;
     return "https://infofrankrijk.com/wp-json/wp/v2/search?search=" + encodeURIComponent(t) + "&per_page=8&_fields=title,url,subtype";
   }
+  // Technische pagina's op infofrankrijk.com (geen artikel, nooit voor een lezer): glue-pagina's voor de login/auth-
+  // stroom van een tool (slug eindigt op "-auth", bevestigd 13-11-2026: briefhulp-auth, cafeclaude-auth) en een vaste
+  // lijst account-pagina's. Anton trof "briefhulp-auth" aan in de zoekresultaten; dit mag nooit meer voorkomen.
+  var TECHNISCHE_SLUGS = ["inloggen", "registreren", "wachtwoord-herstellen", "account", "nlfr_if_zoek", "past-de-locatie"];
+  function technischeSlug(url) {
+    var m = /\/([^\/]+)\/?$/.exec(String(url || "").replace(/[?#].*$/, ""));
+    var slug = m ? m[1].toLowerCase() : "";
+    if (!slug) return false;
+    return /-auth$/.test(slug) || TECHNISCHE_SLUGS.indexOf(slug) >= 0;
+  }
   // Antwoord van de zoek-API naar bruikbare treffers {titel, url}. Alleen echte berichten en pagina's.
   function artikelTreffers(data) {
     if (!Array.isArray(data)) return [];
@@ -72,6 +82,7 @@
     data.forEach(function (x) {
       if (!x || typeof x.url !== "string") return;
       if (x.subtype && x.subtype !== "post" && x.subtype !== "page") return;
+      if (technischeSlug(x.url)) return;
       var titel = String(x.title || "").replace(/<[^>]*>/g, "").replace(/&#8217;|&rsquo;/g, "’").replace(/&#8211;|&ndash;|&#8212;|&mdash;/g, "-")
         .replace(/&amp;/g, "&").replace(/&#038;/g, "&").replace(/&#8220;|&#8221;/g, '"').replace(/&nbsp;/g, " ").trim();
       if (!titel || gezien[x.url]) return;
