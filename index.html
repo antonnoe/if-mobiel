@@ -298,7 +298,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <label for="hubq" style="display:block;font:700 13px Mulish;color:#800000;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px 2px">Waar kan ik je mee helpen?</label>
       <div style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:0 16px;min-height:64px;box-sizing:border-box">
         <span style="{{ zoekIcoStyle }}"></span>
-        <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onFocus="{{ goZoek }}" placeholder="Typ een vraag of een woord" aria-label="Waar kan ik je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 17px Mulish;color:#15181A;min-height:60px">
+        <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" onBlur="{{ onHubQBlur }}" enterkeyhint="search" placeholder="Typ een vraag of een woord" aria-label="Waar kan ik je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 17px Mulish;color:#15181A;min-height:60px">
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px 0">
@@ -1152,7 +1152,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:16px 16px 0">
     <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(128,0,0,.22);border-radius:13px;padding:0 14px;min-height:54px;box-shadow:0 0 0 3px rgba(128,0,0,.06)">
       <span style="color:#800000;font-size:16px">⌕</span>
-      <input value="{{ q }}" onInput="{{ onQ }}" placeholder="module, artikel, Franse zin of woord" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15.5px Mulish;color:#15181A;min-height:52px">
+      <input id="zq" value="{{ q }}" onInput="{{ onQ }}" placeholder="module, artikel, Franse zin of woord" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15.5px Mulish;color:#15181A;min-height:52px">
       <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}">
       <button onClick="{{ clearQ }}" aria-label="Wissen" style="width:44px;height:44px;flex:none;margin-right:-10px;border:0;background:none;display:grid;place-items:center;cursor:pointer;padding:0"><span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:rgba(21,24,26,.06);color:#3D4346;font:700 14px Mulish;display:grid;place-items:center">×</span></button>
       </sc-if>
@@ -8831,7 +8831,11 @@ class Component extends DCLogic {
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"),
       // Zoekloket Eenvoudig (13-11-2026): een echt typbaar veld, geen knop. Zodra je typt (of focust), spring je naar
       // het volledige zoekscherm met je tekst al erin, in plaats van eerst te moeten klikken en opnieuw te typen.
-      onHubQ: e => { const v = e.target.value; this.go("zoek", v); this.zoekArtikelen(v); this.zoekKlusarchief(v); },
+      onHubQ: e => { const v = e.target.value; this.setState({q:v}); this.zoekArtikelen(v); this.zoekKlusarchief(v);
+        clearTimeout(this._hubQT);
+        this._hubQT = setTimeout(() => { if (this.state.screen === "hub" && this.state.q === v && v) this.go("zoek", v); }, 450); },
+      onHubQEnter: e => { if (e.key !== "Enter") return; clearTimeout(this._hubQT); const v = e.target.value; if (v) this.go("zoek", v); },
+      onHubQBlur: e => { clearTimeout(this._hubQT); const v = e.target.value; if (v && this.state.screen === "hub") this.go("zoek", v); },
       goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
       openFire: () => this.route(this.vindModule("veiligheid")),
       ...this.podiumVals(),

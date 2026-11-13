@@ -55,12 +55,20 @@ test("Compleet: zoekloket boven de band, Onze vier en negen tegels blijven, Te v
   assert.match(html, /teVeelAanpassen: \(\) => \{ this\.setState\(\{screen:"keuze", from:"hub"\}\); \},/);
 });
 
-test("Eenvoudig: het zoekloket is een echt typbaar veld, geen knop (herstel na opmerking van de eigenaar)", () => {
-  assert.ok(html.includes('<input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onFocus="{{ goZoek }}"'));
+test("Eenvoudig: het zoekloket is een echt typbaar veld, geen knop (herstel 2e ronde: blijft op de hub tijdens het typen, navigeert pas na een pauze, Enter of weg-tikken)", () => {
+  assert.ok(html.includes('<input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" onBlur="{{ onHubQBlur }}"'));
   assert.ok(!/<button id="hubq"/.test(html));
+  const i = html.indexOf('id="hubq"');
+  const tag = html.slice(i - 20, i + 400).match(/<input[^>]*>/)[0];
+  assert.ok(!/onFocus/.test(tag), "tikken/focus mag niet wegnavigeren");
   assert.match(html, /go\(s, qStart\)\{/);
   assert.match(html, /q:qStart \|\| "",/);
-  assert.match(html, /onHubQ: e => \{ const v = e\.target\.value; this\.go\("zoek", v\); this\.zoekArtikelen\(v\); this\.zoekKlusarchief\(v\); \},/);
+  // tijdens het typen blijft het scherm "hub" (geen DOM-wissel per toets, dus geen verloren toetsaanslagen); pas na
+  // een korte stilte (450ms) gaat de app naar het volledige zoekscherm, met de dan actuele tekst.
+  assert.match(html, /onHubQ: e => \{ const v = e\.target\.value; this\.setState\(\{q:v\}\); this\.zoekArtikelen\(v\); this\.zoekKlusarchief\(v\);/);
+  assert.match(html, /this\._hubQT = setTimeout\(\(\) => \{ if \(this\.state\.screen === "hub" && this\.state\.q === v && v\) this\.go\("zoek", v\); \}, 450\);/);
+  assert.match(html, /onHubQEnter: e => \{ if \(e\.key !== "Enter"\) return; clearTimeout\(this\._hubQT\); const v = e\.target\.value; if \(v\) this\.go\("zoek", v\); \},/);
+  assert.match(html, /onHubQBlur: e => \{ clearTimeout\(this\._hubQT\); const v = e\.target\.value; if \(v && this\.state\.screen === "hub"\) this\.go\("zoek", v\); \},/);
 });
 
 test("prototypekaart is vervangen: nooit meer in de code", () => {
