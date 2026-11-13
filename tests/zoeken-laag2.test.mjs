@@ -33,3 +33,9 @@ test("het blok staat onder de resultaten, met de echte daglimiet uit de code (3 
   assert.ok(!/\[N\] vragen per dag/.test(html));
   assert.ok(!/[–—]/.test(html.slice(html.indexOf("Niet gevonden wat je zocht?"), html.indexOf("Niet gevonden wat je zocht?") + 400)));
 });
+
+test("derde bron (13-11-2026): een directe link naar de eigen zoekfunctie van Nederlanders.fr, onafhankelijk van de module nlfrzoek", () => {
+  assert.match(html, /nlfrZoekToon: qn\.length >= 2,/);
+  assert.match(html, /nlfrZoekUrl: "https:\/\/www\.nederlanders\.fr\/main\/search\/search\?q=" \+ encodeURIComponent\(qn\)/);
+  assert.match(html, /<sc-if value="\{\{ nlfrZoekToon \}\}" hint-placeholder-val="\{\{ false \}\}">\s*<a href="\{\{ nlfrZoekUrl \}\}" target="_blank" rel="noopener"[^>]*>Zoek rechtstreeks op Nederlanders\.fr ↗<\/a>/);
+});

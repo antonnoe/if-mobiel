@@ -1486,6 +1486,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <span style="display:block;font:500 12.5px/1.6 Mulish;color:#3D4346;margin-top:8px">3 vragen per dag gratis, meer als lid van Nederlanders.fr of abonnee van Infofrankrijk.</span>
   </div>
   </sc-if>
+  <sc-if value="{{ nlfrZoekToon }}" hint-placeholder-val="{{ false }}">
+  <a href="{{ nlfrZoekUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;margin:12px 14px 0;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 13.5px Mulish;text-decoration:none">Zoek rechtstreeks op Nederlanders.fr ↗</a>
+  </sc-if>
   <div style="height:26px"></div>
 </div>
 </sc-if>
@@ -8244,7 +8247,11 @@ class Component extends DCLogic {
     const toon = !!mod && qn.length >= 2;
     return {
       laag2Toon: toon,
-      laag2Vraag: () => { if (mod) this.routeMetUrl(mod, mod.url + "?embed=1&q=" + encodeURIComponent(qn)); }
+      laag2Vraag: () => { if (mod) this.routeMetUrl(mod, mod.url + "?embed=1&q=" + encodeURIComponent(qn)); },
+      // Een eenvoudige, directe link naar de eigen zoekfunctie van Nederlanders.fr (13-11-2026, derde bron naast de
+      // AI-vraag): geen netwerkaanroep, geen architectuur, staat onafhankelijk van de module nlfrzoek.
+      nlfrZoekToon: qn.length >= 2,
+      nlfrZoekUrl: "https://www.nederlanders.fr/main/search/search?q=" + encodeURIComponent(qn)
     };
   }
   // De aannames achter de uitkomst, in gewone taal; de bedragen komen uit engine/engine.js (PRIJS_INFO), niet uit deze tekst.
