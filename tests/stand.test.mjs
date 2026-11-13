@@ -55,6 +55,14 @@ test("Compleet: zoekloket boven de band, Onze vier en negen tegels blijven, Te v
   assert.match(html, /teVeelAanpassen: \(\) => \{ this\.setState\(\{screen:"keuze", from:"hub"\}\); \},/);
 });
 
+test("Eenvoudig: het zoekloket is een echt typbaar veld, geen knop (herstel na opmerking van de eigenaar)", () => {
+  assert.ok(html.includes('<input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onFocus="{{ goZoek }}"'));
+  assert.ok(!/<button id="hubq"/.test(html));
+  assert.match(html, /go\(s, qStart\)\{/);
+  assert.match(html, /q:qStart \|\| "",/);
+  assert.match(html, /onHubQ: e => \{ const v = e\.target\.value; this\.go\("zoek", v\); this\.zoekArtikelen\(v\); this\.zoekKlusarchief\(v\); \},/);
+});
+
 test("prototypekaart is vervangen: nooit meer in de code", () => {
   assert.ok(!/data-proto="1"/.test(html));
   assert.ok(!/protoWeg|protoOpen\b/.test(html));

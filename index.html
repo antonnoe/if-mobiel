@@ -296,10 +296,10 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ standEenvoudig }}" hint-placeholder-val="{{ false }}">
     <div style="padding:16px 16px 0">
       <label for="hubq" style="display:block;font:700 13px Mulish;color:#800000;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px 2px">Waar kan ik je mee helpen?</label>
-      <button id="hubq" onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:0 16px;min-height:64px;cursor:pointer;text-align:left">
+      <div style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:0 16px;min-height:64px;box-sizing:border-box">
         <span style="{{ zoekIcoStyle }}"></span>
-        <span style="font:600 17px Mulish;color:#5F6669;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Typ een vraag of een woord</span>
-      </button>
+        <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onFocus="{{ goZoek }}" placeholder="Typ een vraag of een woord" aria-label="Waar kan ik je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 17px Mulish;color:#15181A;min-height:60px">
+      </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px 0">
       <sc-for list="{{ eenvoudigSnel }}" as="s" hint-placeholder-count="4">
@@ -7862,7 +7862,7 @@ class Component extends DCLogic {
     try { localStorage.setItem("ifm_stand", s); } catch(e){}
     this.setState(naarHub === false ? {stand:s} : {stand:s, screen:"hub"});
   }
-  go(s){ this.stopPiramide(); if (s === "zoek") { this.laadZoekindexen(); this.laadKalenderZoek(); } if (s === "act") s = "nieuws";
+  go(s, qStart){ this.stopPiramide(); if (s === "zoek") { this.laadZoekindexen(); this.laadKalenderZoek(); } if (s === "act") s = "nieuws";
     if (s === "sponsors") return this.sponsorsOpen();
     if (s === "meldingen") return this.mdOpen("hub");
     if (s === "klusarchief") return this.kaOpen(this.vindModule("klusforum"), "hub");
@@ -7871,7 +7871,7 @@ class Component extends DCLogic {
     if (s === "gemeente") return this.gmOpen("hub");
     if (s === "brief") return this.brOpen(this.vindModule("briefuitleg"), "hub");
     if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
-    this.setState({screen:s, menu:false, q:"", copied:null, tool:null, muur:false, pcGewist:null, plVan:false, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
+    this.setState({screen:s, menu:false, q:qStart || "", copied:null, tool:null, muur:false, pcGewist:null, plVan:false, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
   // Opent een iframe-module op een specifieke pagina van dezelfde site (bv. de maandpagina van de moestuintool vanuit een
@@ -8829,6 +8829,9 @@ class Component extends DCLogic {
       hubNoodTekst: (this.gzCfg().spoed || {}).hubTekst || "",
       hubNood: st.screen === "hub" && st.stand !== "eenvoudig" && this.spoedKnoppenLijst().length > 0 && !!(this.gzCfg().spoed || {}).hubTekst,
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"),
+      // Zoekloket Eenvoudig (13-11-2026): een echt typbaar veld, geen knop. Zodra je typt (of focust), spring je naar
+      // het volledige zoekscherm met je tekst al erin, in plaats van eerst te moeten klikken en opnieuw te typen.
+      onHubQ: e => { const v = e.target.value; this.go("zoek", v); this.zoekArtikelen(v); this.zoekKlusarchief(v); },
       goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
       openFire: () => this.route(this.vindModule("veiligheid")),
       ...this.podiumVals(),
