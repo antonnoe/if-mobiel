@@ -286,4 +286,4 @@ Besluiten van Anton uit de opdracht (niet van afwijken):
 6. Installatietekst herkent toestel en browser zelf, vraagt de lezer niets.
 7. Feedbackformulier: optioneel e-mailveld, nooit verplicht.
 
-Stand per punt: zie het eindrapport van deze sessie voor wat live staat, wat gemeten is en wat nog openstaat (punt 7, de Supabase-kant). Techniek: zie CLAUDE.md, de secties van 13-11-2026. Tests: `tests/stand.test.mjs`, `tests/zoeken-laag1.test.mjs`, `tests/zoeken-laag2.test.mjs`, `tests/delen.test.mjs`, `tests/installatie.test.mjs`, `tests/feedback-email.test.mjs`, en de déchèteries-tests in `tests/gemeente.test.mjs`.
+Stand per punt: alle zeven klaar en live gecontroleerd, inclusief punt 7 (de Supabase-kolom `email` en de Edge Function infopoche-feedback, die aanvankelijk niet bereikbaar was en later in dezelfde sessie alsnog is uitgevoerd en getest). Techniek: zie CLAUDE.md, de secties van 13-11-2026. Tests: `tests/stand.test.mjs`, `tests/zoeken-laag1.test.mjs`, `tests/zoeken-laag2.test.mjs`, `tests/delen.test.mjs`, `tests/installatie.test.mjs`, `tests/feedback-email.test.mjs`, en de déchèteries-tests in `tests/gemeente.test.mjs`.
