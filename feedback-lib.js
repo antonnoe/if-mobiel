@@ -14,17 +14,21 @@
     { id: "artikelen", label: "Artikelen" },
     { id: "overig", label: "Anders" }
   ];
-  var MAX = { naam: 80, bericht: 2000, toestel: 120 };
+  var MAX = { naam: 80, bericht: 2000, toestel: 120, email: 160 };
   var MIN_BERICHT = 5;
+  // Lichte vormcontrole, geen echte verificatie: voorkomt alleen een duidelijk kapot adres (geen @, spaties).
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   function tekst(v) { return typeof v === "string" ? v.trim() : ""; }
 
   // Geeft de sleutel van de eerste fout, of null als alles klopt. Volgorde = volgorde op het scherm.
+  // E-mailadres (13-11-2026): nooit verplicht, alleen bij een ingevulde maar duidelijk ongeldige vorm een fout.
   function valideer(v) {
     v = v || {};
     if (!tekst(v.naam)) return "naam";
     if (!ONDERDELEN.some(function (o) { return o.id === v.onderdeel; })) return "onderdeel";
     if (tekst(v.bericht).length < MIN_BERICHT) return "bericht";
+    if (tekst(v.email) && !EMAIL_RE.test(tekst(v.email))) return "email";
     if (v.toestemming !== true) return "toestemming";
     return null;
   }
@@ -33,6 +37,7 @@
     naam: "Vul je naam in.",
     onderdeel: "Kies waar je opmerking over gaat.",
     bericht: "Schrijf kort wat je zag of wat er misging.",
+    email: "Dit e-mailadres klopt niet. Laat het veld leeg als je geen antwoord wilt.",
     toestemming: "Zonder je toestemming kunnen we de reactie niet bewaren.",
     druk: "Er komen nu veel reacties tegelijk binnen. Probeer het over een uur nog eens, je tekst blijft staan.",
     netwerk: "Verzenden lukte niet. Je tekst staat er nog, probeer het straks opnieuw.",
@@ -41,7 +46,7 @@
   function foutTekst(sleutel) { return FOUTEN[sleutel] || FOUTEN.server; }
 
   // Alleen wat de functie nodig heeft, afgekapt op de toegestane lengte. Het verborgen vulveld `web` gaat mee zodat
-  // de server een bot herkent.
+  // de server een bot herkent. `email` is optioneel en gaat alleen mee als het een geldige vorm heeft.
   function body(v) {
     v = v || {};
     return {
@@ -50,6 +55,7 @@
       bericht: tekst(v.bericht).slice(0, MAX.bericht),
       toestel: tekst(v.toestel).slice(0, MAX.toestel),
       tool: /^[a-z0-9_-]{1,40}$/.test(tekst(v.tool)) ? tekst(v.tool) : "",
+      email: EMAIL_RE.test(tekst(v.email)) ? tekst(v.email).slice(0, MAX.email) : "",
       toestemming: v.toestemming === true,
       web: typeof v.web === "string" ? v.web : ""
     };

@@ -6,12 +6,13 @@ const lees = f => readFileSync(new URL("../" + f, import.meta.url), "utf8");
 const html = lees("index.html"), cat = JSON.parse(lees("modules.json"));
 const mod = id => cat.modules.find(m => m.id === id);
 
-test("hub: prototypekaart met feedbackknop, te sluiten, alleen per sessie weg", () => {
-  assert.match(html, /data-proto="1"/);
-  assert.match(html, /InfoPoche is nog een prototype\. Je bent van harte welkom om je feedback, verbetervoorstellen en suggesties met ons te delen\./);
-  assert.match(html, /protoFeedback: \(\) => this\.fbOpenen\(\)/);
-  assert.match(html, /sessionStorage\.setItem\("ifm_proto_weg", "1"\)/);
-  assert.ok(!/localStorage[^;]*ifm_proto_weg/.test(html));
+// Opgeruimd in de postzegel-ronde (13-11-2026, twee standen Eenvoudig/Compleet): de prototypekaart stond vóór de
+// nieuwe begroeting-zoekloket-volgorde in de weg en is vervangen door het blok "Te veel?" in de stand Compleet.
+// Feedback geven blijft bereikbaar via het hamburgermenu (mnFeedback).
+test("hub: prototypekaart is weg, feedback blijft bereikbaar via het hamburgermenu", () => {
+  assert.ok(!/data-proto="1"/.test(html));
+  assert.ok(!/protoWeg|protoOpen|protoFeedback|protoSluit/.test(html));
+  assert.match(html, /mnFeedback: \(\) => this\.fbOpenen\(\)/);
 });
 
 test("Over ons: Nederlanders.fr en de moderatie zijn één kaart, Peil heeft zijn eigen link", () => {

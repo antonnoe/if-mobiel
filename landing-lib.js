@@ -48,6 +48,25 @@
     if (/EdgiOS/.test(ua)) return "edge";
     return "safari";
   }
+  // Android-browsers (13-11-2026): Chrome en Samsung Internet installeren InfoPoche als echte app (beforeinstallprompt);
+  // Firefox en Opera op Android kennen dat niet en maken met "Voeg toe aan startscherm" een snelkoppeling (bookmark met
+  // eigen icoon, geen standalone venster). Onbekend valt terug op "chrome" (de meest voorkomende, en de tekst klopt
+  // ook voor de meeste andere Chromium-browsers op Android).
+  function androidBrowser(ua) {
+    ua = String(ua || "");
+    if (/SamsungBrowser/.test(ua)) return "samsung";
+    if (/Firefox\//.test(ua)) return "firefox";
+    if (/OPR\/|Opera/.test(ua)) return "opera";
+    return "chrome";
+  }
+  function androidSnelkoppeling(browser) { return browser === "firefox" || browser === "opera"; }
+  // Eén plek die de juiste browserdetectie kiest op basis van de omgeving (iOS, Android of anders); de aanroeper
+  // hoeft zelf niet te weten welke van de twee detectiefuncties daarbij hoort.
+  function browserVoor(omgeving, ua) {
+    if (omgeving === "ios") return iosBrowser(ua);
+    if (omgeving === "android") return androidBrowser(ua);
+    return "";
+  }
 
   // Sleutels in sessionStorage (alleen tot het einde van de browsersessie). De oude localStorage-sleutel
   // ifm_landing_tot (14 dagen uitstel) wordt niet meer gelezen.
@@ -115,7 +134,10 @@
     return 'display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;padding:0 20px;border-radius:14px;font:800 17px/1.2 ' + FONT + ';cursor:pointer;text-align:center;'
       + (primair ? 'border:0;background:' + p.knopBg + ';color:' + p.knopFg : 'border:1.5px solid ' + p.accent + ';background:transparent;color:' + p.accent);
   }
-  // o: {omgeving, browser ("safari"|"chrome"|"firefox"|"edge"), heeftEvent, afgebroken, status (html), palet ("donker"|"licht")}
+  // Eerste zin op elk blok (13-11-2026, besluit eigenaar): installeren is een aanrader, nooit een voorwaarde.
+  var WEBADRES_ZIN = "InfoPoche werkt gewoon als infopoche.fr in je browser, installeren is niet nodig. Het kan wel handig zijn: dan start de app sneller en vind je hem terug als icoon.";
+  function webadresP(P) { return '<p style="' + P + ';margin-bottom:10px">' + WEBADRES_ZIN + '</p>'; }
+  // o: {omgeving, browser ("safari"|"chrome"|"firefox"|"edge"|"samsung"|"opera"), heeftEvent, afgebroken, status (html), palet ("donker"|"licht")}
   // Knoppen dragen data-ifm-actie="installeer" of "kopieer"; wie het blok toont koppelt de handlers.
   function blokHtml(o) {
     o = o || {};
@@ -132,24 +154,33 @@
     }
     if (omg === "ios") {
       var s = (o.browser || "safari") === "safari";
-      return '<div style="' + kaart + '"><ol style="list-style:none;margin:0;padding:0">'
+      return webadresP(P) + '<div style="' + kaart + '"><ol style="list-style:none;margin:0;padding:0">'
         + stapHtml(1, s ? 'Tik op ' + deelIcoon(p.accent) + ' onderaan in Safari' : 'Tik op ' + deelIcoon(p.accent) + ' (Delen) in de balk van je browser', p, k)
         + stapHtml(2, "Kies 'Zet op beginscherm'", p, k)
         + stapHtml(3, "Tik op 'Voeg toe'", p, k) + '</ol>'
         + (s ? '' : '<p style="' + P + ';text-align:left">Zie je \'Zet op beginscherm\' niet in het menu? Open deze pagina dan in Safari.</p>') + '</div>';
     }
     if (omg === "android") {
+      // Firefox en Opera op Android kennen geen beforeinstallprompt: daar wordt het een snelkoppeling (bookmark met
+      // eigen icoon), geen echte app-installatie. Chrome en Samsung Internet installeren InfoPoche als echte app.
+      if (androidSnelkoppeling(o.browser)) {
+        return webadresP(P) + '<div style="' + kaart + '"><ol style="list-style:none;margin:0;padding:0">'
+          + stapHtml(1, "Open het menu van je browser (de drie puntjes of lijntjes)", p, k)
+          + stapHtml(2, "Kies 'Startscherm' of 'Voeg toe aan startscherm'", p, k)
+          + stapHtml(3, "Bevestig", p, k) + '</ol>'
+          + '<p style="' + P + '">' + ((o.browser === "firefox") ? "Firefox" : "Opera") + ' maakt daar een snelkoppeling van, met het icoon van InfoPoche: geen volledige installatie, maar wel een eigen plek op je beginscherm.</p></div>';
+      }
       if (o.heeftEvent) {
-        return '<button type="button" data-ifm-actie="installeer" style="' + knopStijl(p, true) + ';min-height:' + (k.n >= 28 ? 58 : 48) + 'px;font-size:18px">Installeer</button>'
+        return webadresP(P) + '<button type="button" data-ifm-actie="installeer" style="' + knopStijl(p, true) + ';min-height:' + (k.n >= 28 ? 58 : 48) + 'px;font-size:18px">Installeer</button>'
           + '<p style="' + P + ';margin-top:10px;text-align:center">Eén tik, je toestel vraagt om bevestiging</p>';
       }
-      return '<div style="' + kaart + '"><ol style="list-style:none;margin:0;padding:0">'
+      return webadresP(P) + '<div style="' + kaart + '"><ol style="list-style:none;margin:0;padding:0">'
         + stapHtml(1, "Open het menu van je browser (de drie puntjes)", p, k)
         + stapHtml(2, "Kies 'App installeren' of 'Toevoegen aan startscherm'", p, k)
         + stapHtml(3, "Bevestig met 'Installeren' of 'Toevoegen'", p, k) + '</ol>'
         + (o.afgebroken ? '<p style="' + P + '">Installeren is afgebroken. Je kunt het opnieuw proberen via het menu van je browser.</p>' : '<p style="' + P + '">Zie je deze opties niet? Dan biedt je browser installeren hier niet aan; open deze pagina dan in Chrome.</p>') + '</div>';
     }
-    return '<div style="text-align:center"><div style="display:inline-block;background:#fff;border-radius:14px;padding:10px"><img src="./icons/qr-infopoche.svg" width="176" height="176" alt="QR-code naar ' + URL_APP + '" style="display:block"></div><p style="' + P + ';margin-top:12px;color:' + p.tekst + '">Scan met je telefoon</p></div>';
+    return webadresP(P) + '<div style="text-align:center"><div style="display:inline-block;background:#fff;border-radius:14px;padding:10px"><img src="./icons/qr-infopoche.svg" width="176" height="176" alt="QR-code naar ' + URL_APP + '" style="display:block"></div><p style="' + P + ';margin-top:12px;color:' + p.tekst + '">Scan met je telefoon</p></div>';
   }
 
   // Het eigen installatievenster van het toestel starten. cb("accepted") of cb("afgebroken").
@@ -195,6 +226,9 @@
     detecteerOmgeving: detecteerOmgeving,
     isDesktopWeergave: isDesktopWeergave,
     iosBrowser: iosBrowser,
+    androidBrowser: androidBrowser,
+    androidSnelkoppeling: androidSnelkoppeling,
+    browserVoor: browserVoor,
     heeftInhoudHash: heeftInhoudHash,
     toonLanding: toonLanding,
     toonBalk: toonBalk,

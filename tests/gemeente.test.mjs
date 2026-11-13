@@ -201,6 +201,23 @@ test("déchèteries: url, validatie, afstand en sortering", () => {
   const z = G.dechSamenvatting([rij("a", 44, 1, { C_COMM: "99999" })], null, null, "24520");
   assert.equal(z.ok, false);
   assert.match(G.dechKaartUrl(s.lijst[0]), /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=44\.89,1\.22$/);
+  assert.equal(s.onvolledig, false);
+  assert.equal(G.dechSamenvatting([rij("a", 44.89, 1.22)], 44.89, 1.22, "24520", true).onvolledig, true);
+});
+
+// Herstel 13-11-2026: een mislukte vervolgpagina van ADEME liet eerder de hele déchèteries-kaart vallen; geen jaar heeft
+// bij deze vijf departementen meer dan 100 rijen nodig, dus de werkelijke oorzaak is dat de bron (gemeten 13-11-2026)
+// soms een time-out of een verbroken verbinding geeft. De kaart moet dan de al opgehaalde pagina's tonen, niet "fout".
+test("déchèteries: één mislukte vervolgpagina geeft onvolledig, geen fout; gmHaal herhaalt meer dan één keer", async () => {
+  const { readFileSync } = await import("node:fs");
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(html, /const dechJaar = \(jr\) => this\.gmHaal\(G\.dechUrl\(c\.dep, jr, 1\)\)\.then\(d1 => \{/);
+  assert.match(html, /pag\.forEach\(\(p, i\) => \{ if \(!p\) delete this\._gmCache\[urls\[i\]\]; \}\);/);
+  assert.match(html, /rijen: p1\.rijen\.concat\(\.\.\.pag\.filter\(Boolean\)\.map\(p => p\.rijen\)\), jaar:jr, onvolledig: pag\.some\(p => !p\)/);
+  assert.doesNotMatch(html, /meer\.some\(m => !m \|\| !G\.leesDechPagina\(m\)\)\) return \{fout:true\}/);
+  // gmHaal: minstens twee herhalingen (drie pogingen) bij het standaardpad, geen cache voor een mislukte aanvraag.
+  assert.match(html, /const max = opt && opt\.herhaal === false \? 1 : 3/);
+  assert.match(html, /p\.then\(d => \{ if \(d === null\) delete this\._gmCache\[url\]; \}\);/);
 });
 
 test("drinkwater: url, laatste monster per netwerk, officiële conclusie, parameters", async () => {

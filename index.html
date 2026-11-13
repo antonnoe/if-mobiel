@@ -94,7 +94,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
       +'<p style="margin:'+n.r2+'px 0 0;font:600 '+n.tl+'px/1.4 Mulish,system-ui,sans-serif;color:'+GOUD+'">Kennis en ervaring dans la poche</p>'
       +'<p style="'+P+';margin-top:'+n.r3+'px">Gratis · geen account nodig · geen app store</p>'
       +'<p style="margin:'+n.zb+'px 0 '+n.zo+'px;font:700 '+n.zf+'px/1.35 Mulish,system-ui,sans-serif;color:'+LICHT+'">Zet InfoPoche op je beginscherm</p>'
-      +'<div>'+L.blokHtml({omgeving:omgeving(),browser:L.iosBrowser(nav.userAgent),heeftEvent:!!window.__ifmInstallEv,afgebroken:afgebroken,status:status,palet:"donker",compact:pc?0:niv})+'</div>'
+      +'<div>'+L.blokHtml({omgeving:omgeving(),browser:L.browserVoor(omgeving(),nav.userAgent),heeftEvent:!!window.__ifmInstallEv,afgebroken:afgebroken,status:status,palet:"donker",compact:pc?0:niv})+'</div>'
       +'<button type="button" id="ifm-l-verder" style="display:block;flex:none;margin:'+(pc?18:n.kn)+'px auto 0;min-height:44px;padding:0 16px;border:0;background:transparent;color:'+DEMP+';text-decoration:underline;text-underline-offset:4px;font:500 13px/1.2 Mulish,system-ui,sans-serif;cursor:pointer">'+(pc?'Toch hier rondkijken':'Eerst even rondkijken')+'</button>'
       +'</div>';
   }
@@ -262,6 +262,29 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer je verbinding en laad de pagina opnieuw.</div>
 </sc-if>
 
+<!-- ============ EERSTE KEER: KIES JE STAND ============ -->
+<sc-if value="{{ isStandkeuze }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="padding:28px 20px 0">
+    <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:32px;line-height:1.15;margin:0">Welkom bij InfoPoche</h1>
+    <p style="font:500 16px/1.6 Mulish;color:#3D4346;margin:12px 0 0">Hoe wil je beginnen? Je kunt dit later altijd wijzigen in Profiel.</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px;padding:24px 16px 0">
+    <button onClick="{{ kiesEenvoudig }}" style="text-align:left;background:#fff;border:2px solid #800000;border-radius:18px;padding:18px;min-height:150px;display:flex;flex-direction:column;gap:8px;cursor:pointer">
+      <span style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Eenvoudig</span>
+      <b style="font:600 20px Poppins,sans-serif;color:#15181A">Eén vraag, één antwoord</b>
+      <span style="font:500 15px/1.5 Mulish;color:#3D4346">Een zoekvak en wat er vandaag speelt. Verder niets, tenzij je erom vraagt.</span>
+    </button>
+    <button onClick="{{ kiesCompleet }}" style="text-align:left;background:#fff;border:1.5px solid rgba(21,24,26,.14);border-radius:18px;padding:18px;min-height:150px;display:flex;flex-direction:column;gap:8px;cursor:pointer">
+      <span style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#3D4346">Compleet</span>
+      <b style="font:600 20px Poppins,sans-serif;color:#15181A">Alles in één overzicht</b>
+      <span style="font:500 15px/1.5 Mulish;color:#3D4346">Zoekvak, kalender, Onze vier en alle onderwerpen op de startpagina.</span>
+    </button>
+  </div>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
 <!-- ============ HUB / VANDAAG ============ -->
 <sc-if value="{{ isHub }}" hint-placeholder-val="{{ true }}">
 <div>
@@ -270,6 +293,28 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:24px 18px 0">
       <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:34px;line-height:1.1;letter-spacing:-.01em;margin:0;color:#15181A">{{ begroetingTekst }}</h1>
     </div>
+    <sc-if value="{{ standEenvoudig }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:16px 16px 0">
+      <label for="hubq" style="display:block;font:700 13px Mulish;color:#800000;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px 2px">Waar kan ik je mee helpen?</label>
+      <button id="hubq" onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:0 16px;min-height:64px;cursor:pointer;text-align:left">
+        <span style="{{ zoekIcoStyle }}"></span>
+        <span style="font:600 17px Mulish;color:#5F6669;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Typ een vraag of een woord</span>
+      </button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px 0">
+      <sc-for list="{{ eenvoudigSnel }}" as="s" hint-placeholder-count="4">
+      <button onClick="{{ s.open }}" style="min-height:44px;padding:0 14px;border-radius:22px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#15181A;font:600 14px Mulish;cursor:pointer">{{ s.label }}</button>
+      </sc-for>
+    </div>
+    </sc-if>
+    <sc-if value="{{ standCompleet }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:16px 16px 0">
+      <button data-hubzoek="1" onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid rgba(128,0,0,.22);border-radius:14px;box-shadow:0 1px 2px rgba(21,24,26,.06);padding:0 16px;min-height:54px;cursor:pointer;text-align:left">
+        <span style="{{ zoekIcoStyle }}"></span>
+        <span style="font:600 16px Mulish;color:#3D4346;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Zoek in InfoPoche</span>
+      </button>
+    </div>
+    </sc-if>
     <sc-if value="{{ vdToon }}" hint-placeholder-val="{{ false }}">
     <div data-vandaag="1" role="region" aria-label="Vandaag, uit Kalender Frankrijk" onClick="{{ vdOpen }}" style="margin:14px 16px 0;border-radius:18px;padding:14px 16px 6px;background:#2f6b3d;color:#fff;cursor:pointer;display:flex;flex-direction:column">
       <div data-vandaag-kop="1" style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px">
@@ -282,22 +327,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <button data-vandaag-link="1" onClick="{{ vdOpen }}" style="display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:44px;margin-top:6px;padding:0;border:0;border-top:1px solid rgba(255,255,255,.22);background:none;color:#fff;text-align:left;cursor:pointer;font:700 14px Mulish"><span>Bekijk de hele kalender</span><span aria-hidden="true">&#8594;</span></button>
     </div>
     </sc-if>
-    <div style="padding:16px 16px 0">
-      <button data-hubzoek="1" onClick="{{ goZoek }}" style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid rgba(128,0,0,.22);border-radius:14px;box-shadow:0 1px 2px rgba(21,24,26,.06);padding:0 16px;min-height:54px;cursor:pointer;text-align:left">
-        <span style="{{ zoekIcoStyle }}"></span>
-        <span style="font:600 16px Mulish;color:#3D4346;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Zoek in InfoPoche</span>
-      </button>
-    </div>
-    <sc-if value="{{ protoOpen }}" hint-placeholder-val="{{ true }}">
-    <div data-proto="1" style="margin:14px 16px 0;padding:12px 6px 14px 14px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);display:flex;align-items:flex-start;gap:6px">
-      <div style="flex:1;min-width:0">
-        <div style="font:700 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Prototype</div>
-        <p style="margin:6px 0 0;font:500 14px/1.65 Mulish;color:#15181A;text-wrap:pretty">InfoPoche is nog een prototype. Je bent van harte welkom om je feedback, verbetervoorstellen en suggesties met ons te delen.</p>
-        <button onClick="{{ protoFeedback }}" style="margin-top:10px;min-height:44px;padding:0 16px;border:1.5px solid rgba(128,0,0,.35);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Geef je feedback</button>
-      </div>
-      <button onClick="{{ protoSluit }}" aria-label="Sluiten" style="flex:none;width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;color:#3D4346;cursor:pointer;font-size:20px">&#10005;</button>
+    <sc-if value="{{ standEenvoudig }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:22px 16px 0">
+      <button onClick="{{ eenvoudigAlles }}" style="width:100%;min-height:52px;border-radius:14px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 15px Mulish;display:flex;justify-content:space-between;align-items:center;padding:0 16px;cursor:pointer"><span>Alles tonen</span><span aria-hidden="true">&#8594;</span></button>
     </div>
     </sc-if>
+    <sc-if value="{{ standCompleet }}" hint-placeholder-val="{{ true }}">
     <sc-if value="{{ podiumToon }}" hint-placeholder-val="{{ false }}">
     <div style="padding:14px 16px 0">
       <button data-podium="1" onClick="{{ podiumOpen }}" aria-label="{{ podiumNaam }}, {{ podiumRegel }}" style="width:100%;min-height:68px;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1.5px solid #800000;border-radius:16px;padding:12px 15px;cursor:pointer">
@@ -358,6 +393,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <span style="font:700 13px Mulish;color:#800000">→</span>
       </button>
     </div>
+    <div style="margin:20px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px dashed rgba(21,24,26,.25);display:flex;align-items:center;gap:12px">
+      <div style="flex:1;min-width:0">
+        <b style="display:block;font:700 15px Mulish">Te veel?</b>
+        <span style="font:500 14px/1.5 Mulish;color:#3D4346">Kies zelf wat je ziet, of zet InfoPoche op Eenvoudig.</span>
+      </div>
+      <button onClick="{{ teVeelAanpassen }}" style="min-height:44px;padding:0 14px;border-radius:12px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Aanpassen</button>
+    </div>
+    </sc-if>
   </div>
   </sc-if>
 
@@ -1132,6 +1175,30 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
   </div>
   </sc-if>
+  <sc-if value="{{ kzHeeft }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="padding:16px 18px 8px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Klusarchief</div>
+    <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:0 14px;overflow:hidden">
+      <sc-for list="{{ kzItems }}" as="r" hint-placeholder-count="3">
+      <sc-if value="{{ r.extern }}" hint-placeholder-val="{{ false }}">
+      <a href="{{ r.href }}" target="_blank" rel="noopener" style="width:100%;box-sizing:border-box;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;text-decoration:none;min-height:52px">
+        <span style="font:800 11.5px Mulish;letter-spacing:.03em;color:#800000;flex:none;width:76px;padding-top:4px;overflow-wrap:anywhere">{{ r.label }}</span>
+        <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }}</b>
+      </a>
+      </sc-if>
+      <sc-if value="{{ r.intern }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ r.open }}" style="width:100%;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:52px">
+        <span style="font:800 11.5px Mulish;letter-spacing:.03em;color:#800000;flex:none;width:76px;padding-top:4px;overflow-wrap:anywhere">{{ r.label }}</span>
+        <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }}</b>
+      </button>
+      </sc-if>
+      </sc-for>
+      <button onClick="{{ kzMeer }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;cursor:pointer;min-height:48px;color:#800000;font:700 13.5px Mulish">
+        <span>Meer in het Klusarchief</span><span aria-hidden="true">&rsaquo;</span>
+      </button>
+    </div>
+  </div>
+  </sc-if>
   <sc-if value="{{ zoekKlusToon }}" hint-placeholder-val="{{ false }}">
   <div data-zoek-klusarchief="1" style="margin:16px 14px 0">
     <button onClick="{{ zoekKlusOpen }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 15px;background:#fff;border:1px solid rgba(128,0,0,.28);border-radius:16px;text-align:left;cursor:pointer;min-height:56px">
@@ -1410,6 +1477,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </sc-if>
   <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
   <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(128,0,0,.06);font:500 12px/1.7 Mulish;color:#3D4346">Niets gevonden. Probeer een Nederlands woord (<b>recept</b>), een Frans woord (<b>ordonnance</b>) of een modulenaam (<b>notaris</b>).</div>
+  </sc-if>
+  <sc-if value="{{ laag2Toon }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:16px 14px 0;padding:16px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18)">
+    <b style="display:block;font:700 15px Mulish;color:#15181A">Niet gevonden wat je zocht?</b>
+    <span style="display:block;font:500 14px/1.5 Mulish;color:#3D4346;margin-top:4px">Stel je vraag in gewone woorden. Het antwoord komt uit onze bronnen, met bronvermelding.</span>
+    <button onClick="{{ laag2Vraag }}" style="margin-top:12px;min-height:48px;width:100%;border:0;border-radius:12px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Stel je vraag</button>
+    <span style="display:block;font:500 12.5px/1.6 Mulish;color:#3D4346;margin-top:8px">3 vragen per dag gratis, meer als lid van Nederlanders.fr of abonnee van Infofrankrijk.</span>
+  </div>
   </sc-if>
   <div style="height:26px"></div>
 </div>
@@ -2560,6 +2635,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <span aria-hidden="true" style="flex:none;position:relative;width:48px;height:28px;border-radius:14px;background:{{ groteTekstBg }}"><span style="position:absolute;top:3px;{{ groteTekstSchuif }};width:22px;height:22px;border-radius:50%;background:#fff"></span></span>
     </button>
   </div>
+  <div style="margin:12px 14px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px">
+    <div style="font:700 14px Mulish;color:#15181A">Stand van InfoPoche</div>
+    <div style="margin-top:3px;font:500 12.5px/1.5 Mulish;color:#3D4346">Eenvoudig: een zoekvak en wat er vandaag speelt. Compleet: alles in één overzicht.</div>
+    <div role="group" aria-label="Stand" style="margin-top:10px;display:flex;gap:3px;background:#F4F1F0;border:1px solid rgba(21,24,26,.10);border-radius:12px;padding:3px">
+      <button onClick="{{ standKiesEenvoudig }}" aria-pressed="{{ standIsEenvoudig }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ standBgEenvoudig }};color:{{ standKleurEenvoudig }};font:700 13.5px Mulish;cursor:pointer">Eenvoudig</button>
+      <button onClick="{{ standKiesCompleet }}" aria-pressed="{{ standIsCompleet }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ standBgCompleet }};color:{{ standKleurCompleet }};font:700 13.5px Mulish;cursor:pointer">Compleet</button>
+    </div>
+  </div>
   <div style="display:flex;flex-direction:column;gap:9px;margin:12px 14px 0">
     <button onClick="{{ goKeuze }}" style="width:100%;min-height:50px;border:1px solid rgba(128,0,0,.25);border-radius:13px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Mijn modules: kies wat je ziet →</button>
     <button onClick="{{ goMod }}" style="width:100%;min-height:50px;border:1px solid rgba(21,24,26,.10);border-radius:13px;background:#fff;color:#15181A;font:700 14px Mulish;cursor:pointer">Alle modules →</button>
@@ -2644,6 +2727,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ artDeelMld }}" hint-placeholder-val="{{ false }}">
     <div role="status" style="margin:10px 16px 0;font:600 13px/1.6 Mulish;color:#3D4346">{{ artDeelMld }}</div>
     </sc-if>
+    <sc-if value="{{ deelLinkRegel }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:12px 16px 0;padding:12px 14px;border-radius:12px;background:rgba(21,24,26,.04);font:500 13px/1.6 Mulish;color:#3D4346">Dit komt uit InfoPoche. <button onClick="{{ deelLinkNaarHub }}" style="border:0;background:none;padding:0;color:#800000;font:700 13px Mulish;text-decoration:underline;cursor:pointer">Ook handig voor jou?</button></div>
+    </sc-if>
   </div>
   </sc-if>
 <sc-if value="{{ abArtikel }}" hint-placeholder-val="{{ false }}">
@@ -2665,6 +2751,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:20px 16px 0">
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:28px;line-height:1.1;margin:0">Wat wil je zien?</h1>
     <p style="font-size:15px;line-height:1.6;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Zet aan wat je gebruikt. Wat uit staat verdwijnt van het beginscherm, maar blijft vindbaar via zoeken.</p>
+  </div>
+  <div style="margin:16px 16px 0;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;padding:16px">
+    <div style="font:700 14px Mulish;color:#15181A">Stand van InfoPoche</div>
+    <div style="margin-top:3px;font:500 12.5px/1.5 Mulish;color:#3D4346">Eenvoudig: een zoekvak en wat er vandaag speelt. Compleet: alles in één overzicht.</div>
+    <div role="group" aria-label="Stand" style="margin-top:10px;display:flex;gap:3px;background:#F4F1F0;border:1px solid rgba(21,24,26,.10);border-radius:12px;padding:3px">
+      <button onClick="{{ standKiesEenvoudig }}" aria-pressed="{{ standIsEenvoudig }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ standBgEenvoudig }};color:{{ standKleurEenvoudig }};font:700 13.5px Mulish;cursor:pointer">Eenvoudig</button>
+      <button onClick="{{ standKiesCompleet }}" aria-pressed="{{ standIsCompleet }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ standBgCompleet }};color:{{ standKleurCompleet }};font:700 13.5px Mulish;cursor:pointer">Compleet</button>
+    </div>
   </div>
   <div style="display:flex;gap:8px;margin:16px 16px 0">
     <button onClick="{{ keuzeAllesAan }}" style="flex:1;min-height:48px;border:1px solid rgba(128,0,0,.25);border-radius:12px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Alles aan</button>
@@ -3179,8 +3273,15 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-if>
     <div style="padding:18px 16px 0;display:flex;flex-direction:column;gap:12px">
       <button onClick="{{ kdTerug }}" style="min-height:48px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14.5px Mulish;cursor:pointer">Terug naar de resultaten</button>
+      <button data-ka-deel="1" onClick="{{ kdDeel }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(128,0,0,.22);background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Delen</button>
+      <sc-if value="{{ kdDeelMld }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="font:600 13px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ kdDeelMld }}</div>
+      </sc-if>
       <sc-if value="{{ kdMeldKnop }}" hint-placeholder-val="{{ true }}">
       <button data-ka-meld="1" onClick="{{ kdMeldVraag }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(21,24,26,.20);background:#fff;color:#3D4346;font:600 13.5px Mulish;cursor:pointer">Meld deze draad</button>
+      </sc-if>
+      <sc-if value="{{ deelLinkRegel }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:12px 14px;border-radius:12px;background:rgba(21,24,26,.04);font:500 13px/1.6 Mulish;color:#3D4346">Dit komt uit InfoPoche. <button onClick="{{ deelLinkNaarHub }}" style="border:0;background:none;padding:0;color:#800000;font:700 13px Mulish;text-decoration:underline;cursor:pointer">Ook handig voor jou?</button></div>
       </sc-if>
     </div>
     </sc-if>
@@ -3403,6 +3504,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <div role="status" style="font:600 13px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ kiDeelMld }}</div>
         </sc-if>
         <button onClick="{{ kiTerug }}" style="min-height:48px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14.5px Mulish;cursor:pointer">Terug naar de kalender</button>
+        <sc-if value="{{ deelLinkRegel }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:12px 14px;border-radius:12px;background:rgba(21,24,26,.04);font:500 13px/1.6 Mulish;color:#3D4346">Dit komt uit InfoPoche. <button onClick="{{ deelLinkNaarHub }}" style="border:0;background:none;padding:0;color:#800000;font:700 13px Mulish;text-decoration:underline;cursor:pointer">Ook handig voor jou?</button></div>
+        </sc-if>
       </div>
     </article>
     </sc-if>
@@ -3743,8 +3847,14 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   </sc-if>
   <sc-if value="{{ gmKlaar }}" hint-placeholder-val="{{ false }}">
-  <div style="padding:18px 18px 0"><h2 style="margin:0;font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:24px;line-height:1.15;color:#15181A">{{ gmKop }}</h2>
+  <div style="padding:18px 18px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+    <div style="min-width:0"><h2 style="margin:0;font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:24px;line-height:1.15;color:#15181A">{{ gmKop }}</h2>
     <sc-if value="{{ gmHeeftAdres }}" hint-placeholder-val="{{ false }}"><div style="margin-top:4px;font:600 13.5px/1.5 Mulish;color:#800000;overflow-wrap:anywhere">{{ gmAdresRegel }}</div></sc-if></div>
+    <button data-gm-deel="1" onClick="{{ gmDeel }}" aria-label="Delen" style="flex:none;width:44px;height:44px;border:0;border-radius:12px;background:none;display:grid;place-items:center;color:#800000;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
+  </div>
+  <sc-if value="{{ gmDeelMld }}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="margin:4px 18px 0;font:600 13px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ gmDeelMld }}</div>
+  </sc-if>
   <div style="display:flex;flex-direction:column;gap:12px;padding:12px 16px 0">
     <sc-for list="{{ gmKaarten }}" as="k" hint-placeholder-count="4">
     <div style="padding:15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px">
@@ -3786,6 +3896,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </sc-for>
   </div>
   <p style="margin:16px 16px 0;font:400 13px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Dit zijn gegevens van de Franse overheid per gemeente, zonder oordeel van InfoPoche. Een ingevuld adres gaat naar de Franse adreszoeker (data.geopf.fr) en daarna naar Géorisques. Natuurrampbesluiten, radon en verkochte huizen vraagt de app op via de server van Infopoche; die ziet alleen de gemeentecode en slaat niets op (de hostingdienst bewaart technische logbestanden). Je locatie wordt alleen gebruikt als je op de knop tikt, eenmalig om een gemeente te vinden (via geo.api.gouv.fr of de Géoplateforme data.geopf.fr) en de risico's op die plek op te vragen. Niets wordt bewaard.</p>
+  <sc-if value="{{ deelLinkRegel }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:12px 16px 0;padding:12px 14px;border-radius:12px;background:rgba(21,24,26,.04);font:500 13px/1.6 Mulish;color:#3D4346">Dit komt uit InfoPoche. <button onClick="{{ deelLinkNaarHub }}" style="border:0;background:none;padding:0;color:#800000;font:700 13px Mulish;text-decoration:underline;cursor:pointer">Ook handig voor jou?</button></div>
+  </sc-if>
   </sc-if>
   <div style="height:26px"></div>
 </div>
@@ -3915,10 +4028,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <textarea id="fb-bericht" value="{{ fbBericht }}" onInput="{{ fbOnBericht }}" maxlength="2000" rows="5" style="width:100%;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:12px 14px;font:500 16px/1.5 Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box;resize:vertical"></textarea>
     <label for="fb-toestel" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Toestel en browser</label>
     <input id="fb-toestel" value="{{ fbToestelWaarde }}" onInput="{{ fbOnToestel }}" maxlength="120" style="width:100%;min-height:48px;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:0 14px;font:500 15px Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box">
+    <label for="fb-email" style="display:block;margin-top:14px;font:700 13px Mulish;color:#15181A">Je e-mailadres, alleen als je antwoord wilt <span style="font-weight:500;color:#5F6669">(niet verplicht)</span></label>
+    <input id="fb-email" type="email" value="{{ fbEmail }}" onInput="{{ fbOnEmail }}" maxlength="160" autocomplete="email" style="width:100%;min-height:48px;margin-top:6px;border:1px solid rgba(128,0,0,.20);border-radius:12px;padding:0 14px;font:500 15px Mulish;color:#15181A;background:#F4F1F0;box-sizing:border-box">
     <input value="{{ fbWeb }}" onInput="{{ fbOnWeb }}" tabindex="-1" autocomplete="off" aria-hidden="true" name="website" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
     <label style="display:flex;align-items:flex-start;gap:12px;margin-top:16px;cursor:pointer">
       <input type="checkbox" checked="{{ fbAkkoord }}" onChange="{{ fbOnAkkoord }}" style="flex:none;width:24px;height:24px;margin:2px 0 0;accent-color:#800000">
-      <span style="font:500 13.5px/1.6 Mulish;color:#15181A">Ik geef toestemming dat mijn naam en opmerkingen worden bewaard om InfoPoche te verbeteren.</span>
+      <span style="font:500 13.5px/1.6 Mulish;color:#15181A">Ik geef toestemming dat mijn naam, opmerkingen en, als ik die invul, mijn e-mailadres worden bewaard om InfoPoche te verbeteren.</span>
     </label>
     <p style="margin:8px 0 0 36px;font:500 12.5px/1.6 Mulish;color:#5F6669;text-wrap:pretty">{{ fbPrivacy }}</p>
     <sc-if value="{{ fbHeeftFout }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:12px 0 0;font:700 13.5px/1.6 Mulish;color:#800000">{{ fbFoutTekst }}</p></sc-if>
@@ -4423,17 +4538,19 @@ function peilVoetTekst() {
 // PEIL-BLOK-EIND
 
 class Component extends DCLogic {
-  state = { screen:"hub", menu:false, q:"", copied:null,
+  state = { screen:(() => { try { return (!localStorage.getItem("ifm_stand") && !(window.LandingLib && window.LandingLib.heeftInhoudHash(location.hash))) ? "standkeuze" : "hub"; } catch(e){ return "hub"; } })(),
+    stand:(() => { try { return localStorage.getItem("ifm_stand") === "eenvoudig" ? "eenvoudig" : "compleet"; } catch(e){ return "compleet"; } })(),
+    menu:false, q:"", copied:null,
     spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, brStatus:"", brSoort:"", brData:null, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", mdKeuze:null, mdRStatus:"", mdMelding:"", mdBezig:false, mdPerm:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
-    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", protoWeg:(() => { try { return sessionStorage.getItem("ifm_proto_weg") === "1"; } catch(e){ return false; } })(), fbOpen:false, fbNaam:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbToestel:null, fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
+    cat:null, catFout:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", fbOpen:false, fbNaam:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbToestel:null, fbEmail:"", fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
     draadPost:null, draadStatus:"laden", draadData:null,
-    art:null, artStack:[], forumBlad:null, pcGewist:null, zaq:{q:"", status:"leeg", items:[]}, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false, installBlad:null, installAf:false, installStatus:"", balkWeg:false, landingOpen:!!window.__ifmLandingOpen, installTik:0,
+    art:null, artStack:[], forumBlad:null, pcGewist:null, zaq:{q:"", status:"leeg", items:[]}, artForumMld:"", artDeelMld:"", artGelezen:false, oproep:false, installBlad:null, installAf:false, installStatus:"", balkWeg:false, landingOpen:!!window.__ifmLandingOpen, installTik:0, viaDeelLinkEersteKeer:false,
     skOnd:"", skVraag:"", plVan:false, ifNieuw:[], ifNStatus:"", ifOnd:null, ifChip:"", ifCh:null, ifMedia:{}, ifL:{status:"", items:[], pagina:0, paginas:0, meer:""},
     gzStatus:"leeg", gzTitels:{}, gzOpen:[], gzOnd:null, gzArtTitels:{}, gzLijst:null, onStap:null, gzHfd:null, gzHfdFout:false,
     themaId:null, lmStatus:"leeg", lmDelen:null, lmTab:"kopen", lmFase:1, dsStatus:"leeg", dsData:null, dsView:"overzicht", dsOnd:null, dsOpen:null, onStatus:"leeg", onStappen:null, onDicht:[] };
@@ -5136,8 +5253,11 @@ class Component extends DCLogic {
         uit: Array.isArray(kz.uit) ? kz.uit.filter(x => typeof x === "string") : []};
     } catch(e){}
     const route = this.histStart() || {soort:"hub"};
+    // Delen (13-11-2026): wie voor het eerst via een gedeelde link binnenkomt (geen eerder bezoek, een hash naar één
+    // item) ziet onder dat item een rustige regel die naar de startpagina verwijst (geen installatieverzoek erbij).
+    const viaDeelLinkEersteKeer = !lv && ["artikel", "klusdraad", "kalitem", "gemeentepc"].indexOf(route.soort) >= 0;
     this.setState({groteTekst, keuze, lastVisit: lv, favs: Array.isArray(favs) ? favs : [],
-      postcode: pc, plaats});
+      postcode: pc, plaats, viaDeelLinkEersteKeer});
     if (route.soort !== "hub") this.routeToepassen(route);
     if (pc && !plaats) this.laadPlaats(pc);
     this.load();
@@ -5357,6 +5477,17 @@ class Component extends DCLogic {
       {naam:"Nedergids", regel:"Particulieren en dienstverleners", icoon:"adressen", open:() => this.route(this.vindModule("nedergids"))}
     ];
     return vier.map(v => ({naam:v.naam, regel:v.regel, aria:v.naam + ", " + v.regel, icoStyle:themaIcoStijl(v.icoon, "#fff", 26), open:v.open}));
+  }
+  // De vier snelkoppelingen op de startpagina in de stand Eenvoudig (13-11-2026): een eerste keuze van Anton,
+  // op deze ene plek zodat ze later te wijzigen zijn. "Klusarchief" en "Mijn gemeente" openen hetzelfde scherm
+  // als de rest van de app (go/gmOpen); "Brief uitleggen" is een gewone module.
+  eenvoudigSnelLijst(){
+    return [
+      {label:"Brief uitleggen", open:() => this.route(this.vindModule("briefuitleg"))},
+      {label:"Kalender Frankrijk", open:() => this.go("kalender")},
+      {label:"Klusarchief", open:() => this.go("klusarchief")},
+      {label:"Mijn gemeente", open:() => this.gmOpen("hub")}
+    ];
   }
   openAiTools(){ this.setState({screen:"aitools", from:"hub", q:"", tool:null}); }
   // ---- Artikelscherm (besluit 7): Infofrankrijk-artikelen in de app --------------------------------
@@ -5624,7 +5755,7 @@ class Component extends DCLogic {
     if (!el || !L || !st.installBlad) return;
     const nav = window.navigator;
     const omg = L.detecteerOmgeving({ua:nav.userAgent, platform:nav.platform, maxTouchPoints:nav.maxTouchPoints, standalone:false, breedte:window.innerWidth, heeftInstallEvent:!!window.__ifmInstallEv});
-    const html = L.blokHtml({omgeving:omg, browser:L.iosBrowser(nav.userAgent), heeftEvent:!!window.__ifmInstallEv, afgebroken:!!st.installAf, status:st.installStatus || "", palet:"licht"});
+    const html = L.blokHtml({omgeving:omg, browser:L.browserVoor(omg, nav.userAgent), heeftEvent:!!window.__ifmInstallEv, afgebroken:!!st.installAf, status:st.installStatus || "", palet:"licht"});
     if (el.__ibHtml !== html) { el.innerHTML = html; el.__ibHtml = html; }
     if (!el.__ibKlik) {
       el.__ibKlik = true;
@@ -5752,7 +5883,7 @@ class Component extends DCLogic {
   fbSluit(){ this.setState({fbOpen:false}); }
   fbVelden(){
     const st = this.state;
-    return {naam:st.fbNaam, onderdeel:st.fbOnderdeel, tool:st.fbTool, bericht:st.fbBericht, toestel:st.fbToestel || "", toestemming:st.fbAkkoord === true, web:st.fbWeb};
+    return {naam:st.fbNaam, onderdeel:st.fbOnderdeel, tool:st.fbTool, bericht:st.fbBericht, toestel:st.fbToestel || "", email:st.fbEmail, toestemming:st.fbAkkoord === true, web:st.fbWeb};
   }
   fbVerzend(){
     const st = this.state, F = window.IfFb;
@@ -5761,7 +5892,7 @@ class Component extends DCLogic {
     if (fout) { this.setState({fbStatus:"fout", fbFout:fout}); return; }
     this.setState({fbStatus:"bezig", fbFout:""});
     F.zend((u, o) => fetch(u, o), v).then(r => {
-      if (r.ok) { this.setState({fbStatus:"klaar", fbFout:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbAkkoord:false, fbWeb:""}); try { const d = document.querySelector("[data-fbblad] [role=dialog]"); if (d) d.scrollTop = 0; } catch(e){} }
+      if (r.ok) { this.setState({fbStatus:"klaar", fbFout:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbEmail:"", fbAkkoord:false, fbWeb:""}); try { const d = document.querySelector("[data-fbblad] [role=dialog]"); if (d) d.scrollTop = 0; } catch(e){} }
       else this.setState({fbStatus:"fout", fbFout:r.fout});
     });
   }
@@ -5772,14 +5903,13 @@ class Component extends DCLogic {
     return {
       mnIcoFeedback: this.iconStyle("feedback", 24) + ";color:#800000",
       mnFeedback: () => this.fbOpenen(),
-      protoOpen: !st.protoWeg, protoFeedback: () => this.fbOpenen(),
-      protoSluit: () => { try { sessionStorage.setItem("ifm_proto_weg", "1"); } catch(e){} this.setState({protoWeg:true}); },
       fbOpen: !!st.fbOpen, fbSluit: () => this.fbSluit(),
       fbKlaar: st.fbStatus === "klaar",
-      fbNaam: st.fbNaam, fbBericht: st.fbBericht, fbToestelWaarde: st.fbToestel || "", fbWeb: st.fbWeb, fbAkkoord: st.fbAkkoord,
+      fbNaam: st.fbNaam, fbBericht: st.fbBericht, fbToestelWaarde: st.fbToestel || "", fbEmail: st.fbEmail, fbWeb: st.fbWeb, fbAkkoord: st.fbAkkoord,
       fbOnNaam: e => this.setState({fbNaam:e.target.value, fbStatus: st.fbStatus === "klaar" ? "" : st.fbStatus}),
       fbOnBericht: e => this.setState({fbBericht:e.target.value, fbStatus: st.fbStatus === "klaar" ? "" : st.fbStatus}),
       fbOnToestel: e => this.setState({fbToestel:e.target.value}),
+      fbOnEmail: e => this.setState({fbEmail:e.target.value}),
       fbTool: st.fbTool, fbOnTool: e => this.setState({fbTool:e.target.value}),
       fbTools: [{id:"", naam:"Nee, over de app in het algemeen"}].concat(this.alleMods().filter(m => m.zichtbaar !== false && m.thema !== "ai")
         .map(m => ({id:m.id, naam:m.naam})).sort((a, b) => a.naam.localeCompare(b.naam, "nl"))),
@@ -5953,6 +6083,7 @@ class Component extends DCLogic {
     if (r.soort === "scherm") { this.go(r.scherm); return; }
     if (r.soort === "klusdraad") { this.kaOpenId(r.id); return; }
     if (r.soort === "kalitem") { this.kalOpenId(r.id); return; }
+    if (r.soort === "gemeentepc") { this.gmOpen("hub"); this.gmZoek(r.pc); return; }
     this.stopPiramide();
     this.setState({screen:"hub", menu:false, q:"", copied:null, tool:null, art:null, artStack:[], forumBlad:null, kalAbo:false, oproep:false, vraagPostcode:false, fbOpen:false,
       gzHfd:null, gzOnd:null, gzLijst:null, onStap:null, nwTegel:null, nwTerug:null, nwVanStrook:false, muur:false, ifOnd:null});
@@ -6238,7 +6369,8 @@ class Component extends DCLogic {
   gmHaal(url, opt){
     this._gmCache = this._gmCache || {};
     if (this._gmCache[url]) return this._gmCache[url];
-    // Eén poging met eigen time-out; een mislukte aanvraag wordt na een korte pauze één keer herhaald (Géorisques is wisselvallig).
+    // Eén poging met eigen time-out; een mislukte aanvraag wordt na een korte pauze herhaald (Géorisques, ADEME en andere bronnen
+    // zijn wisselvallig: gemeten op 13-11-2026 gaf één op een kleine serie pogingen een time-out of een verbroken verbinding).
     const poging = () => {
       let ctl = null, timer = null;
       try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 12000); } catch(e){ ctl = null; }
@@ -6246,7 +6378,9 @@ class Component extends DCLogic {
         .then(r => r.ok ? r.json() : null).catch(() => null)
         .then(d => { if (timer) clearTimeout(timer); return d; });
     };
-    const p = poging().then(d => d !== null || (opt && opt.herhaal === false) ? d : new Promise(klaar => setTimeout(klaar, 1200)).then(poging));
+    const max = opt && opt.herhaal === false ? 1 : 3, pauzes = [1200, 2000];
+    const reeks = (n) => poging().then(d => d !== null || n >= max ? d : new Promise(klaar => setTimeout(klaar, pauzes[n - 1] || 2000)).then(() => reeks(n + 1)));
+    const p = reeks(1);
     this._gmCache[url] = p;
     p.then(d => { if (d === null) delete this._gmCache[url]; });
     return p;
@@ -6311,21 +6445,24 @@ class Component extends DCLogic {
     this.gmHaal(G.belastingUrl(c.code)).then(d => { const l = d ? G.leesBelasting(d) : null; zet("belasting", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
     this.gmHaal(G.mairieUrl(c.code)).then(d => { const l = d ? G.leesMairie(d) : null; zet("mairie", !d || !l ? {s:"fout"} : l.ok ? {s:"ok", d:l} : {s:"leeg"}); });
     // Déchèteries (ADEME SINOE): het departement ophalen (nieuwste jaar met gegevens), de dichtstbijzijnde locaties berekenen we zelf.
+    // Eén mislukte vervolgpagina laat de kaart niet meer vallen: de al opgehaalde pagina's blijven staan, met de vermelding onvolledig
+    // (zelfde patroon als bij defibrillatoren en brandstofprijzen). Een mislukte aanvraag wordt niet gecachet (zie gmHaal).
     const dechJaar = (jr) => this.gmHaal(G.dechUrl(c.dep, jr, 1)).then(d1 => {
       const p1 = d1 ? G.leesDechPagina(d1) : null;
-      if (!p1) return {fout:true};
+      if (!p1) { if (d1) delete this._gmCache[G.dechUrl(c.dep, jr, 1)]; return {fout:true}; }
       if (!p1.totaal) return {leeg:true, jaar:jr};
-      const rest = []; for (let i = 2; i <= Math.min(G.DECH_MAX_PAGINA, p1.paginas); i++) rest.push(this.gmHaal(G.dechUrl(c.dep, jr, i)));
-      return Promise.all(rest).then(meer => {
-        if (meer.some(m => !m || !G.leesDechPagina(m))) return {fout:true};
-        return {rijen: p1.rijen.concat(...meer.map(m => G.leesDechPagina(m).rijen)), jaar:jr};
+      const urls = []; for (let i = 2; i <= Math.min(G.DECH_MAX_PAGINA, p1.paginas); i++) urls.push(G.dechUrl(c.dep, jr, i));
+      return Promise.all(urls.map(u => this.gmHaal(u))).then(meer => {
+        const pag = meer.map(m => m ? G.leesDechPagina(m) : null);
+        pag.forEach((p, i) => { if (!p) delete this._gmCache[urls[i]]; });
+        return {rijen: p1.rijen.concat(...pag.filter(Boolean).map(p => p.rijen)), jaar:jr, onvolledig: pag.some(p => !p)};
       });
     });
     const jr0 = new Date().getFullYear();
     dechJaar(jr0).then(r => r.leeg ? dechJaar(jr0 - 1) : r).then(r => {
       if (r.fout) return zet("dech", {s:"fout"});
       if (r.leeg) return zet("dech", {s:"leeg"});
-      const sam = G.dechSamenvatting(r.rijen, c.lat, c.lon, c.code);
+      const sam = G.dechSamenvatting(r.rijen, c.lat, c.lon, c.code, r.onvolledig);
       zet("dech", sam && sam.ok ? {s:"ok", d:Object.assign({jaar:r.jaar}, sam)} : {s:"leeg"});
     });
     // Drinkwater (Hub'Eau): de laatste monsters per waternetwerk van de gemeente.
@@ -6454,7 +6591,8 @@ class Component extends DCLogic {
         regels:(dc.lijst || []).map(x => ({label:x.naam + (x.km !== null ? " · " + (x.km < 10 ? x.km.toFixed(1).replace(".", ",") : Math.round(x.km)) + " km hemelsbreed" : ""),
           waarde:[x.adres, x.tel ? "Telefoon " + x.tel : "", x.beheer ? "Beheer: " + x.beheer : "", x.ook_bedrijven ? "Ook voor bedrijven (professionals)" : ""].filter(Boolean).join(" · ")})),
         notitie: dc.ok ? (dc.heeftAfstand ? "De " + dc.lijst.length + " dichtstbijzijnde locaties in je departement, in hemelsbreed gemeten vanaf " + (c.adres ? (c.adres === "Je locatie" ? "je locatie" : "je adres") : "het middelpunt van de gemeente") + ": de werkelijke rijafstand is langer, en een locatie net over de departementsgrens staat er niet bij."
-          : "Locaties in je gemeente.") + " Openingstijden en toegangsregels (pas, bewijs van woonplaats, tarieven voor tweede woningen) staan niet in de bron: vraag ze na bij de mairie of de beheerder. Jaargang van het bestand: " + dc.jaar + "." : "",
+          : "Locaties in je gemeente.") + " Openingstijden en toegangsregels (pas, bewijs van woonplaats, tarieven voor tweede woningen) staan niet in de bron: vraag ze na bij de mairie of de beheerder. Jaargang van het bestand: " + dc.jaar + "."
+          + (dc.onvolledig ? " Op basis van een deel van de gegevens: de bron antwoordde niet volledig, probeer het later opnieuw voor de rest." : "") : "",
         links:(dc.lijst && dc.lijst[0] ? [{url:G.dechKaartUrl(dc.lijst[0]), label:"Dichtstbijzijnde op de kaart ↗"}] : []),
         bron:"Bron: ADEME, SINOE (via data.gouv.fr), Licence Ouverte 2.0"}),
       kaart("eau", "Kwaliteit van het kraanwater", val("eau"), {
@@ -6530,6 +6668,8 @@ class Component extends DCLogic {
       gmKeuzes: lijst,
       gmKlaar: gm.status === "klaar" && !!c,
       gmKop: c ? c.nom + (c.dep ? " (" + c.dep + ")" : "") : "",
+      gmDeel: () => { if (!c) return; const pc = G && G.postcodeOk(gm.pc) ? gm.pc : (G && G.postcodeOk(gm.zocht) ? gm.zocht : ""); this.deelStuk("gm:" + c.code, "Mijn gemeente: " + c.nom, APP_URL + "/#/gemeente" + (pc ? "/" + pc : "")); },
+      gmDeelMld: c && st.deelMld && st.deelMld.k === "gm:" + c.code ? st.deelMld.t : "",
       gmAdresRegel: c && c.adres ? (c.adres === "Je locatie" ? "Je locatie, bij benadering" : c.adres) : "", gmHeeftAdres: !!(c && c.adres),
       gmKaarten: this.gmKaartenLijst(),
       gmOpnieuw: () => this.gmZoek(gm.pc)
@@ -6964,6 +7104,8 @@ class Component extends DCLogic {
       kdMeta: K ? K.jaarForum(dd || d || {}) : "", kdHeeftMeta: !!(K && K.jaarForum(dd || d || {})),
       kdLaadt: !!d && d.status === "laden", kdFout: !!d && d.status === "fout", kdWeg: !!d && d.status === "weg", kdKlaar: !!d && d.status === "klaar" && !!dd,
       kdOpnieuw: () => this.kaOpenDraad(d), kdTerug: () => this.terugKnop(),
+      kdDeel: () => { if (d) this.deelStuk("ka:" + d.id, (dd ? dd.titel : d.titel) || "Klusarchief", APP_URL + "/#/klusarchief/" + encodeURIComponent(d.id)); },
+      kdDeelMld: d && st.deelMld && st.deelMld.k === "ka:" + d.id ? st.deelMld.t : "",
       kdAlineas: dd ? K.alineas(dd.tekst).map(t => ({t})) : [],
       kdHeeftReacties: reacties.length > 0, kdReacties: reacties, kdReactiesKop: K ? K.reactiesKop(reacties.length) : "",
       kdMeldKnop: !st.kaMeld, kdMeldPaneel: !!st.kaMeld, kdMeldBezig: bezig, kdMeldFout: st.kaMeld === "fout",
@@ -7004,7 +7146,7 @@ class Component extends DCLogic {
       vdHeeftMaan: aan && !!st.vdMaan, vdMaanNaam: aan && st.vdMaan ? st.vdMaan.naam : "", vdFase1: !!st.vdMaan && st.vdMaan.fase === "wassende-sikkel", vdFase2: !!st.vdMaan && st.vdMaan.fase === "eerste-kwartier", vdFase3: !!st.vdMaan && st.vdMaan.fase === "wassende-maan", vdFase4: !!st.vdMaan && st.vdMaan.fase === "volle-maan", vdFase5: !!st.vdMaan && st.vdMaan.fase === "afnemende-maan", vdFase6: !!st.vdMaan && st.vdMaan.fase === "laatste-kwartier", vdFase7: !!st.vdMaan && st.vdMaan.fase === "afnemende-sikkel",
       vdHeeftNaamdag: aan && !!st.vdNaamdag, vdNaamdag: aan && st.vdNaamdag ? "Naamdag: " + st.vdNaamdag : "",
       vdOpen: e => { stop(e); this.kalOpen(this.vindModule("kalender"), "hub"); },
-      vdRegels: aan ? st.vdRegels.map(r => ({
+      vdRegels: aan ? (st.stand === "eenvoudig" ? st.vdRegels.slice(0, 1) : st.vdRegels).map(r => ({
         vet: r.feest ? r.tekst : r.voor, gewoon: r.feest ? "" : " · " + r.tekst,
         open: e => { stop(e); this.kalOpen(this.vindModule("kalender"), "hub", r.id); }
       })) : []
@@ -7713,7 +7855,14 @@ class Component extends DCLogic {
   // Tabnavigatie verlaat de module: tool moet mee weg, anders blijft de
   // prijsbadge in de kopbalk op de vorige module hangen.
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
-  go(s){ this.stopPiramide(); if (s === "zoek") this.laadZoekindexen(); if (s === "act") s = "nieuws";
+  // Startpagina met twee standen (13-11-2026): de keuze wordt eenmalig gevraagd (state.screen start op "standkeuze"
+  // zonder opgeslagen stand en zonder gedeelde link naar inhoud) en staat daarna alleen op het toestel; in Profiel kan
+  // de lezer altijd wisselen. "Aanpassen" op het Compleet-blok "Te veel?" opent Mijn modules en de standkeuze samen.
+  kiesStand(s, naarHub){
+    try { localStorage.setItem("ifm_stand", s); } catch(e){}
+    this.setState(naarHub === false ? {stand:s} : {stand:s, screen:"hub"});
+  }
+  go(s){ this.stopPiramide(); if (s === "zoek") { this.laadZoekindexen(); this.laadKalenderZoek(); } if (s === "act") s = "nieuws";
     if (s === "sponsors") return this.sponsorsOpen();
     if (s === "meldingen") return this.mdOpen("hub");
     if (s === "klusarchief") return this.kaOpen(this.vindModule("klusforum"), "hub");
@@ -8005,6 +8154,89 @@ class Component extends DCLogic {
     });
     return out;
   }
+  // ---- Zoeken laag 1, uitbreiding (13-11-2026): ook kalenderitems en het Klusarchief vindbaar vanuit het hoofdzoekveld. ----
+  // Kalender Frankrijk heeft geen eigen zoek-eindpunt: het standaardvenster (vandaag min 7 tot plus 120 dagen) wordt één keer
+  // per sessie opgehaald (of hergebruikt uit het Kalender-scherm zelf, als dat al geladen is) en lokaal doorzocht, net als een
+  // module-zoekindex. Een mislukte aanvraag blijft niet hangen: een volgend bezoek aan Zoeken probeert het opnieuw.
+  laadKalenderZoek(){
+    const Kl = window.IfKal, st = this.state;
+    if (!Kl || this._zka) return;
+    if (st.kalStatus === "klaar" && st.kalItems && st.kalItems.length) { this._zka = {status:"klaar", items:st.kalItems}; return; }
+    this._zka = {status:"laden", items:[]};
+    const ven = Kl.startVenster(Kl.isoVan(new Date()));
+    this.kaFetch(Kl.itemsUrl(ven.van, ven.tot), null, Kl.TIMEOUT_MS).then(r => {
+      const lijst = r.status === 200 ? Kl.leesItems(r.data) : null;
+      this._zka = lijst ? {status:"klaar", items:lijst} : null;
+      this.forceUpdate();
+    });
+  }
+  kalenderZoekTreffers(q){
+    const Kl = window.IfKal, out = [];
+    if (!Kl || !this._zka || this._zka.status !== "klaar") return out;
+    const woorden = q.split(" ").filter(Boolean);
+    this._zka.items.forEach(it => {
+      if (!woorden.every(w => norm(it.titel + " " + it.tekst).includes(w))) return;
+      const v0 = it.voorkomens[0];
+      out.push({kind:"KAL", fr:it.titel, nl:it.tekst.slice(0, 90) + (it.tekst.length > 90 ? "…" : ""),
+        where:"Kalender Frankrijk · " + (v0 ? Kl.datumWoorden(v0.van, false) : ""),
+        open:() => { this.setState({q:""}); this.kalOpenId(it.id); }});
+    });
+    return out.slice(0, 5);
+  }
+  // Klusarchief: dezelfde Edge Function als het scherm zelf (v=2, bron alles), debounce en cache per term, net als zoekArtikelen.
+  zoekKlusarchief(q){
+    const Ka = window.IfKa;
+    clearTimeout(this._kzT);
+    if (!Ka || !this.zoekKlusAan()) return;
+    const qn = String(q).trim().replace(/\s+/g, " ");
+    this._kzCache = this._kzCache || {};
+    if (qn.length < Ka.MIN_TEKENS) { this.setState({kzq:{q:qn, status:"", items:[]}}); return; }
+    this._kzTeller = this._kzTeller || window.IfNav.maakTeller();
+    const tok = this._kzTeller.volgende();
+    const klaar = (status, items) => this.setState(prev => this._kzTeller.actueel(tok) ? {kzq:{q:qn, status, items}} : null);
+    if (this._kzCache[qn]) { klaar("klaar", this._kzCache[qn]); return; }
+    this._kzT = setTimeout(() => {
+      this.setState(prev => this._kzTeller.actueel(tok) ? {kzq:{q:qn, status:"laden", items:[]}} : null);
+      const url = Ka.zoekUrl(qn, 0, "alles");
+      if (!url) return klaar("fout", []);
+      let ctl = null, timer = null;
+      try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), Ka.TIMEOUT_MS); } catch(e){ ctl = null; }
+      fetch(url, ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"})
+        .then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+        .then(d => { const items = (Ka.leesZoek(d) || {}).resultaten || []; this._kzCache[qn] = items; klaar("klaar", items); })
+        .catch(() => klaar("fout", []))
+        .then(() => { if (timer) clearTimeout(timer); });
+    }, 350);
+  }
+  kzVals(){
+    const st = this.state, Ka = window.IfKa, qn = st.q.trim().replace(/\s+/g, " "), toon = this.zoekKlusAan() && qn.length >= (Ka ? Ka.MIN_TEKENS : 2), kz = st.kzq || {};
+    const status = !toon ? "" : (kz.q !== qn ? "laden" : kz.status);
+    const items = toon && kz.q === qn && kz.status === "klaar" ? kz.items : [];
+    return {
+      kzToon: toon, kzLaadt: status === "laden", kzFout: status === "fout", kzLeeg: status === "klaar" && items.length === 0,
+      kzHeeft: items.length > 0,
+      // Een bronlink (extern) is een echte <a href>, zodat lang indrukken en kopiëren werkt; alleen de forumdraad
+      // (interne navigatie binnen de app) blijft een knop.
+      kzItems: items.slice(0, 5).map(it => {
+        if (it.bron === "nlfr") return {titel:it.titel, label:"NEDERLANDERS.FR", extern:true, intern:false, href:it.url, open:null};
+        if (it.bron === "forum") return {titel:it.titel, label:"OUD FORUM", extern:false, intern:true, href:"", open:() => this.kaOpenDraad({id:it.id, titel:it.titel, jaar:it.jaar, forum:""})};
+        return {titel:it.titel, label: it.bron === "artikel" ? "INFOFRANKRIJK" : "OFFICIEEL", extern:true, intern:false, href:it.url, open:null};
+      }),
+      kzMeer: () => this.kaOpenMet(qn)
+    };
+  }
+  // ---- Zoeken laag 2 (13-11-2026): de bestaande module nlfrzoek (Zoeken in forum en artikelen, nlfr-if-zoek.vercel.app)
+  // beantwoordt een vraag in gewone woorden uit Infofrankrijk en Nederlanders.fr, met bronvermelding. Zelf geen netwerk-
+  // aanroep hier: de module doet dat in zijn eigen iframe. Valt de module weg (niet zichtbaar of uit de catalogus), dan
+  // verbergt dit blok zich en blijft laag 1 (search()) gewoon werken.
+  laag2Vals(){
+    const st = this.state, mod = this.vindModule("nlfrzoek"), qn = st.q.trim().replace(/\s+/g, " ");
+    const toon = !!mod && qn.length >= 2;
+    return {
+      laag2Toon: toon,
+      laag2Vraag: () => { if (mod) this.routeMetUrl(mod, mod.url + "?embed=1&q=" + encodeURIComponent(qn)); }
+    };
+  }
   // De aannames achter de uitkomst, in gewone taal; de bedragen komen uit engine/engine.js (PRIJS_INFO), niet uit deze tekst.
   enAannames(engineKlaar){
     if (!engineKlaar || typeof PRIJS_INFO === "undefined" || typeof dpePefElec !== "function") return "";
@@ -8181,7 +8413,23 @@ class Component extends DCLogic {
         out.push({kind:"BERICHT", fr:p.titel, nl:p.samenvatting || "", where:"Nederlanders.fr · " + kort(p.laatsteReactie || p.datum),
           open:() => this.setState({screen:"gem", gemTab:"ber", openPost:p.id, q:""})});
     });
+    // Mijn gemeente heeft geen eigen module in de catalogus en was daarom niet vindbaar (bijvoorbeeld "déchèterie",
+    // "taxe d'habitation"); gemeenteZoek in modules.json is de lokale zoekindex van de zes kaarten op dat scherm.
+    const woorden = q.split(" ").filter(Boolean);
+    (((this.state.cat || {}).gemeenteZoek || {}).onderwerpen || []).forEach(o => {
+      if (woorden.every(w => norm(o.woorden + " " + o.titel).includes(w)))
+        out.push({kind:"GEMEENTE", fr:o.titel, nl:o.regel || "", where:"Mijn gemeente · op basis van je postcode",
+          open:() => { this.setState({q:""}); this.gmOpen("zoek"); }});
+    });
+    // Nedergids: eigen vindpagina's (registers, adressenboek, websites overheden) staan niet in een module.
+    (((this.state.cat || {}).nedergidsLinks) || []).forEach(l => {
+      if (l && l.titel && /^https:\/\//.test(l.url || "") && norm(l.titel + " " + (l.regel || "")).includes(q))
+        out.push({kind:"GIDS", fr:l.titel, nl:l.regel || "", where:"Nedergids",
+          open:() => { this.setState({q:""}); if (l.extern || !(window.IfArtikel && window.IfArtikel.isInApp(l.url))) window.open(l.url, "_blank", "noopener"); else this.openInfoArtikel(l.url); }});
+    });
     this.zoekindexTreffers(q).forEach(r => out.push(r));
+    this.laadKalenderZoek();
+    this.kalenderZoekTreffers(q).forEach(r => out.push(r));
     return out.slice(0, 30);
   }
 
@@ -8437,6 +8685,9 @@ class Component extends DCLogic {
       showMark: !SHOWBACK.test(st.screen) && !this.skDiep(),
       back: () => this.terugKnop(),
 
+      isStandkeuze: st.screen === "standkeuze",
+      deelLinkRegel: !!st.viaDeelLinkEersteKeer, deelLinkNaarHub: () => this.setState({viaDeelLinkEersteKeer:false, screen:"hub", menu:false}),
+      kiesEenvoudig: () => this.kiesStand("eenvoudig"), kiesCompleet: () => this.kiesStand("compleet"),
       isHub: st.screen === "hub" || st.screen === "mod", isZoek: st.screen === "zoek", isGem: st.screen === "gem",
       isKeuze: st.screen === "keuze", isTool: st.screen === "tool", isAcc: st.screen === "acc",
       isNedergids: st.screen === "nedergids",
@@ -8561,10 +8812,22 @@ class Component extends DCLogic {
       isAiTools: st.screen === "aitools",
       begroetingTekst: HubLib.begroeting(new Date()),
       zoekIcoStyle: this.iconStyle("zoek").replace("width:22px;height:22px", "width:22px;height:22px;color:#800000"),
-      hubFavs: st.screen === "hub" && favLijst.length > 0,
+      // Startpagina met twee standen (13-11-2026): Eenvoudig toont alleen het zoekloket, vier snelkoppelingen, de band
+      // Vandaag (hooguit één regel) en "Alles tonen"; favorieten en de noodregel horen daarom ook bij "verder niets".
+      standEenvoudig: st.stand === "eenvoudig", standCompleet: st.stand !== "eenvoudig",
+      eenvoudigSnel: this.eenvoudigSnelLijst(),
+      eenvoudigAlles: () => this.go("mod"),
+      teVeelAanpassen: () => { this.setState({screen:"keuze", from:"hub"}); },
+      // Schakelaar in Profiel en bovenaan Mijn modules (dezelfde twee holes op beide plekken): wisselt de stand
+      // zonder van scherm te veranderen (kiesStand(s, false)).
+      standIsEenvoudig: st.stand === "eenvoudig", standIsCompleet: st.stand !== "eenvoudig",
+      standBgEenvoudig: st.stand === "eenvoudig" ? "#800000" : "transparent", standKleurEenvoudig: st.stand === "eenvoudig" ? "#fff" : "#3D4346",
+      standBgCompleet: st.stand !== "eenvoudig" ? "#800000" : "transparent", standKleurCompleet: st.stand !== "eenvoudig" ? "#fff" : "#3D4346",
+      standKiesEenvoudig: () => this.kiesStand("eenvoudig", false), standKiesCompleet: () => this.kiesStand("compleet", false),
+      hubFavs: st.screen === "hub" && st.stand !== "eenvoudig" && favLijst.length > 0,
       hubNoodKnoppen: this.spoedKnoppenLijst(),
       hubNoodTekst: (this.gzCfg().spoed || {}).hubTekst || "",
-      hubNood: st.screen === "hub" && this.spoedKnoppenLijst().length > 0 && !!(this.gzCfg().spoed || {}).hubTekst,
+      hubNood: st.screen === "hub" && st.stand !== "eenvoudig" && this.spoedKnoppenLijst().length > 0 && !!(this.gzCfg().spoed || {}).hubTekst,
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"),
       goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
       openFire: () => this.route(this.vindModule("veiligheid")),
@@ -8629,15 +8892,17 @@ class Component extends DCLogic {
       heeftEigenKeuze: this.heeftEigenKeuze(), resetKeuze: () => this.resetKeuze(),
 
       q: st.q, hasQ: st.q.length > 0,
-      onQ: e => { const v = e.target.value; this.setState(v.trim() ? {q:v, skOnd:"", skVraag:""} : {q:v}); this.zoekArtikelen(v); },
+      onQ: e => { const v = e.target.value; this.setState(v.trim() ? {q:v, skOnd:"", skVraag:""} : {q:v}); this.zoekArtikelen(v); this.zoekKlusarchief(v); },
       clearQ: () => { this.setState({q:""}); this.zoekArtikelen(""); },
       ...this.zaVals(),
-      zoekKlusToon: this.zoekKlusAan() && st.q.trim().replace(/\s+/g, " ").length >= 3,
+      ...this.kzVals(),
+      zoekKlusToon: this.zoekKlusAan() && st.q.trim().replace(/\s+/g, " ").length >= 3 && !this.kzVals().kzHeeft,
       zoekKlusTekst: "Zoek ook in het Klusarchief: " + st.q.trim().replace(/\s+/g, " ").slice(0, 60),
       zoekKlusOpen: () => this.kaOpenMet(st.q),
       results, hasResults: results.length > 0, resultsTaal, hasResultsTaal: resultsTaal.length > 0,
       resultCount: "Modules en tools", resultCountTaal: "Woorden en berichten",
       noResults: st.q.trim().length >= 2 && alleTreffers.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
+      ...this.laag2Vals(),
 
       feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Nieuwste reacties bovenaan" : "",
       gemFout: !!st.fout && !st.laden, gemGeenFout: !(st.fout && !st.laden),

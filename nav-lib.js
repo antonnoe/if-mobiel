@@ -1,6 +1,7 @@
 // Navigatie en laadtokens: pure logica, zonder DOM. Browser: window.IfNav; tests: require.
 // Hash-routes (geen server nodig): #/artikel/<slug> opent een artikel, #/nieuws, #/forum, #/profiel en #/zoek
-// openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief; #/kalender en #/kalender/<id> openen Kalender Frankrijk, het laatste met dat item open; #/infofrankrijk opent het scherm Infofrankrijk. Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
+// openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief; #/kalender en #/kalender/<id> openen Kalender Frankrijk, het laatste met dat item open; #/infofrankrijk opent het scherm Infofrankrijk;
+// #/gemeente/<postcode> (5 cijfers) opent Mijn gemeente en zoekt direct op die postcode, voor delen (13-11-2026). Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
 (function (root) {
   var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", meldingen: "meldingen", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofrankrijk: "infofr", gemeente: "gemeente", brief: "brief" };
   var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", meldingen: "meldingen", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofr: "infofrankrijk", gemeente: "gemeente", brief: "brief" };
@@ -19,6 +20,7 @@
     }
     if (delen[0] === "klusarchief" && delen.length === 2) return /^\d{1,12}$/.test(delen[1]) ? { soort: "klusdraad", id: delen[1] } : { soort: "hub" };
     if (delen[0] === "kalender" && delen.length === 2) return KALID.test(delen[1]) ? { soort: "kalitem", id: delen[1] } : { soort: "hub" };
+    if (delen[0] === "gemeente" && delen.length === 2) return /^\d{5}$/.test(delen[1]) ? { soort: "gemeentepc", pc: delen[1] } : { soort: "hub" };
     if (delen.length === 1 && Object.prototype.hasOwnProperty.call(TOP, delen[0])) return { soort: "scherm", scherm: TOP[delen[0]] };
     return { soort: "hub" };
   }

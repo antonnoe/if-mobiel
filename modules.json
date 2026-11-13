@@ -2806,6 +2806,19 @@
       "url": "https://infofrankrijk.com/snel-hulp-zorg-vinden-nederlanders/"
     }
   ],
+  "gemeenteZoek": {
+    "_uitleg": "Zoekveld (10-11-2026, ronde postzegel): de zes kaarten van Mijn gemeente staan niet als module in de catalogus en waren daarom niet vindbaar via het hoofdzoekveld (bijvoorbeeld déchèterie, taxe d'habitation). Elke regel is woorden plus titel/regel; een match opent Mijn gemeente met het label 'Op basis van je postcode'. Geen netwerk nodig, puur lokale data.",
+    "onderwerpen": [
+      { "woorden": "dechèterie dechet afvalbrengplaats afval vuil storten", "titel": "Afvalbrengplaatsen (déchèteries)", "regel": "De dichtstbijzijnde locaties in je departement" },
+      { "woorden": "taxe fonciere taxe habitation belasting onroerendgoedbelasting tarief teom huisvuilheffing", "titel": "Belasting op je huis", "regel": "Tarieven taxe foncière, taxe d'habitation en TEOM" },
+      { "woorden": "risico risque overstroming aardbeving kleigrond bodembeweging georisques natuurramp", "titel": "Risico's", "regel": "Overstroming, bodembeweging, aardbevingszone en meer" },
+      { "woorden": "drinkwater kraanwater waterkwaliteit hardheid water", "titel": "Kwaliteit van het kraanwater", "regel": "De laatste officiële controle per waternetwerk" },
+      { "woorden": "defibrillator aed reanimatie hartstilstand", "titel": "Defibrillatoren in de buurt (AED)", "regel": "Geregistreerde toestellen bij jou in de buurt" },
+      { "woorden": "benzine diesel brandstof tanken pomp gazole essence", "titel": "Brandstofprijzen in de buurt", "regel": "Het goedkoopste station per brandstofsoort" },
+      { "woorden": "mairie gemeentehuis burgemeester", "titel": "Mairie", "regel": "Adres, telefoon en website van je mairie" },
+      { "woorden": "boer bio boerenmarkt lokaal kopen", "titel": "Lokaal kopen bij de boer (bio)", "regel": "Bio-bedrijven die aan particulieren verkopen" }
+    ]
+  },
   "sterrenkaart": {
     "_uitleg": "Zoekscherm, sterrenkaart (10-11-2026). onderwerpen: acht zonnen met x en y in procenten van het sterrenveld, cafe (domein uit groepen[].cafe.domein, leeg = algemene Café-url) en hooguit zes vragen. Een vraag heeft id, tekst, intro en antwoorden: {groep: begin|stap|reken|adres|ervaring, bron: if|nl|ng|cc, titel, regel} plus precies een doel: module (id, titel en regel mogen ontbreken), artikel (https infofrankrijk.com), scherm (gemeente|hygiene|kalender|infofr|nedergids|gezondheid) of url (https, nieuw tabblad). Een module die uit staat valt weg. Een vraag erbij is een blok hier.",
     "onderwerpen": [

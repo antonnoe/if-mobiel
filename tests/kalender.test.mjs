@@ -377,9 +377,10 @@ test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band all
   assert.equal(Kl.TIMEOUT_MS, 8000); assert.equal(Kl.TUSSENTIJD_MS, 600000); assert.equal(Kl.VENSTER_DAGEN, 120);
   // kaFetch (gedeeld met het Klusarchief) haalt anoniem op
   assert.match(html, /const opts = \{credentials:"omit"\}/);
-  // de band staat onder de begroeting en vóór de zoekbalk, en is er alleen met regels
+  // sinds de postzegel-ronde (13-11-2026): de zoekbalk staat onder de begroeting, boven de band Vandaag; de band is er
+  // alleen met regels. De eerste zoekbalk in de bron is de Eenvoudig-variant, die ook vóór de band staat.
   const iH1 = html.indexOf("{{ begroetingTekst }}"), iBand = html.indexOf('data-vandaag="1"'), iZoek = html.indexOf('onClick="{{ goZoek }}"');
-  assert.ok(iH1 > 0 && iBand > iH1 && iZoek > iBand, "volgorde begroeting, band, zoekbalk");
+  assert.ok(iH1 > 0 && iZoek > iH1 && iBand > iZoek, "volgorde begroeting, zoekbalk, band");
   assert.match(html, /<sc-if value="\{\{ vdToon \}\}" hint-placeholder-val="\{\{ false \}\}">\s*<div data-vandaag="1"/);
   assert.match(html, /margin:14px 16px 0;border-radius:18px;padding:14px 16px 6px;background:#2f6b3d;color:#fff/);
   assert.match(blok, /vdToon: aan/);
@@ -744,7 +745,7 @@ test("band Vandaag, variant A (9 november 2026): kop, eerste zin, maantje, link 
   assert.equal(Kl.maanPad("onbekend"), "");
   assert.equal(Kl.maanPad("__proto__"), "");
   // schil
-  const band = html.slice(html.indexOf('data-vandaag="1"'), html.indexOf('onClick="{{ goZoek }}"'));
+  const band = html.slice(html.indexOf('data-vandaag="1"'), html.indexOf('data-vandaag="1"') + 4000);
   assert.match(band, /font:800 12px Mulish;letter-spacing:1\.5px;color:#DCE8DF">\{\{ vdKop \}\}/);
   assert.match(band, /<svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="\{\{ vdMaanNaam \}\}"><circle cx="15" cy="15" r="12\.5" fill="rgba\(0,0,0,\.28\)" stroke="#DCE8DF" stroke-width="1\.5"><\/circle><sc-if value="\{\{ vdFase1 \}\}"/);
   // geen hole in <path d> (consolefouten); de statische paden in de template zijn die van de lib, een per fase

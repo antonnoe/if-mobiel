@@ -286,7 +286,9 @@
     return rijen.filter(function (r) { var k = tekst(r.C_SERVICE) || tekst(r.N_SERVICE) + tekst(r.CP_SITE); if (gezien[k]) return false; gezien[k] = 1; return true; });
   }
   // De dichtstbijzijnde locaties binnen het departement. Zonder bruikbare coördinaten van de gemeente: alle locaties van die gemeente zelf.
-  function dechSamenvatting(rijen, lat, lon, code) {
+  // `onvolledig`: true als een van de vervolgpagina's van de bron niet kon worden opgehaald (de bron is wisselvallig, zie CLAUDE.md);
+  // de al opgehaalde pagina's worden dan toch getoond, met die vermelding, in plaats van de hele kaart te laten vallen.
+  function dechSamenvatting(rijen, lat, lon, code, onvolledig) {
     if (!Array.isArray(rijen)) return null;
     var heeft = typeof lat === "number" && typeof lon === "number" && isFinite(lat) && isFinite(lon);
     var l = ontdubbel(rijen).map(function (r) {
@@ -300,7 +302,7 @@
     }).filter(Boolean);
     if (heeft) l = l.filter(function (x) { return x.km !== null; }).sort(function (a, b) { return a.km - b.km; });
     else l = l.filter(function (x) { return x.eigen; });
-    return { ok: l.length > 0, lijst: l.slice(0, DECH_AANTAL), heeftAfstand: heeft };
+    return { ok: l.length > 0, lijst: l.slice(0, DECH_AANTAL), heeftAfstand: heeft, onvolledig: !!onvolledig };
   }
   function dechKaartUrl(x) {
     if (!x) return "";

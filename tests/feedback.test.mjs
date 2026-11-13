@@ -100,7 +100,8 @@ test('de naam en reactie gaan nooit naar localStorage of sessionStorage', () => 
 });
 
 test('het blad vraagt expliciet toestemming en noemt contact en bewaartermijn', () => {
-  assert.match(html, /Ik geef toestemming dat mijn naam en opmerkingen worden bewaard/);
+  // 13-11-2026: de toestemmingstekst noemt nu ook het optionele e-mailadres (als ingevuld), zie tests/feedback-email.test.mjs
+  assert.match(html, /Ik geef toestemming dat mijn naam, opmerkingen en, als ik die invul, mijn e-mailadres worden bewaard/);
   assert.match(html, /type="checkbox" checked="\{\{ fbAkkoord \}\}"/);
   assert.match(html, /\{\{ fbPrivacy \}\}/);
 });

@@ -272,3 +272,18 @@ Techniek: zie "Klusarchief, twee delen" in CLAUDE.md.
 ## Kalender Frankrijk in de app (02-11-2026)
 
 Band "Vandaag" op de hub (hooguit drie regels uit de openbare API van Kalender Frankrijk, zacht falend) en het scherm Kalender (herbouwd op 02-11-2026 als echte kalender na afkeuring van de lijst: Week en Maand met stipjes per rubriek, een filterrij, "Loopt deze week/maand", abonneren via een onderblad; geen filter "Voor wie" meer) met item, bron en iCal-abonnementen; alleen vastgestelde items voor Infopoche, de lezer blijft in de app. Techniek: zie "Kalender Frankrijk in de app (2 november 2026)" in CLAUDE.md. Tests: `tests/kalender.test.mjs`.
+
+## De postzegel: startpagina met twee standen, zoeken uitgebreid, déchèteries, delen, installatie, feedback (13-11-2026)
+
+Doel van Anton: InfoPoche houdt al zijn functies, maar wie één ding komt doen, vindt het in één handeling. Zeven punten, elk gebouwd, getest en (op punt 7 na) live gecontroleerd met Playwright tegen infopoche.fr.
+
+Besluiten van Anton uit de opdracht (niet van afwijken):
+1. Twee standen (Eenvoudig/Compleet), keuzescherm bij de eerste opening (goedgekeurde mock-up), daarna een schakelaar in Profiel. "Alles tonen" opent Alle modules en wijzigt de stand niet. De vier snelkoppelingen in Eenvoudig staan op één plek in de code.
+2. Eerst meten wat zoeken niet vindt (gerapporteerd met voorbeelden), dan uitbreiden met kalenderitems, Klusarchief en Nedergids-links, gegroepeerd per bron.
+3. Laag 2 (AI-vraag) alleen via de bestaande module nlfrzoek; de daglimieten komen uit de code van `antonnoe/nlfr-if-zoek`, niet uit de README (die zelf al zegt verouderd te zijn).
+4. Déchèteries: eerst reproduceren met vijf departementen, dan de echte oorzaak herstellen (niet een gok).
+5. Delen op alle schermen met een los item; bronlinks als echte `<a href>`; een eerste bezoek via een gedeelde link krijgt een rustige regel, geen installatieverzoek.
+6. Installatietekst herkent toestel en browser zelf, vraagt de lezer niets.
+7. Feedbackformulier: optioneel e-mailveld, nooit verplicht.
+
+Stand per punt: zie het eindrapport van deze sessie voor wat live staat, wat gemeten is en wat nog openstaat (punt 7, de Supabase-kant). Techniek: zie CLAUDE.md, de secties van 13-11-2026. Tests: `tests/stand.test.mjs`, `tests/zoeken-laag1.test.mjs`, `tests/zoeken-laag2.test.mjs`, `tests/delen.test.mjs`, `tests/installatie.test.mjs`, `tests/feedback-email.test.mjs`, en de déchèteries-tests in `tests/gemeente.test.mjs`.
