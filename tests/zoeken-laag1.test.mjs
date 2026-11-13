@@ -50,3 +50,12 @@ test("drie bronnen als eigen label in het zoekscherm template (KAL, GEMEENTE/GID
   assert.match(html, /<sc-for list="\{\{ kzItems \}\}" as="r" hint-placeholder-count="3">/);
   assert.match(html, /Meer in het Klusarchief/);
 });
+
+test("herstel (13-11-2026, melding na een vreemde zoekopdracht 'postzegel'): Artikelen op Infofrankrijk dedupliceert tegen wat het Klusarchief al toont, alleen op het zoekscherm zelf", () => {
+  assert.match(html, /const kzUrls = st\.screen === "zoek" \? new Set\(\(this\.kzVals\(\)\.kzItems \|\| \[\]\)\.filter\(it => it\.label === "INFOFRANKRIJK" && it\.href\)\.map\(it => it\.href\)\) : new Set\(\);/);
+  assert.match(html, /const items = ruw\.filter\(it => !kzUrls\.has\(it\.url\)\);/);
+  // zaLeeg blijft op de ruwe uitkomst (geen valse "geen artikelen gevonden" als alles al hierboven stond);
+  // de sectie zelf verdwijnt helemaal als na het filter niets overblijft.
+  assert.match(html, /const alleGedupliceerd = status === "klaar" && ruw\.length > 0 && items\.length === 0;/);
+  assert.match(html, /zaLeeg: status === "klaar" && ruw\.length === 0,/);
+});

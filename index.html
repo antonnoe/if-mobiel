@@ -7460,12 +7460,22 @@ class Component extends DCLogic {
   // Het Klusarchief staat in de zoekresultaten als de module aan staat (zelfde regel als hub en modulelijst, Mijn modules telt mee).
   zoekKlusAan(){ return this.mods().some(m => m.id === "klusforum"); }
   zaVals(){
-    const st = this.state, qn = st.q.trim().replace(/\s+/g, " ").slice(0, 80), toon = qn.length >= 3, zq = st.zaq || {};
-    const status = !toon ? "" : (zq.q !== qn ? "laden" : zq.status);
-    const items = toon && zq.q === qn && zq.status === "klaar" ? zq.items : [];
+    const st = this.state, qn = st.q.trim().replace(/\s+/g, " ").slice(0, 80), basis = qn.length >= 3, zq = st.zaq || {};
+    const status = !basis ? "" : (zq.q !== qn ? "laden" : zq.status);
+    const ruw = basis && zq.q === qn && zq.status === "klaar" ? zq.items : [];
+    // Dezelfde artikelen van Infofrankrijk staan soms ook al (met een duidelijk fragment) in de Klusarchief-sectie
+    // hierboven ("Kennis van nu"); zonder dit filter stond bv. "Dakkapellen" bij "postzegel" kaal nogmaals in deze
+    // lijst, wat verwarrend aanvoelde (13-11-2026, melding van Anton na een vreemde zoekopdracht). Vonden we wel
+    // iets maar is na dit filter niets meer over, dan toont deze sectie zich helemaal niet (geen valse "niets
+    // gevonden": de treffers staan al hierboven). Alleen op het zoekscherm zelf: `zaVals` wordt ook hergebruikt
+    // door het scherm Infofrankrijk, dat geen Klusarchief-sectie toont en dus niets hoeft te dedupliceren.
+    const kzUrls = st.screen === "zoek" ? new Set((this.kzVals().kzItems || []).filter(it => it.label === "INFOFRANKRIJK" && it.href).map(it => it.href)) : new Set();
+    const items = ruw.filter(it => !kzUrls.has(it.url));
+    const alleGedupliceerd = status === "klaar" && ruw.length > 0 && items.length === 0;
+    const toon = basis && !alleGedupliceerd;
     return {
-      zaToon: toon, zaLaadt: status === "laden", zaFout: status === "fout", zaLeeg: status === "klaar" && items.length === 0,
-      zaHeeft: items.length > 0, zaBezig: toon && (status === "laden"),
+      zaToon: toon, zaLaadt: status === "laden", zaFout: status === "fout", zaLeeg: status === "klaar" && ruw.length === 0,
+      zaHeeft: items.length > 0, zaBezig: basis && (status === "laden"),
       zaItems: items.map(it => {
         // Een treffer zonder leesbaar WordPress-slug opent op de site zelf, in een nieuw tabblad: dat staat er dan bij.
         const binnen = !!(window.IfArtikel && window.IfArtikel.slugUitUrl(it.url));
