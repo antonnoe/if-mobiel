@@ -300,6 +300,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:0 16px;min-height:64px;box-sizing:border-box">
         <span style="{{ zoekIcoStyle }}"></span>
         <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Typ een vraag of een woord" aria-label="Waar kan ik je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 17px Mulish;color:#15181A;min-height:60px">
+        <button data-zoekga="1" onClick="{{ onHubZoek }}" aria-label="Zoek" style="flex-shrink:0;min-width:64px;min-height:44px;padding:0 16px;border-radius:12px;border:0;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px 0">
@@ -313,6 +314,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div data-hubzoek="1" style="width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid rgba(128,0,0,.22);border-radius:14px;box-shadow:0 1px 2px rgba(21,24,26,.06);padding:0 16px;min-height:54px;box-sizing:border-box">
         <span style="{{ zoekIcoStyle }}"></span>
         <input id="hubq2" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Zoek in InfoPoche" aria-label="Zoek in InfoPoche" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 16px Mulish;color:#15181A;min-height:50px">
+        <button data-zoekga="1" onClick="{{ onHubZoek }}" aria-label="Zoek" style="flex-shrink:0;min-width:64px;min-height:44px;padding:0 16px;border-radius:12px;border:0;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
       </div>
     </div>
     </sc-if>
@@ -4057,9 +4059,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </button>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Peil</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Ons register van financiële parameters en berekeningsgrondslagen voor Nederland en Frankrijk, waarmee de tools en Café Claude rekenen. Elk met bron en datum van controle.</p></div>
-  <a href="https://communitiesabroad.com/manifest/tools" target="_blank" rel="noopener" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Peil: bekijk wat we per tool controleren &#8599;</a>
-  <a href="https://infofrankrijk.com/ons-manifest-hoe-wij-werken/" target="_blank" rel="noopener" style="margin:10px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Lees hoe wij werken &#8599;</a>
-  <button data-over-werkwijze="1" onClick="{{ overWerkwijze }}" style="margin:10px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-align:center;cursor:pointer">Zo werken wij: bekijk de dia's &#8250;</button>
+    <button data-over-werkwijze="1" onClick="{{ overWerkwijze }}" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-align:center;cursor:pointer">Zo werken wij: bekijk de dia's &#8250;</button>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Cockpit</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Toezicht op de techniek: werkt elke tool, zijn de koppelingen en API's in orde, zijn er storingen. Cockpit signaleert voordat iets breekt: verloopdata, sleutels en koppelingen, met diagnose en herstelroute.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Peil bewaakt de integriteit van de data. Dat is een continu proces van updaten en controleren, niet alleen van de parameters maar ook van de berekeningsgrondslagen.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Officiële bronnen wegen zwaar. Facebook telt niet als bron.</p></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Kansen en valkuilen</div>
@@ -9143,10 +9143,10 @@ class Component extends DCLogic {
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"),
       // Zoekloket Eenvoudig (13-11-2026): een echt typbaar veld, geen knop. Zodra je typt (of focust), spring je naar
       // het volledige zoekscherm met je tekst al erin, in plaats van eerst te moeten klikken en opnieuw te typen.
-      onHubQ: e => { const v = e.target.value; this.setState({q:v}); this.zoekArtikelen(v); this.zoekKlusarchief(v);
-        clearTimeout(this._hubQT);
-        this._hubQT = setTimeout(() => { if (this.state.screen === "hub" && this.state.q === v && v) this.go("zoek", v); }, 450); },
-      onHubQEnter: e => { if (e.key !== "Enter") return; clearTimeout(this._hubQT); const v = e.target.value; if (v) this.go("zoek", v); },
+      onHubQ: e => { this.setState({q:e.target.value}); },
+      hubZoekGa: v => { v = v || ""; if (v) { this.zoekArtikelen(v); this.zoekKlusarchief(v); } this.go("zoek", v); },
+      onHubQEnter: e => { if (e.key !== "Enter") return; this.hubZoekGa(e.target.value); },
+      onHubZoek: () => { const el = document.getElementById("hubq") || document.getElementById("hubq2"); this.hubZoekGa(el ? el.value : this.state.q); },
       goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
       openFire: () => this.route(this.vindModule("veiligheid")),
       ...this.podiumVals(),

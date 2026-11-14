@@ -18,8 +18,10 @@ test("hub: prototypekaart is weg, feedback blijft bereikbaar via het hamburgerme
 test("Over ons: Nederlanders.fr en de moderatie zijn één kaart, Peil heeft zijn eigen link", () => {
   assert.equal(html.split("Een gemodereerde gemeenschap</div>").length - 1, 0);
   assert.match(html, /Het is een gemodereerde gemeenschap, met toelating, huisregels en optreden tegen spam en misbruik\./);
-  assert.match(html, /Peil: bekijk wat we per tool controleren/);
-  assert.match(html, /https:\/\/infofrankrijk\.com\/ons-manifest-hoe-wij-werken\//);
+  // sinds 14-11-2026 heeft de Peil-sectie van Over ons één knop
+  assert.ok(!/Peil: bekijk wat we per tool controleren/.test(html));
+  assert.ok(!/Lees hoe wij werken/.test(html));
+  assert.match(html, /Zo werken wij: bekijk de dia's/);
 });
 
 test("Klussen: eigen blok in Wonen met de drie klus-modules en de lijstjes", () => {

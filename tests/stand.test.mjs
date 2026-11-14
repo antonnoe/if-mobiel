@@ -68,12 +68,14 @@ test("Eenvoudig en Compleet: het zoekloket is op de hub ALTIJD een echt typbaar 
   }
   assert.match(html, /go\(s, qStart\)\{/);
   assert.match(html, /q:qStart \|\| "",/);
-  // tijdens het typen blijft het scherm "hub" (geen DOM-wissel per toets, dus geen verloren toetsaanslagen); pas na
-  // een korte stilte (450ms) of Enter gaat de app naar het volledige zoekscherm, met de dan actuele tekst.
-  assert.match(html, /onHubQ: e => \{ const v = e\.target\.value; this\.setState\(\{q:v\}\); this\.zoekArtikelen\(v\); this\.zoekKlusarchief\(v\);/);
-  assert.match(html, /this\._hubQT = setTimeout\(\(\) => \{ if \(this\.state\.screen === "hub" && this\.state\.q === v && v\) this\.go\("zoek", v\); \}, 450\);/);
-  assert.match(html, /onHubQEnter: e => \{ if \(e\.key !== "Enter"\) return; clearTimeout\(this\._hubQT\); const v = e\.target\.value; if \(v\) this\.go\("zoek", v\); \},/);
-  assert.ok(!/onHubQBlur/.test(html), "de blur-handler is verwijderd, de stille wissel (450ms) werkt los van focus");
+  // typen werkt alleen het veld bij: geen timer, geen navigatie; navigeren alleen bij Enter of de knop Zoek.
+  assert.match(html, /onHubQ: e => \{ this\.setState\(\{q:e\.target\.value\}\); \},/);
+  assert.ok(!/_hubQT/.test(html), "geen geplande wissel meer");
+  assert.ok(!/setTimeout\([^\n]*this\.go\("zoek"/.test(html));
+  assert.match(html, /onHubQEnter: e => \{ if \(e\.key !== "Enter"\) return; this\.hubZoekGa\(e\.target\.value\); \},/);
+  assert.match(html, /onHubZoek: \(\) =>/);
+  assert.equal((html.match(/data-zoekga="1" onClick="\{\{ onHubZoek \}\}" aria-label="Zoek"/g) || []).length, 2);
+  assert.ok(!/onHubQBlur/.test(html));
 });
 
 test("prototypekaart is vervangen: nooit meer in de code", () => {
