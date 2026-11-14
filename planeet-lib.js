@@ -13,7 +13,7 @@
   };
   var BRON_VOLGORDE = ["if", "nl", "ng", "cc", "ip"];
   // Bestemmingen van een scherm of menu-onderdeel dat geen module is; de app kent voor elk een open-functie (plOpen).
-  var DOELEN = ["gemeente", "hygiene", "meldingen", "infofr", "sponsors", "acc", "keuze", "over", "mod", "dossierdemo", "feedback", "installeer", "postcode"];
+  var DOELEN = ["gemeente", "hygiene", "meldingen", "infofr", "sponsors", "werkwijze", "acc", "keuze", "over", "mod", "dossierdemo", "feedback", "installeer", "postcode"];
   var ID = /^[a-z0-9-]{1,30}$/;
   var PLID = "planeet"; // waarde van state.skOnd zolang de lezer op de planeet is
 

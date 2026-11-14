@@ -28,6 +28,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"};</script>
 <script src="./lamaison-lib.js"></script>
 <script src="./sponsors-lib.js"></script>
+<script src="./werkwijze-lib.js"></script>
 <script src="./meldingen-lib.js"></script>
 <script src="./advertenties-lib.js"></script>
 <script src="./klusarchief-lib.js"></script>
@@ -2922,6 +2923,135 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
+<!-- ============ ZO WERKEN WIJ (twaalf dia's, data/werkwijze.json, werkwijze-lib.js) ============ -->
+<sc-if value="{{ isWerkwijze }}" hint-placeholder-val="{{ false }}">
+<div data-werkwijze="1" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:#F5F0EB">
+  <sc-if value="{{ wkLaadt }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:22px 16px 0;font:600 14px/1.6 Mulish;color:#5F6669">Dia's laden...</div>
+  </sc-if>
+  <sc-if value="{{ wkFout }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De dia's zijn nu niet te laden.</p>
+    <button onClick="{{ wkOpnieuw }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+  </div>
+  </sc-if>
+  <sc-if value="{{ wkKlaar }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div role="img" aria-label="{{ wkVoortgangAria }}" style="flex:none;display:flex;gap:4px;padding:12px 16px 10px">
+      <sc-for list="{{ wkSegmenten }}" as="sg" hint-placeholder-count="12">
+      <span style="flex:1;height:4px;border-radius:2px;background:{{ sg.bg }};transition:background .2s ease"></span>
+      </sc-for>
+    </div>
+    <div id="ifm-wk-kaart" data-wk-kaart="1" tabindex="0" role="group" aria-roledescription="dia" aria-label="{{ wkAria }}" onClick="{{ wkKlik }}" onKeyDown="{{ wkToets }}" onTouchStart="{{ wkTouchStart }}" onTouchEnd="{{ wkTouchEnd }}" style="{{ wkKaartStijl }}">
+      <sc-if value="{{ wkDia.heeftOog }}" hint-placeholder-val="{{ true }}">
+      <p style="{{ wkDia.oogStijl }}">{{ wkDia.oog }}</p>
+      </sc-if>
+      <h2 style="{{ wkDia.titelStijl }}">{{ wkDia.titel }}</h2>
+      <sc-for list="{{ wkDia.blokken }}" as="b" hint-placeholder-count="2">
+      <div style="{{ b.omStijl }}">
+        <sc-if value="{{ b.isTekst }}" hint-placeholder-val="{{ true }}">
+        <p style="{{ b.stijl }}">{{ b.tekst }}</p>
+        </sc-if>
+        <sc-if value="{{ b.isKaarten }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ b.stijl }}">
+          <sc-for list="{{ b.items }}" as="k" hint-placeholder-count="3">
+          <div style="{{ k.stijl }}">
+            <sc-if value="{{ k.heeftGetal }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ k.getalStijl }}">{{ k.getal }}</div>
+            </sc-if>
+            <div style="flex:1;min-width:0">
+              <div style="{{ k.kopStijl }}">{{ k.kop }}</div>
+              <p style="{{ k.tekstStijl }}">{{ k.tekst }}</p>
+              <sc-if value="{{ k.heeftKlein }}" hint-placeholder-val="{{ false }}">
+              <p style="{{ k.kleinStijl }}">{{ k.klein }}</p>
+              </sc-if>
+            </div>
+          </div>
+          <sc-if value="{{ k.heeftPijl }}" hint-placeholder-val="{{ false }}">
+          <div aria-hidden="true" style="text-align:center;font:600 16px/1 Poppins,system-ui,sans-serif;color:#800000;margin:-2px 0">&#8645;</div>
+          </sc-if>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ b.isRijen }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ b.stijl }}">
+          <sc-for list="{{ b.items }}" as="r" hint-placeholder-count="3">
+          <div style="{{ r.stijl }}">
+            <sc-if value="{{ r.heeftNr }}" hint-placeholder-val="{{ false }}">
+            <span aria-hidden="true" style="flex:none;width:28px;height:28px;border-radius:14px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:600 14px/1 Poppins,system-ui,sans-serif">{{ r.nr }}</span>
+            </sc-if>
+            <sc-if value="{{ r.heeftChip }}" hint-placeholder-val="{{ false }}">
+            <span style="{{ r.chipStijl }}">{{ r.chip }}</span>
+            </sc-if>
+            <div style="flex:1;min-width:0">
+              <sc-if value="{{ r.heeftKop }}" hint-placeholder-val="{{ false }}">
+              <div style="font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#800000">{{ r.kop }}</div>
+              </sc-if>
+              <p style="{{ r.tekstStijl }}">{{ r.tekst }}</p>
+            </div>
+          </div>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ b.isLijst }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ b.stijl }}">
+          <sc-for list="{{ b.items }}" as="l" hint-placeholder-count="3">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px solid #E2D6CC">
+            <span style="min-width:0;font:400 14px/1.35 Mulish;color:#3D302C;overflow-wrap:anywhere">{{ l.naam }}</span>
+            <span style="flex:none;font:600 13px/1.35 Poppins,system-ui,sans-serif;color:#800000;white-space:nowrap">{{ l.waarde }}</span>
+          </div>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ b.isBand }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ b.stijl }}">
+          <p style="{{ b.tekstStijl }}"><b style="{{ b.labelStijl }}">{{ b.label }}</b> {{ b.tekst }}</p>
+        </div>
+        </sc-if>
+        <sc-if value="{{ b.isPeil }}" hint-placeholder-val="{{ false }}">
+        <div data-wk-peil="1" style="margin:0 4px;padding:12px 14px;border-radius:16px;border:2px solid #E8A598;background:linear-gradient(135deg,#1A080B,#6E0C16);box-shadow:0 0 22px rgba(190,30,40,.55);color:#FFE9E2">
+          <div style="font:600 26px/1.1 Poppins,system-ui,sans-serif;letter-spacing:5px;text-shadow:0 0 14px rgba(255,120,100,.75)">{{ b.naam }}</div>
+          <div style="display:flex;gap:6px;margin-top:8px">
+            <sc-for list="{{ b.tegels }}" as="t" hint-placeholder-count="3">
+            <div style="flex:1;min-width:0;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,200,190,.45);background:rgba(255,255,255,.08)">
+              <div style="font:600 20px/1.2 Poppins,system-ui,sans-serif;color:#FFE9E2">{{ t.getal }}</div>
+              <div style="font:400 12px/1.3 Mulish;color:#F1CFC6">{{ t.label }}</div>
+            </div>
+            </sc-for>
+          </div>
+          <sc-for list="{{ b.regels }}" as="g" hint-placeholder-count="2">
+          <div style="margin-top:5px;font:400 12.5px/1.4 'Courier New',monospace;color:#FFD9CF;overflow-wrap:anywhere">{{ g.tekst }}</div>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ b.isReeks }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ b.stijl }}">
+          <p style="margin:0;font:400 14px/1.6 Mulish;color:#3D302C"><sc-for list="{{ b.items }}" as="n" hint-placeholder-count="3"><span><b style="color:#800000;font-weight:700">{{ n.naam }}</b> {{ n.regel }} &middot; </span></sc-for>{{ b.staart }}</p>
+        </div>
+        </sc-if>
+        <sc-if value="{{ b.isKnop }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ b.heeftUrl }}" hint-placeholder-val="{{ true }}">
+        <a href="{{ b.url }}" target="_blank" rel="noopener" style="{{ b.stijl }}">{{ b.label }}</a>
+        </sc-if>
+        </sc-if>
+      </div>
+      </sc-for>
+    </div>
+    <div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:10px 16px 12px">
+      <button data-wk-vorige="1" onClick="{{ wkVorige }}" aria-label="Vorige dia" aria-disabled="{{ wkVorigeUit }}" style="{{ wkVorigeStijl }}">&#9664;&#xFE0E;</button>
+      <span aria-live="polite" style="font:600 14px/1.3 Mulish;color:#5F5A5B;text-align:center">{{ wkTeller }}</span>
+      <sc-if value="{{ wkIsLaatste }}" hint-placeholder-val="{{ false }}">
+      <button data-wk-opnieuw="1" onClick="{{ wkVanaf }}" aria-label="Opnieuw beginnen" style="width:48px;height:48px;flex:none;border:0;border-radius:24px;background:#EBD3CD;color:#800000;font:600 20px/1 Poppins,system-ui,sans-serif;cursor:pointer">&#8635;</button>
+      </sc-if>
+      <sc-if value="{{ wkNietLaatste }}" hint-placeholder-val="{{ true }}">
+      <button data-wk-volgende="1" onClick="{{ wkVolgende }}" aria-label="Volgende dia" style="width:48px;height:48px;flex:none;border:0;border-radius:24px;background:#800000;color:#fff;font:600 18px/1 Poppins,system-ui,sans-serif;cursor:pointer">&#9654;&#xFE0E;</button>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
 <!-- ============ BRIEF UITLEGGEN (foto van een Franse brief, uitleg door AI) ============ -->
 <sc-if value="{{ isBr }}" hint-placeholder-val="{{ false }}">
 <div data-brief="1" style="padding:22px 16px 28px">
@@ -3929,6 +4059,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Ons register van financiële parameters en berekeningsgrondslagen voor Nederland en Frankrijk, waarmee de tools en Café Claude rekenen. Elk met bron en datum van controle.</p></div>
   <a href="https://communitiesabroad.com/manifest/tools" target="_blank" rel="noopener" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Peil: bekijk wat we per tool controleren &#8599;</a>
   <a href="https://infofrankrijk.com/ons-manifest-hoe-wij-werken/" target="_blank" rel="noopener" style="margin:10px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Lees hoe wij werken &#8599;</a>
+  <button data-over-werkwijze="1" onClick="{{ overWerkwijze }}" style="margin:10px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-align:center;cursor:pointer">Zo werken wij: bekijk de dia's &#8250;</button>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Cockpit</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Toezicht op de techniek: werkt elke tool, zijn de koppelingen en API's in orde, zijn er storingen. Cockpit signaleert voordat iets breekt: verloopdata, sleutels en koppelingen, met diagnose en herstelroute.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Peil bewaakt de integriteit van de data. Dat is een continu proces van updaten en controleren, niet alleen van de parameters maar ook van de berekeningsgrondslagen.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Officiële bronnen wegen zwaar. Facebook telt niet als bron.</p></div>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Kansen en valkuilen</div>
@@ -4138,11 +4269,11 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|meldingen|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst|brief)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|werkwijze|meldingen|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst|brief)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 // Schermen zonder eigen h1 in de inhoud: de schermtitel in de kopbalk is daar de h1 (elk scherm heeft er precies één).
-const KOP_H1 = ["mod", "zoek", "tekoop", "hygiene", "gemeente", "aitools"];
+const KOP_H1 = ["mod", "zoek", "tekoop", "hygiene", "gemeente", "aitools", "werkwijze"];
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
 
 // Grotere tekst (Profiel, localStorage ifm_grote_tekst = "1", alleen op het toestel): CSS zoom op kopbalk,
@@ -6264,6 +6395,161 @@ class Component extends DCLogic {
     };
   }
 
+  // ---- Zo werken wij (twaalf dia's, data/werkwijze.json, logica in werkwijze-lib.js) ---------------------
+  // De lezer klikt zelf: tik rechts of de knop voor volgende, tik links of de knop voor vorige, vegen kan ook.
+  // Niets speelt vanzelf. Een dia is geen eigen geschiedenisregel: terug (pijl of gebaar) verlaat het scherm.
+  wkOpen(from){
+    this.setState({screen:"werkwijze", menu:false, q:"", copied:null, tool:null, from:from || "hub", wkIdx:0});
+    this.wkLaad();
+  }
+  wkLaad(){
+    const W = window.IfWerkwijze, Nv = window.IfNav;
+    if (!W || !Nv) { this.setState({wkStatus:"fout"}); return; }
+    if (this._wkData) { this.setState({wkStatus:"klaar", wkData:this._wkData}); return; }
+    this._wkTeller = this._wkTeller || Nv.maakTeller();
+    const tok = this._wkTeller.volgende();
+    this.setState({wkStatus:"laden"});
+    let ctl = null, timer = null, f;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 10000); } catch(e){ ctl = null; }
+    try { f = fetch("./data/werkwijze.json", ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"}); } catch(e){ clearTimeout(timer); this.setState({wkStatus:"fout"}); return; }
+    f.then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+      .then(d => {
+        const data = W.lees(d);
+        if (!data) throw new Error("leeg");
+        this._wkData = data;
+        this.setState(prev => this._wkTeller.actueel(tok) ? {wkStatus:"klaar", wkData:data} : null);
+      })
+      .catch(() => this.setState(prev => this._wkTeller.actueel(tok) ? {wkStatus:"fout"} : null))
+      .then(() => { if (timer) clearTimeout(timer); });
+  }
+  wkNaar(i){
+    const W = window.IfWerkwijze, n = this.state.wkData ? this.state.wkData.dias.length : 0;
+    if (!W || !n) return;
+    const nieuw = W.klem(i, n);
+    if (nieuw === W.klem(this.state.wkIdx, n)) return;
+    this.setState({wkIdx:nieuw});
+    setTimeout(() => { const e = document.getElementById("ifm-wk-kaart"); if (e) e.scrollTop = 0; }, 0);
+  }
+  wkStap(delta){
+    const W = window.IfWerkwijze, n = this.state.wkData ? this.state.wkData.dias.length : 0;
+    if (W && n) this.wkNaar(W.stap(this.state.wkIdx || 0, delta, n));
+  }
+  // Tik op het dia-vlak: linkerhelft vorige, rechterhelft volgende. Een tik op een link of knop in de dia doet dat zelf.
+  wkKlik(e){
+    const W = window.IfWerkwijze;
+    if (!W || !e) return;
+    if (this._wkVeegT && Date.now() - this._wkVeegT < 600) return;
+    const t = e.target;
+    try { if (t && t.closest && t.closest("a,button")) return; } catch(x){}
+    const r = e.currentTarget.getBoundingClientRect();
+    this.wkStap(W.tikRichting(e.clientX - r.left, r.width) === "vorige" ? -1 : 1);
+  }
+  wkToets(e){
+    if (!e) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); this.wkStap(1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); this.wkStap(-1); }
+  }
+  wkTouchStart(e){
+    const t = e && e.touches && e.touches[0];
+    this._wkT0 = t ? {x:t.clientX, y:t.clientY} : null;
+  }
+  wkTouchEnd(e){
+    const W = window.IfWerkwijze, t = e && e.changedTouches && e.changedTouches[0], b = this._wkT0;
+    this._wkT0 = null;
+    if (!W || !t || !b) return;
+    const r = W.veegRichting(t.clientX - b.x, t.clientY - b.y);
+    if (!r) return;
+    this._wkVeegT = Date.now();
+    this.wkStap(r === "vorige" ? -1 : 1);
+  }
+  wkVals(){
+    const st = this.state, W = window.IfWerkwijze, is = st.screen === "werkwijze";
+    const data = is && st.wkStatus === "klaar" ? st.wkData : null;
+    const n = data ? data.dias.length : 0, i = data && W ? W.klem(st.wkIdx || 0, n) : 0;
+    const vorigeUit = i === 0, laatste = n > 0 && i === n - 1;
+    const base = {
+      isWerkwijze: is, wkLaadt: is && st.wkStatus === "laden", wkFout: is && st.wkStatus === "fout", wkKlaar: !!data, wkOpnieuw: () => this.wkLaad(),
+      wkKlik: e => this.wkKlik(e), wkToets: e => this.wkToets(e), wkTouchStart: e => this.wkTouchStart(e), wkTouchEnd: e => this.wkTouchEnd(e),
+      wkVorige: () => this.wkStap(-1), wkVolgende: () => this.wkStap(1), wkVanaf: () => this.wkNaar(0),
+      wkVorigeUit: vorigeUit ? "true" : "false", wkIsLaatste: laatste, wkNietLaatste: !laatste,
+      wkVorigeStijl: "width:48px;height:48px;flex:none;border:0;border-radius:24px;background:#EBD3CD;color:#800000;font:600 18px/1 Poppins,system-ui,sans-serif;cursor:pointer;opacity:" + (vorigeUit ? ".45" : "1"),
+      wkSegmenten: [], wkVoortgangAria: "", wkAria: "", wkTeller: "", wkKaartStijl: "",
+      wkDia: {heeftOog:false, oog:"", oogStijl:"", titel:"", titelStijl:"", blokken:[]}
+    };
+    if (!data || !W) return base;
+    const d = data.dias[i], br = d.kleur === "bordeaux";
+    const TEKST = br ? "#F1E4DE" : "#3D302C", KOP = br ? "#FFFFFF" : "#800000", KLEIN = br ? "#F1E4DE" : "#6B5A54";
+    const KAART_BG = br ? "#800000" : d.kleur === "wit" ? "#FBF8F4" : "#F7F1EC";
+    const ITEM_BG = br ? "#FBF8F4" : d.kleur === "wit" ? "#F5F0EB" : "#FBF8F4";
+    const CHIP = {aaa:["#15803D", "#FFFFFF"], aa:["#1D4ED8", "#FFFFFF"], a:["#CA8A04", "#2A1A17"]};
+    const VLAK = {roze:"#F3E3DF", roos:"#EBD3CD"};
+    const blokken = d.blokken.map(b => {
+      const o = {isTekst:false, isKaarten:false, isRijen:false, isLijst:false, isBand:false, isPeil:false, isReeks:false, isKnop:false, omStijl:"display:flex;flex-direction:column", stijl:"", items:[]};
+      if (b.soort === "tekst") {
+        o.isTekst = true; o.tekst = b.tekst;
+        o.stijl = b.klein ? "margin:0;font:400 13px/1.55 Mulish;color:" + KLEIN : "margin:0;font:400 15.5px/1.6 Mulish;color:" + TEKST;
+      } else if (b.soort === "kaarten") {
+        o.isKaarten = true;
+        const twee = b.kolommen === 2, inItem = b.licht || !br ? "#3D302C" : TEKST;
+        o.stijl = twee ? "display:grid;grid-template-columns:1fr 1fr;gap:8px" : "display:flex;flex-direction:column;gap:8px";
+        o.items = (b.items || []).map((k, j, alle) => ({
+          stijl: "box-sizing:border-box;padding:12px 14px;border-radius:14px;background:" + ITEM_BG + ";border:1px solid " + (br ? "transparent" : "#E2D6CC") + ";display:flex;gap:12px;align-items:flex-start;flex-direction:" + (twee ? "column" : "row"),
+          heeftGetal: !!k.getal, getal: k.getal || "",
+          getalStijl: twee ? "font:600 26px/1.1 Poppins,system-ui,sans-serif;color:#800000" : "flex:none;min-width:58px;font:600 28px/1.1 Poppins,system-ui,sans-serif;color:#800000",
+          kop: k.kop || "", kopStijl: "font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#800000;overflow-wrap:anywhere",
+          tekst: k.tekst || "", tekstStijl: "margin:4px 0 0;font:400 14px/1.5 Mulish;color:" + inItem,
+          heeftKlein: !!k.klein, klein: k.klein || "", kleinStijl: "margin:6px 0 0;font:400 12.5px/1.45 Mulish;color:#6B5A54",
+          heeftPijl: !!b.pijl && j < alle.length - 1
+        }));
+      } else if (b.soort === "rijen") {
+        o.isRijen = true;
+        const vlak = b.vlak ? VLAK[b.vlak] : "";
+        o.stijl = vlak ? "display:flex;flex-direction:column;gap:6px;padding:10px 14px;border-radius:14px;background:" + vlak : "display:flex;flex-direction:column";
+        o.items = (b.items || []).map((r, j, alle) => {
+          const c = CHIP[r.toon] || CHIP.a;
+          return {
+            stijl: "display:flex;gap:12px;align-items:flex-start;" + (vlak ? "" : "padding:9px 0;" + (j < alle.length - 1 ? "border-bottom:1px solid #E2D6CC" : "")),
+            heeftNr: !!r.nr, nr: r.nr || "", heeftChip: !!r.chip, chip: r.chip || "",
+            chipStijl: "flex:none;min-width:44px;box-sizing:border-box;text-align:center;font:600 12.5px/1 Poppins,system-ui,sans-serif;border-radius:999px;padding:5px 11px;background:" + c[0] + ";color:" + c[1],
+            heeftKop: !!r.kop, kop: r.kop || "", tekst: r.tekst || "",
+            tekstStijl: "margin:" + (r.kop ? "2px" : "0") + " 0 0;font:400 14px/1.5 Mulish;color:#3D302C"
+          };
+        });
+      } else if (b.soort === "lijst") {
+        o.isLijst = true; o.stijl = "display:flex;flex-direction:column"; o.items = b.items || [];
+      } else if (b.soort === "band") {
+        o.isBand = true; o.label = b.label || ""; o.tekst = b.tekst || "";
+        o.stijl = "box-sizing:border-box;padding:10px 14px;border-radius:14px;background:" + (VLAK[b.vlak] || VLAK.roze) + (b.midden ? ";text-align:center;margin:0 10px" : "");
+        o.tekstStijl = "margin:0;font:400 14px/1.5 Mulish;color:#3D302C";
+        o.labelStijl = "font-weight:700;color:" + (b.vlak === "roos" ? "#3D302C" : "#800000");
+      } else if (b.soort === "peil") {
+        o.isPeil = true; o.naam = b.naam || "PEIL"; o.tegels = b.tegels || []; o.regels = (b.regels || []).map(t => ({tekst:t}));
+      } else if (b.soort === "reeks") {
+        o.isReeks = true; o.items = b.items || []; o.staart = b.staart || "";
+        o.stijl = "box-sizing:border-box;padding:10px 14px;border-radius:14px;background:" + (VLAK[b.vlak] || VLAK.roze);
+      } else if (b.soort === "knop") {
+        o.isKnop = true; o.label = b.label || "";
+        const u = b.url === "@abonnement" ? (window.IfAbonnee ? window.IfAbonnee.abonneeUrl(st.cat) : "") : b.url === "@manifest" ? data.manifestUrl : b.url;
+        o.url = W.urlOk(u); o.heeftUrl = !!o.url;
+        const basis = "box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;cursor:pointer;";
+        o.stijl = b.stijl === "licht" ? basis + "min-height:52px;padding:0 18px;border-radius:999px;background:#FBF8F4;color:#800000;font:600 16px/1.2 Poppins,system-ui,sans-serif"
+          : b.stijl === "link" ? basis + "min-height:44px;padding:0 12px;color:" + (br ? "#F1E4DE" : "#800000") + ";font:600 14px/1.3 Mulish;text-decoration:underline"
+          : basis + "min-height:48px;padding:0 20px;border-radius:999px;background:#800000;color:#fff;font:600 15px/1.2 Poppins,system-ui,sans-serif";
+        if (b.onderaan) o.omStijl += ";margin-top:auto";
+      }
+      return o;
+    });
+    return Object.assign(base, {
+      wkSegmenten: W.segmenten(i, n).map(s => ({bg: s.gevuld ? "#800000" : "#E2D6CC"})),
+      wkVoortgangAria: "Dia " + (i + 1) + " van " + n,
+      wkAria: "Dia " + (i + 1) + " van " + n + ": " + d.titel + ". Tik rechts of gebruik de knop voor de volgende dia.",
+      wkTeller: W.teller(i, n) + (i === 0 ? " · tik of veeg" : ""),
+      wkKaartStijl: "flex:1;min-height:0;margin:0 12px;box-sizing:border-box;border-radius:20px;padding:16px 16px 16px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;display:flex;flex-direction:column;gap:9px;" + (d.midden ? "justify-content:center;" : "") + "background:" + KAART_BG + ";border:1px solid " + (br ? "#800000" : "#E2D6CC"),
+      wkDia: {heeftOog: !!d.oog, oog: d.oog, oogStijl: "margin:0;font:600 12px/1.4 Poppins,system-ui,sans-serif;letter-spacing:.1em;color:" + (br ? "#F1E4DE" : "#800000"),
+        titel: d.titel, titelStijl: "margin:0;font:600 " + (d.midden ? 30 : d.kleinTitel ? 24 : 24) + "px/1.2 Poppins,system-ui,sans-serif;color:" + KOP, blokken}
+    });
+  }
+
   // ---- Onze sponsors (sponsors.json + sponsors/, geen tellers, geen tracking) ----------------------
   // Elke opening schudt de volgorde (Fisher-Yates). Wisselende banners lopen op tijd uit een ticker die
   // stopt zodra het scherm verlaten wordt; bij beperkte beweging staat alleen het eerste beeld.
@@ -7703,6 +7989,7 @@ class Component extends DCLogic {
       case "meldingen": this.mdOpen("zoek"); break;
       case "infofr": this.ifOpen(); this.setState({from:"zoek"}); break;
       case "sponsors": this.sponsorsOpen(); this.setState({from:"zoek"}); break;
+      case "werkwijze": this.wkOpen("zoek"); break;
       case "acc": this.menuNaar({screen:"acc", from:"zoek", plVan:true}); break;
       case "keuze": this.menuNaar({screen:"keuze", from:"zoek"}); break;
       case "over": this.menuNaar({screen:"over", from:"zoek"}); break;
@@ -7877,6 +8164,7 @@ class Component extends DCLogic {
   }
   go(s, qStart){ this.stopPiramide(); if (s === "zoek") { this.laadZoekindexen(); this.laadKalenderZoek(); } if (s === "act") s = "nieuws";
     if (s === "sponsors") return this.sponsorsOpen();
+    if (s === "werkwijze") return this.wkOpen("hub");
     if (s === "meldingen") return this.mdOpen("hub");
     if (s === "klusarchief") return this.kaOpen(this.vindModule("klusforum"), "hub");
     if (s === "kalender") return this.kalOpen(this.vindModule("kalender"), "hub");
@@ -8444,6 +8732,11 @@ class Component extends DCLogic {
         out.push({kind:"GIDS", fr:l.titel, nl:l.regel || "", where:"Nedergids",
           open:() => { this.setState({q:""}); if (l.extern || !(window.IfArtikel && window.IfArtikel.isInApp(l.url))) window.open(l.url, "_blank", "noopener"); else this.openInfoArtikel(l.url); }});
     });
+    // Zo werken wij (de twaalf dia's over hoe Infopoche, Café Claude en Peil cijfers controleren) heeft geen module; werkwijzeZoek in modules.json is de zoekregel.
+    const wz = (this.state.cat || {}).werkwijzeZoek;
+    if (wz && wz.titel && woorden.every(w => norm(wz.woorden + " " + wz.titel).includes(w)))
+      out.push({kind:"UITLEG", fr:wz.titel, nl:wz.regel || "", where:"Over InfoPoche",
+        open:() => { this.setState({q:""}); this.wkOpen("zoek"); }});
     this.zoekindexTreffers(q).forEach(r => out.push(r));
     this.laadKalenderZoek();
     this.kalenderZoekTreffers(q).forEach(r => out.push(r));
@@ -8607,9 +8900,9 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", meldingen:"Meldingen", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", werkwijze:"Zo werken wij", meldingen:"Meldingen", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, sponsors:"Communities Abroad", meldingen:"Herinneringen uit Kalender Frankrijk", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
+    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, werkwijze:"Hoe wij cijfers controleren", sponsors:"Communities Abroad", meldingen:"Herinneringen uit Kalender Frankrijk", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
       over:"Profiel",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
@@ -8664,6 +8957,7 @@ class Component extends DCLogic {
       ...this.aiVals(),
       ...this.lmVals(),
       ...this.spVals(),
+      ...this.wkVals(),
       ...this.mdVals(),
       ...this.tkVals(),
       ...this.hyVals(),
@@ -8691,6 +8985,7 @@ class Component extends DCLogic {
       mnKeuze: () => this.menuNaar({screen:"keuze", from:"hub"}),
       mnOver: () => this.menuNaar({screen:"over", from:"hub"}),
       mnSponsors: () => this.sponsorsOpen(),
+      overWerkwijze: () => this.wkOpen("over"),
       mnMeldingen: () => this.mdOpen("hub"), mnIcoMeldingen: this.iconStyle("bel", 24) + ";color:#800000",
       mnIcoSponsors: this.iconStyle("ster", 24) + ";color:#800000",
       mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),

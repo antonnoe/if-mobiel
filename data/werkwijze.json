@@ -1,0 +1,191 @@
+{
+  "_uitleg": "Het scherm Zo werken wij (14-11-2026): twaalf dia's die uitleggen hoe Infopoche, Café Claude en Peil samen elk cijfer controleren. De lezer klikt zelf door; niets speelt vanzelf. Elke dia: kleur (bordeaux, wit of licht), oog (klein label), titel en blokken. Soorten blokken: tekst, kaarten (met optioneel getal en pijl), rijen (met optioneel nr of chip), lijst (naam en waarde), band, peil, reeks en knop. Alle teksten staan hier, in je-vorm, zonder lange streepjes. De abonneeknop gebruikt abonnement.url uit modules.json.",
+  "stand": "14 november 2026",
+  "manifestUrl": "https://infofrankrijk.com/ons-manifest-hoe-wij-werken/",
+  "dias": [
+    {
+      "id": "cover", "kleur": "bordeaux", "midden": true,
+      "oog": "CAFÉ CLAUDE · PEIL · STAND {stand}",
+      "titel": "Zo controleren wij elk cijfer",
+      "blokken": [
+        { "soort": "tekst", "tekst": "Peil is het groeiende register van bedragen, tarieven en termijnen, én van de rekenregels die ermee rekenen. Beide toetsen wij op vaste momenten bij de bron." }
+      ]
+    },
+    {
+      "id": "basis", "kleur": "licht",
+      "oog": "TWEE BOUWSTENEN",
+      "titel": "Een assistent, en een register van cijfers en formules",
+      "blokken": [
+        { "soort": "kaarten", "kolommen": 1, "items": [
+          { "getal": "653", "kop": "Café Claude", "tekst": "Bewaarde, gekeurde antwoorden in zes domeinen: ondernemen, geld, wonen, bureaucratie, verzekeren en zorg." },
+          { "getal": "292", "kop": "Peil · waarden", "tekst": "Vastgestelde bedragen, tarieven, drempels en termijnen NL en FR, elk met primaire bron en verificatiedatum." },
+          { "getal": "149", "kop": "Peil · rekenregels", "tekst": "Vastgestelde berekeningsgrondslagen: welke stappen, in welke volgorde, met welke waarden." }
+        ] },
+        { "soort": "tekst", "klein": true, "tekst": "Peil 1.18.1: 332 waarden en 167 rekenregels in totaal. Wat nog in onderzoek is of een schatting, gaat nooit als vastgesteld naar buiten." }
+      ]
+    },
+    {
+      "id": "zandloper", "kleur": "wit",
+      "titel": "Veel bronnen, één register, alle tools",
+      "blokken": [
+        { "soort": "rijen", "vlak": "roze", "items": [
+          { "chip": "AAA", "toon": "aaa", "tekst": "de overheid zelf: impots.gouv.fr, service-public.fr, Belastingdienst" },
+          { "chip": "AA", "toon": "aa", "tekst": "erkende instanties: Urssaf, Ameli, notaires.fr" },
+          { "chip": "A", "toon": "a", "tekst": "consumentenorganisaties" }
+        ] },
+        { "soort": "band", "midden": true, "vlak": "roos", "label": "Zwarte lijst:", "tekst": "commerciële sites en social media" },
+        { "soort": "peil", "naam": "PEIL", "tegels": [
+          { "getal": "292", "label": "waarden" },
+          { "getal": "149", "label": "rekenregels" },
+          { "getal": "2×", "label": "gecontroleerd" }
+        ], "regels": [ "✓ Kind per ouder · 100.000 € · art. 779 I CGI", "↻ Bronnen elke 2 maanden" ] },
+        { "soort": "band", "midden": true, "vlak": "roos", "label": "Voor jou:", "tekst": "elke tool rekent met dezelfde cijfers" },
+        { "soort": "reeks", "vlak": "roze", "items": [
+          { "naam": "Café Claude", "regel": "vraag en antwoord" },
+          { "naam": "Financieel Kompas", "regel": "fiscaal" },
+          { "naam": "Vastgoedtransacties", "regel": "koopkosten" },
+          { "naam": "ZorgKompas", "regel": "zorgverzekering" }
+        ], "staart": "en acht andere" }
+      ]
+    },
+    {
+      "id": "kringloop", "kleur": "wit",
+      "oog": "DE KRINGLOOP",
+      "titel": "Jij, Café Claude en Peil",
+      "blokken": [
+        { "soort": "kaarten", "kolommen": 1, "pijl": true, "items": [
+          { "kop": "Jij", "tekst": "Kiest een onderwerp en ziet het antwoord met Inhoud, Vorm, Bronnen en Peil-stempel." },
+          { "kop": "Café Claude", "tekst": "Haalt het gekeurde antwoord op, of schrijft en keurt een nieuw." },
+          { "kop": "Peil", "tekst": "Levert de vastgestelde cijfers, met bron en datum." }
+        ] },
+        { "soort": "band", "vlak": "roze", "label": "Heen", "tekst": "Vraag → Café Claude → dezelfde Peil-waarden bij schrijver én auditor → antwoord met stempel." },
+        { "soort": "band", "vlak": "roze", "label": "Terug", "tekst": "Peil wijzigt → antwoord vervalt en wordt opnieuw gemaakt · auditor vindt iets → onderhoud Peil." }
+      ]
+    },
+    {
+      "id": "heen", "kleur": "licht",
+      "oog": "HEEN: VAN KLIK TOT ANTWOORD",
+      "titel": "Vijf stappen tot een bewaard antwoord",
+      "blokken": [
+        { "soort": "rijen", "items": [
+          { "nr": "1", "kop": "Klikroute", "tekst": "Domein, onderwerp en hooguit drie korte vragen maken de vraag precies." },
+          { "nr": "2", "kop": "Bewaard?", "tekst": "Een bewaard antwoord wordt eerst getoetst aan de huidige Peil-waarden." },
+          { "nr": "3", "kop": "Schrijven", "tekst": "Nieuw antwoord met 104 vaste Peil-waarden in de opdracht, en zoeken in officiële bronnen." },
+          { "nr": "4", "kop": "Vorm", "tekst": "Acht automatische controles: bronnen, bronrang, blacklist, beknoptheid, vervolgopties, termen, jurisdictie." },
+          { "nr": "5", "kop": "Inhoud", "tekst": "De auditor toetst bedragen, termijnen, wetsartikelen en bronnen, met dezelfde Peil-waarden. Alleen 8/10 of hoger wordt bewaard." }
+        ] },
+        { "soort": "tekst", "klein": true, "tekst": "Onder elk antwoord met een Peil-waarde staat de Peil-stempel: welke waarden, welke stand, met link naar het manifest." }
+      ]
+    },
+    {
+      "id": "terug", "kleur": "wit",
+      "oog": "TERUG: PEIL STUURT BIJ",
+      "titel": "Verandert een cijfer, dan het antwoord ook",
+      "blokken": [
+        { "soort": "kaarten", "kolommen": 1, "items": [
+          { "kop": "Peil wijzigt een waarde", "tekst": "Elk bewaard antwoord draagt een vingerafdruk van de Peil-waarden die erin staan. Wijkt die af, dan vervalt het antwoord en wordt het opnieuw gemaakt en gekeurd.", "klein": "Code, geen taalmodel: deterministisch en zonder netwerk." },
+          { "kop": "Een bekende, verouderde waarde", "tekst": "Een vaste lijst van 39 regels met weerlegde of verouderde waarden. Een nieuw antwoord dat er één bevat, wordt niet opgeslagen.", "klein": "De lijst groeit bij elke ijking van Peil." },
+          { "kop": "De auditor vindt iets", "tekst": "Ziet de auditor dat Peil zelf bijgewerkt moet worden, dan wordt dat een bevinding voor Peil-onderhoud.", "klein": "Peil wijzigt nooit zelf een waarde: een signaal zegt alleen: kijk hier opnieuw." }
+        ] }
+      ]
+    },
+    {
+      "id": "nieuw", "kleur": "licht",
+      "oog": "VANAF MEDIO NOVEMBER",
+      "titel": "Strakkere verificatie, in zes controles",
+      "blokken": [
+        { "soort": "rijen", "items": [
+          { "kop": "Koppeling per antwoord", "tekst": "259 antwoorden met een Peil-waarde vervallen als Peil die wijzigt." },
+          { "kop": "Peil-poort", "tekst": "Geen opslag van een nieuw antwoord met een bekende verouderde waarde." },
+          { "kop": "Diagnoserun eerst", "tekst": "Meer dan tien antwoorden tegelijk: eerst een proefrun, dan pas opslaan." },
+          { "kop": "Terugleescontrole", "tekst": "Na opslaan getoetst: je krijgt echt de nieuwe tekst." },
+          { "kop": "Passagecontrole", "tekst": "Een feitelijk veto telt alleen met een letterlijk citaat uit een officiële bron." },
+          { "kop": "Kostenregistratie", "tekst": "Elke modelaanroep gelogd, met dagrapport en alarm bij een piek." }
+        ] },
+        { "soort": "tekst", "klein": true, "tekst": "Afgedwongen in de code, niet alleen afgesproken." }
+      ]
+    },
+    {
+      "id": "keuring", "kleur": "wit",
+      "oog": "DE KEURINGSRONDE VAN NOVEMBER",
+      "titel": "Bestaande antwoorden opnieuw nagekeken",
+      "blokken": [
+        { "soort": "kaarten", "kolommen": 1, "items": [
+          { "getal": "540", "kop": "antwoorden nagekeurd", "tekst": "Los van de auditor nagekeken, met een vast protocol en drie oordelen: goed, klein gebrek, afkeur." },
+          { "getal": "40", "kop": "punten in de klikroute", "tekst": "Vragen en keuzes nagelopen: een goede vraag is de basis van een goed antwoord." },
+          { "getal": "3×", "kop": "onder 8/10? Eerst de vraag", "tekst": "Zakt een onderwerp drie keer onder 8/10, dan gaat eerst de klikroute op de schop, pas daarna wordt er opnieuw geschreven." }
+        ] },
+        { "soort": "tekst", "klein": true, "tekst": "Elke afkeur is onderbouwd met een primaire bron, zoals service-public.fr, Légifrance-artikelen of het belastingverdrag NL-FR." }
+      ]
+    },
+    {
+      "id": "kwaliteit", "kleur": "licht",
+      "oog": "OPENBAAR KWALITEITSDASHBOARD",
+      "titel": "Iedereen kan meekijken",
+      "blokken": [
+        { "soort": "kaarten", "kolommen": 2, "items": [
+          { "getal": "9,6", "kop": "gemiddelde Vorm", "tekst": "op 10, over 653 bewaarde antwoorden" },
+          { "getal": "120", "kop": "onderwerpen", "tekst": "met minstens één bewaard antwoord" },
+          { "getal": "3.025", "kop": "officiële bronnen", "tekst": "Franse en Nederlandse overheid (AAA) geraadpleegd" },
+          { "getal": "0", "kop": "blacklist-bronnen", "tekst": "geen enkele, op bijna 12.000 geraadpleegde bronnen" }
+        ] },
+        { "soort": "band", "vlak": "roze", "label": "Houdbaarheid", "tekst": "Bedragen en deadlines: 6 maanden. Procedures: 12 maanden. Principes: 24 maanden. Daarna opnieuw verifiëren." },
+        { "soort": "knop", "label": "Bekijk het dashboard ↗", "url": "https://www.cafeclaude.fr/kwaliteit", "stijl": "vol" }
+      ]
+    },
+    {
+      "id": "tools", "kleur": "wit",
+      "oog": "PEIL VOEDT HET HELE NETWERK VAN PLATFORMS",
+      "titel": "Elf tools rekenen met dezelfde cijfers",
+      "blokken": [
+        { "soort": "lijst", "items": [
+          { "naam": "Financieel Kompas", "waarde": "81 bedragen" },
+          { "naam": "Ouderenzorg FR", "waarde": "12 bedragen" },
+          { "naam": "Vastgoedtransacties in Frankrijk", "waarde": "22 bedragen" },
+          { "naam": "ZorgKompas Frankrijk", "waarde": "12 bedragen" },
+          { "naam": "Erf- en schenkingsrecht NL/FR", "waarde": "17 bedragen" },
+          { "naam": "Erfrechtgids Frankrijk", "waarde": "8 bedragen" },
+          { "naam": "EnergiePortaal", "waarde": "15 bedragen" },
+          { "naam": "Franse Meerwaarde Calculator", "waarde": "8 bedragen" },
+          { "naam": "Briefhulp FR", "waarde": "14 bedragen" },
+          { "naam": "Subsidie-routeplanner energierenovatie", "waarde": "4 bedragen" },
+          { "naam": "Café Claude", "waarde": "104 waarden" },
+          { "naam": "GîteKompas FR", "waarde": "3 bedragen" }
+        ] },
+        { "soort": "tekst", "klein": true, "tekst": "Per tool ligt van elk bedrag vast: de bron, de datum van controle en de volgende controle." }
+      ]
+    },
+    {
+      "id": "ritme", "kleur": "licht",
+      "oog": "DE VERVERSINGSROUTINE",
+      "titel": "Een vast ritme, zodat niets stil veroudert",
+      "blokken": [
+        { "soort": "rijen", "items": [
+          { "kop": "Elke week", "tekst": "Op maandag worden alle bewaarde antwoorden doorzocht op bekende verouderde waarden." },
+          { "kop": "Bij elke Peil-versie", "tekst": "De Peil-kopie in Café Claude wordt bijgewerkt; gekoppelde antwoorden met een gewijzigde waarde vervallen." },
+          { "kop": "Elke twee maanden", "tekst": "De Peil-run legt de bronnen opnieuw naast het register en meldt wat afwijkt." },
+          { "kop": "Half april", "tekst": "IJkmoment Frankrijk: nieuwe barèmes en de Brochure pratique van het jaar." },
+          { "kop": "Half december", "tekst": "IJkmoment Nederland: tarieven en bedragen voor het nieuwe jaar." }
+        ] },
+        { "soort": "band", "vlak": "roze", "label": "Vandaag", "tekst": "Peil 1.18.1 in Café Claude: van 72 naar 104 waarden. Geen enkel bewaard antwoord vervallen." }
+      ]
+    },
+    {
+      "id": "slot", "kleur": "bordeaux",
+      "oog": "HOE WIJ WERKEN",
+      "titel": "De feiten en cijfers zijn geen bijzaak, ze zijn het product.",
+      "kleinTitel": true,
+      "blokken": [
+        { "soort": "tekst", "tekst": "Onder elk antwoord van Café Claude zie je:" },
+        { "soort": "kaarten", "kolommen": 2, "licht": true, "items": [
+          { "kop": "Inhoud", "tekst": "Klopt het? De auditor" },
+          { "kop": "Vorm", "tekst": "Acht controles" },
+          { "kop": "Bronnen", "tekst": "Met link en rang" },
+          { "kop": "Peil-stempel", "tekst": "Welke cijfers" }
+        ] },
+        { "soort": "knop", "label": "Abonnee worden", "url": "@abonnement", "stijl": "licht", "onderaan": true },
+        { "soort": "knop", "label": "Lees het hele manifest ↗", "url": "@manifest", "stijl": "link" }
+      ]
+    }
+  ]
+}

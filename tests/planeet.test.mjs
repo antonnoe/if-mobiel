@@ -97,7 +97,7 @@ test("zichtbare tekst: geen lange streepjes, geen u-vorm, korte regels", () => {
 // hier niet staat, dan faalt deze test: beslis dan waar het hoort (planeet.schermen in modules.json) of leg vast waarom niet.
 const OP_PLANEET = {
   mod: "scherm:allemodules", gemeente: "scherm:gemeente", hygiene: "scherm:hygiene", meldingen: "scherm:meldingen", infofr: "scherm:infofrankrijk",
-  sponsors: "scherm:sponsors", acc: "scherm:profiel", keuze: "scherm:mijnmodules", over: "scherm:overons", dossierdemo: "scherm:dossierdemo",
+  sponsors: "scherm:sponsors", werkwijze: "scherm:werkwijze", acc: "scherm:profiel", keuze: "scherm:mijnmodules", over: "scherm:overons", dossierdemo: "scherm:dossierdemo",
   // Schermen van een module: de module staat zelf op de planeet.
   gem: "module:forum", kalender: "module:kalender", brief: "module:briefuitleg", nedergids: "module:nedergids", klusarchief: "module:klusforum",
   tekoop: "module:tekoop", vastgoed: "module:vastgoed", zorg: "module:zorg", ruyter: "module:ruyter", energie: "module:energie", linklijst: "module:verenigingsbeheer",

@@ -12,7 +12,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const lees = (f) => readFileSync(join(root, f), 'utf8');
 
 const BESTANDEN = [
-  'index.html', 'modules.json', 'piramide.json', 'sponsors.json', 'manifest.webmanifest', 'dossier.js',
+  'index.html', 'modules.json', 'piramide.json', 'sponsors.json', 'data/werkwijze.json', 'manifest.webmanifest', 'dossier.js',
   'data/dossier-demo.json', 'data/streek-verhalen.ts', 'kennispiramide.html', 'Bosbranden Mobiel.html',
   ...readdirSync(root).filter((f) => /-lib\.js$/.test(f)),
 ];

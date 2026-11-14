@@ -3,8 +3,8 @@
 // openen een hoofdscherm; #/klusarchief/<cijfers> opent een draad van het Klusarchief; #/kalender en #/kalender/<id> openen Kalender Frankrijk, het laatste met dat item open; #/infofrankrijk opent het scherm Infofrankrijk;
 // #/gemeente/<postcode> (5 cijfers) opent Mijn gemeente en zoekt direct op die postcode, voor delen (13-11-2026). Alles anders (ook een kapotte of onbekende hash) valt terug op de hub.
 (function (root) {
-  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", meldingen: "meldingen", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofrankrijk: "infofr", gemeente: "gemeente", brief: "brief" };
-  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", meldingen: "meldingen", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofr: "infofrankrijk", gemeente: "gemeente", brief: "brief" };
+  var TOP = { nieuws: "nieuws", forum: "gem", profiel: "acc", zoek: "zoek", modules: "mod", sponsors: "sponsors", "zo-werken-wij": "werkwijze", meldingen: "meldingen", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofrankrijk: "infofr", gemeente: "gemeente", brief: "brief" };
+  var NAAR_HASH = { nieuws: "nieuws", gem: "forum", acc: "profiel", zoek: "zoek", mod: "modules", sponsors: "sponsors", werkwijze: "zo-werken-wij", meldingen: "meldingen", tekoop: "tekoop", klusarchief: "klusarchief", kalender: "kalender", infofr: "infofrankrijk", gemeente: "gemeente", brief: "brief" };
   var KALID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,119}$/;  // id van een item van Kalender Frankrijk
   var SLUG = /^[a-z0-9%][a-z0-9%_-]*$/;  // % voor procent-gecodeerde WordPress-slugs (%e2%87%84)
 

@@ -22,6 +22,12 @@
     "_uitleg": "De ene bestemming van elke abonnee-knop in de app (vaste abonneeblok, onderblad, muren). Een betere bestemming later is één wijziging hier.",
     "url": "https://infofrankrijk.com/abonnement/"
   },
+  "werkwijzeZoek": {
+    "_uitleg": "Zoekregel voor het scherm Zo werken wij (14-11-2026): het scherm heeft geen module in de catalogus en is daarom anders onvindbaar. Een match opent de twaalf dia's. Puur lokale data, geen netwerk.",
+    "woorden": "zo werken wij werkwijze manifest hoe wij werken controle controleren peil cafe claude kwaliteit bronnen auditor cijfers bedragen betrouwbaar",
+    "titel": "Zo werken wij",
+    "regel": "Twaalf dia's over hoe Café Claude en Peil elk cijfer controleren."
+  },
   "groepen": [
     {
       "id": "aankomen",
@@ -4424,6 +4430,7 @@
       { "id": "gemeente", "maan": "buurt", "titel": "Mijn gemeente", "regel": "Risico's, belasting, water en afval voor jouw gemeente.", "bron": "ng", "doel": "gemeente" },
       { "id": "hygiene", "maan": "buurt", "titel": "Hygiënecontroles", "regel": "Restaurants en winkels bij je postcode.", "bron": "ng", "doel": "hygiene" },
       { "id": "sponsors", "maan": "samen", "titel": "Onze sponsors", "regel": "Wie InfoPoche mogelijk maken.", "bron": "nl", "doel": "sponsors" },
+      { "id": "werkwijze", "maan": "app", "titel": "Zo werken wij", "regel": "Twaalf dia's over hoe Café Claude en Peil elk cijfer controleren.", "bron": "ip", "doel": "werkwijze" },
       { "id": "profiel", "maan": "app", "titel": "Profiel", "regel": "Je voorkeuren en wat er op dit toestel staat.", "bron": "ip", "doel": "acc" },
       { "id": "mijnmodules", "maan": "app", "titel": "Mijn modules", "regel": "Kies welke modules je ziet.", "bron": "ip", "doel": "keuze" },
       { "id": "allemodules", "maan": "app", "titel": "Alle modules", "regel": "Alles op een rij, per onderwerp.", "bron": "ip", "doel": "mod" },
