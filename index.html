@@ -8163,6 +8163,7 @@ class Component extends DCLogic {
     try { localStorage.setItem("ifm_stand", s); } catch(e){}
     this.setState(naarHub === false ? {stand:s} : {stand:s, screen:"hub"});
   }
+  hubZoekGa(v){ v = v || ""; if (v) { this.zoekArtikelen(v); this.zoekKlusarchief(v); } this.go("zoek", v); }
   go(s, qStart){ this.stopPiramide(); if (s === "zoek") { this.laadZoekindexen(); this.laadKalenderZoek(); } if (s === "act") s = "nieuws";
     if (s === "sponsors") return this.sponsorsOpen();
     if (s === "werkwijze") return this.wkOpen("hub");
@@ -9145,7 +9146,6 @@ class Component extends DCLogic {
       // Zoekloket Eenvoudig (13-11-2026): een echt typbaar veld, geen knop. Zodra je typt (of focust), spring je naar
       // het volledige zoekscherm met je tekst al erin, in plaats van eerst te moeten klikken en opnieuw te typen.
       onHubQ: e => { this.setState({q:e.target.value}); },
-      hubZoekGa: v => { v = v || ""; if (v) { this.zoekArtikelen(v); this.zoekKlusarchief(v); } this.go("zoek", v); },
       onHubQEnter: e => { if (e.key !== "Enter") return; this.hubZoekGa(e.target.value); },
       onHubZoek: () => { const el = document.getElementById("hubq") || document.getElementById("hubq2"); this.hubZoekGa(el ? el.value : this.state.q); },
       goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
