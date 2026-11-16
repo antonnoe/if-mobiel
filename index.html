@@ -39,6 +39,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./planeet-lib.js"></script>
 <script src="./hygiene-lib.js"></script>
 <script src="./gemeente-lib.js"></script>
+<script src="./nedergids-lib.js"></script>
 <script src="./feedback-lib.js"></script>
 <script src="./ondernemen-lib.js"></script>
 <script src="./nieuws-lib.js"></script>
@@ -2365,15 +2366,81 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
-<!-- ============ NEDERGIDS (kaartschil) ============ -->
+<!-- ============ NEDERGIDS (zoekscherm + kaartschil) ============ -->
 <sc-if value="{{ isNedergids }}" hint-placeholder-val="{{ false }}">
 <div>
   <div style="padding:18px 18px 0">
     <div style="font:700 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#800000">Wegwijzer · gratis te lezen</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1;margin:7px 0 0">Nedergids</h1>
-    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Vind particulieren en dienstverleners in Frankrijk.</p>
+    <p style="font-size:13.5px;line-height:1.75;color:#3D4346;margin:8px 0 0;text-wrap:pretty">Vind particulieren, ondernemers en instanties voor Nederlanders in Frankrijk, op postcode.</p>
+    <form onSubmit="{{ ngVerstuur }}" style="margin-top:14px;display:flex;gap:8px">
+      <input value="{{ ngPc }}" onInput="{{ ngOnPc }}" inputmode="numeric" autocomplete="postal-code" placeholder="Postcode, bijv. 24100" aria-label="Postcode" style="flex:1;min-width:0;min-height:52px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);border-radius:13px;padding:0 14px;font:700 17px Mulish;color:#15181A;background:#fff">
+      <button type="submit" style="flex:none;min-height:52px;padding:0 18px;border:0;border-radius:13px;background:{{ ngKnopBg }};color:{{ ngKnopFg }};font:700 15px Mulish;cursor:pointer">Zoek</button>
+    </form>
+    <button onClick="{{ ngGeoKlik }}" style="margin-top:8px;width:100%;min-height:48px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);background:#fff;color:#800000;font:700 14.5px Mulish;cursor:pointer">{{ ngGeoTekst }}</button>
+    <sc-if value="{{ ngHeeftGeoMelding }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0;font:600 13px/1.6 Mulish;color:#3D4346">{{ ngGeoMelding }}</p></sc-if>
   </div>
-  <div style="display:flex;flex-direction:column;gap:10px;padding:16px 14px 0">
+  <sc-if value="{{ ngLaadt }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:18px 18px 0;font:600 14px/1.6 Mulish;color:#5F6669">Nedergids wordt doorzocht...</div>
+  </sc-if>
+  <sc-if value="{{ ngFout }}" hint-placeholder-val="{{ false }}">
+  <div style="margin:18px 18px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De Nedergids is nu niet bereikbaar.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+      <button onClick="{{ ngOpnieuw }}" style="min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+      <a href="{{ ngSiteUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:13px;border:1.5px solid rgba(128,0,0,.35);color:#800000;font:700 14px Mulish;text-decoration:none">Naar Nedergids.nl ↗</a>
+    </div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ ngKlaar }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:14px 18px 0">
+    <sc-if value="{{ ngHeeftGemeenteKop }}" hint-placeholder-val="{{ false }}"><div style="font:600 12px/1.5 Poppins,system-ui,sans-serif;letter-spacing:.03em;color:#5F6669">{{ ngGemeenteKop }}</div></sc-if>
+    <sc-if value="{{ ngLeeg }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);font:600 14.5px/1.6 Mulish;color:#15181A">Voor deze postcode staat nog niemand in de Nedergids.</div></sc-if>
+    <sc-if value="{{ ngHeeftLokaal }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:12px">
+      <div style="font:700 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000">Bij jou in de buurt</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+        <sc-for list="{{ ngLokaalKaarten }}" as="k" hint-placeholder-count="2">
+        <div style="padding:14px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+            <div style="font:600 16px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ k.naam }}</div>
+            <sc-if value="{{ k.geverifieerd }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font:700 11.5px Mulish;color:#1B6B3A;background:#DDEFE3;padding:3px 8px;border-radius:999px;white-space:nowrap">✓ Geverifieerd</span></sc-if>
+          </div>
+          <sc-if value="{{ k.heeftRubriek }}" hint-placeholder-val="{{ true }}"><div style="margin-top:3px;font:600 12.5px/1.4 Mulish;color:#800000">{{ k.rubriek }}</div></sc-if>
+          <sc-if value="{{ k.heeftBeschrijving }}" hint-placeholder-val="{{ true }}"><div style="margin-top:6px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">{{ k.beschrijving }}</div></sc-if>
+          <div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:6px">
+            <sc-if value="{{ k.heeftPlaats }}" hint-placeholder-val="{{ true }}"><span style="font:500 12.5px/1.4 Mulish;color:#5F6669">{{ k.plaatsLabel }}</span></sc-if>
+            <sc-if value="{{ k.heeftBadge }}" hint-placeholder-val="{{ true }}"><span style="font:700 11.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#15181A">{{ k.werkgebiedLabel }}</span></sc-if>
+          </div>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ ngHeeftLandelijk }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:16px">
+      <div style="font:700 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000">Landelijk actief</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+        <sc-for list="{{ ngLandelijkKaarten }}" as="k" hint-placeholder-count="2">
+        <div style="padding:14px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+            <div style="font:600 16px/1.3 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ k.naam }}</div>
+            <sc-if value="{{ k.geverifieerd }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font:700 11.5px Mulish;color:#1B6B3A;background:#DDEFE3;padding:3px 8px;border-radius:999px;white-space:nowrap">✓ Geverifieerd</span></sc-if>
+          </div>
+          <sc-if value="{{ k.heeftRubriek }}" hint-placeholder-val="{{ true }}"><div style="margin-top:3px;font:600 12.5px/1.4 Mulish;color:#800000">{{ k.rubriek }}</div></sc-if>
+          <sc-if value="{{ k.heeftBeschrijving }}" hint-placeholder-val="{{ true }}"><div style="margin-top:6px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">{{ k.beschrijving }}</div></sc-if>
+          <div style="margin-top:9px"><span style="font:700 11.5px Mulish;padding:3px 8px;border-radius:999px;background:rgba(21,24,26,.06);color:#15181A">{{ k.werkgebiedLabel }}</span></div>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+  <div style="margin-top:28px;padding:0 18px">
+    <div style="font:700 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#5F6669">Ook op Nedergids</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:12px 14px 0">
     <a href="https://www.nedergids.nl" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids.nl</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">De bestaande gids met particulieren en dienstverleners</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F6669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
     <button onClick="{{ ngGemeente }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Mijn gemeente</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Risico's, belasting, mairie en meer voor je gemeente</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     <button onClick="{{ ngVerenigingen }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlandse verenigingen</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Welke verenigingen kun je in Frankrijk vinden</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -7022,6 +7089,73 @@ class Component extends DCLogic {
       hySiteUrl: H ? H.SITE_URL : "https://alimconfiance.agriculture.gouv.fr"
     };
   }
+  // ---- Nedergids V2: zoeken op postcode in de gelaagde database (nedergids-lib.js) ----
+  ngOpen(m, from){
+    const pc = this.state.postcode, ok = window.IfNg && window.IfNg.postcodeOk(pc);
+    this.setState({screen:"nedergids", tool: m || this.vindModule("nedergids"), q:"", menu:false, copied:null, from: from || this.state.screen,
+      ngPc: ok ? pc : (this.state.ngPc || ""),
+      ngStatus: this.state.ngStatus === "klaar" && ok && this.state.ngZocht === pc ? "klaar" : "",
+      ...(ok && this.state.ngZocht !== pc ? {ngLokaal:[], ngLandelijk:[], ngZocht:"", ngGemeenteNaam:""} : {})});
+    if (ok && this.state.ngZocht !== pc) this.ngZoek(pc);
+  }
+  ngZoek(pcArg){
+    const N = window.IfNg, Nv = window.IfNav, pc = pcArg || this.state.ngPc;
+    if (!N || !Nv || !N.postcodeOk(pc)) return;
+    this._ngTeller = this._ngTeller || Nv.maakTeller();
+    const tok = this._ngTeller.volgende();
+    this.setState({ngStatus:"laden"});
+    let ctl = null, timer = null;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 10000); } catch(e){ ctl = null; }
+    let f;
+    try { f = fetch(N.url(pc), ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"}); }
+    catch(e){ clearTimeout(timer); this.setState(prev => this._ngTeller.actueel(tok) ? {ngStatus:"fout"} : null); return; }
+    f.then(r => r.ok ? r.json() : Promise.reject(new Error("status " + r.status)))
+      .then(d => {
+        const l = N.lees(d);
+        if (!l) throw new Error("vorm");
+        this.setState(prev => this._ngTeller.actueel(tok) ? {ngStatus:"klaar", ngZocht:pc, ngGemeenteNaam:l.gemeente, ngLokaal:l.lokaal, ngLandelijk:l.landelijk} : null);
+      })
+      .catch(() => this.setState(prev => this._ngTeller.actueel(tok) ? {ngStatus:"fout"} : null))
+      .then(() => { if (timer) clearTimeout(timer); });
+  }
+  ngKaart(k){
+    return {naam:k.naam, beschrijving:k.beschrijving, heeftBeschrijving:!!k.beschrijving, rubriek:k.rubriek, heeftRubriek:!!k.rubriek,
+      plaatsLabel:k.plaatsLabel, heeftPlaats:!!k.plaatsLabel, werkgebiedLabel:k.werkgebiedLabel, heeftBadge:!!k.werkgebiedLabel, geverifieerd:!!k.geverifieerd};
+  }
+  ngVals(){
+    const st = this.state, N = window.IfNg, pcOk = !!(N && N.postcodeOk(st.ngPc));
+    const lokaal = st.ngLokaal || [], landelijk = st.ngLandelijk || [];
+    return {
+      ngPc: st.ngPc || "",
+      ngKnopBg: pcOk ? "#800000" : "rgba(128,0,0,.18)", ngKnopFg: pcOk ? "#fff" : "#5C0000",
+      ngOnPc: e => this.setState({ngPc: e.target.value.replace(/[^0-9]/g, "").slice(0, 5)}),
+      ngVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); if (pcOk) this.ngZoek(st.ngPc); },
+      ngGeoKlik: () => this.geoVraag("ng", pc => { this.setState({ngPc: pc}); this.ngZoek(pc); }),
+      ngGeoTekst: st.geoStatus === "zoekt" && st.geoWaar === "ng" ? "Locatie bepalen..." : "Gebruik mijn locatie",
+      ngHeeftGeoMelding: !!this.geoMelding("ng"), ngGeoMelding: this.geoMelding("ng"),
+      ngLaadt: st.ngStatus === "laden",
+      ngFout: st.ngStatus === "fout",
+      ngKlaar: st.ngStatus === "klaar",
+      ngOpnieuw: () => this.ngZoek(st.ngZocht || st.ngPc),
+      ngSiteUrl: N ? N.SITE_URL : "https://www.nedergids.nl",
+      ngHeeftGemeenteKop: st.ngStatus === "klaar" && !!st.ngGemeenteNaam,
+      ngGemeenteKop: st.ngGemeenteNaam ? "Resultaten voor " + st.ngGemeenteNaam : "",
+      ngLeeg: st.ngStatus === "klaar" && lokaal.length === 0 && landelijk.length === 0,
+      ngHeeftLokaal: lokaal.length > 0,
+      ngLokaalKaarten: lokaal.map(k => this.ngKaart(k)),
+      ngHeeftLandelijk: landelijk.length > 0,
+      ngLandelijkKaarten: landelijk.map(k => this.ngKaart(k)),
+      // Nedergids-kaarten: eerst wat al als tool in de app staat (GitHub Pages, Vercel), geen WordPress-pagina in een tabblad
+      ngVerenigingen: () => this.route(this.vindModule("verenigingen")),
+      ngHygiene: () => this.hyOpen(),
+      ngGemeente: () => this.gmOpen(),
+      ngOverheden: () => this.route(this.vindModule("overhedenbuurt")),
+      // Vindpagina's van Infofrankrijk (registers, adressenboek, loketten) horen bij Nedergids (besluit 10-11-2026); lijst in modules.json.
+      ngLinks: ((this.state.cat && this.state.cat.nedergidsLinks) || []).filter(l => l && l.titel && /^https:\/\//.test(l.url || "")).map(l => ({titel: l.titel, regel: l.regel || "", url: l.url,
+        extern: !!l.extern || !(window.IfArtikel && window.IfArtikel.isInApp(l.url)), inApp: !l.extern && !!(window.IfArtikel && window.IfArtikel.isInApp(l.url)), open: () => this.openInfoArtikel(l.url)})),
+      ngExtra: this.alleMods().filter(m => m.ookNedergids === true && m.zichtbaar !== false).map(m => ({naam: m.naam, meta: m.meta || "", ontw: this.inOntw(m), open: () => this.route(m)}))
+    };
+  }
   tkLaad(){
     const A = window.IfAdv, Nv = window.IfNav;
     if (!A || !Nv) { this.setState({tkStatus:"fout"}); return; }
@@ -8194,7 +8328,7 @@ class Component extends DCLogic {
     const from = this.state.screen;
     if (m.kind === "forum") return this.setState({screen:"gem", gemTab:"ber", q:""});
     if (m.kind === "actueel") return this.openNieuwsOverzicht(false);
-    if (m.kind === "nedergids") return this.setState({screen:"nedergids", tool:m, q:"", from});
+    if (m.kind === "nedergids") return this.ngOpen(m, from);
     if (m.kind === "linklijst") return this.setState({screen:"linklijst", tool:m, q:"", from});
     if (m.kind === "klusarchief") return this.kaOpen(m, from);
     if (m.kind === "kalender") return this.kalOpen(m, from);
@@ -9105,16 +9239,7 @@ class Component extends DCLogic {
       vgVoorbehoud: vg.voorbehoud || "",
       vgReken: () => this.route(this.vindModule("transactiekosten"), "vastgoed"),
       vgHeeftReken: this.zichtbaarNu(this.vindModule("transactiekosten")),
-      goNedergids: () => this.route(this.vindModule("nedergids")),
-      // Nedergids-kaarten: eerst wat al als tool in de app staat (GitHub Pages, Vercel), geen WordPress-pagina in een tabblad
-      ngVerenigingen: () => this.route(this.vindModule("verenigingen")),
-      ngHygiene: () => this.hyOpen(),
-      ngGemeente: () => this.gmOpen(),
-      ngOverheden: () => this.route(this.vindModule("overhedenbuurt")),
-      // Vindpagina's van Infofrankrijk (registers, adressenboek, loketten) horen bij Nedergids (besluit 10-11-2026); lijst in modules.json.
-      ngLinks: ((this.state.cat && this.state.cat.nedergidsLinks) || []).filter(l => l && l.titel && /^https:\/\//.test(l.url || "")).map(l => ({titel: l.titel, regel: l.regel || "", url: l.url,
-        extern: !!l.extern || !(window.IfArtikel && window.IfArtikel.isInApp(l.url)), inApp: !l.extern && !!(window.IfArtikel && window.IfArtikel.isInApp(l.url)), open: () => this.openInfoArtikel(l.url)})),
-      ngExtra: this.alleMods().filter(m => m.ookNedergids === true && m.zichtbaar !== false).map(m => ({naam: m.naam, meta: m.meta || "", ontw: this.inOntw(m), open: () => this.route(m)})),
+      ...this.ngVals(),
       isOver: st.screen === "over",
       ...this.artVals(),
       ...this.abVals(),
