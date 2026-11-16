@@ -1,21 +1,44 @@
-// Nedergids-scherm (28-10-2026): vier kaarten, één V2-regel, geen filters, sitelijst of aanmeldblok. Draaien: node --test tests/nedergids.test.mjs
+// Nedergids-scherm: zoekveld op de live Nedergids-API (16-11-2026), plus de bestaande kaarten
+// als vaste sectie "Ook op Nedergids" onder de zoekresultaten. Draaien: node --test tests/nedergids.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 const lees = f => readFileSync(new URL("../" + f, import.meta.url), "utf8");
 const html = lees("index.html"), cat = JSON.parse(lees("modules.json"));
-const i = html.indexOf("<!-- ============ NEDERGIDS (kaartschil)");
+const i = html.indexOf("<!-- ============ NEDERGIDS (zoekscherm");
 const scherm = html.slice(i, html.indexOf("<!-- ============ MODULE (gratis", i));
 
-test("scherm: label, kop, intro, V2-regel en slotregel precies één keer", () => {
-  for (const t of ["Wegwijzer · gratis te lezen", ">Nedergids</h1>", "Vind particulieren en dienstverleners in Frankrijk.", "Later komen deze functies samen in één nieuwe Nedergids."])
+test("scherm: label, kop, intro, slotregel en sectiekop precies één keer", () => {
+  for (const t of ["Wegwijzer · gratis te lezen", ">Nedergids</h1>", "Vind particulieren, ondernemers en instanties voor Nederlanders in Frankrijk, op postcode.",
+    "Later komen deze functies samen in één nieuwe Nedergids.", ">Ook op Nedergids<"])
     assert.equal(scherm.split(t).length - 1, 1, t);
   assert.ok(!/wegwijzer · gratis te lezen/.test(html.slice(html.indexOf("const subs ="), html.indexOf("const subs =") + 1500)), "kopbalk herhaalt het label niet");
 });
 
+test("zoekveld: postcode-invoer, knop, locatieknop en de drie uitkomststaten", () => {
+  assert.match(scherm, /onSubmit="\{\{ ngVerstuur \}\}"/);
+  assert.match(scherm, /value="\{\{ ngPc \}\}" onInput="\{\{ ngOnPc \}\}"/);
+  assert.match(scherm, /onClick="\{\{ ngGeoKlik \}\}"/);
+  for (const h of ["ngLaadt", "ngFout", "ngKlaar"]) assert.match(scherm, new RegExp('value="\\{\\{ ' + h + ' \\}\\}"'));
+  assert.match(scherm, /De Nedergids is nu niet bereikbaar\./);
+  assert.match(scherm, /onClick="\{\{ ngOpnieuw \}\}"/);
+  assert.match(scherm, /href="\{\{ ngSiteUrl \}\}"/);
+  assert.match(scherm, />Bij jou in de buurt</);
+  assert.match(scherm, />Landelijk actief</);
+  assert.match(scherm, /✓ Geverifieerd/);
+});
+
+test("logica: nedergids-lib.js geladen, ngOpen/ngZoek bestaan en de bestaande kaarten blijven staan onder ngVals()", () => {
+  assert.match(html, /<script src="\.\/nedergids-lib\.js">/);
+  assert.match(html, /ngOpen\(m, from\)\{/);
+  assert.match(html, /ngZoek\(pcArg\)\{/);
+  assert.match(html, /\.\.\.this\.ngVals\(\)/);
+  assert.match(html, /if \(N\.lees\(d\)\)|const l = N\.lees\(d\);/);
+});
+
 test("scherm: vijf kaarten, alleen nedergids.nl gaat naar buiten, de rest opent in de app, de rest opent in de app", () => {
   const kaarten = [...scherm.matchAll(/<a href="([^"]+)" target="_blank" rel="noopener"/g)].map(m => m[1]);
-  assert.deepEqual(kaarten, ["https://www.nedergids.nl", "{{ x.url }}"], "plus de vindpagina's die niet in de app werken (nedergidsLinks extern)");
+  assert.deepEqual(kaarten, ["{{ ngSiteUrl }}", "https://www.nedergids.nl", "{{ x.url }}"], "plus de foutlink naar nedergids.nl en de vindpagina's die niet in de app werken (nedergidsLinks extern)");
   assert.ok(scherm.includes("Hygiënecontroles bij restaurants") && scherm.includes("Wat je bij Gault &amp; Millau en Michelin niet leest") && scherm.includes("fris, fruitig en hygiënisch"));
   for (const h of ["ngGemeente", "ngVerenigingen", "ngOverheden", "ngHygiene"]) assert.ok(scherm.includes("onClick=\"{{ " + h + " }}\""), h);
   assert.match(html, /ngVerenigingen: \(\) => this\.route\(this\.vindModule\("verenigingen"\)\)/);
