@@ -21,7 +21,7 @@ test("Over ons: Nederlanders.fr en de moderatie zijn één kaart, Peil heeft zij
   // sinds 14-11-2026 heeft de Peil-sectie van Over ons twee knoppen: de dia's en de toolkaarten
   assert.match(html, /Peil: bekijk wat we per tool controleren/);
   assert.ok(!/Lees hoe wij werken/.test(html));
-  assert.match(html, /Zo werken wij: bekijk de dia's/);
+  assert.match(html, /Zo werken wij: lees hoe wij elk cijfer controleren/);
 });
 
 test("Klussen: eigen blok in Wonen met de drie klus-modules en de lijstjes", () => {

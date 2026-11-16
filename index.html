@@ -2925,130 +2925,153 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </div>
 </sc-if>
 
-<!-- ============ ZO WERKEN WIJ (twaalf dia's, data/werkwijze.json, werkwijze-lib.js) ============ -->
+<!-- ============ ZO WERKEN WIJ (scrollpagina, data/werkwijze.json, werkwijze-lib.js) ============ -->
 <sc-if value="{{ isWerkwijze }}" hint-placeholder-val="{{ false }}">
-<div data-werkwijze="1" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:#F5F0EB">
+<div data-werkwijze="1" style="padding:0 0 32px;background:#F4F1F0">
   <sc-if value="{{ wkLaadt }}" hint-placeholder-val="{{ false }}">
-  <div style="padding:22px 16px 0;font:600 14px/1.6 Mulish;color:#5F6669">Dia's laden...</div>
+  <div style="padding:22px 16px 0;font:600 14px/1.6 Mulish;color:#5F6669">De pagina wordt geladen...</div>
   </sc-if>
   <sc-if value="{{ wkFout }}" hint-placeholder-val="{{ false }}">
   <div style="margin:18px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
-    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">De dia's zijn nu niet te laden.</p>
+    <p style="margin:0;font:600 14.5px/1.6 Mulish;color:#15181A">Deze pagina is nu niet te laden.</p>
     <button onClick="{{ wkOpnieuw }}" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
   </div>
   </sc-if>
   <sc-if value="{{ wkKlaar }}" hint-placeholder-val="{{ true }}">
-  <div style="display:flex;flex-direction:column;flex:1;min-height:0">
-    <div role="img" aria-label="{{ wkVoortgangAria }}" style="flex:none;display:flex;gap:4px;padding:12px 16px 10px">
-      <sc-for list="{{ wkSegmenten }}" as="sg" hint-placeholder-count="12">
-      <span style="flex:1;height:4px;border-radius:2px;background:{{ sg.bg }};transition:background .2s ease"></span>
-      </sc-for>
-    </div>
-    <div id="ifm-wk-kaart" data-wk-kaart="1" tabindex="0" role="group" aria-roledescription="dia" aria-label="{{ wkAria }}" onClick="{{ wkKlik }}" onKeyDown="{{ wkToets }}" onTouchStart="{{ wkTouchStart }}" onTouchEnd="{{ wkTouchEnd }}" style="{{ wkKaartStijl }}">
-      <sc-if value="{{ wkDia.heeftOog }}" hint-placeholder-val="{{ true }}">
-      <p style="{{ wkDia.oogStijl }}">{{ wkDia.oog }}</p>
+  <header style="background:rgba(128,0,0,.06);border-bottom:1px solid rgba(128,0,0,.12)">
+    <div style="max-width:760px;margin:0 auto;padding:26px 16px 24px">
+      <p style="margin:0;font:600 12px/1.4 Poppins,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#800000;overflow-wrap:anywhere">{{ wkKop.bovenregel }}</p>
+      <h1 style="margin:8px 0 0;font:500 30px/1.2 'Source Serif 4',Georgia,serif;color:#15181A;overflow-wrap:anywhere">{{ wkKop.titel }}</h1>
+      <p style="margin:14px 0 0;font:400 15.5px/1.8em Mulish;color:#3D4346">{{ wkKop.tekst }}</p>
+      <sc-if value="{{ wkKop.heeftStand }}" hint-placeholder-val="{{ true }}">
+      <span data-wk-stand="1" style="display:inline-block;margin-top:14px;padding:7px 14px;border-radius:999px;background:#fff;border:1px solid rgba(128,0,0,.22);font:600 13px/1.3 Poppins,system-ui,sans-serif;color:#800000">{{ wkKop.stand }}</span>
       </sc-if>
-      <h2 style="{{ wkDia.titelStijl }}">{{ wkDia.titel }}</h2>
-      <sc-for list="{{ wkDia.blokken }}" as="b" hint-placeholder-count="2">
-      <div style="{{ b.omStijl }}">
-        <sc-if value="{{ b.isTekst }}" hint-placeholder-val="{{ true }}">
-        <p style="{{ b.stijl }}">{{ b.tekst }}</p>
-        </sc-if>
-        <sc-if value="{{ b.isKaarten }}" hint-placeholder-val="{{ false }}">
-        <div style="{{ b.stijl }}">
-          <sc-for list="{{ b.items }}" as="k" hint-placeholder-count="3">
-          <div style="{{ k.stijl }}">
-            <sc-if value="{{ k.heeftGetal }}" hint-placeholder-val="{{ false }}">
-            <div style="{{ k.getalStijl }}">{{ k.getal }}</div>
-            </sc-if>
-            <div style="flex:1;min-width:0">
-              <div style="{{ k.kopStijl }}">{{ k.kop }}</div>
-              <p style="{{ k.tekstStijl }}">{{ k.tekst }}</p>
-              <sc-if value="{{ k.heeftKlein }}" hint-placeholder-val="{{ false }}">
-              <p style="{{ k.kleinStijl }}">{{ k.klein }}</p>
-              </sc-if>
-            </div>
-          </div>
-          <sc-if value="{{ k.heeftPijl }}" hint-placeholder-val="{{ false }}">
-          <div aria-hidden="true" style="text-align:center;font:600 16px/1 Poppins,system-ui,sans-serif;color:#800000;margin:-2px 0">&#8645;</div>
-          </sc-if>
-          </sc-for>
+    </div>
+  </header>
+  <div style="max-width:760px;margin:0 auto;padding:0 16px">
+
+    <section aria-labelledby="ifm-wk-stroom" style="padding-top:34px">
+      <p style="{{ wkOogStijl }}">{{ wkStroom.bovenregel }}</p>
+      <h2 id="ifm-wk-stroom" style="{{ wkH2Stijl }}">{{ wkStroom.titel }}</h2>
+      <p style="{{ wkLeadStijl }}">{{ wkStroom.tekst }}</p>
+      <div style="margin-top:16px;padding:6px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+        <sc-for list="{{ wkStroom.bronnen }}" as="b" hint-placeholder-count="3">
+        <div style="padding:12px 0;border-bottom:1px solid #EDE6E0">
+          <span style="{{ b.chipStijl }}">{{ b.chip }}</span>
+          <p style="margin:8px 0 0;font:400 14.5px/1.6 Mulish;color:#3D4346">{{ b.tekst }}</p>
         </div>
-        </sc-if>
-        <sc-if value="{{ b.isRijen }}" hint-placeholder-val="{{ false }}">
-        <div style="{{ b.stijl }}">
-          <sc-for list="{{ b.items }}" as="r" hint-placeholder-count="3">
-          <div style="{{ r.stijl }}">
-            <sc-if value="{{ r.heeftNr }}" hint-placeholder-val="{{ false }}">
-            <span aria-hidden="true" style="flex:none;width:28px;height:28px;border-radius:14px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:600 14px/1 Poppins,system-ui,sans-serif">{{ r.nr }}</span>
-            </sc-if>
-            <sc-if value="{{ r.heeftChip }}" hint-placeholder-val="{{ false }}">
-            <span style="{{ r.chipStijl }}">{{ r.chip }}</span>
-            </sc-if>
-            <div style="flex:1;min-width:0">
-              <sc-if value="{{ r.heeftKop }}" hint-placeholder-val="{{ false }}">
-              <div style="font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#800000">{{ r.kop }}</div>
-              </sc-if>
-              <p style="{{ r.tekstStijl }}">{{ r.tekst }}</p>
-            </div>
-          </div>
-          </sc-for>
-        </div>
-        </sc-if>
-        <sc-if value="{{ b.isLijst }}" hint-placeholder-val="{{ false }}">
-        <div style="{{ b.stijl }}">
-          <sc-for list="{{ b.items }}" as="l" hint-placeholder-count="3">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px solid #E2D6CC">
-            <span style="min-width:0;font:400 14px/1.35 Mulish;color:#3D302C;overflow-wrap:anywhere">{{ l.naam }}</span>
-            <span style="flex:none;font:600 13px/1.35 Poppins,system-ui,sans-serif;color:#800000;white-space:nowrap">{{ l.waarde }}</span>
-          </div>
-          </sc-for>
-        </div>
-        </sc-if>
-        <sc-if value="{{ b.isBand }}" hint-placeholder-val="{{ false }}">
-        <div style="{{ b.stijl }}">
-          <p style="{{ b.tekstStijl }}"><b style="{{ b.labelStijl }}">{{ b.label }}</b> {{ b.tekst }}</p>
-        </div>
-        </sc-if>
-        <sc-if value="{{ b.isPeil }}" hint-placeholder-val="{{ false }}">
-        <div data-wk-peil="1" style="margin:0 4px;padding:12px 14px;border-radius:16px;border:2px solid #E8A598;background:linear-gradient(135deg,#1A080B,#6E0C16);box-shadow:0 0 22px rgba(190,30,40,.55);color:#FFE9E2">
-          <div style="font:600 26px/1.1 Poppins,system-ui,sans-serif;letter-spacing:5px;text-shadow:0 0 14px rgba(255,120,100,.75)">{{ b.naam }}</div>
-          <div style="display:flex;gap:6px;margin-top:8px">
-            <sc-for list="{{ b.tegels }}" as="t" hint-placeholder-count="3">
-            <div style="flex:1;min-width:0;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,200,190,.45);background:rgba(255,255,255,.08)">
-              <div style="font:600 20px/1.2 Poppins,system-ui,sans-serif;color:#FFE9E2">{{ t.getal }}</div>
-              <div style="font:400 12px/1.3 Mulish;color:#F1CFC6">{{ t.label }}</div>
-            </div>
-            </sc-for>
-          </div>
-          <sc-for list="{{ b.regels }}" as="g" hint-placeholder-count="2">
-          <div style="margin-top:5px;font:400 12.5px/1.4 'Courier New',monospace;color:#FFD9CF;overflow-wrap:anywhere">{{ g.tekst }}</div>
-          </sc-for>
-        </div>
-        </sc-if>
-        <sc-if value="{{ b.isReeks }}" hint-placeholder-val="{{ false }}">
-        <div style="{{ b.stijl }}">
-          <p style="margin:0;font:400 14px/1.6 Mulish;color:#3D302C"><sc-for list="{{ b.items }}" as="n" hint-placeholder-count="3"><span><b style="color:#800000;font-weight:700">{{ n.naam }}</b> {{ n.regel }} &middot; </span></sc-for>{{ b.staart }}</p>
-        </div>
-        </sc-if>
-        <sc-if value="{{ b.isKnop }}" hint-placeholder-val="{{ false }}">
-        <sc-if value="{{ b.heeftUrl }}" hint-placeholder-val="{{ true }}">
-        <a href="{{ b.url }}" target="_blank" rel="noopener" style="{{ b.stijl }}">{{ b.label }}</a>
-        </sc-if>
-        </sc-if>
+        </sc-for>
       </div>
-      </sc-for>
-    </div>
-    <div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:10px 16px 12px">
-      <button data-wk-vorige="1" onClick="{{ wkVorige }}" aria-label="Vorige dia" aria-disabled="{{ wkVorigeUit }}" style="{{ wkVorigeStijl }}">&#9664;&#xFE0E;</button>
-      <span aria-live="polite" style="font:600 14px/1.3 Mulish;color:#5F5A5B;text-align:center">{{ wkTeller }}</span>
-      <sc-if value="{{ wkIsLaatste }}" hint-placeholder-val="{{ false }}">
-      <button data-wk-opnieuw="1" onClick="{{ wkVanaf }}" aria-label="Opnieuw beginnen" style="width:48px;height:48px;flex:none;border:0;border-radius:24px;background:#EBD3CD;color:#800000;font:600 20px/1 Poppins,system-ui,sans-serif;cursor:pointer">&#8635;</button>
+      <p style="{{ wkBandStijl }}"><b style="color:#800000">{{ wkStroom.zwarteLijstKop }}</b> {{ wkStroom.zwarteLijst }}</p>
+      <div data-wk-peil="1" style="margin:16px 0 0;padding:16px;border-radius:16px;border:2px solid #E8A598;background:linear-gradient(135deg,#1A080B,#6E0C16);box-shadow:0 0 22px rgba(190,30,40,.55);color:#FFE9E2">
+        <div aria-hidden="true" style="font:600 28px/1.1 Poppins,system-ui,sans-serif;letter-spacing:6px;text-shadow:0 0 14px rgba(255,120,100,.75)">PEIL</div>
+        <div style="margin-top:4px;font:400 14px/1.4 Mulish;color:#F1CFC6"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Peil, </span>{{ wkStroom.peilOnder }}</div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <sc-for list="{{ wkStroom.tegels }}" as="t" hint-placeholder-count="3">
+          <div style="flex:1;min-width:0;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,200,190,.45);background:rgba(255,255,255,.08)">
+            <div style="font:600 22px/1.2 Poppins,system-ui,sans-serif;color:#FFE9E2">{{ t.getal }}</div>
+            <div style="font:400 12px/1.3 Mulish;color:#F1CFC6;overflow-wrap:anywhere">{{ t.label }}</div>
+          </div>
+          </sc-for>
+        </div>
+        <p style="margin:12px 0 0;font:400 13px/1.5 Mulish;color:#FFD9CF">{{ wkStroom.ritmeRegel }}</p>
+      </div>
+      <p style="{{ wkBandStijl }}"><b style="color:#800000">{{ wkStroom.voorJouKop }}</b> {{ wkStroom.voorJou }}</p>
+      <sc-if value="{{ wkStroom.heeftTools }}" hint-placeholder-val="{{ true }}">
+      <div data-wk-tools="1" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px">
+        <sc-for list="{{ wkStroom.tools }}" as="t" hint-placeholder-count="3">
+        <a href="{{ t.url }}" target="_blank" rel="noopener" style="{{ wkToolStijl }}">
+          <b style="font:600 14px/1.3 Poppins,system-ui,sans-serif;color:#800000;overflow-wrap:anywhere">{{ t.naam }}</b>
+          <span style="font:400 13px/1.4 Mulish;color:#5F6669">{{ t.label }}</span>
+        </a>
+        </sc-for>
+        <a href="{{ wkStroom.cafeUrl }}" target="_blank" rel="noopener" style="{{ wkToolStijl }}">
+          <b style="font:600 14px/1.3 Poppins,system-ui,sans-serif;color:#800000">{{ wkStroom.cafeNaam }} &#8599;</b>
+          <span style="font:400 13px/1.4 Mulish;color:#5F6669">{{ wkStroom.cafeTekst }}</span>
+        </a>
+      </div>
+      <a href="{{ wkStroom.verderUrl }}" target="_blank" rel="noopener" style="{{ wkLinkStijl }}">{{ wkStroom.verder }} &#8599;</a>
       </sc-if>
-      <sc-if value="{{ wkNietLaatste }}" hint-placeholder-val="{{ true }}">
-      <button data-wk-volgende="1" onClick="{{ wkVolgende }}" aria-label="Volgende dia" style="width:48px;height:48px;flex:none;border:0;border-radius:24px;background:#800000;color:#fff;font:600 18px/1 Poppins,system-ui,sans-serif;cursor:pointer">&#9654;&#xFE0E;</button>
+      <sc-if value="{{ wkTerugval.toon }}" hint-placeholder-val="{{ false }}">
+      <div data-wk-terugval="1" style="margin-top:12px;padding:14px 16px;border-radius:16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.14)">
+        <p style="margin:0;font:400 14.5px/1.6 Mulish;color:#3D4346">{{ wkTerugval.tekst }}</p>
+        <a href="{{ wkTerugval.url }}" target="_blank" rel="noopener" style="{{ wkLinkStijl }}">{{ wkTerugval.link }} &#8599;</a>
+        <button onClick="{{ wkLiveOpnieuw }}" style="margin-top:6px;min-height:48px;padding:0 20px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 14px Mulish;cursor:pointer">Opnieuw proberen</button>
+      </div>
       </sc-if>
-    </div>
+    </section>
+
+    <section aria-labelledby="ifm-wk-heen" style="padding-top:38px">
+      <p style="{{ wkOogStijl }}">{{ wkHeen.bovenregel }}</p>
+      <h2 id="ifm-wk-heen" style="{{ wkH2Stijl }}">{{ wkHeen.titel }}</h2>
+      <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+        <div style="{{ wkKaartStijl }}">
+          <h3 style="{{ wkH3Stijl }}">{{ wkHeen.heenTitel }}</h3>
+          <sc-for list="{{ wkHeen.heen }}" as="h" hint-placeholder-count="5">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-top:12px">
+            <span aria-hidden="true" style="flex:none;width:28px;height:28px;border-radius:14px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:600 14px/1 Poppins,system-ui,sans-serif">{{ h.nr }}</span>
+            <p style="margin:0;min-width:0;font:400 14.5px/1.6 Mulish;color:#3D4346"><b style="color:#15181A">{{ h.kop }}</b> {{ h.tekst }}</p>
+          </div>
+          </sc-for>
+        </div>
+        <div style="{{ wkKaartStijl }}">
+          <h3 style="{{ wkH3Stijl }}">{{ wkHeen.terugTitel }}</h3>
+          <sc-for list="{{ wkHeen.terug }}" as="h" hint-placeholder-count="3">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-top:12px">
+            <span aria-hidden="true" style="flex:none;width:8px;height:8px;border-radius:4px;background:#800000;margin-top:9px"></span>
+            <p style="margin:0;min-width:0;font:400 14.5px/1.6 Mulish;color:#3D4346"><b style="color:#15181A">{{ h.kop }}</b> {{ h.tekst }}</p>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="ifm-wk-onder" style="padding-top:38px">
+      <p style="{{ wkOogStijl }}">{{ wkOnder.bovenregel }}</p>
+      <h2 id="ifm-wk-onder" style="{{ wkH2Stijl }}">{{ wkOnder.titel }}</h2>
+      <p style="{{ wkLeadStijl }}">{{ wkOnder.tekst }}</p>
+      <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px">
+        <sc-for list="{{ wkOnder.lagen }}" as="l" hint-placeholder-count="4">
+        <div style="{{ wkKaartStijl }}">
+          <h3 style="{{ wkH3Stijl }}">{{ l.kop }}</h3>
+          <p style="margin:4px 0 0;font:600 14px/1.5 Mulish;color:#800000">{{ l.vraag }}</p>
+          <p style="margin:6px 0 0;font:400 14.5px/1.6 Mulish;color:#3D4346">{{ l.tekst }}</p>
+        </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-labelledby="ifm-wk-ritme" style="padding-top:38px">
+      <p style="{{ wkOogStijl }}">{{ wkRitme.bovenregel }}</p>
+      <h2 id="ifm-wk-ritme" style="{{ wkH2Stijl }}">{{ wkRitme.titel }}</h2>
+      <div style="margin-top:14px;padding:4px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
+        <sc-for list="{{ wkRitme.momenten }}" as="m" hint-placeholder-count="5">
+        <div style="padding:12px 0;border-bottom:1px solid #EDE6E0">
+          <h3 style="{{ wkH3Stijl }}">{{ m.kop }}</h3>
+          <p style="margin:4px 0 0;font:400 14.5px/1.6 Mulish;color:#3D4346">{{ m.tekst }}</p>
+        </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-labelledby="ifm-wk-zelf" style="padding-top:38px">
+      <h2 id="ifm-wk-zelf" style="{{ wkH2Stijl }}">{{ wkZelf.titel }}</h2>
+      <p style="{{ wkLeadStijl }}">{{ wkZelf.tekst }}</p>
+      <div style="margin-top:12px">
+        <sc-for list="{{ wkZelf.stappen }}" as="s" hint-placeholder-count="3">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-top:10px">
+          <span aria-hidden="true" style="flex:none;width:28px;height:28px;border-radius:14px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:600 14px/1 Poppins,system-ui,sans-serif">{{ s.nr }}</span>
+          <p style="margin:0;min-width:0;font:400 15px/1.6 Mulish;color:#3D4346;padding-top:2px">{{ s.tekst }}</p>
+        </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ wkZelf.knoppen }}" as="k" hint-placeholder-count="5">
+        <a href="{{ k.url }}" target="_blank" rel="noopener" style="{{ k.stijl }}">{{ k.label }}</a>
+        </sc-for>
+      </div>
+    </section>
+
   </div>
   </sc-if>
 </div>
@@ -4059,7 +4082,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </button>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Peil</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Ons register van financiële parameters en berekeningsgrondslagen voor Nederland en Frankrijk, waarmee de tools en Café Claude rekenen. Elk met bron en datum van controle.</p></div>
-    <button data-over-werkwijze="1" onClick="{{ overWerkwijze }}" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-align:center;cursor:pointer">Zo werken wij: bekijk de dia's &#8250;</button>
+    <button data-over-werkwijze="1" onClick="{{ overWerkwijze }}" style="margin:14px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-align:center;cursor:pointer">Zo werken wij: lees hoe wij elk cijfer controleren &#8250;</button>
   <a href="https://communitiesabroad.com/manifest/tools" target="_blank" rel="noopener" style="margin:10px 16px 0;width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:#fff;border:1px solid rgba(128,0,0,.22);color:#800000;font:700 14px Mulish;text-decoration:none;text-align:center">Peil: bekijk wat we per tool controleren &#8599;</a>
   <div style="padding:24px 16px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">Cockpit</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px"><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Toezicht op de techniek: werkt elke tool, zijn de koppelingen en API's in orde, zijn er storingen. Cockpit signaleert voordat iets breekt: verloopdata, sleutels en koppelingen, met diagnose en herstelroute.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Peil bewaakt de integriteit van de data. Dat is een continu proces van updaten en controleren, niet alleen van de parameters maar ook van de berekeningsgrondslagen.</p><p style="margin:0;font:400 14px Mulish;line-height:1.8em;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Officiële bronnen wegen zwaar. Facebook telt niet als bron.</p></div>
@@ -4274,7 +4297,7 @@ const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piram
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 // Schermen zonder eigen h1 in de inhoud: de schermtitel in de kopbalk is daar de h1 (elk scherm heeft er precies één).
-const KOP_H1 = ["mod", "zoek", "tekoop", "hygiene", "gemeente", "aitools", "werkwijze"];
+const KOP_H1 = ["mod", "zoek", "tekoop", "hygiene", "gemeente", "aitools"];
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
 
 // Grotere tekst (Profiel, localStorage ifm_grote_tekst = "1", alleen op het toestel): CSS zoom op kopbalk,
@@ -6396,158 +6419,99 @@ class Component extends DCLogic {
     };
   }
 
-  // ---- Zo werken wij (twaalf dia's, data/werkwijze.json, logica in werkwijze-lib.js) ---------------------
-  // De lezer klikt zelf: tik rechts of de knop voor volgende, tik links of de knop voor vorige, vegen kan ook.
-  // Niets speelt vanzelf. Een dia is geen eigen geschiedenisregel: terug (pijl of gebaar) verlaat het scherm.
+  // ---- Zo werken wij (scrollpagina, data/werkwijze.json, logica in werkwijze-lib.js) -------------------
+  // De tekst komt uit data/werkwijze.json. De cijfers (Peil-versie en datum, vastgestelde waarden en rekenregels,
+  // bedragen per tool) haalt de pagina live op bij communitiesabroad.com (open API, CORS *): anoniem, time-out 8 s,
+  // alleen in het geheugen. Valt een van beide uit, dan staat het blok er zonder getallen en met een link naar de site.
   wkOpen(from){
-    this.setState({screen:"werkwijze", menu:false, q:"", copied:null, tool:null, from:from || "hub", wkIdx:0});
+    this.setState({screen:"werkwijze", menu:false, q:"", copied:null, tool:null, from:from || "hub"});
     this.wkLaad();
+  }
+  wkJson(url, tok){
+    let ctl = null, timer = null;
+    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), url.indexOf("./") === 0 ? 10000 : 8000); } catch(e){ ctl = null; }
+    let f;
+    try { f = fetch(url, ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"}); } catch(e){ clearTimeout(timer); return Promise.reject(e); }
+    return f.then(r => r.ok ? r.json() : Promise.reject(new Error("status"))).then(d => { if (timer) clearTimeout(timer); return d; }, e => { if (timer) clearTimeout(timer); throw e; });
   }
   wkLaad(){
     const W = window.IfWerkwijze, Nv = window.IfNav;
     if (!W || !Nv) { this.setState({wkStatus:"fout"}); return; }
-    if (this._wkData) { this.setState({wkStatus:"klaar", wkData:this._wkData}); return; }
     this._wkTeller = this._wkTeller || Nv.maakTeller();
     const tok = this._wkTeller.volgende();
-    this.setState({wkStatus:"laden"});
-    let ctl = null, timer = null, f;
-    try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 10000); } catch(e){ ctl = null; }
-    try { f = fetch("./data/werkwijze.json", ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"}); } catch(e){ clearTimeout(timer); this.setState({wkStatus:"fout"}); return; }
-    f.then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
-      .then(d => {
-        const data = W.lees(d);
-        if (!data) throw new Error("leeg");
-        this._wkData = data;
-        this.setState(prev => this._wkTeller.actueel(tok) ? {wkStatus:"klaar", wkData:data} : null);
-      })
-      .catch(() => this.setState(prev => this._wkTeller.actueel(tok) ? {wkStatus:"fout"} : null))
-      .then(() => { if (timer) clearTimeout(timer); });
+    const ok = () => this._wkTeller.actueel(tok);
+    const start = this._wkData ? Promise.resolve(this._wkData) : (this.setState({wkStatus:"laden"}), this.wkJson("./data/werkwijze.json").then(d => {
+      const data = W.lees(d);
+      if (!data) throw new Error("leeg");
+      this._wkData = data;
+      return data;
+    }));
+    start.then(data => {
+      if (!ok()) return;
+      this.setState({wkStatus:"klaar", wkData:data});
+      this.wkLive(data, tok);
+    }).catch(() => { if (ok()) this.setState({wkStatus:"fout"}); });
   }
-  wkNaar(i){
-    const W = window.IfWerkwijze, n = this.state.wkData ? this.state.wkData.dias.length : 0;
-    if (!W || !n) return;
-    const nieuw = W.klem(i, n);
-    if (nieuw === W.klem(this.state.wkIdx, n)) return;
-    this.setState({wkIdx:nieuw});
-    setTimeout(() => { const e = document.getElementById("ifm-wk-kaart"); if (e) e.scrollTop = 0; }, 0);
-  }
-  wkStap(delta){
-    const W = window.IfWerkwijze, n = this.state.wkData ? this.state.wkData.dias.length : 0;
-    if (W && n) this.wkNaar(W.stap(this.state.wkIdx || 0, delta, n));
-  }
-  // Tik op het dia-vlak: linkerhelft vorige, rechterhelft volgende. Een tik op een link of knop in de dia doet dat zelf.
-  wkKlik(e){
-    const W = window.IfWerkwijze;
-    if (!W || !e) return;
-    if (this._wkVeegT && Date.now() - this._wkVeegT < 600) return;
-    const t = e.target;
-    try { if (t && t.closest && t.closest("a,button")) return; } catch(x){}
-    const r = e.currentTarget.getBoundingClientRect();
-    this.wkStap(W.tikRichting(e.clientX - r.left, r.width) === "vorige" ? -1 : 1);
-  }
-  wkToets(e){
-    if (!e) return;
-    if (e.key === "ArrowRight") { e.preventDefault(); this.wkStap(1); }
-    else if (e.key === "ArrowLeft") { e.preventDefault(); this.wkStap(-1); }
-  }
-  wkTouchStart(e){
-    const t = e && e.touches && e.touches[0];
-    this._wkT0 = t ? {x:t.clientX, y:t.clientY} : null;
-  }
-  wkTouchEnd(e){
-    const W = window.IfWerkwijze, t = e && e.changedTouches && e.changedTouches[0], b = this._wkT0;
-    this._wkT0 = null;
-    if (!W || !t || !b) return;
-    const r = W.veegRichting(t.clientX - b.x, t.clientY - b.y);
-    if (!r) return;
-    this._wkVeegT = Date.now();
-    this.wkStap(r === "vorige" ? -1 : 1);
+  // De live cijfers: twee losse aanvragen, elk met eigen terugval. Een eerder gelukte aanvraag blijft staan.
+  wkLive(data, tok){
+    const W = window.IfWerkwijze, ok = () => this._wkTeller.actueel(tok);
+    const nodig = [];
+    if (!this._wkStand) nodig.push("stand");
+    if (!this._wkTools) nodig.push("tools");
+    if (!nodig.length) { this.setState({wkLive:"klaar"}); return; }
+    this.setState({wkLive:"laden"});
+    const stand = this._wkStand ? Promise.resolve(true) : (data.peilStandUrl ? this.wkJson(data.peilStandUrl).then(d => { const s = W.leesStand(d); if (!s) throw new Error("leeg"); this._wkStand = s; return true; }).catch(() => false) : Promise.resolve(false));
+    const tools = this._wkTools ? Promise.resolve(true) : (data.toolsUrl ? this.wkJson(data.toolsUrl).then(d => { const t = W.leesTools(d, data.toolKaartBasis); if (!t.length) throw new Error("leeg"); this._wkTools = t; return true; }).catch(() => false) : Promise.resolve(false));
+    Promise.all([stand, tools]).then(r => { if (ok()) this.setState({wkLive: r[0] && r[1] ? "klaar" : "fout"}); });
   }
   wkVals(){
     const st = this.state, W = window.IfWerkwijze, is = st.screen === "werkwijze";
     const data = is && st.wkStatus === "klaar" ? st.wkData : null;
-    const n = data ? data.dias.length : 0, i = data && W ? W.klem(st.wkIdx || 0, n) : 0;
-    const vorigeUit = i === 0, laatste = n > 0 && i === n - 1;
+    const leeg = {heeftStand:false, stand:"", heeftTools:false, tools:[], tegels:[], bronnen:[], heen:[], terug:[], lagen:[], momenten:[], stappen:[], knoppen:[]};
     const base = {
       isWerkwijze: is, wkLaadt: is && st.wkStatus === "laden", wkFout: is && st.wkStatus === "fout", wkKlaar: !!data, wkOpnieuw: () => this.wkLaad(),
-      wkKlik: e => this.wkKlik(e), wkToets: e => this.wkToets(e), wkTouchStart: e => this.wkTouchStart(e), wkTouchEnd: e => this.wkTouchEnd(e),
-      wkVorige: () => this.wkStap(-1), wkVolgende: () => this.wkStap(1), wkVanaf: () => this.wkNaar(0),
-      wkVorigeUit: vorigeUit ? "true" : "false", wkIsLaatste: laatste, wkNietLaatste: !laatste,
-      wkVorigeStijl: "width:48px;height:48px;flex:none;border:0;border-radius:24px;background:#EBD3CD;color:#800000;font:600 18px/1 Poppins,system-ui,sans-serif;cursor:pointer;opacity:" + (vorigeUit ? ".45" : "1"),
-      wkSegmenten: [], wkVoortgangAria: "", wkAria: "", wkTeller: "", wkKaartStijl: "",
-      wkDia: {heeftOog:false, oog:"", oogStijl:"", titel:"", titelStijl:"", blokken:[]}
+      wkLiveOpnieuw: () => { if (this.state.wkData) { this._wkTeller = this._wkTeller || window.IfNav.maakTeller(); this.wkLive(this.state.wkData, this._wkTeller.volgende()); } },
+      wkKop: leeg, wkStroom: leeg, wkHeen: leeg, wkOnder: leeg, wkRitme: leeg, wkZelf: leeg, wkTerugval: {toon:false, tekst:"", link:"", url:""},
+      wkOogStijl: "", wkH2Stijl: "", wkH3Stijl: "", wkLeadStijl: "", wkBandStijl: "", wkKaartStijl: "", wkToolStijl: "", wkLinkStijl: ""
     };
     if (!data || !W) return base;
-    const d = data.dias[i], br = d.kleur === "bordeaux";
-    const TEKST = br ? "#F1E4DE" : "#3D302C", KOP = br ? "#FFFFFF" : "#800000", KLEIN = br ? "#F1E4DE" : "#6B5A54";
-    const KAART_BG = br ? "#800000" : d.kleur === "wit" ? "#FBF8F4" : "#F7F1EC";
-    const ITEM_BG = br ? "#FBF8F4" : d.kleur === "wit" ? "#F5F0EB" : "#FBF8F4";
+    const live = st.wkLive, stand = this._wkStand || null, tools = this._wkTools || null;
     const CHIP = {aaa:["#15803D", "#FFFFFF"], aa:["#1D4ED8", "#FFFFFF"], a:["#CA8A04", "#2A1A17"]};
-    const VLAK = {roze:"#F3E3DF", roos:"#EBD3CD"};
-    const blokken = d.blokken.map(b => {
-      const o = {isTekst:false, isKaarten:false, isRijen:false, isLijst:false, isBand:false, isPeil:false, isReeks:false, isKnop:false, omStijl:"display:flex;flex-direction:column", stijl:"", items:[]};
-      if (b.soort === "tekst") {
-        o.isTekst = true; o.tekst = b.tekst;
-        o.stijl = b.klein ? "margin:0;font:400 13px/1.55 Mulish;color:" + KLEIN : "margin:0;font:400 15.5px/1.6 Mulish;color:" + TEKST;
-      } else if (b.soort === "kaarten") {
-        o.isKaarten = true;
-        const twee = b.kolommen === 2, inItem = b.licht || !br ? "#3D302C" : TEKST;
-        o.stijl = twee ? "display:grid;grid-template-columns:1fr 1fr;gap:8px" : "display:flex;flex-direction:column;gap:8px";
-        o.items = (b.items || []).map((k, j, alle) => ({
-          stijl: "box-sizing:border-box;padding:12px 14px;border-radius:14px;background:" + ITEM_BG + ";border:1px solid " + (br ? "transparent" : "#E2D6CC") + ";display:flex;gap:12px;align-items:flex-start;flex-direction:" + (twee ? "column" : "row"),
-          heeftGetal: !!k.getal, getal: k.getal || "",
-          getalStijl: twee ? "font:600 26px/1.1 Poppins,system-ui,sans-serif;color:#800000" : "flex:none;min-width:58px;font:600 28px/1.1 Poppins,system-ui,sans-serif;color:#800000",
-          kop: k.kop || "", kopStijl: "font:600 15px/1.3 Poppins,system-ui,sans-serif;color:#800000;overflow-wrap:anywhere",
-          tekst: k.tekst || "", tekstStijl: "margin:4px 0 0;font:400 14px/1.5 Mulish;color:" + inItem,
-          heeftKlein: !!k.klein, klein: k.klein || "", kleinStijl: "margin:6px 0 0;font:400 12.5px/1.45 Mulish;color:#6B5A54",
-          heeftPijl: !!b.pijl && j < alle.length - 1
-        }));
-      } else if (b.soort === "rijen") {
-        o.isRijen = true;
-        const vlak = b.vlak ? VLAK[b.vlak] : "";
-        o.stijl = vlak ? "display:flex;flex-direction:column;gap:6px;padding:10px 14px;border-radius:14px;background:" + vlak : "display:flex;flex-direction:column";
-        o.items = (b.items || []).map((r, j, alle) => {
-          const c = CHIP[r.toon] || CHIP.a;
-          return {
-            stijl: "display:flex;gap:12px;align-items:flex-start;" + (vlak ? "" : "padding:9px 0;" + (j < alle.length - 1 ? "border-bottom:1px solid #E2D6CC" : "")),
-            heeftNr: !!r.nr, nr: r.nr || "", heeftChip: !!r.chip, chip: r.chip || "",
-            chipStijl: "flex:none;min-width:44px;box-sizing:border-box;text-align:center;font:600 12.5px/1 Poppins,system-ui,sans-serif;border-radius:999px;padding:5px 11px;background:" + c[0] + ";color:" + c[1],
-            heeftKop: !!r.kop, kop: r.kop || "", tekst: r.tekst || "",
-            tekstStijl: "margin:" + (r.kop ? "2px" : "0") + " 0 0;font:400 14px/1.5 Mulish;color:#3D302C"
-          };
-        });
-      } else if (b.soort === "lijst") {
-        o.isLijst = true; o.stijl = "display:flex;flex-direction:column"; o.items = b.items || [];
-      } else if (b.soort === "band") {
-        o.isBand = true; o.label = b.label || ""; o.tekst = b.tekst || "";
-        o.stijl = "box-sizing:border-box;padding:10px 14px;border-radius:14px;background:" + (VLAK[b.vlak] || VLAK.roze) + (b.midden ? ";text-align:center;margin:0 10px" : "");
-        o.tekstStijl = "margin:0;font:400 14px/1.5 Mulish;color:#3D302C";
-        o.labelStijl = "font-weight:700;color:" + (b.vlak === "roos" ? "#3D302C" : "#800000");
-      } else if (b.soort === "peil") {
-        o.isPeil = true; o.naam = b.naam || "PEIL"; o.tegels = b.tegels || []; o.regels = (b.regels || []).map(t => ({tekst:t}));
-      } else if (b.soort === "reeks") {
-        o.isReeks = true; o.items = b.items || []; o.staart = b.staart || "";
-        o.stijl = "box-sizing:border-box;padding:10px 14px;border-radius:14px;background:" + (VLAK[b.vlak] || VLAK.roze);
-      } else if (b.soort === "knop") {
-        o.isKnop = true; o.label = b.label || "";
-        const u = b.url === "@abonnement" ? (window.IfAbonnee ? window.IfAbonnee.abonneeUrl(st.cat) : "") : b.url === "@manifest" ? data.manifestUrl : b.url;
-        o.url = W.urlOk(u); o.heeftUrl = !!o.url;
-        const basis = "box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;cursor:pointer;";
-        o.stijl = b.stijl === "licht" ? basis + "min-height:52px;padding:0 18px;border-radius:999px;background:#FBF8F4;color:#800000;font:600 16px/1.2 Poppins,system-ui,sans-serif"
-          : b.stijl === "link" ? basis + "min-height:44px;padding:0 12px;color:" + (br ? "#F1E4DE" : "#800000") + ";font:600 14px/1.3 Mulish;text-decoration:underline"
-          : basis + "min-height:48px;padding:0 20px;border-radius:999px;background:#800000;color:#fff;font:600 15px/1.2 Poppins,system-ui,sans-serif";
-        if (b.onderaan) o.omStijl += ";margin-top:auto";
-      }
-      return o;
-    });
+    const abo = window.IfAbonnee ? window.IfAbonnee.abonneeUrl(st.cat) : "";
+    const s = data.stroom, h = data.heenTerug, o = data.onderAntwoord, r = data.ritme, z = data.zelf, k = data.kop;
+    const tegels = [];
+    if (stand && stand.vastgesteld) tegels.push({getal: W.getal(stand.vastgesteld), label: s.waarden});
+    if (stand && stand.rekenregels) tegels.push({getal: W.getal(stand.rekenregels), label: s.rekenregels});
+    if (s.dubbel) tegels.push({getal: s.dubbel, label: s.dubbelTekst});
+    const knopBasis = "box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;cursor:pointer;min-height:48px;padding:10px 20px;border-radius:999px;font:600 15px/1.25 Poppins,system-ui,sans-serif;";
+    const knoppen = z.knoppen.map(b => {
+      const u = b.url === "@abonnement" ? abo : b.url === "@manifest" ? data.manifestUrl : b.url;
+      return {url: W.urlOk(u), label: b.label + " ↗", stijl: knopBasis + (b.stijl === "vol" ? "background:#800000;color:#fff;border:2px solid #800000" : "background:#fff;color:#800000;border:2px solid rgba(128,0,0,.35)")};
+    }).filter(b => b.url);
+    const toonTerugval = live === "fout" && !!(data.siteUrl && data.terugval.link);
     return Object.assign(base, {
-      wkSegmenten: W.segmenten(i, n).map(s => ({bg: s.gevuld ? "#800000" : "#E2D6CC"})),
-      wkVoortgangAria: "Dia " + (i + 1) + " van " + n,
-      wkAria: "Dia " + (i + 1) + " van " + n + ": " + d.titel + ". Tik rechts of gebruik de knop voor de volgende dia.",
-      wkTeller: W.teller(i, n) + (i === 0 ? " · tik of veeg" : ""),
-      wkKaartStijl: "flex:1;min-height:0;margin:0 12px;box-sizing:border-box;border-radius:20px;padding:16px 16px 16px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;display:flex;flex-direction:column;gap:9px;" + (d.midden ? "justify-content:center;" : "") + "background:" + KAART_BG + ";border:1px solid " + (br ? "#800000" : "#E2D6CC"),
-      wkDia: {heeftOog: !!d.oog, oog: d.oog, oogStijl: "margin:0;font:600 12px/1.4 Poppins,system-ui,sans-serif;letter-spacing:.1em;color:" + (br ? "#F1E4DE" : "#800000"),
-        titel: d.titel, titelStijl: "margin:0;font:600 " + (d.midden ? 30 : d.kleinTitel ? 24 : 24) + "px/1.2 Poppins,system-ui,sans-serif;color:" + KOP, blokken}
+      wkOogStijl: "margin:0;font:600 12px/1.4 Poppins,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#800000",
+      wkH2Stijl: "margin:6px 0 0;font:500 25px/1.25 'Source Serif 4',Georgia,serif;color:#15181A;overflow-wrap:anywhere",
+      wkH3Stijl: "margin:0;font:600 16px/1.3 Poppins,system-ui,sans-serif;color:#800000;overflow-wrap:anywhere",
+      wkLeadStijl: "margin:10px 0 0;font:400 15.5px/1.8em Mulish;color:#3D4346",
+      wkBandStijl: "margin:12px 0 0;padding:11px 14px;border-radius:14px;background:rgba(128,0,0,.07);font:400 14.5px/1.6 Mulish;color:#3D302C",
+      wkKaartStijl: "box-sizing:border-box;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)",
+      wkToolStijl: "box-sizing:border-box;min-height:56px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid rgba(21,24,26,.10);text-decoration:none;display:flex;flex-direction:column;justify-content:center;gap:2px",
+      wkLinkStijl: "box-sizing:border-box;display:flex;align-items:center;min-height:48px;margin-top:4px;font:600 14.5px/1.4 Mulish;color:#800000;text-decoration:underline",
+      wkKop: Object.assign({}, leeg, {bovenregel:k.bovenregel, titel:k.titel, tekst:k.tekst, stand:W.standRegel(k.stand, stand), heeftStand:!!W.standRegel(k.stand, stand)}),
+      wkStroom: Object.assign({}, leeg, {
+        bovenregel:s.bovenregel, titel:s.titel, tekst:s.tekst, zwarteLijstKop:s.zwarteLijstKop, zwarteLijst:s.zwarteLijst, peilOnder:s.peilOnder, ritmeRegel:s.ritmeRegel,
+        voorJouKop:s.voorJouKop, voorJou:s.voorJou, cafeNaam:s.cafeNaam, cafeTekst:s.cafeTekst, cafeUrl:s.cafeUrl, verder:s.verder, verderUrl:data.toolsPaginaUrl || data.siteUrl,
+        bronnen: s.bronnen.map(b => ({chip:b.chip, tekst:b.tekst, chipStijl:"display:inline-block;font:600 12.5px/1 Poppins,system-ui,sans-serif;border-radius:999px;padding:6px 12px;background:" + (CHIP[b.soort] || CHIP.a)[0] + ";color:" + (CHIP[b.soort] || CHIP.a)[1]})),
+        tegels: stand ? tegels : (s.dubbel ? [{getal:s.dubbel, label:s.dubbelTekst}] : []),
+        heeftTools: !!tools, tools: (tools || []).map(t => ({naam:t.naam, url:t.url, label:W.getal(t.aantal) + " " + s.bedragen}))
+      }),
+      wkHeen: Object.assign({}, leeg, {bovenregel:h.bovenregel, titel:h.titel, heenTitel:h.heenTitel, terugTitel:h.terugTitel,
+        heen: h.heen.map((x, i) => ({nr:String(i + 1), kop:x.kop, tekst:x.tekst})), terug: h.terug}),
+      wkOnder: Object.assign({}, leeg, {bovenregel:o.bovenregel, titel:o.titel, tekst:o.tekst, lagen:o.lagen}),
+      wkRitme: Object.assign({}, leeg, {bovenregel:r.bovenregel, titel:r.titel, momenten:r.momenten}),
+      wkZelf: Object.assign({}, leeg, {titel:z.titel, tekst:z.tekst, stappen: z.stappen.map((t, i) => ({nr:String(i + 1), tekst:t})), knoppen}),
+      wkTerugval: {toon: toonTerugval, tekst: data.terugval.tekst, link: data.terugval.link, url: data.siteUrl}
     });
   }
 
@@ -8734,7 +8698,7 @@ class Component extends DCLogic {
         out.push({kind:"GIDS", fr:l.titel, nl:l.regel || "", where:"Nedergids",
           open:() => { this.setState({q:""}); if (l.extern || !(window.IfArtikel && window.IfArtikel.isInApp(l.url))) window.open(l.url, "_blank", "noopener"); else this.openInfoArtikel(l.url); }});
     });
-    // Zo werken wij (de twaalf dia's over hoe Infopoche, Café Claude en Peil cijfers controleren) heeft geen module; werkwijzeZoek in modules.json is de zoekregel.
+    // Zo werken wij (de pagina over hoe Infopoche, Café Claude en Peil cijfers controleren) heeft geen module; werkwijzeZoek in modules.json is de zoekregel.
     const wz = (this.state.cat || {}).werkwijzeZoek;
     if (wz && wz.titel && woorden.every(w => norm(wz.woorden + " " + wz.titel).includes(w)))
       out.push({kind:"UITLEG", fr:wz.titel, nl:wz.regel || "", where:"Over InfoPoche",
