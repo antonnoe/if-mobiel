@@ -158,6 +158,6 @@ test('toegang: Over ons, zoeken en de planeet; geen tiende tegel op de hub', () 
 test('service worker kent de bestanden en is opgehoogd', () => {
   const sw = lees('sw.js');
   ['./werkwijze-lib.js', './data/werkwijze.json'].forEach((f) => assert.ok(sw.includes('"' + f + '"'), f));
-  assert.match(sw, /VERSIE = "2026-11-16-\d+"/);
+  assert.match(sw, /VERSIE = "2026-11-(1[6-9]|[23]\d)-\d+"/);
   assert.match(html, /<script src="\.\/werkwijze-lib\.js"><\/script>/);
 });
