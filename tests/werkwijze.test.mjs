@@ -109,6 +109,6 @@ test('bediening: tik links of rechts, vegen, grenzen, teller en segmenten', () =
 test('service worker kent de nieuwe bestanden', () => {
   const sw = lees('sw.js');
   ['./werkwijze-lib.js', './data/werkwijze.json'].forEach((f) => assert.ok(sw.includes('"' + f + '"'), f));
-  assert.match(sw, /VERSIE = "2026-11-14-\d+"/);
+  assert.match(sw, /VERSIE = "2026-11-(1[4-9]|[23]\d)-\d+"/);
   assert.match(html, /<script src="\.\/werkwijze-lib\.js"><\/script>/);
 });

@@ -196,6 +196,15 @@ test("sanering: geen scripts, stijlen, iframes, on*-attributen of javascript-lin
   assert.ok(/<a [^>]*href="https:\/\/nederlanders\.fr\/x\/"[^>]*target="_blank"/.test(uit.html) || /<a [^>]*target="_blank"[^>]*href="https:\/\/nederlanders\.fr\/x\/"/.test(uit.html));
 });
 
+test("sanering: header en footer in de inhoud blijven staan als gewone inhoud, nav en aside niet", async (t) => {
+  const bron = '<header class="if-pad"><div>Uit de praktijk</div><p>Kees en Jenny reden ...</p></header><p>Daarna</p><footer><p>Voetnoot</p></footer>'
+    + '<nav>menu</nav><aside>zijkant</aside><script>alert(1)</script><style>p{}</style>';
+  const uit = await inBrowser(h => window.IfArtikel.schoon(h).innerHTML, bron);
+  if (uit === undefined) return t.skip("geen headless browser beschikbaar");
+  assert.ok(uit.includes("Kees en Jenny") && uit.includes("Uit de praktijk") && uit.includes("Daarna") && uit.includes("Voetnoot"), uit);
+  assert.ok(!/<header|<footer|<nav|<aside|<script|<style|menu|zijkant/i.test(uit), uit);
+});
+
 test("haalOp: een hangend verzoek wijst na de tijdgrens af (herstelronde 2)", async () => {
   let signaal = null;
   const hangend = (url, o) => { signaal = o && o.signal; return new Promise(() => {}); };

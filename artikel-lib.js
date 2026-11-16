@@ -487,6 +487,12 @@
     var doc = new DP().parseFromString("<!doctype html><body>" + zonderDivi(html), "text/html");
     var body = doc.body;
     tabsNaarKoppen(doc, body);
+    // <header> en <footer> in de inhoud (sjabloon if-dossier: de inleiding staat in een header) blijven inhoud: ze worden een div.
+    Array.prototype.slice.call(body.querySelectorAll("header, footer")).forEach(function (el) {
+      var nw = doc.createElement("div");
+      while (el.firstChild) nw.appendChild(el.firstChild);
+      el.parentNode.replaceChild(nw, el);
+    });
     // <pee> is wat Divi's codemodule van een <p> maakt; wij tonen het als alinea.
     Array.prototype.slice.call(body.querySelectorAll("pee")).forEach(function (el) {
       var nw = doc.createElement("p");
