@@ -39,7 +39,7 @@ test("Klusarchief: eigen zoekfunctie (v=2, bron alles) vanuit het hoofdzoekveld,
   // leesZoek geeft {resultaten:[...]}, geen kale array: de array moet er expliciet uitgehaald worden
   assert.match(html, /const items = \(Ka\.leesZoek\(d\) \|\| \{\}\)\.resultaten \|\| \[\];/);
   assert.match(html, /kzVals\(\)\{/);
-  assert.match(html, /onQ: e => \{ const v = e\.target\.value;.*this\.zoekKlusarchief\(v\); \}/);
+  assert.match(html, /onQ: e => \{ const v = e\.target\.value;.*this\.zoekKlusarchief\(v\);.*\}/);
   // de oude statische doorverwijzing blijft als terugval zolang er geen echte hits zijn
   assert.match(html, /zoekKlusToon: this\.zoekKlusAan\(\) && st\.q\.trim\(\)\.replace\(\/\\s\+\/g, " "\)\.length >= 3 && !this\.kzVals\(\)\.kzHeeft,/);
   assert.ok(html.includes('data-zoek-klusarchief="1"'));

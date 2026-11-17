@@ -159,7 +159,7 @@ test("bedrading: hash, navKey, tab, scripts, service worker", () => {
   assert.ok(sw.includes('"./infofr-lib.js"'));
   assert.match(html, /SHOWBACK = \/\^\([^)]*\|infofr\|/);
   assert.ok(!/KOP_H1 = \[[^\]]*infofr/.test(html));
-  assert.ok(html.includes('open:() => this.go("infofr")'));
+  assert.ok(html.includes('infofrankrijk: () => this.go("infofr")'));
   assert.ok(html.includes('ifOnd: st.screen === "infofr"'));
   assert.ok(html.includes('st.screen === "infofr" && st.ifOnd'));
   assert.ok(sw.includes('const VERSIE = "2026-11-10-8"') || /const VERSIE = "2026-11-(1[0-9]|[23]\d)-\d+"/.test(sw));

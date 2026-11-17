@@ -22,6 +22,142 @@
     "_uitleg": "De ene bestemming van elke abonnee-knop in de app (vaste abonneeblok, onderblad, muren). Een betere bestemming later is één wijziging hier.",
     "url": "https://infofrankrijk.com/abonnement/"
   },
+  "startpagina": {
+    "_uitleg": "De startpagina (ronde 3, 17-11-2026): de volgorde van 'Onze platforms' (id en label; nedergids opent als link naar nedergidsBasis in een nieuw tabblad), en de ene regel in het blok 'Word abonnee'. De regel noemt alleen wat bestaat.",
+    "nedergidsBasis": "https://nedergids-v2.vercel.app/",
+    "platforms": [
+      {
+        "id": "infofrankrijk",
+        "label": "Infofrankrijk"
+      },
+      {
+        "id": "nlfr",
+        "label": "Nederlanders.fr"
+      },
+      {
+        "id": "nedergids",
+        "label": "Nedergids"
+      },
+      {
+        "id": "cafeclaude",
+        "label": "Café Claude"
+      },
+      {
+        "id": "kalender",
+        "label": "Kalender"
+      },
+      {
+        "id": "gemeente",
+        "label": "Mijn gemeente"
+      }
+    ],
+    "abonneeRegel": "Kort antwoord met AI · Dossier Frankrijk · kalender per maand"
+  },
+  "bijJou": {
+    "_uitleg": "Slim zoeken met 'Bij jou' (ronde 3, 17-11-2026): matcht de vraag op het zoekscherm (genormaliseerd: kleine letters, accenten weg, woordgrens) met één van deze onderwerpen en toont bij een bekende postcode tot drie echte items uit de Nedergids-API. woorden = komma-gescheiden zoekwoorden (ook meerwoordig); soort = zorg, overheden, verenigingen, ehpad, hygiene of gemeente (alleen een link); overheid = bij soort overheden welke soorten uit de Annuaire bij de vraag passen; anker = het blok in de Nedergids (/zoek?postcode=..#anker). De eerste regel die matcht wint, specifiek vóór algemeen. Eén plek, nooit in de code.",
+    "basis": "https://nedergids-v2.vercel.app",
+    "max": 3,
+    "onderwerpen": [
+      {
+        "woorden": "spoed, urgences, urgentie, eerste hulp, spoedeisende hulp, ambulance",
+        "soort": "zorg",
+        "titel": "Ziekenhuizen bij jou",
+        "anker": "spoed"
+      },
+      {
+        "woorden": "huisarts, dokter, arts, medecin, médecin, médecin généraliste, ziekenhuis, hopital, hôpital, kliniek, clinique",
+        "soort": "zorg",
+        "titel": "Ziekenhuizen bij jou",
+        "anker": "zorg"
+      },
+      {
+        "woorden": "verpleeghuis, bejaardentehuis, bejaardenhuis, ehpad, maison de retraite",
+        "soort": "ehpad",
+        "titel": "Verpleeghuizen (EHPAD) bij jou",
+        "anker": "ehpad"
+      },
+      {
+        "woorden": "restaurant, restaurants, hygiene, hygiëne, brasserie, eetgelegenheid",
+        "soort": "hygiene",
+        "titel": "Hygiënecontroles bij jou",
+        "anker": "hygiene"
+      },
+      {
+        "woorden": "vereniging, verenigingen, club, association",
+        "soort": "verenigingen",
+        "titel": "Verenigingen bij jou",
+        "anker": "verenigingen"
+      },
+      {
+        "woorden": "bouwvergunning, bouwaanvraag, permis de construire, permis, déclaration préalable, declaration prealable, urbanisme, mairie, gemeentehuis, stadhuis, burgemeester",
+        "soort": "overheden",
+        "titel": "Mairie (gemeentehuis) bij jou",
+        "anker": "overheden",
+        "overheid": [
+          "mairie"
+        ]
+      },
+      {
+        "woorden": "gendarmerie, politie, police, commissariat, diefstal, inbraak",
+        "soort": "overheden",
+        "titel": "Gendarmerie en politie bij jou",
+        "anker": "overheden",
+        "overheid": [
+          "gendarmerie",
+          "commissariat_police",
+          "police_municipale"
+        ]
+      },
+      {
+        "woorden": "cpam, carte vitale, ameli, assurance maladie, sécurité sociale, securite sociale, zorgverzekering",
+        "soort": "overheden",
+        "titel": "CPAM (zorgverzekering) bij jou",
+        "anker": "overheden",
+        "overheid": [
+          "cpam"
+        ]
+      },
+      {
+        "woorden": "caf, allocations familiales, woontoeslag, apl, kinderbijslag",
+        "soort": "overheden",
+        "titel": "CAF bij jou",
+        "anker": "overheden",
+        "overheid": [
+          "caf"
+        ]
+      },
+      {
+        "woorden": "belastingkantoor, impots, impôts, fiscus, sip, sie, centre des finances",
+        "soort": "overheden",
+        "titel": "Belastingkantoor bij jou",
+        "anker": "overheden",
+        "overheid": [
+          "sip",
+          "sie"
+        ]
+      },
+      {
+        "woorden": "prefectuur, préfecture, prefecture, sous-préfecture, sous prefecture, titre de séjour, titre de sejour, verblijfsvergunning",
+        "soort": "overheden",
+        "titel": "Prefectuur bij jou",
+        "anker": "overheden",
+        "overheid": [
+          "prefecture",
+          "sous_pref"
+        ]
+      },
+      {
+        "woorden": "france services, franceservices",
+        "soort": "overheden",
+        "titel": "France services bij jou",
+        "anker": "overheden",
+        "overheid": [
+          "france_services"
+        ]
+      }
+    ],
+    "timeoutMs": 15000
+  },
   "werkwijzeZoek": {
     "_uitleg": "Zoekregel voor het scherm Zo werken wij (14-11-2026): het scherm heeft geen module in de catalogus en is daarom anders onvindbaar. Een match opent de pagina. Puur lokale data, geen netwerk.",
     "woorden": "zo werken wij werkwijze manifest hoe wij werken controle controleren peil cafe claude kwaliteit bronnen auditor cijfers bedragen betrouwbaar",

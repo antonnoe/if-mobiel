@@ -379,8 +379,8 @@ test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band all
   assert.match(html, /const opts = \{credentials:"omit"\}/);
   // sinds de postzegel-ronde (13-11-2026): de zoekbalk staat onder de begroeting, boven de band Vandaag; de band is er
   // alleen met regels. De eerste zoekbalk in de bron is de Eenvoudig-variant, die ook vóór de band staat. Sinds de
-  // herstelronde (13-11-2026, 3e keer) is ook de Compleet-zoekbalk een echt veld (id="hubq2"), geen knop meer.
-  const iH1 = html.indexOf("{{ begroetingTekst }}"), iBand = html.indexOf('data-vandaag="1"'), iZoek = html.indexOf('id="hubq2"');
+  // herstelronde (13-11-2026, 3e keer) is ook de Compleet-zoekbalk een echt veld (id="hubq"), geen knop meer.
+  const iH1 = html.indexOf("{{ begroetingTekst }}"), iBand = html.indexOf('data-vandaag="1"'), iZoek = html.indexOf('id="hubq"');
   assert.ok(iH1 > 0 && iZoek > iH1 && iBand > iZoek, "volgorde begroeting, zoekbalk, band");
   assert.match(html, /<sc-if value="\{\{ vdToon \}\}" hint-placeholder-val="\{\{ false \}\}">\s*<div data-vandaag="1"/);
   assert.match(html, /margin:14px 16px 0;border-radius:18px;padding:14px 16px 6px;background:#2f6b3d;color:#fff/);
@@ -404,7 +404,7 @@ test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een fi
   // schakelaar Week | Maand: twee gelijke helften, 44 px, aria-pressed, actief bordeaux met witte tekst
   assert.match(scherm, /data-kal-schakel[\s\S]{0,400}aria-pressed="\{\{ kalIsWeek \}\}"[\s\S]{0,200}min-height:44px/);
   assert.match(scherm, /aria-pressed="\{\{ kalIsMaand \}\}"/);
-  assert.match(scherm, />Week<\/button>/); assert.match(scherm, />Maand<\/button>/);
+  assert.match(scherm, />Week<\/button>/); assert.match(scherm, />Maand<span data-abonnee-label/);
   assert.match(html, /kalWeekBg: maand \? "transparent" : "#800000", kalWeekFg: maand \? "#3D4346" : "#fff"/);
   assert.match(html, /kalWeergave:"maand"/, "standaard Maand");
   // navigatiekop: pijl vorige en volgende van 44 px, titel in Source Serif 4, tekstknop Vandaag

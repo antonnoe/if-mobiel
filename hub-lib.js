@@ -12,6 +12,42 @@
     return "Goedenavond";
   }
 
+
+  // Begroeting met postcode en plaats als die bekend zijn (ronde 3, 17-11-2026): "Goedemiddag · 62170 Montreuil-sur-Mer".
+  // Zonder geldige postcode alleen de begroeting; zonder plaats alleen de postcode.
+  function begroetingMetPlaats(date, pc, plaats) {
+    var b = begroeting(date);
+    if (!postcodeOk(pc)) return b;
+    var p = typeof plaats === "string" ? plaats.trim() : "";
+    return b + " \u00b7 " + pc + (p ? " " + p : "");
+  }
+
+  // "Onze platforms" op de startpagina. De lijst (id en label, in deze volgorde) en de Nedergids-adressen staan in
+  // modules.json (`startpagina`); dit is de terugval. Nedergids is een externe link (nieuw tabblad), met de postcode
+  // als die bekend is; de rest opent binnen de app (de index.html koppelt het id aan een scherm).
+  var PLATFORMS_STANDAARD = [
+    { id: "infofrankrijk", label: "Infofrankrijk" }, { id: "nlfr", label: "Nederlanders.fr" },
+    { id: "nedergids", label: "Nedergids" }, { id: "cafeclaude", label: "Caf\u00e9 Claude" },
+    { id: "kalender", label: "Kalender" }, { id: "gemeente", label: "Mijn gemeente" }
+  ];
+  var NEDERGIDS_BASIS = "https://nedergids-v2.vercel.app/";
+  function nedergidsUrl(pc, basis) {
+    var b = typeof basis === "string" && /^https:\/\//.test(basis) ? basis : NEDERGIDS_BASIS;
+    return postcodeOk(pc) ? b.replace(/\/+$/, "") + "/zoek?postcode=" + pc : b;
+  }
+  function platforms(cfg, pc) {
+    var lijst = cfg && Array.isArray(cfg.platforms) && cfg.platforms.length ? cfg.platforms : PLATFORMS_STANDAARD;
+    return lijst.filter(function (p) { return p && typeof p.id === "string" && typeof p.label === "string" && p.label; }).map(function (p) {
+      if (p.id === "nedergids") return { id: p.id, label: p.label, extern: true, href: nedergidsUrl(pc, cfg && cfg.nedergidsBasis) };
+      return { id: p.id, label: p.label, extern: false, href: "" };
+    });
+  }
+  // Eén regel in het blok "Word abonnee": alleen wat bestaat.
+  function aboRegel(cfg) {
+    var r = cfg && typeof cfg.abonneeRegel === "string" ? cfg.abonneeRegel.trim() : "";
+    return r || "Kort antwoord met AI \u00b7 Dossier Frankrijk \u00b7 kalender per maand";
+  }
+
   // Themakleuren. De bron is modules.json (themas[].kleur en .tint); dit is de terugval.
   // kleur = donkere variant (icoon, accent), tint = lichte cirkel erachter.
   var THEMA_KLEUREN = {
@@ -163,7 +199,7 @@
   }
 
   var api = {
-    begroeting: begroeting, THEMA_KLEUREN: THEMA_KLEUREN, themaKleur: themaKleur, luminantie: luminantie,
+    begroeting: begroeting, begroetingMetPlaats: begroetingMetPlaats, platforms: platforms, nedergidsUrl: nedergidsUrl, aboRegel: aboRegel, THEMA_KLEUREN: THEMA_KLEUREN, themaKleur: themaKleur, luminantie: luminantie,
     contrast: contrast, TABS: TABS, tabVan: tabVan, postcodeOk: postcodeOk, regioLabel: regioLabel,
     departementCode: departementCode, geoUrl: geoUrl, postcodeUitGeo: postcodeUitGeo, plaatsUitApi: plaatsUitApi, plaatsUrl: plaatsUrl, plaatsUitOpslag: plaatsUitOpslag,
     gemeentenUrlGeopf: gemeentenUrlGeopf, gemeentenUitGeopf: gemeentenUitGeopf, geoUrlGeopf: geoUrlGeopf, geoUitGeopf: geoUitGeopf

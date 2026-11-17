@@ -106,7 +106,6 @@ const OP_PLANEET = {
 };
 const WEGGELATEN = {
   hub: "het beginscherm, hier komt de lezer vandaan",
-  standkeuze: "eenmalig keuzescherm voor het begin (Eenvoudig/Compleet), geen functie, bereikbaar via Profiel om te wijzigen",
   zoek: "het scherm waar de planeet zelf op staat",
   aitools: "overzicht van dezelfde AI-tools die al op de maan Vragen aan AI staan",
   tool: "generiek moduleschermpje (iframe of knop): de modules zelf staan op de planeet",
