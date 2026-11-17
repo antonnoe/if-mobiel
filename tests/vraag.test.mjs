@@ -93,7 +93,10 @@ test("meta, privacy, label en teksten", () => {
   assert.equal(V.LABEL, "abonnee, nu gratis");
   assert.equal(V.REGEL, "Kort antwoord met AI: voor abonnees, nu nog voor iedereen");
   assert.match(V.PRIVACY, /Claude van Anthropic/);
-  assert.match(V.PRIVACY, /Infopoche bewaart hem niet/);
+  assert.match(V.PRIVACY, /InfoPoche bewaart hem niet/);
+  assert.match(V.PRIVACY, /beperkte tijd bewaren/);
+  assert.match(V.PRIVACY, /infofrankrijk\.com/);
+  assert.equal(/Infopoche/.test(V.PRIVACY), false, "spelling InfoPoche");
   assert.equal(V.WACHT, "Antwoord zoeken in onze bronnen...");
   assert.equal(V.TIMEOUT_MS, 45000);
   assert.equal(V.samenvatting(), "Samenvatting door de app op basis van de bronnen hierboven. Franse bronnen zijn vertaald.");
@@ -138,7 +141,7 @@ test("functie (documentatiekopie): herkomst, limieten, model, geen sleutel in co
   assert.match(fn, /\/search\?search=.*per_page=10&subtype=post,page/);
   assert.match(fn, /\$\{t\.subtype === "page" \? "pages" : "posts"\}\/\$\{t\.id\}/);
   assert.match(fn, /Behandelt een bron het onderwerp van de vraag deels/);
-  assert.match(fn, /klusarchief_kennis_context/);
-  assert.match(fn, /klusarchief_context/);
+  assert.match(fn, /infopoche_vraag_kennis/);
+  assert.match(fn, /infopoche_vraag_forum/);
   assert.ok(fn.includes("Hier vond ik geen bron voor. Kijk in de resultaten hieronder of stel je vraag op het forum."));
 });

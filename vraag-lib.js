@@ -11,7 +11,7 @@
   var KOP = "Kort antwoord";
   var KNOP = "Kort antwoord met AI";
   var WACHT = "Antwoord zoeken in onze bronnen...";
-  var PRIVACY = "Je vraag gaat naar Claude van Anthropic om het antwoord te schrijven. Infopoche bewaart hem niet. Vul geen namen of adressen in.";
+  var PRIVACY = "Je vraag gaat naar Claude van Anthropic om het antwoord te schrijven. InfoPoche bewaart hem niet en schrijft hem nergens op. Anthropic kan zulke gegevens zelf een beperkte tijd bewaren. De zoektermen uit je vraag gaan naar infofrankrijk.com. Vul geen namen of adressen in.";
   var GEEN_BRON = "Hier vond ik geen bron voor. Kijk in de resultaten hieronder of stel je vraag op het forum.";
 
   function K() {
