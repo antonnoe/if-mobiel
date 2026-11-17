@@ -11,11 +11,11 @@ import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 const THUIS = ["https://infopoche.fr", "https://www.infopoche.fr"];
 const TEST = ["http://localhost:3000", "http://localhost:5000", "http://localhost:8080"];
 const MODEL = "claude-sonnet-5-5";
-const MAX_TOKENS = 900;
+const MAX_TOKENS = 4000; // ruim: het model kan eerst nadenken, dat telt mee in max_tokens
 const MAX_PER_UUR = 150;
 const MAX_PER_DAG = 800;
 const GRENS_JAAR = 2025;
-const WP = "https://infofrankrijk.com/wp-json/wp/v2/posts";
+const WPAPI = "https://infofrankrijk.com/wp-json/wp/v2";
 const GEEN_BRON = "Hier vond ik geen bron voor. Kijk in de resultaten hieronder of stel je vraag op het forum.";
 
 const SYSTEEM = `Je geeft een kort antwoord op een vraag van een Nederlander in Frankrijk, uitsluitend op basis van de genummerde bronnen hieronder. Soorten bronnen:
@@ -23,7 +23,7 @@ const SYSTEEM = `Je geeft een kort antwoord op een vraag van een Nederlander in 
 - soort="officieel": fiches van Service Public / DILA of andere Franse overheidssites (Frans, met datum van bijwerking). Je vertaalt en vat samen.
 - soort="forum": oude forumdraden uit 2012 tot 2020 (ervaringen van forumleden).
 Regels:
-1. Gebruik alleen informatie uit de bronnen. Vul nooit aan met algemene kennis. Staat het antwoord er niet of maar gedeeltelijk in, zeg dan kort wat wel en wat niet in de bronnen staat. Gaat geen enkele bron over het onderwerp zelf (ze gaan alleen over iets verwants, zoals een ander zorgonderwerp of een andere belasting), antwoord dan alleen: "${GEEN_BRON}" en noem geen bron. Vat dan geen losse randinformatie samen.
+1. Gebruik alleen informatie uit de bronnen. Vul nooit aan met algemene kennis. Behandelt een bron het onderwerp van de vraag deels, geef dan een deelantwoord met bronnummers en zeg in één zin wat de bronnen niet behandelen (bijvoorbeeld "Over de kosten staat in de bronnen niets."). Alleen als geen enkele bron over het onderwerp zelf gaat (ze gaan alleen over iets verwants, zoals een ander zorgonderwerp of een andere belasting), antwoord je uitsluitend: "${GEEN_BRON}" en noem je geen bron. Vat dan geen losse randinformatie samen.
 2. Schrijf Nederlands, zakelijk, hooguit ongeveer 150 woorden, hooguit 4 opsommingspunten (regels die met "- " beginnen), geen kopjes, geen lange liggende streepjes (gebruik komma's). Sluit af met een volledige zin. Begin niet met "ja" of "nee" tenzij een bron dat letterlijk zo zegt, en begin niet met een zin zonder bronnummer. Spreek de lezer aan met je en jij, nooit met u, ook niet als de bron u gebruikt.
 3. Zet direct na elke bewering het nummer van de bron, bijvoorbeeld [2]. Een bewering zonder bron mag je niet doen. Noem een bron alleen als hij een bewering daadwerkelijk ondersteunt.
 4. Noem geen bedragen, tarieven, termijnen, drempels of wetsartikelen die niet letterlijk in een bron staan. Noem je een bedrag of tarief uit een artikel of officiële bron, noem dan de datum van die bron erbij (bijvoorbeeld "volgens het artikel van 16 januari 2026 [3]").
@@ -117,32 +117,57 @@ function urlSleutel(u: string): string {
 }
 
 type Artikel = { titel: string; url: string; datum: string; tekst: string };
-async function zoekWp(term: string): Promise<Artikel[]> {
-  if (!term) return [];
+const WP_KOP = { "User-Agent": "Infopoche/1.0 (+https://infopoche.fr)", "Accept": "application/json" };
+async function wpHaal(url: string, ms: number): Promise<unknown> {
   const ctl = new AbortController();
-  const t = setTimeout(() => ctl.abort(), 7000);
+  const t = setTimeout(() => ctl.abort(), ms);
   try {
-    const r = await fetch(`${WP}?search=${encodeURIComponent(term)}&per_page=4&_fields=id,title,link,date,content`, {
-      headers: { "User-Agent": "Infopoche/1.0 (+https://infopoche.fr)", "Accept": "application/json" }, signal: ctl.signal,
-    });
-    if (!r.ok) return [];
-    const j = await r.json();
-    if (!Array.isArray(j)) return [];
-    const uit: Artikel[] = [];
-    for (const p of j) {
-      const url = typeof p?.link === "string" ? p.link : "";
-      if (!/^https:\/\/(www\.)?infofrankrijk\.com\//i.test(url)) continue;
-      const titel = stripHtml(String(p?.title?.rendered ?? ""));
-      const tekst = uittreksel(stripHtml(String(p?.content?.rendered ?? "")), [term]);
-      if (!titel || !tekst) continue;
-      uit.push({ titel, url, datum: String(p?.date ?? "").slice(0, 10), tekst });
-    }
-    return uit;
+    const r = await fetch(url, { headers: WP_KOP, signal: ctl.signal });
+    return r.ok ? await r.json() : null;
   } catch {
-    return [];
+    return null;
   } finally {
     clearTimeout(t);
   }
+}
+const norm = (t: string) => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+type Treffer = { id: number; subtype: string; titel: string; url: string; score: number };
+// Zoeken zoals nav-lib.js: /wp/v2/search (relevantie-gerangschikt), per term, samengevoegd; titeltreffers eerst.
+async function zoekWp(termen: string[]): Promise<Treffer[]> {
+  const lijsten = await Promise.all(termen.map((t) =>
+    wpHaal(`${WPAPI}/search?search=${encodeURIComponent(t)}&per_page=10&subtype=post,page&_fields=id,title,url,subtype`, 7000)));
+  const kaart = new Map<number, Treffer>();
+  lijsten.forEach((lijst, ti) => {
+    if (!Array.isArray(lijst)) return;
+    const term = norm(termen[ti]);
+    lijst.forEach((p: Record<string, unknown>, rang: number) => {
+      const id = Number(p?.id);
+      const url = typeof p?.url === "string" ? p.url : "";
+      const sub = p?.subtype === "page" ? "page" : p?.subtype === "post" ? "post" : "";
+      if (!id || !sub || !/^https:\/\/(www\.)?infofrankrijk\.com\//i.test(url)) return;
+      const titel = stripHtml(String(p?.title ?? ""));
+      const titelTreft = norm(titel).includes(term) ? 1 : 0;
+      // kernterm (eerste) weegt zwaarder; titeltreffer weegt het zwaarst; hogere rang telt licht mee
+      const punten = (ti === 0 ? 3 : 1) + titelTreft * 6 + (10 - rang) / 10;
+      const bestaand = kaart.get(id);
+      if (bestaand) bestaand.score += punten;
+      else kaart.set(id, { id, subtype: sub, titel, url, score: punten });
+    });
+  });
+  return [...kaart.values()].sort((x, y) => y.score - x.score);
+}
+async function haalArtikelen(treffers: Treffer[], termen: string[]): Promise<Artikel[]> {
+  const rijen = await Promise.all(treffers.map(async (t) => {
+    const j = await wpHaal(`${WPAPI}/${t.subtype === "page" ? "pages" : "posts"}/${t.id}?_fields=id,title,link,date,content`, 8000) as Record<string, any> | null;
+    if (!j) return null;
+    const url = typeof j.link === "string" ? j.link : t.url;
+    if (!/^https:\/\/(www\.)?infofrankrijk\.com\//i.test(url)) return null;
+    const titel = stripHtml(String(j?.title?.rendered ?? t.titel));
+    const tekst = uittreksel(stripHtml(String(j?.content?.rendered ?? "")), termen);
+    if (!titel || !tekst) return null;
+    return { titel, url, datum: String(j?.date ?? "").slice(0, 10), tekst } as Artikel;
+  }));
+  return rijen.filter((x): x is Artikel => !!x);
 }
 
 Deno.serve(async (req: Request) => {
@@ -177,8 +202,9 @@ Deno.serve(async (req: Request) => {
   let nlWoorden = vraag;
   let frWoorden = "";
   let kern = "";
+  let nlModel = "";
   try {
-    const r = await model(sleutel, SYSTEEM_TREFWOORDEN, [{ role: "user", content: vraag }], 300, 10000);
+    const r = await model(sleutel, SYSTEEM_TREFWOORDEN, [{ role: "user", content: vraag }], 2000, 20000);
     if (r.status === 429 || r.status === 529) return antwoord(503, { ok: false, fout: "druk" }, origin);
     if (r.ok) {
       const j = await r.json();
@@ -186,6 +212,7 @@ Deno.serve(async (req: Request) => {
       const m = t.match(/\{[\s\S]*\}/);
       if (m) {
         const o = JSON.parse(m[0]);
+        if (typeof o.nl === "string" && o.nl.trim()) nlModel = o.nl.slice(0, 300);
         if (typeof o.nl === "string" && o.nl.trim()) nlWoorden = `${o.nl} ${vraag}`.slice(0, 600);
         if (typeof o.fr === "string") frWoorden = o.fr.slice(0, 400);
         if (typeof o.kern === "string") kern = o.kern.replace(/[^\p{L}\p{N} -]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 60);
@@ -199,15 +226,19 @@ Deno.serve(async (req: Request) => {
     console.error("trefwoorden uitzondering", e instanceof Error ? e.name : "onbekend");
   }
 
-  // Stap 2: bronnen. WordPress-zoeken op de kernterm en op de eerste twee losse Nederlandse trefwoorden
-  // (WordPress zoekt met EN, dus losse woorden), plus de SQL-functies voor fiches, artikelen en forum.
-  const losse = nlWoorden.split(" ").map((w) => w.replace(/[^\p{L}\p{N}-]/gu, "")).filter((w) => w.length >= 4).slice(0, 2);
-  const termen = [...new Set([kern, ...losse].filter(Boolean))].slice(0, 3);
-  const [wpLijsten, kn, ctx] = await Promise.all([
-    Promise.all(termen.map(zoekWp)),
+  // Stap 2: bronnen. WordPress-zoeken (/wp/v2/search) op de kernterm en de losse NL- en FR-trefwoorden,
+  // samengevoegd met titeltreffers eerst; van de beste 5 komt de inhoud erbij. Plus de SQL-functies voor fiches en forum.
+  const nlLos = nlModel.split(" ").map((w) => w.replace(/[^\p{L}\p{N}-]/gu, "")).filter((w) => w.length >= 4);
+  const frLos = frWoorden.split(" ").map((w) => w.replace(/[^\p{L}\p{N}-]/gu, "")).filter((w) => w.length >= 4);
+  const vraagLos = vraag.split(" ").map((w) => w.replace(/[^\p{L}\p{N}-]/gu, "")).filter((w) => w.length >= 6);
+  const termen = [...new Set([kern, ...nlLos.slice(0, 4), ...frLos.slice(0, 3), ...(kern ? [] : vraagLos.slice(0, 2))].filter(Boolean))].slice(0, 8);
+  const beste = (await zoekWp(termen)).slice(0, 5);
+  const [wpArtikelen, kn, ctx] = await Promise.all([
+    haalArtikelen(beste, [kern, ...nlLos, ...frLos].filter(Boolean)),
     db.rpc("klusarchief_kennis_context", { nl: nlWoorden, fr: frWoorden, lim_art: 3, lim_off: 4 }),
     db.rpc("klusarchief_context", { vraag: nlWoorden, lim: 3, kern }),
   ]);
+  const wpLijsten = [wpArtikelen];
   const kennis = (kn.error ? [] : (kn.data ?? [])) as Array<{ soort: string; titel: string; url: string; bronnaam: string; datum: string | null; passages: string }>;
   const draden = (ctx.error ? [] : (ctx.data ?? [])) as Array<{ id: number; titel: string; jaar: number; passages: string }>;
 

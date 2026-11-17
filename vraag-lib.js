@@ -5,7 +5,9 @@
 (function (root) {
   var BASIS = "https://mqkhfyvrizgmmmcbdkxh.supabase.co/functions/v1/infopoche-vraag";
   var MIN = 5, MAX = 300, TIMEOUT_MS = 45000, STATUS_MS = 5000, PAUZE_MS = 1200;
-  var LABEL = "abonnee";
+  // Eén plek voor de abonnee-teksten rond Kort antwoord met AI (besluit 17-11-2026, herstelronde 1): het is premium, maar voorlopig voor iedereen open.
+  var LABEL = "abonnee, nu gratis";
+  var REGEL = "Kort antwoord met AI: voor abonnees, nu nog voor iedereen";
   var KOP = "Kort antwoord";
   var KNOP = "Kort antwoord met AI";
   var WACHT = "Antwoord zoeken in onze bronnen...";
@@ -75,7 +77,7 @@
 
   var api = {
     BASIS: BASIS, MIN: MIN, MAX: MAX, TIMEOUT_MS: TIMEOUT_MS, STATUS_MS: STATUS_MS, PAUZE_MS: PAUZE_MS,
-    LABEL: LABEL, KOP: KOP, KNOP: KNOP, WACHT: WACHT, PRIVACY: PRIVACY, GEEN_BRON: GEEN_BRON,
+    LABEL: LABEL, REGEL: REGEL, KOP: KOP, KNOP: KNOP, WACHT: WACHT, PRIVACY: PRIVACY, GEEN_BRON: GEEN_BRON,
     vraagSchoon: vraagSchoon, aantalWoorden: aantalWoorden, metAuto: metAuto, sleutel: sleutel, body: body, aan: aan, soort: soort,
     lees: lees, blokken: blokken, bronMeta: bronMeta, verouderdTekst: verouderdTekst, heeftForum: heeftForum, waarschuwing: waarschuwing, samenvatting: samenvatting
   };

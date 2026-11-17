@@ -53,8 +53,8 @@ test("herstelronde: deelknop 44 px, datum in de gedeelde tekst, devisdossier nie
 test("zoekveld op de hub (Compleet-stand): 54 px, bordeaux icoon, een echt typbaar veld (10-11-2026, herstel 13-11-2026)", () => {
   const h = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   const blok = h.slice(h.indexOf('data-hubzoek="1"'), h.indexOf('data-hubzoek="1"') + 700);
-  assert.match(blok, /min-height:64px/);
-  assert.match(blok, /placeholder="Typ je vraag"/);
+  assert.match(blok, /placeholder="Typ je vraag in je eigen woorden"/);
+  assert.match(blok, /min-height:52px/);
   assert.match(blok, /<input id="hubq" value="\{\{ q \}\}" onInput="\{\{ onHubQ \}\}" onKeyDown="\{\{ onHubQEnter \}\}"/);
   assert.ok(!/<button[^>]*data-hubzoek/.test(h), "geen knop meer, een echt veld");
   assert.match(h, /width:22px;height:22px;color:#800000/);

@@ -30,15 +30,15 @@ test("B2: vraagveld is een echt veld, 2px bordeaux, juiste placeholder, navigeer
   const j = html.indexOf('data-hubzoek="1"');
   const blok = html.slice(j, j + 900);
   assert.match(blok, /border:2px solid #800000/);
-  assert.match(blok, /placeholder="Typ je vraag"/);
+  assert.match(blok, /placeholder="Typ je vraag in je eigen woorden"/);
   const tag = html.slice(html.indexOf('<input id="hubq"'), html.indexOf('<input id="hubq"') + 500).match(/<input[^>]*>/)[0];
   assert.ok(!/onFocus|onBlur/.test(tag));
   assert.match(html, /onHubQ: e => \{ this\.setState\(\{q:e\.target\.value\}\); \},/);
   assert.match(html, /onHubQEnter: e => \{ if \(e\.key !== "Enter"\) return; this\.hubZoekGa\(e\.target\.value\); \},/);
   assert.ok(!/_hubQT/.test(html));
   assert.ok(!/setTimeout\([^\n]*this\.go\("zoek"/.test(html));
-  assert.ok(html.includes("Kort antwoord met AI: <b"));
-  assert.ok(html.includes("voor abonnees</b>"));
+  assert.ok(html.includes("{{ aiRegelVooraf }}<b"));
+  assert.ok(html.includes("{{ aiRegelVet }}</b>"));
 });
 
 test("B2: begroeting met postcode en plaats", () => {

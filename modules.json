@@ -65,7 +65,13 @@
         "anker": "spoed"
       },
       {
-        "woorden": "huisarts, dokter, arts, medecin, médecin, médecin généraliste, ziekenhuis, hopital, hôpital, kliniek, clinique",
+        "woorden": "huisarts, dokter, arts, medecin, médecin, médecin généraliste",
+        "soort": "zorg",
+        "titel": "Ziekenhuizen bij jou (huisartsen staan nog niet in de Nedergids)",
+        "anker": "zorg"
+      },
+      {
+        "woorden": "ziekenhuis, hopital, hôpital, kliniek, clinique",
         "soort": "zorg",
         "titel": "Ziekenhuizen bij jou",
         "anker": "zorg"
@@ -89,7 +95,7 @@
         "anker": "verenigingen"
       },
       {
-        "woorden": "bouwvergunning, bouwaanvraag, permis de construire, permis, déclaration préalable, declaration prealable, urbanisme, mairie, gemeentehuis, stadhuis, burgemeester",
+        "woorden": "bouwvergunning, bouwaanvraag, permis de construire, permis, déclaration préalable, declaration prealable, urbanisme, mairie, gemeentehuis, stadhuis, burgemeester, tuinhuis, tuinhuisje, schuur, abri de jardin, aanbouw, uitbouw, veranda, carport, zwembad, dakkapel, vergunning, verbouwen, verbouwing",
         "soort": "overheden",
         "titel": "Mairie (gemeentehuis) bij jou",
         "anker": "overheden",

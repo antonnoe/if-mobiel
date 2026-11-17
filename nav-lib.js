@@ -92,7 +92,33 @@
     return uit;
   }
 
-  var api = { parseHash: parseHash, bouwHash: bouwHash, deelUrl: deelUrl, isTop: isTop, navKey: navKey, maakTeller: maakTeller,
+
+  // Kernwoorden uit een zoekvraag (herstelronde 1, 17-11-2026): bij 3 of meer woorden zoeken de gewone resultaten op de
+  // woorden die iets zeggen. Stopwoorden (lidwoorden, voornaamwoorden, hulpwerkwoorden, voorzetsels, vraagwoorden) vallen weg;
+  // "aanvragen" en andere gewone werkwoorden blijven staan. Pure functies, geen DOM.
+  var STOPWOORDEN = ("de het een en of maar dus want dat dit die deze die er ook nog wel niet geen te toe aan af op in uit van voor door met bij naar om over onder tegen tot tussen na " +
+    "ik jij je jou jouw hij zij ze zijn haar wij we ons onze jullie ze hun mij me mijn men " +
+    "is ben bent zijn was waren wordt worden werd werden heb hebt heeft hebben had hadden ga gaat gaan ging " +
+    "moet moeten moest mag mogen mocht kan kunnen kon zou zouden zal zullen wil willen wilde " +
+    "hoe wat waar wie wanneer waarom welke welk hoeveel waarvoor waarmee waarvan " +
+    "als dan toen omdat terwijl zodat of dus alle alles veel meer mee hier daar er al").split(" ").concat(["\u0075", "\u0075w"]);
+  function kernwoorden(vraag) {
+    var t = String(vraag || "").toLowerCase();
+    try { t = t.normalize("NFC"); } catch (e) {}
+    var w = t.replace(/[^\p{L}\p{N}\- ]+/gu, " ").split(/\s+/).filter(Boolean);
+    var uit = [];
+    w.forEach(function (x) { if (STOPWOORDEN.indexOf(x) < 0 && uit.indexOf(x) < 0) uit.push(x); });
+    return uit;
+  }
+  // De zoekterm voor de gewone resultaten: bij 3 of meer woorden de kernwoorden (als er minstens een overblijft), anders de invoer zelf.
+  function zoekTerm(q) {
+    var t = String(q || "").trim().replace(/\s+/g, " ");
+    if (t.split(" ").filter(Boolean).length < 3) return t;
+    var k = kernwoorden(t);
+    return k.length ? k.join(" ") : t;
+  }
+
+  var api = { kernwoorden: kernwoorden, zoekTerm: zoekTerm, STOPWOORDEN: STOPWOORDEN, parseHash: parseHash, bouwHash: bouwHash, deelUrl: deelUrl, isTop: isTop, navKey: navKey, maakTeller: maakTeller,
     artikelZoekUrl: artikelZoekUrl, artikelTreffers: artikelTreffers };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfNav = api;

@@ -90,7 +90,8 @@ test("blokken: [n] met bron wordt segment, zonder bron kale tekst, nooit HTML", 
 
 test("meta, privacy, label en teksten", () => {
   assert.match(V.bronMeta(bronA), /2026-10-10|10-10-2026/);
-  assert.equal(V.LABEL, "abonnee");
+  assert.equal(V.LABEL, "abonnee, nu gratis");
+  assert.equal(V.REGEL, "Kort antwoord met AI: voor abonnees, nu nog voor iedereen");
   assert.match(V.PRIVACY, /Claude van Anthropic/);
   assert.match(V.PRIVACY, /Infopoche bewaart hem niet/);
   assert.equal(V.WACHT, "Antwoord zoeken in onze bronnen...");
@@ -133,7 +134,10 @@ test("functie (documentatiekopie): herkomst, limieten, model, geen sleutel in co
   assert.match(fn, /MAX_PER_DAG = 800/);
   assert.match(fn, /infopoche_vraag/);
   assert.match(fn, /const THUIS = \["https:\/\/infopoche\.fr"/);
-  assert.match(fn, /infofrankrijk\.com\/wp-json\/wp\/v2\/posts/);
+  assert.match(fn, /infofrankrijk\.com\/wp-json\/wp\/v2"/);
+  assert.match(fn, /\/search\?search=.*per_page=10&subtype=post,page/);
+  assert.match(fn, /\$\{t\.subtype === "page" \? "pages" : "posts"\}\/\$\{t\.id\}/);
+  assert.match(fn, /Behandelt een bron het onderwerp van de vraag deels/);
   assert.match(fn, /klusarchief_kennis_context/);
   assert.match(fn, /klusarchief_context/);
   assert.ok(fn.includes("Hier vond ik geen bron voor. Kijk in de resultaten hieronder of stel je vraag op het forum."));

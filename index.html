@@ -278,12 +278,16 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.15;letter-spacing:-.005em;margin:0;color:#15181A">Waar kunnen we je mee helpen?</h2>
     </div>
     <div style="padding:12px 16px 0">
-      <div data-hubzoek="1" style="width:100%;display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:0 12px 0 14px;min-height:64px;box-sizing:border-box">
-        <span style="{{ zoekIcoStyle }}"></span>
-        <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Typ je vraag" aria-label="Waar kunnen we je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 15px Mulish;color:#15181A;min-height:60px">
-        <button data-zoekga="1" onClick="{{ onHubZoek }}" aria-label="Zoek" style="flex-shrink:0;min-width:64px;min-height:44px;padding:0 16px;border-radius:12px;border:0;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
+      <div data-hubzoek="1" style="width:100%;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:6px 12px 12px 14px;box-sizing:border-box">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="{{ zoekIcoStyle }}"></span>
+          <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Typ je vraag in je eigen woorden" aria-label="Waar kunnen we je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 15px Mulish;color:#15181A;min-height:52px">
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:4px">
+          <button data-zoekga="1" onClick="{{ onHubZoek }}" aria-label="Zoek" style="min-width:96px;min-height:46px;padding:0 22px;border-radius:12px;border:0;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
+        </div>
       </div>
-      <div data-airegel="1" style="display:flex;align-items:center;gap:6px;margin:8px 2px 0;font:500 12px/1.4 Mulish;color:#3D4346"><span aria-hidden="true" style="{{ aiSparkleStyle }}"></span><span>Kort antwoord met AI: <b style="font-weight:700;color:#800000">voor abonnees</b></span></div>
+      <div data-airegel="1" style="display:flex;align-items:center;gap:6px;margin:8px 2px 0;font:500 12px/1.4 Mulish;color:#3D4346"><span aria-hidden="true" style="{{ aiSparkleStyle }}"></span><span>{{ aiRegelVooraf }}<b style="font-weight:700;color:#800000">{{ aiRegelVet }}</b></span></div>
     </div>
     <div style="padding:20px 18px 0;font:600 12px Mulish;letter-spacing:.10em;color:#5F6669">Of kies een onderwerp</div>
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:8px 16px 0">
@@ -297,7 +301,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:20px 18px 0;font:700 13px Mulish;color:#800000">Onze platforms</div>
     <div data-platforms="1" style="display:flex;flex-wrap:wrap;gap:8px;padding:8px 16px 0">
       <sc-for list="{{ hubPlatforms }}" as="p" hint-placeholder-count="6">
-      <sc-if value="{{ p.isLink }}" hint-placeholder-val="{{ false }}"><a data-platform="{{ p.id }}" href="{{ p.href }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;box-sizing:border-box;border-radius:22px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#15181A;text-decoration:none;font:600 14px Mulish">{{ p.label }}</a></sc-if>
+      <sc-if value="{{ p.isLink }}" hint-placeholder-val="{{ false }}"><a data-platform="{{ p.id }}" href="{{ p.href }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;box-sizing:border-box;border-radius:22px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#15181A;text-decoration:none;font:600 14px Mulish">{{ p.label }}&nbsp;↗</a></sc-if>
       <sc-if value="{{ p.isKnop }}" hint-placeholder-val="{{ true }}"><button data-platform="{{ p.id }}" onClick="{{ p.open }}" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#15181A;font:600 14px Mulish;cursor:pointer">{{ p.label }}</button></sc-if>
       </sc-for>
     </div>
@@ -330,7 +334,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <b style="display:block;font:600 17px Poppins,system-ui,sans-serif;color:#15181A">Word abonnee</b>
       <p style="margin:6px 0 0;font:500 14px/1.6 Mulish;color:#3D4346">{{ hubAboRegel }}</p>
       <p style="margin:4px 0 0;font:500 14px/1.6 Mulish;color:#3D4346">Je steunt er ook het netwerk mee.</p>
-      <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="margin-top:12px;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement</a>
+      <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="margin-top:12px;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement ↗</a>
     </div>
     <div style="padding:22px 18px 0;font:700 13px Mulish;color:#800000">Meer</div>
     <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px 16px 0">
@@ -1156,7 +1160,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:0 4px 8px"><b style="display:block;font:700 15px Poppins,system-ui,sans-serif;color:#800000">{{ bjKop }}</b><span style="display:block;font:500 12.5px/1.4 Mulish;color:#3D4346;margin-top:2px">{{ bjTitel }}, uit de Nedergids</span></div>
     <div style="background:#fff;border:1.5px solid rgba(128,0,0,.35);border-radius:16px;overflow:hidden">
       <sc-for list="{{ bjItems }}" as="b" hint-placeholder-count="3">
-      <a data-bijjou-item="1" href="{{ b.href }}" target="_blank" rel="noopener" style="display:block;box-sizing:border-box;min-height:56px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none"><b style="display:block;font:700 14.5px/1.35 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.naam }}</b><span style="display:block;font:500 12.5px/1.5 Mulish;color:#5F6669;margin-top:2px">{{ b.regel }}</span></a>
+      <a data-bijjou-item="1" href="{{ b.href }}" target="_blank" rel="noopener" style="display:block;box-sizing:border-box;min-height:56px;padding:12px 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none"><b style="display:block;font:700 14.5px/1.35 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.naam }} ↗</b><span style="display:block;font:500 12.5px/1.5 Mulish;color:#5F6669;margin-top:2px">{{ b.regel }}</span></a>
       </sc-for>
       <a data-bijjou-alles="1" href="{{ bjAlles }}" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:48px;padding:0 15px;border-top:1px solid rgba(21,24,26,.06);text-decoration:none;color:#800000;font:700 14px Mulish">{{ bjAllesTekst }} &#8599;</a>
     </div>
@@ -1190,7 +1194,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <sc-if value="{{ r.extern }}" hint-placeholder-val="{{ false }}">
       <a href="{{ r.href }}" target="_blank" rel="noopener" style="width:100%;box-sizing:border-box;display:flex;align-items:flex-start;gap:11px;padding:13px 15px;background:none;border:0;border-top:1px solid rgba(21,24,26,.06);text-align:left;text-decoration:none;min-height:52px">
         <span style="font:800 11.5px Mulish;letter-spacing:.03em;color:#800000;flex:none;width:76px;padding-top:4px;overflow-wrap:anywhere">{{ r.label }}</span>
-        <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }}</b>
+        <b style="flex:1;min-width:0;font:700 14.5px/1.35 Mulish;color:#15181A;text-wrap:pretty;overflow-wrap:anywhere">{{ r.titel }} ↗</b>
       </a>
       </sc-if>
       <sc-if value="{{ r.intern }}" hint-placeholder-val="{{ true }}">
@@ -1665,7 +1669,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:9px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px Mulish">IF</span><span style="font:600 15px Poppins,system-ui,sans-serif;line-height:1.25">{{ abKop }}</span></div>
   <p style="margin:0;font:400 14.5px Mulish;line-height:1.8em;color:#15181A">{{ abRuyterTekst }}</p>
   <p style="margin:0;font:500 13.5px Mulish;line-height:1.8em;color:#3D4346">{{ abForum }}</p>
-  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement</a>
+  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement ↗</a>
 </section>
 </sc-if>
 
@@ -2781,7 +2785,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:9px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px Mulish">IF</span><span style="font:600 15px Poppins,system-ui,sans-serif;line-height:1.25">{{ abMuurKop }}</span></div>
   <p style="margin:0;font:400 14.5px Mulish;line-height:1.8em;color:#15181A">{{ abMuurTekst }}</p>
   <p style="margin:0;font:500 13.5px Mulish;line-height:1.8em;color:#3D4346">{{ abForum }}</p>
-  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement</a>
+  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement ↗</a>
 </section>
 </sc-if>
 
@@ -2805,7 +2809,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:9px;background:#800000;color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px Mulish">IF</span><span style="font:600 15px Poppins,system-ui,sans-serif;line-height:1.25">{{ abKop }}</span></div>
   <p style="margin:0;font:400 14.5px Mulish;line-height:1.8em;color:#15181A">{{ abArtikelTekst }}</p>
   <p style="margin:0;font:500 13.5px Mulish;line-height:1.8em;color:#3D4346">{{ abForum }}</p>
-  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement</a>
+  <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement ↗</a>
 </section>
 </sc-if>
 
@@ -3530,7 +3534,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ kalKlaar }}" hint-placeholder-val="{{ true }}">
     <div role="group" aria-label="Weergave" data-kal-schakel="1" style="margin:14px 16px 0;display:flex;gap:3px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:12px;padding:3px">
       <button onClick="{{ kalNaarWeek }}" aria-pressed="{{ kalIsWeek }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ kalWeekBg }};color:{{ kalWeekFg }};font:700 14px Mulish;cursor:pointer">Week</button>
-      <button onClick="{{ kalNaarMaand }}" aria-pressed="{{ kalIsMaand }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ kalMaandBg }};color:{{ kalMaandFg }};font:700 14px Mulish;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">Maand<span data-abonnee-label="1" style="font:700 11.5px Mulish;padding:2px 7px;border-radius:999px;border:1px solid currentColor;opacity:.85">abonnee</span></button>
+      <button onClick="{{ kalNaarMaand }}" aria-pressed="{{ kalIsMaand }}" style="flex:1;min-height:44px;border:0;border-radius:9px;background:{{ kalMaandBg }};color:{{ kalMaandFg }};font:700 14px Mulish;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">Maand<span data-abonnee-label="1" style="font:700 11.5px Mulish;padding:2px 7px;border-radius:999px;border:1px solid currentColor;opacity:.85;white-space:nowrap">{{ kalMaandLabel }}</span></button>
     </div>
     <div data-kal-kop="1" style="display:flex;align-items:center;gap:4px;padding:10px 12px 2px">
       <button onClick="{{ kalVorige }}" aria-label="{{ kalVorigeLabel }}" style="flex:none;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;color:#15181A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -4073,6 +4077,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ gmDeelMld }}" hint-placeholder-val="{{ false }}">
   <div role="status" style="margin:4px 18px 0;font:600 13px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ gmDeelMld }}</div>
   </sc-if>
+  <sc-if value="{{ gmHeeftAnder }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:6px 16px 0"><button data-gm-ander="1" onClick="{{ gmAnder }}" style="min-height:44px;padding:0 16px;border:1px solid rgba(128,0,0,.25);border-radius:22px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Ander dorp met deze postcode</button></div>
+  </sc-if>
   <div style="display:flex;flex-direction:column;gap:12px;padding:12px 16px 0">
     <sc-for list="{{ gmKaarten }}" as="k" hint-placeholder-count="4">
     <div style="padding:15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px">
@@ -4312,7 +4319,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Wat je net gebruikte is gratis. Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.</p>
     <p style="margin:0;font:400 15px Mulish;line-height:1.8em">Met een abonnement help je ook de toekomst van het forum Nederlanders.fr veilig te stellen, de plek waar Nederlanders en Vlamingen in Frankrijk elkaar al jaren verder helpen.</p>
-    <a href="{{ abonneeUrl }}" onClick="{{ oproepSluit }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14.5px Mulish">Bekijk het abonnement</a>
+    <a href="{{ abonneeUrl }}" onClick="{{ oproepSluit }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14.5px Mulish">Bekijk het abonnement ↗</a>
     <button onClick="{{ oproepSluit }}" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:12px;background:none;color:#3D4346;cursor:pointer;font:700 14px Mulish">Niet nu</button>
     <p style="margin:0;text-align:center;font:500 12.5px Mulish;color:#5F6669">Je ziet deze vraag hooguit eens per week.</p>
   </section>
@@ -5451,7 +5458,7 @@ class Component extends DCLogic {
       doel.scrollIntoView({behavior: zacht ? "smooth" : "auto", block: "start"});
     };
     document.addEventListener("click", this._klikSprong);
-    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.fbOpen) this.fbSluit(); else if (ev.key === "Escape" && this.state.vraagPostcode) this.setState({vraagPostcode:false, pcInfo:false}); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
+    this._toetsOproep = ev => { if (ev.key === "Escape" && this.state.installBlad) this.installBladSluit(); else if (ev.key === "Escape" && this.state.fbOpen) this.fbSluit(); else if (ev.key === "Escape" && this.state.vraagPostcode) this.setState({vraagPostcode:false, pcInfo:false, pcNaarGemeente:false}); else if (ev.key === "Escape" && this.state.oproep) this.oproepSluit(); };
     document.addEventListener("keydown", this._toetsOproep);
     this._toetsMenu = ev => this.menuToets(ev);
     document.addEventListener("keydown", this._toetsMenu);
@@ -5679,8 +5686,9 @@ class Component extends DCLogic {
         try { localStorage.setItem("ifm_plaats", JSON.stringify({postcode:pc, plaats})); } catch(e){}
       }).catch(() => {});
   }
+  // Zonder postcode: eerst het postcodeblad; na "Bewaren" gaat de app direct door naar Mijn gemeente (pcNaarGemeente).
   openRegio(){
-    if (!this.state.postcode) return this.setState({vraagPostcode:true, pcInfo:false, pcInvoer:""});
+    if (!this.state.postcode) return this.setState({vraagPostcode:true, pcInfo:false, pcInvoer:"", pcNaarGemeente:true});
     this.gmOpen("hub");
   }
   // KOPPELVLAK AI-TOOLS: state.screen "aitools"; de AI-tools-bouwer vervangt het stub-blok in de template.
@@ -6185,7 +6193,7 @@ class Component extends DCLogic {
     if (st.kalAbo) { this.setState({kalAbo:false}); return true; }
     if (st.oproep) { this.oproepSluit(); return true; }
     if (st.fbOpen) { this.fbSluit(); return true; }
-    if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false}); return true; }
+    if (st.vraagPostcode) { this.setState({vraagPostcode:false, pcInfo:false, pcNaarGemeente:false}); return true; }
     if (st.screen === "klusarchief" && st.kaMeld) { if (st.kaMeld !== "bezig") this.setState({kaMeld:""}); return true; }
     if (st.screen === "klusarchief" && st.kaDraad) { this.kaDraadSluit(); return true; }
     if (st.screen === "kalender" && st.kalItem) { this.kalItemSluit(); return true; }
@@ -6464,7 +6472,7 @@ class Component extends DCLogic {
       mdInstalleer: () => this.installOpen(), mdHerlees: () => { this.setState({mdPerm:this.mdPermissie()}); this.mdLaad(); }, mdAgendaTekst: AGENDA, mdAgenda: () => this.setState({kalAbo:true}),
       mdFormulier: formulier, mdRijen: rijen, mdDagen: dagen,
       mdDepTekst: dep !== "geen" ? "Lokale data volgen je postcode: departement " + (depNaam || dep) + "." : "Voor lokale data, zoals verenigingen, heb je een postcode nodig.",
-      mdPostcodeKnop: formulier && dep === "geen", mdPostcode: () => this.setState({vraagPostcode:true}),
+      mdPostcodeKnop: formulier && dep === "geen", mdPostcode: () => this.setState({vraagPostcode:true, pcNaarGemeente:false}),
       mdMeldingTekst: is ? (st.mdMelding || "") : "", mdNogAan: formulier && !k.aan, mdAanKnop: bezig ? "Even geduld..." : "Zet meldingen aan", mdAanzetten: () => this.mdAanzetten(),
       mdIsAan: formulier && !!k.aan, mdOpslaan: () => this.mdOpslaan(), mdOpslaanKnop: bezig ? "Even geduld..." : "Opslaan", mdUitzetten: () => this.mdUitzetten(),
       mdPrivacy: "Je toestel vraagt daarna om toestemming. We bewaren alleen een anoniem adres voor de melding (het push-adres van je toestel), je keuzes en het nummer van je departement. Geen naam, geen e-mail. Een abonnement verdwijnt als je de meldingen uitzet, als het toestel het niet meer aanneemt en na 13 maanden zonder bijwerken. Zolang je meldingen aan hebt, verlengt elk bezoek aan dit scherm het abonnement en werkt het je departement bij."
@@ -6692,8 +6700,8 @@ class Component extends DCLogic {
     return p;
   }
   gmSet(patch){ this.setState(prev => ({gm: Object.assign({}, prev.gm, patch)})); }
-  gmOpen(van){
-    const G = window.IfGem, pc = this.state.postcode, ok = !!G && G.postcodeOk(pc), gm = this.state.gm;
+  gmOpen(van, pcNu){
+    const G = window.IfGem, pc = pcNu || this.state.postcode, ok = !!G && G.postcodeOk(pc), gm = this.state.gm;
     this.setState({screen:"gemeente", menu:false, q:"", copied:null, tool:null, from: van || "nedergids", gm: Object.assign({}, gm, {pc: ok ? pc : (gm.pc || "")})});
     if (ok && !(gm.gemeente && gm.zocht === pc)) this.gmZoek(pc);
   }
@@ -6702,7 +6710,7 @@ class Component extends DCLogic {
     if (!G || !Nv) return;
     this._gmTeller = this._gmTeller || Nv.maakTeller();
     const tok = this._gmTeller.volgende();
-    const nul = {status:"zoek", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:zoek};
+    const nul = {status:"zoek", communes:[], anderen:[], adressen:[], gemeente:null, kaarten:{}, zocht:zoek};
     if (G.postcodeOk(zoek)) {
       this.gmSet(Object.assign({pc:zoek}, nul));
       this.gmHaal(G.communesUrl(zoek), {herhaal:false})
@@ -6713,7 +6721,10 @@ class Component extends DCLogic {
         const l = G.leesCommunes(d);
         if (!l.length) return this.gmSet({status:"geen"});
         if (l.length === 1) return this.gmKies(l[0], zoek);
-        this.gmSet({status:"kies", communes:l});
+        // Meerdere gemeenten bij één postcode: direct de gemeente met het grootste inwonertal (zelfde regel als Nedergids /gemeente),
+        // de rest staat achter "Ander dorp met deze postcode". leesCommunes sorteert op inwonertal, dus l[0] is de grootste.
+        this.gmKies(l[0], zoek);
+        this.gmSet({anderen:l});
       });
       return;
     }
@@ -6970,6 +6981,8 @@ class Component extends DCLogic {
       gmZoekt: gm.status === "zoek", gmFout: gm.status === "fout", gmFoutTekst: (typeof navigator !== "undefined" && navigator.onLine === false) ? "De gemeente is nu niet op te zoeken. Controleer je verbinding of probeer het later opnieuw." : "De Franse gemeentedienst antwoordt nu niet. Probeer het zo nog eens.", gmGeen: gm.status === "geen", gmKort: gm.status === "kort",
       gmGeenTekst: "Geen gemeente of adres gevonden bij “" + (gm.zocht || "") + "”. Probeer een postcode, of een adres met huisnummer en plaats.",
       gmKiezen: gm.status === "kies" || gm.status === "adres",
+      gmHeeftAnder: gm.status === "klaar" && (gm.anderen || []).length > 1,
+      gmAnder: () => this.gmSet({status:"kies", communes: gm.anderen || []}),
       gmKiesTekst: gm.status === "adres" ? "Welk adres bedoel je?" : "Bij deze postcode horen meerdere gemeenten. Welke bedoel je?",
       gmKeuzes: lijst,
       gmKlaar: gm.status === "klaar" && !!c,
@@ -7818,6 +7831,7 @@ class Component extends DCLogic {
   zoekArtikelen(q){
     const Nv = window.IfNav;
     clearTimeout(this._zaT);
+    q = Nv ? Nv.zoekTerm(q) : q; // bij een hele zin zoeken op de kernwoorden
     const url = Nv ? Nv.artikelZoekUrl(q) : null;
     if (!url) { if (this._zaTeller) this._zaTeller.volgende(); return; }
     const qn = String(q).trim().replace(/\s+/g, " ").slice(0, 80);
@@ -7841,7 +7855,7 @@ class Component extends DCLogic {
   // Het Klusarchief staat in de zoekresultaten als de module aan staat (zelfde regel als hub en modulelijst, Mijn modules telt mee).
   zoekKlusAan(){ return this.mods().some(m => m.id === "klusforum"); }
   zaVals(){
-    const st = this.state, qn = st.q.trim().replace(/\s+/g, " ").slice(0, 80), basis = qn.length >= 3, zq = st.zaq || {};
+    const st = this.state, qn = (window.IfNav ? window.IfNav.zoekTerm(st.q) : st.q.trim()).replace(/\s+/g, " ").slice(0, 80), basis = qn.length >= 3, zq = st.zaq || {};
     const status = !basis ? "" : (zq.q !== qn ? "laden" : zq.status);
     const ruw = basis && zq.q === qn && zq.status === "klaar" ? zq.items : [];
     // Dezelfde artikelen van Infofrankrijk staan soms ook al (met een duidelijk fragment) in de Klusarchief-sectie
@@ -8089,7 +8103,7 @@ class Component extends DCLogic {
       case "dossierdemo": this.setState({screen:"dossierdemo", from:"zoek", dsView:"overzicht", dsOnd:null, dsOpen:null, q:"", tool:null, menu:false}); break;
       case "feedback": this.fbOpenen(); break;
       case "installeer": this.installOpen(); break;
-      case "postcode": this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}); break;
+      case "postcode": this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || "", pcNaarGemeente:false}); break;
     }
   }
   plVals(uit, niv){
@@ -8691,7 +8705,7 @@ class Component extends DCLogic {
       bjItems: klaar ? bj.items.map(i => ({id:i.id, naam:i.naam, href, regel:[i.soortLabel, i.plaats, i.afstand].filter(Boolean).join(" \u00b7 ")})) : [],
       bjAlles: href, bjAllesTekst: klaar && bj.items.length === 0 ? "Mijn gemeente bij jou in de Nedergids" : "Alles bij jou in de Nedergids",
       bjVraagPc: !!bj && bj.status === "geenpc" && !st.postcode,
-      bjVraagPcOpen: () => this.setState({vraagPostcode:true, pcInfo:false, pcInvoer:""})
+      bjVraagPcOpen: () => this.setState({vraagPostcode:true, pcInfo:false, pcInvoer:"", pcNaarGemeente:false})
     };
   }
   // Klusarchief: dezelfde Edge Function als het scherm zelf (v=2, bron alles), debounce en cache per term, net als zoekArtikelen.
@@ -8699,7 +8713,7 @@ class Component extends DCLogic {
     const Ka = window.IfKa;
     clearTimeout(this._kzT);
     if (!Ka || !this.zoekKlusAan()) return;
-    const qn = String(q).trim().replace(/\s+/g, " ");
+    const qn = (window.IfNav ? window.IfNav.zoekTerm(q) : String(q).trim()).replace(/\s+/g, " ");
     this._kzCache = this._kzCache || {};
     if (qn.length < Ka.MIN_TEKENS) { this.setState({kzq:{q:qn, status:"", items:[]}}); return; }
     this._kzTeller = this._kzTeller || window.IfNav.maakTeller();
@@ -8720,7 +8734,7 @@ class Component extends DCLogic {
     }, 350);
   }
   kzVals(){
-    const st = this.state, Ka = window.IfKa, qn = st.q.trim().replace(/\s+/g, " "), toon = this.zoekKlusAan() && qn.length >= (Ka ? Ka.MIN_TEKENS : 2), kz = st.kzq || {};
+    const st = this.state, Ka = window.IfKa, qn = (window.IfNav ? window.IfNav.zoekTerm(st.q) : st.q.trim()).replace(/\s+/g, " "), toon = this.zoekKlusAan() && qn.length >= (Ka ? Ka.MIN_TEKENS : 2), kz = st.kzq || {};
     const status = !toon ? "" : (kz.q !== qn ? "laden" : kz.status);
     const items = toon && kz.q === qn && kz.status === "klaar" ? kz.items : [];
     return {
@@ -8892,7 +8906,8 @@ class Component extends DCLogic {
   }
 
   search(){
-    const q = norm(this.state.q.trim());
+    // Bij een hele zin (3 of meer woorden) zoeken de gewone resultaten op de kernwoorden (IfNav.zoekTerm).
+    const q = norm(window.IfNav ? window.IfNav.zoekTerm(this.state.q) : this.state.q.trim());
     if (q.length < 2) return [];
     const out = [];
     // Buiten het seizoen staat een module niet in de hub, maar wie hem zoekt hoort
@@ -9198,7 +9213,7 @@ class Component extends DCLogic {
       overWerkwijze: () => this.wkOpen("over"),
       mnMeldingen: () => this.mdOpen("hub"), mnIcoMeldingen: this.iconStyle("bel", 24) + ";color:#800000",
       mnIcoSponsors: this.iconStyle("ster", 24) + ";color:#800000",
-      mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),
+      mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || "", pcNaarGemeente:false}),
       mnInstalleer: !this.alGeinstalleerd(),
       mnBeginscherm: () => this.installOpen(),
       badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
@@ -9348,6 +9363,9 @@ class Component extends DCLogic {
       hubPlatforms: this.hubPlatformsLijst(),
       hubAboRegel: HubLib.aboRegel((st.cat || {}).startpagina),
       aiSparkleStyle: themaIcoStijl("ai", "#800000", 14),
+      aiRegelVooraf: (() => { const r = window.IfVraag ? window.IfVraag.REGEL : ""; const i = r.indexOf(": "); return i < 0 ? "" : r.slice(0, i + 2); })(),
+      aiRegelVet: (() => { const r = window.IfVraag ? window.IfVraag.REGEL : ""; const i = r.indexOf(": "); return i < 0 ? r : r.slice(i + 2); })(),
+      kalMaandLabel: window.IfVraag ? window.IfVraag.LABEL : "abonnee",
       vierCirkelStyle: cirkelStijl("#800000", 44),
       rijIcoStyleNavy: themaIcoStijl("slot", "#15213A", 20), rijIcoStyleAi: themaIcoStijl("ai", "#15213A", 20),
       dfCirkelStyle: cirkelStijl("#15213A", 44), dfIcoStyle: themaIcoStijl("slot", "#fff", 24), aiTegelIcoStyle: themaIcoStijl("ai", "#fff", 24),
@@ -9411,7 +9429,7 @@ class Component extends DCLogic {
       zoekKlusOpen: () => this.kaOpenMet(st.q),
       results, hasResults: results.length > 0, resultsTaal, hasResultsTaal: resultsTaal.length > 0,
       resultCount: "Modules en tools", resultCountTaal: "Woorden en berichten",
-      noResults: st.q.trim().length >= 2 && alleTreffers.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt),
+      noResults: st.q.trim().length >= 2 && alleTreffers.length === 0 && !(this.zaVals().zaBezig || this.zaVals().zaHeeft || this.zaVals().zaLaadt) && !this.kzVals().kzHeeft && !this.kzVals().kzLaadt && !this.bijJouVals().bjToon && !this.vraagVals().vrToon,
       ...this.laag2Vals(),
 
       feedStatus: st.laden ? "Berichten ophalen…" : st.live ? "Nieuwste reacties bovenaan" : "",
@@ -9515,7 +9533,7 @@ class Component extends DCLogic {
       pcLabel: st.postcode ? (st.postcode + (st.plaats ? " " + st.plaats : "")) : "niet ingesteld",
       vraagPostcode: st.vraagPostcode,
       pcLaterLabel: st.postcode ? "Annuleren" : "Later, ik vul het per keer in",
-      wijzigPc: () => this.setState({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || ""}),
+      wijzigPc: () => this.setState({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || "", pcNaarGemeente:false}),
       pcInfoOpen: st.pcInfo, pcInfoAria: st.pcInfo ? "true" : "false",
       pcInfoWissel: () => this.setState({pcInfo: !this.state.pcInfo}),
       heeftPc: !!st.postcode,
@@ -9547,10 +9565,12 @@ class Component extends DCLogic {
       bewaarPc: () => { if (this.state.pcInvoer.length === 5) {
         const pcNieuw = this.state.pcInvoer;
         try { localStorage.setItem("ifm_postcode", pcNieuw); localStorage.removeItem("ifm_plaats"); } catch(e){}
-        this.setState({postcode:pcNieuw, plaats:"", vraagPostcode:false, pcInfo:false, pcGewist:null});
-        this.laadPlaats(pcNieuw); } },
-      pcBladSluit: () => this.setState({vraagPostcode:false, pcInfo:false}),
-      slaPcOver: () => { try { localStorage.setItem("ifm_pc_later", "1"); } catch(e){} this.setState({vraagPostcode:false, pcInfo:false}); },
+        const naarGem = !!this.state.pcNaarGemeente;
+        this.setState({postcode:pcNieuw, plaats:"", vraagPostcode:false, pcInfo:false, pcGewist:null, pcNaarGemeente:false});
+        this.laadPlaats(pcNieuw);
+        if (naarGem) this.gmOpen("hub", pcNieuw); } },
+      pcBladSluit: () => this.setState({vraagPostcode:false, pcInfo:false, pcNaarGemeente:false}),
+      slaPcOver: () => { try { localStorage.setItem("ifm_pc_later", "1"); } catch(e){} this.setState({vraagPostcode:false, pcInfo:false, pcNaarGemeente:false}); },
       hasPreview: !!pv,
       vbTitel: pv ? pv.vb : "",
       vbOngeverifieerd: !!(vb && vb.ongeverifieerd),
