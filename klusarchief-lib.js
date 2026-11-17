@@ -23,7 +23,7 @@
   }
   function pagina(p) { var n = Math.floor(Number(p)); return isFinite(n) && n > 0 ? n : 0; }
 
-  // Zoekdelen: alles, "Uit de fora" (oud forum en Nederlanders.fr), "Kennis van nu" (artikelen en officiële Franse bronnen).
+  // Zoekdelen: alles, "Uit de fora" (oud forum en Nederlanders.fr), "Artikelen en officiële bronnen" (artikelen en officiële Franse bronnen).
   var BRONNEN = ["alles", "fora", "kennis"];
   var NLFR_VOOR = "https://www.nederlanders.fr/";
   var ARTIKEL_HOSTS = ["infofrankrijk.com", "www.infofrankrijk.com"];
@@ -31,7 +31,11 @@
     "www.ecologie.gouv.fr", "www.eaufrance.fr", "www.georisques.gouv.fr"];
   var BRONNEN_URL = "https://infofrankrijk.com/uit-het-klusforum-van-infofrankrijk-com/#bronnen";
   var BRONNEN_TEKST = "Waar komt dit vandaan? Bekijk de bronnen en verder zoeken \u2197";
-  var BRON_REGEL = "Bronnen van Kennis van nu: Infofrankrijk.com en Service Public / DILA (Licence Ouverte 2.0).";
+  var BRON_REGEL = "Artikelen en officiële bronnen komen van Infofrankrijk.com en Service Public / DILA (Licence Ouverte 2.0).";
+  // Grensjaar: hetzelfde GRENS_JAAR als in de Edge Functions "klusarchief" en "klusarchief-chat" (Supabase, communities-tools).
+  var KENNIS_SUBKOP = "Oudere artikelen (vóór 2025)";
+  var KENNIS_SUBKOP_ZIN = "Deze artikelen kunnen verouderde informatie bevatten.";
+  var KENNIS_KOP = "Artikelen en officiële bronnen";
   // https-adres zonder spaties, zonder inloggegevens, op een van de toegestane hosts; anders "".
   function urlOpHost(u, hosts) {
     var url = tekst(u).trim();
@@ -78,11 +82,11 @@
     return m ? Number(m[1]) : null;
   }
 
-  // Label bovenaan een kaart: "Uit de fora · Oud forum", "Kennis van nu · Service Public / DILA".
+  // Label bovenaan een kaart: "Uit de fora · Oud forum", "Artikelen en officiële bronnen · Service Public / DILA".
   function kaartLabel(r) {
     if (!r) return "";
     if (r.bron === "nlfr") return "Uit de fora \u00b7 Nederlanders.fr";
-    if (r.bron === "artikel" || r.bron === "officieel") return "Kennis van nu \u00b7 " + (r.bronnaam || (r.bron === "artikel" ? "Infofrankrijk" : "Officiële bron"));
+    if (r.bron === "artikel" || r.bron === "officieel") return KENNIS_KOP + " \u00b7 " + (r.bronnaam || (r.bron === "artikel" ? "Infofrankrijk" : "Officiële bron"));
     return "Uit de fora \u00b7 Oud forum";
   }
   function verouderdTekst(jaar) { return "Dit artikel is van " + jaar + " en kan verouderde informatie bevatten."; }
@@ -119,6 +123,19 @@
     });
     var perPagina = geheel(data.perPagina, PER_PAGINA) || PER_PAGINA;
     return { totaal: Math.max(geheel(data.totaal, res.length), res.length), pagina: geheel(data.pagina, 0), perPagina: perPagina, resultaten: res };
+  }
+
+  // Her-ordent de resultaten van bron "kennis" (Artikelen en officiële bronnen): artikelen van 2025 of later en de
+  // officiële fiches eerst, dan (alleen als er oudere artikelen bijstaan) de artikelen van voor 2025. subkopNa is de
+  // index in de teruggegeven lijst waar de subkop "Oudere artikelen" moet komen, of -1 als er niets te splitsen is
+  // (ook bij elke andere bron: die vormt geen eigen groep, dus geen subkop).
+  function kennisSorteer(resultaten, bron) {
+    var lijst = resultaten || [];
+    if (bron !== "kennis") return { resultaten: lijst, subkopNa: -1 };
+    var nieuw = [], oud = [];
+    lijst.forEach(function (r) { if (r.bron === "artikel" && r.verouderd) oud.push(r); else nieuw.push(r); });
+    if (!oud.length) return { resultaten: lijst, subkopNa: -1 };
+    return { resultaten: nieuw.concat(oud), subkopNa: nieuw.length };
   }
 
   // Antwoord van de draadactie naar een draad of null. Zonder id of titel bestaat de draad niet.
@@ -293,12 +310,12 @@
     if (b.datum) delen.push(b.datum); else if (b.jaar) delen.push(String(b.jaar));
     return delen.filter(Boolean).join(" \u00b7 ");
   }
-  // Bronnen gegroepeerd voor onder het antwoord: [{kop:"Kennis van nu", bronnen:[...]}, {kop:"Uit de fora", ...}]; lege groepen ontbreken.
+  // Bronnen gegroepeerd voor onder het antwoord: [{kop:"Artikelen en officiële bronnen", bronnen:[...]}, {kop:"Uit de fora", ...}]; lege groepen ontbreken.
   function chatGroepen(bronnen) {
     var kennis = [], fora = [];
     (bronnen || []).forEach(function (b) { (b.soort === "forum" ? fora : kennis).push(b); });
     var uit = [];
-    if (kennis.length) uit.push({ kop: "Kennis van nu", bronnen: kennis });
+    if (kennis.length) uit.push({ kop: KENNIS_KOP, bronnen: kennis });
     if (fora.length) uit.push({ kop: "Uit de fora", bronnen: fora });
     return uit;
   }
@@ -356,6 +373,7 @@
     BRONNEN: BRONNEN, bronSchoon: bronSchoon, nlfrMeta: nlfrMeta, NLFR_LABEL: "Nederlanders.fr", FORUM_LABEL: "Oud forum",
     termSchoon: termSchoon, zoekUrl: zoekUrl, idSchoon: idSchoon, draadUrl: draadUrl, meldBody: meldBody, soortAntwoord: soortAntwoord,
     leesZoek: leesZoek, leesDraad: leesDraad, segmenten: segmenten, datumTekst: datumTekst, reactiesTekst: reactiesTekst, metaRegel: metaRegel,
+    kennisSorteer: kennisSorteer, KENNIS_SUBKOP: KENNIS_SUBKOP, KENNIS_SUBKOP_ZIN: KENNIS_SUBKOP_ZIN, KENNIS_KOP: KENNIS_KOP,
     CHAT_URL: CHAT_URL, CHAT_MIN: CHAT_MIN, CHAT_MAX: CHAT_MAX, CHAT_ANTW_MAX: CHAT_ANTW_MAX, CHAT_MAX_VRAGEN: CHAT_MAX_VRAGEN, CHAT_TIMEOUT_MS: CHAT_TIMEOUT_MS, CHAT_STATUS_MS: CHAT_STATUS_MS,
     CHAT_UITLEG: CHAT_UITLEG, CHAT_PRIVACY: CHAT_PRIVACY, CHAT_PLAATSHOUDER: CHAT_PLAATSHOUDER, CHAT_DRUK: CHAT_DRUK, CHAT_FOUT: CHAT_FOUT,
     chatVraagSchoon: chatVraagSchoon, chatBody: chatBody, chatAan: chatAan, chatSoort: chatSoort, leesChat: leesChat, chatBlokken: chatBlokken, inlineSegmenten: inlineSegmenten, chatGroepen: chatGroepen, bronMeta: bronMeta, kaartLabel: kaartLabel, verouderdTekst: verouderdTekst, urlOpHost: urlOpHost,

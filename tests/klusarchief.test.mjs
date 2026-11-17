@@ -212,12 +212,36 @@ test("gemengde resultaten: vier soorten valideren, afvallers vallen af", () => {
   assert.equal(l.totaal, 20);
 });
 test("kaartlabels en verouderd-regel", () => {
+  assert.equal(K.KENNIS_KOP, "Artikelen en offici\u00eble bronnen");
   assert.equal(K.kaartLabel({ bron: "forum" }), "Uit de fora \u00b7 Oud forum");
   assert.equal(K.kaartLabel({ bron: "nlfr" }), "Uit de fora \u00b7 Nederlanders.fr");
-  assert.equal(K.kaartLabel({ bron: "artikel", bronnaam: "Infofrankrijk" }), "Kennis van nu \u00b7 Infofrankrijk");
-  assert.equal(K.kaartLabel({ bron: "officieel", bronnaam: "Service Public / DILA" }), "Kennis van nu \u00b7 Service Public / DILA");
+  assert.equal(K.kaartLabel({ bron: "artikel", bronnaam: "Infofrankrijk" }), "Artikelen en offici\u00eble bronnen \u00b7 Infofrankrijk");
+  assert.equal(K.kaartLabel({ bron: "officieel", bronnaam: "Service Public / DILA" }), "Artikelen en offici\u00eble bronnen \u00b7 Service Public / DILA");
   assert.equal(K.verouderdTekst(2019), "Dit artikel is van 2019 en kan verouderde informatie bevatten.");
   assert.equal(K.datumTekst("2026-03-12"), "12-03-2026"); assert.equal(K.datumTekst("rommel"), "");
+});
+
+test("kennisSorteer: nieuw (2025 of later, officieel) eerst, dan subkop en oudere artikelen; andere bron ongewijzigd", () => {
+  const res = [
+    { bron: "artikel", titel: "Nieuw", jaar: 2026, verouderd: false },
+    { bron: "officieel", titel: "Fiche" },
+    { bron: "artikel", titel: "Oud 2017", jaar: 2017, verouderd: true },
+    { bron: "forum", id: "1", titel: "Draad" },
+    { bron: "artikel", titel: "Oud 2019", jaar: 2019, verouderd: true },
+  ];
+  const v = K.kennisSorteer(res, "kennis");
+  assert.deepEqual(v.resultaten.map(r => r.titel), ["Nieuw", "Fiche", "Draad", "Oud 2017", "Oud 2019"]);
+  assert.equal(v.subkopNa, 3);
+  const zonderOud = res.filter(r => !(r.bron === "artikel" && r.verouderd));
+  const v2 = K.kennisSorteer(zonderOud, "kennis");
+  assert.deepEqual(v2.resultaten, zonderOud); assert.equal(v2.subkopNa, -1, "niets te splitsen: geen subkop");
+  ["alles", "fora", undefined, "x"].forEach(b => {
+    const v3 = K.kennisSorteer(res, b);
+    assert.deepEqual(v3.resultaten, res, b); assert.equal(v3.subkopNa, -1, b);
+  });
+  assert.deepEqual(K.kennisSorteer(null, "kennis"), { resultaten: [], subkopNa: -1 });
+  assert.equal(K.KENNIS_SUBKOP, "Oudere artikelen (v\u00f3\u00f3r 2025)");
+  assert.equal(K.KENNIS_SUBKOP_ZIN, "Deze artikelen kunnen verouderde informatie bevatten.");
 });
 test("nlfrMeta: enkelvoud en nul reacties", () => {
   assert.equal(K.nlfrMeta({ jaar: 2023, antwoorden: 14 }), "2023 · 14 reacties");
@@ -272,7 +296,7 @@ test("chat: leesChat valideert bronnen per soort en nlfr, lege lijst mag", () =>
   assert.equal(l.bronnen[1].url, "https://infofrankrijk.com/dak/"); assert.equal(l.bronnen[1].verouderd, true); assert.equal(l.bronnen[1].datum, "03-05-2019");
   assert.equal(l.bronnen[2].bronnaam, "Service Public / DILA"); assert.equal(l.bronnen[2].verouderd, false);
   assert.deepEqual(l.nlfr.map(x => x.titel), ["Goed"]);
-  assert.deepEqual(K.chatGroepen(l.bronnen).map(g => [g.kop, g.bronnen.map(b => b.n)]), [["Kennis van nu", [2, 3]], ["Uit de fora", [1]]]);
+  assert.deepEqual(K.chatGroepen(l.bronnen).map(g => [g.kop, g.bronnen.map(b => b.n)]), [["Artikelen en officiële bronnen", [2, 3]], ["Uit de fora", [1]]]);
   assert.equal(K.bronMeta(l.bronnen[1]), "Infofrankrijk \u00b7 03-05-2019"); assert.equal(K.bronMeta(l.bronnen[0]), "Oud forum \u00b7 2014");
   assert.deepEqual(K.leesChat({ ok: true, antwoord: "x", bronnen: [] }).bronnen, []);
   assert.equal(K.leesChat({ ok: true, antwoord: "  " }), null);
@@ -284,9 +308,9 @@ test("chat: leesChat valideert bronnen per soort en nlfr, lege lijst mag", () =>
 test("chat: antwoordtekst naar kop, lijst, vet en bolletje; onbekend nummer en HTML blijven tekst", () => {
   const bron = [{ n: 1, soort: "forum", id: "12", titel: "A" }, { n: 2, soort: "artikel", url: "https://infofrankrijk.com/a/", titel: "B" },
     { n: 3, soort: "officieel", url: "https://www.service-public.fr/x", titel: "C" }];
-  const bl = K.chatBlokken("## Kennis van nu\nEen **vette** zin [2][3].\n- punt een [3]\n- punt <b>twee</b>\n\n**Uit de fora**\nKan [1], maar [7] niet <img src=x onerror=alert(1)>.", bron);
+  const bl = K.chatBlokken("## Artikelen en officiële bronnen\nEen **vette** zin [2][3].\n- punt een [3]\n- punt <b>twee</b>\n\n**Uit de fora**\nKan [1], maar [7] niet <img src=x onerror=alert(1)>.", bron);
   assert.deepEqual(bl.map(b => b.soort), ["kop", "alinea", "lijst", "kop", "alinea"]);
-  assert.equal(bl[0].t, "Kennis van nu"); assert.equal(bl[3].t, "Uit de fora");
+  assert.equal(bl[0].t, "Artikelen en officiële bronnen"); assert.equal(bl[3].t, "Uit de fora");
   assert.deepEqual(bl[1].segs.filter(x => x.vet).map(x => x.t), ["vette"]);
   assert.deepEqual(bl[1].segs.filter(x => x.bron).map(x => [x.n, x.soort]), [[2, "artikel"], [3, "officieel"]]);
   assert.equal(bl[2].items.length, 2);
@@ -303,10 +327,10 @@ test("chat: antwoordtekst naar kop, lijst, vet en bolletje; onbekend nummer en H
 test("teksten van de twee delen, geen oude chips, bronvermelding Service Public", () => {
   assert.equal(K.CHAT_SAMENVATTING, "Samenvatting door de app op basis van de bronnen hierboven. Franse bronnen zijn vertaald.");
   assert.equal(K.CHAT_WAARSCHUWING, "Forumadvies komt uit 2012 tot 2020 en kan verouderd zijn. Controleer regels en bedragen altijd bij de officiële bron.");
-  assert.equal(K.BRON_REGEL, "Bronnen van Kennis van nu: Infofrankrijk.com en Service Public / DILA (Licence Ouverte 2.0).");
+  assert.equal(K.BRON_REGEL, "Artikelen en officiële bronnen komen van Infofrankrijk.com en Service Public / DILA (Licence Ouverte 2.0).");
   assert.match(K.CHAT_UITLEG, /combineert artikelen van Infofrankrijk, officiële Franse bronnen en oude forumdraden, met bron en datum, en kan verouderd zijn\./);
-  assert.match(html, /Dit archief bundelt ervaringen uit oude forums en kennis van nu: artikelen van Infofrankrijk en officiële Franse bronnen\./);
-  assert.match(html, /chip\("fora","Uit de fora"\), chip\("kennis","Kennis van nu"\)/);
+  assert.match(html, /Dit archief bundelt ervaringen uit oude forums met artikelen van Infofrankrijk en officiële Franse bronnen\./);
+  assert.match(html, /chip\("fora","Uit de fora"\), chip\("kennis", K \? K\.KENNIS_KOP/);
   assert.equal(/chip\("forum"|chip\("nlfr"/.test(html), false);
   assert.match(html, /"Bron: " \+ r\.bronnaam/);
   assert.match(html, /data-ka-officieel/); assert.match(html, /Franse tekst/);
@@ -332,4 +356,22 @@ test("link naar de bronnenpagina: https, infofrankrijk.com, nieuw tabblad", () =
   assert.equal(u.hash, "#bronnen");
   assert.equal(K.BRONNEN_TEKST, "Waar komt dit vandaan? Bekijk de bronnen en verder zoeken \u2197");
   assert.match(html, /data-ka-bronnenlink="1" href="\{\{ kaBronnenUrl \}\}" target="_blank" rel="noopener"/);
+});
+
+// ---- Hernoeming "Kennis van nu" naar "Artikelen en offici\u00eble bronnen" (ronde 17-11-2026) ----
+test("Kennis van nu komt nergens meer voor in zichtbare tekst; interne waarde bron=kennis blijft", () => {
+  assert.equal(/Kennis van nu/.test(html), false, "index.html");
+  assert.equal(/Kennis van nu/.test(lib), false, "klusarchief-lib.js");
+  assert.equal(K.bronSchoon("kennis"), "kennis", "interne waarde blijft bestaan");
+  assert.ok(lib.includes('"kennis"'), "de interne sleutel bron=kennis staat nog in de lib");
+  assert.equal(K.KENNIS_KOP, "Artikelen en officiële bronnen");
+});
+
+test("subkop Oudere artikelen: alleen bij bron kennis, verouderd-regel per artikel dan weg (kaVals bouwt kaKaarten)", () => {
+  const stuk = html.slice(html.indexOf("  kaVals(){"), html.indexOf("// ---- Kalender Frankrijk"));
+  assert.match(stuk, /K\.kennisSorteer\(st\.kaItems, st\.kaBron\)/);
+  assert.match(stuk, /inOudeGroep/);
+  assert.match(stuk, /kaarten\.splice\(volgorde\.subkopNa, 0, \{isSubkop:true/);
+  assert.match(html, /<sc-if value="\{\{ k\.isSubkop \}\}"/);
+  assert.match(html, /data-ka-subkop="1"/);
 });

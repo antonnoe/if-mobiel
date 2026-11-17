@@ -3369,6 +3369,12 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:18px 16px 0;font:600 12px Poppins,system-ui,sans-serif;letter-spacing:.04em;color:#3D4346">{{ kaTelling }}</div>
     <div style="display:flex;flex-direction:column;gap:12px;padding:10px 16px 0">
       <sc-for list="{{ kaKaarten }}" as="k" hint-placeholder-count="3">
+      <sc-if value="{{ k.isSubkop }}" hint-placeholder-val="{{ false }}">
+      <div data-ka-subkop="1" style="margin-top:8px">
+        <div style="font:700 13px Poppins,system-ui,sans-serif;letter-spacing:.02em;color:#3D4346">{{ k.titel }}</div>
+        <div style="margin-top:4px;font:500 13.5px/1.6 Mulish;color:#3D4346">{{ k.zin }}</div>
+      </div>
+      </sc-if>
       <sc-if value="{{ k.isNlfr }}" hint-placeholder-val="{{ false }}">
       <a href="{{ k.url }}" target="_blank" rel="noopener" data-ka-nlfr="1" aria-label="{{ k.label }}" style="display:block;width:100%;box-sizing:border-box;min-width:0;text-align:left;padding:14px 15px 15px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
         <span data-ka-label="1" style="display:block;font:600 11.5px/1.3 Poppins,system-ui,sans-serif;letter-spacing:.04em;color:{{ k.labelKleur }}">{{ k.kaartLabel }}</span>
@@ -7424,20 +7430,28 @@ class Component extends DCLogic {
   kaVals(){
     const st = this.state, K = window.IfKa, is = st.screen === "klusarchief" && !!K;
     const d = st.kaDraad, dd = d && d.data ? d.data : null;
-    const kaarten = is ? (st.kaItems || []).map(r => {
+    // Binnen "Artikelen en offici\u00eble bronnen" eerst 2025 of later en de offici\u00eble fiches, dan (als dat voorkomt)
+    // een subkop en de artikelen van voor 2025, zonder de losse verouderd-regel per artikel (de subkop zegt het al).
+    const volgorde = is ? K.kennisSorteer(st.kaItems, st.kaBron) : {resultaten:[], subkopNa:-1};
+    const kaarten = is ? volgorde.resultaten.map((r, i) => {
       const sg = K.segmenten(r.fragment).map(x => ({t:x.t, vet:x.vet, gewoon:!x.vet}));
       const nlfr = r.bron === "nlfr", art = r.bron === "artikel", off = r.bron === "officieel", forum = !nlfr && !art && !off;
       const kLabel = K.kaartLabel(r);
       const meta = nlfr ? K.nlfrMeta(r) : forum ? K.metaRegel(r) : art ? (r.jaar ? "Gepubliceerd " + r.jaar : "") : (r.datum ? "Bijgewerkt: " + r.datum : "");
       const bronRegel = off ? "Bron: " + r.bronnaam + (r.datum ? ", bijgewerkt " + r.datum : "") + " \u2197" : "";
+      const inOudeGroep = volgorde.subkopNa >= 0 && i >= volgorde.subkopNa;
+      const verouderd = !!r.verouderd && !inOudeGroep;
       return {
-        isNlfr:nlfr, isForum:forum, isArtikel:art, isOff:off, kaartLabel:kLabel, labelKleur: nlfr || off ? "#800000" : "#3D4346",
+        isSubkop:false, isNlfr:nlfr, isForum:forum, isArtikel:art, isOff:off, kaartLabel:kLabel, labelKleur: nlfr || off ? "#800000" : "#3D4346",
         titel:r.titel, meta, heeftMeta:!!meta, url:r.url || "", segs:sg, heeftFragment: !nlfr && sg.length > 0,
-        verouderd: !!r.verouderd, verouderdTekst: r.verouderd ? K.verouderdTekst(r.jaar) : "", bronRegel,
-        label: kLabel + ", " + r.titel + (meta ? ", " + meta : "") + (art && r.verouderd ? ", " + K.verouderdTekst(r.jaar) : "") + (off ? ", Franse tekst" : "") + (nlfr || off ? ", opent in een nieuw tabblad" : ""),
+        verouderd, verouderdTekst: verouderd ? K.verouderdTekst(r.jaar) : "", bronRegel,
+        label: kLabel + ", " + r.titel + (meta ? ", " + meta : "") + (verouderd ? ", " + K.verouderdTekst(r.jaar) : "") + (off ? ", Franse tekst" : "") + (nlfr || off ? ", opent in een nieuw tabblad" : ""),
         open: () => { if (art) this.openInfoArtikel(r.url); else if (forum) this.kaOpenDraad(r); }
       };
     }) : [];
+    if (volgorde.subkopNa >= 0) kaarten.splice(volgorde.subkopNa, 0, {isSubkop:true, isNlfr:false, isForum:false, isArtikel:false, isOff:false,
+      kaartLabel:"", labelKleur:"", titel:K.KENNIS_SUBKOP, meta:"", heeftMeta:false, url:"", segs:[], heeftFragment:false,
+      verouderd:false, verouderdTekst:"", bronRegel:"", zin:K.KENNIS_SUBKOP_ZIN, label:K.KENNIS_SUBKOP + ", " + K.KENNIS_SUBKOP_ZIN, open: () => {}});
     const chip = (id, tekst) => ({tekst, actief: st.kaBron === id, opac: st.kaBron === id ? "1" : ".95",
       kleur: st.kaBron === id ? "#fff" : "#800000", vlak: st.kaBron === id ? "#800000" : "#fff",
       klik: () => { if (st.kaBron === id) return; if (st.kaZocht) this.kaZoek(false, st.kaZocht, id); else this.setState({kaBron:id}); }});
@@ -7473,9 +7487,9 @@ class Component extends DCLogic {
       kaChatInvoer: cK && !chatLaadt && !chatVol && cs !== "fout",
       kaChatLabel: chatKlaar ? "Stel een vervolgvraag" : "Je vraag",
       kaChatNieuwKnop: chatKlaar || cs === "fout", kaChatNieuwTekst: chatVol ? "Begin een nieuwe vraag" : "Nieuwe vraag", kaChatNieuw: () => this.kaChatNieuw(),
-      kaChips: [chip("alles","Alles"), chip("fora","Uit de fora"), chip("kennis","Kennis van nu")], kaBronRegel: K ? K.BRON_REGEL : "", kaBronnenUrl: K ? K.BRONNEN_URL : "#", kaBronnenTekst: K ? K.BRONNEN_TEKST : "",
+      kaChips: [chip("alles","Alles"), chip("fora","Uit de fora"), chip("kennis", K ? K.KENNIS_KOP : "Artikelen en officiële bronnen")], kaBronRegel: K ? K.BRON_REGEL : "", kaBronnenUrl: K ? K.BRONNEN_URL : "#", kaBronnenTekst: K ? K.BRONNEN_TEKST : "",
       isKa: is, kaZoekScherm: !d, kaDraadScherm: !!d,
-      kaIntro: "Dit archief bundelt ervaringen uit oude forums en kennis van nu: artikelen van Infofrankrijk en officiële Franse bronnen. Draden van het oude klusforum lees je hier zelf; berichten op Nederlanders.fr lees je op die site. Zoek op een woord en kies waar je in zoekt.",
+      kaIntro: "Dit archief bundelt ervaringen uit oude forums met artikelen van Infofrankrijk en officiële Franse bronnen. Draden van het oude klusforum lees je hier zelf; berichten op Nederlanders.fr lees je op die site. Zoek op een woord en kies waar je in zoekt.",
       kaPrivacy: K ? K.PRIVACY : "", kaWaarschuwing: K ? K.WAARSCHUWING : "", kaTerugvalUrl: K ? K.TERUGVAL_URL : "https://infofrankrijk.com/klussen/",
       kaQ: st.kaQ, kaOnQ: e => this.setState({kaQ: e.target.value.slice(0, 120), kaKort:false}),
       kaVerstuur: e => { if (e && e.preventDefault) e.preventDefault(); this.kaZoek(false); },
@@ -7852,7 +7866,7 @@ class Component extends DCLogic {
     const status = !basis ? "" : (zq.q !== qn ? "laden" : zq.status);
     const ruw = basis && zq.q === qn && zq.status === "klaar" ? zq.items : [];
     // Dezelfde artikelen van Infofrankrijk staan soms ook al (met een duidelijk fragment) in de Klusarchief-sectie
-    // hierboven ("Kennis van nu"); zonder dit filter stond bv. "Dakkapellen" bij "postzegel" kaal nogmaals in deze
+    // hierboven ("Artikelen en officiële bronnen"); zonder dit filter stond bv. "Dakkapellen" bij "postzegel" kaal nogmaals in deze
     // lijst, wat verwarrend aanvoelde (13-11-2026, melding van Anton na een vreemde zoekopdracht). Vonden we wel
     // iets maar is na dit filter niets meer over, dan toont deze sectie zich helemaal niet (geen valse "niets
     // gevonden": de treffers staan al hierboven). Alleen op het zoekscherm zelf: `zaVals` wordt ook hergebruikt
