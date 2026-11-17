@@ -23,8 +23,8 @@ const SYSTEEM = `Je geeft een kort antwoord op een vraag van een Nederlander in 
 - soort="officieel": fiches van Service Public / DILA of andere Franse overheidssites (Frans, met datum van bijwerking). Je vertaalt en vat samen.
 - soort="forum": oude forumdraden uit 2012 tot 2020 (ervaringen van forumleden).
 Regels:
-1. Gebruik alleen informatie uit de bronnen. Vul nooit aan met algemene kennis. Staat het antwoord er niet of maar gedeeltelijk in, zeg dan kort wat wel en wat niet in de bronnen staat. Beantwoordt geen enkele bron de vraag zelf (ze gaan er alleen over, of over iets verwants), antwoord dan alleen: "${GEEN_BRON}" en noem geen bron. Vat dan geen losse randinformatie samen.
-2. Schrijf Nederlands, zakelijk, hooguit ongeveer 150 woorden, hooguit 4 opsommingspunten (regels die met "- " beginnen), geen kopjes, geen lange liggende streepjes (gebruik komma's). Sluit af met een volledige zin. Begin niet met "ja" of "nee" tenzij een bron dat letterlijk zo zegt.
+1. Gebruik alleen informatie uit de bronnen. Vul nooit aan met algemene kennis. Staat het antwoord er niet of maar gedeeltelijk in, zeg dan kort wat wel en wat niet in de bronnen staat. Gaat geen enkele bron over het onderwerp zelf (ze gaan alleen over iets verwants, zoals een ander zorgonderwerp of een andere belasting), antwoord dan alleen: "${GEEN_BRON}" en noem geen bron. Vat dan geen losse randinformatie samen.
+2. Schrijf Nederlands, zakelijk, hooguit ongeveer 150 woorden, hooguit 4 opsommingspunten (regels die met "- " beginnen), geen kopjes, geen lange liggende streepjes (gebruik komma's). Sluit af met een volledige zin. Begin niet met "ja" of "nee" tenzij een bron dat letterlijk zo zegt, en begin niet met een zin zonder bronnummer. Spreek de lezer aan met je en jij, nooit met u, ook niet als de bron u gebruikt.
 3. Zet direct na elke bewering het nummer van de bron, bijvoorbeeld [2]. Een bewering zonder bron mag je niet doen. Noem een bron alleen als hij een bewering daadwerkelijk ondersteunt.
 4. Noem geen bedragen, tarieven, termijnen, drempels of wetsartikelen die niet letterlijk in een bron staan. Noem je een bedrag of tarief uit een artikel of officiële bron, noem dan de datum van die bron erbij (bijvoorbeeld "volgens het artikel van 16 januari 2026 [3]").
 5. Uit forumbronnen noem je nooit een bedrag, tarief of subsidie; zeg dan dat het forum daarvoor niet geschikt is. Forumbronnen zijn ervaringen en meningen, geen feiten; noem het jaar als je ze gebruikt.
@@ -271,9 +271,13 @@ Deno.serve(async (req: Request) => {
   });
   // Een antwoord zonder één bronnummer is niet uit de bronnen opgebouwd: het vaste antwoord.
   if (genoemd.size === 0 || tekst.startsWith("Hier vond ik geen bron")) return antwoord(200, { ok: true, antwoord: GEEN_BRON, bronnen: [] }, origin);
-  const gebruikt = [...genoemd].sort((a, b) => a - b).map((i) => {
+  // De genoemde bronnen krijgen een doorlopende nummering vanaf 1, ook in de tekst.
+  const volg = [...genoemd].sort((a, b) => a - b);
+  const nieuw = new Map(volg.map((o, i) => [o, i + 1]));
+  tekst = tekst.replace(/\[(\d{1,2})\]/g, (_m, n) => `[${nieuw.get(Number(n))}]`);
+  const gebruikt = volg.map((i) => {
     const s = bronnen[i - 1];
-    return { n: s.n, soort: s.soort, titel: s.titel, jaar: s.jaar, datum: s.datum, url: s.url, id: s.id, verouderd: s.verouderd };
+    return { n: nieuw.get(i)!, soort: s.soort, titel: s.titel, jaar: s.jaar, datum: s.datum, url: s.url, id: s.id, verouderd: s.verouderd };
   });
   return antwoord(200, { ok: true, antwoord: tekst, bronnen: gebruikt }, origin);
 });
