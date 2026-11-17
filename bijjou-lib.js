@@ -151,7 +151,25 @@
     return uit;
   }
 
+  // Sleutel van een zoekopdracht van Bij jou: alles wat de weergave bepaalt (onderwerp met titel, soort, anker, overheden) plus de postcode.
+  // Herstelronde 2 (17-11-2026): zonder de titel kreeg "ziekenhuis" na "huisarts" dezelfde sleutel (zelfde soort, anker en postcode)
+  // en bleef de titel van huisarts staan. Bij elke nieuwe zoekopdracht wordt dus opnieuw bepaald; alleen een gelijke sleutel hergebruikt.
+  function sleutel(o, pc) {
+    if (!o) return "";
+    return [o.soort, o.anker, o.titel || "", (o.overheid || []).join(","), pc || ""].join("|");
+  }
+  // Wat er bij een nieuwe vraag moet gebeuren: "geen" (geen onderwerp), "geenpc", "houd" (zelfde sleutel, al geladen of bezig) of "laad".
+  function plan(vraag, cfg, pc, huidig) {
+    var o = vindOnderwerp(vraag, cfg);
+    if (!o) return { actie: "geen", o: null, sleutel: "" };
+    if (!/^\d{5}$/.test(pc || "")) return { actie: "geenpc", o: o, sleutel: "" };
+    var sl = sleutel(o, pc);
+    if (huidig && huidig.sleutel === sl && (huidig.status === "klaar" || huidig.status === "laden")) return { actie: "houd", o: o, sleutel: sl };
+    return { actie: "laad", o: o, sleutel: sl };
+  }
+
   var api = {
+    sleutel: sleutel, plan: plan,
     BASIS: BASIS, SOORTEN: SOORTEN, normaliseer: normaliseer, zinnen: zinnen, vindOnderwerp: vindOnderwerp, grootsteGemeente: grootsteGemeente,
     postcodeUrl: postcodeUrl, bronUrl: bronUrl, zoekUrl: zoekUrl, soortLabel: soortLabel, afstandTekst: afstandTekst, kiesItems: kiesItems
   };

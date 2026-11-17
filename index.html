@@ -342,7 +342,8 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
         <span style="{{ dfCirkelStyle }}"><span style="{{ dfIcoStyle }}"></span></span>
         <span style="line-height:1.25;min-width:0;overflow-wrap:anywhere">
           <b style="display:block;font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:15px;color:#15181A">Dossier Frankrijk</b>
-          <span style="display:block;font:500 12px/1.35 Mulish;color:#3D4346;margin-top:2px">Je eigen dossier, voor abonnees</span>
+          <span data-abonnee-label="1" style="display:inline-block;margin-top:5px;font:700 11.5px Mulish;padding:2px 7px;border-radius:999px;border:1px solid #800000;color:#800000;white-space:nowrap">{{ dossierLabel }}</span>
+          <span style="display:block;font:500 12px/1.35 Mulish;color:#3D4346;margin-top:4px">Je eigen dossier, voor abonnees</span>
         </span>
       </button>
       <button data-hubextra="aitools" onClick="{{ openAiTools }}" aria-label="AI-tools, hulp bij je vragen" style="min-height:112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:9px;text-align:left;background:#fff;border:1.5px solid #800000;border-radius:16px;padding:13px;cursor:pointer">
@@ -7831,10 +7832,11 @@ class Component extends DCLogic {
   zoekArtikelen(q){
     const Nv = window.IfNav;
     clearTimeout(this._zaT);
-    q = Nv ? Nv.zoekTerm(q) : q; // bij een hele zin zoeken op de kernwoorden
-    const url = Nv ? Nv.artikelZoekUrl(q) : null;
-    if (!url) { if (this._zaTeller) this._zaTeller.volgende(); return; }
-    const qn = String(q).trim().replace(/\s+/g, " ").slice(0, 80);
+    // Bij een hele zin zoeken we per kernwoord (hooguit 3, specifiek eerst) en voegen de treffers samen (herstelronde 2).
+    const termen = Nv ? Nv.zoekTermen(q) : [String(q || "").trim()];
+    const urls = termen.map(t => Nv ? Nv.artikelZoekUrl(t) : null).filter(Boolean);
+    if (!urls.length) { if (this._zaTeller) this._zaTeller.volgende(); return; }
+    const qn = (Nv ? Nv.zoekSleutel(q) : String(q).trim()).replace(/\s+/g, " ").slice(0, 80);
     this._zaTeller = this._zaTeller || Nv.maakTeller();
     this._zaCache = this._zaCache || {};
     const tok = this._zaTeller.volgende();
@@ -7842,20 +7844,24 @@ class Component extends DCLogic {
     if (this._zaCache[qn]) { klaar("klaar", this._zaCache[qn]); return; }
     this._zaT = setTimeout(() => {
       this.setState(prev => this._zaTeller.actueel(tok) ? {zaq:{q:qn, status:"laden", items:[]}} : null);
-      let f;
-      let ctl = null, timer = null;
-      try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 15000); } catch(e){ ctl = null; }
-      try { f = fetch(url, ctl ? {credentials:"omit", headers:{"Accept":"application/json"}, signal: ctl.signal} : {credentials:"omit", headers:{"Accept":"application/json"}}); } catch(e){ clearTimeout(timer); klaar("fout", []); return; }
-      f.then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
-        .then(d => { const items = Nv.artikelTreffers(d); this._zaCache[qn] = items; klaar("klaar", items); })
-        .catch(() => klaar("fout", []))
-        .then(() => { if (timer) clearTimeout(timer); });
+      const haal = url => {
+        let ctl = null, timer = null;
+        try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 15000); } catch(e){ ctl = null; }
+        let f;
+        try { f = fetch(url, ctl ? {credentials:"omit", headers:{"Accept":"application/json"}, signal: ctl.signal} : {credentials:"omit", headers:{"Accept":"application/json"}}); } catch(e){ clearTimeout(timer); return Promise.reject(e); }
+        return f.then(r => r.ok ? r.json() : Promise.reject(new Error("status"))).then(d => Nv.artikelTreffers(d)).then(x => { if (timer) clearTimeout(timer); return x; }, e => { if (timer) clearTimeout(timer); throw e; });
+      };
+      Promise.all(urls.map(u => haal(u).then(x => ({ok:true, x}), () => ({ok:false, x:[]})))).then(res => {
+        if (!res.some(r => r.ok)) { klaar("fout", []); return; }
+        const items = Nv.voegSamen(res.map(r => r.x), "url");
+        this._zaCache[qn] = items; klaar("klaar", items);
+      }).catch(() => klaar("fout", []));
     }, 350);
   }
   // Het Klusarchief staat in de zoekresultaten als de module aan staat (zelfde regel als hub en modulelijst, Mijn modules telt mee).
   zoekKlusAan(){ return this.mods().some(m => m.id === "klusforum"); }
   zaVals(){
-    const st = this.state, qn = (window.IfNav ? window.IfNav.zoekTerm(st.q) : st.q.trim()).replace(/\s+/g, " ").slice(0, 80), basis = qn.length >= 3, zq = st.zaq || {};
+    const st = this.state, qn = (window.IfNav ? window.IfNav.zoekSleutel(st.q) : st.q.trim()).replace(/\s+/g, " ").slice(0, 80), basis = qn.length >= 3, zq = st.zaq || {};
     const status = !basis ? "" : (zq.q !== qn ? "laden" : zq.status);
     const ruw = basis && zq.q === qn && zq.status === "klaar" ? zq.items : [];
     // Dezelfde artikelen van Infofrankrijk staan soms ook al (met een duidelijk fragment) in de Klusarchief-sectie
@@ -8595,11 +8601,11 @@ class Component extends DCLogic {
   bijJouDoe(v){
     const B = window.IfBijJou, st = this.state, cfg = (st.cat || {}).bijJou;
     this._bjTeller = this._bjTeller || window.IfNav.maakTeller();
-    const o = B.vindOnderwerp(v, cfg), pc = st.postcode || "";
-    if (!o) { this._bjTeller.volgende(); if (st.bj) this.setState({bj:null}); return; }
-    if (!/^\d{5}$/.test(pc)) { this._bjTeller.volgende(); this.setState({bj:{status:"geenpc", sleutel:""}}); return; }
-    const sleutel = [o.soort, o.anker, (o.overheid || []).join(","), pc].join("|");
-    if (st.bj && st.bj.sleutel === sleutel && (st.bj.status === "klaar" || st.bj.status === "laden")) return;
+    const pl = B.plan(v, cfg, st.postcode || "", st.bj), o = pl.o, pc = st.postcode || "";
+    if (pl.actie === "geen") { this._bjTeller.volgende(); if (st.bj) this.setState({bj:null}); return; }
+    if (pl.actie === "geenpc") { this._bjTeller.volgende(); this.setState({bj:{status:"geenpc", sleutel:""}}); return; }
+    const sleutel = pl.sleutel;
+    if (pl.actie === "houd") return;
     const tok = this._bjTeller.volgende();
     const zet = bj => this.setState(prev => this._bjTeller.actueel(tok) ? {bj} : null);
     if (o.soort === "gemeente") { zet({status:"klaar", sleutel, o, pc, items:[]}); return; }
@@ -8710,31 +8716,38 @@ class Component extends DCLogic {
   }
   // Klusarchief: dezelfde Edge Function als het scherm zelf (v=2, bron alles), debounce en cache per term, net als zoekArtikelen.
   zoekKlusarchief(q){
-    const Ka = window.IfKa;
+    const Ka = window.IfKa, Nv = window.IfNav;
     clearTimeout(this._kzT);
     if (!Ka || !this.zoekKlusAan()) return;
-    const qn = (window.IfNav ? window.IfNav.zoekTerm(q) : String(q).trim()).replace(/\s+/g, " ");
+    // Bij een hele zin per kernwoord (hooguit 3, specifiek eerst), samengevoegd zonder dubbelen (herstelronde 2).
+    const termen = (Nv ? Nv.zoekTermen(q) : [String(q).trim()]).filter(t => t.length >= Ka.MIN_TEKENS);
+    const qn = (Nv ? Nv.zoekSleutel(q) : String(q).trim()).replace(/\s+/g, " ");
     this._kzCache = this._kzCache || {};
-    if (qn.length < Ka.MIN_TEKENS) { this.setState({kzq:{q:qn, status:"", items:[]}}); return; }
-    this._kzTeller = this._kzTeller || window.IfNav.maakTeller();
+    if (qn.length < Ka.MIN_TEKENS || !termen.length) { this.setState({kzq:{q:qn, status:"", items:[]}}); return; }
+    this._kzTeller = this._kzTeller || Nv.maakTeller();
     const tok = this._kzTeller.volgende();
     const klaar = (status, items) => this.setState(prev => this._kzTeller.actueel(tok) ? {kzq:{q:qn, status, items}} : null);
     if (this._kzCache[qn]) { klaar("klaar", this._kzCache[qn]); return; }
     this._kzT = setTimeout(() => {
       this.setState(prev => this._kzTeller.actueel(tok) ? {kzq:{q:qn, status:"laden", items:[]}} : null);
-      const url = Ka.zoekUrl(qn, 0, "alles");
-      if (!url) return klaar("fout", []);
-      let ctl = null, timer = null;
-      try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), Ka.TIMEOUT_MS); } catch(e){ ctl = null; }
-      fetch(url, ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"})
-        .then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
-        .then(d => { const items = (Ka.leesZoek(d) || {}).resultaten || []; this._kzCache[qn] = items; klaar("klaar", items); })
-        .catch(() => klaar("fout", []))
-        .then(() => { if (timer) clearTimeout(timer); });
+      const haal = term => {
+        const url = Ka.zoekUrl(term, 0, "alles");
+        if (!url) return Promise.reject(new Error("url"));
+        let ctl = null, timer = null;
+        try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), Ka.TIMEOUT_MS); } catch(e){ ctl = null; }
+        return fetch(url, ctl ? {credentials:"omit", signal: ctl.signal} : {credentials:"omit"})
+          .then(r => r.ok ? r.json() : Promise.reject(new Error("status")))
+          .then(d => { if (timer) clearTimeout(timer); return (Ka.leesZoek(d) || {}).resultaten || []; }, e => { if (timer) clearTimeout(timer); throw e; });
+      };
+      Promise.all(termen.map(t => haal(t).then(x => ({ok:true, x}), () => ({ok:false, x:[]})))).then(res => {
+        if (!res.some(r => r.ok)) { klaar("fout", []); return; }
+        const items = Nv.voegSamen(res.map(r => r.x), it => it && (it.url || (it.bron + ":" + it.id)));
+        this._kzCache[qn] = items; klaar("klaar", items);
+      }).catch(() => klaar("fout", []));
     }, 350);
   }
   kzVals(){
-    const st = this.state, Ka = window.IfKa, qn = (window.IfNav ? window.IfNav.zoekTerm(st.q) : st.q.trim()).replace(/\s+/g, " "), toon = this.zoekKlusAan() && qn.length >= (Ka ? Ka.MIN_TEKENS : 2), kz = st.kzq || {};
+    const st = this.state, Ka = window.IfKa, qn = (window.IfNav ? window.IfNav.zoekSleutel(st.q) : st.q.trim()).replace(/\s+/g, " "), toon = this.zoekKlusAan() && qn.length >= (Ka ? Ka.MIN_TEKENS : 2), kz = st.kzq || {};
     const status = !toon ? "" : (kz.q !== qn ? "laden" : kz.status);
     const items = toon && kz.q === qn && kz.status === "klaar" ? kz.items : [];
     return {
@@ -8747,7 +8760,7 @@ class Component extends DCLogic {
         if (it.bron === "forum") return {titel:it.titel, label:"OUD FORUM", extern:false, intern:true, href:"", open:() => this.kaOpenDraad({id:it.id, titel:it.titel, jaar:it.jaar, forum:""})};
         return {titel:it.titel, label: it.bron === "artikel" ? "INFOFRANKRIJK" : "OFFICIEEL", extern:true, intern:false, href:it.url, open:null};
       }),
-      kzMeer: () => this.kaOpenMet(qn)
+      kzMeer: () => this.kaOpenMet(window.IfNav ? window.IfNav.zoekTerm(st.q) : qn)
     };
   }
   // ---- Zoeken laag 2 (13-11-2026): de bestaande module nlfrzoek (Zoeken in forum en artikelen, nlfr-if-zoek.vercel.app)
@@ -9366,6 +9379,7 @@ class Component extends DCLogic {
       aiRegelVooraf: (() => { const r = window.IfVraag ? window.IfVraag.REGEL : ""; const i = r.indexOf(": "); return i < 0 ? "" : r.slice(0, i + 2); })(),
       aiRegelVet: (() => { const r = window.IfVraag ? window.IfVraag.REGEL : ""; const i = r.indexOf(": "); return i < 0 ? r : r.slice(i + 2); })(),
       kalMaandLabel: window.IfVraag ? window.IfVraag.LABEL : "abonnee",
+      dossierLabel: window.IfVraag ? window.IfVraag.LABEL_DOSSIER : "abonnee",
       vierCirkelStyle: cirkelStijl("#800000", 44),
       rijIcoStyleNavy: themaIcoStijl("slot", "#15213A", 20), rijIcoStyleAi: themaIcoStijl("ai", "#15213A", 20),
       dfCirkelStyle: cirkelStijl("#15213A", 44), dfIcoStyle: themaIcoStijl("slot", "#fff", 24), aiTegelIcoStyle: themaIcoStijl("ai", "#fff", 24),

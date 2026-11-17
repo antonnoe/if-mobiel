@@ -118,7 +118,36 @@
     return k.length ? k.join(" ") : t;
   }
 
-  var api = { kernwoorden: kernwoorden, zoekTerm: zoekTerm, STOPWOORDEN: STOPWOORDEN, parseHash: parseHash, bouwHash: bouwHash, deelUrl: deelUrl, isTop: isTop, navKey: navKey, maakTeller: maakTeller,
+  // Herstelronde 2 (17-11-2026): bij een hele zin zoeken de bronnen per kernwoord (hooguit 3, langste en dus meest specifieke eerst,
+  // bij gelijke lengte het latere woord eerst, want het onderwerp staat meestal achteraan) en worden de treffers samengevoegd. Eén losse zoekterm (minder dan 3 woorden) blijft één zoekopdracht.
+  var MAX_TERMEN = 3;
+  function zoekTermen(q) {
+    var t = String(q || "").trim().replace(/\s+/g, " ");
+    if (!t) return [];
+    if (t.split(" ").filter(Boolean).length < 3) return [t];
+    var k = kernwoorden(t);
+    if (!k.length) return [t];
+    var idx = k.map(function (w, i) { return { w: w, i: i }; });
+    idx.sort(function (a, b) { return (b.w.length - a.w.length) || (b.i - a.i); });
+    return idx.slice(0, MAX_TERMEN).map(function (x) { return x.w; });
+  }
+  // Sleutel van een zoekopdracht (cache en vergelijking met de staat): de termen op volgorde.
+  function zoekSleutel(q) { return zoekTermen(q).join(" "); }
+  // Voegt de lijsten treffers samen (volgorde van de lijsten = volgorde van de termen), zonder dubbelen; sleutel = functie of veldnaam.
+  function voegSamen(lijsten, sleutel) {
+    var f = typeof sleutel === "function" ? sleutel : function (x) { return x && x[sleutel || "url"]; };
+    var uit = [], gezien = {};
+    (lijsten || []).forEach(function (l) {
+      (Array.isArray(l) ? l : []).forEach(function (x) {
+        var s = f(x);
+        if (s == null || s === "") { uit.push(x); return; }
+        if (!Object.prototype.hasOwnProperty.call(gezien, s)) { gezien[s] = 1; uit.push(x); }
+      });
+    });
+    return uit;
+  }
+
+  var api = { kernwoorden: kernwoorden, zoekTerm: zoekTerm, zoekTermen: zoekTermen, zoekSleutel: zoekSleutel, voegSamen: voegSamen, MAX_TERMEN: MAX_TERMEN, STOPWOORDEN: STOPWOORDEN, parseHash: parseHash, bouwHash: bouwHash, deelUrl: deelUrl, isTop: isTop, navKey: navKey, maakTeller: maakTeller,
     artikelZoekUrl: artikelZoekUrl, artikelTreffers: artikelTreffers };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfNav = api;

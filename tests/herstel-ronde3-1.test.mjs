@@ -25,7 +25,7 @@ test("zoekTerm: pas vanaf 3 woorden, nooit leeg, nooit een stopwoord-only result
 });
 test("zoeken gebruikt de kernwoorden en Niets gevonden staat nooit naast resultaten", () => {
   assert.match(html, /const q = norm\(window\.IfNav \? window\.IfNav\.zoekTerm\(this\.state\.q\)/);
-  assert.match(html, /q = Nv \? Nv\.zoekTerm\(q\) : q;/);
+  assert.match(html, /Nv \? Nv\.zoekTermen\(q\)/);
   assert.match(html, /noResults: [^\n]*!this\.kzVals\(\)\.kzHeeft[^\n]*!this\.bijJouVals\(\)\.bjToon[^\n]*!this\.vraagVals\(\)\.vrToon/);
 });
 test("Bij jou: bouwonderwerpen wijzen naar de mairie, ook in een hele zin", () => {

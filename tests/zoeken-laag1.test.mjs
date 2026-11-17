@@ -35,9 +35,9 @@ test("Kalender: zoekt in het standaardvenster, hergebruikt kalItems als het sche
 
 test("Klusarchief: eigen zoekfunctie (v=2, bron alles) vanuit het hoofdzoekveld, met debounce en cache per term", () => {
   assert.match(html, /zoekKlusarchief\(q\)\{/);
-  assert.match(html, /Ka\.zoekUrl\(qn, 0, "alles"\)/);
+  assert.match(html, /Ka\.zoekUrl\(term, 0, "alles"\)/);
   // leesZoek geeft {resultaten:[...]}, geen kale array: de array moet er expliciet uitgehaald worden
-  assert.match(html, /const items = \(Ka\.leesZoek\(d\) \|\| \{\}\)\.resultaten \|\| \[\];/);
+  assert.match(html, /return \(Ka\.leesZoek\(d\) \|\| \{\}\)\.resultaten \|\| \[\];/);
   assert.match(html, /kzVals\(\)\{/);
   assert.match(html, /onQ: e => \{ const v = e\.target\.value;.*this\.zoekKlusarchief\(v\);.*\}/);
   // de oude statische doorverwijzing blijft als terugval zolang er geen echte hits zijn
