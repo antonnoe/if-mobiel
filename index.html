@@ -45,6 +45,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./nieuws-lib.js"></script>
 <script src="./hub-lib.js"></script>
 <script src="./bijjou-lib.js"></script>
+<script src="./vraag-lib.js"></script>
 <script src="./landing-lib.js"></script>
 <script src="./versie-lib.js"></script>
 <script src="./support.js"></script>
@@ -279,7 +280,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="padding:12px 16px 0">
       <div data-hubzoek="1" style="width:100%;display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:0 12px 0 14px;min-height:64px;box-sizing:border-box">
         <span style="{{ zoekIcoStyle }}"></span>
-        <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Typ je vraag in je eigen woorden" aria-label="Waar kunnen we je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 15px Mulish;color:#15181A;min-height:60px">
+        <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Typ je vraag" aria-label="Waar kunnen we je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 15px Mulish;color:#15181A;min-height:60px">
         <button data-zoekga="1" onClick="{{ onHubZoek }}" aria-label="Zoek" style="flex-shrink:0;min-width:64px;min-height:44px;padding:0 16px;border-radius:12px;border:0;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
       </div>
       <div data-airegel="1" style="display:flex;align-items:center;gap:6px;margin:8px 2px 0;font:500 12px/1.4 Mulish;color:#3D4346"><span aria-hidden="true" style="{{ aiSparkleStyle }}"></span><span>Kort antwoord met AI: <b style="font-weight:700;color:#800000">voor abonnees</b></span></div>
@@ -1099,12 +1100,57 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <div style="padding:16px 16px 0">
     <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(128,0,0,.22);border-radius:13px;padding:0 14px;min-height:54px;box-shadow:0 0 0 3px rgba(128,0,0,.06)">
       <span style="color:#800000;font-size:16px">⌕</span>
-      <input id="zq" value="{{ q }}" onInput="{{ onQ }}" placeholder="module, artikel, Franse zin of woord" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15.5px Mulish;color:#15181A;min-height:52px">
+      <input id="zq" value="{{ q }}" onInput="{{ onQ }}" onKeyDown="{{ onQEnter }}" placeholder="module, artikel, Franse zin of woord" aria-label="Zoeken" style="flex:1;border:0;outline:none;background:transparent;font:600 15.5px Mulish;color:#15181A;min-height:52px">
       <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}">
       <button onClick="{{ clearQ }}" aria-label="Wissen" style="width:44px;height:44px;flex:none;margin-right:-10px;border:0;background:none;display:grid;place-items:center;cursor:pointer;padding:0"><span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:rgba(21,24,26,.06);color:#3D4346;font:700 14px Mulish;display:grid;place-items:center">×</span></button>
       </sc-if>
     </div>
   </div>
+  <sc-if value="{{ vrToon }}" hint-placeholder-val="{{ false }}">
+  <section data-vraag="1" aria-label="Kort antwoord" style="margin:16px 14px 0;padding:14px 15px;border-radius:16px;background:#fff;border:1.5px solid rgba(128,0,0,.35)">
+    <div style="display:flex;align-items:center;gap:8px"><span aria-hidden="true" style="{{ aiSparkleStyle }}"></span><b style="font:700 15px Poppins,system-ui,sans-serif;color:#800000">{{ vrKop }}</b><span data-vraag-label="1" style="font:700 12px/1 Mulish;letter-spacing:.04em;color:#800000;border:1px solid rgba(128,0,0,.35);border-radius:9px;padding:3px 7px">{{ vrLabel }}</span></div>
+    <sc-if value="{{ vrKnop }}" hint-placeholder-val="{{ true }}">
+    <button data-vraag-knop="1" onClick="{{ vrStart }}" style="display:block;width:100%;margin-top:10px;min-height:48px;border:0;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">{{ vrKnopTekst }}</button>
+    </sc-if>
+    <sc-if value="{{ vrLaadt }}" hint-placeholder-val="{{ false }}">
+    <div role="status" data-vraag-wacht="1" style="margin-top:10px;font:600 14px/1.6 Mulish;color:#3D4346">{{ vrWacht }}</div>
+    </sc-if>
+    <sc-if value="{{ vrKlaar }}" hint-placeholder-val="{{ false }}">
+    <div data-vraag-antwoord="1" style="margin-top:10px">
+      <sc-for list="{{ vrBlokken }}" as="a" hint-placeholder-count="2">
+      <sc-if value="{{ a.isKop }}" hint-placeholder-val="{{ false }}"><h3 style="margin:12px 0 6px;font:600 16px/1.35 Poppins,system-ui,sans-serif;color:#15181A;overflow-wrap:anywhere">{{ a.t }}</h3></sc-if>
+      <sc-if value="{{ a.isAlinea }}" hint-placeholder-val="{{ true }}"><p style="margin:0 0 10px;font:400 16px Mulish;line-height:1.8em;color:#15181A;white-space:pre-line;overflow-wrap:anywhere"><sc-for list="{{ a.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.isTekst }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if><sc-if value="{{ s.isVet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800">{{ s.t }}</b></sc-if><sc-if value="{{ s.isBron }}" hint-placeholder-val="{{ false }}"><sc-if value="{{ s.isExtern }}" hint-placeholder-val="{{ false }}"><a data-vraag-bronnr="1" href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;vertical-align:middle;text-decoration:none"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></a></sc-if><sc-if value="{{ s.isKnop }}" hint-placeholder-val="{{ false }}"><button data-vraag-bronnr="1" onClick="{{ s.open }}" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;border:0;background:none;vertical-align:middle;cursor:pointer"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></button></sc-if></sc-if></sc-for></p></sc-if>
+      <sc-if value="{{ a.isLijst }}" hint-placeholder-val="{{ false }}"><ul style="margin:0 0 10px;padding-left:22px;font:400 16px Mulish;line-height:1.8em;color:#15181A"><sc-for list="{{ a.items }}" as="i" hint-placeholder-count="2"><li style="overflow-wrap:anywhere"><sc-for list="{{ i.segs }}" as="s" hint-placeholder-count="2"><sc-if value="{{ s.isTekst }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if><sc-if value="{{ s.isVet }}" hint-placeholder-val="{{ false }}"><b style="font-weight:800">{{ s.t }}</b></sc-if><sc-if value="{{ s.isBron }}" hint-placeholder-val="{{ false }}"><sc-if value="{{ s.isExtern }}" hint-placeholder-val="{{ false }}"><a data-vraag-bronnr="1" href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;vertical-align:middle;text-decoration:none"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></a></sc-if><sc-if value="{{ s.isKnop }}" hint-placeholder-val="{{ false }}"><button data-vraag-bronnr="1" onClick="{{ s.open }}" aria-label="{{ s.label }}" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-12px -9px;padding:0;border:0;background:none;vertical-align:middle;cursor:pointer"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ s.n }}</span></button></sc-if></sc-if></sc-for></li></sc-for></ul></sc-if>
+      </sc-for>
+    </div>
+    <sc-if value="{{ vrHeeftBronnen }}" hint-placeholder-val="{{ false }}">
+    <div data-vraag-bronnen="1" style="margin-top:4px">
+      <sc-for list="{{ vrBronnen }}" as="b" hint-placeholder-count="2">
+      <sc-if value="{{ b.isExtern }}" hint-placeholder-val="{{ false }}">
+      <a href="{{ b.url }}" target="_blank" rel="noopener" aria-label="{{ b.label }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:48px;margin-top:6px;padding:8px 12px;box-sizing:border-box;text-align:left;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#fff;text-decoration:none">
+        <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ b.n }}</span>
+        <span style="flex:1;min-width:0;display:block"><span style="display:block;font:600 14px/1.4 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.titel }}</span><span style="display:block;margin-top:2px;font:600 12.5px/1.4 Mulish;color:#3D4346">{{ b.meta }}</span><span style="display:block;margin-top:2px;font:700 12.5px/1.4 Mulish;color:#800000">Opent op de site zelf &#8599;</span></span>
+      </a>
+      </sc-if>
+      <sc-if value="{{ b.isKnop }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ b.open }}" aria-label="{{ b.label }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:48px;margin-top:6px;padding:8px 12px;box-sizing:border-box;text-align:left;border-radius:12px;border:1px solid rgba(21,24,26,.10);background:#fff;cursor:pointer">
+        <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#800000;color:#fff;font:700 12px/1 Poppins,system-ui,sans-serif">{{ b.n }}</span>
+        <span style="flex:1;min-width:0;display:block"><span style="display:block;font:600 14px/1.4 Mulish;color:#15181A;overflow-wrap:anywhere">{{ b.titel }}</span><span style="display:block;margin-top:2px;font:600 12.5px/1.4 Mulish;color:#3D4346">{{ b.meta }}</span><sc-if value="{{ b.verouderd }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:2px;font:500 12.5px/1.4 Mulish;color:#3D4346">{{ b.verouderdTekst }}</span></sc-if></span>
+      </button>
+      </sc-if>
+      </sc-for>
+    </div>
+    </sc-if>
+    <sc-if value="{{ vrHeeftSamenvatting }}" hint-placeholder-val="{{ false }}">
+    <p data-vraag-samenvatting="1" style="margin:12px 0 0;font:500 13.5px/1.6 Mulish;color:#3D4346">{{ vrSamenvatting }}</p>
+    </sc-if>
+    <sc-if value="{{ vrHeeftWaarschuwing }}" hint-placeholder-val="{{ false }}">
+    <div data-vraag-waarschuwing="1" style="margin-top:10px;padding:12px 14px;border-radius:14px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.18);font:600 13.5px/1.6 Mulish;color:#15181A">{{ vrWaarschuwing }}</div>
+    </sc-if>
+    </sc-if>
+    <p data-vraag-privacy="1" style="margin:12px 0 0;font:500 12.5px/1.6 Mulish;color:#5F6669">{{ vrPrivacy }}</p>
+  </section>
+  </sc-if>
   <sc-if value="{{ bjToon }}" hint-placeholder-val="{{ false }}">
   <div data-bijjou="1" style="margin:16px 14px 0">
     <div style="padding:0 4px 8px"><b style="display:block;font:700 15px Poppins,system-ui,sans-serif;color:#800000">{{ bjKop }}</b><span style="display:block;font:500 12.5px/1.4 Mulish;color:#3D4346;margin-top:2px">{{ bjTitel }}, uit de Nedergids</span></div>
@@ -4716,7 +4762,7 @@ class Component extends DCLogic {
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
-    cat:null, catFout:false, bj:null, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", fbOpen:false, fbNaam:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbToestel:null, fbEmail:"", fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
+    cat:null, catFout:false, bj:null, vr:null, vrAan:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", fbOpen:false, fbNaam:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbToestel:null, fbEmail:"", fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
     pirStatus:"laden", pirFoutTekst:"",
@@ -8201,8 +8247,8 @@ class Component extends DCLogic {
   // Tabnavigatie verlaat de module: tool moet mee weg, anders blijft de
   // prijsbadge in de kopbalk op de vorige module hangen.
   // "act" (de tab Actueel) is een alias van het nieuwsscherm.
-  hubZoekGa(v){ v = v || ""; if (v) { this.zoekArtikelen(v); this.zoekKlusarchief(v); } this.bijJouZoek(v); this.go("zoek", v); }
-  go(s, qStart){ this.stopPiramide(); if (s === "zoek") { this.laadZoekindexen(); this.laadKalenderZoek(); } if (s === "act") s = "nieuws";
+  hubZoekGa(v){ v = v || ""; if (v) { this.zoekArtikelen(v); this.zoekKlusarchief(v); } this.bijJouZoek(v); this.go("zoek", v); this.vraagPlan(v, true); }
+  go(s, qStart){ this.stopPiramide(); if (s === "zoek") { this.laadZoekindexen(); this.laadKalenderZoek(); this.vraagCheck(); } if (s === "act") s = "nieuws";
     if (s === "sponsors") return this.sponsorsOpen();
     if (s === "werkwijze") return this.wkOpen("hub");
     if (s === "meldingen") return this.mdOpen("hub");
@@ -8558,6 +8604,82 @@ class Component extends DCLogic {
       const items = B.kiesItems(o, d, cfg && cfg.max > 0 ? cfg.max : 3);
       zet(items.length ? {status:"klaar", sleutel, o, pc, items} : null);
     }).catch(() => zet(null)).then(() => { if (timer) clearTimeout(timer); });
+  }
+  // ---- Kort antwoord met AI (ronde 3, 17-11-2026, B3): bovenaan het zoekscherm (vraag-lib.js, Edge Function infopoche-vraag).
+  // Label "abonnee", maar voorlopig voor iedereen open. De status wordt een keer per sessie opgevraagd; bij aan:false, fout,
+  // time-out, 403 of 503 blijft de kaart zonder melding weg. Niets wordt bewaard: alles staat in het geheugen. ----
+  vraagCheck(){
+    const V = window.IfVraag;
+    if (!V) return Promise.resolve(false);
+    if (this._vrAanP) return this._vrAanP;
+    this._vrAanP = this.kaFetch(V.BASIS, null, V.STATUS_MS).then(({data}) => {
+      const aan = V.aan(data);
+      this.setState({vrAan:aan});
+      return aan;
+    });
+    return this._vrAanP;
+  }
+  // Plant een automatische start (3 of meer woorden of een vraag op ?) na een pauze in het typen; Enter start meteen.
+  vraagPlan(q, meteen){
+    const V = window.IfVraag;
+    clearTimeout(this._vrT);
+    if (!V || !V.metAuto(q)) return;
+    if (meteen) { this.vraagStart(q); return; }
+    this._vrT = setTimeout(() => this.vraagStart(q), V.PAUZE_MS);
+  }
+  vraagStart(q){
+    const V = window.IfVraag, Nv = window.IfNav;
+    if (!V || !Nv) return;
+    const vq = V.vraagSchoon(q);
+    if (!vq) return;
+    const sl = V.sleutel(vq), huidig = this.state.vr;
+    if (huidig && huidig.sleutel === sl && huidig.status !== "") return;
+    this._vrCache = this._vrCache || {};
+    this._vrTeller = this._vrTeller || Nv.maakTeller();
+    const tok = this._vrTeller.volgende();
+    if (this._vrCache[sl]) { this.setState({vr:{sleutel:sl, status:"klaar", data:this._vrCache[sl]}}); return; }
+    const zet = vr => this.setState(prev => this._vrTeller.actueel(tok) ? {vr} : null);
+    this.vraagCheck().then(aan => {
+      if (!aan || !this._vrTeller.actueel(tok)) return;
+      zet({sleutel:sl, status:"laden", data:null});
+      return this.kaFetch(V.BASIS, V.body(vq), V.TIMEOUT_MS).then(({status, data}) => {
+        const soort = V.soort(status, data), l = soort === "ok" ? V.lees(data) : null;
+        if (soort === "uit") { this._vrAanP = Promise.resolve(false); this.setState({vrAan:false}); return; }
+        if (!l) { zet({sleutel:sl, status:"stil", data:null}); return; }
+        this._vrCache[sl] = l;
+        zet({sleutel:sl, status:"klaar", data:l});
+      });
+    });
+  }
+  vraagVals(){
+    const st = this.state, V = window.IfVraag, vr = st.vr;
+    const vq = V ? V.vraagSchoon(st.q) : "";
+    const toon0 = st.screen === "zoek" && !!V && st.vrAan && !!vq;
+    const sl = V && vq ? V.sleutel(vq) : "";
+    const dit = !!vr && vr.sleutel === sl ? vr : null;
+    const stat = dit ? dit.status : "";
+    const toon = toon0 && stat !== "stil";
+    const d = stat === "klaar" ? dit.data : null;
+    const bronOpen = b => { if (b.soort === "forum") this.kaChatBron(b); else if (b.soort === "artikel") this.openInfoArtikel(b.url); };
+    const bronLabel = b => "Bron " + b.n + ": " + b.titel + ", " + V.bronMeta(b) + (b.verouderd ? ", " + V.verouderdTekst(b.jaar) : "") + (b.soort === "officieel" ? ", opent in een nieuw tabblad" : "");
+    const zetSeg = x => x.bron
+      ? ({isTekst:false, isVet:false, isBron:true, isExtern: x.soort === "officieel", isKnop: x.soort !== "officieel", t:"", n:String(x.n), url:x.url || "", label:"Bron " + x.n + ": " + x.titel, open: () => bronOpen(x)})
+      : ({isTekst:!x.vet, isVet:!!x.vet, isBron:false, isExtern:false, isKnop:false, t:x.t, n:"", url:"", label:"", open: () => {}});
+    const bl = d ? V.blokken(d.antwoord, d.bronnen).map(b => ({
+      isKop: b.soort === "kop", isAlinea: b.soort === "alinea", isLijst: b.soort === "lijst", t: b.t || "",
+      segs: (b.segs || []).map(zetSeg), items: (b.items || []).map(it => ({segs: it.map(zetSeg)}))})) : [];
+    return {
+      vrToon: toon, vrLabel: V ? V.LABEL : "", vrKop: V ? V.KOP : "", vrKnopTekst: V ? V.KNOP : "", vrWacht: V ? V.WACHT : "", vrPrivacy: V ? V.PRIVACY : "",
+      vrKnop: toon && stat === "", vrLaadt: toon && stat === "laden", vrKlaar: toon && stat === "klaar" && !!d,
+      vrStart: () => this.vraagStart(st.q),
+      vrBlokken: bl,
+      vrHeeftBronnen: toon && !!d && !d.geenBron && d.bronnen.length > 0,
+      vrBronnen: d && !d.geenBron ? d.bronnen.map(b => ({n:String(b.n), titel:b.titel, meta:V.bronMeta(b), verouderd:b.verouderd, verouderdTekst: b.verouderd ? V.verouderdTekst(b.jaar) : "", isExtern: b.soort === "officieel", isKnop: b.soort !== "officieel", url:b.url, label:bronLabel(b), open: () => bronOpen(b)})) : [],
+      vrSamenvatting: toon && !!d && !d.geenBron ? V.samenvatting() : "",
+      vrHeeftSamenvatting: toon && !!d && !d.geenBron,
+      vrWaarschuwing: d && V.heeftForum(d.bronnen) ? V.waarschuwing() : "",
+      vrHeeftWaarschuwing: !!d && V.heeftForum(d.bronnen)
+    };
   }
   bijJouVals(){
     const st = this.state, B = window.IfBijJou, cfg = (st.cat || {}).bijJou, bj = st.bj || null;
@@ -9277,11 +9399,13 @@ class Component extends DCLogic {
       heeftEigenKeuze: this.heeftEigenKeuze(), resetKeuze: () => this.resetKeuze(),
 
       q: st.q, hasQ: st.q.length > 0,
-      onQ: e => { const v = e.target.value; this.setState(v.trim() ? {q:v, skOnd:"", skVraag:""} : {q:v}); this.zoekArtikelen(v); this.zoekKlusarchief(v); this.bijJouZoek(v); },
-      clearQ: () => { this.setState({q:""}); this.zoekArtikelen(""); this.bijJouZoek(""); },
+      onQ: e => { const v = e.target.value; this.setState(v.trim() ? {q:v, skOnd:"", skVraag:""} : {q:v}); this.zoekArtikelen(v); this.zoekKlusarchief(v); this.bijJouZoek(v); this.vraagPlan(v, false); },
+      onQEnter: e => { if (e.key === "Enter") this.vraagPlan(e.target.value, true); },
+      clearQ: () => { this.setState({q:""}); this.zoekArtikelen(""); this.bijJouZoek(""); this.vraagPlan("", false); },
       ...this.zaVals(),
       ...this.kzVals(),
       ...this.bijJouVals(),
+      ...this.vraagVals(),
       zoekKlusToon: this.zoekKlusAan() && st.q.trim().replace(/\s+/g, " ").length >= 3 && !this.kzVals().kzHeeft,
       zoekKlusTekst: "Zoek ook in het Klusarchief: " + st.q.trim().replace(/\s+/g, " ").slice(0, 60),
       zoekKlusOpen: () => this.kaOpenMet(st.q),

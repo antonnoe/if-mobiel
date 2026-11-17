@@ -30,7 +30,7 @@ test("B2: vraagveld is een echt veld, 2px bordeaux, juiste placeholder, navigeer
   const j = html.indexOf('data-hubzoek="1"');
   const blok = html.slice(j, j + 900);
   assert.match(blok, /border:2px solid #800000/);
-  assert.match(blok, /placeholder="Typ je vraag in je eigen woorden"/);
+  assert.match(blok, /placeholder="Typ je vraag"/);
   const tag = html.slice(html.indexOf('<input id="hubq"'), html.indexOf('<input id="hubq"') + 500).match(/<input[^>]*>/)[0];
   assert.ok(!/onFocus|onBlur/.test(tag));
   assert.match(html, /onHubQ: e => \{ this\.setState\(\{q:e\.target\.value\}\); \},/);
@@ -151,7 +151,7 @@ test("bijJou: items kiezen, hooguit drie, overheden op soort", () => {
 test("bijJou: bedrading in index.html en service worker", () => {
   assert.ok(html.includes('<script src="./bijjou-lib.js"></script>'));
   assert.ok(lees("sw.js").includes('"./bijjou-lib.js"'));
-  assert.match(html, /this\.bijJouZoek\(v\); \},/);
+  assert.match(html, /this\.bijJouZoek\(v\); this\.vraagPlan\(v, false\); \},/);
   assert.match(html, /hubZoekGa\(v\)\{[^\n]*this\.bijJouZoek\(v\);/);
   const stuk = html.slice(html.indexOf("bijJouDoe(v){"), html.indexOf("bijJouVals(){"));
   assert.match(stuk, /_bjTeller/); assert.match(stuk, /credentials:"omit"/); assert.match(stuk, /AbortController/); assert.match(stuk, /timeoutMs/);
@@ -159,5 +159,5 @@ test("bijJou: bedrading in index.html en service worker", () => {
   assert.ok(!/innerHTML/.test(stuk));
   assert.ok(html.includes("Vul je postcode in voor adressen bij jou"));
   assert.ok(html.includes("Alles bij jou in de Nedergids") && html.includes('target="_blank" rel="noopener"'));
-  assert.equal(cat.bijJou.timeoutMs, 15000);
+  assert.equal(cat.bijJou.timeoutMs, 30000);
 });

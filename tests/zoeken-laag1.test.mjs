@@ -30,7 +30,7 @@ test("Kalender: zoekt in het standaardvenster, hergebruikt kalItems als het sche
   assert.match(html, /kalenderZoekTreffers\(q\)\{/);
   assert.match(html, /this\.laadKalenderZoek\(\);\s*\n\s*this\.kalenderZoekTreffers\(q\)\.forEach\(r => out\.push\(r\)\);/);
   // bij het openen van het zoekscherm wordt alvast geladen (sneller dan wachten op twee tekens)
-  assert.match(html, /if \(s === "zoek"\) \{ this\.laadZoekindexen\(\); this\.laadKalenderZoek\(\); \}/);
+  assert.match(html, /if \(s === "zoek"\) \{ this\.laadZoekindexen\(\); this\.laadKalenderZoek\(\); this\.vraagCheck\(\); \}/);
 });
 
 test("Klusarchief: eigen zoekfunctie (v=2, bron alles) vanuit het hoofdzoekveld, met debounce en cache per term", () => {
