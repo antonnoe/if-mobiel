@@ -23,9 +23,9 @@ test("routeToepassen: gemeentepc opent Mijn gemeente en zoekt direct op die post
   assert.match(html, /if \(r\.soort === "gemeentepc"\) \{ this\.gmOpen\("hub"\); this\.gmZoek\(r\.pc\); return; \}/);
 });
 
-test("Mijn gemeente: deelknop bovenaan, deelt de gemeentenaam en #/gemeente/<postcode> als die geldig is", () => {
+test("Chez moi: deelknop bovenaan, deelt de gemeentenaam en #/gemeente/<postcode> als die geldig is", () => {
   assert.ok(html.includes('data-gm-deel="1"'));
-  assert.match(html, /gmDeel: \(\) => \{ if \(!c\) return; const pc = G && G\.postcodeOk\(gm\.pc\) \? gm\.pc : \(G && G\.postcodeOk\(gm\.zocht\) \? gm\.zocht : ""\); this\.deelStuk\("gm:" \+ c\.code, "Mijn gemeente: " \+ c\.nom, APP_URL \+ "\/#\/gemeente" \+ \(pc \? "\/" \+ pc : ""\)\); \},/);
+  assert.match(html, /gmDeel: \(\) => \{ if \(!c\) return; const pc = G && G\.postcodeOk\(gm\.pc\) \? gm\.pc : \(G && G\.postcodeOk\(gm\.zocht\) \? gm\.zocht : ""\); this\.deelStuk\("gm:" \+ c\.code, "Chez moi: " \+ c\.nom, APP_URL \+ "\/#\/gemeente" \+ \(pc \? "\/" \+ pc : ""\)\); \},/);
 });
 
 test("Klusarchief-draad: deelknop met #/klusarchief/<id> (bestaande deep link)", () => {

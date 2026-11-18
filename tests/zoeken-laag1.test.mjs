@@ -18,7 +18,7 @@ test("gemeenteZoek: data bestaat, dekt déchèterie en taxe d'habitation, elke r
 
 test("search(): doorzoekt gemeenteZoek en nedergidsLinks lokaal, zonder liggende streepjes", () => {
   assert.match(html, /gemeenteZoek \|\| \{\}\)\.onderwerpen \|\| \[\]\)\.forEach\(o => \{/);
-  assert.match(html, /kind:"GEMEENTE", fr:o\.titel, nl:o\.regel \|\| "", where:"Mijn gemeente/);
+  assert.match(html, /kind:"GEMEENTE", fr:o\.titel, nl:o\.regel \|\| "", where:"Chez moi/);
   assert.match(html, /\(\(this\.state\.cat \|\| \{\}\)\.nedergidsLinks\) \|\| \[\]\)\.forEach\(l => \{/);
   assert.match(html, /kind:"GIDS", fr:l\.titel/);
 });

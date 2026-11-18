@@ -9,7 +9,7 @@
   var ONDERDELEN = [
     { id: "hub", label: "Startscherm" },
     { id: "zoeken", label: "Zoeken" },
-    { id: "gemeente", label: "Mijn gemeente" },
+    { id: "gemeente", label: "Chez moi" },
     { id: "hygiene", label: "Hygiënecontroles" },
     { id: "artikelen", label: "Artikelen" },
     { id: "overig", label: "Anders" }

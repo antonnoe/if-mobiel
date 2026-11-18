@@ -70,11 +70,11 @@ test("elk scherm hoort bij een tab", () => {
 });
 
 test("regiokaart: label, departement, plaatsnaam", () => {
-  assert.equal(L.regioLabel("", ""), "Mijn gemeente: stel je postcode in");
-  assert.equal(L.regioLabel(null, "Nice"), "Mijn gemeente: stel je postcode in");
-  assert.equal(L.regioLabel("123", "Nice"), "Mijn gemeente: stel je postcode in");
-  assert.equal(L.regioLabel("06000", "Nice"), "Mijn gemeente: 06000 Nice");
-  assert.equal(L.regioLabel("34360", ""), "Mijn gemeente: 34360");
+  assert.equal(L.regioLabel("", ""), "Chez moi: stel je postcode in");
+  assert.equal(L.regioLabel(null, "Nice"), "Chez moi: stel je postcode in");
+  assert.equal(L.regioLabel("123", "Nice"), "Chez moi: stel je postcode in");
+  assert.equal(L.regioLabel("06000", "Nice"), "Chez moi: 06000 Nice");
+  assert.equal(L.regioLabel("34360", ""), "Chez moi: 34360");
   assert.equal(L.departementCode("34360"), "34");
   assert.equal(L.departementCode("97100"), "971");
   assert.equal(L.departementCode("abc"), "");
@@ -92,7 +92,7 @@ test("regiokaart: label, departement, plaatsnaam", () => {
 test("koppelvlakken aanwezig in de app", () => {
   assert.ok(html.includes("<!-- ============ AI-TOOLS (modules.json"));  // het stub-blok is door het echte scherm vervangen
   assert.ok(html.includes("openAiTools()") && html.includes('screen:"aitools"'));
-  assert.ok(!html.includes('screen:"regio"'), "het scherm Je regio is vervallen, de kaart opent Mijn gemeente");
+  assert.ok(!html.includes('screen:"regio"'), "het scherm Je regio is vervallen, de kaart opent Chez moi");
   assert.match(html, /openRegio\(\)\{[\s\S]{0,200}this\.gmOpen\("hub"\)/);
   assert.ok(html.includes('<script src="./hub-lib.js"></script>'));
   assert.ok(!html.includes("tabVariant"));

@@ -53,8 +53,8 @@
   ],
   "shortcuts": [
     {
-      "name": "Mijn gemeente",
-      "short_name": "Gemeente",
+      "name": "Chez moi",
+      "short_name": "Chez moi",
       "description": "Risico's, belasting, water en afval bij je adres",
       "url": "./#/gemeente",
       "icons": [

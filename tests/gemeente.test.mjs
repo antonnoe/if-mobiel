@@ -327,3 +327,44 @@ test("déchèteries: het jaar komt uit de klok, met terugval op het vorige jaar"
   const src = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   assert.match(src, /const jr0 = new Date\(\)\.getFullYear\(\);\s*dechJaar\(jr0\)\.then\(r => r\.leeg \? dechJaar\(jr0 - 1\) : r\)/);
 });
+
+// Naamwijziging "Mijn gemeente" -> "Chez moi" (18-11-2026): routes, hashes, bestandsnamen en localStorage-sleutels
+// blijven ongewijzigd (scherm "gemeente", #/gemeente, gemeente-lib.js, api/gemeente.js); alleen zichtbare teksten.
+test("Chez moi: nieuwe naam op de kopbalk, delen, Onze platforms en de sterrenkaart; oude naam alleen nog in developer-commentaar en als zoekterm", () => {
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(html, /gemeente:"Chez moi", hygiene:"Hygiënecontroles"/);
+  assert.match(html, /this\.deelStuk\("gm:" \+ c\.code, "Chez moi: " \+ c\.nom,/);
+  const cat = JSON.parse(readFileSync(new URL("../modules.json", import.meta.url), "utf8"));
+  assert.equal(cat.startpagina.platforms.find(p => p.id === "gemeente").label, "Chez moi");
+  const titels = [];
+  (function zoek(o){ if (!o || typeof o !== "object") return;
+    if (o.scherm === "gemeente" && typeof o.titel === "string") titels.push(o.titel);
+    Object.values(o).forEach(v => { if (Array.isArray(v)) v.forEach(zoek); else if (v && typeof v === "object") zoek(v); }); })(cat.sterrenkaart);
+  assert.ok(titels.length > 0 && titels.every(t => t === "Chez moi"));
+  assert.equal(cat.planeet.schermen.find(s => s.id === "gemeente").titel, "Chez moi");
+  const H = createRequire(import.meta.url)("../hub-lib.js");
+  assert.equal(H.regioLabel("24100", "Bergerac"), "Chez moi: 24100 Bergerac");
+  const manifest = JSON.parse(readFileSync(new URL("../manifest.webmanifest", import.meta.url), "utf8"));
+  assert.equal(manifest.shortcuts.find(s => s.url === "./#/gemeente").name, "Chez moi");
+});
+
+test("Chez moi: 'mijn gemeente' is een extra zoekterm zodat de oude naam Chez moi vindt, naast 'chez moi' zelf", () => {
+  const cat = JSON.parse(readFileSync(new URL("../modules.json", import.meta.url), "utf8"));
+  const o = cat.gemeenteZoek.onderwerpen.find(x => x.titel === "Chez moi");
+  assert.ok(o, "er is een algemene zoekregel voor Chez moi");
+  const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  ["mijn gemeente", "chez moi"].forEach(term => {
+    const woorden = term.split(" ");
+    assert.ok(woorden.every(w => norm(o.woorden + " " + o.titel).includes(w)), term);
+  });
+});
+
+test("Chez moi: brede kaart naar Nedergids direct onder de kop, met postcode als die bekend is, anders zonder", () => {
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(html, /data-gm-ng="1" onClick="\{\{ gmNgOpen \}\}"[^>]*>\s*<span[^>]*>\{\{ gmNgTitel \}\}<\/span><span[^>]*>Dienstverleners, overheden en Nederlanders bij jou in de buurt<\/span>/);
+  assert.match(html, /const gmNgPc = G && G\.postcodeOk\(gm\.pc\) \? gm\.pc : \(G && G\.postcodeOk\(gm\.zocht\) \? gm\.zocht : ""\);/);
+  assert.match(html, /gmNgTitel: gmNgPc \? "Zoek in Nedergids rond " \+ gmNgPc \+ \(c && c\.nom \? " " \+ c\.nom : ""\) : "Zoek in Nedergids",/);
+  assert.match(html, /gmNgOpen: \(\) => this\.gmNaarNedergids\(gmNgPc\)/);
+  assert.match(html, /gmNaarNedergids\(pc\)\{/);
+  assert.match(html, /from:"gemeente"/);
+});

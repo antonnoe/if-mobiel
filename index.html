@@ -2450,7 +2450,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:12px 14px 0">
     <a href="https://www.nedergids.nl" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nedergids.nl</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">De bestaande gids met particulieren en dienstverleners</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F6669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
-    <button onClick="{{ ngGemeente }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Mijn gemeente</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Risico's, belasting, mairie en meer voor je gemeente</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button onClick="{{ ngGemeente }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Chez moi</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Risico's, belasting, mairie en meer voor je gemeente</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     <button onClick="{{ ngVerenigingen }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Nederlandse verenigingen</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Welke verenigingen kun je in Frankrijk vinden</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     <button onClick="{{ ngOverheden }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;align-items:center;gap:12px;box-sizing:border-box;min-height:64px;padding:12px 15px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;color:#15181A;text-decoration:none"><span style="flex:1;min-width:0"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;overflow-wrap:anywhere">Franse overheden bij je in de buurt</span><span style="display:block;margin-top:3px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Loketten en instellingen op postcode</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 5l7 7-7 7"/></svg></button>
     <sc-for list="{{ ngExtra }}" as="x" hint-placeholder-count="3">
@@ -4078,6 +4078,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   <sc-if value="{{ gmDeelMld }}" hint-placeholder-val="{{ false }}">
   <div role="status" style="margin:4px 18px 0;font:600 13px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ gmDeelMld }}</div>
   </sc-if>
+  <div style="padding:14px 16px 0">
+    <button data-gm-ng="1" onClick="{{ gmNgOpen }}" style="width:100%;text-align:left;cursor:pointer;font:inherit;display:block;box-sizing:border-box;min-height:64px;padding:14px 16px;background:rgba(128,0,0,.06);border:1px solid rgba(128,0,0,.22);border-radius:16px;color:#15181A"><span style="display:block;font:600 16px/1.3 Poppins,system-ui,sans-serif;color:#800000;overflow-wrap:anywhere">{{ gmNgTitel }}</span><span style="display:block;margin-top:4px;font:400 14px/1.5 Mulish;color:#3D4346;text-wrap:pretty;overflow-wrap:anywhere">Dienstverleners, overheden en Nederlanders bij jou in de buurt</span></button>
+  </div>
   <sc-if value="{{ gmHeeftAnder }}" hint-placeholder-val="{{ false }}">
   <div style="padding:6px 16px 0"><button data-gm-ander="1" onClick="{{ gmAnder }}" style="min-height:44px;padding:0 16px;border:1px solid rgba(128,0,0,.25);border-radius:22px;background:#fff;color:#800000;font:700 14px Mulish;cursor:pointer">Ander dorp met deze postcode</button></div>
   </sc-if>
@@ -6962,6 +6965,7 @@ class Component extends DCLogic {
   }
   gmVals(){
     const st = this.state, G = window.IfGem, gm = st.gm, c = gm.gemeente, zoekOk = String(gm.pc || "").trim().length >= 4;
+    const gmNgPc = G && G.postcodeOk(gm.pc) ? gm.pc : (G && G.postcodeOk(gm.zocht) ? gm.zocht : "");
     const lijst = gm.status === "adres" ? (gm.adressen || []).map(x => ({naam:x.label, regel:"", open: () => this.gmKiesAdres(x)}))
       : (gm.communes || []).map(x => ({naam:x.nom, regel:"Departement " + x.dep, open: () => this.gmKies(x, gm.zocht)}));
     return {
@@ -6988,12 +6992,25 @@ class Component extends DCLogic {
       gmKeuzes: lijst,
       gmKlaar: gm.status === "klaar" && !!c,
       gmKop: c ? c.nom + (c.dep ? " (" + c.dep + ")" : "") : "",
-      gmDeel: () => { if (!c) return; const pc = G && G.postcodeOk(gm.pc) ? gm.pc : (G && G.postcodeOk(gm.zocht) ? gm.zocht : ""); this.deelStuk("gm:" + c.code, "Mijn gemeente: " + c.nom, APP_URL + "/#/gemeente" + (pc ? "/" + pc : "")); },
+      gmDeel: () => { if (!c) return; const pc = G && G.postcodeOk(gm.pc) ? gm.pc : (G && G.postcodeOk(gm.zocht) ? gm.zocht : ""); this.deelStuk("gm:" + c.code, "Chez moi: " + c.nom, APP_URL + "/#/gemeente" + (pc ? "/" + pc : "")); },
       gmDeelMld: c && st.deelMld && st.deelMld.k === "gm:" + c.code ? st.deelMld.t : "",
       gmAdresRegel: c && c.adres ? (c.adres === "Je locatie" ? "Je locatie, bij benadering" : c.adres) : "", gmHeeftAdres: !!(c && c.adres),
       gmKaarten: this.gmKaartenLijst(),
-      gmOpnieuw: () => this.gmZoek(gm.pc)
+      gmOpnieuw: () => this.gmZoek(gm.pc),
+      gmNgTitel: gmNgPc ? "Zoek in Nedergids rond " + gmNgPc + (c && c.nom ? " " + c.nom : "") : "Zoek in Nedergids",
+      gmNgOpen: () => this.gmNaarNedergids(gmNgPc)
     };
+  }
+  // Stap naar Nedergids vanuit Chez moi (18-11-2026): zelfde scherm en Edge Function als de kaart Nedergids in het
+  // hamburgermenu (nedergids-lib.js), maar met de postcode van Chez moi (niet noodzakelijk de opgeslagen postcode)
+  // en direct gezocht; zonder geldige postcode opent het lege zoekscherm.
+  gmNaarNedergids(pc){
+    const ok = window.IfNg && window.IfNg.postcodeOk(pc);
+    this.setState({screen:"nedergids", tool: this.vindModule("nedergids"), q:"", menu:false, copied:null, from:"gemeente",
+      ngPc: ok ? pc : (this.state.ngPc || ""),
+      ngStatus: this.state.ngStatus === "klaar" && ok && this.state.ngZocht === pc ? "klaar" : "",
+      ...(ok && this.state.ngZocht !== pc ? {ngLokaal:[], ngLandelijk:[], ngZocht:"", ngGemeenteNaam:""} : {})});
+    if (ok && this.state.ngZocht !== pc) this.ngZoek(pc);
   }
   hyOpen(){
     const pc = this.state.postcode, ok = window.IfHyg && window.IfHyg.postcodeOk(pc);
@@ -8709,7 +8726,7 @@ class Component extends DCLogic {
       bjToon: klaar, bjKop: klaar ? "Bij jou, " + bj.pc : "", bjTitel: klaar ? bj.o.titel : "",
       bjHeeftItems: klaar && bj.items.length > 0,
       bjItems: klaar ? bj.items.map(i => ({id:i.id, naam:i.naam, href, regel:[i.soortLabel, i.plaats, i.afstand].filter(Boolean).join(" \u00b7 ")})) : [],
-      bjAlles: href, bjAllesTekst: klaar && bj.items.length === 0 ? "Mijn gemeente bij jou in de Nedergids" : "Alles bij jou in de Nedergids",
+      bjAlles: href, bjAllesTekst: klaar && bj.items.length === 0 ? "Chez moi bij jou in de Nedergids" : "Alles bij jou in de Nedergids",
       bjVraagPc: !!bj && bj.status === "geenpc" && !st.postcode,
       bjVraagPcOpen: () => this.setState({vraagPostcode:true, pcInfo:false, pcInvoer:"", pcNaarGemeente:false})
     };
@@ -8961,7 +8978,7 @@ class Component extends DCLogic {
     const woorden = q.split(" ").filter(Boolean);
     (((this.state.cat || {}).gemeenteZoek || {}).onderwerpen || []).forEach(o => {
       if (woorden.every(w => norm(o.woorden + " " + o.titel).includes(w)))
-        out.push({kind:"GEMEENTE", fr:o.titel, nl:o.regel || "", where:"Mijn gemeente · op basis van je postcode",
+        out.push({kind:"GEMEENTE", fr:o.titel, nl:o.regel || "", where:"Chez moi · op basis van je postcode",
           open:() => { this.setState({q:""}); this.gmOpen("zoek"); }});
     });
     // Nedergids: eigen vindpagina's (registers, adressenboek, websites overheden) staan niet in een module.
@@ -9138,7 +9155,7 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Mijn gemeente", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", werkwijze:"Zo werken wij", meldingen:"Meldingen", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {gemeente:"Chez moi", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", werkwijze:"Zo werken wij", meldingen:"Meldingen", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
     const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, werkwijze:"Hoe wij cijfers controleren", sponsors:"Communities Abroad", meldingen:"Herinneringen uit Kalender Frankrijk", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",

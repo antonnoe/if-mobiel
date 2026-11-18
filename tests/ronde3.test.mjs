@@ -51,7 +51,7 @@ test("B2: begroeting met postcode en plaats", () => {
 
 test("B2: onze platforms in de afgesproken volgorde, Nedergids als link met postcode", () => {
   const p = H.platforms(cat.startpagina, "62170");
-  assert.deepEqual(p.map(x => x.label), ["Infofrankrijk", "Nederlanders.fr", "Nedergids", "Café Claude", "Kalender", "Mijn gemeente"]);
+  assert.deepEqual(p.map(x => x.label), ["Infofrankrijk", "Nederlanders.fr", "Nedergids", "Café Claude", "Kalender", "Chez moi"]);
   assert.equal(p.find(x => x.id === "nedergids").href, "https://nedergids-v2.vercel.app/zoek?postcode=62170");
   assert.equal(H.platforms(cat.startpagina, null).find(x => x.id === "nedergids").href, "https://nedergids-v2.vercel.app/");
   assert.equal(H.platforms(null, null).length, 6);

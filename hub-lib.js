@@ -28,7 +28,7 @@
   var PLATFORMS_STANDAARD = [
     { id: "infofrankrijk", label: "Infofrankrijk" }, { id: "nlfr", label: "Nederlanders.fr" },
     { id: "nedergids", label: "Nedergids" }, { id: "cafeclaude", label: "Caf\u00e9 Claude" },
-    { id: "kalender", label: "Kalender" }, { id: "gemeente", label: "Mijn gemeente" }
+    { id: "kalender", label: "Kalender" }, { id: "gemeente", label: "Chez moi" }
   ];
   var NEDERGIDS_BASIS = "https://nedergids-v2.vercel.app/";
   function nedergidsUrl(pc, basis) {
@@ -106,9 +106,9 @@
   // Regiokaart op de hub.
   function postcodeOk(pc) { return typeof pc === "string" && /^\d{5}$/.test(pc); }
   function regioLabel(pc, plaats) {
-    if (!postcodeOk(pc)) return "Mijn gemeente: stel je postcode in";
+    if (!postcodeOk(pc)) return "Chez moi: stel je postcode in";
     var p = typeof plaats === "string" ? plaats.trim() : "";
-    return "Mijn gemeente: " + pc + (p ? " " + p : "");
+    return "Chez moi: " + pc + (p ? " " + p : "");
   }
   // Departementscode uit de postcode: 97x en 98x hebben drie cijfers, de rest twee.
   function departementCode(pc) {

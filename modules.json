@@ -48,7 +48,7 @@
       },
       {
         "id": "gemeente",
-        "label": "Mijn gemeente"
+        "label": "Chez moi"
       }
     ],
     "abonneeRegel": "Kort antwoord met AI · Dossier Frankrijk · kalender per maand"
@@ -2955,8 +2955,9 @@
     }
   ],
   "gemeenteZoek": {
-    "_uitleg": "Zoekveld (10-11-2026, ronde postzegel): de zes kaarten van Mijn gemeente staan niet als module in de catalogus en waren daarom niet vindbaar via het hoofdzoekveld (bijvoorbeeld déchèterie, taxe d'habitation). Elke regel is woorden plus titel/regel; een match opent Mijn gemeente met het label 'Op basis van je postcode'. Geen netwerk nodig, puur lokale data.",
+    "_uitleg": "Zoekveld (10-11-2026, ronde postzegel; naam Chez moi sinds 18-11-2026, was Mijn gemeente): de kaarten van Chez moi staan niet als module in de catalogus en waren daarom niet vindbaar via het hoofdzoekveld (bijvoorbeeld déchèterie, taxe d'habitation). Elke regel is woorden plus titel/regel; een match opent Chez moi met het label 'Op basis van je postcode'. De eerste regel is de algemene ingang (ook op de oude naam 'mijn gemeente'), de rest zijn de losse onderwerpen. Geen netwerk nodig, puur lokale data.",
     "onderwerpen": [
+      { "woorden": "chez moi mijn gemeente", "titel": "Chez moi", "regel": "Risico's, belasting, water en afval bij je adres" },
       { "woorden": "dechèterie dechet afvalbrengplaats afval vuil storten", "titel": "Afvalbrengplaatsen (déchèteries)", "regel": "De dichtstbijzijnde locaties in je departement" },
       { "woorden": "taxe fonciere taxe habitation belasting onroerendgoedbelasting tarief teom huisvuilheffing", "titel": "Belasting op je huis", "regel": "Tarieven taxe foncière, taxe d'habitation en TEOM" },
       { "woorden": "risico risque overstroming aardbeving kleigrond bodembeweging georisques natuurramp", "titel": "Risico's", "regel": "Overstroming, bodembeweging, aardbevingszone en meer" },
@@ -3035,7 +3036,7 @@
                 "groep": "adres",
                 "bron": "ng",
                 "scherm": "gemeente",
-                "titel": "Mijn gemeente",
+                "titel": "Chez moi",
                 "regel": "Risico's, tarieven en voorzieningen voor jouw gemeente of adres"
               },
               {
@@ -3061,7 +3062,7 @@
                 "groep": "begin",
                 "bron": "ng",
                 "scherm": "gemeente",
-                "titel": "Mijn gemeente",
+                "titel": "Chez moi",
                 "regel": "Risico's voor jouw gemeente, met meer detail als je een adres invult"
               },
               {
@@ -3146,7 +3147,7 @@
                 "groep": "reken",
                 "bron": "ng",
                 "scherm": "gemeente",
-                "titel": "Mijn gemeente",
+                "titel": "Chez moi",
                 "regel": "Tarief van de taxe foncière in jouw gemeente, met een indicatie als je de cadastrale huurwaarde invult"
               },
               {
@@ -3250,7 +3251,7 @@
                 "groep": "adres",
                 "bron": "ng",
                 "scherm": "gemeente",
-                "titel": "Mijn gemeente",
+                "titel": "Chez moi",
                 "regel": "Opent het hulpmiddel Internetverbinding met je adres, als je een adres koos"
               }
             ]
@@ -3713,7 +3714,7 @@
                 "groep": "reken",
                 "bron": "ng",
                 "scherm": "gemeente",
-                "titel": "Mijn gemeente",
+                "titel": "Chez moi",
                 "regel": "Tarief van de taxe foncière in jouw gemeente, met een indicatie als je de cadastrale huurwaarde invult"
               },
               {
@@ -4186,7 +4187,7 @@
                 "groep": "adres",
                 "bron": "ng",
                 "scherm": "gemeente",
-                "titel": "Mijn gemeente",
+                "titel": "Chez moi",
                 "regel": "De mairie en andere gegevens van jouw gemeente"
               },
               {
@@ -4569,7 +4570,7 @@
     ],
     "schermen": [
       { "id": "meldingen", "maan": "op-tijd", "titel": "Meldingen bij deadlines", "regel": "Een seintje op je telefoon voor belastingdata en andere deadlines.", "bron": "if", "doel": "meldingen" },
-      { "id": "gemeente", "maan": "buurt", "titel": "Mijn gemeente", "regel": "Risico's, belasting, water en afval voor jouw gemeente.", "bron": "ng", "doel": "gemeente" },
+      { "id": "gemeente", "maan": "buurt", "titel": "Chez moi", "regel": "Risico's, belasting, water en afval voor jouw gemeente.", "bron": "ng", "doel": "gemeente" },
       { "id": "hygiene", "maan": "buurt", "titel": "Hygiënecontroles", "regel": "Restaurants en winkels bij je postcode.", "bron": "ng", "doel": "hygiene" },
       { "id": "sponsors", "maan": "samen", "titel": "Onze sponsors", "regel": "Wie InfoPoche mogelijk maken.", "bron": "nl", "doel": "sponsors" },
       { "id": "werkwijze", "maan": "app", "titel": "Zo werken wij", "regel": "Lees hoe Café Claude, Peil en onze tools elk cijfer controleren.", "bron": "ip", "doel": "werkwijze" },
