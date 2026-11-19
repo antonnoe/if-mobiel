@@ -361,10 +361,10 @@ test("Chez moi: 'mijn gemeente' is een extra zoekterm zodat de oude naam Chez mo
 
 test("Chez moi: brede kaart naar Nedergids direct onder de kop, met postcode als die bekend is, anders zonder", () => {
   const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-  assert.match(html, /data-gm-ng="1" onClick="\{\{ gmNgOpen \}\}"[^>]*>\s*<span[^>]*>\{\{ gmNgTitel \}\}<\/span><span[^>]*>Dienstverleners, overheden en Nederlanders bij jou in de buurt<\/span>/);
+  assert.match(html, /data-gm-ng="1" href="\{\{ gmNgUrl \}\}" target="_blank" rel="noopener"[^>]*>\s*<span[^>]*>\{\{ gmNgTitel \}\}<\/span><span[^>]*>Dienstverleners, overheden en Nederlanders bij jou in de buurt<\/span><\/a>/);
   assert.match(html, /const gmNgPc = G && G\.postcodeOk\(gm\.pc\) \? gm\.pc : \(G && G\.postcodeOk\(gm\.zocht\) \? gm\.zocht : ""\);/);
-  assert.match(html, /gmNgTitel: gmNgPc \? "Zoek in Nedergids rond " \+ gmNgPc \+ \(c && c\.nom \? " " \+ c\.nom : ""\) : "Zoek in Nedergids",/);
-  assert.match(html, /gmNgOpen: \(\) => this\.gmNaarNedergids\(gmNgPc\)/);
-  assert.match(html, /gmNaarNedergids\(pc\)\{/);
-  assert.match(html, /from:"gemeente"/);
+  assert.match(html, /gmNgTitel: \(gmNgPc \? "Zoek in Nedergids rond " \+ gmNgPc \+ \(c && c\.nom \? " " \+ c\.nom : ""\) : "Zoek in Nedergids"\) \+ " ↗",/);
+  // Keuze A (19-11-2026): de kaart opent nedergids.nl met de postcode, niet meer het oude zoekscherm in de app.
+  assert.match(html, /gmNgUrl: window\.IfNg \? window\.IfNg\.zoekUrl\(gmNgPc\) : "https:\/\/nedergids\.nl\/zoek"/);
+  assert.ok(!/gmNaarNedergids|gmNgOpen/.test(html));
 });

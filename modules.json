@@ -24,7 +24,7 @@
   },
   "startpagina": {
     "_uitleg": "De startpagina (ronde 3, 17-11-2026): de volgorde van 'Onze platforms' (id en label; nedergids opent als link naar nedergidsBasis in een nieuw tabblad), en de ene regel in het blok 'Word abonnee'. De regel noemt alleen wat bestaat.",
-    "nedergidsBasis": "https://nedergids-v2.vercel.app/",
+    "nedergidsBasis": "https://nedergids.nl/",
     "platforms": [
       {
         "id": "infofrankrijk",
@@ -56,6 +56,7 @@
   "bijJou": {
     "_uitleg": "Slim zoeken met 'Bij jou' (ronde 3, 17-11-2026): matcht de vraag op het zoekscherm (genormaliseerd: kleine letters, accenten weg, woordgrens) met één van deze onderwerpen en toont bij een bekende postcode tot drie echte items uit de Nedergids-API. woorden = komma-gescheiden zoekwoorden (ook meerwoordig); soort = zorg, overheden, verenigingen, ehpad, hygiene of gemeente (alleen een link); overheid = bij soort overheden welke soorten uit de Annuaire bij de vraag passen; anker = het blok in de Nedergids (/zoek?postcode=..#anker). De eerste regel die matcht wint, specifiek vóór algemeen. Eén plek, nooit in de code.",
     "basis": "https://nedergids-v2.vercel.app",
+    "site": "https://nedergids.nl",
     "max": 3,
     "onderwerpen": [
       {

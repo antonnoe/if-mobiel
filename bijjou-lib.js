@@ -44,6 +44,12 @@
     return null;
   }
 
+  // Links voor de lezer gaan naar het eigen domein (cfg.site); de API-aanvragen blijven op cfg.basis (CORS daar getest).
+  var SITE = "https://nedergids.nl";
+  function siteVan(cfg) {
+    var s = cfg && typeof cfg.site === "string" && /^https:\/\/[a-z0-9.-]+$/i.test(cfg.site) ? cfg.site : SITE;
+    return s.replace(/\/+$/, "");
+  }
   function basisVan(cfg) {
     var b = cfg && typeof cfg.basis === "string" && /^https:\/\/[a-z0-9.-]+$/i.test(cfg.basis) ? cfg.basis : BASIS;
     return b.replace(/\/+$/, "");
@@ -83,7 +89,7 @@
 
   function zoekUrl(cfg, pc, anker) {
     if (!/^\d{5}$/.test(pc)) return "";
-    return basisVan(cfg) + "/zoek?postcode=" + pc + (typeof anker === "string" && /^[a-z]+$/.test(anker) ? "#" + anker : "");
+    return siteVan(cfg) + "/zoek?postcode=" + pc + (typeof anker === "string" && /^[a-z]+$/.test(anker) ? "#" + anker : "");
   }
 
   var SOORT_LABELS = {

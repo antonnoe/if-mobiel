@@ -30,7 +30,7 @@
     { id: "nedergids", label: "Nedergids" }, { id: "cafeclaude", label: "Caf\u00e9 Claude" },
     { id: "kalender", label: "Kalender" }, { id: "gemeente", label: "Chez moi" }
   ];
-  var NEDERGIDS_BASIS = "https://nedergids-v2.vercel.app/";
+  var NEDERGIDS_BASIS = "https://nedergids.nl/";
   function nedergidsUrl(pc, basis) {
     var b = typeof basis === "string" && /^https:\/\//.test(basis) ? basis : NEDERGIDS_BASIS;
     return postcodeOk(pc) ? b.replace(/\/+$/, "") + "/zoek?postcode=" + pc : b;

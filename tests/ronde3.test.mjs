@@ -52,8 +52,8 @@ test("B2: begroeting met postcode en plaats", () => {
 test("B2: onze platforms in de afgesproken volgorde, Nedergids als link met postcode", () => {
   const p = H.platforms(cat.startpagina, "62170");
   assert.deepEqual(p.map(x => x.label), ["Infofrankrijk", "Nederlanders.fr", "Nedergids", "Café Claude", "Kalender", "Chez moi"]);
-  assert.equal(p.find(x => x.id === "nedergids").href, "https://nedergids-v2.vercel.app/zoek?postcode=62170");
-  assert.equal(H.platforms(cat.startpagina, null).find(x => x.id === "nedergids").href, "https://nedergids-v2.vercel.app/");
+  assert.equal(p.find(x => x.id === "nedergids").href, "https://nedergids.nl/zoek?postcode=62170");
+  assert.equal(H.platforms(cat.startpagina, null).find(x => x.id === "nedergids").href, "https://nedergids.nl/");
   assert.equal(H.platforms(null, null).length, 6);
   assert.equal(p.filter(x => x.extern).length, 1);
   assert.match(html, /infofrankrijk: \(\) => this\.go\("infofr"\)/);
@@ -128,7 +128,7 @@ test("bijJou: postcode naar grootste gemeente en aanvraag-URL's", () => {
   assert.equal(B.bronUrl(cat.bijJou, { soort: "gemeente" }, g), "");
   assert.equal(B.postcodeUrl(cat.bijJou, "62170"), "https://nedergids-v2.vercel.app/api/postcode?pc=62170");
   assert.equal(B.postcodeUrl(cat.bijJou, "6217"), "");
-  assert.equal(B.zoekUrl(cat.bijJou, "62170", "zorg"), "https://nedergids-v2.vercel.app/zoek?postcode=62170#zorg");
+  assert.equal(B.zoekUrl(cat.bijJou, "62170", "zorg"), "https://nedergids.nl/zoek?postcode=62170#zorg", "links naar het eigen domein, API blijft op basis");
 });
 
 test("bijJou: items kiezen, hooguit drie, overheden op soort", () => {

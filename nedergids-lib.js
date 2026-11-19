@@ -3,13 +3,18 @@
 // Bron: eigen Edge Function `nedergids` op Supabase-project communities-tools. Anoniem, alleen een simpele GET.
 (function (root) {
   var BASIS = "https://mqkhfyvrizgmmmcbdkxh.supabase.co/functions/v1/nedergids";
-  var SITE_URL = "https://www.nedergids.nl";
+  var SITE_URL = "https://nedergids.nl";
 
   function postcodeOk(pc) { return typeof pc === "string" && /^\d{5}$/.test(pc); }
 
   function url(pc) {
     if (!postcodeOk(pc)) return "";
     return BASIS + "?postcode=" + encodeURIComponent(pc);
+  }
+
+  // Zoekscherm op nedergids.nl (keuze A, 19-11-2026: elke Nedergids-ingang in de app opent nedergids.nl met de postcode).
+  function zoekUrl(pc) {
+    return postcodeOk(pc) ? SITE_URL + "/zoek?postcode=" + pc : SITE_URL + "/zoek";
   }
 
   function tekst(v) { return typeof v === "string" ? v.trim() : ""; }
@@ -64,7 +69,7 @@
     return { gemeente: tekst(json.gemeente), lokaal: lokaal, landelijk: landelijk };
   }
 
-  var api = { BASIS: BASIS, SITE_URL: SITE_URL, postcodeOk: postcodeOk, url: url, item: item, lees: lees,
+  var api = { BASIS: BASIS, SITE_URL: SITE_URL, postcodeOk: postcodeOk, url: url, zoekUrl: zoekUrl, item: item, lees: lees,
     werkgebiedLabel: werkgebiedLabel, plaatsLabel: plaatsLabel };
   root.IfNg = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
