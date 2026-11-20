@@ -35,6 +35,12 @@ test("tegels uit de API: archief apart, lege tegels vallen weg, aantal uit de da
   assert.equal(u.tegels.find(t => t.id === "overheid-zorg").label, "Zorg en gezondheid");
 });
 
+test("kanalen: een bericht dat de redactie niet in Infopoche wil, valt weg", () => {
+  const t = { id: "pers-x", thema: "x" };
+  const items = L.maakItems(t, [art("k", "2026-11-20T10:00:00Z", { kanalen: { infopoche: false } }), art("l", "2026-11-20T09:00:00Z", { kanalen: { nieuwsbrief: false } }), art("m", "2026-11-20T08:00:00Z")]);
+  assert.deepEqual(items.map(i => i.id), ["l", "m"]);
+});
+
 test("archiefaantal: zonder betrouwbaar getal geen getal", () => {
   assert.equal(L.tegelsUitApi({ tegels: [{ soort: "archief", id: "archief" }] }).archiefAantal, null);
   assert.equal(L.tegelsUitApi({ tegels: [] }).archiefAantal, null);
