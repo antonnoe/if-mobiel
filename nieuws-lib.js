@@ -7,10 +7,13 @@
   "use strict";
 
   // Een lijst API-artikelen naar items met een sleutel "<tegelId>/<artikelId>" (zo staat ook de tekstlevering).
+  // De redactie kan per bericht kiezen dat het niet in Infopoche komt (`kanalen.infopoche === false`,
+  // redactiepagina van nlfr-menu, 20-11-2026); ontbreekt het veld, dan hoort het er wel bij.
   function maakItems(t, lijst) {
     const items = [];
     (lijst || []).forEach(function (a) {
       if (!a) return;
+      if (a.kanalen && a.kanalen.infopoche === false) return;
       const titel = a.titel || a.title;
       if (!titel) return;
       const bm = a.bronMeta || {};
