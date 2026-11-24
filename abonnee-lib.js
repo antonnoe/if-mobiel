@@ -1,7 +1,7 @@
 // Abonneeblok en onderblad: pure logica (geen DOM). Window.IfAbonnee in de browser, require in de tests.
 // De abonnementslink staat op één plek: `abonnement.url` in modules.json, met ABONNEE_URL als terugval.
 (function (root) {
-  var ABONNEE_URL = "https://infofrankrijk.com/abonnement/";
+  var ABONNEE_URL = "https://infofrankrijk.com/registreren/";
   var WEEK_MS = 7 * 24 * 3600 * 1000;
   var SLEUTEL = "ifm_abo_vraag";
 

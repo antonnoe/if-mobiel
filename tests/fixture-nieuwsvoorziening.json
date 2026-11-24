@@ -1,0 +1,10 @@
+{
+  "aantal": 4,
+  "berichten": [
+    { "id": "b1", "kop": "Hogere tarieven voor de energiecheque", "samenvatting": "De energiecheque wordt volgend jaar aangepast, met gevolgen voor huishoudens in Frankrijk.", "categorie": "economie en ondernemen", "gepubliceerdOp": "2026-11-23T10:00:00.000Z", "beeldUrl": null, "beeldCredit": null,
+      "bronnen": [{ "naam": "Bron A", "kop": "Chèque énergie", "datum": "2026-11-22", "url": "https://voorbeeld.gouv.fr/cheque" }], "peil": { "raakt": [{ "id": "p1", "wordtNagelopen": false }] } },
+    { "id": "b2", "kop": "Staking bij de SNCF: dit moet je weten", "samenvatting": "Op donderdag rijden minder treinen.", "categorie": "reizen en verkeer", "gepubliceerdOp": "2026-11-23T12:00:00.000Z", "beeldUrl": null, "bronnen": [], "peil": { "raakt": [] } },
+    { "id": "b3", "kop": "Storm langs de kust — code oranje", "samenvatting": "Het KNMI-achtige Franse weerbureau waarschuwt.", "categorie": "natuur en rampen", "gepubliceerdOp": "2026-11-22T08:00:00.000Z", "bronnen": [{ "naam": "Bron B", "url": "http://onveilig.example/x" }], "peil": { "raakt": [] } },
+    { "id": "ongeldig id!", "kop": "Valt af door id", "samenvatting": "x", "categorie": "algemeen", "gepubliceerdOp": "2026-11-21T08:00:00.000Z" }
+  ]
+}

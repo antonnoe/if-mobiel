@@ -43,6 +43,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./feedback-lib.js"></script>
 <script src="./ondernemen-lib.js"></script>
 <script src="./nieuws-lib.js"></script>
+<script src="./nieuwsvoorziening-lib.js"></script>
 <script src="./hub-lib.js"></script>
 <script src="./bijjou-lib.js"></script>
 <script src="./vraag-lib.js"></script>
@@ -2087,13 +2088,35 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <sc-if value="{{ nwLaadt }}" hint-placeholder-val="{{ false }}">
     <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12.5px/1.5 Mulish;color:#5F6669">Nieuws wordt opgehaald...</div>
     </sc-if>
-    <sc-if value="{{ nwHeeftTegels }}" hint-placeholder-val="{{ true }}">
-    <div>
-      <div role="group" aria-label="Filter op onderwerp" style="display:flex;gap:8px;padding:12px 14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch">
-        <sc-for list="{{ nwChips }}" as="c" hint-placeholder-count="5">
-        <button onClick="{{ c.kies }}" aria-pressed="{{ c.aan }}" style="flex:none;display:flex;align-items:center;min-height:44px;padding:4px 0;border:0;background:none;cursor:pointer"><span style="{{ c.stijl }}">{{ c.label }}</span></button>
+    <div role="group" aria-label="Filter op onderwerp" style="display:flex;gap:8px;padding:12px 14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <sc-for list="{{ nwChips }}" as="c" hint-placeholder-count="5">
+      <button onClick="{{ c.kies }}" aria-pressed="{{ c.aan }}" style="flex:none;display:flex;align-items:center;min-height:44px;padding:4px 0;border:0;background:none;cursor:pointer"><span style="{{ c.stijl }}">{{ c.label }}</span></button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ nvToonKaarten }}" hint-placeholder-val="{{ false }}">
+    <div data-nv-blok="1">
+      <div style="padding:16px 18px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">{{ nvKop }}</div>
+      <div style="margin:0 14px;display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ nvKaarten }}" as="k" hint-placeholder-count="3">
+        <a data-nv-kaart="1" href="{{ k.url }}" target="_blank" rel="noopener" style="display:block;min-height:44px;padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
+          <span style="display:block;font:600 12px Mulish;letter-spacing:.08em;text-transform:uppercase;color:#800000">{{ k.kicker }}</span>
+          <span style="display:block;margin-top:6px;font:600 15px Poppins,system-ui,sans-serif;line-height:1.3;overflow-wrap:anywhere">{{ k.titel }}</span>
+          <sc-if value="{{ k.heeftTekst }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:6px;font:500 13px/1.6 Mulish;color:#3D4346;overflow-wrap:anywhere">{{ k.tekst }}</span></sc-if>
+          <span style="display:block;margin-top:8px;font:500 12.5px Mulish;color:#5F6669">{{ k.datum }}</span>
+          <span style="display:block;margin-top:4px;font:700 13px Mulish;color:#800000">Lees het bericht (nieuw tabblad) &rarr;</span>
+        </a>
         </sc-for>
       </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ nvToonMelding }}" hint-placeholder-val="{{ false }}">
+    <div data-nv-melding="1" role="status" style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:#fff;border:1px solid rgba(21,24,26,.10);font:500 13.5px/1.7 Mulish;color:#3D4346">
+      <div>{{ nvMelding }}</div>
+      <sc-if value="{{ nvToonOpnieuw }}" hint-placeholder-val="{{ false }}"><button data-nv-opnieuw="1" onClick="{{ nvOpnieuw }}" style="margin-top:10px;min-height:48px;padding:0 18px;border-radius:13px;border:1px solid rgba(128,0,0,.25);background:#fff;color:#800000;font:700 13.5px Mulish;cursor:pointer">Opnieuw proberen</button></sc-if>
+    </div>
+    </sc-if>
+    <sc-if value="{{ nwToonTegels }}" hint-placeholder-val="{{ true }}">
+    <div>
       <button onClick="{{ nwHero.open }}" style="display:block;width:calc(100% - 28px);margin:12px 14px 0;padding:0;text-align:left;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);overflow:hidden;cursor:pointer;color:#15181A">
         <div role="img" aria-label="{{ nwHero.alt }}" style="display:block;width:100%;aspect-ratio:358/168;background:{{ nwHero.bgGroot }} center/100% 100% no-repeat"></div>
         <span style="display:block;padding:14px 16px 16px">
@@ -4715,7 +4738,7 @@ class Component extends DCLogic {
     spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, brStatus:"", brSoort:"", brData:null, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", mdKeuze:null, mdRStatus:"", mdMelding:"", mdBezig:false, mdPerm:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
     gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
-    teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
+    teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nv:{alles:{s:"leeg", items:[]}, peil:{s:"leeg", items:[]}}, nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
     cat:null, catFout:false, bj:null, vr:null, vrAan:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", fbOpen:false, fbNaam:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbToestel:null, fbEmail:"", fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
     en:{zone:"med", boven800m:"nee", houseType:"pavillon", period:"y48_74", m2:120, reno:[], heating:"elec", usage:"permanent"},
     enEngine:"idle", enBerekend:false, enUitleg:false,
@@ -5486,6 +5509,22 @@ class Component extends DCLogic {
       .catch(() => { this._nwP = null; this.setState({nieuwsStatus:"mislukt"}); });
     return this._nwP;
   }
+  // Berichten van nieuws.infofrankrijk.com (nieuwsvoorziening-lib.js): een aanvulling naast de stroom van nlfr-menu.
+  // Twee lijsten ("alles" en "peil" = Raakt je portemonnee), elk met eigen laadtoken; een mislukte aanvraag laat de
+  // rest van het scherm ongemoeid. Automatisch alleen vanuit "leeg"; opnieuw proberen gaat via de knop.
+  nvLaad(soort, opnieuw){
+    const Nv = window.IfNv, Nav = window.IfNav;
+    if (!Nv || typeof fetch !== "function") { if (this.state.nv[soort].s === "leeg") this.setState({nv:{...this.state.nv, [soort]:{s:"mislukt", items:[]}}}); return; }
+    const huidig = this.state.nv[soort].s;
+    if (huidig === "laden" || (huidig !== "leeg" && !opnieuw)) return;
+    this._nvTel = this._nvTel || {};
+    const tel = this._nvTel[soort] || (this._nvTel[soort] = Nav.maakTeller());
+    const tok = tel.volgende();
+    this.setState({nv:{...this.state.nv, [soort]:{s:"laden", items:[]}}});
+    Nv.laad(fetch, {peil: soort === "peil"})
+      .then(items => { if (tel.actueel(tok)) this.setState({nv:{...this.state.nv, [soort]:{s:"klaar", items}}}); })
+      .catch(() => { if (tel.actueel(tok)) this.setState({nv:{...this.state.nv, [soort]:{s:"mislukt", items:[]}}}); });
+  }
   // De redactieteksten komen in één keer binnen (de levering kent geen route per artikel), lui zodra
   // de eerste berichten in beeld komen, en blijven dan in het geheugen. Mislukt het, dan volgt een
   // nieuwe poging via "Opnieuw proberen" bij een bericht.
@@ -5558,6 +5597,7 @@ class Component extends DCLogic {
   nwHaak(){
     const st = this.state;
     if (st.screen === "nieuws" && !st.nwTegel && (st.nieuwsStatus === "leeg")) this.loadNieuws();
+    if (st.screen === "nieuws" && !st.nwTegel && st.nv.alles.s === "leeg") this.nvLaad("alles");
     const root = document.getElementById("ifm-scroll");
     const lees = st.screen === "nieuws" && !!st.nwTegel && !!root;
     if (!lees) {
@@ -5833,7 +5873,7 @@ class Component extends DCLogic {
   }
 
   // ---- Abonneeblok en onderblad (besluit 3 en 4) ---------------------------------------------------
-  abonneeUrl(){ return window.IfAbonnee ? window.IfAbonnee.abonneeUrl(this.state.cat) : "https://infofrankrijk.com/abonnement/"; }
+  abonneeUrl(){ return window.IfAbonnee ? window.IfAbonnee.abonneeUrl(this.state.cat) : "https://infofrankrijk.com/registreren/"; }
   abVals(){
     const st = this.state, A = window.IfAbonnee, a = st.art, klaar = st.screen === "artikel" && !!a && a.status === "klaar";
     const lees = " Dat kan, omdat abonnees van Infofrankrijk de bekostiging en instandhouding mogelijk maken.";
@@ -8909,8 +8949,17 @@ class Component extends DCLogic {
   // pictogram per thema komen uit modules.json (`nieuwsBeeld`) via NieuwsLib.beeldVoor; onbekend = neutraal.
   nwOverzichtVals(){
     const st = this.state, Lb = NieuwsLib, cat = st.cat || {};
-    if (st.screen !== "nieuws" || st.nwTegel || st.nieuwsStatus !== "klaar") return {nwChips:[], nwHero:{}, nwRijen:[], nwHeeftRijen:false, nwBeeldNote:""};
-    const filter = Lb.geldigFilter(st.nieuws, st.nwFilter);
+    // Keuze "Raakt je portemonnee" (nwFilter "peil") staat naast de tegels van de oude stroom; die tegels zijn er pas als die stroom klaar is.
+    const peil = st.nwFilter === "peil";
+    const oudKlaar = st.nieuwsStatus === "klaar";
+    const chipStijl = aan => aan
+      ? "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#800000;color:#fff;font:700 13px Mulish;white-space:nowrap"
+      : "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#fff;border:1px solid rgba(21,24,26,.12);color:#15181A;font:600 13px Mulish;white-space:nowrap";
+    const filter = oudKlaar && !peil ? Lb.geldigFilter(st.nieuws, st.nwFilter) : "alles";
+    const nwChips = (oudKlaar ? Lb.chips(st.nieuws) : [{id:"alles", label:"Alles"}]).map(c => ({label:c.label, aan:!peil && c.id === filter, stijl:chipStijl(!peil && c.id === filter),
+        kies: () => this.setState({nwFilter:c.id})}))
+      .concat([{label:"Raakt je portemonnee", aan:peil, stijl:chipStijl(peil), kies: () => { this.setState({nwFilter:"peil"}); this.nvLaad("peil"); }}]);
+    if (st.screen !== "nieuws" || st.nwTegel || !oudKlaar) return {nwChips: st.screen === "nieuws" && !st.nwTegel ? nwChips : [], nwHero:{}, nwRijen:[], nwHeeftRijen:false, nwBeeldNote:""};
     const MAX = 25;
     const alle = Lb.lijstVoorFilter(st.nieuws, filter, 0);
     const lijst = alle.slice(0, MAX);
@@ -8933,15 +8982,38 @@ class Component extends DCLogic {
     };
     const items = lijst.map((a, i) => beeld(a, i, "nwp"));
     return {
-      nwChips: Lb.chips(st.nieuws).map(c => ({label:c.label, aan:c.id === filter,
-        stijl: c.id === filter
-          ? "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#800000;color:#fff;font:700 13px Mulish;white-space:nowrap"
-          : "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#fff;border:1px solid rgba(21,24,26,.12);color:#15181A;font:600 13px Mulish;white-space:nowrap",
-        kies: () => this.setState({nwFilter:c.id})})),
+      nwChips,
       nwHero: items[0] || {},
       nwRijen: items.slice(1),
       nwHeeftRijen: items.length > 1,
       nwBeeldNote: "Beelden zijn eigen themaillustraties, geen persfoto's." + (alle.length > MAX ? " Je ziet de " + MAX + " nieuwste berichten; kies een onderwerp voor de rest." : "")
+    };
+  }
+  // Het blok met berichten van nieuws.infofrankrijk.com: bij "Alles" de nieuwste (zonder wat al in de oude stroom staat),
+  // bij "Raakt je portemonnee" alleen die berichten (de oude stroom is dan verborgen, dus geen ontdubbeling). Uitval geeft een
+  // gewone melding met "Opnieuw proberen"; de oude stroom blijft zichtbaar (bij de portemonnee-keuze ook, zolang er niets te tonen is).
+  nvVals(){
+    const st = this.state, Nv = window.IfNv, Lb = NieuwsLib;
+    const leeg = {nvKaarten:[], nvToonKaarten:false, nvMelding:"", nvToonMelding:false, nvToonOpnieuw:false, nvKop:"", nvToonOud:true, nvOpnieuw:() => {}};
+    if (!Nv || st.screen !== "nieuws" || st.nwTegel) return leeg;
+    const peil = st.nwFilter === "peil", soort = peil ? "peil" : "alles", lijst = st.nv[soort];
+    const oud = st.nieuwsStatus === "klaar" ? Lb.lijstVoorFilter(st.nieuws, "alles", 0) : [];
+    const items = lijst.s === "klaar" ? (peil ? lijst.items : Nv.ontdubbel(lijst.items, oud)).slice(0, peil ? 20 : 8) : [];
+    const hoofd = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : "";
+    const kaarten = items.map(b => ({
+      url:b.url, titel:b.titel, tekst:b.tekst, kicker:hoofd(b.categorie) || "Nieuws",
+      datum:b.datum ? dagDatum(b.datum) : "", heeftDatum:!!b.datum, heeftTekst:!!b.tekst
+    }));
+    const mislukt = lijst.s === "mislukt", laadt = lijst.s === "laden" || lijst.s === "leeg";
+    const geenPeil = peil && lijst.s === "klaar" && !items.length;
+    const melding = mislukt ? (peil ? Nv.MELDING_PEIL_UIT : Nv.MELDING_UIT) : geenPeil ? Nv.MELDING_PEIL_LEEG : (peil && laadt ? "Berichten worden opgehaald..." : "");
+    return {
+      nvKaarten:kaarten, nvToonKaarten:kaarten.length > 0,
+      nvKop: peil ? "Raakt je portemonnee" : "Nieuws van nieuws.infofrankrijk.com",
+      nvMelding:melding, nvToonMelding:!!melding && !(laadt && !peil),
+      nvToonOpnieuw: mislukt,
+      nvToonOud: !peil || mislukt,
+      nvOpnieuw:() => this.nvLaad(soort, true)
     };
   }
   nwVals(){
@@ -9003,8 +9075,10 @@ class Component extends DCLogic {
       nwLees: lees,
       nwLaadt: isNieuws && !lees && (st.nieuwsStatus === "leeg" || st.nieuwsStatus === "laden"),
       nwHeeftTegels: klaar && gesorteerd.length > 0,
+      nwToonTegels: klaar && gesorteerd.length > 0 && this.nvVals().nvToonOud,
       nwGeenBerichten: klaar && gesorteerd.length === 0,
       ...this.nwOverzichtVals(),
+      ...this.nvVals(),
       nwArchiefLabel: arLabel,
       nwOpenArchief: () => this.openLees("archief", null, false),
       nwVoorbeeld: st.nieuwsStatus === "mislukt",

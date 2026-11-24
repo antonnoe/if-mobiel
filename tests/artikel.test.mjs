@@ -123,8 +123,8 @@ test("opslag van het onderblad: alleen een tijdstempel, zacht falend", () => {
 });
 
 test("abonnementslink: één plek in modules.json, terugval in de code", () => {
-  assert.equal(cat.abonnement.url, "https://infofrankrijk.com/abonnement/");
-  assert.equal(B.abonneeUrl(cat), "https://infofrankrijk.com/abonnement/");
+  assert.equal(cat.abonnement.url, "https://infofrankrijk.com/registreren/");
+  assert.equal(B.abonneeUrl(cat), "https://infofrankrijk.com/registreren/");
   assert.equal(B.abonneeUrl({ abonnement: { url: "https://voorbeeld.nl/nieuw/" } }), "https://voorbeeld.nl/nieuw/");
   assert.equal(B.abonneeUrl({ abonnement: { url: "javascript:alert(1)" } }), B.ABONNEE_URL);
   assert.equal(B.abonneeUrl({}), B.ABONNEE_URL);
