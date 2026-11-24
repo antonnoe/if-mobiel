@@ -102,6 +102,14 @@ test("index.html: script, service worker, kaart in nieuw tabblad met rel noopene
   assert.match(kaart, /rel="noopener"/);
   assert.match(kaart, /min-height:44px/);
   assert.match(html, /label:"Raakt je portemonnee"/);
+  // chip direct na "Alles"; maximaal 3 kaarten bij Alles, 20 bij de portemonneekeuze; aanduiding en eerlijke introtekst
+  assert.match(html, /gewoneChips\.slice\(0, 1\)\.concat\(\[portemonneeChip\]/);
+  assert.equal(Nv.MAX_KAARTEN_ALLES, 3);
+  assert.equal(Nv.MAX_KAARTEN_PEIL, 20);
+  assert.match(html, /data-nv-aanduiding="1"/);
+  assert.match(html, /Opent op nieuws\.infofrankrijk\.com \(nieuw tabblad\)/);
+  assert.ok(!html.includes("Tik op een bericht en lees alle berichten"));
+  assert.match(html, /Berichten van nieuws\.infofrankrijk\.com openen op die site in een nieuw tabblad/);
   assert.match(html, /data-nv-opnieuw="1"[^>]*min-height:48px/);
   // de oude stroom is niet weggehaald of uitgezet
   assert.ok(html.includes('const NIEUWS_API = "https://nlfr-menu.vercel.app/api/actueel"'));

@@ -2083,7 +2083,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       <div style="{{ accentStijl }}"></div>
       <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:27px;line-height:1.1;letter-spacing:-.015em;margin:7px 0 0">Nieuws</h1>
       <p style="font-size:13.5px;line-height:1.8em;color:#3D4346;margin:8px 0 0;text-wrap:pretty">{{ themaOmschr }}</p>
-      <p style="font-size:13px;line-height:1.8em;color:#5F6669;margin:4px 0 0;text-wrap:pretty">Tik op een bericht en lees alle berichten van dat onderwerp onder elkaar, met de bronnen erbij.</p>
+      <p style="font-size:13px;line-height:1.8em;color:#5F6669;margin:4px 0 0;text-wrap:pretty">Tik op een bericht om het te lezen. Berichten van nieuws.infofrankrijk.com openen op die site in een nieuw tabblad; bij de andere berichten lees je alle berichten van dat onderwerp onder elkaar, met de bronnen erbij.</p>
     </div>
     <sc-if value="{{ nwLaadt }}" hint-placeholder-val="{{ false }}">
     <div style="margin:16px 14px 0;padding:14px 15px;border-radius:13px;background:rgba(21,24,26,.04);font:600 12.5px/1.5 Mulish;color:#5F6669">Nieuws wordt opgehaald...</div>
@@ -2095,7 +2095,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     <sc-if value="{{ nvToonKaarten }}" hint-placeholder-val="{{ false }}">
     <div data-nv-blok="1">
-      <div style="padding:16px 18px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">{{ nvKop }}</div>
+      <div style="padding:16px 18px 10px;font:600 12px Mulish;letter-spacing:.10em;text-transform:uppercase;color:#5F6669">{{ nvKop }}<span data-nv-aanduiding="1" style="display:block;margin-top:3px;font:500 12px Mulish;letter-spacing:0;text-transform:none;color:#5F6669">{{ nvAanduiding }} &#8599;</span></div>
       <div style="margin:0 14px;display:flex;flex-direction:column;gap:10px">
         <sc-for list="{{ nvKaarten }}" as="k" hint-placeholder-count="3">
         <a data-nv-kaart="1" href="{{ k.url }}" target="_blank" rel="noopener" style="display:block;min-height:44px;padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10);color:#15181A;text-decoration:none">
@@ -8956,9 +8956,11 @@ class Component extends DCLogic {
       ? "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#800000;color:#fff;font:700 13px Mulish;white-space:nowrap"
       : "display:flex;align-items:center;height:36px;padding:0 14px;border-radius:18px;background:#fff;border:1px solid rgba(21,24,26,.12);color:#15181A;font:600 13px Mulish;white-space:nowrap";
     const filter = oudKlaar && !peil ? Lb.geldigFilter(st.nieuws, st.nwFilter) : "alles";
-    const nwChips = (oudKlaar ? Lb.chips(st.nieuws) : [{id:"alles", label:"Alles"}]).map(c => ({label:c.label, aan:!peil && c.id === filter, stijl:chipStijl(!peil && c.id === filter),
-        kies: () => this.setState({nwFilter:c.id})}))
-      .concat([{label:"Raakt je portemonnee", aan:peil, stijl:chipStijl(peil), kies: () => { this.setState({nwFilter:"peil"}); this.nvLaad("peil"); }}]);
+    const portemonneeChip = {label:"Raakt je portemonnee", aan:peil, stijl:chipStijl(peil), kies: () => { this.setState({nwFilter:"peil"}); this.nvLaad("peil"); }};
+    const gewoneChips = (oudKlaar ? Lb.chips(st.nieuws) : [{id:"alles", label:"Alles"}]).map(c => ({label:c.label, aan:!peil && c.id === filter, stijl:chipStijl(!peil && c.id === filter),
+        kies: () => this.setState({nwFilter:c.id})}));
+    // De portemonneechip staat direct na "Alles", zodat hij zonder zijwaarts scrollen zichtbaar is.
+    const nwChips = gewoneChips.slice(0, 1).concat([portemonneeChip], gewoneChips.slice(1));
     if (st.screen !== "nieuws" || st.nwTegel || !oudKlaar) return {nwChips: st.screen === "nieuws" && !st.nwTegel ? nwChips : [], nwHero:{}, nwRijen:[], nwHeeftRijen:false, nwBeeldNote:""};
     const MAX = 25;
     const alle = Lb.lijstVoorFilter(st.nieuws, filter, 0);
@@ -8994,11 +8996,11 @@ class Component extends DCLogic {
   // gewone melding met "Opnieuw proberen"; de oude stroom blijft zichtbaar (bij de portemonnee-keuze ook, zolang er niets te tonen is).
   nvVals(){
     const st = this.state, Nv = window.IfNv, Lb = NieuwsLib;
-    const leeg = {nvKaarten:[], nvToonKaarten:false, nvMelding:"", nvToonMelding:false, nvToonOpnieuw:false, nvKop:"", nvToonOud:true, nvOpnieuw:() => {}};
+    const leeg = {nvKaarten:[], nvToonKaarten:false, nvMelding:"", nvToonMelding:false, nvToonOpnieuw:false, nvKop:"", nvAanduiding:"", nvToonOud:true, nvOpnieuw:() => {}};
     if (!Nv || st.screen !== "nieuws" || st.nwTegel) return leeg;
     const peil = st.nwFilter === "peil", soort = peil ? "peil" : "alles", lijst = st.nv[soort];
     const oud = st.nieuwsStatus === "klaar" ? Lb.lijstVoorFilter(st.nieuws, "alles", 0) : [];
-    const items = lijst.s === "klaar" ? (peil ? lijst.items : Nv.ontdubbel(lijst.items, oud)).slice(0, peil ? 20 : 8) : [];
+    const items = lijst.s === "klaar" ? (peil ? lijst.items : Nv.ontdubbel(lijst.items, oud)).slice(0, peil ? Nv.MAX_KAARTEN_PEIL : Nv.MAX_KAARTEN_ALLES) : [];
     const hoofd = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : "";
     const kaarten = items.map(b => ({
       url:b.url, titel:b.titel, tekst:b.tekst, kicker:hoofd(b.categorie) || "Nieuws",
@@ -9010,6 +9012,7 @@ class Component extends DCLogic {
     return {
       nvKaarten:kaarten, nvToonKaarten:kaarten.length > 0,
       nvKop: peil ? "Raakt je portemonnee" : "Nieuws van nieuws.infofrankrijk.com",
+      nvAanduiding: "Opent op nieuws.infofrankrijk.com (nieuw tabblad)",
       nvMelding:melding, nvToonMelding:!!melding && !(laadt && !peil),
       nvToonOpnieuw: mislukt,
       nvToonOud: !peil || mislukt,

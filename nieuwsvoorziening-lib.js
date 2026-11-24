@@ -17,6 +17,8 @@
   var TIJDSLIMIET_MS = 8000;
   var MAX_ALLES = 30;
   var MAX_PEIL = 100;
+  var MAX_KAARTEN_ALLES = 3;
+  var MAX_KAARTEN_PEIL = 20;
   var CATEGORIEEN = ["algemeen", "politiek", "economie en ondernemen", "reizen en verkeer", "natuur en rampen", "toerisme en evenementen", "merkwaardig"];
 
   // Eén URL-bouwer: een onbekende categorie wordt genegeerd (nooit een vrije waarde in de aanvraag).
@@ -115,7 +117,7 @@
   var MELDING_PEIL_LEEG = "Er is nu geen nieuws dat direct je portemonnee raakt.";
 
   return {
-    BASIS: BASIS, TIJDSLIMIET_MS: TIJDSLIMIET_MS, MAX_ALLES: MAX_ALLES, MAX_PEIL: MAX_PEIL, CATEGORIEEN: CATEGORIEEN,
+    BASIS: BASIS, TIJDSLIMIET_MS: TIJDSLIMIET_MS, MAX_ALLES: MAX_ALLES, MAX_PEIL: MAX_PEIL, MAX_KAARTEN_ALLES: MAX_KAARTEN_ALLES, MAX_KAARTEN_PEIL: MAX_KAARTEN_PEIL, CATEGORIEEN: CATEGORIEEN,
     apiUrl: apiUrl, berichtUrl: berichtUrl, lees: lees, alleenPortemonnee: alleenPortemonnee, ontdubbel: ontdubbel,
     laad: laad, sleutel: sleutel, ink: ink, MELDING_UIT: MELDING_UIT, MELDING_PEIL_UIT: MELDING_PEIL_UIT, MELDING_PEIL_LEEG: MELDING_PEIL_LEEG
   };
