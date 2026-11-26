@@ -826,7 +826,7 @@ Tests: `tests/herstel-ronde3-app2.test.mjs`. Service worker `VERSIE` 2026-11-17-
 - **"Word abonnee":** de ene bestemming (`abonnement.url` in modules.json, `ABONNEE_URL` in abonnee-lib.js, terugval in index.html) is sinds 24-11-2026 `https://infofrankrijk.com/registreren/` (was /abonnement/). Service worker `VERSIE` 2026-11-24-1.
 - **Herstelronde 1 (24-11-2026):** de chip "Raakt je portemonnee" staat direct na "Alles" (anders was hij de 14e in een zijwaarts scrollende rij); bij "Alles" hooguit 3 nieuwe kaarten (`MAX_KAARTEN_ALLES`), bij de portemonneekeuze 20 (`MAX_KAARTEN_PEIL`); onder de sectiekop staat "Opent op nieuws.infofrankrijk.com (nieuw tabblad) ↗" (`data-nv-aanduiding`); de introtekst zegt dat berichten van nieuws.infofrankrijk.com op die site openen en bij de andere berichten alle berichten van het onderwerp onder elkaar staan. Service worker `VERSIE` 2026-11-24-2.
 
-## Plaats bericht op startpagina en tab Forum (26-11-2026, testversie)
+## Plaats bericht op startpagina en tab Forum (26-11-2026)
 
 - **Aanleiding (Anton, 26-11-2026):** zonder berichten geen forum, en Infopoche had nergens een ingang om een bericht te plaatsen (alleen "Bespreek op het forum" bij artikelen, nieuws en kalenderitems).
 - **Startpagina:** blok "Of vraag het de leden" (`data-plaatsblok="hub"`) direct onder het vraagveld en de AI-regel, vóór de negen themategels. Dit wijkt af van volgorde B2 van 17-11-2026, met akkoord van Anton op de mock-up. Drie omlijnde knoppen (geen volvlak bordeaux): "Stel een vraag", "Deel je ervaring", "Een leuk verhaal?".
