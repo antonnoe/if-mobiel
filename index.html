@@ -29,6 +29,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./lamaison-lib.js"></script>
 <script src="./sponsors-lib.js"></script>
 <script src="./werkwijze-lib.js"></script>
+<script src="./forum-lib.js"></script>
 <script src="./meldingen-lib.js"></script>
 <script src="./advertenties-lib.js"></script>
 <script src="./klusarchief-lib.js"></script>
@@ -2274,6 +2275,9 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div style="font:800 11.5px Mulish;letter-spacing:.04em;color:#800000">{{ draadKicker }}</div>
     <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:22px;line-height:1.25;margin:7px 0 0;text-wrap:pretty">{{ draadTitel }}</h1>
     <div style="font:600 12px Mulish;color:#5F6669;margin-top:6px">{{ draadMeta }}</div>
+    <sc-if value="{{ draadHeeftReageer }}" hint-placeholder-val="{{ true }}">
+    <a href="{{ draadReageerHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;font:700 13.5px Mulish;color:#800000;text-decoration:underline">Reageer</a>
+    </sc-if>
   </div>
 
   <div style="background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;margin:14px 14px 0;padding:16px 17px">
@@ -2336,10 +2340,15 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
   </div>
   </sc-if>
 
-  <sc-if value="{{ draadHeeftHref }}" hint-placeholder-val="{{ true }}">
+  <sc-if value="{{ draadHeeftReageer }}" hint-placeholder-val="{{ true }}">
   <div style="margin:18px 14px 0">
-    <a href="{{ draadHref }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:13px;background:#800000;color:#fff;font:700 14.5px Mulish;text-decoration:none">{{ draadUitLabel }}</a>
-    <div style="font:500 12px/1.7 Mulish;color:#5F6669;margin-top:8px;text-align:center;text-wrap:pretty">Reageren gebeurt op de site zelf, met je eigen account. De app plaatst nooit iets namens je.</div>
+    <a href="{{ draadReageerHref }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;box-sizing:border-box;border-radius:13px;background:#800000;color:#fff;font:700 15px Mulish;text-decoration:none">Reageer op dit bericht</a>
+    <div style="font:500 12px/1.6 Mulish;color:#5F6669;margin-top:8px;text-align:center;text-wrap:pretty">Je reageert op Nederlanders.fr. Nog niet ingelogd? Dan log je daar eerst in.</div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ draadHeeftHref }}" hint-placeholder-val="{{ true }}">
+  <div style="margin:6px 14px 0;text-align:center">
+    <a href="{{ draadHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 10px;font:700 13.5px Mulish;color:#800000;text-decoration:underline">{{ draadUitLabel }}</a>
   </div>
   </sc-if>
   <div style="height:26px"></div>
@@ -9226,6 +9235,7 @@ class Component extends DCLogic {
     this.__rijk = {b: dBerichtHtml};
     (dd.reacties || []).forEach((r, i) => { if (heeftHtml(r.html)) this.__rijk["r" + i] = r.html; });
     const dHref = veiligeUrl(dp.href);
+    const dReageer = veiligeUrl(window.IfForum.reageerUrl(dp));
 
     const T = st.tool;
     const locked = !!(T && T.prijs === "abonnee");
@@ -9316,6 +9326,7 @@ class Component extends DCLogic {
           : "Mogelijk is de verbinding weg of is de site tijdelijk niet bereikbaar. Het bericht staat volledig op de site.",
       draadHeeftHref: !!dHref,
       draadHref: dHref || "",
+      draadReageerHref: dReageer, draadHeeftReageer: !!dReageer,
       draadUitLabel: "Openen op nederlanders.fr →",
       isPiramide: st.screen === "piramide",
       pirLaadt: st.screen === "piramide" && st.pirStatus === "laden",
