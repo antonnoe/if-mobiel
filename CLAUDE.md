@@ -834,3 +834,8 @@ Tests: `tests/herstel-ronde3-app2.test.mjs`. Service worker `VERSIE` 2026-11-17-
 - **Blad** (`data-plaatsblad`, state `forumBlad: {plaats: <soort>}`, dus dezelfde geschiedenisregel, terugstap en Escape als het forumblad): kop en tip per soort, uitleg dat je op Nederlanders.fr schrijft en daar inlogt of gratis lid wordt, de knop naar https://www.nederlanders.fr/profiles/blog/new (nieuw tabblad) en een regel met link naar https://www.nederlanders.fr/page/betaalpagina-berichten voor vacatures, vastgoed en bedrijfsberichten (zelfde indeling als `PLAATS_KOLOMMEN` in nlfr-menu).
 - **Teksten en soorten op één plek:** `plaats-lib.js` (`window.IfPlaats`). Of NING titel of rubriek vooraf kan invullen is ongetest; de drie ingangen openen daarom hetzelfde formulier en verschillen alleen in kop en tip.
 - Service worker `VERSIE` 2026-11-26-1 (`plaats-lib.js` in `SCHIL`). Tests: `tests/plaats.test.mjs`.
+
+## Sterrenkaart: "Staat je antwoord er niet bij?" stuurt naar het forum (26-11-2026)
+
+- Besluit Anton (26-11-2026, mock-up goedgekeurd): het blok onderaan elke vraagpagina van de sterrenkaart (niveau 3) stuurde alleen naar Café Claude; "wij willen dat de gebruiker de vraag stelt in het forum". Nu (`data-sk-forum`): label Nederlanders.fr, de bordeaux knop "Stel je vraag op het forum" (`plaatsVraag`, opent het blad Plaats bericht met soort `vraag`) en daaronder Café Claude alleen als tekstlink "Liever meteen een kort antwoord? Vraag het Café Claude ↗" (`data-sk-cafe`, `skCafeUrl` ongewijzigd). De Café Claude-regels op de themaschermen en in Alle modules zijn niet aangeraakt.
+- Service worker `VERSIE` 2026-11-26-2. Test: `tests/plaats.test.mjs`.

@@ -1485,12 +1485,13 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     </div>
     </sc-if>
     <div style="{{ skG6 }}">
-      <div style="margin:22px 14px 0;padding:16px 16px 18px;border-radius:16px;background:rgba(138,90,43,.08);border:1px solid rgba(138,90,43,.28)">
-        <div style="display:flex;align-items:center;gap:7px;font:800 11.5px Mulish;letter-spacing:.04em;color:#6B431B"><span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:#8A5A2B"></span>Café Claude</div>
+      <div data-sk-forum="1" style="margin:22px 14px 0;padding:16px 16px 18px;border-radius:16px;background:rgba(128,0,0,.05);border:1px solid rgba(128,0,0,.25)">
+        <div style="display:flex;align-items:center;gap:7px;font:800 11.5px Mulish;letter-spacing:.04em;color:#800000"><span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:#800000"></span>Nederlanders.fr</div>
         <b style="display:block;margin-top:6px;font:600 17px/1.3 Poppins,system-ui,sans-serif;color:#15181A">Staat je antwoord er niet bij?</b>
-        <p style="margin:6px 0 0;font:500 14px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Stel je eigen vraag. Café Claude antwoordt kort, met de onderbouwing erbij.</p>
+        <p style="margin:6px 0 0;font:500 14px/1.7 Mulish;color:#3D4346;text-wrap:pretty">Vraag het de leden. Op het forum antwoorden mensen die het zelf hebben meegemaakt.</p>
+        <button data-sk-forumknop="1" onClick="{{ plaatsVraag }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:0 20px;border:0;border-radius:999px;background:#800000;color:#fff;cursor:pointer;font:700 14px Mulish">Stel je vraag op het forum</button>
         <sc-if value="{{ skCafeHeeft }}" hint-placeholder-val="{{ false }}">
-        <a data-sk-cafe="1" href="{{ skCafeUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:0 20px;border-radius:999px;background:#8A5A2B;color:#fff;font:700 14px Mulish;text-decoration:none">Vraag het Café Claude ↗</a>
+        <div style="margin-top:14px;padding-top:6px;border-top:1px solid rgba(21,24,26,.10);font:500 13.5px/1.6 Mulish;color:#5F6669">Liever meteen een kort antwoord? <a data-sk-cafe="1" href="{{ skCafeUrl }}" target="_blank" rel="noopener" style="display:inline-block;padding:12px 0;color:#6B431B;font-weight:700;text-decoration:underline">Vraag het Café Claude&nbsp;↗</a></div>
         </sc-if>
       </div>
     </div>
@@ -5884,6 +5885,7 @@ class Component extends DCLogic {
     return {
       plaatsSoorten: P ? P.SOORTEN.map(x => ({id:x.id, label:x.label, open: () => this.plaatsStart(x.id)})) : [],
       plaatsAlgemeen: () => this.plaatsStart("algemeen"),
+      plaatsVraag: () => this.plaatsStart("vraag"),
       plaatsBladOpen: open, plaatsKop: s ? s.kop : "", plaatsTip: s ? s.tip : "",
       plaatsUitleg: P ? P.UITLEG : "", plaatsKnop: P ? P.KNOP : "", plaatsUrl: P ? P.FORUM_NIEUW : FORUM_NIEUW,
       plaatsBetaaldZin: P ? P.BETAALD_ZIN : "", plaatsBetaaldLink: P ? P.BETAALD_LINK : "", plaatsBetaaldUrl: P ? P.BETAALD : FORUM_NIEUW

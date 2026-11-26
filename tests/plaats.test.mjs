@@ -59,3 +59,15 @@ test("service worker kent plaats-lib.js en index.html laadt het", () => {
   assert.ok(sw.includes('"./plaats-lib.js"'));
   assert.ok(html.includes('<script src="./plaats-lib.js"></script>'));
 });
+
+test("sterrenkaart, blok onderaan: forumknop groot, Café Claude alleen als tekstlink", () => {
+  const html = readFileSync(join(root, "index.html"), "utf8");
+  const a = html.indexOf('data-sk-forum="1"');
+  assert.ok(a > 0);
+  const blok = html.slice(a, html.indexOf("{{ noResults }}", a));
+  assert.match(blok, /data-sk-forumknop="1" onClick="\{\{ plaatsVraag \}\}"/);
+  assert.match(blok, /Stel je vraag op het forum/);
+  assert.match(blok, /data-sk-cafe="1"/);
+  assert.ok(!/background:#8A5A2B;color:#fff/.test(blok), "geen volle Café Claude-knop meer");
+  assert.match(html, /plaatsVraag: \(\) => this\.plaatsStart\("vraag"\)/);
+});
