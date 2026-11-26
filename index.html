@@ -295,9 +295,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div data-plaatsblok="hub" style="margin:14px 16px 0;padding:14px 14px 12px;border-radius:16px;background:rgba(128,0,0,.05);border:1.5px solid rgba(128,0,0,.30)">
       <h2 style="margin:0;font:600 16px Poppins,system-ui,sans-serif;line-height:1.3;color:#15181A">Of vraag het de leden</h2>
       <p style="margin:3px 0 2px;font:500 13.5px/1.45 Mulish;color:#3D4346">Plaats een bericht op het forum van Nederlanders.fr.</p>
-      <sc-for list="{{ plaatsSoorten }}" as="s" hint-placeholder-count="3">
-      <button data-plaats-soort="{{ s.id }}" onClick="{{ s.open }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;margin-top:8px;padding:0 14px;box-sizing:border-box;border-radius:12px;border:1.5px solid #800000;background:#fff;color:#800000;text-align:left;cursor:pointer;font:700 15px Mulish"><span>{{ s.label }}</span><span aria-hidden="true">&#8594;</span></button>
-      </sc-for>
+      <button data-plaats-soort="algemeen" onClick="{{ plaatsAlgemeen }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;margin-top:8px;padding:0 14px;box-sizing:border-box;border-radius:12px;border:1.5px solid #800000;background:#fff;color:#800000;text-align:left;cursor:pointer;font:700 15px Mulish"><span>Plaats een bericht</span><span aria-hidden="true">&#8594;</span></button>
     </div>
     <div style="padding:20px 18px 0;font:600 12px Mulish;letter-spacing:.10em;color:#5F6669">Of kies een onderwerp</div>
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:8px 16px 0">
@@ -1527,11 +1525,6 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <h2 style="margin:0;font:600 16px Poppins,system-ui,sans-serif;line-height:1.3;color:#15181A">Zelf iets plaatsen?</h2>
     <p style="margin:3px 0 10px;font:500 13.5px/1.45 Mulish;color:#3D4346">Een vraag, een ervaring of een leuk verhaal: je bericht is welkom.</p>
     <button data-plaats-soort="algemeen" onClick="{{ plaatsAlgemeen }}" style="display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;border:0;border-radius:12px;background:#800000;color:#fff;cursor:pointer;font:700 15px Mulish">Plaats een bericht</button>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
-      <sc-for list="{{ plaatsSoorten }}" as="s" hint-placeholder-count="3">
-      <button data-plaats-soort="{{ s.id }}" onClick="{{ s.open }}" style="display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(128,0,0,.35);background:#fff;color:#800000;cursor:pointer;font:700 13px Mulish">{{ s.label }}</button>
-      </sc-for>
-    </div>
   </div>
 
   <div>
@@ -5892,7 +5885,6 @@ class Component extends DCLogic {
     const open = !!(P && st.forumBlad && st.forumBlad.plaats);
     const s = open ? P.soort(st.forumBlad.plaats) : null;
     return {
-      plaatsSoorten: P ? P.SOORTEN.map(x => ({id:x.id, label:x.label, open: () => this.plaatsStart(x.id)})) : [],
       plaatsAlgemeen: () => this.plaatsStart("algemeen"),
       plaatsVraag: () => this.plaatsStart("vraag"),
       plaatsBladOpen: open, plaatsKop: s ? s.kop : "", plaatsTip: s ? s.tip : "",

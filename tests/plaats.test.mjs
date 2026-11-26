@@ -71,3 +71,9 @@ test("sterrenkaart, blok onderaan: forumknop groot, Café Claude alleen als teks
   assert.ok(!/background:#8A5A2B;color:#fff/.test(blok), "geen volle Café Claude-knop meer");
   assert.match(html, /plaatsVraag: \(\) => this\.plaatsStart\("vraag"\)/);
 });
+
+test("één knop Plaats een bericht, geen keuzeknoppen per soort (besluit 26-11-2026)", () => {
+  const html = readFileSync(join(root, "index.html"), "utf8");
+  assert.ok(!html.includes("plaatsSoorten"));
+  assert.equal((html.match(/data-plaats-soort="algemeen"/g) || []).length, 2);
+});
