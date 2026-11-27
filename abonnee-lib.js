@@ -41,7 +41,15 @@
     try { opslag.setItem(SLEUTEL, String(typeof nu === "number" ? nu : Date.now())); return true; } catch (e) { return false; }
   }
 
-  var api = { ABONNEE_URL: ABONNEE_URL, WEEK_MS: WEEK_MS, SLEUTEL: SLEUTEL, abonneeUrl: abonneeUrl, voorbeeldTools: voorbeeldTools,
+  // Blok onder een artikel (27-11-2026): Dossier Frankrijk. De teksten staan hier op één plek.
+  var DOSSIER_BLOK = {
+    kop: "Bewaar dit in je Dossier Frankrijk",
+    tekst: "Je eigen map voor het leven in Frankrijk: artikelen, notities, taken en deadlines op \u00e9\u00e9n plek. Voor abonnees.",
+    knop: "Naar dossierfrankrijk.nl \u2197",
+    url: "https://www.dossierfrankrijk.nl/"
+  };
+
+  var api = { DOSSIER_BLOK: DOSSIER_BLOK, ABONNEE_URL: ABONNEE_URL, WEEK_MS: WEEK_MS, SLEUTEL: SLEUTEL, abonneeUrl: abonneeUrl, voorbeeldTools: voorbeeldTools,
     toolZin: toolZin, moetOproep: moetOproep, leesLaatst: leesLaatst, schrijfLaatst: schrijfLaatst };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.IfAbonnee = api;

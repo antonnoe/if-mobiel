@@ -111,7 +111,8 @@ const WEGGELATEN = {
   tool: "generiek moduleschermpje (iframe of knop): de modules zelf staan op de planeet",
   piramide: "uitleg met een 3D-model, alleen bereikbaar via Over ons",
   draad: "een forumdraad, onderdeel van het Forum",
-  artikel: "een artikel, geen functie maar inhoud"
+  artikel: "een artikel, geen functie maar inhoud",
+  categorieen: "overzicht met de themategels en tools, die staan al bij Lezen en vinden en Alle functies op de planeet"
 };
 const MENU_OP_PLANEET = { mnProfiel: "scherm:profiel", mnKeuze: "scherm:mijnmodules", mnSponsors: "scherm:sponsors", mnMeldingen: "scherm:meldingen", mnFeedback: "scherm:feedback", mnOver: "scherm:overons", mnPostcode: "scherm:postcode", mnBeginscherm: "scherm:beginscherm" };
 const MENU_WEGGELATEN = { groteTekstSchakel: "een schakelaar, geen scherm; hij staat ook in het hamburgermenu zelf en in Profiel" };

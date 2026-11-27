@@ -29,17 +29,14 @@ test("gratis gaat naar het schrijfformulier, betaald naar de betaalpagina, beide
   assert.ok(html.includes('const FORUM_NIEUW = "' + P.FORUM_NIEUW + '"'));
 });
 
-test("het blok staat op de startpagina tussen het vraagveld en de negen onderwerpen", () => {
-  const veld = html.indexOf('data-airegel="1"');
-  const blok = html.indexOf('data-plaatsblok="hub"');
-  const tegels = html.indexOf("Of kies een onderwerp");
-  assert.ok(veld > 0 && veld < blok && blok < tegels);
-});
-
-test("op de startpagina komt er geen volle bordeaux knop bij", () => {
-  const a = html.indexOf('data-plaatsblok="hub"');
-  const stuk = html.slice(a, html.indexOf("Of kies een onderwerp", a));
-  assert.ok(!/background:#800000/.test(stuk));
+test("de knop Plaats bericht staat op de startpagina naast het vraagveld (27-11-2026), het oude blok is weg", () => {
+  const veld = html.indexOf('id="hubq"');
+  const knop = html.indexOf('data-plaatsknop="hub"');
+  const ai = html.indexOf('data-airegel="1"');
+  assert.ok(veld > 0 && veld < knop && knop < ai);
+  assert.ok(!html.includes('data-plaatsblok="hub"'), "het blok Of vraag het de leden is weg");
+  assert.match(html.slice(knop, knop + 400), /background:#800000/);
+  assert.match(html, /plaatsAlgemeen: \(\) => this\.plaatsStart\("algemeen"\)/);
 });
 
 test("het blok staat op de tab Forum, boven de berichten, met de algemene knop", () => {

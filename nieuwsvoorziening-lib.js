@@ -19,6 +19,7 @@
   var MAX_PEIL = 100;
   var MAX_KAARTEN_ALLES = 3;
   var MAX_KAARTEN_PEIL = 20;
+  var KANALEN = ["actueel", "nieuwsbrief", "infopoche", "zijbalk", "infofrankrijk"];
   var CATEGORIEEN = ["algemeen", "politiek", "economie en ondernemen", "reizen en verkeer", "natuur en rampen", "toerisme en evenementen", "merkwaardig"];
 
   // Eén URL-bouwer: een onbekende categorie wordt genegeerd (nooit een vrije waarde in de aanvraag).
@@ -28,6 +29,8 @@
     var c = String(o.categorie || "").trim().toLowerCase().replace(/-/g, " ");
     if (CATEGORIEEN.indexOf(c) >= 0) q.push("categorie=" + encodeURIComponent(c));
     if (o.peil) q.push("peil=1");
+    var k = String(o.kanaal || "").trim().toLowerCase();
+    if (KANALEN.indexOf(k) >= 0) q.push("kanaal=" + k);
     return BASIS + "/api/nieuws?" + q.join("&");
   }
 
@@ -49,6 +52,12 @@
   }
   function ink(t, n) { t = String(t || ""); return t.length <= n ? t : t.slice(0, n).replace(/\s+\S*$/, "") + "…"; }
 
+  // Het veld signaal (komt later in de API): een tekst of een object met waarde of soort; alles anders is leeg.
+  function signaalWaarde(s) {
+    if (s && typeof s === "object") s = s.waarde != null ? s.waarde : s.soort;
+    return typeof s === "string" ? s.trim().toLowerCase() : "";
+  }
+
   // Het antwoord naar kaartitems. null = onbruikbare vorm (dan de terugvalmelding); [] = geldig, maar leeg.
   // Een bericht zonder geldig id of zonder kop valt af; de rest blijft staan.
   function lees(d) {
@@ -65,7 +74,8 @@
       uit.push({
         id: id, titel: titel, tekst: ink(schoon(b.samenvatting), 320), categorie: schoon(b.categorie),
         datum: isFinite(t) ? new Date(t).toISOString() : "", url: berichtUrl(id), bronUrls: bronUrls,
-        portemonnee: raakt > 0 || b.portemonnee === true
+        portemonnee: raakt > 0 || b.portemonnee === true,
+        signaal: signaalWaarde(b.signaal)
       });
     });
     uit.sort(function (a, b) { return (Date.parse(b.datum) || 0) - (Date.parse(a.datum) || 0); });
@@ -117,7 +127,7 @@
   var MELDING_PEIL_LEEG = "Er is nu geen nieuws dat direct je portemonnee raakt.";
 
   return {
-    BASIS: BASIS, TIJDSLIMIET_MS: TIJDSLIMIET_MS, MAX_ALLES: MAX_ALLES, MAX_PEIL: MAX_PEIL, MAX_KAARTEN_ALLES: MAX_KAARTEN_ALLES, MAX_KAARTEN_PEIL: MAX_KAARTEN_PEIL, CATEGORIEEN: CATEGORIEEN,
+    BASIS: BASIS, TIJDSLIMIET_MS: TIJDSLIMIET_MS, MAX_ALLES: MAX_ALLES, MAX_PEIL: MAX_PEIL, MAX_KAARTEN_ALLES: MAX_KAARTEN_ALLES, MAX_KAARTEN_PEIL: MAX_KAARTEN_PEIL, CATEGORIEEN: CATEGORIEEN, KANALEN: KANALEN,
     apiUrl: apiUrl, berichtUrl: berichtUrl, lees: lees, alleenPortemonnee: alleenPortemonnee, ontdubbel: ontdubbel,
     laad: laad, sleutel: sleutel, ink: ink, MELDING_UIT: MELDING_UIT, MELDING_PEIL_UIT: MELDING_PEIL_UIT, MELDING_PEIL_LEEG: MELDING_PEIL_LEEG
   };

@@ -51,6 +51,7 @@ window.addEventListener("appinstalled",function(){window.__ifmInstallEv=null;win
 <script src="./landing-lib.js"></script>
 <script src="./versie-lib.js"></script>
 <script src="./plaats-lib.js"></script>
+<script src="./startpagina-lib.js"></script>
 <script src="./support.js"></script>
 <script src="./dossier.js"></script>
 <script src="./nav-lib.js"></script>
@@ -195,28 +196,38 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 
 <div style="width:100%;max-width:412px;margin:0 auto;height:100vh;height:100dvh;background:#F4F1F0;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(21,24,26,.08)">
 
-<div style="{{ zoomCss }}view-transition-name:ifm-kop;position:relative;z-index:40;flex:none;padding:14px 16px 12px;border-bottom:1px solid rgba(21,24,26,.06);display:flex;align-items:center;gap:10px;background:#F4F1F0">
+<div style="{{ zoomCss }}view-transition-name:ifm-kop;position:relative;z-index:40;flex:none;padding:10px 12px 10px 16px;display:flex;align-items:center;gap:10px;background:#800000;color:#fff" data-kopbalk="1">
   <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
-  <button onClick="{{ back }}" aria-label="Terug" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;font:700 16px Mulish;color:#15181A">←</button>
+  <button onClick="{{ back }}" aria-label="Terug" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);display:grid;place-items:center;cursor:pointer;font:700 16px Mulish;color:#fff">←</button>
   </sc-if>
   <sc-if value="{{ showMark }}" hint-placeholder-val="{{ true }}">
   <div aria-hidden="true" style="width:34px;height:34px;flex:none;border-radius:9px;background:#0E1A2E;display:grid;place-items:center"><img src="./icons/logo-goud.svg" alt="" width="24" height="23" style="display:block;width:24px;height:auto"></div>
   </sc-if>
+  <sc-if value="{{ kopHubNav }}" hint-placeholder-val="{{ false }}">
+  <nav data-kopnav="1" aria-label="Hoofdnavigatie" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:0">
+    <button data-kopnav-item="forum" onClick="{{ kopNavForum }}" style="flex:none;min-height:44px;padding:0 5px;border:0;background:none;color:#fff;font:700 12.5px Mulish;cursor:pointer">Forum</button>
+    <button data-kopnav-item="infofrankrijk" onClick="{{ kopNavIf }}" style="flex:none;min-height:44px;padding:0 5px;border:0;background:none;color:#fff;font:700 12.5px Mulish;cursor:pointer">Infofrankrijk</button>
+    <button data-kopnav-item="kalender" onClick="{{ kopNavKalender }}" style="flex:none;min-height:44px;padding:0 5px;border:0;background:none;color:#fff;font:700 12.5px Mulish;cursor:pointer">Kalender</button>
+    <button data-kopnav-item="nieuws" onClick="{{ kopNavNieuws }}" style="flex:none;min-height:44px;padding:0 5px;border:0;background:none;color:#fff;font:700 12.5px Mulish;cursor:pointer">Nieuws</button>
+  </nav>
+  </sc-if>
+  <sc-if value="{{ kopTitelToon }}" hint-placeholder-val="{{ true }}">
   <div style="flex:1 1 auto;min-width:0">
-    <sc-if value="{{ kopH1 }}" hint-placeholder-val="{{ false }}"><h1 style="margin:0;font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;overflow-wrap:anywhere">{{ title }}</h1></sc-if>
-    <sc-if value="{{ kopGeenH1 }}" hint-placeholder-val="{{ true }}"><div style="font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;overflow-wrap:anywhere">{{ title }}</div></sc-if>
-    <div style="font:500 12px Mulish;color:#5F6669;margin-top:2px;line-height:1.25;{{ subStijl }}">{{ subtitle }}</div>
+    <sc-if value="{{ kopH1 }}" hint-placeholder-val="{{ false }}"><h1 style="margin:0;font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;overflow-wrap:anywhere;color:#fff">{{ title }}</h1></sc-if>
+    <sc-if value="{{ kopGeenH1 }}" hint-placeholder-val="{{ true }}"><div style="font:700 15px Mulish;letter-spacing:-.015em;line-height:1.15;overflow-wrap:anywhere;color:#fff">{{ title }}</div></sc-if>
+    <div style="font:500 12px Mulish;color:rgba(255,255,255,.85);margin-top:2px;line-height:1.25;{{ subStijl }}">{{ subtitle }}</div>
   </div>
+  </sc-if>
   <sc-if value="{{ kopLink }}" hint-placeholder-val="{{ false }}">
-  <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(21,24,26,.12);border-radius:11px;background:#fff;color:#800000;font:700 12px Mulish;text-decoration:none;white-space:nowrap">In browser ↗</a>
+  <a href="{{ toolUrl }}" target="_blank" rel="noopener" style="flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid rgba(255,255,255,.45);border-radius:11px;background:rgba(255,255,255,.12);color:#fff;font:700 12px Mulish;text-decoration:none;white-space:nowrap">In browser ↗</a>
   </sc-if>
   <sc-if value="{{ kopDeel }}" hint-placeholder-val="{{ false }}">
-  <button onClick="{{ artDelen }}" aria-label="Delen" style="flex:none;width:46px;height:46px;border:0;border-radius:12px;background:none;display:grid;place-items:center;color:#3D4346;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
+  <button onClick="{{ artDelen }}" aria-label="Delen" style="flex:none;width:46px;height:46px;border:0;border-radius:12px;background:none;display:grid;place-items:center;color:#fff;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
   </sc-if>
   <sc-if value="{{ kopBadge }}" hint-placeholder-val="{{ false }}">
   <div style="font:800 11.5px Mulish;letter-spacing:.06em;padding:5px 8px;border-radius:999px;flex:none;white-space:nowrap;background:{{ badgeBg }};color:{{ badgeFg }}">{{ badge }}</div>
   </sc-if>
-  <button id="ifm-menuknop" onClick="{{ menuSchakel }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" aria-haspopup="dialog" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(21,24,26,.10);background:#fff;display:grid;place-items:center;cursor:pointer;color:#15181A;padding:0">
+  <button id="ifm-menuknop" onClick="{{ menuSchakel }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" aria-haspopup="dialog" style="width:46px;height:46px;flex:none;border-radius:13px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);display:grid;place-items:center;cursor:pointer;color:#fff;padding:0">
     <sc-if value="{{ menuDicht }}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></sc-if>
     <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></sc-if>
   </button>
@@ -247,7 +258,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </sc-if>
 
 <sc-if value="{{ versieBalkToon }}" hint-placeholder-val="{{ false }}">
-<div data-versiebalk="1" role="status" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff">
+<div data-versiebalk="1" role="status" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff;border-top:1px solid rgba(255,255,255,.28)">
   <button onClick="{{ versieHerlaad }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:12px;min-height:52px;padding:7px 4px 7px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer">
     <span aria-hidden="true" style="{{ versieBalkIcoStyle }}"></span>
     <span style="flex:1 1 auto;min-width:0"><span style="display:block;font:700 14px/1.3 Mulish">Er is een nieuwe versie van InfoPoche.</span><span style="display:block;margin-top:2px;font:500 12.5px/1.3 Mulish;color:rgba(255,255,255,.85)">Tik om te vernieuwen</span></span>
@@ -257,7 +268,7 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 </sc-if>
 
 <sc-if value="{{ balkOpen }}" hint-placeholder-val="{{ false }}">
-<div data-installbalk="1" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff">
+<div data-installbalk="1" style="{{ zoomCss }}position:relative;z-index:30;flex:none;display:flex;align-items:stretch;background:#800000;color:#fff;border-top:1px solid rgba(255,255,255,.28)">
   <button onClick="{{ installOpenBalk }}" style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 4px 6px 16px;border:0;background:none;color:#fff;text-align:left;cursor:pointer"><span style="flex:1 1 auto;min-width:0;font:700 14px/1.3 Mulish">Installeer InfoPoche op je beginscherm</span><span style="flex:none;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:56px;padding:0 14px;border-radius:12px;background:#fff;color:#800000;font:800 14px Mulish">Hoe?</span></button>
   <button onClick="{{ installBalkSluit }}" aria-label="Balk sluiten" style="flex:none;width:44px;min-height:48px;border:0;background:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px">&#10005;</button>
 </div>
@@ -269,34 +280,86 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
 <div style="margin:14px 14px 0;padding:13px 15px;border-radius:13px;background:#3D4346;color:#fff;font:600 12px/1.7 Mulish">De modulecatalogus kon niet worden geladen. Controleer je verbinding en laad de pagina opnieuw.</div>
 </sc-if>
 
+<!-- ============ STARTPAGINA (thuiskomen, 27-11-2026) ============ -->
+<sc-if value="{{ isStart }}" hint-placeholder-val="{{ true }}">
+<div data-startpagina="1" style="padding-bottom:6px">
+  <div style="padding:18px 18px 0">
+    <h1 data-woordbeeld="1" style="margin:0;font:700 30px/1.1 Arial,Helvetica,sans-serif;color:#800000">Nederlanders<span style="color:#77706c">.fr</span></h1>
+    <div style="margin-top:4px;font:400 14px/1.3 Arial,Helvetica,sans-serif;color:#800000">Forum voor Nederlanders in Frankrijk</div>
+    <div data-ledenregel="1" style="margin-top:6px;font:600 12.5px/1.4 Mulish;color:#2f6b3a">{{ startLedenRegel }}</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 0">
+    <div data-hubzoek="1" style="flex:1 1 0;min-width:0;display:flex;align-items:center;min-height:44px;box-sizing:border-box;background:#fff;border:1.5px solid #d8cfcc;border-radius:22px;padding:0 12px 0 2px">
+      <button data-zoekga="1" onClick="{{ onHubZoek }}" aria-label="Zoek" style="flex:none;width:44px;height:44px;border:0;background:none;display:grid;place-items:center;cursor:pointer;padding:0"><span style="{{ zoekIcoStyle }}"></span></button>
+      <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Typ je vraag" aria-label="Waar kunnen we je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 15px Mulish;color:#15181A;min-height:40px">
+    </div>
+    <button data-plaats-soort="algemeen" data-plaatsknop="hub" onClick="{{ plaatsAlgemeen }}" style="flex:none;min-height:44px;padding:0 15px;border:0;border-radius:22px;background:#800000;color:#fff;font:700 13.5px Mulish;white-space:nowrap;cursor:pointer">Plaats bericht</button>
+  </div>
+  <div data-airegel="1" style="display:flex;align-items:center;gap:6px;margin:8px 18px 0;font:500 12px/1.4 Mulish;color:#3D4346"><span aria-hidden="true" style="{{ aiSparkleStyle }}"></span><span>{{ aiRegelVooraf }}<b style="font-weight:700;color:#800000">{{ aiRegelVet }}</b></span></div>
+
+  <sc-if value="{{ letOpToon }}" hint-placeholder-val="{{ false }}">
+  <section data-letop="1" aria-label="Let op" style="margin:14px 16px 0;padding:8px 12px 4px;background:#fff7f7;border:1px solid #efe3e3;border-radius:12px">
+    <h2 style="margin:2px 0 0;font:800 12px Mulish;letter-spacing:.12em;text-transform:uppercase;color:#800000">Let op</h2>
+    <sc-for list="{{ letOpRegels }}" as="r" hint-placeholder-count="3">
+      <sc-if value="{{ r.isKnop }}" hint-placeholder-val="{{ true }}"><button data-letop-regel="deadline" onClick="{{ r.open }}" style="display:flex;align-items:center;width:100%;min-height:44px;padding:4px 0;border:0;background:none;text-align:left;cursor:pointer;font:500 14px/1.4 Mulish;color:#15181A"><span style="min-width:0;overflow-wrap:anywhere"><b style="font-weight:800;color:#2f6b3a">{{ r.vet }}</b>{{ r.gewoon }}</span></button></sc-if>
+      <sc-if value="{{ r.isLink }}" hint-placeholder-val="{{ false }}"><a data-letop-regel="nieuws" href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;width:100%;min-height:44px;padding:4px 0;box-sizing:border-box;text-align:left;text-decoration:none;font:500 14px/1.4 Mulish;color:#15181A"><span style="min-width:0;overflow-wrap:anywhere"><b style="font-weight:800;color:#800000">{{ r.vet }}</b>{{ r.gewoon }}&nbsp;↗</span></a></sc-if>
+    </sc-for>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ startBerToon }}" hint-placeholder-val="{{ false }}">
+  <section data-startberichten="1" style="margin:20px 16px 0">
+    <h2 style="margin:0;padding-bottom:6px;border-bottom:1px solid #e6dede;font:700 16px Arial,Helvetica,sans-serif;color:#15181A">Berichten</h2>
+    <sc-for list="{{ startBerichten }}" as="b" hint-placeholder-count="3">
+    <button data-startbericht="1" onClick="{{ b.open }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:8px 0;border:0;border-bottom:1px solid #f0e8e6;background:none;text-align:left;cursor:pointer">
+      <span aria-hidden="true" style="flex:none;display:block;width:34px;height:34px;border-radius:4px;background:#e9e4e2;overflow:hidden"><sc-if value="{{ b.heeftBeeld }}" hint-placeholder-val="{{ false }}"><img src="{{ b.beeld }}" alt="" loading="lazy" width="34" height="34" onError="{{ b.beeldFout }}" style="display:block;width:34px;height:34px;object-fit:cover"></sc-if></span>
+      <span style="flex:1;min-width:0"><b style="display:block;font:700 15px/1.3 Arial,Helvetica,sans-serif;color:#800000;overflow-wrap:anywhere">{{ b.titel }}</b><span style="display:block;margin-top:2px;font:500 12.5px/1.35 Mulish;color:#5F6669">{{ b.meta }}</span></span>
+    </button>
+    </sc-for>
+    <div style="display:flex;justify-content:flex-end"><button data-alleberichten="1" onClick="{{ goGem }}" style="min-height:44px;padding:0 2px;border:0;background:none;color:#800000;font:700 13.5px Mulish;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Alle berichten →</button></div>
+  </section>
+  </sc-if>
+
+  <section data-ifblok="1" style="margin:20px 0 0;padding:16px;background:#faf6f4">
+    <div style="font:700 20px/1.15 Arial,Helvetica,sans-serif;color:#800000">Infofrankrijk<span style="color:#77706c">.com</span></div>
+    <div style="margin-top:3px;font:500 13px/1.4 Mulish;color:#3D4346">Wonen en leven in Frankrijk, kennis sinds 2001</div>
+    <div data-iftegels="1" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px">
+      <sc-for list="{{ startIfTegels }}" as="t" hint-placeholder-count="4">
+      <button data-iftegel="{{ t.id }}" onClick="{{ t.open }}" style="min-height:84px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;box-sizing:border-box;padding:12px;background:#fff;border:1px solid #e6dede;border-radius:12px;text-align:left;cursor:pointer"><b style="font:700 14.5px/1.25 Arial,Helvetica,sans-serif;color:#800000;overflow-wrap:anywhere">{{ t.titel }}</b><span style="font:500 12.5px/1.35 Mulish;color:#5F6669">{{ t.regel }}</span></button>
+      </sc-for>
+    </div>
+    <button data-ifteller="1" onClick="{{ startIfOpen }}" style="display:flex;align-items:center;gap:10px;width:100%;min-height:56px;margin-top:10px;padding:8px 14px;box-sizing:border-box;border:1.5px solid rgba(47,107,58,.5);background:rgba(47,107,58,.07);border-radius:12px;text-align:left;cursor:pointer"><span style="flex:1;min-width:0"><b style="display:block;font:700 14px/1.3 Mulish;color:#2f6b3a">{{ startIfTeller }}</b><span style="display:block;margin-top:2px;font:500 12.5px/1.35 Mulish;color:#3D4346">{{ startIfSub }}</span></span><span aria-hidden="true" style="flex:none;font:700 20px Mulish;color:#2f6b3a">&#8250;</span></button>
+  </section>
+
+  <a data-nedergids-regel="1" href="{{ startNgUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;min-height:56px;margin:14px 16px 0;padding:10px 14px;box-sizing:border-box;border:1.5px solid rgba(31,78,140,.45);background:rgba(31,78,140,.06);border-radius:12px;text-decoration:none">
+    <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F4E8C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
+    <span style="flex:1;min-width:0"><b style="display:block;font:700 14px/1.3 Mulish;color:#1F4E8C;overflow-wrap:anywhere">{{ startNgTitel }}&nbsp;↗</b><span style="display:block;margin-top:2px;font:500 12.5px/1.35 Mulish;color:#3D4346">{{ startNgSub }}</span></span>
+  </a>
+
+  <button data-categorieenregel="1" onClick="{{ startCategorieen }}" style="display:flex;align-items:center;gap:12px;width:calc(100% - 32px);min-height:56px;margin:10px 16px 0;padding:10px 14px;box-sizing:border-box;border:1px solid rgba(128,0,0,.25);background:#fff;border-radius:12px;text-align:left;cursor:pointer">
+    <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="#800000" style="flex:none"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/></svg>
+    <span style="flex:1;min-width:0"><b style="display:block;font:700 14px/1.3 Mulish;color:#15181A">Categorieën</b><span style="display:block;margin-top:2px;font:500 12.5px/1.35 Mulish;color:#5F6669">de negen onderwerpen, tools en Chez moi</span></span>
+    <span aria-hidden="true" style="flex:none;font:700 20px Mulish;color:#800000">&#8250;</span>
+  </button>
+
+    <div data-abonneeblok="1" style="margin:14px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1.5px solid #800000">
+      <b style="display:block;font:600 17px Poppins,system-ui,sans-serif;color:#15181A">Word abonnee</b>
+      <p style="margin:6px 0 0;font:500 14px/1.6 Mulish;color:#3D4346">{{ hubAboRegel }}</p>
+      <p style="margin:4px 0 0;font:500 14px/1.6 Mulish;color:#3D4346">Je steunt er ook het netwerk mee.</p>
+      <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="margin-top:12px;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement ↗</a>
+    </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 16px 14px">
+    <button data-voet-alles="1" onClick="{{ startAlles }}" style="min-height:44px;padding:0;border:0;background:none;color:#2f6b3a;font:700 13px Mulish;text-align:left;cursor:pointer">{{ startVoetLinks }}</button>
+    <span style="font:500 12px/1.3 Mulish;color:#77706c;text-align:right">{{ startVoetRechts }}</span>
+  </div>
+</div>
+</sc-if>
+
 <!-- ============ HUB / VANDAAG ============ -->
-<sc-if value="{{ isHub }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ isHub }}" hint-placeholder-val="{{ false }}">
 <div>
-  <sc-if value="{{ hubToontTegels }}" hint-placeholder-val="{{ true }}">
+  <sc-if value="{{ hubToontTegels }}" hint-placeholder-val="{{ false }}">
   <div>
-    <div style="padding:24px 18px 0">
-      <h1 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:34px;line-height:1.1;letter-spacing:-.01em;margin:0;color:#15181A">{{ begroetingTekst }}</h1>
-    </div>
-    <div style="padding:20px 18px 0">
-      <h2 style="font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:26px;line-height:1.15;letter-spacing:-.005em;margin:0;color:#15181A">Waar kunnen we je mee helpen?</h2>
-    </div>
-    <div style="padding:12px 16px 0">
-      <div data-hubzoek="1" style="width:100%;background:#fff;border:2px solid #800000;border-radius:16px;box-shadow:0 2px 6px rgba(21,24,26,.08);padding:6px 12px 12px 14px;box-sizing:border-box">
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="{{ zoekIcoStyle }}"></span>
-          <input id="hubq" value="{{ q }}" onInput="{{ onHubQ }}" onKeyDown="{{ onHubQEnter }}" enterkeyhint="search" placeholder="Typ je vraag in je eigen woorden" aria-label="Waar kunnen we je mee helpen?" style="flex:1;min-width:0;border:0;outline:none;background:transparent;font:600 15px Mulish;color:#15181A;min-height:52px">
-        </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:4px">
-          <button data-zoekga="1" onClick="{{ onHubZoek }}" aria-label="Zoek" style="min-width:96px;min-height:46px;padding:0 22px;border-radius:12px;border:0;background:#800000;color:#fff;font:700 15px Mulish;cursor:pointer">Zoek</button>
-        </div>
-      </div>
-      <div data-airegel="1" style="display:flex;align-items:center;gap:6px;margin:8px 2px 0;font:500 12px/1.4 Mulish;color:#3D4346"><span aria-hidden="true" style="{{ aiSparkleStyle }}"></span><span>{{ aiRegelVooraf }}<b style="font-weight:700;color:#800000">{{ aiRegelVet }}</b></span></div>
-    </div>
-    <div data-plaatsblok="hub" style="margin:14px 16px 0;padding:14px 14px 12px;border-radius:16px;background:rgba(128,0,0,.05);border:1.5px solid rgba(128,0,0,.30)">
-      <h2 style="margin:0;font:600 16px Poppins,system-ui,sans-serif;line-height:1.3;color:#15181A">Of vraag het de leden</h2>
-      <p style="margin:3px 0 2px;font:500 13.5px/1.45 Mulish;color:#3D4346">Plaats een bericht op het forum van Nederlanders.fr.</p>
-      <button data-plaats-soort="algemeen" onClick="{{ plaatsAlgemeen }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;margin-top:8px;padding:0 14px;box-sizing:border-box;border-radius:12px;border:1.5px solid #800000;background:#fff;color:#800000;text-align:left;cursor:pointer;font:700 15px Mulish"><span>Plaats een bericht</span><span aria-hidden="true">&#8594;</span></button>
-    </div>
     <div style="padding:20px 18px 0;font:600 12px Mulish;letter-spacing:.10em;color:#5F6669">Of kies een onderwerp</div>
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:8px 16px 0">
       <sc-for list="{{ hubTegels }}" as="t" hint-placeholder-count="9">
@@ -338,12 +401,6 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
       </button>
     </div>
     </sc-if>
-    <div data-abonneeblok="1" style="margin:20px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1.5px solid #800000">
-      <b style="display:block;font:600 17px Poppins,system-ui,sans-serif;color:#15181A">Word abonnee</b>
-      <p style="margin:6px 0 0;font:500 14px/1.6 Mulish;color:#3D4346">{{ hubAboRegel }}</p>
-      <p style="margin:4px 0 0;font:500 14px/1.6 Mulish;color:#3D4346">Je steunt er ook het netwerk mee.</p>
-      <a href="{{ abonneeUrl }}" target="_blank" rel="noopener" style="margin-top:12px;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#800000;color:#fff;text-decoration:none;font:700 14px Mulish">Bekijk het abonnement ↗</a>
-    </div>
     <div style="padding:22px 18px 0;font:700 13px Mulish;color:#800000">Meer</div>
     <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px 16px 0">
       <button data-hubextra="dossier" onClick="{{ openDossierDemo }}" aria-label="Dossier Frankrijk, je eigen dossier, voor abonnees" style="min-height:112px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:9px;text-align:left;background:#fff;border:1.5px solid #800000;border-radius:16px;padding:13px;cursor:pointer">
@@ -2760,6 +2817,17 @@ input::placeholder{color:#8D9396;font-weight:500;letter-spacing:0;opacity:1}
     <div data-artikel-einde="1" style="height:1px"></div>
   </article>
 
+<sc-if value="{{ artKlaar }}" hint-placeholder-val="{{ false }}">
+<section data-art-dossier="1" aria-label="Dossier Frankrijk" style="margin:18px 16px 0;padding:14px;background:#fff;border:1px solid rgba(21,24,26,.10);border-radius:16px;display:flex;flex-direction:column;gap:10px">
+  <div style="display:flex;align-items:center;gap:12px">
+    <span aria-hidden="true" style="flex:none;width:44px;height:44px;border-radius:50%;background:#0E1A2E;display:grid;place-items:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8B04A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.2l2 2.2h8.8A1.5 1.5 0 0 1 21 9.7v8.8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></span>
+    <b style="flex:1;min-width:0;font:600 16px/1.3 Poppins,system-ui,sans-serif;color:#15181A">{{ artDossierKop }}</b>
+  </div>
+  <p style="margin:0;font:500 14px/1.6 Mulish;color:#3D4346">{{ artDossierTekst }}</p>
+  <a href="{{ artDossierUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:23px;background:#0E1A2E;color:#fff;text-decoration:none;font:700 14px Mulish">{{ artDossierKnop }}</a>
+</section>
+</sc-if>
+
 <sc-if value="{{ artInlog }}" hint-placeholder-val="{{ false }}">
 <section data-art-inlog style="margin:14px 16px 0;padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(21,24,26,.10)">
   <b style="display:block;font:700 14px Mulish;color:#15181A">Dit artikel kon hier niet getoond worden</b>
@@ -4368,11 +4436,11 @@ const SCHERM_ART = "artikel";
 // Rechten die een module in `rechten` (modules.json) mag vragen voor haar iframe. Een nieuw recht (bijvoorbeeld camera) is een bewuste regel hier,
 // nooit een vrije tekst uit de JSON.
 const IFRAME_RECHTEN = ["geolocation"];
-const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|werkwijze|meldingen|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst|brief)$/;
+const SHOWBACK = /^(tool|over|keuze|nedergids|vastgoed|zorg|ruyter|energie|piramide|draad|thema|nieuws|gezondheid|lamaison|ondernemen|dossierdemo|aitools|artikel|sponsors|werkwijze|meldingen|tekoop|klusarchief|kalender|infofr|hygiene|gemeente|linklijst|brief|categorieen)$/;
 // Adres van de app zelf, voor deelbare artikellinks (#/artikel/<slug>).
 const APP_URL = "https://infopoche.fr";
 // Schermen zonder eigen h1 in de inhoud: de schermtitel in de kopbalk is daar de h1 (elk scherm heeft er precies één).
-const KOP_H1 = ["mod", "zoek", "tekoop", "hygiene", "gemeente", "aitools"];
+const KOP_H1 = ["mod", "zoek", "tekoop", "hygiene", "gemeente", "aitools", "categorieen"];
 const FORUM_NIEUW = "https://www.nederlanders.fr/profiles/blog/new";
 
 // Grotere tekst (Profiel, localStorage ifm_grote_tekst = "1", alleen op het toestel): CSS zoom op kopbalk,
@@ -4774,7 +4842,7 @@ class Component extends DCLogic {
   state = { screen:"hub",
     menu:false, q:"", copied:null,
     spStatus:"", spLijst:[], spT0:0, spNu:0, spFout:0, tkStatus:"", tkItems:[], tkToon:20, tkFout:0, kaQ:"", kaBron:"alles", kaZocht:"", kaStatus:"", kaSoort:"", kaItems:[], kaTotaal:0, kaPagina:0, kaMeerStatus:"", kaKort:false, kaDraad:null, kaMeld:"", kaGemeld:false, kaChatAan:false, kaChatV:"", kaChatVraag:"", kaChatStatus:"", kaChatSoort:"", kaChatData:null, kaChatPrev:null, kaChatN:0, kaChatKort:false, brStatus:"", brSoort:"", brData:null, vdRegels:[], vdNaamdag:"", vdMaan:null, kalStatus:"", kalItems:[], kalRubr:[], kalVandaag:"", kalAuto:"", kalRubriek:"alles", kalWeergave:"maand", kalGekozen:"", kalVensters:[], kalNav:"", mdKeuze:null, mdRStatus:"", mdMelding:"", mdBezig:false, mdPerm:"", kalAbo:false, kalLooptOpen:false, kalItem:null, kalIdStatus:"", kalWil:null, geoStatus:"", geoWaar:"", toolQuery:"", toolStart:null, gm:{pc:"", status:"", communes:[], adressen:[], gemeente:null, kaarten:{}, zocht:"", vlc:""}, hyPc:"", hyStatus:"", hyItems:[], hyTotaal:0, hyOffset:0, hyRuw:0, hyZocht:"",
-    gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
+    lopNieuws:[], ifTotaal:null, gemTab:"ber", gemFilter:"alles", openPost:null, posts:[], live:false, laden:true, fout:false, tool:null, lastVisit:null,
     antwoorden:{}, muur:false, favs:[], from:"hub", nieuws:[], nieuwsStatus:"leeg", archiefAantal:null, archief:{status:"leeg", items:[], teksten:{}},
     teksten:null, tekstStatus:"", groteTekst:false, nwTegel:null, nwFilter:"alles", nv:{alles:{s:"leeg", items:[]}, peil:{s:"leeg", items:[]}}, nwKlaar:{}, nwNu:0, nwTerug:null, nwVanStrook:false,
     cat:null, catFout:false, bj:null, vr:null, vrAan:false, keuze:{aan:[], uit:[]}, postcode:null, plaats:"", vraagPostcode:false, pcInfo:false, pcInvoer:"", fbOpen:false, fbNaam:"", fbOnderdeel:"", fbTool:"", fbBericht:"", fbToestel:null, fbEmail:"", fbAkkoord:false, fbWeb:"", fbStatus:"", fbFout:"", vgFase:"voorbereiding", zoSectie:"nu",
@@ -5394,7 +5462,7 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(){
-    this.zetDocTitel(); this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkInstallAuto(); this.checkOproep(); this.vulInstall(); this.kalZorg(); this.kalAutoKies(); this.kalPasTitel(); this.vdCheck(); this.histSync();
+    this.zetDocTitel(); this.vulRijk(); this.vulDossier(); this.nwHaak(); this.vulArtikel(); this.checkInstallAuto(); this.checkOproep(); this.vulInstall(); this.kalZorg(); this.kalAutoKies(); this.kalPasTitel(); this.vdCheck(); this.startLaad(); this.histSync();
     if (this.state.oproep && !this._opFocus) {
       this._opFocus = true;
       const b = document.querySelector('[data-oproep] button[aria-label="Sluiten"]');
@@ -5920,6 +5988,7 @@ class Component extends DCLogic {
     return {
       isArtikel: is, artHeeftTitel: klaar && !!a.titel, artTitel: klaar ? a.titel : "",
       artMeta: klaar ? window.IfArtikel.metaRegel(a.datum, a.auteur) : "Infofrankrijk",
+      artDossierKop: window.IfAbonnee ? window.IfAbonnee.DOSSIER_BLOK.kop : "", artDossierTekst: window.IfAbonnee ? window.IfAbonnee.DOSSIER_BLOK.tekst : "", artDossierKnop: window.IfAbonnee ? window.IfAbonnee.DOSSIER_BLOK.knop : "", artDossierUrl: window.IfAbonnee ? window.IfAbonnee.DOSSIER_BLOK.url : "https://www.dossierfrankrijk.nl/",
       artLaadt: is && a.status === "laden", artFout: is && a.status === "fout", artKlaar: klaar,
       artSiteUrl: is ? (a.link || a.url) : "https://infofrankrijk.com/",
       forumBladOpen: !!st.forumBlad && !st.forumBlad.plaats, forumBladOk: !!st.forumBlad && !st.forumBlad.plaats && st.forumBlad.ok, forumBladMis: !!st.forumBlad && !st.forumBlad.plaats && !st.forumBlad.ok,
@@ -6207,7 +6276,7 @@ class Component extends DCLogic {
   // Nu: de bosbrandkaart in het brandseizoen. Mijn modules telt mee.
   podiumVals(){
     const st = this.state;
-    const m = st.screen === "hub" ? this.mods().find(x => x.podium && this.inSeizoen({seizoen: x.podium})) : null;
+    const m = st.screen === "categorieen" ? this.mods().find(x => x.podium && this.inSeizoen({seizoen: x.podium})) : null;
     return {
       podiumToon: !!m,
       podiumNaam: m ? (m.podium.naam || m.naam) : "", podiumLabel: m ? (m.podium.label || "Nu belangrijk") : "",
@@ -7526,12 +7595,74 @@ class Component extends DCLogic {
     };
   }
 
+  // ---- Startpagina "thuiskomen" (27-11-2026, startpagina-lib.js) ----
+  // Alles anoniem en alleen in het geheugen. Valt een bron uit, dan blijft het blok zonder melding weg.
+  startLaad(){
+    const st = this.state, Nv = window.IfNv, S = window.IfStart, A = window.IfArtikel;
+    if (st.screen !== "hub" || !S) return;
+    const nu = Date.now();
+    // Forumberichten: normaal al geladen bij het starten; ontbreken ze (uitval), dan hooguit eens per 5 minuten opnieuw.
+    if (!st.posts.length && !st.laden && nu - (this._startPostsT || 0) > 300000) { this._startPostsT = nu; this.load(); }
+    // Berichten van nieuws.infofrankrijk.com voor Let op: kanaal infopoche, hooguit eens per 10 minuten.
+    if (Nv && !this._lopBezig && nu - (this._lopT || 0) > 600000) {
+      this._lopBezig = true; this._lopT = nu;
+      Nv.laad((u, o) => fetch(u, o), {kanaal:"infopoche"})
+        .then(items => { this._lopBezig = false; this.setState({lopNieuws: items}); })
+        .catch(() => { this._lopBezig = false; });
+    }
+    // Aantal artikelen op Infofrankrijk (header X-WP-Total), eenmaal per sessie.
+    if (A && this._ifTotaalGestart !== true) {
+      this._ifTotaalGestart = true;
+      let ctl = null, timer = null;
+      try { ctl = new AbortController(); timer = setTimeout(() => ctl.abort(), 8000); } catch (e) { ctl = null; }
+      fetch(A.BASIS + "/wp-json/wp/v2/posts?per_page=1&_fields=id", {credentials:"omit", ...(ctl ? {signal: ctl.signal} : {})})
+        .then(r => r.ok ? S.totaalUitHeader(r.headers.get("X-WP-Total")) : null)
+        .then(n => { if (timer) clearTimeout(timer); if (n) this.setState({ifTotaal:n}); })
+        .catch(() => { if (timer) clearTimeout(timer); });
+    }
+  }
+  startVals(){
+    const st = this.state, S = window.IfStart, Kl = window.IfKal, H = HubLib;
+    const cfg = (st.cat || {}).startpagina || {};
+    const kalM = this.mods().some(m => m.id === "kalender");
+    const hub = st.screen === "hub" && !!S;
+    const regels = hub ? S.letOp(kalM ? (st.vdRegels || []) : [], st.lopNieuws || [], Date.now()) : [];
+    const posts = hub && !st.fout ? (st.posts || []).filter(p => p && p.titel).slice(0, 3) : [];
+    const tegels = hub ? S.ifTegels(cfg) : [];
+    const ng = hub ? S.nedergidsTekst(st.postcode, st.plaats) : {titel:"", sub:""};
+    const ngLink = hub ? (H.platforms(cfg, st.postcode).find(p => p.id === "nedergids") || {}) : {};
+    const instrumenten = hub ? this.mods().filter(m => (m.bron || "if") === "if").length : 0;
+    const planeet = !!(st.cat && st.cat.planeet);
+    return {
+      kopNavForum: () => this.go("gem"), kopNavIf: () => this.go("infofr"), kopNavKalender: () => this.go("kalender"), kopNavNieuws: () => this.go("nieuws"),
+      startLedenRegel: typeof cfg.ledenRegel === "string" ? cfg.ledenRegel : "",
+      letOpToon: regels.length > 0,
+      letOpRegels: regels.map(r => r.type === "deadline"
+        ? {isKnop:true, isLink:false, vet:r.voor, gewoon:" · " + r.tekst, href:"", open: () => this.kalOpen(this.vindModule("kalender"), "hub", r.id)}
+        : {isKnop:false, isLink:true, vet:r.label, gewoon:" · " + r.tekst, href:r.url, open: () => {}}),
+      startBerToon: posts.length > 0,
+      startBerichten: posts.map(p => { const n = aantalReacties(p), b = eersteBeeld(p);
+        return {titel:p.titel, meta:S.forumMeta(p.auteur, n, geleden(p.datum)), beeld:b, heeftBeeld:!!b, beeldFout,
+          open: () => { this.openDraad(p); this.setState({from:"hub"}); }}; }),
+      startIfTegels: tegels.map(t => ({id:t.id, titel:t.titel, regel:t.regel, open: () => {
+        if (t.soort === "thema") { const th = this.ifThema(t.waarde).t; if (th) { this.openThema(th); this.setState({from:"hub"}); } return; }
+        if (t.soort === "module") { this.ifGidsOpen({module:t.waarde}); return; }
+        this.ifGidsOpen({scherm:t.waarde}); this.setState({from:"hub"}); }})),
+      startIfTeller: hub ? S.ifTeller(st.ifTotaal, instrumenten) : "", startIfSub: S ? S.IF_SUB : "",
+      startIfOpen: () => this.go("infofr"),
+      startNgUrl: ngLink.href || "https://nedergids.nl/", startNgTitel: ng.titel, startNgSub: ng.sub,
+      startCategorieen: () => this.go("categorieen"),
+      startAlles: () => { if (planeet) { this.go("zoek"); this.setState({skOnd:"planeet", skVraag:""}); this.skBoven(); } else this.go("mod"); },
+      startVoetLinks: S ? S.VOET_LINKS : "", startVoetRechts: S ? S.VOET_RECHTS : ""
+    };
+  }
+
   // ---- Kalender Frankrijk (kalender-lib.js): de band "Vandaag" op de hub en het scherm Kalender ----
   // Bron: openbare API zonder sleutel (IfKal.BASIS). Anoniem, time-out 8 s, laadtoken per aanvraag, alleen in het geheugen.
   // Mislukt het ophalen, dan is de band er niet (geen melding, geen lege ruimte); het scherm toont een eerlijke melding met "Opnieuw proberen".
   vdCheck(){
     const st = this.state, Kl = window.IfKal, Nv = window.IfNav;
-    if (!Kl || !Nv || st.screen !== "hub") return;
+    if (!Kl || !Nv || (st.screen !== "hub" && st.screen !== "categorieen")) return;
     if (!this.mods().some(m => m.id === "kalender")) return;
     const nu = Date.now(), dag = Kl.isoVan(new Date()), dep = Kl.depVoorBand(st.postcode);
     // Een andere postcode (ingesteld, gewijzigd of gewist) haalt de band direct opnieuw op, ook binnen de tussentijd.
@@ -7549,7 +7680,7 @@ class Component extends DCLogic {
     });
   }
   vdVals(){
-    const st = this.state, aan = st.screen === "hub" && (st.vdRegels || []).length > 0 && this.mods().some(m => m.id === "kalender");
+    const st = this.state, aan = st.screen === "categorieen" && (st.vdRegels || []).length > 0 && this.mods().some(m => m.id === "kalender");
     const stop = e => { if (e && e.stopPropagation) e.stopPropagation(); };
     return {
       vdToon: aan,
@@ -7563,6 +7694,7 @@ class Component extends DCLogic {
       })) : []
     };
   }
+
   // Scherm openen. wil = id van een item dat open moet gaan zodra het in de lijst blijkt te staan (anders gewoon het scherm).
   // Het scherm opent altijd op Week, met vandaag gekozen en zonder filter.
   kalOpen(m, from, wil){
@@ -8294,7 +8426,7 @@ class Component extends DCLogic {
     if (s === "gemeente") return this.gmOpen("hub");
     if (s === "brief") return this.brOpen(this.vindModule("briefuitleg"), "hub");
     if (s === "tekoop") { this.setState({screen:"tekoop", menu:false, q:"", copied:null, tool:this.vindModule("tekoop"), from:"hub", tkToon:(window.IfAdv ? window.IfAdv.STAP : 20)}); return this.tkLaad(); }
-    this.setState({screen:s, menu:false, q:qStart || "", copied:null, tool:null, muur:false, pcGewist:null, plVan:false, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
+    this.setState({screen:s, menu:false, q:qStart || "", copied:null, tool:null, muur:false, pcGewist:null, plVan:false, ...(s === "zoek" ? {skOnd:"", skVraag:""} : {}), ...(s === "mod" || s === "categorieen" ? {from:"hub"} : {}), ...(s === "nieuws" ? {nwTegel:null, nwTerug:null} : {})});
     if (s === "nieuws") setTimeout(() => this.nwScrollTop(), 0); }
 
   // Opent een iframe-module op een specifieke pagina van dezelfde site (bv. de maandpagina van de moestuintool vanuit een
@@ -9191,9 +9323,9 @@ class Component extends DCLogic {
     const hubSub = HubLib.postcodeOk(pc) ? "Departement " + depCode + (st.plaats ? ", " + st.plaats : "") : "Kennis en ervaring dans la poche";
     const nieuwe = st.posts.filter(p => st.lastVisit && (p.laatsteReactie || p.datum) > st.lastVisit).length;
 
-    const titles = {gemeente:"Chez moi", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", werkwijze:"Zo werken wij", meldingen:"Meldingen", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
+    const titles = {categorieen:"Categorieën", gemeente:"Chez moi", hygiene:"Hygiënecontroles", artikel:"Artikel", hub:"InfoPoche", aitools:"AI-tools", mod:"Alle modules", over:"Over ons", keuze:"Mijn modules", nedergids:"Nedergids", vastgoed:"Een huis kopen", zorg:"Ouder worden & zorg", gezondheid:"Gezondheid", ruyter:"De Ruyter", zoek:"Zoeken", gem:"Forum", nieuws:"Nieuws", lamaison:"La Maison", ondernemen:"Ondernemen", energie:"Energie & verwarming", piramide:"Kennispiramide", draad:"Discussie", sponsors:"Onze sponsors", werkwijze:"Zo werken wij", meldingen:"Meldingen", tekoop:"Te koop in Frankrijk", klusarchief:"Klusarchief", kalender:"Kalender Frankrijk", brief:"Brief uitleggen", infofr:"Infofrankrijk", linklijst: st.tool ? st.tool.naam : "Lijst",
       tool: st.tool ? st.tool.naam : "Module", acc:"Profiel"};
-    const subs = {artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, werkwijze:"Hoe wij cijfers controleren", sponsors:"Communities Abroad", meldingen:"Herinneringen uit Kalender Frankrijk", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
+    const subs = {categorieen:"Onderwerpen en tools", artikel:"Van Infofrankrijk", regio:HubLib.regioLabel(pc, st.plaats), aitools:"wat echt AI gebruikt", lamaison:"Wonen", ondernemen:"Een route in vier stappen", hub:hubSub, werkwijze:"Hoe wij cijfers controleren", sponsors:"Communities Abroad", meldingen:"Herinneringen uit Kalender Frankrijk", tekoop:"Wonen", klusarchief:"Wonen", kalender:"", brief:"AI-tools", linklijst: st.tool ? this.themaVan(st.tool) : "",
       mod:this.mods().length + " modules",
       over:"Profiel",
       vastgoed:"Wonen · termijnen nagelezen op Légifrance",
@@ -9283,14 +9415,15 @@ class Component extends DCLogic {
       mnPostcode: () => this.menuNaar({vraagPostcode:true, pcInfo:false, pcInvoer: st.postcode || "", pcNaarGemeente:false}),
       mnInstalleer: !this.alGeinstalleerd(),
       mnBeginscherm: () => this.installOpen(),
-      badgeBg: locked ? "rgba(128,0,0,.10)" : "rgba(21,24,26,.06)",
-      badgeFg: locked ? "#800000" : "#3D4346",
+      badgeBg: "rgba(255,255,255,.2)",
+      badgeFg: "#fff",
       showBack: SHOWBACK.test(st.screen) || this.skDiep(),
-      showMark: !SHOWBACK.test(st.screen) && !this.skDiep(),
+      showMark: !SHOWBACK.test(st.screen) && !this.skDiep() && st.screen !== "hub",
+      kopHubNav: st.screen === "hub" && !this.skDiep(), kopTitelToon: st.screen !== "hub" || this.skDiep(),
       back: () => this.terugKnop(),
 
       deelLinkRegel: !!st.viaDeelLinkEersteKeer, deelLinkNaarHub: () => this.setState({viaDeelLinkEersteKeer:false, screen:"hub", menu:false}),
-      isHub: st.screen === "hub" || st.screen === "mod", isZoek: st.screen === "zoek", isGem: st.screen === "gem",
+      isHub: st.screen === "categorieen" || st.screen === "mod", isStart: st.screen === "hub", isZoek: st.screen === "zoek", isGem: st.screen === "gem",
       isKeuze: st.screen === "keuze", isTool: st.screen === "tool", isAcc: st.screen === "acc",
       isNedergids: st.screen === "nedergids",
       isVastgoed: st.screen === "vastgoed",
@@ -9407,10 +9540,10 @@ class Component extends DCLogic {
       begroetingTekst: HubLib.begroetingMetPlaats(new Date(), st.postcode, st.plaats),
       zoekIcoStyle: this.iconStyle("zoek").replace("width:22px;height:22px", "width:22px;height:22px;color:#800000"),
       // Eén startpagina (ronde 3, 17-11-2026): geen keuze tussen twee weergaven meer; een oude opgeslagen keuze doet niets.
-      hubFavs: st.screen === "hub" && favLijst.length > 0,
+      hubFavs: st.screen === "categorieen" && favLijst.length > 0,
       hubNoodKnoppen: this.spoedKnoppenLijst(),
       hubNoodTekst: (this.gzCfg().spoed || {}).hubTekst || "",
-      hubNood: st.screen === "hub" && this.spoedKnoppenLijst().length > 0 && !!(this.gzCfg().spoed || {}).hubTekst,
+      hubNood: st.screen === "categorieen" && this.spoedKnoppenLijst().length > 0 && !!(this.gzCfg().spoed || {}).hubTekst,
       goZoek: () => this.go("zoek"), goGem: () => this.go("gem"),
       // Zoekloket Eenvoudig (13-11-2026): een echt typbaar veld, geen knop. Zodra je typt (of focust), spring je naar
       // het volledige zoekscherm met je tekst al erin, in plaats van eerst te moeten klikken en opnieuw te typen.
@@ -9420,11 +9553,12 @@ class Component extends DCLogic {
       goTaal: () => { const t = this.themaList().find(x => x.id === "taal"); if (t) this.openThema(t); else this.go("hub"); },
       openFire: () => this.route(this.vindModule("veiligheid")),
       ...this.podiumVals(),
+      ...this.startVals(),
       // Veiligheid staat het hele jaar in de app, maar rustig: één regel op de hub,
       // geen alarmtegel. De locator zegt alleen wat de app zeker weet — welk
       // departement bij de postcode hoort. Een gevaarniveau claimt hij niet: daar
       // is geen bron voor aangesloten (zie NIVEAUS en het rapport).
-      hubToontTegels: st.screen === "hub",
+      hubToontTegels: st.screen === "categorieen",
       isModScreen: st.screen === "mod",
       hubTegels: this.themaList().map(t => { const k = HubLib.themaKleur(t);
         return {naam:t.naam, icoStyle:themaIcoStijl(t.id, k.kleur, 28), cirkelStyle:cirkelStijl(k.tint, 40), open:() => this.openThema(t)}; }),

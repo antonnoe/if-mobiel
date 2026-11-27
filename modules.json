@@ -24,6 +24,13 @@
   },
   "startpagina": {
     "_uitleg": "De startpagina (ronde 3, 17-11-2026): de volgorde van 'Onze platforms' (id en label; nedergids opent als link naar nedergidsBasis in een nieuw tabblad), en de ene regel in het blok 'Word abonnee'. De regel noemt alleen wat bestaat.",
+    "ledenRegel": "26.000+ leden gingen je voor en heten je welkom",
+    "ifTegels": [
+      { "id": "huis", "titel": "Een huis in Frankrijk", "regel": "kopen, verbouwen, DPE", "scherm": "lamaison" },
+      { "id": "ouder", "titel": "Ouder worden", "regel": "zorg, regelen, erven", "scherm": "ouderen" },
+      { "id": "klussen", "titel": "Klussen", "regel": "elektra, bouw, vergunning", "module": "klussen" },
+      { "id": "geld", "titel": "Geld en belasting", "regel": "aangifte, pensioen", "thema": "geld" }
+    ],
     "nedergidsBasis": "https://nedergids.nl/",
     "platforms": [
       {

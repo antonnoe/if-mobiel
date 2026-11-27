@@ -55,6 +55,6 @@ test("noodregel op de hub leest uit gezondheid.spoed (één bron)", () => {
   assert.deepEqual(sp.knoppen.map(k => k.tel), ["15", "112"]);
   assert.match(html, /spoedKnoppenLijst\(\)/);
   assert.match(html, /hubNoodKnoppen: this\.spoedKnoppenLijst\(\)/);
-  assert.match(html, /hubNood: st\.screen === "hub"/);
+  assert.match(html, /hubNood: st\.screen === "categorieen"/);
   assert.ok(!/hubNoodTekst: "Spoed/.test(html), "tekst staat niet in de code");
 });

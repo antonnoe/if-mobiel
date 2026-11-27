@@ -380,13 +380,15 @@ test("schil: anoniem, time-out, laadtoken, geen opslag, geen innerHTML, band all
   // sinds de postzegel-ronde (13-11-2026): de zoekbalk staat onder de begroeting, boven de band Vandaag; de band is er
   // alleen met regels. De eerste zoekbalk in de bron is de Eenvoudig-variant, die ook vóór de band staat. Sinds de
   // herstelronde (13-11-2026, 3e keer) is ook de Compleet-zoekbalk een echt veld (id="hubq"), geen knop meer.
-  const iH1 = html.indexOf("{{ begroetingTekst }}"), iBand = html.indexOf('data-vandaag="1"'), iZoek = html.indexOf('id="hubq"');
-  assert.ok(iH1 > 0 && iZoek > iH1 && iBand > iZoek, "volgorde begroeting, zoekbalk, band");
+  // Sinds de startpagina-ronde (27-11-2026) staat de band op het scherm Categorieën, onder de themategels; op de startpagina is
+  // de zoekbalk het eerste en Let op volgt (de bandgegevens voeden dat blok).
+  const iZoek = html.indexOf('id="hubq"'), iLetOp = html.indexOf('data-letop="1"'), iBand = html.indexOf('data-vandaag="1"');
+  assert.ok(iZoek > 0 && iLetOp > iZoek && iBand > iLetOp, "volgorde zoekbalk, Let op, band (op Categorieën)");
   assert.match(html, /<sc-if value="\{\{ vdToon \}\}" hint-placeholder-val="\{\{ false \}\}">\s*<div data-vandaag="1"/);
   assert.match(html, /margin:14px 16px 0;border-radius:18px;padding:14px 16px 6px;background:#2f6b3d;color:#fff/);
   assert.match(blok, /vdToon: aan/);
   assert.match(blok, /\(st\.vdRegels \|\| \[\]\)\.length > 0/);
-  assert.match(html, /this\.vdCheck\(\); this\.histSync\(\)/);
+  assert.match(html, /this\.vdCheck\(\); this\.startLaad\(\); this\.histSync\(\)/);
 });
 
 test("scherm: kopbalk zonder themanaam, schakelaar, navigatiekop, raster, een filterrij, loopt, abonneren, toegankelijk, geen lange streepjes", () => {

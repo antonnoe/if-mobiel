@@ -165,7 +165,7 @@
       var x = { soort: tekst(r.soort), kop: schoon(r.kop), titel: titel, tekst: tekst(r.tekst) };
       var t = bandTekst(x);
       if (!t) return;
-      uit.push({ voor: voorvoegsel(x), tekst: t, id: idSchoon(r.id), feest: false });
+      uit.push({ voor: voorvoegsel(x), tekst: t, id: idSchoon(r.id), feest: false, soort: x.soort });
     });
     return uit.slice(0, MAX_BAND);
   }

@@ -53,11 +53,11 @@ test("externe links krijgen een pijltje", () => {
   assert.ok((html.match(/Bekijk het abonnement ↗<\/a>/g) || []).length >= 5);
   assert.ok(html.includes("{{ b.naam }} ↗</b>"));
 });
-test("placeholder volledig, veld volle breedte met knop eronder", () => {
+test("placeholder 'Typ je vraag' (startpagina thuiskomen, 27-11-2026: veld naast de knop Plaats bericht)", () => {
   const j = html.indexOf('data-hubzoek="1"');
   const blok = html.slice(j, j + 1500);
-  assert.match(blok, /placeholder="Typ je vraag in je eigen woorden"/);
-  assert.match(blok, /justify-content:flex-end/);
+  assert.match(blok, /placeholder="Typ je vraag"/);
+  assert.match(blok, /aria-label="Waar kunnen we je mee helpen\?"/);
   assert.match(blok, /font:600 15px Mulish/);
 });
 test("Mijn gemeente: grootste gemeente direct, ander dorp achter een knop, Bewaren gaat door", () => {

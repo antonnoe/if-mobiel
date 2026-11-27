@@ -87,7 +87,7 @@ test("bosbrandkaart staat in het brandseizoen bovenaan de hub (veld podium)", ()
   const v = cat.modules.find(m => m.id === "veiligheid");
   assert.equal(v.podium.van, "06-01"); assert.equal(v.podium.tot, "09-30");
   assert.equal(v.podium.naam, "Bosbrandkaart");
-  const iP = html.indexOf('data-podium="1"'), iV = html.indexOf('data-abonneeblok="1"'), iB = html.indexOf('data-vandaag="1"');
+  const iP = html.indexOf('data-podium="1"'), iV = html.indexOf('data-hubextra="dossier"'), iB = html.indexOf('data-vandaag="1"');
   assert.ok(iP > iB && iP < iV, "podiumkaart staat direct onder de band Vandaag");
   assert.match(html, /podiumVals\(\)\{[\s\S]{0,300}this\.inSeizoen\(\{seizoen: x\.podium\}\)/);
 });

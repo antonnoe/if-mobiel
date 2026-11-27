@@ -16,21 +16,21 @@ test("B1: geen standkeuze meer; ifm_stand wordt nergens gelezen of geschreven", 
     assert.ok(!html.includes(w), w + " is weg");
 });
 
-test("B2: volgorde van de startpagina", () => {
+test("B2: volgorde van het scherm Categorieën (de oude startpagina; nieuwe volgorde van de startpagina: tests/startpagina.test.mjs)", () => {
   const i = s => { const n = html.indexOf(s); assert.ok(n > 0, s); return n; };
-  const rij = [i("{{ begroetingTekst }}"), i(">Waar kunnen we je mee helpen?</h2>"), i('id="hubq"'), i('data-airegel="1"'), i('list="{{ hubTegels }}"'),
-    i(">Onze platforms<"), i('list="{{ hubPlatforms }}"'), i('data-vandaag="1"'), i('data-podium="1"'), i('data-abonneeblok="1"'), i(">Meer<"),
+  const rij = [i('list="{{ hubTegels }}"'),
+    i(">Onze platforms<"), i('list="{{ hubPlatforms }}"'), i('data-vandaag="1"'), i('data-podium="1"'), i(">Meer<"),
     i('data-hubextra="dossier"'), i('data-hubextra="aitools"'), i("{{ hubFavs }}"), i("{{ hubNood }}")];
   assert.deepEqual(rij, rij.slice().sort((a, b) => a - b));
   assert.ok(!html.includes(">Onze vier<"), "geen tiende tegel of Onze vier meer");
   assert.equal((html.match(/hubTegels/g) || []).length >= 2, true);
 });
 
-test("B2: vraagveld is een echt veld, 2px bordeaux, juiste placeholder, navigeert nooit per toets", () => {
+test("B2: vraagveld is een echt veld (id hubq), juiste placeholder, navigeert nooit per toets", () => {
   const j = html.indexOf('data-hubzoek="1"');
   const blok = html.slice(j, j + 900);
-  assert.match(blok, /border:2px solid #800000/);
-  assert.match(blok, /placeholder="Typ je vraag in je eigen woorden"/);
+  assert.match(blok, /border:1\.5px solid #d8cfcc/);
+  assert.match(blok, /placeholder="Typ je vraag"/);
   const tag = html.slice(html.indexOf('<input id="hubq"'), html.indexOf('<input id="hubq"') + 500).match(/<input[^>]*>/)[0];
   assert.ok(!/onFocus|onBlur/.test(tag));
   assert.match(html, /onHubQ: e => \{ this\.setState\(\{q:e\.target\.value\}\); \},/);
